@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
     app.setApplicationVersion(VERSION);
-    app.setOrganizationName("DL2IC");
+    app.setOrganizationName("hamradio");
     app.setApplicationName("QLog");
 
     loadStylesheet(&app);
