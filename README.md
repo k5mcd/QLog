@@ -18,17 +18,10 @@ is based on the Qt 5 framework und uses SQLite as database backend.
 ## Installation
 
 ### Windows
-You can download an installer for the latest build here: [qlog-installer.exe](https://qlog.dl2ic.de/build/qlog-installer.exe)
+TBD
 
 ### Linux
-There is an AppImage available here: [QLog.AppImage](https://qlog.dl2ic.de/build/QLog.AppImage)
-
-The permissions of the file have to set to executable before running it:
-
-```
-chmod +x QLog.AppImage
-./QLog.AppImage
-```
+TBD
 
 ## License
 
