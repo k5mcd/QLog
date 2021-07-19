@@ -1,0 +1,3 @@
+TDB - 0.2
+- Initial fork changes
+- Changed Logging format (Time + severity + context)

@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QDebug>
+#include <QTime>
 #include "Migration.h"
 #include "ui/MainWindow.h"
 #include "Rig.h"
@@ -73,7 +74,46 @@ static void startRotThread() {
     rotThread->start();
 }
 
+static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    QByteArray localMsg = msg.toLocal8Bit();
+    QString severity_string;
+
+    switch (type)
+    {
+    case QtDebugMsg:
+        severity_string = "Debug";
+        break;
+    case QtInfoMsg:
+        severity_string = "Info";
+        break;
+    case QtWarningMsg:
+        severity_string = "Debug";
+        break;
+    case QtCriticalMsg:
+        severity_string = "Critical";
+        break;
+    case QtFatalMsg:
+        severity_string = "Fatal";
+        break;
+    default:
+        severity_string = "Unknown";
+    }
+
+    fprintf(stderr, "%s %s: %s (%s:%u, %s)\n", QTime::currentTime().toString("HH:mm:ss.zzz").toLocal8Bit().constData(),
+                                               severity_string.toLocal8Bit().constData(),
+                                               localMsg.constData(),
+                                               context.file,
+                                               context.line,
+                                               context.function);
+    if ( type == QtFatalMsg )
+    {
+        abort();
+    }
+}
+
 int main(int argc, char* argv[]) {
+    qInstallMessageHandler(debugMessageOutput);
     QApplication app(argc, argv);
 
     app.setApplicationVersion(VERSION);
