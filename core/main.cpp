@@ -7,10 +7,16 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include <QTime>
+#include <QSystemSemaphore>
+#include <QSharedMemory>
+#include <QMessageBox>
+#include <QDebug>
+
 #include "Migration.h"
 #include "ui/MainWindow.h"
 #include "Rig.h"
 #include "Rotator.h"
+#include "AppGuard.h"
 
 static void loadStylesheet(QApplication* app) {
     QFile style(":/res/stylesheet.css");
@@ -113,6 +119,7 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
 }
 
 int main(int argc, char* argv[]) {
+
     qInstallMessageHandler(debugMessageOutput);
     QApplication app(argc, argv);
 
@@ -122,6 +129,19 @@ int main(int argc, char* argv[]) {
 
     loadStylesheet(&app);
     setupTranslator(&app);
+
+    /* Application Singleton
+     *
+     * Only one instance of QLog application is allowed
+     */
+    AppGuard guard( "QLog" );
+    if ( !guard.tryToRun() )
+    {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
+                              QMessageBox::tr("QLog is already running"));
+        return 1;
+    }
+
     createDataDirectory();
 
     if (!openDatabase()) {

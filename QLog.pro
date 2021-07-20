@@ -28,6 +28,7 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_MESSAGELOGCONTEXT
 CONFIG += c++11
 
 SOURCES += \
+        core/AppGuard.cpp \
         core/ClubLog.cpp \
         core/Conditions.cpp \
         core/Cty.cpp \
@@ -69,6 +70,7 @@ SOURCES += \
         ui/WsjtxWidget.cpp
 
 HEADERS += \
+        core/AppGuard.h \
         core/ClubLog.h \
         core/Conditions.h \
         core/Cty.h \
