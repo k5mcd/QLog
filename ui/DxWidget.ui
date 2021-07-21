@@ -47,6 +47,18 @@
        </property>
        <item row="0" column="0">
         <widget class="QTableView" name="dxTable">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="tabKeyNavigation">
+          <bool>false</bool>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="dragDropOverwriteMode">
+          <bool>false</bool>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
@@ -91,6 +103,15 @@
        </property>
        <item row="0" column="0">
         <widget class="QPlainTextEdit" name="log">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <kerning>true</kerning>
+          </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
@@ -107,36 +128,34 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QComboBox" name="serverSelect">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;DEL&lt;/b&gt; to delete a highlighted DXC server.</string>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::ImhNone</set>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
        <property name="currentText">
-        <string notr="true">db0sue.de:8000</string>
+        <string notr="true"/>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAtTop</enum>
        </property>
        <property name="sizeAdjustPolicy">
         <enum>QComboBox::AdjustToContents</enum>
        </property>
-       <item>
-        <property name="text">
-         <string notr="true">db0sue.de:8000</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string notr="true">telnet.reversebeacon.net:7000</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string notr="true">dl4rck.ham-radio-op.net:8000</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string notr="true">db0erf.de:41113</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="connectButton">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="text">
         <string>Connect</string>
        </property>
@@ -144,18 +163,31 @@
      </item>
      <item>
       <widget class="QCheckBox" name="rawCheckBox">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Switch between raw and beautified form of DXC view.</string>
+       </property>
        <property name="text">
         <string>Raw</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="commandEdit"/>
+      <widget class="QLineEdit" name="commandEdit">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="sendButton">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
        </property>
        <property name="text">
         <string>Send</string>

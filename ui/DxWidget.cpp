@@ -1,6 +1,9 @@
 #include <QDebug>
 #include <QColor>
 #include <QSettings>
+#include <QRegExpValidator>
+#include <QMessageBox>
+
 #include "DxWidget.h"
 #include "ui_DxWidget.h"
 #include "data/Data.h"
@@ -61,7 +64,9 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
 
 void DxTableModel::addEntry(DxSpot entry) {
     beginInsertRows(QModelIndex(), dxData.count(), dxData.count());
-    dxData.append(entry);
+    //dxData.append(entry);
+    dxData.prepend(entry);
+
     endInsertRows();
 }
 
@@ -79,15 +84,46 @@ void DxTableModel::clear() {
     endResetModel();
 }
 
+bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
+{
+    QSettings settings;
+
+    if ( event->type() == QEvent::KeyPress )
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key::Key_Delete /*&& keyEvent->modifiers() == Qt::ShiftModifier*/)
+        {
+            auto combobox = dynamic_cast<QComboBox *>(obj);
+            if ( combobox )
+            {
+                combobox->removeItem(combobox->currentIndex());
+                return true;
+            }
+        }
+    }
+
+    // standard event processing
+    return QObject::eventFilter(obj, event);
+}
+
 DxWidget::DxWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DxWidget) {
+
+    QSettings settings;
 
     socket = nullptr;
 
     ui->setupUi(this);
     dxTableModel = new DxTableModel(this);
     ui->dxTable->setModel(dxTableModel);
+
+    QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
+    ui->serverSelect->addItems(DXCservers);
+    ui->serverSelect->installEventFilter(new DeleteHighlightedDXServerWhenDelPressedEventFilter);
+    QRegExp rx("[^\\:]+:[0-9]{1,5}");
+    ui->serverSelect->setValidator(new QRegExpValidator(rx,this));
+
 }
 
 void DxWidget::toggleConnect() {
@@ -96,6 +132,16 @@ void DxWidget::toggleConnect() {
 
     }
     else {
+        int pos = ui->serverSelect->currentIndex();
+        QString curr_server = ui->serverSelect->currentText();
+        QValidator::State state = ui->serverSelect->validator()->validate(curr_server,pos);
+
+        if ( state != QValidator::Acceptable )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("DXC Server Name Error"),
+                                          QMessageBox::tr("DXC Server address must be in format<p><b>hostname:port</b> (ex. hamqth.com:7300)</p>"));
+            return;
+        }
         connectCluster();
     }
 }
@@ -149,8 +195,15 @@ void DxWidget::receive() {
     QSettings settings;
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
+    foreach (QString line, lines)
+    {
 
-    foreach (QString line, lines) {
+        // Skip empty lines
+        if ( line.length() == 0 )
+        {
+            continue;
+        }
+
         if (line.startsWith("login") || line.contains(QRegExp("enter your call(sign)?:"))) {
             QByteArray call = settings.value("station/callsign").toByteArray();
             call.append("\r\n");
@@ -203,16 +256,49 @@ void DxWidget::receive() {
     }
 }
 
-void DxWidget::socketError(QAbstractSocket::SocketError) {
+void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
+
+    qDebug() << "LF socket" << socket->errorString();
+
+    QString error_msg = QObject::tr("Cannot connect to DXC Server <p>Reason <b>: ");
+    switch (socker_error)
+    {
+    case QAbstractSocket::ConnectionRefusedError:
+        error_msg.append(QObject::tr("Connection Refused"));
+        break;
+    case QAbstractSocket::RemoteHostClosedError:
+        error_msg.append(QObject::tr("Host closed the connection"));
+        break;
+    case QAbstractSocket::HostNotFoundError:
+        error_msg.append(QObject::tr("Host not found"));
+        break;
+    case QAbstractSocket::SocketTimeoutError:
+        error_msg.append(QObject::tr("Timeout"));
+        break;
+    default:
+        error_msg.append(QObject::tr("Internal Error"));
+
+    }
+    error_msg.append("</b></p>");
+
+    qInfo() << "Detailed Error: " << socker_error;
+
+    QMessageBox::warning(nullptr, QMessageBox::tr("DXC Server Connection Error"),
+                                  error_msg);
     ui->sendButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Connect"));
 }
 
 void DxWidget::connected() {
+    QSettings settings;
+
     ui->sendButton->setEnabled(true);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Disconnect"));
+
+    QStringList serversItems = getDXCServerList();
+    settings.setValue("dxc/servers", serversItems);
 }
 
 void DxWidget::rawModeChanged() {
@@ -228,6 +314,17 @@ void DxWidget::entryDoubleClicked(QModelIndex index) {
     QString callsign = dxTableModel->getCallsign(index);
     double frequency = dxTableModel->getFrequency(index);
     emit tuneDx(callsign, frequency);
+}
+
+QStringList DxWidget::getDXCServerList()
+{
+    QStringList ret;
+
+    for ( int index = 0; index < ui->serverSelect->count(); index++ )
+    {
+        ret << ui->serverSelect->itemText(index);
+    }
+    return ret;
 }
 
 DxWidget::~DxWidget() {

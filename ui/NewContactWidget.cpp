@@ -65,11 +65,13 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 void NewContactWidget::readSettings() {
     QSettings settings;
     QString mode = settings.value("newcontact/mode", "CW").toString();
+    QString submode = settings.value("newcontact/submode").toString();
     double freq = settings.value("newcontact/frequency", 3.5).toDouble();
     QString rig = settings.value("newcontact/rig").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
 
     ui->modeEdit->setCurrentText(mode);
+    ui->submodeEdit->setCurrentText(submode);
     ui->frequencyEdit->setValue(freq);
     ui->rigEdit->setCurrentText(rig);
     ui->powerEdit->setValue(power);
@@ -78,6 +80,7 @@ void NewContactWidget::readSettings() {
 void NewContactWidget::writeSettings() {
     QSettings settings;
     settings.setValue("newcontact/mode", ui->modeEdit->currentText());
+    settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
     settings.setValue("newcontact/frequency", ui->frequencyEdit->value());
     settings.setValue("newcontact/rig", ui->rigEdit->currentText());
     settings.setValue("newcontact/power", ui->powerEdit->value());

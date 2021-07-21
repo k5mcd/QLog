@@ -22,6 +22,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -39,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>300</width>
-        <height>510</height>
+        <width>290</width>
+        <height>499</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -73,6 +76,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -86,6 +92,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="clearButton">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="text">
         <string>Clear</string>
        </property>
@@ -93,6 +102,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="zoomInButton">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="text">
         <string>Zoom In</string>
        </property>
@@ -104,6 +116,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="zoomOutButton">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="text">
         <string>Zoom Out</string>
        </property>

@@ -16,6 +16,9 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0" colspan="5">
     <widget class="QTableView" name="tableView">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="sizeAdjustPolicy">
       <enum>QAbstractScrollArea::AdjustToContents</enum>
      </property>
@@ -42,6 +45,9 @@
    </item>
    <item row="0" column="4">
     <widget class="QPushButton" name="haltTxButton">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="text">
       <string>Halt TX</string>
      </property>
@@ -69,6 +75,9 @@
    </item>
    <item row="2" column="4">
     <widget class="QCheckBox" name="autoCallCheckBox">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
      <property name="text">
       <string>Auto Call</string>
      </property>

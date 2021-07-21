@@ -29,6 +29,13 @@ private:
     QList<DxSpot> dxData;
 };
 
+class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject
+{
+     Q_OBJECT
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+};
+
 class DxWidget : public QWidget {
     Q_OBJECT
 
@@ -56,6 +63,7 @@ private:
 
     void connectCluster();
     void disconnectCluster();
+    QStringList getDXCServerList(void);
 };
 
 #endif // DXWIDGET_H
