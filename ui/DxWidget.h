@@ -63,6 +63,7 @@ private:
 
     void connectCluster();
     void disconnectCluster();
+    void saveDXCServers();
     QStringList getDXCServerList(void);
 };
 

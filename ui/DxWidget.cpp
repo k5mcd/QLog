@@ -86,8 +86,6 @@ void DxTableModel::clear() {
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
-    QSettings settings;
-
     if ( event->type() == QEvent::KeyPress )
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
@@ -181,6 +179,14 @@ void DxWidget::disconnectCluster() {
     socket = nullptr;
 }
 
+void DxWidget::saveDXCServers()
+{
+    QSettings settings;
+
+    QStringList serversItems = getDXCServerList();
+    settings.setValue("dxc/servers", serversItems);
+}
+
 void DxWidget::send() {
     QByteArray data;
     data.append(ui->commandEdit->text());
@@ -258,8 +264,6 @@ void DxWidget::receive() {
 
 void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
 
-    qDebug() << "LF socket" << socket->errorString();
-
     QString error_msg = QObject::tr("Cannot connect to DXC Server <p>Reason <b>: ");
     switch (socker_error)
     {
@@ -291,14 +295,12 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
 }
 
 void DxWidget::connected() {
-    QSettings settings;
 
     ui->sendButton->setEnabled(true);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Disconnect"));
 
-    QStringList serversItems = getDXCServerList();
-    settings.setValue("dxc/servers", serversItems);
+    saveDXCServers();
 }
 
 void DxWidget::rawModeChanged() {
@@ -328,5 +330,6 @@ QStringList DxWidget::getDXCServerList()
 }
 
 DxWidget::~DxWidget() {
+    saveDXCServers();
     delete ui;
 }
