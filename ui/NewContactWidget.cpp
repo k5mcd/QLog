@@ -105,6 +105,12 @@ void NewContactWidget::callsignChanged() {
     }
     else {
         callsign = newCallsign;
+        ui->nameEdit->setPlaceholderText(QString());
+        ui->gridEdit->setPlaceholderText(QString());
+        ui->qthEdit->setPlaceholderText(QString());
+        ui->qslViaEdit->setPlaceholderText(QString());
+        ui->cqEdit->setPlaceholderText(QString());
+        ui->ituEdit->setPlaceholderText(QString());
     }
 
     updateTime();
@@ -145,6 +151,9 @@ void NewContactWidget::queryDxcc(QString callsign) {
         ui->flagView->setPixmap(QPixmap());
         ui->dxccTableWidget->clear();
         ui->dxccStatus->clear();
+        ui->distanceInfo->clear();
+        ui->bearingInfo->clear();
+        ui->dxccInfo->clear();
     }
 }
 
@@ -171,12 +180,12 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
         return;
     }
 
-    ui->nameEdit->setPlaceholderText(data.value("name"));
-    ui->gridEdit->setPlaceholderText(data.value("gridsquare"));
-    ui->qthEdit->setPlaceholderText(data.value("qth"));
-    ui->qslViaEdit->setPlaceholderText(data.value("qsl_via"));
-    ui->cqEdit->setPlaceholderText(data.value("cqz"));
-    ui->ituEdit->setPlaceholderText(data.value("ituz"));
+        ui->nameEdit->setPlaceholderText(data.value("name"));
+        ui->gridEdit->setPlaceholderText(data.value("gridsquare"));
+        ui->qthEdit->setPlaceholderText(data.value("qth"));
+        ui->qslViaEdit->setPlaceholderText(data.value("qsl_via"));
+        ui->cqEdit->setPlaceholderText(data.value("cqz"));
+        ui->ituEdit->setPlaceholderText(data.value("ituz"));
 }
 
 void NewContactWidget::frequencyChanged() {
