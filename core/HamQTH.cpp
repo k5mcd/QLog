@@ -8,6 +8,8 @@
 #include <QDebug>
 #include "HamQTH.h"
 
+#include "utils.h"
+
 #define API_URL "http://www.hamqth.com/xml.php"
 
 HamQTH::HamQTH(QObject* parent) :
@@ -40,8 +42,8 @@ void HamQTH::queryCallsign(QString callsign) {
 
 void HamQTH::authenticate() {
     QSettings settings;
-    QString username = settings.value("hamqth/username").toString();
-    QString password = settings.value("hamqth/password").toString();
+    QString username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+    QString password = getPassword(HamQTH::SECURE_STORAGE_KEY, username);
 
     if (!username.isEmpty() && !password.isEmpty()) {
         QUrlQuery query;
@@ -107,3 +109,6 @@ void HamQTH::processReply(QNetworkReply* reply) {
         queryCallsign(queuedCallsign);
     }
 }
+
+const QString HamQTH::SECURE_STORAGE_KEY = "QLog: HamQTH";
+const QString HamQTH::CONFIG_USERNAME_KEY = "hamqth/username";

@@ -160,12 +160,12 @@ unix:!macx {
   INSTALLS += target desktop icon
 
   INCLUDEPATH += /usr/local/include
-  LIBS += -L/usr/local/lib -lhamlib
+  LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
 }
 
 macx: {
     INCLUDEPATH += /usr/local/include
-    LIBS += -L/usr/local/lib -lhamlib
+    LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
     DISTFILES +=
 }
 

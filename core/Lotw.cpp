@@ -8,6 +8,7 @@
 #include <QSqlError>
 #include "Lotw.h"
 #include "logformat/AdiFormat.h"
+#include "utils.h"
 
 #define ADIF_API "https://lotw.arrl.org/lotwuser/lotwreport.adi"
 
@@ -38,8 +39,8 @@ void Lotw::update(QDate start_date, bool qso_since) {
 
 void Lotw::get(QList<QPair<QString, QString>> params) {
     QSettings settings;
-    QString username = settings.value("lotw/username").toString();
-    QString password = settings.value("lotw/password").toString();
+    QString username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
+    QString password = getPassword(Lotw::SECURE_STORAGE_KEY, username);
 
     QUrlQuery query;
     query.setQueryItems(params);
@@ -174,3 +175,6 @@ void Lotw::processReply(QNetworkReply* reply) {
     reply->deleteLater();
     emit updateComplete(status);
 }
+
+const QString Lotw::SECURE_STORAGE_KEY = "QLog: LoTW";
+const QString Lotw::CONFIG_USERNAME_KEY = "lotw/username";
