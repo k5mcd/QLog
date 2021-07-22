@@ -1,4 +1,10 @@
 TDB - 0.2
 - Initial fork changes
 - Changed Logging format (Time + severity + context)
-- Added Applicaiton singleton
+- Added Application singleton
+- GUI Tweaking
+   - Changed Tab-key behaviour
+   - DXC Widget
+   - manu others
+- DXCCInfo is clean correctly when callsign is reset
+- Password are stored in a Secure Storage
