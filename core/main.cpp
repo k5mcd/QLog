@@ -88,25 +88,25 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
     switch (type)
     {
     case QtDebugMsg:
-        severity_string = "Debug";
+        severity_string = "[DEBUG   ]";
         break;
     case QtInfoMsg:
-        severity_string = "Info";
+        severity_string = "[INFO    ]";
         break;
     case QtWarningMsg:
-        severity_string = "Debug";
+        severity_string = "[WARNING ]";
         break;
     case QtCriticalMsg:
-        severity_string = "Critical";
+        severity_string = "[CRITICAL]";
         break;
     case QtFatalMsg:
-        severity_string = "Fatal";
+        severity_string = "[FATAL   ]";
         break;
     default:
-        severity_string = "Unknown";
+        severity_string = "[UNKNOWN ]";
     }
 
-    fprintf(stderr, "%s %s: %s (%s:%u, %s)\n", QTime::currentTime().toString("HH:mm:ss.zzz").toLocal8Bit().constData(),
+    fprintf(stderr, "%s %s: %s [%s:%u, %s]\n", QTime::currentTime().toString("HH:mm:ss.zzz").toLocal8Bit().constData(),
                                                severity_string.toLocal8Bit().constData(),
                                                localMsg.constData(),
                                                context.file,
