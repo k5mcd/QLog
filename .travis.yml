@@ -1,7 +1,8 @@
 language: cpp
 branches:
   only:
-    - travis
+    - master
+    - testing
 matrix:
   include:
   - os: linux
