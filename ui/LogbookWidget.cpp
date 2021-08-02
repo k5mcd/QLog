@@ -151,7 +151,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
 
-    ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands", "Band"));
+    ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", "Band"));
     ui->modeFilter->setModel(new SqlListModel("SELECT name FROM modes", "Mode"));
     ui->countryFilter->setModel(new SqlListModel("SELECT name FROM dxcc_entities ORDER BY name", "Country"));
 
