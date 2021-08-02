@@ -13,7 +13,7 @@ int DxTableModel::rowCount(const QModelIndex&) const {
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 6;
+    return 7;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const {
@@ -27,10 +27,12 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
         case 2:
             return QString::number(spot.freq, 'f', 4);
         case 3:
-            return spot.spotter;
+            return spot.mode;
         case 4:
-            return spot.comment;
+            return spot.spotter;
         case 5:
+            return spot.comment;
+        case 6:
             return spot.dxcc.country;
         default:
             return QVariant();
@@ -39,6 +41,10 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
     else if (index.column() == 1 && role == Qt::BackgroundRole) {
         DxSpot spot = dxData.at(index.row());
         return Data::statusToColor(spot.status, QColor(Qt::white));
+    }
+    else if (index.column() == 1 && role == Qt::ToolTipRole) {
+        DxSpot spot = dxData.at(index.row());
+        return Data::statusToText(spot.status);
     }
     else if (index.column() == 1 && role == Qt::TextColorRole) {
         DxSpot spot = dxData.at(index.row());
@@ -55,9 +61,10 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 0: return tr("Time");
     case 1: return tr("Callsign");
     case 2: return tr("Frequency");
-    case 3: return tr("Spotter");
-    case 4: return tr("Comment");
-    case 5: return tr("Country");
+    case 3: return tr("Mode");
+    case 4: return tr("Spotter");
+    case 5: return tr("Comment");
+    case 6: return tr("Country");
     default: return QVariant();
     }
 }
@@ -247,6 +254,7 @@ void DxWidget::receive() {
             spot.callsign = call;
             spot.freq = freq.toDouble() / 1000;
             spot.band = Data::band(spot.freq).name;
+            spot.mode = Data::freqToMode(spot.freq);
             spot.spotter = spotter;
             spot.comment = comment;
             spot.dxcc = dxcc;

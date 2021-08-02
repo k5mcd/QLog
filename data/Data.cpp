@@ -90,50 +90,101 @@ Band Data::band(double freq) {
     }
 }
 
-QString Data::freqToMode(double freq) {
+QString Data::freqToMode(double freq)
+{
+    const QString CW = "CW";
+    const QString DIGITAL = "DIGITAL";
+    const QString FT8 = "FT8";
+    const QString LSB = "PHONE"; // use just generic label SSB
+    const QString USB = "PHONE"; // use just generic label SSB
+
     // 2200m
-    if (freq >= 0.1357 && freq <= 0.1378) return "CW";
+    if (freq >= 0.1357 && freq <= 0.1378) return CW;
+
     // 630m
-    else if (freq >= 0.472 && freq <= 0.475) return "CW";
-    else if (freq <= 0.479) return "DIGITAL";
+    else if (freq >= 0.472 && freq <= 0.475) return CW;
+    else if (freq <= 0.479) return DIGITAL;
+
     // 160m
-    else if (freq >= 1.800 && freq <= 1.840) return "CW";
-    else if (freq <= 1.843) return "DIGITAL";
-    else if (freq <= 2.000) return "PHONE";
+    else if (freq >= 1.800 && freq < 1.838) return CW;
+    else if (freq >= 1.838 && freq < 1.840) return DIGITAL;
+    else if (freq == 1.840) return FT8;
+    else if (freq > 1.840 && freq < 2.000) return LSB;
+
     // 80m
-    else if (freq >= 3.500 && freq <= 3.570) return "CW";
-    else if (freq <= 3.600) return "DIGITAL";
-    else if (freq <= 4.000) return "PHONE";
+    else if (freq > 3.500 && freq < 3.573) return CW;
+    else if (freq == 3.573) return FT8;
+    else if (freq > 3.573 && freq < 3.580) return CW;
+    else if (freq >= 3.580 && freq < 3.600) return DIGITAL;
+    else if (freq >= 3.600 && freq < 4.000) return LSB;
+
     // 60m
-    else if (freq >= 5.3515 && freq <= 5.354) return "CW";
-    else if (freq <= 5.366) return "PHONE";
+    else if (freq >= 5.3515 && freq <= 5.354) return CW;
+    else if (freq <= 5.500) return LSB;
+
     // 40m
-    else if (freq >= 7.000 && freq <= 7.040) return "CW";
-    else if (freq <= 7.050) return "DIGITAL";
-    else if (freq <= 7.300) return "PHONE";
+    else if (freq >= 7.000 && freq < 7.040) return CW;
+    else if (freq >= 7.040 && freq < 7.050) return DIGITAL;
+    else if (freq >= 7.050 && freq < 7.074) return LSB;
+    else if (freq == 7.074) return FT8;
+    else if (freq > 7.074 && freq < 7.300) return LSB;
+
     // 30m
-    else if (freq >= 10.100 && freq <= 10.130) return "CW";
-    else if (freq <= 10.150) return "DIGITAL";
+    else if (freq >= 10.100 && freq < 10.136) return CW;
+    else if (freq == 10.136 ) return FT8;
+    else if (freq > 10.136 && freq < 10.140) return CW;
+    else if (freq >= 10.140 && freq < 10.150) return DIGITAL;
+
     // 20m
-    else if (freq >= 14.000 && freq <= 14.070) return "CW";
-    else if (freq <= 14.100) return "DIGITAL";
-    else if (freq <= 14.350) return "PHONE";
+    else if (freq >= 14.000 && freq < 14.070) return CW;
+    else if (freq >= 14.070 && freq < 14.074) return DIGITAL;
+    else if (freq == 14.074) return FT8;
+    else if (freq > 14.074 && freq <= 14.099) return DIGITAL;
+    else if (freq > 14.099 && freq < 14.350) return USB;
+
     // 17m
-    else if (freq >= 18.068 && freq <= 18.095) return "CW";
-    else if (freq <= 18.111) return "DIGITAL";
-    else if (freq <= 18.168) return "PHONE";
+    else if (freq >= 18.068 && freq < 18.095) return CW;
+    else if (freq >= 18.095 && freq < 18.100) return DIGITAL;
+    else if (freq == 18.100 ) return FT8;
+    else if (freq > 18.100 && freq < 18.110) return DIGITAL;
+    else if (freq >= 18.110 && freq < 18.268) return USB;
+
     // 15m
-    else if (freq >= 21.000 && freq <= 21.070) return "CW";
-    else if (freq <= 21.150) return "DIGITAL";
-    else if (freq <= 21.450) return "PHONE";
+    else if (freq >= 21.000 && freq < 21.070) return CW;
+    else if (freq >= 21.070 && freq < 21.074) return LSB;
+    else if (freq == 21.074) return FT8;
+    else if (freq > 21.074 && freq < 21.150) return DIGITAL;
+    else if (freq >= 21.150 && freq < 21.450) return USB;
+
     // 12m
-    else if (freq >= 24.000 && freq <= 24.915) return "CW";
-    else if (freq <= 24.931) return "DIGITAL";
-    else if (freq <= 24.990) return "PHONE";
+    else if (freq >= 24.890 && freq < 24.915) return CW;
+    else if (freq == 24.915 ) return FT8;
+    else if (freq > 24.915 && freq < 24.930) return DIGITAL;
+    else if (freq >= 24.930 && freq < 24.990) return USB;
+
     // 10m
-    else if (freq >= 28.000 && freq <= 28.070) return "CW";
-    else if (freq <= 28.225) return "DIGITAL";
-    else if (freq <= 29.700) return "PHONE";
+    else if (freq >= 28.000 && freq < 28.074) return CW;
+    else if (freq == 28.074) return FT8;
+    else if (freq > 28.074 && freq < 28.190) return DIGITAL;
+    else if (freq >= 28.190 && freq < 29.700) return USB;
+
+    // 6m
+    else if (freq >= 50.000 && freq < 50.100) return CW;
+    else if (freq > 50.100 && freq < 50.313) return USB;
+    else if (freq == 50.313 ) return FT8;
+    else if (freq > 50.313 && freq < 54.000) return USB;
+
+    // 4m
+    else if (freq >=70.000 && freq < 70.100) return CW;
+    else if (freq >=70.100 && freq < 70.250) return USB;
+    else if (freq >=70.2500 && freq < 70.500) return USB;
+
+    // 2m
+    else if (freq >= 144.000 && freq < 144.150) return CW;
+    else if (freq >= 144.150 && freq < 144.174) return USB;
+    else if (freq >= 144.174 && freq <= 144.175) return FT8;
+    else if (freq > 144.175 && freq < 148.000) return USB;
+
     else return QString();
 }
 
@@ -152,6 +203,24 @@ QColor Data::statusToColor(DxccStatus status, QColor defaultColor) {
     }
 }
 
+QString Data::statusToText(DxccStatus status) {
+    switch (status) {
+        case DxccStatus::NewEntity:
+            return tr("New Entity");
+        case DxccStatus::NewBand:
+            return tr("New Band");
+        case DxccStatus::NewMode:
+            return tr("New Mode");
+        case DxccStatus::NewBandMode:
+            return tr("New Band&Mode");
+        case DxccStatus::NewSlot:
+            return tr("New Slot");
+        case DxccStatus::Worked:
+            return tr("Worked");
+        default:
+            return QString("Unknown");
+    }
+}
 
 QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
     switch (status) {

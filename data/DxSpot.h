@@ -10,6 +10,7 @@ public:
     QString callsign;
     double freq;
     QString band;
+    QString mode;
     QString spotter;
     QString comment;
     DxccEntity dxcc;
