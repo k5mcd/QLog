@@ -13,7 +13,7 @@ int DxTableModel::rowCount(const QModelIndex&) const {
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 7;
+    return 6;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const {
@@ -32,8 +32,6 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
             return spot.spotter;
         case 5:
             return spot.comment;
-        case 6:
-            return spot.dxcc.country;
         default:
             return QVariant();
         }
@@ -44,7 +42,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
     }
     else if (index.column() == 1 && role == Qt::ToolTipRole) {
         DxSpot spot = dxData.at(index.row());
-        return Data::statusToText(spot.status);
+        return spot.dxcc.country + " [" + Data::statusToText(spot.status) + "]";
     }
     else if (index.column() == 1 && role == Qt::TextColorRole) {
         DxSpot spot = dxData.at(index.row());
@@ -64,7 +62,6 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 3: return tr("Mode");
     case 4: return tr("Spotter");
     case 5: return tr("Comment");
-    case 6: return tr("Country");
     default: return QVariant();
     }
 }
