@@ -14,7 +14,7 @@ int DxTableModel::rowCount(const QModelIndex&) const {
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 6;
+    return 7;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const {
@@ -33,6 +33,8 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
             return spot.spotter;
         case 5:
             return spot.comment;
+        case 6:
+            return spot.dxcc.cont;
         default:
             return QVariant();
         }
@@ -63,6 +65,8 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 3: return tr("Mode");
     case 4: return tr("Spotter");
     case 5: return tr("Comment");
+    case 6: return tr("Continent");
+
     default: return QVariant();
     }
 }
@@ -100,12 +104,20 @@ void DXSpotFilterProxyModel::setModeFilterRegExp(const QString& regExp)
     invalidateFilter();
 }
 
+void DXSpotFilterProxyModel::setContFilterRegExp(const QString& regExp)
+{
+    contregexp.setPattern(regExp);
+    invalidateFilter();
+}
+
 bool DXSpotFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex modeIndex= sourceModel()->index(sourceRow, 3, sourceParent);
+    QModelIndex contIndex = sourceModel()->index(sourceRow, 6, sourceParent);
     QString mode = sourceModel()->data(modeIndex).toString();
+    QString cont = sourceModel()->data(contIndex).toString();
 
-    return (mode.contains(moderegexp));
+    return (mode.contains(moderegexp) && cont.contains(contregexp));
 }
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
@@ -142,10 +154,12 @@ DxWidget::DxWidget(QWidget *parent) :
     proxyDXC = new DXSpotFilterProxyModel(this);
     proxyDXC->setSourceModel(dxTableModel);
     proxyDXC->setDynamicSortFilter(false);
-    proxyDXC->setModeFilterRegExp(modeFilterSetting2Regexp());
+    proxyDXC->setModeFilterRegExp(modeFilterRegExp());
+    proxyDXC->setContFilterRegExp(contFilterRegExp());
 
     ui->dxTable->setModel(proxyDXC);
     ui->dxTable->addAction(ui->actionFilter);
+    ui->dxTable->hideColumn(6);  //continent
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
@@ -218,7 +232,7 @@ void DxWidget::saveDXCServers()
     settings.setValue("dxc/servers", serversItems);
 }
 
-QString DxWidget::modeFilterSetting2Regexp()
+QString DxWidget::modeFilterRegExp()
 {
     QSettings settings;
     QString regexp = "NOTHING";
@@ -229,6 +243,12 @@ QString DxWidget::modeFilterSetting2Regexp()
     if (settings.value("dxc/filter_mode_digital",true).toBool()) regexp = regexp + "|" + Data::MODE_DIGITAL;
 
     return regexp;
+}
+
+QString DxWidget::contFilterRegExp()
+{
+    QSettings settings;
+    return settings.value("dxc/filter_cont_regexp","NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
 }
 
 void DxWidget::send() {
@@ -371,7 +391,8 @@ void DxWidget::actionFilter()
 
   if (dialog.exec() == QDialog::Accepted)
   {
-      proxyDXC->setModeFilterRegExp(modeFilterSetting2Regexp());
+      proxyDXC->setModeFilterRegExp(modeFilterRegExp());
+      proxyDXC->setContFilterRegExp(contFilterRegExp());
   }
 }
 
