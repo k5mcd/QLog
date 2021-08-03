@@ -9,3 +9,4 @@ TBD - 0.2
 - DXCCInfo is clean correctly when callsign is reset
 - Password are stored in a Secure Storage
 - Changed sorting criteria for BandFilter Combobox [Logbook View]
+- Added DXCluster Filters - Context Menu of the DXC
