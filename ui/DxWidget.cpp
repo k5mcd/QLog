@@ -7,6 +7,7 @@
 #include "DxWidget.h"
 #include "ui_DxWidget.h"
 #include "data/Data.h"
+#include "DxFilterDialog.h"
 
 int DxTableModel::rowCount(const QModelIndex&) const {
     return dxData.count();
@@ -70,7 +71,6 @@ void DxTableModel::addEntry(DxSpot entry) {
     beginInsertRows(QModelIndex(), dxData.count(), dxData.count());
     //dxData.append(entry);
     dxData.prepend(entry);
-
     endInsertRows();
 }
 
@@ -86,6 +86,26 @@ void DxTableModel::clear() {
     beginResetModel();
     dxData.clear();
     endResetModel();
+}
+
+DXSpotFilterProxyModel::DXSpotFilterProxyModel(QObject* parent):
+     QSortFilterProxyModel(parent)
+{
+    moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+}
+
+void DXSpotFilterProxyModel::setModeFilterRegExp(const QString& regExp)
+{
+    moderegexp.setPattern(regExp);
+    invalidateFilter();
+}
+
+bool DXSpotFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    QModelIndex modeIndex= sourceModel()->index(sourceRow, 3, sourceParent);
+    QString mode = sourceModel()->data(modeIndex).toString();
+
+    return (mode.contains(moderegexp));
 }
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
@@ -118,7 +138,14 @@ DxWidget::DxWidget(QWidget *parent) :
 
     ui->setupUi(this);
     dxTableModel = new DxTableModel(this);
-    ui->dxTable->setModel(dxTableModel);
+
+    proxyDXC = new DXSpotFilterProxyModel(this);
+    proxyDXC->setSourceModel(dxTableModel);
+    proxyDXC->setDynamicSortFilter(false);
+    proxyDXC->setModeFilterRegExp(modeFilterSetting2Regexp());
+
+    ui->dxTable->setModel(proxyDXC);
+    ui->dxTable->addAction(ui->actionFilter);
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
@@ -191,6 +218,19 @@ void DxWidget::saveDXCServers()
     settings.setValue("dxc/servers", serversItems);
 }
 
+QString DxWidget::modeFilterSetting2Regexp()
+{
+    QSettings settings;
+    QString regexp = "NOTHING";
+
+    if (settings.value("dxc/filter_mode_phone",true).toBool())   regexp = regexp + "|" + Data::MODE_PHONE;
+    if (settings.value("dxc/filter_mode_cw",true).toBool())      regexp = regexp + "|" + Data::MODE_CW;
+    if (settings.value("dxc/filter_mode_ft8",true).toBool())     regexp = regexp + "|" + Data::MODE_FT8;
+    if (settings.value("dxc/filter_mode_digital",true).toBool()) regexp = regexp + "|" + Data::MODE_DIGITAL;
+
+    return regexp;
+}
+
 void DxWidget::send() {
     QByteArray data;
     data.append(ui->commandEdit->text());
@@ -260,6 +300,8 @@ void DxWidget::receive() {
             emit newSpot(spot);
 
             dxTableModel->addEntry(spot);
+            proxyDXC->invalidate();
+
             ui->dxTable->repaint();
         }
 
@@ -321,6 +363,16 @@ void DxWidget::entryDoubleClicked(QModelIndex index) {
     QString callsign = dxTableModel->getCallsign(index);
     double frequency = dxTableModel->getFrequency(index);
     emit tuneDx(callsign, frequency);
+}
+
+void DxWidget::actionFilter()
+{
+  DxFilterDialog dialog;
+
+  if (dialog.exec() == QDialog::Accepted)
+  {
+      proxyDXC->setModeFilterRegExp(modeFilterSetting2Regexp());
+  }
 }
 
 QStringList DxWidget::getDXCServerList()

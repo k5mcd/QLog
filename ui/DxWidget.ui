@@ -10,6 +10,9 @@
     <height>511</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
   <property name="windowTitle">
    <string notr="true">Form</string>
   </property>
@@ -49,6 +52,9 @@
         <widget class="QTableView" name="dxTable">
          <property name="focusPolicy">
           <enum>Qt::ClickFocus</enum>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
          </property>
          <property name="tabKeyNavigation">
           <bool>false</bool>
@@ -91,6 +97,9 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_2">
+      <property name="contextMenuPolicy">
+       <enum>Qt::ActionsContextMenu</enum>
+      </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <property name="leftMargin">
         <number>0</number>
@@ -200,8 +209,22 @@
     </layout>
    </item>
   </layout>
+  <action name="actionFilter">
+   <property name="icon">
+    <iconset resource="../res/icons/icons.qrc">
+     <normaloff>:/icons/filter_list-24px.svg</normaloff>:/icons/filter_list-24px.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Filter</string>
+   </property>
+   <property name="toolTip">
+    <string>Filter DXC</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../res/icons/icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>sendButton</sender>
@@ -210,8 +233,8 @@
    <slot>send()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>504</x>
-     <y>287</y>
+     <x>911</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -226,8 +249,8 @@
    <slot>toggleConnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>696</x>
-     <y>287</y>
+     <x>187</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -242,8 +265,8 @@
    <slot>send()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>230</x>
-     <y>286</y>
+     <x>500</x>
+     <y>508</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -258,8 +281,8 @@
    <slot>rawModeChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>268</x>
-     <y>494</y>
+     <x>262</x>
+     <y>507</y>
     </hint>
     <hint type="destinationlabel">
      <x>456</x>
@@ -283,11 +306,31 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionFilter</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionFilter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>send()</slot>
   <slot>toggleConnect()</slot>
   <slot>rawModeChanged()</slot>
   <slot>entryDoubleClicked(QModelIndex)</slot>
+  <slot>actionFilter()</slot>
+  <slot>actionPhoneFilter()</slot>
+  <slot>actionFT8Filter()</slot>
+  <slot>actionPhoneFilter(bool)</slot>
  </slots>
 </ui>

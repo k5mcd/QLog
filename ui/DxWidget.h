@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QtNetwork>
+#include <QSortFilterProxyModel>
+#include <QRegularExpression>
 
 #include "data/Data.h"
 #include "data/DxSpot.h"
@@ -16,6 +18,7 @@ class DxTableModel : public QAbstractTableModel {
 
 public:
     DxTableModel(QObject* parent = 0) : QAbstractTableModel(parent) {}
+
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     int columnCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role) const;
@@ -27,6 +30,22 @@ public:
 
 private:
     QList<DxSpot> dxData;
+};
+
+class DXSpotFilterProxyModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+
+public:
+    explicit DXSpotFilterProxyModel(QObject* parent= nullptr);
+
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const  override;
+
+public slots:
+    void setModeFilterRegExp(const QString& regExp);
+
+private:
+    QRegularExpression moderegexp;
 };
 
 class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject
@@ -51,6 +70,7 @@ public slots:
     void socketError(QAbstractSocket::SocketError error);
     void rawModeChanged();
     void entryDoubleClicked(QModelIndex index);
+    void actionFilter();
 
 signals:
     void tuneDx(QString callsign, double freq);
@@ -58,12 +78,15 @@ signals:
 
 private:
     DxTableModel* dxTableModel;
+    DXSpotFilterProxyModel *proxyDXC;
     QTcpSocket* socket;
     Ui::DxWidget *ui;
 
     void connectCluster();
     void disconnectCluster();
     void saveDXCServers();
+    QString modeFilterSetting2Regexp();
+
     QStringList getDXCServerList(void);
 };
 

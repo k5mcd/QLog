@@ -9,6 +9,13 @@ class Data : public QObject
 {
     Q_OBJECT
 public:
+    static const QString MODE_CW;
+    static const QString MODE_DIGITAL;
+    static const QString MODE_FT8;
+    static const QString MODE_LSB; // use just generic label SSB
+    static const QString MODE_USB; // use just generic label SSB
+    static const QString MODE_PHONE;
+
     explicit Data(QObject *parent = nullptr);
     static Data* instance();
 
