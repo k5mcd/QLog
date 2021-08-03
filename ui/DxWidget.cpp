@@ -99,6 +99,7 @@ DXSpotFilterProxyModel::DXSpotFilterProxyModel(QObject* parent):
      QSortFilterProxyModel(parent)
 {
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     spottercontregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 }
 
