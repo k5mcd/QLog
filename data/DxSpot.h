@@ -14,6 +14,7 @@ public:
     QString spotter;
     QString comment;
     DxccEntity dxcc;
+    DxccEntity dxcc_spotter;
     DxccStatus status;
 };
 

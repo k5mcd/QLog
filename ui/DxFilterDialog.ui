@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>470</height>
+    <width>673</width>
+    <height>462</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,7 +28,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="modes">
+     <widget class="QWidget" name="general_filters">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -39,8 +39,99 @@
        <string>General Filters</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="4" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <widget class="QGroupBox" name="continent">
+         <property name="title">
+          <string>Continent</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QGridLayout" name="cont_group">
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="nacheckbox">
+              <property name="text">
+               <string>North America</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="afcheckbox">
+              <property name="text">
+               <string>Africa</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="ancheckbox">
+              <property name="text">
+               <string>Antarctica</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QCheckBox" name="sacheckbox">
+              <property name="text">
+               <string>South America</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="ascheckbox">
+              <property name="text">
+               <string>Asia</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="eucheckbox">
+              <property name="text">
+               <string>Europe</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="occheckbox">
+              <property name="text">
+               <string>Oceania</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="1" column="0">
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="modes">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -119,58 +210,65 @@
          </layout>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QGroupBox" name="continent">
+      </layout>
+     </widget>
+     <widget class="QWidget" name="extended_filters">
+      <attribute name="title">
+       <string>Extended Filters</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QGroupBox" name="cont_group_spotter_2">
          <property name="title">
-          <string>Continent</string>
+          <string>Spotter Continent</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <layout class="QGridLayout" name="cont_group">
+           <layout class="QGridLayout" name="cont_group_spotter">
             <item row="2" column="0">
-             <widget class="QCheckBox" name="nacheckbox">
+             <widget class="QCheckBox" name="nacheckbox_spotter">
               <property name="text">
                <string>North America</string>
               </property>
              </widget>
             </item>
             <item row="0" column="0">
-             <widget class="QCheckBox" name="afcheckbox">
+             <widget class="QCheckBox" name="afcheckbox_spotter">
               <property name="text">
                <string>Africa</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QCheckBox" name="ancheckbox">
+             <widget class="QCheckBox" name="ancheckbox_spotter">
               <property name="text">
                <string>Antarctica</string>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QCheckBox" name="sacheckbox">
+             <widget class="QCheckBox" name="sacheckbox_spotter">
               <property name="text">
                <string>South America</string>
               </property>
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QCheckBox" name="ascheckbox">
+             <widget class="QCheckBox" name="ascheckbox_spotter">
               <property name="text">
                <string>Asia</string>
               </property>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QCheckBox" name="eucheckbox">
+             <widget class="QCheckBox" name="eucheckbox_spotter">
               <property name="text">
                <string>Europe</string>
               </property>
              </widget>
             </item>
             <item row="3" column="0">
-             <widget class="QCheckBox" name="occheckbox">
+             <widget class="QCheckBox" name="occheckbox_spotter">
               <property name="text">
                <string>Oceania</string>
               </property>
@@ -181,8 +279,8 @@
          </layout>
         </widget>
        </item>
-       <item row="4" column="0">
-        <spacer name="verticalSpacer">
+       <item>
+        <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -194,28 +292,7 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
-     </widget>
-     <widget class="QWidget" name="extended_filters">
-      <attribute name="title">
-       <string>Extended Filters</string>
-      </attribute>
      </widget>
     </widget>
    </item>

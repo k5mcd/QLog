@@ -14,7 +14,7 @@ int DxTableModel::rowCount(const QModelIndex&) const {
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 7;
+    return 8;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const {
@@ -35,6 +35,8 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
             return spot.comment;
         case 6:
             return spot.dxcc.cont;
+        case 7:
+            return spot.dxcc_spotter.cont;
         default:
             return QVariant();
         }
@@ -66,6 +68,7 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 4: return tr("Spotter");
     case 5: return tr("Comment");
     case 6: return tr("Continent");
+    case 7: return tr("Spotter Continent");
 
     default: return QVariant();
     }
@@ -96,6 +99,7 @@ DXSpotFilterProxyModel::DXSpotFilterProxyModel(QObject* parent):
      QSortFilterProxyModel(parent)
 {
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    spottercontregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 }
 
 void DXSpotFilterProxyModel::setModeFilterRegExp(const QString& regExp)
@@ -110,14 +114,23 @@ void DXSpotFilterProxyModel::setContFilterRegExp(const QString& regExp)
     invalidateFilter();
 }
 
+void DXSpotFilterProxyModel::setSpotterContFilterRegExp(const QString &regExp)
+{
+    spottercontregexp.setPattern(regExp);
+    invalidateFilter();
+}
+
 bool DXSpotFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex modeIndex= sourceModel()->index(sourceRow, 3, sourceParent);
     QModelIndex contIndex = sourceModel()->index(sourceRow, 6, sourceParent);
+    QModelIndex spottercontIndex = sourceModel()->index(sourceRow, 7, sourceParent);
+
     QString mode = sourceModel()->data(modeIndex).toString();
     QString cont = sourceModel()->data(contIndex).toString();
+    QString spottercont = sourceModel()->data(spottercontIndex).toString();
 
-    return (mode.contains(moderegexp) && cont.contains(contregexp));
+    return (mode.contains(moderegexp) && cont.contains(contregexp) && spottercont.contains(spottercontregexp));
 }
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
@@ -156,10 +169,12 @@ DxWidget::DxWidget(QWidget *parent) :
     proxyDXC->setDynamicSortFilter(false);
     proxyDXC->setModeFilterRegExp(modeFilterRegExp());
     proxyDXC->setContFilterRegExp(contFilterRegExp());
+    proxyDXC->setSpotterContFilterRegExp(spotterContFilterRegExp());
 
     ui->dxTable->setModel(proxyDXC);
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->hideColumn(6);  //continent
+    ui->dxTable->hideColumn(7);  //spotter continent
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
@@ -251,6 +266,12 @@ QString DxWidget::contFilterRegExp()
     return settings.value("dxc/filter_cont_regexp","NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
 }
 
+QString DxWidget::spotterContFilterRegExp()
+{
+    QSettings settings;
+    return settings.value("dxc/filter_spotter_cont_regexp","NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
+}
+
 void DxWidget::send() {
     QByteArray data;
     data.append(ui->commandEdit->text());
@@ -304,6 +325,8 @@ void DxWidget::receive() {
             QString time = commentRegExp.cap(2);
 
             DxccEntity dxcc = Data::instance()->lookupDxcc(call);
+            DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
+
             QString country = dxcc.country;
 
             DxSpot spot;
@@ -315,6 +338,7 @@ void DxWidget::receive() {
             spot.spotter = spotter;
             spot.comment = comment;
             spot.dxcc = dxcc;
+            spot.dxcc_spotter = dxcc_spotter;
             spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToMode(spot.freq));
 
             emit newSpot(spot);
@@ -393,6 +417,7 @@ void DxWidget::actionFilter()
   {
       proxyDXC->setModeFilterRegExp(modeFilterRegExp());
       proxyDXC->setContFilterRegExp(contFilterRegExp());
+      proxyDXC->setSpotterContFilterRegExp(spotterContFilterRegExp());
   }
 }
 
