@@ -45,11 +45,13 @@ public slots:
     void setModeFilterRegExp(const QString& regExp);
     void setContFilterRegExp(const QString& regExp);
     void setSpotterContFilterRegExp(const QString& regExp);
+    void setBandFilterRegExp(const QString& regExp);
 
 private:
     QRegularExpression moderegexp;
     QRegularExpression contregexp;
     QRegularExpression spottercontregexp;
+    QRegularExpression bandregexp;
 };
 
 class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject
@@ -92,6 +94,7 @@ private:
     QString modeFilterRegExp();
     QString contFilterRegExp();
     QString spotterContFilterRegExp();
+    QString bandFilterRegExp();
 
     QStringList getDXCServerList(void);
 };

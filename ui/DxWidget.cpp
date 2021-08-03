@@ -8,13 +8,14 @@
 #include "ui_DxWidget.h"
 #include "data/Data.h"
 #include "DxFilterDialog.h"
+#include "models/SqlListModel.h"
 
 int DxTableModel::rowCount(const QModelIndex&) const {
     return dxData.count();
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 8;
+    return 9;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const {
@@ -37,6 +38,8 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
             return spot.dxcc.cont;
         case 7:
             return spot.dxcc_spotter.cont;
+        case 8:
+            return spot.band;
         default:
             return QVariant();
         }
@@ -69,6 +72,7 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 5: return tr("Comment");
     case 6: return tr("Continent");
     case 7: return tr("Spotter Continent");
+    case 8: return tr("Band");
 
     default: return QVariant();
     }
@@ -101,6 +105,7 @@ DXSpotFilterProxyModel::DXSpotFilterProxyModel(QObject* parent):
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     spottercontregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    bandregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 }
 
 void DXSpotFilterProxyModel::setModeFilterRegExp(const QString& regExp)
@@ -121,17 +126,28 @@ void DXSpotFilterProxyModel::setSpotterContFilterRegExp(const QString &regExp)
     invalidateFilter();
 }
 
+void DXSpotFilterProxyModel::setBandFilterRegExp(const QString &regExp)
+{
+    bandregexp.setPattern(regExp);
+    invalidateFilter();
+}
+
 bool DXSpotFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     QModelIndex modeIndex= sourceModel()->index(sourceRow, 3, sourceParent);
     QModelIndex contIndex = sourceModel()->index(sourceRow, 6, sourceParent);
     QModelIndex spottercontIndex = sourceModel()->index(sourceRow, 7, sourceParent);
+    QModelIndex bandIndex= sourceModel()->index(sourceRow, 8, sourceParent);
 
     QString mode = sourceModel()->data(modeIndex).toString();
     QString cont = sourceModel()->data(contIndex).toString();
     QString spottercont = sourceModel()->data(spottercontIndex).toString();
+    QString band = sourceModel()->data(bandIndex).toString();
 
-    return (mode.contains(moderegexp) && cont.contains(contregexp) && spottercont.contains(spottercontregexp));
+    return (mode.contains(moderegexp)
+            && cont.contains(contregexp)
+            && spottercont.contains(spottercontregexp)
+            && band.contains(bandregexp));
 }
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
@@ -171,18 +187,20 @@ DxWidget::DxWidget(QWidget *parent) :
     proxyDXC->setModeFilterRegExp(modeFilterRegExp());
     proxyDXC->setContFilterRegExp(contFilterRegExp());
     proxyDXC->setSpotterContFilterRegExp(spotterContFilterRegExp());
+    proxyDXC->setBandFilterRegExp(bandFilterRegExp());
+
 
     ui->dxTable->setModel(proxyDXC);
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->hideColumn(6);  //continent
-    ui->dxTable->hideColumn(7);  //spotter continent
+    ui->dxTable->hideColumn(7);  //spotter continen
+    ui->dxTable->hideColumn(8);  //band
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
     ui->serverSelect->installEventFilter(new DeleteHighlightedDXServerWhenDelPressedEventFilter);
     QRegExp rx("[^\\:]+:[0-9]{1,5}");
     ui->serverSelect->setValidator(new QRegExpValidator(rx,this));
-
 }
 
 void DxWidget::toggleConnect() {
@@ -271,6 +289,28 @@ QString DxWidget::spotterContFilterRegExp()
 {
     QSettings settings;
     return settings.value("dxc/filter_spotter_cont_regexp","NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
+}
+
+QString DxWidget::bandFilterRegExp()
+{
+    QSettings settings;
+    QString regexp = "NOTHING";
+
+
+    SqlListModel *bands= new SqlListModel("SELECT name FROM bands WHERE enabled = 1 ORDER BY start_freq", "Band");
+
+    int band_index = 1; // the first record (0) is Header - skip it and start at position 1
+
+    while (band_index < bands->rowCount())
+    {
+        QString band_name = bands->data(bands->index(band_index,0)).toString();
+        if ( settings.value("dxc/filter_band_" + band_name,true).toBool() )
+        {
+            regexp.append("|" + band_name);
+        }
+        band_index++;
+    }
+    return regexp;
 }
 
 void DxWidget::send() {
@@ -419,6 +459,7 @@ void DxWidget::actionFilter()
       proxyDXC->setModeFilterRegExp(modeFilterRegExp());
       proxyDXC->setContFilterRegExp(contFilterRegExp());
       proxyDXC->setSpotterContFilterRegExp(spotterContFilterRegExp());
+      proxyDXC->setBandFilterRegExp(bandFilterRegExp());
   }
 }
 
