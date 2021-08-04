@@ -9,6 +9,7 @@
 #include "../core/HamQTH.h"
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
+#include "../core/StyleItemDelegate.h"
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -28,16 +29,17 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     modeTableModel = new QSqlTableModel(this);
     modeTableModel->setTable("modes");
     modeTableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    modeTableModel->setSort(1, Qt::DescendingOrder);
+    modeTableModel->setSort(1, Qt::AscendingOrder);
     modeTableModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     modeTableModel->setHeaderData(3, Qt::Horizontal, tr("Report"));
     modeTableModel->setHeaderData(4, Qt::Horizontal, tr("DXCC"));
-    modeTableModel->setHeaderData(5, Qt::Horizontal, tr("Enabled"));
+    modeTableModel->setHeaderData(5, Qt::Horizontal, tr("State"));
     ui->modeTableView->setModel(modeTableModel);
 
     ui->modeTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->modeTableView->hideColumn(0);
     ui->modeTableView->hideColumn(2);
+    ui->modeTableView->setItemDelegateForColumn(5,new CheckBoxDelegate(ui->modeTableView));
 
     modeTableModel->select();
 
@@ -48,11 +50,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     bandTableModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
     bandTableModel->setHeaderData(2, Qt::Horizontal, tr("Start"));
     bandTableModel->setHeaderData(3, Qt::Horizontal, tr("End"));
-    bandTableModel->setHeaderData(4, Qt::Horizontal, tr("Enabled"));
+    bandTableModel->setHeaderData(4, Qt::Horizontal, tr("State"));
     ui->bandTableView->setModel(bandTableModel);
 
     ui->bandTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->bandTableView->hideColumn(0);
+    ui->bandTableView->setItemDelegateForColumn(4,new CheckBoxDelegate(ui->bandTableView));
 
     bandTableModel->select();
 

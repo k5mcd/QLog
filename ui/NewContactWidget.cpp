@@ -96,6 +96,14 @@ void NewContactWidget::reloadSettings() {
     if (!selectedRig.isEmpty()) {
         ui->rigEdit->setCurrentText(selectedRig);
     }
+
+    //refresh mode combobox
+    QString current_mode = ui->modeEdit->currentText();
+    ui->modeEdit->clear();
+    dynamic_cast<QSqlTableModel*>(ui->modeEdit->model())->select();
+
+    // return selected mode.
+    ui->modeEdit->setCurrentText(current_mode);
 }
 
 void NewContactWidget::callsignChanged() {

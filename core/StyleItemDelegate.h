@@ -2,8 +2,12 @@
 #define STYLEITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
+#include <QItemDelegate>
 #include <QDate>
 #include <QDoubleSpinBox>
+#include <QCheckBox>
+#include <QStyleOptionViewItem>
+#include <QPainter>
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -98,6 +102,73 @@ private:
     QString unit;
     int precision;
     double step;
+};
+
+class CheckBoxDelegate: public QItemDelegate
+{
+    Q_OBJECT
+public:
+    CheckBoxDelegate(QObject *parent = 0 ) :QItemDelegate(parent){};
+
+    void paint( QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index ) const
+    {
+        bool is_enabled = index.model()->data(index, Qt::DisplayRole).toBool();
+        if ( !is_enabled) painter->fillRect(option.rect, option.palette.dark());
+        drawDisplay(painter,option,option.rect,is_enabled? QString("     ").append(tr("Enabled"))
+                                                         : QString("     ").append(tr("Disabled")));
+        drawFocus(painter,option,option.rect);
+
+    };
+
+
+    QWidget *createEditor( QWidget *parent,
+                        const QStyleOptionViewItem &option,
+                        const QModelIndex &index ) const
+    {
+        (void)option;
+        (void)index;
+
+        theCheckBox = new QCheckBox( parent );
+        QObject::connect(theCheckBox,SIGNAL(toggled(bool)),this,SLOT(setData(bool)));
+        return theCheckBox;
+    };
+
+    void setEditorData( QWidget *editor,
+                        const QModelIndex &index ) const
+    {
+        bool val = index.model()->data( index, Qt::DisplayRole ).toBool();
+
+        (static_cast<QCheckBox*>( editor ))->setChecked(val);
+
+    }
+
+    void setModelData( QWidget *editor,
+                        QAbstractItemModel *model,
+                        const QModelIndex &index ) const
+    {
+        model->setData( index, (bool)(static_cast<QCheckBox*>( editor )->isChecked() ) );
+    }
+
+
+    void updateEditorGeometry( QWidget *editor,
+                        const QStyleOptionViewItem &option,
+                        const QModelIndex &index ) const
+    {
+        (void)index;
+        editor->setGeometry( option.rect );
+    }
+
+    mutable QCheckBox * theCheckBox;
+
+private slots:
+
+    void setData(bool val)
+    {
+        (void)val;
+        emit commitData(theCheckBox);
+    }
 };
 
 #endif // STYLEITEMDELEGATE_H
