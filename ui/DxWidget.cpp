@@ -251,11 +251,14 @@ void DxWidget::disconnectCluster() {
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Connect"));
 
-    socket->disconnect();
-    socket->close();
+    if ( socket )
+    {
+       socket->disconnect();
+       socket->close();
 
-    delete socket;
-    socket = nullptr;
+       delete socket;
+       socket = nullptr;
+    }
 }
 
 void DxWidget::saveDXCServers()
@@ -424,6 +427,15 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
     ui->sendButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Connect"));
+
+    if ( socket )
+    {
+       socket->disconnect();
+       socket->close();
+
+       delete socket;
+       socket = nullptr;
+    }
 }
 
 void DxWidget::connected() {
