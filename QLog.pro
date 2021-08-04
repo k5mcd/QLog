@@ -81,6 +81,7 @@ HEADERS += \
         core/Migration.h \
         core/Rig.h \
         core/Rotator.h \
+        core/StyleItemDelegate.h \
         core/Wsjtx.h \
         core/utils.h \
         data/Band.h \

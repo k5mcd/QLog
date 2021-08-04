@@ -9,6 +9,7 @@
 #include "data/Data.h"
 #include "DxFilterDialog.h"
 #include "models/SqlListModel.h"
+#include "core/StyleItemDelegate.h"
 
 int DxTableModel::rowCount(const QModelIndex&) const {
     return dxData.count();
