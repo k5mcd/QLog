@@ -375,7 +375,7 @@ void DxWidget::receive() {
             QString country = dxcc.country;
 
             DxSpot spot;
-            spot.time = QTime::currentTime();
+            spot.time = QDateTime::currentDateTimeUtc().time(); //QTime::currentTime();
             spot.callsign = call;
             spot.freq = freq.toDouble() / 1000;
             spot.band = Data::band(spot.freq).name;
