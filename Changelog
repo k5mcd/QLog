@@ -11,3 +11,6 @@ TBD - 0.2
 - Changed sorting criteria for BandFilter Combobox [Logbook View]
 - Added DXCluster Filters - Context Menu of the DXC
 - DXCluster spot time in UTC
+- Changed Style for Enable/Disable column in QTableView (Checkbox)
+- Fixed issue when mode combo is not refreshed after editing modes
+  in Setting Dialog
