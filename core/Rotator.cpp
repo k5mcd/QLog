@@ -1,6 +1,31 @@
 #include <hamlib/rotator.h>
 #include "Rotator.h"
 
+#ifndef HAMLIB_FILPATHLEN
+#define HAMLIB_FILPATHLEN FILPATHLEN
+#endif
+
+static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
+{
+    QString flowcontrol = in_flowcontrol.toLower();
+
+    if ( flowcontrol == "software" ) return RIG_HANDSHAKE_XONXOFF;
+    if ( flowcontrol == "hardware" ) return RIG_HANDSHAKE_HARDWARE;
+    return RIG_HANDSHAKE_NONE;
+}
+
+static enum serial_parity_e stringToParity(const QString in_parity)
+{
+    QString parity = in_parity.toLower();
+
+    if ( parity == "even" ) return RIG_PARITY_EVEN;
+    if ( parity == "odd" ) return RIG_PARITY_ODD;
+    if ( parity == "mark" ) return RIG_PARITY_MARK;
+    if ( parity == "space" ) return RIG_PARITY_SPACE;
+
+    return RIG_PARITY_NONE;
+}
+
 Rotator::Rotator() : QObject(nullptr)
 {
 
@@ -42,6 +67,10 @@ void Rotator::open() {
     QSettings settings;
     int model = settings.value("hamlib/rot/model").toInt();
     int baudrate = settings.value("hamlib/rot/baudrate").toInt();
+    int databits = settings.value("hamlib/rot/databits").toInt();
+    float stopbits = settings.value("hamlib/rot/stopbits").toFloat();
+    QString flowControl = settings.value("hamlib/rot/stopbits").toString();
+    QString parity = settings.value("hamlib/rot/parity").toString();
     QByteArray portStr = settings.value("hamlib/rot/port").toByteArray();
     const char* port = portStr.constData();
 
@@ -51,8 +80,12 @@ void Rotator::open() {
 
     rot = rot_init(model);
 
-    strncpy(rot->state.rotport.pathname, port, FILPATHLEN - 1);
+    strncpy(rot->state.rotport.pathname, port, HAMLIB_FILPATHLEN - 1);
     rot->state.rotport.parm.serial.rate = baudrate;
+    rot->state.rotport.parm.serial.data_bits = databits;
+    rot->state.rotport.parm.serial.stop_bits = stopbits;
+    rot->state.rotport.parm.serial.handshake = stringToFlowControl(flowControl);
+    rot->state.rotport.parm.serial.parity = stringToParity(parity);
 
     int status = rot_open(rot);
 

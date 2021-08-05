@@ -97,10 +97,18 @@ void SettingsDialog::readSettings() {
     ui->rigModelSelect->setCurrentIndex(settings.value("hamlib/rig/modelrow").toInt());
     ui->rigPortEdit->setText(settings.value("hamlib/rig/port").toString());
     ui->rigBaudSelect->setCurrentText(settings.value("hamlib/rig/baudrate").toString());
+    ui->rigDataBitsSelect->setCurrentText(settings.value("hamlib/rig/databits").toString());
+    ui->rigStopBitsSelect->setCurrentText(settings.value("hamlib/rig/stopbits").toString());
+    ui->rigFlowControlSelect->setCurrentText(settings.value("hamlib/rig/flowcontrol").toString());
+    ui->rigParitySelect->setCurrentText(settings.value("hamlib/rig/parity").toString());
 
     ui->rotModelSelect->setCurrentIndex(settings.value("hamlib/rot/modelrow").toInt());
     ui->rotPortEdit->setText(settings.value("hamlib/rot/port").toString());
     ui->rotBaudSelect->setCurrentText(settings.value("hamlib/rot/baudrate").toString());
+    ui->rotDataBitsSelect->setCurrentText(settings.value("hamlib/rot/databits").toString());
+    ui->rotStopBitsSelect->setCurrentText(settings.value("hamlib/rot/stopbits").toString());
+    ui->rotFlowControlSelect->setCurrentText(settings.value("hamlib/rot/flowcontrol").toString());
+    ui->rotParitySelect->setCurrentText(settings.value("hamlib/rot/parity").toString());
 
     username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
     ui->hamQthUsernameEdit->setText(username);
@@ -141,6 +149,10 @@ void SettingsDialog::writeSettings() {
     settings.setValue("hamlib/rig/modelrow", rig_row);
     settings.setValue("hamlib/rig/port", ui->rigPortEdit->text());
     settings.setValue("hamlib/rig/baudrate", ui->rigBaudSelect->currentText());
+    settings.setValue("hamlib/rig/databits", ui->rigDataBitsSelect->currentText());
+    settings.setValue("hamlib/rig/stopbits", ui->rigStopBitsSelect->currentText());
+    settings.setValue("hamlib/rig/flowcontrol", ui->rigFlowControlSelect->currentText());
+    settings.setValue("hamlib/rig/parity", ui->rigParitySelect->currentText());
 
     int rot_row = ui->rotModelSelect->currentIndex();
     QModelIndex rot_index = ui->rotModelSelect->model()->index(rot_row, 0);
@@ -148,6 +160,10 @@ void SettingsDialog::writeSettings() {
     settings.setValue("hamlib/rot/modelrow", rot_row);
     settings.setValue("hamlib/rot/port", ui->rotPortEdit->text());
     settings.setValue("hamlib/rot/baudrate", ui->rotBaudSelect->currentText());
+    settings.setValue("hamlib/rot/databits", ui->rotDataBitsSelect->currentText());
+    settings.setValue("hamlib/rot/stopbits", ui->rotStopBitsSelect->currentText());
+    settings.setValue("hamlib/rot/flowcontrol", ui->rotFlowControlSelect->currentText());
+    settings.setValue("hamlib/rot/parity", ui->rotParitySelect->currentText());
 
     /**********/
     /* HamQTH */
