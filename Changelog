@@ -14,3 +14,5 @@ TBD - 0.2
 - Changed Style for Enable/Disable column in QTableView (Checkbox)
 - Fixed issue when mode combo is not refreshed after editing modes
   in Setting Dialog
+- Database export to ADIF before starting
+- Added Splashscreen
