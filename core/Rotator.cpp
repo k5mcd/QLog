@@ -72,6 +72,9 @@ void Rotator::open() {
     QString flowControl = settings.value("hamlib/rot/stopbits").toString();
     QString parity = settings.value("hamlib/rot/parity").toString();
     QByteArray portStr = settings.value("hamlib/rot/port").toByteArray();
+    QString hostname = settings.value("hamlib/rot/hostname").toString();
+    int netport = settings.value("hamlib/rot/netport").toInt();
+
     const char* port = portStr.constData();
 
     qDebug() << portStr;
@@ -88,12 +91,24 @@ void Rotator::open() {
 
     rot = rot_init(model);
 
-    strncpy(rot->state.rotport.pathname, port, HAMLIB_FILPATHLEN - 1);
-    rot->state.rotport.parm.serial.rate = baudrate;
-    rot->state.rotport.parm.serial.data_bits = databits;
-    rot->state.rotport.parm.serial.stop_bits = stopbits;
-    rot->state.rotport.parm.serial.handshake = stringToFlowControl(flowControl);
-    rot->state.rotport.parm.serial.parity = stringToParity(parity);
+    if ( rot->caps->port_type == RIG_PORT_NETWORK
+         || rot->caps->port_type == RIG_PORT_UDP_NETWORK )
+    {
+        // handling network rotator
+        strncpy(rot->state.rotport.pathname, hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        //port is hardcoded in hamlib - not necessary to set it.
+        (void)netport;
+    }
+    else
+    {
+        // handling serial rotator
+        strncpy(rot->state.rotport.pathname, port, HAMLIB_FILPATHLEN - 1);
+        rot->state.rotport.parm.serial.rate = baudrate;
+        rot->state.rotport.parm.serial.data_bits = databits;
+        rot->state.rotport.parm.serial.stop_bits = stopbits;
+        rot->state.rotport.parm.serial.handshake = stringToFlowControl(flowControl);
+        rot->state.rotport.parm.serial.parity = stringToParity(parity);
+    }
 
     int status = rot_open(rot);
 

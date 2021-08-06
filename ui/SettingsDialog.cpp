@@ -2,6 +2,7 @@
 #include <QStringListModel>
 #include <QSqlTableModel>
 #include <hamlib/rig.h>
+#include <hamlib/rotator.h>
 
 #include "SettingsDialog.h"
 #include "ui_SettingsDialog.h"
@@ -111,6 +112,32 @@ void SettingsDialog::rigChanged(int index)
     }
 }
 
+void SettingsDialog::rotChanged(int index)
+{
+    const struct rot_caps *caps;
+
+    QModelIndex rot_index = ui->rotModelSelect->model()->index(index, 0);
+    caps = rot_get_caps(rot_index.internalId());
+
+    if ( caps )
+    {
+        if ( caps->port_type == RIG_PORT_NETWORK
+             || caps->port_type == RIG_PORT_UDP_NETWORK)
+        {
+            ui->rotStackedWidget->setCurrentIndex(1);
+        }
+        else
+        {
+            ui->rotStackedWidget->setCurrentIndex(0);
+        }
+    }
+    else
+    {
+        ui->rotStackedWidget->setCurrentIndex(0);
+    }
+
+}
+
 void SettingsDialog::readSettings() {
     QSettings settings;
     QString username;
@@ -138,6 +165,8 @@ void SettingsDialog::readSettings() {
     ui->rotStopBitsSelect->setCurrentText(settings.value("hamlib/rot/stopbits").toString());
     ui->rotFlowControlSelect->setCurrentText(settings.value("hamlib/rot/flowcontrol").toString());
     ui->rotParitySelect->setCurrentText(settings.value("hamlib/rot/parity").toString());
+    ui->rotHostNameEdit->setText(settings.value("hamlib/rot/hostname").toString());
+    ui->rotNetPortSpin->setValue(settings.value("hamlib/rot/netport").toInt());
 
     username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
     ui->hamQthUsernameEdit->setText(username);
@@ -164,6 +193,7 @@ void SettingsDialog::readSettings() {
     //hamlib has hardcoded port number. Therefore we disable the SpinBox
     //until hamlib guyes fix it.
     ui->rigNetPortSpin->setDisabled(true);
+    ui->rotNetPortSpin->setDisabled(true);
 }
 
 void SettingsDialog::writeSettings() {
@@ -199,6 +229,8 @@ void SettingsDialog::writeSettings() {
     settings.setValue("hamlib/rot/stopbits", ui->rotStopBitsSelect->currentText());
     settings.setValue("hamlib/rot/flowcontrol", ui->rotFlowControlSelect->currentText());
     settings.setValue("hamlib/rot/parity", ui->rotParitySelect->currentText());
+    settings.setValue("hamlib/rot/hostname", ui->rotHostNameEdit->text());
+    settings.setValue("hamlib/rot/netport", ui->rotNetPortSpin->value());
 
     /**********/
     /* HamQTH */

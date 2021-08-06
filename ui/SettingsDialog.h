@@ -21,6 +21,7 @@ public slots:
     void addRig();
     void deleteRig();
     void rigChanged(int);
+    void rotChanged(int);
 
 private:
     void readSettings();
