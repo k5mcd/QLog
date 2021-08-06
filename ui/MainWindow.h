@@ -24,6 +24,7 @@ signals:
 
 public slots:
     void rigErrorHandler(QString error);
+    void rotErrorHandler(QString error);
 
 private slots:
     void rigConnect();

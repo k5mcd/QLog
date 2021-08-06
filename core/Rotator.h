@@ -14,6 +14,7 @@ public:
 
 signals:
     void positionChanged(int azimuth, int elevation);
+    void rotErrorPresent(QString);
 
 public slots:
     void start();
@@ -25,6 +26,8 @@ public slots:
 
 private:
     Rotator();
+
+    void __closeRot();
 
     int azimuth;
     int elevation;

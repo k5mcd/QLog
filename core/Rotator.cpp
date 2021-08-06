@@ -43,6 +43,8 @@ void Rotator::start() {
 }
 
 void Rotator::update() {
+    int status = RIG_OK;
+
     if (!rot) return;
 
     if (!rotLock.tryLock(200)) return;
@@ -50,16 +52,24 @@ void Rotator::update() {
     azimuth_t az;
     elevation_t el;
 
-    rot_get_position(rot, &az, &el);
+    status = rot_get_position(rot, &az, &el);
+    if ( status == RIG_OK )
+    {
+        int newAzimuth = static_cast<int>(az);
+        int newElevation = static_cast<int>(el);
 
-    int newAzimuth = static_cast<int>(az);
-    int newElevation = static_cast<int>(el);
-
-    if (newAzimuth != this->azimuth || newElevation != this->elevation)  {
-        this->azimuth = newAzimuth;
-        this->elevation = newElevation;
-        emit positionChanged(azimuth, elevation);
+        if (newAzimuth != this->azimuth || newElevation != this->elevation)  {
+            this->azimuth = newAzimuth;
+            this->elevation = newElevation;
+            emit positionChanged(azimuth, elevation);
+        }
     }
+    else
+    {
+        __closeRot();
+       emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
+    }
+
     rotLock.unlock();
 }
 
@@ -82,18 +92,15 @@ void Rotator::open() {
     rotLock.lock();
 
     // if rot is active then close it
-    //close(); // do not call close here because rot is already locked by mutex
-    if (rot)
-    {
-        rot_close(rot);
-        rot_cleanup(rot);
-    }
+    __closeRot();
 
     rot = rot_init(model);
 
     if ( !rot )
     {
         // initialization failed
+        emit rotErrorPresent(QString(tr("Initialization Error")));
+        rotLock.unlock();
         return;
     }
     if ( rot->caps->port_type == RIG_PORT_NETWORK
@@ -117,31 +124,41 @@ void Rotator::open() {
 
     int status = rot_open(rot);
 
-    rotLock.unlock();
+    if (status != RIG_OK)
+    {
+        __closeRot();
+        emit rotErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
+    }
 
-    if (status != RIG_OK) {
-        qWarning() << "rotator connection error";
-    }
-    else {
-        qDebug() << "connected to rotator";
-    }
+    rotLock.unlock();
 }
 
-void Rotator::close()
+void Rotator::__closeRot()
 {
-    rotLock.lock();
     if (rot)
     {
         rot_close(rot);
         rot_cleanup(rot);
         rot = nullptr;
     }
+}
+
+void Rotator::close()
+{
+    rotLock.lock();
+    __closeRot();
     rotLock.unlock();
 }
 
 void Rotator::setPosition(int azimuth, int elevation) {
     if (!rot) return;
     rotLock.lock();
-    rot_set_position(rot, static_cast<azimuth_t>(azimuth), static_cast<elevation_t>(elevation));
+    int status = rot_set_position(rot, static_cast<azimuth_t>(azimuth), static_cast<elevation_t>(elevation));
+    if (status != RIG_OK)
+    {
+        __closeRot();
+        emit rotErrorPresent(QString(tr("Set Possition Error - ")) + QString(rigerror(status)));
+    }
+
     rotLock.unlock();
 }
