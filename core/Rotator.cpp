@@ -91,6 +91,11 @@ void Rotator::open() {
 
     rot = rot_init(model);
 
+    if ( !rot )
+    {
+        // initialization failed
+        return;
+    }
     if ( rot->caps->port_type == RIG_PORT_NETWORK
          || rot->caps->port_type == RIG_PORT_UDP_NETWORK )
     {

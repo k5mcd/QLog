@@ -119,6 +119,12 @@ void Rig::open() {
 
     rig = rig_init(model);
 
+    if (!rig)
+    {
+        // initialization failed
+        return;
+    }
+
     if (rig->caps->port_type == RIG_PORT_NETWORK
         || rig->caps->port_type == RIG_PORT_UDP_NETWORK )
     {
