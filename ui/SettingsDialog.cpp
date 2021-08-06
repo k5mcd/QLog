@@ -98,16 +98,16 @@ void SettingsDialog::rigChanged(int index)
         if ( caps->port_type == RIG_PORT_NETWORK
              || caps->port_type == RIG_PORT_UDP_NETWORK)
         {
-            ui->stackedWidget->setCurrentIndex(1);
+            ui->rigStackedWidget->setCurrentIndex(1);
         }
         else
         {
-            ui->stackedWidget->setCurrentIndex(0);
+            ui->rigStackedWidget->setCurrentIndex(0);
         }
     }
     else
     {
-        ui->stackedWidget->setCurrentIndex(0);
+        ui->rigStackedWidget->setCurrentIndex(0);
     }
 }
 
