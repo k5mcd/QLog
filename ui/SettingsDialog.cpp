@@ -1,6 +1,8 @@
 #include <QSettings>
 #include <QStringListModel>
 #include <QSqlTableModel>
+#include <hamlib/rig.h>
+
 #include "SettingsDialog.h"
 #include "ui_SettingsDialog.h"
 #include "models/RigTypeModel.h"
@@ -84,6 +86,31 @@ void SettingsDialog::deleteRig() {
     ui->rigListView->clearSelection();
 }
 
+void SettingsDialog::rigChanged(int index)
+{
+    const struct rig_caps *caps;
+
+    QModelIndex rig_index = ui->rigModelSelect->model()->index(index, 0);
+    caps = rig_get_caps(rig_index.internalId());
+
+    if ( caps )
+    {
+        if ( caps->port_type == RIG_PORT_NETWORK
+             || caps->port_type == RIG_PORT_UDP_NETWORK)
+        {
+            ui->stackedWidget->setCurrentIndex(1);
+        }
+        else
+        {
+            ui->stackedWidget->setCurrentIndex(0);
+        }
+    }
+    else
+    {
+        ui->stackedWidget->setCurrentIndex(0);
+    }
+}
+
 void SettingsDialog::readSettings() {
     QSettings settings;
     QString username;
@@ -101,6 +128,8 @@ void SettingsDialog::readSettings() {
     ui->rigStopBitsSelect->setCurrentText(settings.value("hamlib/rig/stopbits").toString());
     ui->rigFlowControlSelect->setCurrentText(settings.value("hamlib/rig/flowcontrol").toString());
     ui->rigParitySelect->setCurrentText(settings.value("hamlib/rig/parity").toString());
+    ui->rigHostNameEdit->setText(settings.value("hamlib/rig/hostname").toString());
+    ui->rigNetPortSpin->setValue(settings.value("hamlib/rig/netport").toInt());
 
     ui->rotModelSelect->setCurrentIndex(settings.value("hamlib/rot/modelrow").toInt());
     ui->rotPortEdit->setText(settings.value("hamlib/rot/port").toString());
@@ -131,6 +160,10 @@ void SettingsDialog::readSettings() {
         ui->dxccStartDateCheckBox->setCheckState(Qt::Unchecked);
         ui->dxccStartDate->setDate(QDate::currentDate());
     }
+
+    //hamlib has hardcoded port number. Therefore we disable the SpinBox
+    //until hamlib guyes fix it.
+    ui->rigNetPortSpin->setDisabled(true);
 }
 
 void SettingsDialog::writeSettings() {
@@ -153,6 +186,8 @@ void SettingsDialog::writeSettings() {
     settings.setValue("hamlib/rig/stopbits", ui->rigStopBitsSelect->currentText());
     settings.setValue("hamlib/rig/flowcontrol", ui->rigFlowControlSelect->currentText());
     settings.setValue("hamlib/rig/parity", ui->rigParitySelect->currentText());
+    settings.setValue("hamlib/rig/hostname", ui->rigHostNameEdit->text());
+    settings.setValue("hamlib/rig/netport", ui->rigNetPortSpin->value());
 
     int rot_row = ui->rotModelSelect->currentIndex();
     QModelIndex rot_index = ui->rotModelSelect->model()->index(rot_row, 0);

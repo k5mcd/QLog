@@ -20,6 +20,7 @@ public slots:
     void save();
     void addRig();
     void deleteRig();
+    void rigChanged(int);
 
 private:
     void readSettings();

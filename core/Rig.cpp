@@ -67,6 +67,7 @@ void Rig::update() {
         }
     }
 
+
     rmode_t modeId;
     pbwidth_t pbwidth;
 
@@ -100,19 +101,40 @@ void Rig::open() {
     QString flowControl = settings.value("hamlib/rig/stopbits").toString();
     QString parity = settings.value("hamlib/rig/parity").toString();
     QByteArray portStr = settings.value("hamlib/rig/port").toByteArray();
+    QString hostname = settings.value("hamlib/rig/hostname").toString();
+    int netport = settings.value("hamlib/rig/netport").toInt();
+
     const char* port = portStr.constData();
 
     qDebug() << portStr;
     rigLock.lock();
 
+    // if rig is active then close it
+    if (rig)
+    {
+        rig_close(rig);
+        rig_cleanup(rig);
+    }
+
     rig = rig_init(model);
 
-    strncpy(rig->state.rigport.pathname, port, HAMLIB_FILPATHLEN - 1);
-    rig->state.rigport.parm.serial.rate = baudrate;
-    rig->state.rigport.parm.serial.data_bits = databits;
-    rig->state.rigport.parm.serial.stop_bits = stopbits;
-    rig->state.rigport.parm.serial.handshake = stringToFlowControl(flowControl);
-    rig->state.rigport.parm.serial.parity = stringToParity(parity);
+    if (rig->caps->port_type == RIG_PORT_NETWORK
+        || rig->caps->port_type == RIG_PORT_UDP_NETWORK )
+    {
+        //handling Network Radio
+        strncpy(rig->state.rigport.pathname, hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        //port is hardcoded in hamlib - not necessary to set it.
+    }
+    else
+    {
+        //handling Serial Port Radio
+        strncpy(rig->state.rigport.pathname, port, HAMLIB_FILPATHLEN - 1);
+        rig->state.rigport.parm.serial.rate = baudrate;
+        rig->state.rigport.parm.serial.data_bits = databits;
+        rig->state.rigport.parm.serial.stop_bits = stopbits;
+        rig->state.rigport.parm.serial.handshake = stringToFlowControl(flowControl);
+        rig->state.rigport.parm.serial.parity = stringToParity(parity);
+    }
 
     int status = rig_open(rig);
 
