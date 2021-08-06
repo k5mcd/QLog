@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>894</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -250,9 +250,8 @@
    </property>
   </action>
   <action name="actionConnectRig">
-   <property name="icon">
-    <iconset theme="standard-connector">
-     <normaloff>.</normaloff>.</iconset>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Connect Rig</string>
@@ -320,9 +319,8 @@
    </property>
   </action>
   <action name="actionConnectRotator">
-   <property name="icon">
-    <iconset theme="standard-connector">
-     <normaloff>.</normaloff>.</iconset>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Connect Rotator</string>

@@ -110,6 +110,7 @@ void Rig::open() {
     rigLock.lock();
 
     // if rig is active then close it
+    //close(); // do not call close here because rig is already locked by mutex
     if (rig)
     {
         rig_close(rig);
@@ -124,6 +125,8 @@ void Rig::open() {
         //handling Network Radio
         strncpy(rig->state.rigport.pathname, hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
         //port is hardcoded in hamlib - not necessary to set it.
+        (void)netport;
+
     }
     else
     {
@@ -146,6 +149,18 @@ void Rig::open() {
     else {
         qDebug() << "connected to rig";
     }
+}
+
+void Rig::close()
+{
+    rigLock.lock();
+    if (rig)
+    {
+        rig_close(rig);
+        rig_cleanup(rig);
+        rig = nullptr;
+    }
+    rigLock.unlock();
 }
 
 void Rig::setFrequency(double newFreq) {

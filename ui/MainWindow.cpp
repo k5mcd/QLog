@@ -85,11 +85,26 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 void MainWindow::rigConnect() {
-    Rig::instance()->open();
+    if ( ui->actionConnectRig->isChecked() )
+    {
+        Rig::instance()->open();
+    }
+    else
+    {
+        Rig::instance()->close();
+    }
 }
 
 void MainWindow::rotConnect() {
-    Rotator::instance()->open();
+    if ( ui->actionConnectRotator->isChecked() )
+    {
+        Rotator::instance()->open();
+    }
+    else
+    {
+        Rotator::instance()->close();
+    }
+
 }
 
 void MainWindow::showSettings() {

@@ -15,6 +15,7 @@ public slots:
     void start();
     void update();
     void open();
+    void close();
 
     void setFrequency(double freq);
     void setMode(QString mod);

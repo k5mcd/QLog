@@ -78,6 +78,14 @@ void Rotator::open() {
 
     rotLock.lock();
 
+    // if rot is active then close it
+    //close(); // do not call close here because rot is already locked by mutex
+    if (rot)
+    {
+        rot_close(rot);
+        rot_cleanup(rot);
+    }
+
     rot = rot_init(model);
 
     strncpy(rot->state.rotport.pathname, port, HAMLIB_FILPATHLEN - 1);
@@ -97,6 +105,18 @@ void Rotator::open() {
     else {
         qDebug() << "connected to rotator";
     }
+}
+
+void Rotator::close()
+{
+    rotLock.lock();
+    if (rot)
+    {
+        rot_close(rot);
+        rot_cleanup(rot);
+        rot = nullptr;
+    }
+    rotLock.unlock();
 }
 
 void Rotator::setPosition(int azimuth, int elevation) {

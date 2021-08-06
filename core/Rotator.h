@@ -19,6 +19,7 @@ public slots:
     void start();
     void update();
     void open();
+    void close();
 
     void setPosition(int azimuth, int elevation);
 
