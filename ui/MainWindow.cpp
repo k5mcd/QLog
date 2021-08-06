@@ -110,7 +110,10 @@ void MainWindow::rotConnect() {
 void MainWindow::showSettings() {
     SettingsDialog sw;
     if (sw.exec() == QDialog::Accepted) {
+        rigConnect();
+        rotConnect();
         emit settingsChanged();
+
     }
 }
 
