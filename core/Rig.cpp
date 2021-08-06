@@ -52,13 +52,17 @@ void Rig::start() {
 }
 
 void Rig::update() {
+    int status = RIG_OK;
+
     if (!rig) return;
 
     if (!rigLock.tryLock(200)) return;
 
     freq_t vfo_freq;
 
-    if (rig_get_freq(rig, RIG_VFO_CURR, &vfo_freq) == RIG_OK) {
+    status = rig_get_freq(rig, RIG_VFO_CURR, &vfo_freq);
+    if ( status == RIG_OK )
+    {
         int new_freq = static_cast<int>(vfo_freq);
 
         if (new_freq != freq_rx) {
@@ -66,23 +70,57 @@ void Rig::update() {
             emit frequencyChanged(freq_rx/1e6);
         }
     }
+    else
+    {
+        __closeRig();
+         emit rigErrorPresent(QString(tr("Get Frequency Error - ")) + QString(rigerror(status)));
+        rigLock.unlock();
+        return;
+    }
 
 
     rmode_t modeId;
     pbwidth_t pbwidth;
 
-    if (rig_get_mode(rig, RIG_VFO_CURR, &modeId, &pbwidth) == RIG_OK) {
+    status = rig_get_mode(rig, RIG_VFO_CURR, &modeId, &pbwidth);
+    if ( status == RIG_OK )
+    {
         QString new_mode = modeToString(modeId);
         if (new_mode != mode_rx)  {
             mode_rx = new_mode;
             emit modeChanged(mode_rx);
         }
     }
+    else
+    {
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Get Mode Error - ")) + QString(rigerror(status)));
+        rigLock.unlock();
+        return;
+    }
 
     value_t rigPowerLevel;
     unsigned int rigPower;
-    rig_get_level(rig, RIG_VFO_CURR, RIG_LEVEL_RFPOWER, &rigPowerLevel);
-    rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
+
+    status = rig_get_level(rig, RIG_VFO_CURR, RIG_LEVEL_RFPOWER, &rigPowerLevel);
+    if ( status != RIG_OK )
+    {
+/* Ignore error */
+/*
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
+*/
+    }
+
+    status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
+    if (  status != RIG_OK )
+    {
+/* Ignore error */
+/*
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Get Power Error - ")) + QString(rigerror(status)));
+*/
+    }
 
     if (rigPower != power) {
         power = rigPower;
@@ -110,18 +148,15 @@ void Rig::open() {
     rigLock.lock();
 
     // if rig is active then close it
-    //close(); // do not call close here because rig is already locked by mutex
-    if (rig)
-    {
-        rig_close(rig);
-        rig_cleanup(rig);
-    }
+    __closeRig();
 
     rig = rig_init(model);
 
     if (!rig)
     {
         // initialization failed
+        emit rigErrorPresent(QString(tr("Initialization Error")));
+        rigLock.unlock();
         return;
     }
 
@@ -147,25 +182,28 @@ void Rig::open() {
 
     int status = rig_open(rig);
 
-    rigLock.unlock();
+    if (status != RIG_OK)
+    {
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
+    }
 
-    if (status != RIG_OK) {
-        qWarning() << "rig connection error";
-    }
-    else {
-        qDebug() << "connected to rig";
-    }
+    rigLock.unlock();
 }
 
-void Rig::close()
+void Rig::__closeRig()
 {
-    rigLock.lock();
-    if (rig)
+    if ( rig )
     {
         rig_close(rig);
         rig_cleanup(rig);
         rig = nullptr;
     }
+}
+void Rig::close()
+{
+    rigLock.lock();
+    __closeRig();
     rigLock.unlock();
 }
 
@@ -175,32 +213,47 @@ void Rig::setFrequency(double newFreq) {
 
     rigLock.lock();
     freq_rx = static_cast<int>(newFreq*1e6);
-    rig_set_freq(rig, RIG_VFO_CURR, freq_rx);
+    int status = rig_set_freq(rig, RIG_VFO_CURR, freq_rx);
+
+    if ( status != RIG_OK )
+    {
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Set Frequency Error - ")) + QString(rigerror(status)));
+    }
+
     rigLock.unlock();
 }
 
 void Rig::setMode(QString newMode) {
+    int status = RIG_OK;
+
     if (!rig) return;
     return;
 
     rigLock.lock();
     mode_rx = newMode;
     if (newMode == "CW") {
-        rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_CW, RIG_PASSBAND_NORMAL);
+        status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_CW, RIG_PASSBAND_NORMAL);
     }
     else if (newMode == "SSB") {
         if (freq_rx < 10) {
-            rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_LSB, RIG_PASSBAND_NORMAL);
+            status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_LSB, RIG_PASSBAND_NORMAL);
         }
         else {
-            rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_USB, RIG_PASSBAND_NORMAL);
+            status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_USB, RIG_PASSBAND_NORMAL);
         }
     }
     else if (newMode == "AM") {
-        rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_AM, RIG_PASSBAND_NORMAL);
+        status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_AM, RIG_PASSBAND_NORMAL);
     }
     else if (newMode == "FM") {
-        rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_FM, RIG_PASSBAND_NORMAL);
+        status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_FM, RIG_PASSBAND_NORMAL);
+    }
+
+    if (status != RIG_OK)
+    {
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Set Mode Error - ")) + QString(rigerror(status)));
     }
 
     rigLock.unlock();

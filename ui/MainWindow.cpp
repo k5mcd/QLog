@@ -49,6 +49,9 @@ MainWindow::MainWindow(QWidget* parent) :
     trayIcon->showMessage("Hello", "This is a test", QIcon());
 */
 
+    connect(Rig::instance(), SIGNAL(rigErrorPresent(QString)), this, SLOT(rigErrorHandler(QString)));
+    //connect(Rig::instance(), &Rig::rigErrorPresent, this, &MainWindow::rigErrorHandler);
+
     Fldigi* fldigi = new Fldigi(this);
     connect(fldigi, SIGNAL(contactAdded()), ui->logbookWidget, SLOT(updateTable()));
 
@@ -93,6 +96,13 @@ void MainWindow::rigConnect() {
     {
         Rig::instance()->close();
     }
+}
+
+void MainWindow::rigErrorHandler(QString error)
+{
+    QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                          QMessageBox::tr("Rig Error: <p>") + error +"</p>");
+    ui->actionConnectRig->setChecked(false);
 }
 
 void MainWindow::rotConnect() {

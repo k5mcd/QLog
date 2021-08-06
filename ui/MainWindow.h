@@ -22,6 +22,9 @@ public:
 signals:
     void settingsChanged();
 
+public slots:
+    void rigErrorHandler(QString error);
+
 private slots:
     void rigConnect();
     void rotConnect();

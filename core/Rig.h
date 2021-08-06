@@ -25,6 +25,7 @@ signals:
     void frequencyChanged(double freq);
     void modeChanged(QString mode);
     void powerChanged(double power);
+    void rigErrorPresent(QString);
 
 private:
     Rig() { }
@@ -32,6 +33,7 @@ private:
     Rig(Rig const&);
     void operator=(Rig const&);
 
+    void __closeRig();
     struct rig* rig;
     int freq_rx;
     QString mode_rx;
