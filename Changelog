@@ -16,3 +16,11 @@ TBD - 0.2
   in Setting Dialog
 - Database export to ADIF before starting
 - Added Splashscreen
+- Hamlib rework
+   - Reworked Hamlib Setting Dialog
+   - Detailed Setting for Serial Port
+   - Added Network Radio/Rot Support
+   - Connect/Disconnect Rig and Rot
+   - Improved Error Handling from Rig/Rot
+   - Fixed Setting freq/mode/submode from/to GUI
+
