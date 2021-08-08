@@ -1463,6 +1463,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>submodeEdit</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>subModeChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>422</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>453</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -1476,5 +1492,6 @@
   <slot>qrz()</slot>
   <slot>startContactTimer()</slot>
   <slot>updateTimeStop()</slot>
+  <slot>subModeChanged()</slot>
  </slots>
 </ui>

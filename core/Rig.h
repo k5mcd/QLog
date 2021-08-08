@@ -2,6 +2,7 @@
 #define RIG_H
 
 #include <QtCore>
+#include <hamlib/rig.h>
 
 struct rig;
 
@@ -18,12 +19,12 @@ public slots:
     void close();
 
     void setFrequency(double freq);
-    void setMode(QString mod);
+    void setMode(QString mod, QString submode);
     void setPower(double power);
 
 signals:
     void frequencyChanged(double freq);
-    void modeChanged(QString mode);
+    void modeChanged(QString mode, QString submode);
     void powerChanged(double power);
     void rigErrorPresent(QString);
 
@@ -36,7 +37,7 @@ private:
     void __closeRig();
     struct rig* rig;
     int freq_rx;
-    QString mode_rx;
+    rmode_t modeId;
     unsigned int power;
     QMutex rigLock;
 };

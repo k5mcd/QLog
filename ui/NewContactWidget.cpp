@@ -206,10 +206,8 @@ void NewContactWidget::bandChanged() {
     updateDxccStatus();
 }
 
-void NewContactWidget::modeChanged() {
-    QString modeName = ui->modeEdit->currentText();
-    rig->setMode(modeName);
-
+void NewContactWidget::__modeChanged()
+{
     QSqlTableModel* modeModel = dynamic_cast<QSqlTableModel*>(ui->modeEdit->model());
     QSqlRecord record = modeModel->record(ui->modeEdit->currentIndex());
     QString submodes = record.value("submodes").toString();
@@ -235,8 +233,22 @@ void NewContactWidget::modeChanged() {
 
     setDefaultReport();
     updateDxccStatus();
+
+}
+/* Mode is changed from GUI */
+void NewContactWidget::modeChanged()
+{
+    ui->submodeEdit->blockSignals(true);
+    __modeChanged();
+    ui->submodeEdit->blockSignals(false);
+    rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+
 }
 
+void NewContactWidget::subModeChanged()
+{
+    rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+}
 
 void NewContactWidget::updateBand(double freq) {
     Band band = Data::band(freq);
@@ -486,9 +498,14 @@ void NewContactWidget::changeFrequency(double freq) {
     ui->frequencyEdit->blockSignals(false);
 }
 
-void NewContactWidget::changeMode(QString mode) {
+/* mode is changed from RIG */
+void NewContactWidget::changeMode(QString mode, QString subMode) {
     ui->modeEdit->blockSignals(true);
+    ui->submodeEdit->blockSignals(true);
     ui->modeEdit->setCurrentText(mode);
+    __modeChanged();
+    ui->submodeEdit->setCurrentText(subMode);
+    ui->submodeEdit->blockSignals(false);
     ui->modeEdit->blockSignals(false);
 }
 

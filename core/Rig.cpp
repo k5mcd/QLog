@@ -1,22 +1,68 @@
 #include <QDebug>
 #include <QSettings>
 #include <cstring>
-#include <hamlib/rig.h>
+#include <unistd.h>
+
 #include "Rig.h"
 
 #ifndef HAMLIB_FILPATHLEN
 #define HAMLIB_FILPATHLEN FILPATHLEN
 #endif
 
-static QString modeToString(rmode_t mode) {
+static QString modeToString(rmode_t mode, QString &submode) {
     switch (mode) {
     case RIG_MODE_AM: return "AM";
     case RIG_MODE_CW: return "CW";
-    case RIG_MODE_USB: return "USB";
-    case RIG_MODE_LSB: return "LSB";
+    case RIG_MODE_USB: {submode = "USB"; return "SSB";}
+    case RIG_MODE_LSB: {submode = "LSB"; return "SSB";}
+    case RIG_MODE_RTTY: return "RTTY";
     case RIG_MODE_FM: return "FM";
-    default: return "";
+    case RIG_MODE_WFM: return "FM";
+    case RIG_MODE_CWR: return "CW";
+    case RIG_MODE_RTTYR: return "RTTY";
+    case RIG_MODE_AMS: return "AM";
+    case RIG_MODE_PKTLSB: {submode = "LSB"; return "SSB";}
+    case RIG_MODE_PKTUSB: {submode = "USB"; return "SSB";}
+    case RIG_MODE_PKTFM: return "FM";
+    case RIG_MODE_ECSSUSB: {submode = "USB"; return "SSB";}
+    case RIG_MODE_ECSSLSB: {submode = "LSB"; return "SSB";}
+    case RIG_MODE_FAX: return "";
+    case RIG_MODE_SAM: return "";
+    case RIG_MODE_SAL: return "AM";
+    case RIG_MODE_SAH: return "AM";
+    case RIG_MODE_DSB: return "";
+    case RIG_MODE_FMN: return "FM";
+    case RIG_MODE_PKTAM: return "AM";
+    default : return "";
     }
+}
+
+static rmode_t stringToMode(QString mode, QString submode)
+{
+    if ( mode == "SSB" )
+    {
+        if ( submode == "LSB" ) return RIG_MODE_LSB;
+        else return RIG_MODE_USB;
+    }
+    else if ( mode == "CW" )
+    {
+        return RIG_MODE_CW;
+    }
+    else if ( mode == "AM" )
+    {
+        return RIG_MODE_AM;
+    }
+    else if ( mode == "FM" )
+    {
+        return RIG_MODE_FM;
+    }
+    else if ( mode == "RTTY")
+    {
+        return RIG_MODE_RTTY;
+    }
+
+    return RIG_MODE_NONE;
+
 }
 
 static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
@@ -79,16 +125,21 @@ void Rig::update() {
     }
 
 
-    rmode_t modeId;
-    pbwidth_t pbwidth;
 
-    status = rig_get_mode(rig, RIG_VFO_CURR, &modeId, &pbwidth);
+    pbwidth_t pbwidth;
+    rmode_t curr_modeId;
+
+    status = rig_get_mode(rig, RIG_VFO_CURR, &curr_modeId, &pbwidth);
     if ( status == RIG_OK )
     {
-        QString new_mode = modeToString(modeId);
-        if (new_mode != mode_rx)  {
-            mode_rx = new_mode;
-            emit modeChanged(mode_rx);
+        if ( curr_modeId != modeId )
+        {
+           // mode change
+           QString mode;
+           QString submode;
+           modeId = curr_modeId;
+           mode = modeToString(curr_modeId, submode);
+           emit modeChanged(mode, submode);
         }
     }
     else
@@ -156,7 +207,6 @@ void Rig::open() {
     __closeRig();
 
     rig = rig_init(model);
-
     if (!rig)
     {
         // initialization failed
@@ -164,6 +214,7 @@ void Rig::open() {
         rigLock.unlock();
         return;
     }
+    rig_set_debug(RIG_DEBUG_ERR);
 
     if (rig->caps->port_type == RIG_PORT_NETWORK
         || rig->caps->port_type == RIG_PORT_UDP_NETWORK )
@@ -214,7 +265,6 @@ void Rig::close()
 
 void Rig::setFrequency(double newFreq) {
     if (!rig) return;
-    return;
 
     rigLock.lock();
     freq_rx = static_cast<int>(newFreq*1e6);
@@ -229,38 +279,32 @@ void Rig::setFrequency(double newFreq) {
     rigLock.unlock();
 }
 
-void Rig::setMode(QString newMode) {
+void Rig::setMode(QString newMode, QString newSubMode)
+{
     int status = RIG_OK;
 
     if (!rig) return;
-    return;
 
     rigLock.lock();
-    mode_rx = newMode;
-    if (newMode == "CW") {
-        status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_CW, RIG_PASSBAND_NORMAL);
-    }
-    else if (newMode == "SSB") {
-        if (freq_rx < 10) {
-            status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_LSB, RIG_PASSBAND_NORMAL);
-        }
-        else {
-            status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_USB, RIG_PASSBAND_NORMAL);
-        }
-    }
-    else if (newMode == "AM") {
-        status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_AM, RIG_PASSBAND_NORMAL);
-    }
-    else if (newMode == "FM") {
-        status = rig_set_mode(rig, RIG_VFO_CURR, RIG_MODE_FM, RIG_PASSBAND_NORMAL);
-    }
 
-    if (status != RIG_OK)
+    rmode_t new_modeId = stringToMode(newMode, newSubMode);
+
+    if ( new_modeId != RIG_MODE_NONE )
     {
+        status = rig_set_mode(rig, RIG_VFO_CURR, new_modeId, RIG_PASSBAND_NOCHANGE);
+
+        if (status != RIG_OK)
+        {
+            /* Ignore Error */
+            /*
         __closeRig();
         emit rigErrorPresent(QString(tr("Set Mode Error - ")) + QString(rigerror(status)));
-    }
+        */
+        }
 
+        usleep(500); // wait a half of second because Rigs are slow and they are not possible to set and get
+                     // mode so quickly (get mode is called in the main thread's update() function
+    }
     rigLock.unlock();
 }
 

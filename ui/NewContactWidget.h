@@ -39,6 +39,7 @@ public slots:
     void frequencyChanged();
     void bandChanged();
     void modeChanged();
+    void subModeChanged();
     void updateBand(double freq);
     void resetContact();
     void saveContact();
@@ -52,7 +53,7 @@ public slots:
     void updateCoordinates(double lat, double lon, CoordPrecision prec);
     void updateDxccStatus();
     void changeFrequency(double freq);
-    void changeMode(QString mode);
+    void changeMode(QString mode, QString subMode);
     void changePower(double power);
     void tuneDx(QString callsign, double frequency);
     void setDefaultReport();
@@ -63,6 +64,7 @@ private:
     void queryDxcc(QString callsign);
     void readSettings();
     void writeSettings();
+    void __modeChanged();
 
 private:
     Rig* rig;
