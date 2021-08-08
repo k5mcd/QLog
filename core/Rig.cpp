@@ -103,28 +103,33 @@ void Rig::update() {
     unsigned int rigPower;
 
     status = rig_get_level(rig, RIG_VFO_CURR, RIG_LEVEL_RFPOWER, &rigPowerLevel);
-    if ( status != RIG_OK )
+
+    if ( status == RIG_OK )
     {
-/* Ignore error */
-/*
+        status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
+        if (  status == RIG_OK )
+        {
+            if (rigPower != power) {
+                power = rigPower;
+                emit powerChanged(power/1000.0);
+            }
+            else
+            {
+             /* Ignore error */
+            /*
+            __closeRig();
+            emit rigErrorPresent(QString(tr("Get Power Error - ")) + QString(rigerror(status)));
+            */
+            }
+        }
+    }
+    else
+    {
+        /* Ignore error */
+        /*
         __closeRig();
         emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
-*/
-    }
-
-    status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
-    if (  status != RIG_OK )
-    {
-/* Ignore error */
-/*
-        __closeRig();
-        emit rigErrorPresent(QString(tr("Get Power Error - ")) + QString(rigerror(status)));
-*/
-    }
-
-    if (rigPower != power) {
-        power = rigPower;
-        emit powerChanged(power/1000.0);
+        */
     }
 
     rigLock.unlock();

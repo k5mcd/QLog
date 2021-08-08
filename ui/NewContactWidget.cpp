@@ -222,11 +222,13 @@ void NewContactWidget::modeChanged() {
         submodeList.prepend("");
         model->setStringList(submodeList);
         ui->submodeEdit->setEnabled(true);
+        ui->submodeEdit->setCurrentIndex(1);
     }
     else {
         QStringList list;
         model->setStringList(list);
         ui->submodeEdit->setEnabled(false);
+        ui->submodeEdit->setCurrentIndex(-1);
     }
 
     defaultReport = record.value("rprt").toString();
