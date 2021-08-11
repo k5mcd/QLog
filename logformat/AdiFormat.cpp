@@ -2,8 +2,13 @@
 #include <QDebug>
 #include "data/Data.h"
 #include "AdiFormat.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.logformat.adiformat");
 
 void AdiFormat::exportStart() {
+    FCT_IDENTIFICATION;
+
     stream << "### QLog ADIF Export\n";
     writeField("ADIF_VER", "3.0.4");
     writeField("PROGRAMID", "QLog");
@@ -13,6 +18,9 @@ void AdiFormat::exportStart() {
 }
 
 void AdiFormat::exportContact(QSqlRecord& record) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<record;
     QDateTime time_start = record.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
     QDateTime time_end = record.value("end_time").toDateTime().toTimeSpec(Qt::UTC);
 
@@ -59,6 +67,10 @@ void AdiFormat::exportContact(QSqlRecord& record) {
 }
 
 void AdiFormat::writeField(QString name, QString value, QString type) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<name<< " " << value << " " << type;
+
     if (value.isEmpty()) return;
     stream << "<" << name << ":" << value.size();
     if (!type.isEmpty()) stream << ":" << type;
@@ -67,6 +79,10 @@ void AdiFormat::writeField(QString name, QString value, QString type) {
 }
 
 void AdiFormat::readField(QString& field, QString& value) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<field<< " " << value;
+
     char c;
 
     QString typeString;
@@ -181,6 +197,8 @@ void AdiFormat::readField(QString& field, QString& value) {
 }
 
 bool AdiFormat::readContact(QMap<QString, QVariant>& contact) {
+    FCT_IDENTIFICATION;
+
     QString field;
     QString value;
 
@@ -201,6 +219,10 @@ bool AdiFormat::readContact(QMap<QString, QVariant>& contact) {
 }
 
 bool AdiFormat::importNext(QSqlRecord& record) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<record;
+
     QMap<QString, QVariant> contact;
 
     if (!readContact(contact)) {
@@ -267,7 +289,7 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     QDateTime end_time(date_off, time_off, Qt::UTC);
 
     if (end_time < start_time) {
-        qDebug() << "End time before start time!" << record;
+        qCDebug(runtime) << "End time before start time!" << record;
     }
 
     record.setValue("start_time", start_time);
@@ -288,6 +310,10 @@ bool AdiFormat::importNext(QSqlRecord& record) {
 }
 
 QDate AdiFormat::parseDate(QString date) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<date;
+
     if (date.length() == 8) {
         return QDate::fromString(date, "yyyyMMdd");
     }
@@ -297,6 +323,10 @@ QDate AdiFormat::parseDate(QString date) {
 }
 
 QTime AdiFormat::parseTime(QString time) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<time;
+
     switch (time.length()) {
     case 4:
         return QTime::fromString(time, "hhmm");
@@ -310,6 +340,10 @@ QTime AdiFormat::parseTime(QString time) {
 }
 
 QString AdiFormat::parseQslRcvd(QString value) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<value;
+
     if (!value.isEmpty()) {
         switch (value.at(0).toLatin1()) {
         case 'Y': return "Y";
@@ -326,6 +360,10 @@ QString AdiFormat::parseQslRcvd(QString value) {
 }
 
 QString AdiFormat::parseQslSent(QString value) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<value;
+
     if (!value.isEmpty()) {
         switch (value.at(0).toLatin1()) {
         case 'Y': return "Y";

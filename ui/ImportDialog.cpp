@@ -2,11 +2,16 @@
 #include "ImportDialog.h"
 #include "ui_ImportDialog.h"
 #include "logformat/LogFormat.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.importdialog");
 
 ImportDialog::ImportDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ImportDialog)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     QSettings settings;
@@ -29,22 +34,30 @@ ImportDialog::ImportDialog(QWidget *parent) :
 }
 
 void ImportDialog::browse() {
+    FCT_IDENTIFICATION;
+
     QString filename = QFileDialog::getOpenFileName(this, "ADIF File", "", "*.adi");
     ui->fileEdit->setText(filename);
 }
 
 void ImportDialog::toggleAll() {
+    FCT_IDENTIFICATION;
+
     ui->startDateEdit->setEnabled(!ui->allCheckBox->isChecked());
     ui->endDateEdit->setEnabled(!ui->allCheckBox->isChecked());
 }
 
 void ImportDialog::progress(qint64 value) {
+    FCT_IDENTIFICATION;
+
     int progress = (int)(value * 100 / size);
     ui->progressBar->setValue(progress);
     QCoreApplication::processEvents();
 }
 
 void ImportDialog::runImport() {
+    FCT_IDENTIFICATION;
+
     QFile file(ui->fileEdit->text());
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream in(&file);
@@ -103,5 +116,7 @@ void ImportDialog::runImport() {
 
 ImportDialog::~ImportDialog()
 {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }

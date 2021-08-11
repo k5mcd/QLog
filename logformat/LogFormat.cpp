@@ -5,16 +5,24 @@
 #include "JsonFormat.h"
 #include "core/utils.h"
 #include "data/Data.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
 LogFormat::LogFormat(QTextStream& stream) : QObject(nullptr), stream(stream) {
+    FCT_IDENTIFICATION;
     this->defaults = nullptr;
 }
 
 LogFormat::~LogFormat() {
-
+    FCT_IDENTIFICATION;
 }
 
 LogFormat* LogFormat::open(QString type, QTextStream& stream) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<type;
+
     type = type.toLower();
 
     if (type == "adi") {
@@ -35,6 +43,10 @@ LogFormat* LogFormat::open(QString type, QTextStream& stream) {
 }
 
 LogFormat* LogFormat::open(LogFormat::Type type, QTextStream& stream) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<type;
+
     switch (type) {
     case LogFormat::ADI:
         return new AdiFormat(stream);
@@ -54,19 +66,30 @@ LogFormat* LogFormat::open(LogFormat::Type type, QTextStream& stream) {
 }
 
 void LogFormat::setDefaults(QMap<QString, QString>& defaults) {
+    FCT_IDENTIFICATION;
+
     this->defaults = &defaults;
 }
 
 void LogFormat::setDateRange(QDate start, QDate end) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<start << " " << end;
     this->startDate = start;
     this->endDate = end;
 }
 
 void LogFormat::setUpdateDxcc(bool updateDxcc) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<updateDxcc;
+
     this->updateDxcc = updateDxcc;
 }
 
 void LogFormat::runImport() {
+    FCT_IDENTIFICATION;
+
     this->importStart();
 
     int count = 0;
@@ -128,6 +151,8 @@ void LogFormat::runImport() {
 }
 
 int LogFormat::runExport() {
+    FCT_IDENTIFICATION;
+
     this->exportStart();
 
     QSqlQuery query;
@@ -156,10 +181,16 @@ int LogFormat::runExport() {
 }
 
 bool LogFormat::dateRangeSet() {
+    FCT_IDENTIFICATION;
+
     return !startDate.isNull() && !endDate.isNull();
 }
 
 bool LogFormat::inDateRange(QDate date) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<date;
+
     return date >= startDate && date <= endDate;
 }
 

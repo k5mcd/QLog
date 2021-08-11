@@ -39,6 +39,7 @@ SOURCES += \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/Wsjtx.cpp \
+        core/debug.cpp \
         core/main.cpp \
         core/utils.cpp \
         data/Data.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
         core/Rotator.h \
         core/StyleItemDelegate.h \
         core/Wsjtx.h \
+        core/debug.h \
         core/utils.h \
         data/Band.h \
         data/Data.h \

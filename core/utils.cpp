@@ -3,18 +3,27 @@
 #include <cmath>
 #include <qt5keychain/keychain.h>
 #include <QEventLoop>
-
+#include "debug.h"
 #include "utils.h"
+
+MODULE_IDENTIFICATION("qlog.core.utils");
 
 #define EARTH_RADIUS 6371
 #define EARTH_CIRCUM 40075
 
 bool gridValidate(QString grid) {
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters)<<grid;
+
     QRegExp regex("^[A-Za-z]{2}[0-9]{2}([A-Za-z]{2})?$");
     return regex.exactMatch(grid);
 }
 
 bool gridToCoord(QString grid, double& lat, double& lon) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << grid << " " << lat << " " << lon;
+
     if (!gridValidate(grid)) return false;
 
     grid = grid.toUpper();
@@ -43,6 +52,9 @@ bool gridToCoord(QString grid, double& lat, double& lon) {
 }
 
 double coordDistance(double latA, double lonA, double latB, double lonB) {
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << latA << " " << lonA << " " << latB << " " << lonB;
+
     double dLat = (latB-latA)*M_PI/180;
     double dLon = (lonB-lonA)*M_PI/180;
     latA = latA*M_PI/180;
@@ -56,6 +68,9 @@ double coordDistance(double latA, double lonA, double latB, double lonB) {
 }
 
 int coordBearing(double latA, double lonA, double latB, double lonB) {
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << latA << " " << lonA << " " << latB << " " << lonB;
+
     double dLon = (lonB-lonA)*M_PI/180;
     latA = latA*M_PI/180;
     latB = latB*M_PI/180;
@@ -67,6 +82,10 @@ int coordBearing(double latA, double lonA, double latB, double lonB) {
 }
 
 QString freqToBand(double freq) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
     if (freq <= 2.0 && freq >= 1.8) return "160m";
     else if (freq <= 3.8 && freq >= 3.5) return "80m";
     else if (freq <= 7.5 && freq >= 7.0) return "40m";
@@ -84,6 +103,10 @@ QString freqToBand(double freq) {
 
 int savePassword(QString storage_key, QString user, QString pass)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << storage_key << " " << user;
+
     using namespace QKeychain;
 
     if ( user.isEmpty()
@@ -114,6 +137,10 @@ int savePassword(QString storage_key, QString user, QString pass)
 
 QString getPassword(QString storage_key, QString user)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << storage_key << " " << user;
+
     using namespace QKeychain;
     QString pass;
 
@@ -146,6 +173,10 @@ QString getPassword(QString storage_key, QString user)
 
 void deletePassword(QString storage_key, QString user)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << storage_key << " " << user;
+
     using namespace QKeychain;
 
     // delete password from Secure Storage

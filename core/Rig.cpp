@@ -4,12 +4,20 @@
 #include <unistd.h>
 
 #include "Rig.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.core.rig");
 
 #ifndef HAMLIB_FILPATHLEN
 #define HAMLIB_FILPATHLEN FILPATHLEN
 #endif
 
+
 static QString modeToString(rmode_t mode, QString &submode) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<mode << " " << submode;
+
     switch (mode) {
     case RIG_MODE_AM: return "AM";
     case RIG_MODE_CW: return "CW";
@@ -39,6 +47,10 @@ static QString modeToString(rmode_t mode, QString &submode) {
 
 static rmode_t stringToMode(QString mode, QString submode)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<mode << " " << submode;
+
     if ( mode == "SSB" )
     {
         if ( submode == "LSB" ) return RIG_MODE_LSB;
@@ -67,6 +79,10 @@ static rmode_t stringToMode(QString mode, QString submode)
 
 static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<in_flowcontrol;
+
     QString flowcontrol = in_flowcontrol.toLower();
 
     if ( flowcontrol == "software" ) return RIG_HANDSHAKE_XONXOFF;
@@ -76,6 +92,10 @@ static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
 
 static enum serial_parity_e stringToParity(const QString in_parity)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<in_parity;
+
     QString parity = in_parity.toLower();
 
     if ( parity == "even" ) return RIG_PARITY_EVEN;
@@ -87,17 +107,23 @@ static enum serial_parity_e stringToParity(const QString in_parity)
 }
 
 Rig* Rig::instance() {
+    FCT_IDENTIFICATION;
+
     static Rig instance;
     return &instance;
 }
 
 void Rig::start() {
+    FCT_IDENTIFICATION;
+
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(500);
 }
 
 void Rig::update() {
+    FCT_IDENTIFICATION;
+
     int status = RIG_OK;
 
     if (!rig) return;
@@ -187,6 +213,8 @@ void Rig::update() {
 }
 
 void Rig::open() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     int model = settings.value("hamlib/rig/model").toInt();
     int baudrate = settings.value("hamlib/rig/baudrate").toInt();
@@ -200,7 +228,7 @@ void Rig::open() {
 
     const char* port = portStr.constData();
 
-    qDebug() << portStr;
+    qCDebug(runtime) << portStr;
     rigLock.lock();
 
     // if rig is active then close it
@@ -249,6 +277,8 @@ void Rig::open() {
 
 void Rig::__closeRig()
 {
+    FCT_IDENTIFICATION;
+
     if ( rig )
     {
         rig_close(rig);
@@ -258,12 +288,17 @@ void Rig::__closeRig()
 }
 void Rig::close()
 {
+    FCT_IDENTIFICATION;
+
     rigLock.lock();
     __closeRig();
     rigLock.unlock();
 }
 
 void Rig::setFrequency(double newFreq) {
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters)<<newFreq;
+
     if (!rig) return;
 
     rigLock.lock();
@@ -281,6 +316,9 @@ void Rig::setFrequency(double newFreq) {
 
 void Rig::setMode(QString newMode, QString newSubMode)
 {
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters)<<newMode << " " << newSubMode;
+
     int status = RIG_OK;
 
     if (!rig) return;
@@ -309,6 +347,10 @@ void Rig::setMode(QString newMode, QString newSubMode)
 }
 
 void Rig::setPower(double newPower) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<newPower;
+
     if (!rig) return;
     power = (int)(newPower*1000);
 }

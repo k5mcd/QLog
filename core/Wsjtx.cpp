@@ -7,6 +7,9 @@
 #include <QDateTime>
 #include "Wsjtx.h"
 #include "data/Data.h"
+#include "debug.h"
+
+MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
 Wsjtx::Wsjtx(QObject *parent) : QObject(parent)
 {
@@ -31,7 +34,7 @@ void Wsjtx::readPendingDatagrams() {
         stream >> mtype;
 
         if (magic != 0xadbccbda) {
-            qDebug() << "Invalid wsjtx magic";
+            qCDebug(runtime) << "Invalid wsjtx magic";
             continue;
         }
 
@@ -68,7 +71,7 @@ void Wsjtx::readPendingDatagrams() {
             decode.mode = QString(mode);
             decode.message = QString(message);
 
-            qDebug() << decode.id << decode.message;
+            qCDebug(runtime) << decode.id << decode.message;
 
             emit decodeReceived(decode);
             break;
@@ -150,12 +153,12 @@ void Wsjtx::insertContact(WsjtxLog log) {
     record.setValue("end_time", log.time_off);
 
     if (!model.insertRecord(-1, record)) {
-        qDebug() << model.lastError();
+        qCDebug(runtime) << model.lastError();
         return;
     }
 
     if (!model.submitAll()) {
-        qDebug() << model.lastError();
+        qCDebug(runtime) << model.lastError();
         return;
     }
 

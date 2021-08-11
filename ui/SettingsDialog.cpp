@@ -13,11 +13,16 @@
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
 #include "../core/StyleItemDelegate.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SettingsDialog)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     RigTypeModel* rigTypeModel = new RigTypeModel(this);
@@ -66,11 +71,15 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 }
 
 void SettingsDialog::save() {
+    FCT_IDENTIFICATION;
+
     writeSettings();
     accept();
 }
 
 void SettingsDialog::addRig() {
+    FCT_IDENTIFICATION;
+
     if (ui->rigNameEdit->text().isEmpty()) return;
 
     QStringListModel* model = (QStringListModel*)ui->rigListView->model();
@@ -81,6 +90,8 @@ void SettingsDialog::addRig() {
 }
 
 void SettingsDialog::deleteRig() {
+    FCT_IDENTIFICATION;
+
     foreach (QModelIndex index, ui->rigListView->selectionModel()->selectedRows()) {
         ui->rigListView->model()->removeRow(index.row());
     }
@@ -89,6 +100,10 @@ void SettingsDialog::deleteRig() {
 
 void SettingsDialog::rigChanged(int index)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<index;
+
     const struct rig_caps *caps;
 
     QModelIndex rig_index = ui->rigModelSelect->model()->index(index, 0);
@@ -114,6 +129,8 @@ void SettingsDialog::rigChanged(int index)
 
 void SettingsDialog::rotChanged(int index)
 {
+    FCT_IDENTIFICATION;
+
     const struct rot_caps *caps;
 
     QModelIndex rot_index = ui->rotModelSelect->model()->index(index, 0);
@@ -139,6 +156,8 @@ void SettingsDialog::rotChanged(int index)
 }
 
 void SettingsDialog::readSettings() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString username;
 
@@ -197,6 +216,8 @@ void SettingsDialog::readSettings() {
 }
 
 void SettingsDialog::writeSettings() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString old_username;
 
@@ -276,6 +297,8 @@ void SettingsDialog::writeSettings() {
 }
 
 SettingsDialog::~SettingsDialog() {
+    FCT_IDENTIFICATION;
+
     delete modeTableModel;
     delete bandTableModel;
     delete ui;

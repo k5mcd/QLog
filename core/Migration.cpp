@@ -4,20 +4,25 @@
 #include <QDebug>
 #include "core/Migration.h"
 #include "core/Cty.h"
+#include "debug.h"
+
+MODULE_IDENTIFICATION("qlog.core.migration");
 
 /**
  * Migrate the database to the latest schema version.
  * Returns true on success.
  */
 bool Migration::run() {
+    FCT_IDENTIFICATION;
+
     int currentVersion = getVersion();
 
     if (currentVersion == latestVersion) {
-        qDebug() << "Database already up to date";
+        qCDebug(runtime) << "Database already up to date";
         return true;
     }
     else if (currentVersion < latestVersion) {
-        qDebug() << "Starting database migration";
+        qCDebug(runtime) << "Starting database migration";
     }
     else {
         qCritical() << "database from the future";
@@ -39,12 +44,12 @@ bool Migration::run() {
     progress.close();
 
     if (!tableRows("bands")) {
-        qDebug() << "Updating band table";
+        qCDebug(runtime) << "Updating band table";
         updateBands();
     }
 
     if (!tableRows("modes")) {
-        qDebug() << "Updating mode table";
+        qCDebug(runtime) << "Updating mode table";
         updateModes();
     }
 
@@ -52,7 +57,7 @@ bool Migration::run() {
         updateDxcc();
     }
 
-    qDebug() << "Database migration successful";
+    qCDebug(runtime) << "Database migration successful";
 
     return true;
 }
@@ -61,10 +66,14 @@ bool Migration::run() {
  * Returns the current user_version of the database.
  */
 int Migration::getVersion() {
+    FCT_IDENTIFICATION;
+
     QSqlQuery query("SELECT version FROM schema_versions "
                     "ORDER BY version DESC LIMIT 1");
 
-    return query.first() ? query.value(0).toInt() : 0;
+    int i = query.first() ? query.value(0).toInt() : 0;
+    qCDebug(runtime) << i;
+    return i;
 }
 
 /**
@@ -72,6 +81,10 @@ int Migration::getVersion() {
  * Returns true of the operation was successful.
  */
 bool Migration::setVersion(int version) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << version;
+
     QSqlQuery query;
     query.prepare("INSERT INTO schema_versions (version, updated) "
                   "VALUES (:version, datetime('now'))");
@@ -92,7 +105,9 @@ bool Migration::setVersion(int version) {
  * Returns true if the operation was successful.
  */
 bool Migration::migrate(int toVersion) {
-    qDebug() << "migrate to" << toVersion;
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << "migrate to" << toVersion;
 
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.transaction()) {
@@ -115,23 +130,27 @@ bool Migration::migrate(int toVersion) {
 }
 
 bool Migration::runSqlFile(QString filename) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << filename;
+
     QFile sqlFile(filename);
     sqlFile.open(QIODevice::ReadOnly | QIODevice::Text);
 
     QStringList sqlQueries = QTextStream(&sqlFile).readAll().split('\n').join("").split(';');
-    qDebug() << sqlQueries;
+    qCDebug(runtime) << sqlQueries;
 
     foreach (QString sqlQuery, sqlQueries) {
         if (sqlQuery.trimmed().isEmpty()) {
             continue;
         }
 
-        qDebug() << sqlQuery;
+        qCDebug(runtime) << sqlQuery;
 
         QSqlQuery query;
         if (!query.exec(sqlQuery))
         {
-            qDebug() << query.lastError();
+            qCDebug(runtime) << query.lastError();
             return false;
         }
         query.finish();
@@ -141,19 +160,26 @@ bool Migration::runSqlFile(QString filename) {
 }
 
 int Migration::tableRows(QString name) {
+    FCT_IDENTIFICATION;
+    int i = 0;
     QSqlQuery query(QString("SELECT count(*) FROM %1").arg(name));
-    return query.first() ? query.value(0).toInt() : 0;
+    i = query.first() ? query.value(0).toInt() : 0;
+    qCDebug(runtime) << i;
+    return i;
 }
 
 bool Migration::updateBands() {
+    FCT_IDENTIFICATION;
     return runSqlFile(":/res/sql/bands.sql");
 }
 
 bool Migration::updateModes() {
+    FCT_IDENTIFICATION;
     return runSqlFile(":/res/sql/modes.sql");
 }
 
 bool Migration::updateDxcc() {
+    FCT_IDENTIFICATION;
     QProgressDialog progress("Updating DXCC entities...", nullptr, 0, 346);
     progress.show();
 

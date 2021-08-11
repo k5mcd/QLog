@@ -17,11 +17,16 @@
 #include "core/ClubLog.h"
 #include "core/Conditions.h"
 #include "data/Data.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     QSettings settings;
@@ -78,6 +83,8 @@ MainWindow::MainWindow(QWidget* parent) :
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
 
     // save the window geometry
@@ -88,6 +95,8 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 void MainWindow::rigConnect() {
+    FCT_IDENTIFICATION;
+
     if ( ui->actionConnectRig->isChecked() )
     {
         Rig::instance()->open();
@@ -100,6 +109,8 @@ void MainWindow::rigConnect() {
 
 void MainWindow::rigErrorHandler(QString error)
 {
+    FCT_IDENTIFICATION;
+
     QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                           QMessageBox::tr("Rig Error: <p>") + error +"</p>");
     ui->actionConnectRig->setChecked(false);
@@ -107,12 +118,16 @@ void MainWindow::rigErrorHandler(QString error)
 
 void MainWindow::rotErrorHandler(QString error)
 {
+    FCT_IDENTIFICATION;
+
     QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                           QMessageBox::tr("Rotator Error: <p>") + error +"</p>");
     ui->actionConnectRotator->setChecked(false);
 }
 
 void MainWindow::rotConnect() {
+    FCT_IDENTIFICATION;
+
     if ( ui->actionConnectRotator->isChecked() )
     {
         Rotator::instance()->open();
@@ -125,6 +140,8 @@ void MainWindow::rotConnect() {
 }
 
 void MainWindow::showSettings() {
+    FCT_IDENTIFICATION;
+
     SettingsDialog sw;
     if (sw.exec() == QDialog::Accepted) {
         rigConnect();
@@ -135,27 +152,37 @@ void MainWindow::showSettings() {
 }
 
 void MainWindow::showStatistics() {
+    FCT_IDENTIFICATION;
+
     StatisticsWidget* stats = new StatisticsWidget();
     stats->show();
 }
 
 void MainWindow::importLog() {
+    FCT_IDENTIFICATION;
+
     ImportDialog dialog;
     dialog.exec();
     ui->logbookWidget->updateTable();
 }
 
 void MainWindow::exportLog() {
+    FCT_IDENTIFICATION;
+
     ExportDialog dialog;
     dialog.exec();
 }
 
 void MainWindow::showLotw() {
+    FCT_IDENTIFICATION;
+
     LotwDialog dialog;
     dialog.exec();
 }
 
 void MainWindow::showAbout() {
+    FCT_IDENTIFICATION;
+
     QString aboutText = "<h1>QLog %1</h1>"
                         "<p>&copy; 2019 Thomas Gatzweiler DL2IC<br/>"
                         "&copy; 2021 Ladislav Foldyna OK1MLG</p>"
@@ -170,6 +197,8 @@ void MainWindow::showAbout() {
 }
 
 void MainWindow::conditionsUpdated() {
+    FCT_IDENTIFICATION;
+
     QString kcolor;
     if (conditions->k_index < 3.5) {
         kcolor = "green";
@@ -192,5 +221,7 @@ void MainWindow::conditionsUpdated() {
 }
 
 MainWindow::~MainWindow() {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }

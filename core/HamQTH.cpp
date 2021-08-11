@@ -7,20 +7,29 @@
 #include <QtXml>
 #include <QDebug>
 #include "HamQTH.h"
+#include "debug.h"
 
 #include "utils.h"
 
 #define API_URL "http://www.hamqth.com/xml.php"
 
+MODULE_IDENTIFICATION("qlog.core.hamqth");
+
 HamQTH::HamQTH(QObject* parent) :
     QObject(parent)
 {
+    FCT_IDENTIFICATION;
+
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(processReply(QNetworkReply*)));
 }
 
 void HamQTH::queryCallsign(QString callsign) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<< callsign;
+
     if (sessionId.isEmpty()) {
         queuedCallsign = callsign;
         authenticate();
@@ -41,6 +50,8 @@ void HamQTH::queryCallsign(QString callsign) {
 }
 
 void HamQTH::authenticate() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
     QString password = getPassword(HamQTH::SECURE_STORAGE_KEY, username);
@@ -58,13 +69,18 @@ void HamQTH::authenticate() {
 }
 
 void HamQTH::processReply(QNetworkReply* reply) {
+    FCT_IDENTIFICATION;
+
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << "HamQTH error" << reply->errorString();
+        qCDebug(runtime) << "HamQTH error" << reply->errorString();
         reply->deleteLater();
         return;
     }
 
-    QXmlStreamReader xml(reply->readAll());
+    QByteArray response = reply->readAll();
+    qCDebug(runtime) << response;
+    QXmlStreamReader xml(response);
+
 
     QMap<QString, QString> data;
 

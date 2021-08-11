@@ -4,11 +4,16 @@
 #include "ui_BandmapWidget.h"
 #include "core/Rig.h"
 #include "data/Data.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
 
 BandmapWidget::BandmapWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::BandmapWidget)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     band = Data::band(14.100);
@@ -26,6 +31,8 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 }
 
 void BandmapWidget::update() {
+    FCT_IDENTIFICATION;
+
     bandmapScene->clear();
 
     // Draw Scale
@@ -80,6 +87,8 @@ void BandmapWidget::update() {
 }
 
 void BandmapWidget::removeDuplicates(DxSpot &spot) {
+    FCT_IDENTIFICATION;
+
     QMap<double, DxSpot>::iterator lower = spots.lowerBound(spot.freq - 0.005);
     QMap<double, DxSpot>::iterator upper = spots.upperBound(spot.freq + 0.005);
 
@@ -94,17 +103,23 @@ void BandmapWidget::removeDuplicates(DxSpot &spot) {
 }
 
 void BandmapWidget::addSpot(DxSpot spot) {
+    FCT_IDENTIFICATION;
+
     this->removeDuplicates(spot);
     spots.insert(spot.freq, spot);
     update();
 }
 
 void BandmapWidget::clearSpots() {
+    FCT_IDENTIFICATION;
+
     spots.clear();
     update();
 }
 
 void BandmapWidget::zoomIn() {
+    FCT_IDENTIFICATION;
+
     if (zoom > ZOOM_100HZ) {
         zoom = static_cast<BandmapZoom>(static_cast<int>(zoom) - 1);
     }
@@ -112,6 +127,8 @@ void BandmapWidget::zoomIn() {
 }
 
 void BandmapWidget::zoomOut() {
+    FCT_IDENTIFICATION;
+
     if (zoom < ZOOM_10KHZ) {
         zoom = static_cast<BandmapZoom>(static_cast<int>(zoom) + 1);
     }
@@ -119,6 +136,10 @@ void BandmapWidget::zoomOut() {
 }
 
 void BandmapWidget::updateRxFrequency(double freq) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
     rx_freq = freq;
 
     if (rx_freq < band.start || rx_freq > band.end) {
@@ -133,5 +154,7 @@ void BandmapWidget::updateRxFrequency(double freq) {
 
 BandmapWidget::~BandmapWidget()
 {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }

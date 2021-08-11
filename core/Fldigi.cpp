@@ -3,14 +3,21 @@
 #include <QtDebug>
 #include "Fldigi.h"
 #include "logformat/AdiFormat.h"
+#include "debug.h"
+
+MODULE_IDENTIFICATION("qlog.core.fldigi");
 
 Fldigi::Fldigi(QObject *parent) :
     QTcpServer(parent)
 {
+    FCT_IDENTIFICATION;
+
     listen(QHostAddress::Any, 8421);
 }
 
 void Fldigi::incomingConnection(int socket) {
+    FCT_IDENTIFICATION;
+
     QTcpSocket* sock = new QTcpSocket(this);
     connect(sock, SIGNAL(readyRead()), this, SLOT(readClient()));
     connect(sock, SIGNAL(disconnected()), this, SLOT(discardClient()));
@@ -18,9 +25,13 @@ void Fldigi::incomingConnection(int socket) {
 }
 
 void Fldigi::readClient() {
+    FCT_IDENTIFICATION;
+
     QTcpSocket* sock = (QTcpSocket*)sender();
 
     QString data = QString(sock->readAll());
+    qCDebug(runtime) << data;
+
     int split = data.indexOf("\r\n\r\n", 0);
     data.remove(0, split+4);
 
@@ -34,18 +45,22 @@ void Fldigi::readClient() {
 }
 
 void Fldigi::discardClient() {
+    FCT_IDENTIFICATION;
+
     QTcpSocket* sock = (QTcpSocket*)sender();
     sock->deleteLater();
 }
 
 void Fldigi::processMethodCall(QTcpSocket* sock, QXmlStreamReader& xml) {
+    FCT_IDENTIFICATION;
+
     QByteArray response;
 
     while (!xml.atEnd() && !xml.hasError()) {
         xml.readNextStartElement();
 
         if (xml.name() == "methodCall") {
-            qDebug() << "method call";
+            qCDebug(runtime) << "method call";
         }
         if (xml.name() == "methodName") {
             QString method = xml.readElementText();
@@ -62,6 +77,8 @@ void Fldigi::processMethodCall(QTcpSocket* sock, QXmlStreamReader& xml) {
         }
     }
 
+    qCDebug(runtime) << response;
+
     QTextStream out(sock);
 
     if (!response.isEmpty()) {
@@ -77,6 +94,8 @@ void Fldigi::processMethodCall(QTcpSocket* sock, QXmlStreamReader& xml) {
 }
 
 QString Fldigi::parseParam(QXmlStreamReader& xml) {
+    FCT_IDENTIFICATION;
+
     while (!xml.atEnd() && !xml.hasError()) {
         xml.readNextStartElement();
         if (xml.name() == "value") {
@@ -88,6 +107,8 @@ QString Fldigi::parseParam(QXmlStreamReader& xml) {
 }
 
 QByteArray Fldigi::listMethods() {
+    FCT_IDENTIFICATION;
+
     QByteArray out;
 
     QXmlStreamWriter xml(&out);
@@ -108,6 +129,10 @@ QByteArray Fldigi::listMethods() {
 }
 
 QByteArray Fldigi::addRecord(QString data) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << data;
+
     QByteArray out;
     QSettings settings;
 

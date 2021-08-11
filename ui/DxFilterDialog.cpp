@@ -7,11 +7,16 @@
 #include "DxFilterDialog.h"
 #include "ui_DxFilterDialog.h"
 #include "../models/SqlListModel.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.dxfilterdialog");
 
 DxFilterDialog::DxFilterDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DxFilterDialog)
 {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
 
     ui->setupUi(this);
@@ -68,6 +73,8 @@ DxFilterDialog::DxFilterDialog(QWidget *parent) :
 
 void DxFilterDialog::accept()
 {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
 
     for ( int i = 0; i < ui->band_group->count(); i++)
@@ -113,5 +120,7 @@ void DxFilterDialog::accept()
 
 DxFilterDialog::~DxFilterDialog()
 {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }

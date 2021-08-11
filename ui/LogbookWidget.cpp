@@ -9,11 +9,16 @@
 #include "LogbookWidget.h"
 #include "ui_LogbookWidget.h"
 #include "core/StyleItemDelegate.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
 LogbookWidget::LogbookWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LogbookWidget)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     model = new LogbookModel(this);
@@ -65,12 +70,16 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
 }
 
 void LogbookWidget::filterSelectedCallsign() {
+    FCT_IDENTIFICATION;
+
     QModelIndex index = ui->contactTable->selectionModel()->selectedRows().first();
     QSqlRecord record = model->record(index.row());
     filterCallsign(record.value("callsign").toString());
 }
 
 void LogbookWidget::lookupSelectedCallsign() {
+    FCT_IDENTIFICATION;
+
     QModelIndex index = ui->contactTable->selectionModel()->selectedRows().first();
     QSqlRecord record = model->record(index.row());
     QString callsign = record.value("callsign").toString();
@@ -78,10 +87,14 @@ void LogbookWidget::lookupSelectedCallsign() {
 }
 
 void LogbookWidget::filterCallsign(QString call) {
+    FCT_IDENTIFICATION;
+
     ui->callsignFilter->setText(call);
 }
 
 void LogbookWidget::callsignFilterChanged() {
+    FCT_IDENTIFICATION;
+
     QString callsign = ui->callsignFilter->text();
     if (!callsign.isEmpty()) {
         model->setFilter(QString("callsign LIKE '%1%'").arg(ui->callsignFilter->text()));
@@ -93,6 +106,8 @@ void LogbookWidget::callsignFilterChanged() {
 }
 
 void LogbookWidget::bandFilterChanged() {
+    FCT_IDENTIFICATION;
+
     QString band = ui->bandFilter->currentText();
     if (ui->bandFilter->currentIndex() != 0 && !band.isEmpty()) {
         model->setFilter(QString("band = '%1'").arg(band));
@@ -104,6 +119,8 @@ void LogbookWidget::bandFilterChanged() {
 }
 
 void LogbookWidget::modeFilterChanged() {
+    FCT_IDENTIFICATION;
+
     QString mode = ui->modeFilter->currentText();
     if (ui->modeFilter->currentIndex() != 0 && !mode.isEmpty()) {
         model->setFilter(QString("mode = '%1'").arg(mode));
@@ -115,6 +132,8 @@ void LogbookWidget::modeFilterChanged() {
 }
 
 void LogbookWidget::countryFilterChanged() {
+    FCT_IDENTIFICATION;
+
     QString country = ui->countryFilter->currentText();
     if (ui->countryFilter->currentIndex() != 0 && !country.isEmpty()) {
         model->setFilter(QString("country = '%1'").arg(country));
@@ -126,6 +145,8 @@ void LogbookWidget::countryFilterChanged() {
 }
 
 void LogbookWidget::uploadClublog() {
+    FCT_IDENTIFICATION;
+
     QByteArray data;
     QTextStream stream(&data, QIODevice::ReadWrite);
 
@@ -142,6 +163,8 @@ void LogbookWidget::uploadClublog() {
 }
 
 void LogbookWidget::deleteContact() {
+    FCT_IDENTIFICATION;
+
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, tr("Delete"), tr("Delete the selected contacts?"),
                                   QMessageBox::Yes|QMessageBox::No);
@@ -156,17 +179,23 @@ void LogbookWidget::deleteContact() {
 }
 
 void LogbookWidget::updateTable() {
+    FCT_IDENTIFICATION;
+
     model->select();
     ui->contactTable->resizeColumnsToContents();
 }
 
 void LogbookWidget::saveTableHeaderState() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QByteArray logbookState = ui->contactTable->horizontalHeader()->saveState();
     settings.setValue("logbook/state", logbookState);
 }
 
 void LogbookWidget::showTableHeaderContextMenu(const QPoint& point) {
+    FCT_IDENTIFICATION;
+
     QMenu* contextMenu = new QMenu(this);
     for (int i = 0; i < model->columnCount(); i++) {
         QString name = model->headerData(i, Qt::Horizontal).toString();
@@ -185,6 +214,8 @@ void LogbookWidget::showTableHeaderContextMenu(const QPoint& point) {
 }
 
 LogbookWidget::~LogbookWidget() {
+    FCT_IDENTIFICATION;
+
     saveTableHeaderState();
     delete ui;
 }

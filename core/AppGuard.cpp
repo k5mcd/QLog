@@ -1,6 +1,9 @@
 #include <QCryptographicHash>
+#include <QLoggingCategory>
 #include "AppGuard.h"
+#include "debug.h"
 
+MODULE_IDENTIFICATION("qlog.core.appguard");
 namespace
 {
 
@@ -24,6 +27,7 @@ AppGuard::AppGuard( const QString& key )
     , sharedMem( sharedmemKey )
     , memLock( memLockKey, 1 )
 {
+    FCT_IDENTIFICATION;
     memLock.acquire();
     {
         // linux / unix shared memory is not freed when the application terminates abnormally,
@@ -45,6 +49,8 @@ AppGuard::~AppGuard()
 
 bool AppGuard::isAnotherRunning(void)
 {
+    FCT_IDENTIFICATION;
+
     if ( sharedMem.isAttached() )
         return false;
 
@@ -63,6 +69,8 @@ bool AppGuard::isAnotherRunning(void)
 
 bool AppGuard::tryToRun(void)
 {
+    FCT_IDENTIFICATION;
+
     if ( isAnotherRunning() )   // Extra check
     {
         return false;
@@ -82,6 +90,8 @@ bool AppGuard::tryToRun(void)
 
 void AppGuard::release(void)
 {
+    FCT_IDENTIFICATION;
+
     memLock.acquire();
 
     if ( sharedMem.isAttached() )

@@ -3,11 +3,16 @@
 #include "ui/ExportDialog.h"
 #include "ui_ExportDialog.h"
 #include "logformat/LogFormat.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.exportdialog");
 
 ExportDialog::ExportDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ExportDialog)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     ui->allCheckBox->setChecked(true);
@@ -16,16 +21,22 @@ ExportDialog::ExportDialog(QWidget *parent) :
 }
 
 void ExportDialog::browse() {
+    FCT_IDENTIFICATION;
+
     QString filename = QFileDialog::getSaveFileName(this);
     ui->fileEdit->setText(filename);
 }
 
 void ExportDialog::toggleAll() {
+    FCT_IDENTIFICATION;
+
     ui->startDateEdit->setEnabled(!ui->allCheckBox->isChecked());
     ui->endDateEdit->setEnabled(!ui->allCheckBox->isChecked());
 }
 
 void ExportDialog::runExport() {
+    FCT_IDENTIFICATION;
+
     QFile file(ui->fileEdit->text());
     file.open(QFile::WriteOnly | QFile::Text);
     QTextStream out(&file);
@@ -49,5 +60,7 @@ void ExportDialog::runExport() {
 }
 
 ExportDialog::~ExportDialog() {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }

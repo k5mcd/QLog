@@ -8,12 +8,17 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "Conditions.h"
+#include "debug.h"
 
 const QUrl FLUX_URL = QUrl("https://services.swpc.noaa.gov/products/summary/10cm-flux.json");
 const QUrl K_INDEX_URL = QUrl("https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json");
 
+MODULE_IDENTIFICATION("qlog.core.conditions");
+
 Conditions::Conditions(QObject *parent) : QObject(parent)
 {
+    FCT_IDENTIFICATION;
+
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(processReply(QNetworkReply*)));
@@ -24,12 +29,18 @@ Conditions::Conditions(QObject *parent) : QObject(parent)
 }
 
 void Conditions::update() {
+    FCT_IDENTIFICATION;
+
     nam->get(QNetworkRequest(FLUX_URL));
     nam->get(QNetworkRequest(K_INDEX_URL));
 }
 
 void Conditions::processReply(QNetworkReply* reply) {
+    FCT_IDENTIFICATION;
+
     QByteArray data = reply->readAll();
+
+    qCDebug(runtime) << data;
 
     if (reply->isFinished() && reply->error() == QNetworkReply::NoError) {
         QJsonDocument doc = QJsonDocument::fromJson(data);

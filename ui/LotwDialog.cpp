@@ -9,11 +9,16 @@
 #include "ui_LotwDialog.h"
 #include "logformat/AdiFormat.h"
 #include "core/Lotw.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.lotwdialog");
 
 LotwDialog::LotwDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LotwDialog)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     ui->qslRadioButton->setChecked(true);
@@ -30,6 +35,8 @@ LotwDialog::LotwDialog(QWidget *parent) :
 }
 
 void LotwDialog::download() {
+    FCT_IDENTIFICATION;
+
     QProgressDialog* dialog = new QProgressDialog(tr("Updating from LotW"), tr("Cancel"), 0, 0, this);
     dialog->setWindowModality(Qt::WindowModal);
     dialog->setRange(0, 0);
@@ -66,6 +73,8 @@ void LotwDialog::download() {
 }
 
 void LotwDialog::upload() {
+    FCT_IDENTIFICATION;
+
     QTemporaryFile file;
     file.open();
 
@@ -95,5 +104,7 @@ void LotwDialog::upload() {
 
 LotwDialog::~LotwDialog()
 {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }

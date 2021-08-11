@@ -4,6 +4,9 @@
 #include "core/utils.h"
 #include "RotatorWidget.h"
 #include "ui_RotatorWidget.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.rotatorwidget");
 
 #define MAP_RESOLUTION 1000
 
@@ -11,6 +14,8 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RotatorWidget)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     compassScene = new QGraphicsScene(this);
@@ -107,6 +112,8 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
 }
 
 void RotatorWidget::gotoPosition() {
+    FCT_IDENTIFICATION;
+
     int azimuth = ui->gotoSpinBox->value();
     int elevation = 0;
     Rotator::instance()->setPosition(azimuth, elevation);
@@ -114,15 +121,22 @@ void RotatorWidget::gotoPosition() {
 
 
 void RotatorWidget::positionChanged(int azimuth, int elevation) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<azimuth<<" "<<elevation;
     compassNeedle->setRotation(azimuth);
 }
 
 void RotatorWidget::showEvent(QShowEvent* event) {
+    FCT_IDENTIFICATION;
+
     ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
     QWidget::showEvent(event);
 }
 
 void RotatorWidget::resizeEvent(QResizeEvent* event) {
+    FCT_IDENTIFICATION;
+
     ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
     QWidget::resizeEvent(event);
 }

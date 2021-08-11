@@ -1,8 +1,13 @@
 #include <QSqlRecord>
 #include <QtXml>
 #include "logformat/AdxFormat.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.logformat.adxformat");
 
 void AdxFormat::exportStart() {
+    FCT_IDENTIFICATION;
+
     QString date = QDateTime::currentDateTimeUtc().toString("yyyyMMdd hhmmss");
 
     writer = new QXmlStreamWriter(stream.device());
@@ -22,11 +27,17 @@ void AdxFormat::exportStart() {
 }
 
 void AdxFormat::exportEnd() {
+    FCT_IDENTIFICATION;
+
     writer->writeEndDocument();
     delete writer;
 }
 
 void AdxFormat::exportContact(QSqlRecord& record) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<record;
+
     writer->writeStartElement("RECORD");
 
     QDateTime time_start = record.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
@@ -75,6 +86,10 @@ void AdxFormat::exportContact(QSqlRecord& record) {
 }
 
 void AdxFormat::writeField(QString name, QString value) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<name << " " << value;
+
     if (value.isEmpty()) return;
     writer->writeTextElement(name.toUpper(), value);
 }

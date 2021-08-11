@@ -9,6 +9,9 @@
 #include <QDebug>
 #include "StatisticsWidget.h"
 #include "ui_StatisticsWidget.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.statisticswidget");
 
 using namespace QtCharts;
 
@@ -16,6 +19,8 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StatisticsWidget)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     QBarSet* set = new QBarSet("Total QSOs");
@@ -54,5 +59,6 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
 
 StatisticsWidget::~StatisticsWidget()
 {
+    FCT_IDENTIFICATION;
     delete ui;
 }

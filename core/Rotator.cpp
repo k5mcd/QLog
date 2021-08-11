@@ -1,5 +1,8 @@
 #include <hamlib/rotator.h>
 #include "Rotator.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.core.rotator");
 
 #ifndef HAMLIB_FILPATHLEN
 #define HAMLIB_FILPATHLEN FILPATHLEN
@@ -7,6 +10,10 @@
 
 static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<in_flowcontrol;
+
     QString flowcontrol = in_flowcontrol.toLower();
 
     if ( flowcontrol == "software" ) return RIG_HANDSHAKE_XONXOFF;
@@ -16,6 +23,10 @@ static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
 
 static enum serial_parity_e stringToParity(const QString in_parity)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<in_parity;
+
     QString parity = in_parity.toLower();
 
     if ( parity == "even" ) return RIG_PARITY_EVEN;
@@ -28,21 +39,27 @@ static enum serial_parity_e stringToParity(const QString in_parity)
 
 Rotator::Rotator() : QObject(nullptr)
 {
-
+    FCT_IDENTIFICATION;
 }
 
 Rotator* Rotator::instance() {
+    FCT_IDENTIFICATION;
+
     static Rotator instance;
     return &instance;
 }
 
 void Rotator::start() {
+    FCT_IDENTIFICATION;
+
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(1000);
 }
 
 void Rotator::update() {
+    FCT_IDENTIFICATION;
+
     int status = RIG_OK;
 
     if (!rot) return;
@@ -74,6 +91,8 @@ void Rotator::update() {
 }
 
 void Rotator::open() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     int model = settings.value("hamlib/rot/model").toInt();
     int baudrate = settings.value("hamlib/rot/baudrate").toInt();
@@ -87,7 +106,7 @@ void Rotator::open() {
 
     const char* port = portStr.constData();
 
-    qDebug() << portStr;
+    qCDebug(runtime) << portStr;
 
     rotLock.lock();
 
@@ -135,6 +154,8 @@ void Rotator::open() {
 
 void Rotator::__closeRot()
 {
+    FCT_IDENTIFICATION;
+
     if (rot)
     {
         rot_close(rot);
@@ -145,12 +166,18 @@ void Rotator::__closeRot()
 
 void Rotator::close()
 {
+    FCT_IDENTIFICATION;
+
     rotLock.lock();
     __closeRot();
     rotLock.unlock();
 }
 
 void Rotator::setPosition(int azimuth, int elevation) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<azimuth<< " " << elevation;
+
     if (!rot) return;
     rotLock.lock();
     int status = rot_set_position(rot, static_cast<azimuth_t>(azimuth), static_cast<elevation_t>(elevation));

@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QSplashScreen>
 
+#include "debug.h"
 #include "Migration.h"
 #include "ui/MainWindow.h"
 #include "Rig.h"
@@ -20,7 +21,13 @@
 #include "AppGuard.h"
 #include "logformat/AdiFormat.h"
 
+MODULE_IDENTIFICATION("qlog.core.main");
+
+QMutex debug_mutex;
+
 static void loadStylesheet(QApplication* app) {
+    FCT_IDENTIFICATION;
+
     QFile style(":/res/stylesheet.css");
     style.open(QFile::ReadOnly | QIODevice::Text);
     app->setStyleSheet(style.readAll());
@@ -28,6 +35,8 @@ static void loadStylesheet(QApplication* app) {
 }
 
 static void setupTranslator(QApplication* app) {
+    FCT_IDENTIFICATION;
+
     QTranslator* qtTranslator = new QTranslator(app);
     qtTranslator->load("qt_" + QLocale::system().name(),
     QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -39,7 +48,10 @@ static void setupTranslator(QApplication* app) {
 }
 
 static void createDataDirectory() {
+    FCT_IDENTIFICATION;
+
     QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    qCDebug(runtime) << dataDir.path();
 
     if (!dataDir.exists()) {
         dataDir.mkpath(dataDir.path());
@@ -47,6 +59,8 @@ static void createDataDirectory() {
 }
 
 static bool openDatabase() {
+    FCT_IDENTIFICATION;
+
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     QString path = dir.filePath("qlog.db");
@@ -63,6 +77,7 @@ static bool openDatabase() {
 
 static bool backupDatabase()
 {
+    FCT_IDENTIFICATION;
     /* remove old backups */
     /* retention time is 30 days but a minimum number of backup files is 5 */
     const int retention_time = 30;
@@ -74,6 +89,8 @@ static bool backupDatabase()
     filter = filter.arg("[0123456789]");
 
     QFileInfoList file_list = QDir(dir).entryInfoList(QStringList(filter), QDir::Files, QDir::Name);
+
+    qCDebug(runtime) << file_list;
 
     /* Keep the minimum number of backups */
     /* If a number of backup is greater than min_backout_count then remove files older 30 days but always
@@ -92,6 +109,7 @@ static bool backupDatabase()
             QDir deletefile;
             deletefile.setPath(filepath);
             deletefile.remove(filepath);
+            qCDebug(runtime) << "Removing file: " << filepath;
         }
     }
 
@@ -104,7 +122,7 @@ static bool backupDatabase()
         return false;
     }
 
-    qDebug()<<"Exporting a Database backup to " << path;
+    qCDebug(runtime)<<"Exporting a Database backup to " << path;
 
     QTextStream stream(&backup_file);
     AdiFormat adi(stream);
@@ -113,15 +131,19 @@ static bool backupDatabase()
     stream.flush();
     backup_file.close();
 
-    qDebug()<<"Database backup finished";
+    qCDebug(runtime)<<"Database backup finished";
     return true;
 }
 static bool migrateDatabase() {
+    FCT_IDENTIFICATION;
+
     Migration m;
     return m.run();
 }
 
 static void startRigThread() {
+    FCT_IDENTIFICATION;
+
     QThread* rigThread = new QThread;
     Rig* rig = Rig::instance();
     rig->moveToThread(rigThread);
@@ -130,6 +152,8 @@ static void startRigThread() {
 }
 
 static void startRotThread() {
+    FCT_IDENTIFICATION;
+
     QThread* rotThread = new QThread;
     Rotator* rot = Rotator::instance();
     rot->moveToThread(rotThread);
@@ -139,6 +163,8 @@ static void startRotThread() {
 
 static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
+    debug_mutex.lock();
+
     QByteArray localMsg = msg.toLocal8Bit();
     QString severity_string;
 
@@ -163,12 +189,27 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
         severity_string = "[UNKNOWN ]";
     }
 
-    fprintf(stderr, "%s %s: %s [%s:%u, %s]\n", QTime::currentTime().toString("HH:mm:ss.zzz").toLocal8Bit().constData(),
-                                               severity_string.toLocal8Bit().constData(),
-                                               localMsg.constData(),
-                                               context.file,
-                                               context.line,
-                                               context.function);
+    QString cat(context.category);
+    if ( cat == "default" )
+    {
+        cat = "[             ]\t";
+    }
+    else
+    {
+        cat = "[" + cat + "]\t";
+    }
+
+    fprintf(stderr, "%s %s%s=> %s [%s:%s:%u] \n",
+                                                 QTime::currentTime().toString("HH:mm:ss.zzz").toLocal8Bit().constData(),
+                                                 severity_string.toLocal8Bit().constData(),
+                                                 cat.toLocal8Bit().constData(),
+                                                 localMsg.constData(),
+                                                 context.function,
+                                                 context.file,
+                                                 context.line
+                                                 );
+    debug_mutex.unlock();
+
     if ( type == QtFatalMsg )
     {
         abort();
@@ -177,12 +218,17 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
 
 int main(int argc, char* argv[]) {
 
-    qInstallMessageHandler(debugMessageOutput);
+
     QApplication app(argc, argv);
 
     app.setApplicationVersion(VERSION);
     app.setOrganizationName("hamradio");
     app.setApplicationName("QLog");
+
+    qInstallMessageHandler(debugMessageOutput);
+
+    set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
+                                       // environment variable QT_LOGGING_RULES (project setting/debug)
 
     loadStylesheet(&app);
     setupTranslator(&app);

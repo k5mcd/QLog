@@ -9,17 +9,25 @@
 #include "Lotw.h"
 #include "logformat/AdiFormat.h"
 #include "utils.h"
+#include "debug.h"
 
 #define ADIF_API "https://lotw.arrl.org/lotwuser/lotwreport.adi"
 
+MODULE_IDENTIFICATION("qlog.core.lotw");
+
 Lotw::Lotw(QObject *parent) : QObject(parent)
 {
+    FCT_IDENTIFICATION;
+
     nam = new QNetworkAccessManager(this);
     connect(nam, &QNetworkAccessManager::finished,
             this, &Lotw::processReply);
 }
 
 void Lotw::update(QDate start_date, bool qso_since) {
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << start_date << " " << qso_since;
+
     QList<QPair<QString, QString>> params;
     params.append(qMakePair(QString("qso_query"), QString("1")));
     params.append(qMakePair(QString("qso_qsldetail"), QString("yes")));
@@ -38,6 +46,8 @@ void Lotw::update(QDate start_date, bool qso_since) {
 }
 
 void Lotw::get(QList<QPair<QString, QString>> params) {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
     QString password = getPassword(Lotw::SECURE_STORAGE_KEY, username);
@@ -50,21 +60,23 @@ void Lotw::get(QList<QPair<QString, QString>> params) {
     QUrl url(ADIF_API);
     url.setQuery(query);
 
-    qDebug() << url.toString();
+    qCDebug(runtime) << url.toString();
 
     nam->get(QNetworkRequest(url));
 }
 
 void Lotw::processReply(QNetworkReply* reply) {
+    FCT_IDENTIFICATION;
+
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << "LotW error" << reply->errorString();
+        qCDebug(runtime) << "LotW error" << reply->errorString();
         reply->deleteLater();
         emit updateFailed();
         return;
     }
 
     qint64 size = reply->size();
-    qDebug() << "Reply received, size: " << size;
+    qCDebug(runtime) << "Reply received, size: " << size;
 
     emit updateStarted();
 
@@ -128,7 +140,7 @@ void Lotw::processReply(QNetworkReply* reply) {
                 update_status_query.bindValue(":id", query.value(0));
                 update_status_query.exec();
 
-                qDebug() << query.value(1) << query.value(2) << contact.value("qsl_rcvd") << query.value(3) << qslrdate;
+                qCDebug(runtime) << query.value(1) << query.value(2) << contact.value("qsl_rcvd") << query.value(3) << qslrdate;
 
                 status.qsos_updated++;
                 if (query.value(2) != contact.value("qsl_rcvd")) {
@@ -161,7 +173,7 @@ void Lotw::processReply(QNetworkReply* reply) {
             }
         }
         else {
-            qDebug() << "Not Found! " << contact.value("call").toString() << contact.value("qso_date").toString();
+            qCDebug(runtime) << "Not Found! " << contact.value("call").toString() << contact.value("qso_date").toString();
             status.qsos_unmatched++;
         }
 

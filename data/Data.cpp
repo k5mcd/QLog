@@ -3,8 +3,13 @@
 #include <QSqlError>
 #include <QColor>
 #include "Data.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.data.data");
 
 Data::Data(QObject *parent) : QObject(parent) {
+    FCT_IDENTIFICATION;
+
     loadContests();
     loadPropagationModes();
     loadLegacyModes();
@@ -12,11 +17,17 @@ Data::Data(QObject *parent) : QObject(parent) {
 }
 
 Data* Data::instance() {
+    FCT_IDENTIFICATION;
+
     static Data instance;
     return &instance;
 }
 
 DxccStatus Data::dxccStatus(int dxcc, QString band, QString mode) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << dxcc << " " << band << " " << mode;
+
     QString filter;
 
     QSettings settings;
@@ -73,6 +84,10 @@ DxccStatus Data::dxccStatus(int dxcc, QString band, QString mode) {
 }
 
 Band Data::band(double freq) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
     QSqlQuery query;
     query.prepare("SELECT name, start_freq, end_freq FROM bands WHERE :freq BETWEEN start_freq AND end_freq");
     query.bindValue(0, freq);
@@ -92,6 +107,9 @@ Band Data::band(double freq) {
 
 QString Data::freqToMode(double freq)
 {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
 
     // 2200m
     if (freq >= 0.1357 && freq <= 0.1378) return Data::MODE_CW;
@@ -184,6 +202,10 @@ QString Data::freqToMode(double freq)
 }
 
 QColor Data::statusToColor(DxccStatus status, QColor defaultColor) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << status;
+
     switch (status) {
         case DxccStatus::NewEntity:
             return QColor(229, 57, 53);
@@ -199,6 +221,10 @@ QColor Data::statusToColor(DxccStatus status, QColor defaultColor) {
 }
 
 QString Data::statusToText(DxccStatus status) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << status;
+
     switch (status) {
         case DxccStatus::NewEntity:
             return tr("New Entity");
@@ -218,6 +244,10 @@ QString Data::statusToText(DxccStatus status) {
 }
 
 QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << status;
+
     switch (status) {
         case DxccStatus::NewEntity:
             return QColor(Qt::white);
@@ -233,10 +263,15 @@ QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
 }
 
 QPair<QString, QString> Data::legacyMode(QString mode) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode;
     return legacyModes.value(mode);
 }
 
 void Data::loadContests() {
+    FCT_IDENTIFICATION;
+
     QFile file(":/res/data/contests.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
@@ -252,6 +287,8 @@ void Data::loadContests() {
 }
 
 void Data::loadPropagationModes() {
+    FCT_IDENTIFICATION;
+
     QFile file(":/res/data/propagation_modes.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
@@ -267,6 +304,8 @@ void Data::loadPropagationModes() {
 }
 
 void Data::loadLegacyModes() {
+    FCT_IDENTIFICATION;
+
     QFile file(":/res/data/legacy_modes.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
@@ -285,6 +324,8 @@ void Data::loadLegacyModes() {
 }
 
 void Data::loadDxccFlags() {
+    FCT_IDENTIFICATION;
+
     QFile file(":/res/data/dxcc.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
@@ -300,6 +341,10 @@ void Data::loadDxccFlags() {
 }
 
 DxccEntity Data::lookupDxcc(QString callsign) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << callsign;
+
     QSqlQuery query;
     query.prepare(
                 "SELECT\n"
@@ -351,6 +396,9 @@ DxccEntity Data::lookupDxcc(QString callsign) {
 }
 
 QString Data::dxccFlag(int dxcc) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << dxcc;
     return flags.value(dxcc);
 }
 

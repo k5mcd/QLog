@@ -8,10 +8,15 @@
 #include <cmath>
 #include "core/utils.h"
 #include "MapWidget.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.mapwidget");
 
 MapWidget::MapWidget(QWidget *parent) :
     QGraphicsView(parent)
 {
+    FCT_IDENTIFICATION;
+
     scene = new QGraphicsScene(this);
     this->setScene(scene);
     this->setStyleSheet("background-color: transparent;");
@@ -43,6 +48,8 @@ MapWidget::MapWidget(QWidget *parent) :
 }
 
 void MapWidget::clear() {
+    FCT_IDENTIFICATION;
+
     QMutableListIterator<QGraphicsItem*> i(items);
     while (i.hasNext()) {
         QGraphicsItem* item = i.next();
@@ -60,10 +67,14 @@ void MapWidget::clear() {
 }
 
 void MapWidget::redraw() {
+    FCT_IDENTIFICATION;
+
     redrawNightOverlay();
 }
 
 void MapWidget::drawPoint(QPoint point) {
+    FCT_IDENTIFICATION;
+
     items << scene->addEllipse(point.x()-2, point.y()-2, 4, 4,
                                QPen(QColor(255, 0, 0)),
                                QBrush(QColor(255, 0, 0),
@@ -71,6 +82,8 @@ void MapWidget::drawPoint(QPoint point) {
 }
 
 void MapWidget::drawLine(QPoint pointA, QPoint pointB) {
+    FCT_IDENTIFICATION;
+
     QPainterPath path;
     path.moveTo(pointA);
 
@@ -102,6 +115,8 @@ void MapWidget::drawLine(QPoint pointA, QPoint pointB) {
 }
 
 void MapWidget::redrawNightOverlay() {
+    FCT_IDENTIFICATION;
+
     QDateTime current = QDateTime::currentDateTimeUtc();
     int secondOfDay = (QTime(0, 0, 0).secsTo(current.time()) + 43200) % 86400;
     int dayOfYear = current.date().dayOfYear();
@@ -179,28 +194,38 @@ void MapWidget::redrawNightOverlay() {
 }
 
 void MapWidget::pointToRad(QPoint point, double& lat, double& lon) {
+    FCT_IDENTIFICATION;
+
     lat = M_PI / 2.0 - static_cast<double>(point.y()) / (scene->height() - 1.0) * M_PI;
     lon = 2 * M_PI *(static_cast<double>(point.x()) / (scene->width() - 1.0)) - M_PI;
 }
 
 void MapWidget::pointToCoord(QPoint point, double& lat, double& lon) {
+    FCT_IDENTIFICATION;
+
     lat = 90.0 - (point.y() / scene->height()) * 180.0;
     lon = 360.0 * (point.x() / scene->width()) - 180.0;
 }
 
 QPoint MapWidget::radToPoint(double lat, double lon) {
+    FCT_IDENTIFICATION;
+
     int x = static_cast<int>((lon + M_PI) / (2.0 * M_PI) * scene->width());
     int y = static_cast<int>(scene->height() / 2.0 - (2.0 * lat / M_PI) * (scene->height() / 2.0));
     return QPoint(x, y);
 }
 
 QPoint MapWidget::coordToPoint(double lat, double lon) {
+    FCT_IDENTIFICATION;
+
     int x = static_cast<int>((lon + 180.0) / 360.0 * scene->width());
     int y = static_cast<int>(scene->height() / 2.0 - (lat / 90.0) * (scene->height() / 2.0));
     return QPoint(x, y);
 }
 
 void MapWidget::setTarget(double lat, double lon) {
+    FCT_IDENTIFICATION;
+
     clear();
 
     if (lat == 0.0 && lon == 0.0) return;
@@ -222,11 +247,15 @@ void MapWidget::setTarget(double lat, double lon) {
 }
 
 void MapWidget::showEvent(QShowEvent* event) {
+    FCT_IDENTIFICATION;
+
     this->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
     QWidget::showEvent(event);
 }
 
 void MapWidget::resizeEvent(QResizeEvent* event) {
+    FCT_IDENTIFICATION;
+
     this->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
     QWidget::resizeEvent(event);
 }

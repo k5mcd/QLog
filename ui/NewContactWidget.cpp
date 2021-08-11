@@ -6,11 +6,16 @@
 #include "core/utils.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NewContactWidget)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     rig = Rig::instance();
@@ -63,6 +68,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 }
 
 void NewContactWidget::readSettings() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString mode = settings.value("newcontact/mode", "CW").toString();
     QString submode = settings.value("newcontact/submode").toString();
@@ -78,6 +85,8 @@ void NewContactWidget::readSettings() {
 }
 
 void NewContactWidget::writeSettings() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     settings.setValue("newcontact/mode", ui->modeEdit->currentText());
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
@@ -87,6 +96,8 @@ void NewContactWidget::writeSettings() {
 }
 
 void NewContactWidget::reloadSettings() {
+    FCT_IDENTIFICATION;
+
     QString selectedRig = ui->rigEdit->currentText();
     QSettings settings;
     QStringList rigs = settings.value("station/rigs").toStringList();
@@ -107,6 +118,8 @@ void NewContactWidget::reloadSettings() {
 }
 
 void NewContactWidget::callsignChanged() {
+    FCT_IDENTIFICATION;
+
     QString newCallsign = ui->callsignEdit->text().toUpper();
     if (newCallsign == callsign) {
         return;
@@ -138,6 +151,10 @@ void NewContactWidget::callsignChanged() {
 }
 
 void NewContactWidget::queryDxcc(QString callsign) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<callsign;
+
     dxccEntity = Data::instance()->lookupDxcc(callsign);
     if (dxccEntity.dxcc) {
         ui->dxccInfo->setText(dxccEntity.country);
@@ -166,6 +183,10 @@ void NewContactWidget::queryDxcc(QString callsign) {
 }
 
 void NewContactWidget::queryDatabase(QString callsign) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<callsign;
+
     QSqlQuery query;
     query.prepare("SELECT name, qth, gridsquare FROM contacts "
                   "WHERE callsign = :callsign ORDER BY start_time DESC LIMIT 1");
@@ -184,6 +205,8 @@ void NewContactWidget::queryDatabase(QString callsign) {
 }
 
 void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
+    FCT_IDENTIFICATION;
+
     if (data.value("call") != callsign)  {
         return;
     }
@@ -197,17 +220,23 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
 }
 
 void NewContactWidget::frequencyChanged() {
+    FCT_IDENTIFICATION;
+
     double freq = ui->frequencyEdit->value();
     updateBand(freq);
     rig->setFrequency(freq);
 }
 
 void NewContactWidget::bandChanged() {
+    FCT_IDENTIFICATION;
+
     updateDxccStatus();
 }
 
 void NewContactWidget::__modeChanged()
 {
+    FCT_IDENTIFICATION;
+
     QSqlTableModel* modeModel = dynamic_cast<QSqlTableModel*>(ui->modeEdit->model());
     QSqlRecord record = modeModel->record(ui->modeEdit->currentIndex());
     QString submodes = record.value("submodes").toString();
@@ -238,6 +267,8 @@ void NewContactWidget::__modeChanged()
 /* Mode is changed from GUI */
 void NewContactWidget::modeChanged()
 {
+    FCT_IDENTIFICATION;
+
     ui->submodeEdit->blockSignals(true);
     __modeChanged();
     ui->submodeEdit->blockSignals(false);
@@ -247,10 +278,16 @@ void NewContactWidget::modeChanged()
 
 void NewContactWidget::subModeChanged()
 {
+    FCT_IDENTIFICATION;
+
     rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
 }
 
 void NewContactWidget::updateBand(double freq) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<freq;
+
     Band band = Data::band(freq);
 
     if (band.name.isEmpty()) {
@@ -263,6 +300,8 @@ void NewContactWidget::updateBand(double freq) {
 }
 
 void NewContactWidget::gridChanged() {
+    FCT_IDENTIFICATION;
+
     double lat, lon;
     bool valid = gridToCoord(ui->gridEdit->text(), lat, lon);
     if (!valid) return;
@@ -270,6 +309,8 @@ void NewContactWidget::gridChanged() {
 }
 
 void NewContactWidget::resetContact() {
+    FCT_IDENTIFICATION;
+
     updateTime();
     ui->callsignEdit->clear();
     ui->nameEdit->clear();
@@ -313,6 +354,8 @@ void NewContactWidget::resetContact() {
 }
 
 void NewContactWidget::saveContact() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QSqlTableModel model;
     model.setTable("contacts");
@@ -392,15 +435,15 @@ void NewContactWidget::saveContact() {
     QJsonDocument doc = QJsonDocument::fromVariant(QVariant(fields));
     record.setValue("fields", QString(doc.toJson()));
 
-    qDebug() << record;
+    qCDebug(runtime) << record;
 
     if (!model.insertRecord(-1, record)) {
-        qDebug() << model.lastError();
+        qCDebug(runtime) << model.lastError();
         return;
     }
 
     if (!model.submitAll()) {
-        qDebug() << model.lastError();
+        qCDebug(runtime) << model.lastError();
         return;
     }
 
@@ -409,6 +452,8 @@ void NewContactWidget::saveContact() {
 }
 
 void NewContactWidget::startContactTimer() {
+    FCT_IDENTIFICATION;
+
     updateTime();
     if (!contactTimer->isActive()) {
         contactTimer->start(1000);
@@ -416,6 +461,8 @@ void NewContactWidget::startContactTimer() {
 }
 
 void NewContactWidget::stopContactTimer() {
+    FCT_IDENTIFICATION;
+
     if (contactTimer->isActive()) {
         contactTimer->stop();
     }
@@ -423,6 +470,8 @@ void NewContactWidget::stopContactTimer() {
 }
 
 void NewContactWidget::updateTime() {
+    FCT_IDENTIFICATION;
+
     QDateTime now = QDateTime::currentDateTimeUtc();
     ui->dateEdit->setDate(now.date());
     ui->timeOnEdit->setTime(now.time());
@@ -430,15 +479,21 @@ void NewContactWidget::updateTime() {
 }
 
 void NewContactWidget::updateTimeStop() {
+    FCT_IDENTIFICATION;
+
     updateTime();
     stopContactTimer();
 }
 
 void NewContactWidget::updateTimeOff() {
+    FCT_IDENTIFICATION;
+
     ui->timeOffEdit->setTime(QDateTime::currentDateTimeUtc().time());
 }
 
 void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision prec) {
+    FCT_IDENTIFICATION;
+
     if (prec < coordPrec) return;
 
     QSettings settings;
@@ -459,6 +514,8 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
 }
 
 void NewContactWidget::updateDxccStatus() {
+    FCT_IDENTIFICATION;
+
     if (callsign.isEmpty()) {
         ui->dxccStatus->clear();
         ui->callsignEdit->setPalette(QPalette());
@@ -492,6 +549,10 @@ void NewContactWidget::updateDxccStatus() {
 }
 
 void NewContactWidget::changeFrequency(double freq) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<freq;
+
     ui->frequencyEdit->blockSignals(true);
     ui->frequencyEdit->setValue(freq);
     updateBand(freq);
@@ -500,6 +561,10 @@ void NewContactWidget::changeFrequency(double freq) {
 
 /* mode is changed from RIG */
 void NewContactWidget::changeMode(QString mode, QString subMode) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<mode<< " " << subMode;
+
     ui->modeEdit->blockSignals(true);
     ui->submodeEdit->blockSignals(true);
     ui->modeEdit->setCurrentText(mode);
@@ -510,12 +575,19 @@ void NewContactWidget::changeMode(QString mode, QString subMode) {
 }
 
 void NewContactWidget::changePower(double power) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<power;
+
     ui->powerEdit->blockSignals(true);
     ui->powerEdit->setValue(power);
     ui->powerEdit->blockSignals(false);
 }
 
 void NewContactWidget::tuneDx(QString callsign, double frequency) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<callsign<< " " << frequency;
     resetContact();
     ui->callsignEdit->setText(callsign);
     ui->frequencyEdit->setValue(frequency);
@@ -524,6 +596,8 @@ void NewContactWidget::tuneDx(QString callsign, double frequency) {
 }
 
 void NewContactWidget::setDefaultReport() {
+    FCT_IDENTIFICATION;
+
     if (defaultReport.isEmpty()) {
         defaultReport = "599";
     }
@@ -533,10 +607,14 @@ void NewContactWidget::setDefaultReport() {
 }
 
 void NewContactWidget::qrz() {
+    FCT_IDENTIFICATION;
+
     QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
 }
 
 NewContactWidget::~NewContactWidget() {
+    FCT_IDENTIFICATION;
+
     writeSettings();
     delete ui;
 }

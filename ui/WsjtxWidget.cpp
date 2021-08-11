@@ -2,6 +2,10 @@
 #include "WsjtxWidget.h"
 #include "ui_WsjtxWidget.h"
 #include "data/Data.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
+
 
 int WsjtxTableModel::rowCount(const QModelIndex&) const {
     return wsjtxData.count();
@@ -82,6 +86,8 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WsjtxWidget)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     wsjtxTableModel = new WsjtxTableModel(this);
@@ -89,6 +95,10 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
 }
 
 void WsjtxWidget::decodeReceived(WsjtxDecode decode) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<decode.message;
+
     if (decode.message.startsWith("CQ")) {
         QRegExp cqRegExp("^CQ (DX |TEST )?([A-Z0-9\/]+) ?([A-Z]{2}[0-9]{2})?");
         if (cqRegExp.exactMatch(decode.message)) {
@@ -105,6 +115,8 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode) {
 }
 
 void WsjtxWidget::statusReceived(WsjtxStatus newStatus) {
+    FCT_IDENTIFICATION;
+
     if (this->status.dial_freq != newStatus.dial_freq) {
         band = Data::instance()->band(newStatus.dial_freq/1e6).name;
         ui->freqLabel->setText(QString("%1 MHz").arg(newStatus.dial_freq/1e6));
@@ -149,11 +161,17 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus) {
 
 
 void WsjtxWidget::startReply(QModelIndex index) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<index;
+
     WsjtxEntry entry = wsjtxTableModel->entry(index);
     emit reply(entry.decode);
 }
 
 WsjtxWidget::~WsjtxWidget()
 {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }

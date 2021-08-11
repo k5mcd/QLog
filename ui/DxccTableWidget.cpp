@@ -5,8 +5,13 @@
 #include <QSettings>
 #include "models/DxccTableModel.h"
 #include "DxccTableWidget.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.clockwidget");
 
 DxccTableWidget::DxccTableWidget(QWidget *parent) : QTableView(parent) {
+    FCT_IDENTIFICATION;
+
     dxccTableModel = new DxccTableModel;
 
     this->setObjectName("dxccTableView");
@@ -19,11 +24,17 @@ DxccTableWidget::DxccTableWidget(QWidget *parent) : QTableView(parent) {
 }
 
 void DxccTableWidget::clear() {
+    FCT_IDENTIFICATION;
+
     dxccTableModel->clear();
     this->show();
 }
 
 void DxccTableWidget::setDxcc(int dxcc) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<dxcc;
+
     if (dxcc)  {
         QString filter;
 

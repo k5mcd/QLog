@@ -11,20 +11,27 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include "Cty.h"
+#include "debug.h"
 
 #define CTY_URL "http://www.country-files.com/cty/cty.csv"
 
+MODULE_IDENTIFICATION("qlog.core.cty");
+
 Cty::Cty() {
+    FCT_IDENTIFICATION;
+
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(processReply(QNetworkReply*)));
 }
 
 void Cty::update() {
+    FCT_IDENTIFICATION;
+
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
     if (dir.exists("cty.csv")) {
-        qDebug() << "use cached cty.csv at" << dir.path();
+        qCDebug(runtime) << "use cached cty.csv at" << dir.path();
         QTimer::singleShot(0, this, &Cty::loadData);
     }
     else {
@@ -33,6 +40,8 @@ void Cty::update() {
 }
 
 void Cty::loadData() {
+    FCT_IDENTIFICATION;
+
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     QFile file(dir.filePath("cty.csv"));
     file.open(QIODevice::ReadOnly);
@@ -44,19 +53,23 @@ void Cty::loadData() {
 }
 
 void Cty::download() {
+    FCT_IDENTIFICATION;
+
     QUrl url(CTY_URL);
     QNetworkRequest request(url);
     request.setRawHeader("User-Agent", "QLog/1.0 (Qt)");
     nam->get(request);
-    qDebug() << "download cty.csv from" << url.toString();
+    qCDebug(runtime) << "download cty.csv from" << url.toString();
 }
 
 void Cty::processReply(QNetworkReply* reply) {
+    FCT_IDENTIFICATION;
+
     QByteArray data = reply->readAll();
 
     if (reply->isFinished() && reply->error() == QNetworkReply::NoError) {
-        qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        qDebug() << reply->header(QNetworkRequest::KnownHeaders::LocationHeader);
+        qCDebug(runtime) << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        qCDebug(runtime) << reply->header(QNetworkRequest::KnownHeaders::LocationHeader);
 
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
@@ -70,7 +83,7 @@ void Cty::processReply(QNetworkReply* reply) {
         loadData();
     }
     else {
-        qDebug() << "failed to download cty.csv";
+        qCDebug(runtime) << "failed to download cty.csv";
 
         reply->deleteLater();
         emit finished(false);
@@ -79,7 +92,8 @@ void Cty::processReply(QNetworkReply* reply) {
 }
 
 void Cty::parseData(QTextStream& data) {
-    qDebug() << "Parse cty.csv data";
+    FCT_IDENTIFICATION;
+
     QRegExp prefixSeperator("[\\s;]");
     QRegExp prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
 
@@ -99,12 +113,14 @@ void Cty::parseData(QTextStream& data) {
         QStringList fields = line.split(',');
 
         if (fields.count() != 10)  {
-            qDebug() << "Invalid line in cty.csv";
+            qCDebug(runtime) << "Invalid line in cty.csv";
             continue;
         }
         else if (fields.at(0).startsWith("*")) {
             continue;
         }
+
+        qCDebug(runtime) << fields;
 
         int dxcc_id = fields.at(2).toInt();
 
@@ -122,6 +138,8 @@ void Cty::parseData(QTextStream& data) {
         entityTableModel.submitAll();
 
         QStringList prefixList = fields.at(9).split(prefixSeperator, QString::SkipEmptyParts);
+        qCDebug(runtime) << prefixList;
+
         for (QString prefix : prefixList) {
             if (prefixFormat.exactMatch(prefix)) {
                 prefixRecord.clearValues();
@@ -134,7 +152,7 @@ void Cty::parseData(QTextStream& data) {
                 prefixTableModel.insertRecord(-1, prefixRecord);
             }
             else  {
-                qDebug() << "Failed to match " << prefix;
+                qCDebug(runtime) << "Failed to match " << prefix;
             }
         }
 
@@ -146,7 +164,7 @@ void Cty::parseData(QTextStream& data) {
         count++;
     }
 
-    qDebug() << "DXCC update finished:" << count << "entities loaded.";
+    qCDebug(runtime) << "DXCC update finished:" << count << "entities loaded.";
 }
 
 Cty::~Cty() {

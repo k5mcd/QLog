@@ -10,6 +10,9 @@
 #include "DxFilterDialog.h"
 #include "models/SqlListModel.h"
 #include "core/StyleItemDelegate.h"
+#include "core/debug.h"
+
+MODULE_IDENTIFICATION("qlog.ui.dxwidget");
 
 int DxTableModel::rowCount(const QModelIndex&) const {
     return dxData.count();
@@ -153,6 +156,8 @@ bool DXSpotFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
+    FCT_IDENTIFICATION;
+
     if ( event->type() == QEvent::KeyPress )
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
@@ -174,6 +179,8 @@ bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *ob
 DxWidget::DxWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DxWidget) {
+
+    FCT_IDENTIFICATION;
 
     QSettings settings;
 
@@ -205,6 +212,8 @@ DxWidget::DxWidget(QWidget *parent) :
 }
 
 void DxWidget::toggleConnect() {
+    FCT_IDENTIFICATION;
+
     if (socket && socket->isOpen()) {
         disconnectCluster();
 
@@ -225,6 +234,8 @@ void DxWidget::toggleConnect() {
 }
 
 void DxWidget::connectCluster() {
+    FCT_IDENTIFICATION;
+
     QStringList server = ui->serverSelect->currentText().split(":");
     QString host = server[0];
     int port = server[1].toInt();
@@ -248,6 +259,8 @@ void DxWidget::connectCluster() {
 }
 
 void DxWidget::disconnectCluster() {
+    FCT_IDENTIFICATION;
+
     ui->sendButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Connect"));
@@ -264,6 +277,8 @@ void DxWidget::disconnectCluster() {
 
 void DxWidget::saveDXCServers()
 {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
 
     QStringList serversItems = getDXCServerList();
@@ -272,6 +287,8 @@ void DxWidget::saveDXCServers()
 
 QString DxWidget::modeFilterRegExp()
 {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString regexp = "NOTHING";
 
@@ -285,18 +302,24 @@ QString DxWidget::modeFilterRegExp()
 
 QString DxWidget::contFilterRegExp()
 {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     return settings.value("dxc/filter_cont_regexp","NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
 }
 
 QString DxWidget::spotterContFilterRegExp()
 {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     return settings.value("dxc/filter_spotter_cont_regexp","NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
 }
 
 QString DxWidget::bandFilterRegExp()
 {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString regexp = "NOTHING";
 
@@ -318,6 +341,8 @@ QString DxWidget::bandFilterRegExp()
 }
 
 void DxWidget::send() {
+    FCT_IDENTIFICATION;
+
     QByteArray data;
     data.append(ui->commandEdit->text());
     data.append("\r\n");
@@ -328,6 +353,8 @@ void DxWidget::send() {
 }
 
 void DxWidget::receive() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
@@ -399,6 +426,8 @@ void DxWidget::receive() {
 }
 
 void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
+    FCT_IDENTIFICATION;
+
 
     QString error_msg = QObject::tr("Cannot connect to DXC Server <p>Reason <b>: ");
     switch (socker_error)
@@ -440,6 +469,7 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
 }
 
 void DxWidget::connected() {
+    FCT_IDENTIFICATION;
 
     ui->sendButton->setEnabled(true);
     ui->connectButton->setEnabled(true);
@@ -449,6 +479,8 @@ void DxWidget::connected() {
 }
 
 void DxWidget::rawModeChanged() {
+    FCT_IDENTIFICATION;
+
     if (ui->rawCheckBox->isChecked()) {
         ui->stack->setCurrentIndex(1);
     }
@@ -458,6 +490,8 @@ void DxWidget::rawModeChanged() {
 }
 
 void DxWidget::entryDoubleClicked(QModelIndex index) {
+    FCT_IDENTIFICATION;
+
     QString callsign = dxTableModel->getCallsign(index);
     double frequency = dxTableModel->getFrequency(index);
     emit tuneDx(callsign, frequency);
@@ -465,6 +499,7 @@ void DxWidget::entryDoubleClicked(QModelIndex index) {
 
 void DxWidget::actionFilter()
 {
+    FCT_IDENTIFICATION;
   DxFilterDialog dialog;
 
   if (dialog.exec() == QDialog::Accepted)
@@ -478,6 +513,8 @@ void DxWidget::actionFilter()
 
 QStringList DxWidget::getDXCServerList()
 {
+    FCT_IDENTIFICATION;
+
     QStringList ret;
 
     for ( int index = 0; index < ui->serverSelect->count(); index++ )
@@ -488,6 +525,8 @@ QStringList DxWidget::getDXCServerList()
 }
 
 DxWidget::~DxWidget() {
+    FCT_IDENTIFICATION;
+
     saveDXCServers();
     delete ui;
 }

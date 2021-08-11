@@ -8,18 +8,27 @@
 #include "logformat/AdiFormat.h"
 #include "ClubLog.h"
 #include "utils.h"
+#include "debug.h"
 
 #define API_KEY "21507885dece41ca049fec7fe02a813f2105aff2"
 #define API_LIVE_UPLOAD_URL "https://clublog.org/realtime.php"
 #define API_LOG_UPLOAD_URL "https://clublog.org/putlogs.php"
 
+MODULE_IDENTIFICATION("qlog.core.clublog");
+
 ClubLog::ClubLog(QObject *parent) : QObject(parent) {
+    FCT_IDENTIFICATION;
+
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(processReply(QNetworkReply*)));
 }
 
 void ClubLog::uploadContact(QSqlRecord record) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << record;
+
     QSettings settings;
     QString email = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
     QString callsign = settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
@@ -32,9 +41,11 @@ void ClubLog::uploadContact(QSqlRecord record) {
     QByteArray data;
     QTextStream stream(&data, QIODevice::ReadWrite);
 
+    qCDebug(runtime) << "Exporting to ADIF";
     AdiFormat adi(stream);
     adi.exportContact(record);
     stream.flush();
+    qCDebug(runtime) << "Exported to ADIF";
 
     QUrlQuery query;
     query.addQueryItem("email", email);
@@ -48,10 +59,16 @@ void ClubLog::uploadContact(QSqlRecord record) {
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
+    qCDebug(runtime) << query.query();
+
     nam->post(request, query.query().toUtf8());
 }
 
 void ClubLog::uploadAdif(QByteArray& data) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << data;
+
     QSettings settings;
     QString email = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
     QString callsign = settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
@@ -97,7 +114,7 @@ void ClubLog::uploadAdif(QByteArray& data) {
     multipart->append(apiPart);
     multipart->append(filePart);
 
-    qDebug() << multipart->boundary();
+    qCDebug(runtime) << multipart->boundary();
 
     QNetworkRequest request(url);
     QNetworkReply* reply = nam->post(request, multipart);
@@ -106,13 +123,15 @@ void ClubLog::uploadAdif(QByteArray& data) {
 
 
 void ClubLog::processReply(QNetworkReply* reply) {
+    FCT_IDENTIFICATION;
+
     if (reply->error() != QNetworkReply::NoError) {
-        qDebug() << "ClubLog error" << reply->errorString();
+        qCDebug(runtime) << "ClubLog error" << reply->errorString();
         reply->deleteLater();
         return;
     }
     else {
-        qDebug() << "ClubLog update sent.";
+        qCDebug(runtime) << "ClubLog update sent.";
         reply->deleteLater();
         return;
     }

@@ -4,13 +4,17 @@
 #include "ClockWidget.h"
 #include "core/utils.h"
 #include "ui_ClockWidget.h"
+#include "core/debug.h"
 
 #define MSECS_PER_DAY (24.0 * 60.0 * 60.0 * 1000.0)
+MODULE_IDENTIFICATION("qlog.ui.clockwidget");
 
 ClockWidget::ClockWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ClockWidget)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     QTimer *timer = new QTimer(this);
@@ -29,6 +33,8 @@ ClockWidget::ClockWidget(QWidget *parent) :
 }
 
 void ClockWidget::updateClock() {
+    FCT_IDENTIFICATION;
+
     QDateTime now = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
     ui->clockLabel->setText(now.toString("HH:mm:ss") + " UTC");
 
@@ -38,6 +44,8 @@ void ClockWidget::updateClock() {
 }
 
 void ClockWidget::updateSun() {
+    FCT_IDENTIFICATION;
+
     QSettings settings;
     QString grid = settings.value("station/grid").toString();
 
@@ -67,6 +75,8 @@ void ClockWidget::updateSun() {
 }
 
 void ClockWidget::updateSunGraph() {
+    FCT_IDENTIFICATION;
+
     QColor dayColor(255, 253, 59);
     QColor nightColor(33, 150, 243);
     QColor currentColor(229, 57, 53);
@@ -97,5 +107,7 @@ void ClockWidget::updateSunGraph() {
 
 ClockWidget::~ClockWidget()
 {
+    FCT_IDENTIFICATION;
+
     delete ui;
 }
