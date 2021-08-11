@@ -23,4 +23,4 @@ TBD - 0.2
    - Connect/Disconnect Rig and Rot
    - Improved Error Handling from Rig/Rot
    - Fixed Setting freq/mode/submode from/to GUI
-
+- Debug mode is more verbose and controled by QT_LOGGING_RULES variable
