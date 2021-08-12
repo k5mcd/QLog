@@ -82,6 +82,7 @@ void NewContactWidget::readSettings() {
     ui->frequencyEdit->setValue(freq);
     ui->rigEdit->setCurrentText(rig);
     ui->powerEdit->setValue(power);
+
 }
 
 void NewContactWidget::writeSettings() {
@@ -225,6 +226,7 @@ void NewContactWidget::frequencyChanged() {
     double freq = ui->frequencyEdit->value();
     updateBand(freq);
     rig->setFrequency(freq);
+    emit userFrequencyChanged(freq);
 }
 
 void NewContactWidget::bandChanged() {

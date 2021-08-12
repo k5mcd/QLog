@@ -17,9 +17,13 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 {
     FCT_IDENTIFICATION;
 
+    QSettings settings;
+
     ui->setupUi(this);
 
-    band = Data::band(14.100);
+    double freq = settings.value("newcontact/frequency", 3.5).toDouble();
+
+    band = Data::band(freq);
     zoom = ZOOM_1KHZ;
 
     bandmapScene = new QGraphicsScene(this);
@@ -32,6 +36,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     update_timer = new QTimer;
     connect(update_timer, SIGNAL(timeout()), this, SLOT(update()));
     update_timer->start(BANDMAP_AGING_TIME);
+    updateRxFrequency(freq);
     update();
 }
 

@@ -32,6 +32,7 @@ signals:
     void contactAdded(QSqlRecord record);
     void newTarget(double lat, double lon);
     void filterCallsign(QString call);
+    void userFrequencyChanged(double freq);
 
 public slots:
     void reloadSettings();
