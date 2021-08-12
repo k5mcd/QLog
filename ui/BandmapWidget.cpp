@@ -8,6 +8,9 @@
 
 MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
 
+//Aging interval in milliseconds
+#define BANDMAP_AGING_TIME 20000
+
 BandmapWidget::BandmapWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::BandmapWidget)
@@ -20,13 +23,15 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     zoom = ZOOM_1KHZ;
 
     bandmapScene = new QGraphicsScene(this);
-    bandmapScene->setSceneRect(-50, 0, 300, 1000);
+    bandmapScene->setSceneRect(0, -10, 300, 1000);
     ui->graphicsView->setScene(bandmapScene);
     ui->graphicsView->setStyleSheet("background-color: transparent;");
 
     Rig* rig = Rig::instance();
     connect(rig, &Rig::frequencyChanged, this, &BandmapWidget::updateRxFrequency);
-
+    update_timer = new QTimer;
+    connect(update_timer, SIGNAL(timeout()), this, SLOT(update()));
+    update_timer->start(BANDMAP_AGING_TIME);
     update();
 }
 
@@ -34,6 +39,9 @@ void BandmapWidget::update() {
     FCT_IDENTIFICATION;
 
     bandmapScene->clear();
+    bandmapAging();
+
+    update_timer->setInterval(BANDMAP_AGING_TIME);
 
     // Draw Scale
     double step;
@@ -49,8 +57,8 @@ void BandmapWidget::update() {
     }
 
     int steps = static_cast<int>(round((band.end - band.start) / step));
-    bandmapScene->setSceneRect(-50, -10, 250, steps*10 + 20);
-    ui->graphicsView->setFixedSize(300, steps*10 + 30);
+    bandmapScene->setSceneRect(0, -10, 300, steps*10 + 20);
+    ui->graphicsView->setFixedSize(480, steps*10 + 30);
 
     for (int i = 0; i <= steps; i++) {
         bandmapScene->addLine(0, i*10, (i % 5 == 0) ? 15 : 10, i*10);
@@ -71,18 +79,53 @@ void BandmapWidget::update() {
 
     double min_y = 0;
 
+//    {
+
+//        double freq_y = ((14.070 - band.start) / step) * 10;
+//        double text_y = std::max(min_y, freq_y);
+//        bandmapScene->addLine(17, freq_y, 100, text_y);
+
+//        QGraphicsTextItem* text = bandmapScene->addText(QString("OK1MLGtest/P/M") + "  [23:59]");
+//        text->setPos(100, text_y - (text->boundingRect().height() / 2));
+
+//    }
     for (; lower != upper; lower++) {
         double freq_y = ((lower.key() - band.start) / step) * 10;
         double text_y = std::max(min_y, freq_y);
         bandmapScene->addLine(17, freq_y, 100, text_y);
 
-        QGraphicsTextItem* text = bandmapScene->addText(lower.value().callsign);
+        QGraphicsTextItem* text = bandmapScene->addText(lower.value().callsign + " [" + lower.value().time.toString("HH:mm")+"]");
         text->setPos(100, text_y - (text->boundingRect().height() / 2));
 
         min_y = text_y + text->boundingRect().height() / 2;
 
         QColor textColor = Data::statusToColor(lower.value().status, QColor(Qt::black));
         text->setDefaultTextColor(textColor);
+    }
+}
+
+void BandmapWidget::bandmapAging()
+{
+    FCT_IDENTIFICATION;
+
+    int clear_interval_sec = ui->clearSpotOlderSpin->value() * 60;
+
+    if ( clear_interval_sec == 0 ) return;
+
+    QMap<double, DxSpot>::iterator lower = spots.begin();
+    QMap<double, DxSpot>::iterator upper = spots.end();
+
+    for (; lower != upper;)
+    {
+        //clear spots automatically
+        if ( lower.value().time.addSecs(clear_interval_sec) <= QDateTime::currentDateTimeUtc().time() )
+        {
+            spots.erase(lower++);
+        }
+        else
+        {
+            lower++;
+        }
     }
 }
 
@@ -155,6 +198,12 @@ void BandmapWidget::updateRxFrequency(double freq) {
 BandmapWidget::~BandmapWidget()
 {
     FCT_IDENTIFICATION;
+
+    if ( update_timer )
+    {
+        update_timer->stop();
+        delete update_timer;
+    }
 
     delete ui;
 }

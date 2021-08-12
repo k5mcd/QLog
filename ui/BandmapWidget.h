@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QMap>
+#include <QTimer>
+
 #include "data/DxSpot.h"
 #include "data/Band.h"
 
@@ -40,15 +42,19 @@ public slots:
 
 private:
     void removeDuplicates(DxSpot &spot);
+    void bandmapAging();
 
 private:
     Ui::BandmapWidget *ui;
+
+
 
     double rx_freq, tx_freq;
     Band band;
     BandmapZoom zoom;
     QGraphicsScene* bandmapScene;
     QMap<double, DxSpot> spots;
+    QTimer *update_timer;
 };
 
 #endif // BANDMAPWIDGET_H
