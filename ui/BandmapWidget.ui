@@ -144,20 +144,20 @@
      <item>
       <widget class="QLabel" name="clearSpotOlderLabel">
        <property name="text">
-        <string>Clear spots older</string>
+        <string>Clear spots older than</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QSpinBox" name="clearSpotOlderSpin">
        <property name="toolTip">
-        <string>0 means never</string>
-       </property>
-       <property name="specialValueText">
         <string/>
        </property>
+       <property name="specialValueText">
+        <string>Never clear spots</string>
+       </property>
        <property name="suffix">
-        <string> min</string>
+        <string> min(s)</string>
        </property>
        <property name="maximum">
         <number>9999</number>

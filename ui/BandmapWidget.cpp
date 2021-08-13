@@ -115,6 +115,8 @@ void BandmapWidget::bandmapAging()
 
     int clear_interval_sec = ui->clearSpotOlderSpin->value() * 60;
 
+    qCDebug(function_parameters)<<clear_interval_sec;
+
     if ( clear_interval_sec == 0 ) return;
 
     QMap<double, DxSpot>::iterator lower = spots.begin();
