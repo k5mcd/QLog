@@ -31,6 +31,8 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     ui->graphicsView->setScene(bandmapScene);
     ui->graphicsView->setStyleSheet("background-color: transparent;");
 
+    ui->clearSpotOlderSpin->setValue(settings.value("bandmap/spot_aging", 0).toInt());
+
     Rig* rig = Rig::instance();
     connect(rig, &Rig::frequencyChanged, this, &BandmapWidget::updateRxFrequency);
     update_timer = new QTimer;
@@ -158,6 +160,15 @@ void BandmapWidget::addSpot(DxSpot spot) {
     this->removeDuplicates(spot);
     spots.insert(spot.freq, spot);
     update();
+}
+
+void BandmapWidget::spotAgingChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue("bandmap/spot_aging", ui->clearSpotOlderSpin->value());
 }
 
 void BandmapWidget::clearSpots() {

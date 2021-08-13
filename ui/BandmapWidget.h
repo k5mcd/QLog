@@ -36,6 +36,7 @@ public slots:
     void update();
     void updateRxFrequency(double freq);
     void addSpot(DxSpot spot);
+    void spotAgingChanged(int);
     void clearSpots();
     void zoomIn();
     void zoomOut();
