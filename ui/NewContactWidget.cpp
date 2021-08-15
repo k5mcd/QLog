@@ -306,7 +306,12 @@ void NewContactWidget::gridChanged() {
 
     double lat, lon;
     bool valid = gridToCoord(ui->gridEdit->text(), lat, lon);
-    if (!valid) return;
+    if (!valid)
+    {
+        coordPrec = COORD_NONE;
+        queryDxcc(ui->callsignEdit->text().toUpper());
+        return;
+    }
     updateCoordinates(lat, lon, COORD_GRID);
 }
 
