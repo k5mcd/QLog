@@ -458,8 +458,9 @@ void DxWidget::rawModeChanged() {
 }
 
 void DxWidget::entryDoubleClicked(QModelIndex index) {
-    QString callsign = dxTableModel->getCallsign(index);
-    double frequency = dxTableModel->getFrequency(index);
+    QModelIndex source_index = proxyDXC->mapToSource(index);
+    QString callsign = dxTableModel->getCallsign(source_index);
+    double frequency = dxTableModel->getFrequency(source_index);
     emit tuneDx(callsign, frequency);
 }
 
