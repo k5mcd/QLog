@@ -180,6 +180,9 @@ void NewContactWidget::queryDxcc(QString callsign) {
         ui->distanceInfo->clear();
         ui->bearingInfo->clear();
         ui->dxccInfo->clear();
+        ui->cqEdit->clear();
+        ui->ituEdit->clear();
+        ui->contEdit->setCurrentText("");
     }
 }
 
