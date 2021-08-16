@@ -38,15 +38,20 @@ void Wsjtx::readPendingDatagrams() {
             continue;
         }
 
+        qCDebug(runtime) << "WSJT mtype << "<< mtype << " schema " << schema;
+
         switch (mtype) {
+        /* WSJTX Status message */
         case 1: {
-            QByteArray id, mode, tx_mode, sub_mode, report, dx_call, dx_grid, de_call, de_grid;
+            QByteArray id, mode, tx_mode, sub_mode, report, dx_call, dx_grid, de_call, de_grid, conf_name, tx_message;
             WsjtxStatus status;
+
 
             stream >> id >> status.dial_freq >> mode >> dx_call >> report >> tx_mode;
             stream >> status.tx_enabled >> status.transmitting >> status.decoding;
             stream >> status.rx_df >> status.tx_df >> de_call >> de_grid >> dx_grid;
-            stream >> status.tx_watchdog >> sub_mode >> status.fast_mode >> status.special_op_mode;
+            stream >> status.tx_watchdog >> sub_mode >> status.fast_mode >> status.special_op_mode >> status.freq_tolerance;
+            stream >> status.tr_period >> conf_name >> tx_message;
 
             status.id = QString(id);
             status.mode = QString(mode);
@@ -56,10 +61,15 @@ void Wsjtx::readPendingDatagrams() {
             status.dx_call = QString(dx_call);
             status.de_call = QString(de_call);
             status.de_grid = QString(de_grid);
+            status.conf_name = QString(conf_name);
+            status.tx_message = QString(tx_message);
+
+            qCDebug(runtime)<<status;
 
             emit statusReceived(status);
             break;
         }
+        /* WSJTX Decode message */
         case 2: {
             QByteArray id, mode, message;
             WsjtxDecode decode;
@@ -71,19 +81,20 @@ void Wsjtx::readPendingDatagrams() {
             decode.mode = QString(mode);
             decode.message = QString(message);
 
-            qCDebug(runtime) << decode.id << decode.message;
+            qCDebug(runtime) << decode;
 
             emit decodeReceived(decode);
             break;
         }
+        /* WSJTX Log message */
         case 5: {
             QByteArray id, dx_call, dx_grid, mode, rprt_sent, rprt_rcvd, tx_pwr, comments;
-            QByteArray name, op_call, my_call, my_grid, exch_sent, exch_rcvd;
+            QByteArray name, op_call, my_call, my_grid, exch_sent, exch_rcvd, prop_mode;
             WsjtxLog log;
 
             stream >> id >> log.time_off >> dx_call >> dx_grid >> log.tx_freq >> mode >> rprt_sent;
             stream >> rprt_rcvd >> tx_pwr >> comments >> name >> log.time_on >> op_call;
-            stream >> my_call >> my_grid >> exch_sent >> exch_rcvd;
+            stream >> my_call >> my_grid >> exch_sent >> exch_rcvd >> prop_mode;
 
             log.id = QString(id);
             log.dx_call = QString(dx_call);
@@ -99,8 +110,24 @@ void Wsjtx::readPendingDatagrams() {
             log.my_grid = QString(my_grid);
             log.exch_sent = QString(exch_sent);
             log.exch_rcvd = QString(exch_rcvd);
+            log.prop_mode = QString(prop_mode);
+
+            qCDebug(runtime) << log;
 
             insertContact(log);
+            break;
+        }
+        /* WSJTX LogADIF message */
+        case 12: {
+            QByteArray id, adif_text;
+            WsjtxLogADIF log;
+
+            stream >> id >> adif_text;
+
+            log.id = QString(id);
+            log.log_adif = QString(adif_text);
+
+            qCDebug(runtime) << log;
             break;
         }
         }
