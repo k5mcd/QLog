@@ -100,7 +100,7 @@
         <enum>Qt::ActionsContextMenu</enum>
        </property>
        <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
+        <set>QAbstractItemView::EditKeyPressed</set>
        </property>
        <property name="tabKeyNavigation">
         <bool>false</bool>
@@ -162,6 +162,14 @@
    </property>
    <property name="text">
     <string>Filter Callsign</string>
+   </property>
+  </action>
+  <action name="actionEditContact">
+   <property name="text">
+    <string>EditContact</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
    </property>
   </action>
  </widget>
@@ -297,6 +305,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionEditContact</sender>
+   <signal>triggered()</signal>
+   <receiver>LogbookWidget</receiver>
+   <slot>editContact()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>deleteContact()</slot>
@@ -307,5 +331,6 @@
   <slot>lookupSelectedCallsign()</slot>
   <slot>modeFilterChanged()</slot>
   <slot>countryFilterChanged()</slot>
+  <slot>editContact()</slot>
  </slots>
 </ui>

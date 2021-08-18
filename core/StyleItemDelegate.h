@@ -8,6 +8,9 @@
 #include <QCheckBox>
 #include <QStyleOptionViewItem>
 #include <QPainter>
+#include <QDateTimeEdit>
+#include <QComboBox>
+#include <QAbstractItemModel>
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -47,6 +50,38 @@ public:
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
         return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat));
+    }
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QDateTimeEdit* editor = new QDateTimeEdit(parent);
+        editor->setTimeSpec(Qt::UTC);
+        return editor;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QDateTime value = index.model()->data(index, Qt::EditRole).toDateTime();
+        QDateTimeEdit* timeEdit = static_cast<QDateTimeEdit*>(editor);
+        timeEdit->setDateTime(value);
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+        QDateTimeEdit* timeEdit = static_cast<QDateTimeEdit*>(editor);
+        timeEdit->interpretText();
+        QDateTime value = timeEdit->dateTime();
+        model->setData(index, value, Qt::EditRole);
     }
 };
 
@@ -103,6 +138,64 @@ private:
     int precision;
     double step;
 };
+
+
+class ComboFormatDelegate : public QStyledItemDelegate {
+public:
+    ComboFormatDelegate(QAbstractTableModel* in_model, QObject* parent = 0)
+    {
+        model = in_model;
+    }
+    ComboFormatDelegate(QStringList in_list, QObject* parent = 0)
+    {
+        model = nullptr;
+        list = in_list;
+    }
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QComboBox *editor = new QComboBox(parent);
+        return editor;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QComboBox* combo = static_cast<QComboBox*>(editor);
+        if ( model )
+        {
+            combo->setModel(model);
+            combo->setCurrentText(index.model()->data(index).toString());
+        }
+        else
+        {
+            combo->addItems(list);
+            combo->setCurrentText(index.model()->data(index).toString());
+        }
+
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+       QComboBox* combo = static_cast<QComboBox*>(editor);
+       model->setData(index, QVariant(combo->currentText()), Qt::EditRole);
+    }
+
+private:
+    QAbstractTableModel *model;
+    QStringList list;
+};
+
+
 
 class CheckBoxDelegate: public QItemDelegate
 {

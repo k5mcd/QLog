@@ -10,6 +10,7 @@
 #include "ui_LogbookWidget.h"
 #include "core/StyleItemDelegate.h"
 #include "core/debug.h"
+#include "models/SqlListModel.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -24,20 +25,27 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     model = new LogbookModel(this);
     ui->contactTable->setModel(model);
 
+    ui->contactTable->addAction(ui->actionEditContact);
     ui->contactTable->addAction(ui->actionFilter);
     ui->contactTable->addAction(ui->actionLookup);
     ui->contactTable->addAction(ui->actionUploadClublog);
     ui->contactTable->addAction(ui->actionDeleteContact);
+
     //ui->contactTable->sortByColumn(1, Qt::DescendingOrder);
 
     ui->contactTable->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->contactTable->horizontalHeader(), &QHeaderView::customContextMenuRequested,
             this, &LogbookWidget::showTableHeaderContextMenu);
 
-    ui->contactTable->setItemDelegateForColumn(1, new TimestampFormatDelegate(ui->contactTable));
-    ui->contactTable->setItemDelegateForColumn(2, new TimestampFormatDelegate(ui->contactTable));
-    ui->contactTable->setItemDelegateForColumn(3, new CallsignDelegate(ui->contactTable));
-    ui->contactTable->setItemDelegateForColumn(6, new UnitFormatDelegate("MHz", 6, 0.001, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_ON, new TimestampFormatDelegate(ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_OFF, new TimestampFormatDelegate(ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_CALL, new CallsignDelegate(ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_FREQUENCY, new UnitFormatDelegate("MHz", 6, 0.001, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MODE, new ComboFormatDelegate(new SqlListModel("SELECT name FROM modes", " "), ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QSL_SENT, new ComboFormatDelegate(QStringList()<<"Y"<<"N"<<"R"<<"Q"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QSL_RCVD, new ComboFormatDelegate(QStringList()<<"Y"<<"N"<<"R"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_LOTW_SENT, new ComboFormatDelegate(QStringList()<<"Y"<<"N"<<"R"<<"Q"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_LOTW_RCVD, new ComboFormatDelegate(QStringList()<<"Y"<<"N"<<"R"<<"I", ui->contactTable));
 
     QSettings settings;
     QVariant logbookState = settings.value("logbook/state");
@@ -45,17 +53,17 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
         ui->contactTable->horizontalHeader()->restoreState(logbookState.toByteArray());
     }
     else {
-        ui->contactTable->hideColumn(0);
-        ui->contactTable->hideColumn(2);
-        ui->contactTable->hideColumn(9);
-        ui->contactTable->hideColumn(13);
-        ui->contactTable->hideColumn(15);
-        ui->contactTable->hideColumn(18);
-        ui->contactTable->hideColumn(19);
-        ui->contactTable->hideColumn(24);
-        ui->contactTable->hideColumn(26);
-        ui->contactTable->hideColumn(28);
-        ui->contactTable->hideColumn(30);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_ID);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_TIME_OFF);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_SUBMODE);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_DXCC);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_CONTINENT);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_PREFIX);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_STATE);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_QSL_SENT);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_LOTW_RCVD);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_LOTW_SENT);
+        ui->contactTable->hideColumn(LogbookModel::COLUMN_TX_POWER);
     }
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
@@ -176,6 +184,12 @@ void LogbookWidget::deleteContact() {
     }
     ui->contactTable->clearSelection();
     updateTable();
+}
+
+void LogbookWidget::editContact()
+{
+    FCT_IDENTIFICATION;
+    ui->contactTable->edit(ui->contactTable->selectionModel()->currentIndex());
 }
 
 void LogbookWidget::updateTable() {
