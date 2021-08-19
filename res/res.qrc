@@ -12,5 +12,6 @@
         <file>sql/bands.sql</file>
         <file>sql/modes.sql</file>
         <file>sql/contests.sql</file>
+        <file>sql/migration_002.sql</file>
     </qresource>
 </RCC>
