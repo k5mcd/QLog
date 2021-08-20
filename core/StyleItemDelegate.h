@@ -11,6 +11,7 @@
 #include <QDateTimeEdit>
 #include <QComboBox>
 #include <QAbstractItemModel>
+#include <QDebug>
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -96,7 +97,7 @@ public:
     }
 
     QString displayText(const QVariant& value, const QLocale&) const {
-        return QString("%1 %2").arg(QString::number(value.toDouble(), 'f', 3), unit);
+        return QString("%1 %2").arg(QString::number(value.toDouble(), 'f', precision), unit);
     }
 
     QWidget* createEditor(QWidget* parent,
@@ -105,8 +106,9 @@ public:
     {
         QDoubleSpinBox* editor = new QDoubleSpinBox(parent);
         editor->setDecimals(precision);
-        editor->setRange(0, 1e12);
+        editor->setRange(-1*step, 1e12);
         editor->setSingleStep(step);
+        editor->setSpecialValueText("Empty");
         return editor;
     }
 
@@ -128,9 +130,14 @@ public:
                       const QModelIndex& index) const
     {
         QDoubleSpinBox* spinBox = static_cast<QDoubleSpinBox*>(editor);
+        if (spinBox->text() == "Empty" )
+        {
+            model->setData(index, QVariant() , Qt::EditRole);
+            return;
+        }
         spinBox->interpretText();
         double value = spinBox->value();
-        model->setData(index, value, Qt::EditRole);
+        model->setData(index,value, Qt::EditRole);
     }
 
 private:
@@ -187,7 +194,15 @@ public:
                       const QModelIndex& index) const
     {
        QComboBox* combo = static_cast<QComboBox*>(editor);
-       model->setData(index, QVariant(combo->currentText()), Qt::EditRole);
+       if ( combo->currentText() == "" )
+       {
+           model->setData(index, QVariant(), Qt::EditRole);
+
+       }
+       else
+       {
+           model->setData(index, QVariant(combo->currentText()), Qt::EditRole);
+       }
     }
 
 private:
