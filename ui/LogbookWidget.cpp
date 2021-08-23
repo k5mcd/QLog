@@ -83,10 +83,15 @@ void LogbookWidget::filterSelectedCallsign() {
 void LogbookWidget::lookupSelectedCallsign() {
     FCT_IDENTIFICATION;
 
-    QModelIndex index = ui->contactTable->selectionModel()->selectedRows().first();
-    QSqlRecord record = model->record(index.row());
-    QString callsign = record.value("callsign").toString();
-    QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
+    QModelIndexList modeList = ui->contactTable->selectionModel()->selectedRows();
+    if ( modeList.count() > 0)
+    {
+
+        QSqlRecord record = model->record(modeList.first().row());
+        QString callsign = record.value("callsign").toString();
+        QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
+    }
+
 }
 
 void LogbookWidget::filterCallsign(QString call) {
