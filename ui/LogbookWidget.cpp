@@ -72,9 +72,12 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
 void LogbookWidget::filterSelectedCallsign() {
     FCT_IDENTIFICATION;
 
-    QModelIndex index = ui->contactTable->selectionModel()->selectedRows().first();
-    QSqlRecord record = model->record(index.row());
-    filterCallsign(record.value("callsign").toString());
+    QModelIndexList modeList= ui->contactTable->selectionModel()->selectedRows();
+    if ( modeList.count() > 0 )
+    {
+        QSqlRecord record = model->record(modeList.first().row());
+        filterCallsign(record.value("callsign").toString());
+    }
 }
 
 void LogbookWidget::lookupSelectedCallsign() {
@@ -89,7 +92,10 @@ void LogbookWidget::lookupSelectedCallsign() {
 void LogbookWidget::filterCallsign(QString call) {
     FCT_IDENTIFICATION;
 
-    ui->callsignFilter->setText(call);
+    if ( !call.isEmpty() )
+    {
+       ui->callsignFilter->setText(call);
+    }
 }
 
 void LogbookWidget::callsignFilterChanged() {
