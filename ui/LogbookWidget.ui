@@ -166,10 +166,18 @@
   </action>
   <action name="actionEditContact">
    <property name="text">
-    <string>EditContact</string>
+    <string>Edit Value</string>
    </property>
    <property name="shortcut">
-    <string>F2</string>
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionDisplayedColumns">
+   <property name="text">
+    <string>Column Visibility </string>
+   </property>
+   <property name="toolTip">
+    <string>Which columns should be displayed</string>
    </property>
   </action>
  </widget>
@@ -321,6 +329,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionDisplayedColumns</sender>
+   <signal>triggered()</signal>
+   <receiver>LogbookWidget</receiver>
+   <slot>displayedColumns()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>deleteContact()</slot>
@@ -332,5 +356,6 @@
   <slot>modeFilterChanged()</slot>
   <slot>countryFilterChanged()</slot>
   <slot>editContact()</slot>
+  <slot>displayedColumns()</slot>
  </slots>
 </ui>

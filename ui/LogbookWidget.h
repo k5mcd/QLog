@@ -29,6 +29,7 @@ public slots:
     void uploadClublog();
     void deleteContact();
     void editContact();
+    void displayedColumns();
     void saveTableHeaderState();
     void showTableHeaderContextMenu(const QPoint& point);
 

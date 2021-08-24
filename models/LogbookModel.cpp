@@ -43,7 +43,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_LOTW_SENT, Qt::Horizontal, tr("LotW Sent"));
     setHeaderData(COLUMN_LOTW_SENT_DATE, Qt::Horizontal, tr("LotW Sent Date"));
     setHeaderData(COLUMN_TX_POWER, Qt::Horizontal, tr("TX Power"));
-    setHeaderData(COLUMN_FIELDS, Qt::Horizontal, tr("Fields"));
+    setHeaderData(COLUMN_FIELDS, Qt::Horizontal, tr("Additional Fields"));
     setHeaderData(COLUMN_ADDRESS, Qt::Horizontal, tr("Address"));
     setHeaderData(COLUMN_ADDRESS_INTL, Qt::Horizontal, tr("Address(Int)"));
     setHeaderData(COLUMN_AGE, Qt::Horizontal, tr("Age"));
@@ -68,7 +68,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_CREDIT_GRANTED, Qt::Horizontal, tr("Credit Granted"));
     setHeaderData(COLUMN_DARC_DOK, Qt::Horizontal, tr("DARC DOK"));
     setHeaderData(COLUMN_DISTANCE, Qt::Horizontal, tr("Dinstance"));
-    setHeaderData(COLUMN_EMAIL, Qt::Horizontal, tr("email"));
+    setHeaderData(COLUMN_EMAIL, Qt::Horizontal, tr("Email"));
     setHeaderData(COLUMN_EQ_CALL, Qt::Horizontal, tr("Owner Callsign"));
     setHeaderData(COLUMN_EQSL_QSLRDATE, Qt::Horizontal, tr("eQSL Rcvd Date"));
     setHeaderData(COLUMN_EQSL_QSLSDATE, Qt::Horizontal, tr("eQSL Sent Date"));
@@ -81,7 +81,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_GUEST_OP, Qt::Horizontal, tr("Guest Operator"));
     setHeaderData(COLUMN_HRDLOG_QSO_UPLOAD_DATE, Qt::Horizontal, tr("HRDLog Upload Date"));
     setHeaderData(COLUMN_HRDLOG_QSO_UPLOAD_STATUS, Qt::Horizontal, tr("HRDLog Upload Status"));
-    setHeaderData(COLUMN_IOTA_ISLAND_ID, Qt::Horizontal, tr("IOTA"));
+    setHeaderData(COLUMN_IOTA_ISLAND_ID, Qt::Horizontal, tr("IOTA Island ID"));
     setHeaderData(COLUMN_K_INDEX, Qt::Horizontal, tr("K-Index"));
     setHeaderData(COLUMN_LAT, Qt::Horizontal, tr("Latitude"));
     setHeaderData(COLUMN_LON, Qt::Horizontal, tr("Longitude"));

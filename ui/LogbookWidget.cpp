@@ -11,6 +11,7 @@
 #include "core/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "models/SqlListModel.h"
+#include "ui/ColumnSettingDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -28,6 +29,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->addAction(ui->actionEditContact);
     ui->contactTable->addAction(ui->actionFilter);
     ui->contactTable->addAction(ui->actionLookup);
+    ui->contactTable->addAction(ui->actionDisplayedColumns);
     ui->contactTable->addAction(ui->actionUploadClublog);
     ui->contactTable->addAction(ui->actionDeleteContact);
 
@@ -237,6 +239,17 @@ void LogbookWidget::editContact()
     ui->contactTable->edit(ui->contactTable->selectionModel()->currentIndex());
 }
 
+void LogbookWidget::displayedColumns()
+{
+    FCT_IDENTIFICATION;
+
+    ColumnSettingDialog dialog(ui->contactTable);
+
+    dialog.exec();
+
+    saveTableHeaderState();
+}
+
 void LogbookWidget::updateTable() {
     FCT_IDENTIFICATION;
 
@@ -269,16 +282,6 @@ void LogbookWidget::showTableHeaderContextMenu(const QPoint& point) {
 
         contextMenu->addAction(action);
     }
-
-    QAction* action = new QAction("Unselect All", contextMenu);
-
-    connect(action, &QAction::triggered, [this]() {
-        for (int i = 0; i < model->columnCount(); i++)
-        ui->contactTable->setColumnHidden(i, true);
-        saveTableHeaderState();
-    });
-
-    contextMenu->addAction(action);
 
     contextMenu->exec(point);
 }

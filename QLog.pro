@@ -55,6 +55,7 @@ SOURCES += \
         models/SqlListModel.cpp \
         ui/BandmapWidget.cpp \
         ui/ClockWidget.cpp \
+        ui/ColumnSettingDialog.cpp \
         ui/DxFilterDialog.cpp \
         ui/DxWidget.cpp \
         ui/DxccTableWidget.cpp \
@@ -101,6 +102,7 @@ HEADERS += \
         models/SqlListModel.h \
         ui/BandmapWidget.h \
         ui/ClockWidget.h \
+        ui/ColumnSettingDialog.h \
         ui/DxFilterDialog.h \
         ui/DxWidget.h \
         ui/DxccTableWidget.h \
@@ -120,6 +122,7 @@ HEADERS += \
 FORMS += \
         ui/BandmapWidget.ui \
         ui/ClockWidget.ui \
+        ui/ColumnSettingDialog.ui \
         ui/DxFilterDialog.ui \
         ui/DxWidget.ui \
         ui/ExportDialog.ui \
