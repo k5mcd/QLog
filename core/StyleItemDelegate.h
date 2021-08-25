@@ -32,6 +32,38 @@ public:
     QString displayText(const QVariant& value, const QLocale& locale) const {
         return value.toDate().toString(locale.dateFormat(QLocale::ShortFormat));
     }
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QDateEdit* editor = new QDateEdit(parent);
+        editor->setTimeSpec(Qt::UTC);
+        return editor;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QDate value = index.model()->data(index, Qt::EditRole).toDate();
+        QDateEdit* timeEdit = static_cast<QDateEdit*>(editor);
+        timeEdit->setDate(value);
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+        QDateEdit* dateEdit = static_cast<QDateEdit*>(editor);
+        dateEdit->interpretText();
+        QDateTime value = dateEdit->dateTime();
+        model->setData(index, value, Qt::EditRole);
+    }
 };
 
 class TimeFormatDelegate : public QStyledItemDelegate {
