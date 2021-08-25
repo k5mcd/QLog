@@ -26,4 +26,8 @@ TBD - 0.2
 - Debug mode is more verbose and controled by QT_LOGGING_RULES variable
 - BandMap automatically clear spots when Aging Time is enabled
 - BandMap band is set based on NewContact Widget frequency
-
+- Many changes and improvements in LogWindow
+   - Minor changes in the input QSO forms
+   - Changed Editing QSO flow
+   - Full ADIF parsing and storing
+   - Added Column Visibility Setting

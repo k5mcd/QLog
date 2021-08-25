@@ -10,6 +10,8 @@
 #include "ui_LogbookWidget.h"
 #include "core/StyleItemDelegate.h"
 #include "core/debug.h"
+#include "models/SqlListModel.h"
+#include "ui/ColumnSettingDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -24,20 +26,73 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     model = new LogbookModel(this);
     ui->contactTable->setModel(model);
 
+    ui->contactTable->addAction(ui->actionEditContact);
     ui->contactTable->addAction(ui->actionFilter);
     ui->contactTable->addAction(ui->actionLookup);
+    ui->contactTable->addAction(ui->actionDisplayedColumns);
     ui->contactTable->addAction(ui->actionUploadClublog);
     ui->contactTable->addAction(ui->actionDeleteContact);
+
     //ui->contactTable->sortByColumn(1, Qt::DescendingOrder);
 
     ui->contactTable->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->contactTable->horizontalHeader(), &QHeaderView::customContextMenuRequested,
             this, &LogbookWidget::showTableHeaderContextMenu);
 
-    ui->contactTable->setItemDelegateForColumn(1, new TimestampFormatDelegate(ui->contactTable));
-    ui->contactTable->setItemDelegateForColumn(2, new TimestampFormatDelegate(ui->contactTable));
-    ui->contactTable->setItemDelegateForColumn(3, new CallsignDelegate(ui->contactTable));
-    ui->contactTable->setItemDelegateForColumn(6, new UnitFormatDelegate("MHz", 6, 0.001, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_ON, new TimestampFormatDelegate(ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_OFF, new TimestampFormatDelegate(ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_CALL, new CallsignDelegate(ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_FREQUENCY, new UnitFormatDelegate("MHz", 6, 0.001, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MODE, new ComboFormatDelegate(new SqlListModel("SELECT name FROM modes", " "), ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QSL_SENT, new ComboFormatDelegate(QStringList()<<"Y"<<"N"<<"R"<<"Q"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QSL_RCVD, new ComboFormatDelegate(QStringList()<<"Y"<<"N"<<"R"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QSL_SENT_DATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QSL_RCVD_DATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_LOTW_SENT, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"R"<<"Q"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_LOTW_RCVD, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"R"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_LOTW_RCVD_DATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_LOTW_SENT_DATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TX_POWER, new UnitFormatDelegate("W", 1, 0.1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_AGE, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_A_INDEX, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_ANT_AZ, new UnitFormatDelegate("", 1, 0.1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_ANT_EL, new UnitFormatDelegate("", 1, 0.1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_ANT_PATH, new ComboFormatDelegate(QStringList()<<""<< "G"<<"O"<<"S"<<"L", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_DATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_STATUS, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"M", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_DISTANCE, new UnitFormatDelegate("m", 1, 0.1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_EQSL_QSLRDATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_EQSL_QSLSDATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_EQSL_QSL_RCVD, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"R"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_EQSL_QSL_SENT, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"R"<<"Q"<<"I", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_FISTS, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_FISTS_CC, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_FORCE_INIT, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_FREQ_RX, new UnitFormatDelegate("MHz", 6, 0.001, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_DATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_STATUS, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"M", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_IOTA_ISLAND_ID, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_K_INDEX, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MAX_BURSTS, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MY_CQ_ZONE, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MY_DXCC, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MY_FISTS, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MY_IOTA_ISLAND_ID, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MY_ITU_ZONE, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_NR_BURSTS, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_NR_PINGS, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_DATE, new DateFormatDelegate());
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_STATUS, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"M", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_EQSL_QSL_SENT, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N"<<"NILL"<<"?", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QSO_RANDOM, new ComboFormatDelegate(QStringList()<<""<< "Y"<<"N", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_RX_PWR, new UnitFormatDelegate("W", 1, 0.1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_SFI, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_SILENT_KEY, new ComboFormatDelegate(QStringList()<<""<< "N"<<"Y", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_SRX, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_STX, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_SWL, new ComboFormatDelegate(QStringList()<<""<< "N"<<"Y", ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TEN_TEN, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_UKSMG, new UnitFormatDelegate("", 0, 1, ui->contactTable));
 
     QSettings settings;
     QVariant logbookState = settings.value("logbook/state");
@@ -45,17 +100,21 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
         ui->contactTable->horizontalHeader()->restoreState(logbookState.toByteArray());
     }
     else {
-        ui->contactTable->hideColumn(0);
-        ui->contactTable->hideColumn(2);
-        ui->contactTable->hideColumn(9);
-        ui->contactTable->hideColumn(13);
-        ui->contactTable->hideColumn(15);
-        ui->contactTable->hideColumn(18);
-        ui->contactTable->hideColumn(19);
-        ui->contactTable->hideColumn(24);
-        ui->contactTable->hideColumn(26);
-        ui->contactTable->hideColumn(28);
-        ui->contactTable->hideColumn(30);
+        /* Hide all */
+        for ( int i = 0; i < LogbookModel::COLUMN_LAST_ELEMENT; i++ )
+        {
+            ui->contactTable->hideColumn(i);
+        }
+        /* Set a basic set of columns */
+        ui->contactTable->showColumn(LogbookModel::COLUMN_TIME_ON);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_CALL);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_RST_RCVD);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_RST_SENT);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_FREQUENCY);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_MODE);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_NAME);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_QTH);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_COMMENT);
     }
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
@@ -189,6 +248,23 @@ void LogbookWidget::deleteContact() {
     updateTable();
 }
 
+void LogbookWidget::editContact()
+{
+    FCT_IDENTIFICATION;
+    ui->contactTable->edit(ui->contactTable->selectionModel()->currentIndex());
+}
+
+void LogbookWidget::displayedColumns()
+{
+    FCT_IDENTIFICATION;
+
+    ColumnSettingDialog dialog(ui->contactTable);
+
+    dialog.exec();
+
+    saveTableHeaderState();
+}
+
 void LogbookWidget::updateTable() {
     FCT_IDENTIFICATION;
 
@@ -221,6 +297,7 @@ void LogbookWidget::showTableHeaderContextMenu(const QPoint& point) {
 
         contextMenu->addAction(action);
     }
+
     contextMenu->exec(point);
 }
 

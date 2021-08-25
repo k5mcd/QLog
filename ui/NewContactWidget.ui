@@ -1479,6 +1479,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>callsignEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>startContactTimer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>67</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>453</x>
+     <y>253</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>

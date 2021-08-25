@@ -180,6 +180,9 @@ void NewContactWidget::queryDxcc(QString callsign) {
         ui->distanceInfo->clear();
         ui->bearingInfo->clear();
         ui->dxccInfo->clear();
+        ui->cqEdit->clear();
+        ui->ituEdit->clear();
+        ui->contEdit->setCurrentText("");
     }
 }
 
@@ -306,7 +309,12 @@ void NewContactWidget::gridChanged() {
 
     double lat, lon;
     bool valid = gridToCoord(ui->gridEdit->text(), lat, lon);
-    if (!valid) return;
+    if (!valid)
+    {
+        coordPrec = COORD_NONE;
+        queryDxcc(ui->callsignEdit->text().toUpper());
+        return;
+    }
     updateCoordinates(lat, lon, COORD_GRID);
 }
 

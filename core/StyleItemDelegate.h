@@ -8,6 +8,10 @@
 #include <QCheckBox>
 #include <QStyleOptionViewItem>
 #include <QPainter>
+#include <QDateTimeEdit>
+#include <QComboBox>
+#include <QAbstractItemModel>
+#include <QDebug>
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -27,6 +31,38 @@ public:
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
         return value.toDate().toString(locale.dateFormat(QLocale::ShortFormat));
+    }
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QDateEdit* editor = new QDateEdit(parent);
+        editor->setTimeSpec(Qt::UTC);
+        return editor;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QDate value = index.model()->data(index, Qt::EditRole).toDate();
+        QDateEdit* timeEdit = static_cast<QDateEdit*>(editor);
+        timeEdit->setDate(value);
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+        QDateEdit* dateEdit = static_cast<QDateEdit*>(editor);
+        dateEdit->interpretText();
+        QDateTime value = dateEdit->dateTime();
+        model->setData(index, value, Qt::EditRole);
     }
 };
 
@@ -48,6 +84,38 @@ public:
     QString displayText(const QVariant& value, const QLocale& locale) const {
         return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat));
     }
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QDateTimeEdit* editor = new QDateTimeEdit(parent);
+        editor->setTimeSpec(Qt::UTC);
+        return editor;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QDateTime value = index.model()->data(index, Qt::EditRole).toDateTime();
+        QDateTimeEdit* timeEdit = static_cast<QDateTimeEdit*>(editor);
+        timeEdit->setDateTime(value);
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+        QDateTimeEdit* timeEdit = static_cast<QDateTimeEdit*>(editor);
+        timeEdit->interpretText();
+        QDateTime value = timeEdit->dateTime();
+        model->setData(index, value, Qt::EditRole);
+    }
 };
 
 class UnitFormatDelegate : public QStyledItemDelegate {
@@ -61,7 +129,7 @@ public:
     }
 
     QString displayText(const QVariant& value, const QLocale&) const {
-        return QString("%1 %2").arg(QString::number(value.toDouble(), 'f', 3), unit);
+        return QString("%1 %2").arg(QString::number(value.toDouble(), 'f', precision), unit);
     }
 
     QWidget* createEditor(QWidget* parent,
@@ -70,8 +138,9 @@ public:
     {
         QDoubleSpinBox* editor = new QDoubleSpinBox(parent);
         editor->setDecimals(precision);
-        editor->setRange(0, 1e12);
+        editor->setRange(-1*step, 1e12);
         editor->setSingleStep(step);
+        editor->setSpecialValueText("Empty");
         return editor;
     }
 
@@ -93,9 +162,14 @@ public:
                       const QModelIndex& index) const
     {
         QDoubleSpinBox* spinBox = static_cast<QDoubleSpinBox*>(editor);
+        if (spinBox->text() == "Empty" )
+        {
+            model->setData(index, QVariant() , Qt::EditRole);
+            return;
+        }
         spinBox->interpretText();
         double value = spinBox->value();
-        model->setData(index, value, Qt::EditRole);
+        model->setData(index,value, Qt::EditRole);
     }
 
 private:
@@ -103,6 +177,72 @@ private:
     int precision;
     double step;
 };
+
+
+class ComboFormatDelegate : public QStyledItemDelegate {
+public:
+    ComboFormatDelegate(QAbstractTableModel* in_model, QObject* parent = 0)
+    {
+        model = in_model;
+    }
+    ComboFormatDelegate(QStringList in_list, QObject* parent = 0)
+    {
+        model = nullptr;
+        list = in_list;
+    }
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QComboBox *editor = new QComboBox(parent);
+        return editor;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QComboBox* combo = static_cast<QComboBox*>(editor);
+        if ( model )
+        {
+            combo->setModel(model);
+            combo->setCurrentText(index.model()->data(index).toString());
+        }
+        else
+        {
+            combo->addItems(list);
+            combo->setCurrentText(index.model()->data(index).toString());
+        }
+
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+       QComboBox* combo = static_cast<QComboBox*>(editor);
+       if ( combo->currentText() == "" )
+       {
+           model->setData(index, QVariant(), Qt::EditRole);
+
+       }
+       else
+       {
+           model->setData(index, QVariant(combo->currentText()), Qt::EditRole);
+       }
+    }
+
+private:
+    QAbstractTableModel *model;
+    QStringList list;
+};
+
+
 
 class CheckBoxDelegate: public QItemDelegate
 {
