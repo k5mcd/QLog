@@ -168,7 +168,8 @@ public:
         COLUMN_USACA_COUNTIES = 149,
         COLUMN_VE_PROV = 150,
         COLUMN_VUCC_GRIDS = 151,
-        COLUMN_WEB = 152
+        COLUMN_WEB = 152,
+        COLUMN_LAST_ELEMENT = 153
     };
 };
 

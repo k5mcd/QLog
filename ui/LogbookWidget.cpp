@@ -100,17 +100,21 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
         ui->contactTable->horizontalHeader()->restoreState(logbookState.toByteArray());
     }
     else {
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_ID);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_TIME_OFF);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_SUBMODE);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_DXCC);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_CONTINENT);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_PREFIX);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_STATE);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_QSL_SENT);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_LOTW_RCVD);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_LOTW_SENT);
-        ui->contactTable->hideColumn(LogbookModel::COLUMN_TX_POWER);
+        /* Hide all */
+        for ( int i = 0; i < LogbookModel::COLUMN_LAST_ELEMENT; i++ )
+        {
+            ui->contactTable->hideColumn(i);
+        }
+        /* Set a basic set of columns */
+        ui->contactTable->showColumn(LogbookModel::COLUMN_TIME_ON);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_CALL);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_RST_RCVD);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_RST_SENT);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_FREQUENCY);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_MODE);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_NAME);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_QTH);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_COMMENT);
     }
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
