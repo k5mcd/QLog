@@ -1,0 +1,15 @@
+Source: qlog
+Section: hamradio
+Priority: optional
+Maintainer: Ladislav Foldyna <ok1mlg@gmail.com>
+Uploaders: Ladislav Foldyna <ok1mlg@gmail.com>
+Build-Depends: debhelper (>= 10.0.0)
+Standards-Version: 4.5.0
+
+Package: qlog
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libhamlib2 (>= 3.3)
+Description: Qt Logging program for hamradio operators
+ QLog is an Amateur Radio logging application for Linux, Windows and Mac OS. It
+ is based on the Qt 5 framework und uses SQLite as database backend.
+
