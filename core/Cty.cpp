@@ -10,12 +10,16 @@
 #include <QFile>
 #include <QSqlTableModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
+#include <QSqlError>
 #include "Cty.h"
 #include "debug.h"
 
 #define CTY_URL "http://www.country-files.com/cty/cty.csv"
 
 MODULE_IDENTIFICATION("qlog.core.cty");
+
+#define CTY_FILE_AGING 21
 
 Cty::Cty() {
     FCT_IDENTIFICATION;
@@ -30,11 +34,22 @@ void Cty::update() {
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    if (dir.exists("cty.csv")) {
+    if ( dir.exists("cty.csv")
+         && QFileInfo(dir.filePath("cty.csv")).birthTime().date().daysTo(QDate::currentDate()) < CTY_FILE_AGING )
+    {
+        if ( isDXCCFilled() )
+        {
+            // nothing to do.
+            qCDebug(runtime) << "Not needed to update";
+            emit noUpdate();
+            return;
+        }
         qCDebug(runtime) << "use cached cty.csv at" << dir.path();
         QTimer::singleShot(0, this, &Cty::loadData);
     }
-    else {
+    else
+    {
+        qCDebug(runtime) << "CTY is too old or not exist ";
         download();
     }
 }
@@ -91,11 +106,32 @@ void Cty::processReply(QNetworkReply* reply) {
 
 }
 
+bool Cty::isDXCCFilled()
+{
+    FCT_IDENTIFICATION;
+    QSqlQuery query(QString("select exists( select 1 from dxcc_entities )"));
+    int i = query.first() ? query.value(0).toInt() : 0;
+    qCDebug(runtime) << i;
+    return i==1;
+}
+
+void Cty::deleteDXCCTables()
+{
+    FCT_IDENTIFICATION;
+    QSqlQuery query;
+
+    query.exec("delete from dxcc_prefixes");
+    query.clear();
+    query.exec("delete from dxcc_entities");
+}
+
 void Cty::parseData(QTextStream& data) {
     FCT_IDENTIFICATION;
 
     QRegExp prefixSeperator("[\\s;]");
     QRegExp prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
+
+    deleteDXCCTables();
 
     QSqlTableModel entityTableModel;
     entityTableModel.setTable("dxcc_entities");
@@ -170,3 +206,5 @@ void Cty::parseData(QTextStream& data) {
 Cty::~Cty() {
     delete nam;
 }
+
+int Cty::MAX_ENTITIES = 350;

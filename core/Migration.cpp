@@ -18,7 +18,8 @@ bool Migration::run() {
     int currentVersion = getVersion();
 
     if (currentVersion == latestVersion) {
-        qCDebug(runtime) << "Database already up to date";
+        qCDebug(runtime) << "Database schema already up to date";
+        updateDxcc();
         return true;
     }
     else if (currentVersion < latestVersion) {
@@ -53,9 +54,7 @@ bool Migration::run() {
         updateModes();
     }
 
-    if (!tableRows("dxcc_entities") || !tableRows("dxcc_prefixes")) {
-        updateDxcc();
-    }
+    updateDxcc();
 
     qCDebug(runtime) << "Database migration successful";
 
@@ -180,16 +179,27 @@ bool Migration::updateModes() {
 
 bool Migration::updateDxcc() {
     FCT_IDENTIFICATION;
-    QProgressDialog progress("Updating DXCC entities...", nullptr, 0, 346);
-    progress.show();
+
+    QProgressDialog progress("Updating DXCC entities...", nullptr, 0, Cty::MAX_ENTITIES);
 
     Cty cty;
 
     QObject::connect(&cty, &Cty::progress, &progress, &QProgressDialog::setValue);
     QObject::connect(&cty, &Cty::finished, &progress, &QProgressDialog::done);
+    QObject::connect(&cty, &Cty::noUpdate, &progress, &QProgressDialog::cancel);
 
     cty.update();
-    if (!progress.exec()) {
+
+    if ( progress.wasCanceled() )
+    {
+        qCDebug(runtime) << "Update was canceled";
+        return true;
+    }
+
+    progress.show();
+
+    if ( !progress.exec() )
+    {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                              QMessageBox::tr("DXCC update failed."));
         return false;
