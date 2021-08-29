@@ -406,6 +406,10 @@ void NewContactWidget::saveContact() {
     record.setValue("qsl_rcvd", "N");
     record.setValue("lotw_qsl_sent", "N");
     record.setValue("lotw_qsl_rcvd", "N");
+    record.setValue("eqsl_qsl_rcvd", "N");
+    record.setValue("eqsl_qsl_sent", "N");
+    record.setValue("hrdlog_qso_upload_status", "N");
+    record.setValue("qrzcom_qsoupload_status", "N");
 
     if (ui->powerEdit->value() != 0.0) {
         record.setValue("tx_pwr", ui->powerEdit->value());
@@ -416,46 +420,41 @@ void NewContactWidget::saveContact() {
         record.setValue("prop_mode", Data::instance()->propagationModeValueToID(ui->propagationModeEdit->currentText()));
     }
 
-    QMap<QString, QVariant> fields;
-
     if (!ui->commentEdit->text().isEmpty()) {
-        fields.insert("comment", ui->commentEdit->text());
+        ("comment", ui->commentEdit->text());
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {
-        fields.insert("qsl_via", ui->qslViaEdit->text());
+        record.setValue("qsl_via", ui->qslViaEdit->text());
     }
 
     if (!ui->rigEdit->currentText().isEmpty()) {
-        fields.insert("my_rig", ui->rigEdit->currentText());
+        record.setValue("my_rig", ui->rigEdit->currentText());
     }
 
     if (!ui->ageEdit->text().isEmpty()) {
-        fields.insert("age", ui->ageEdit->text());
+        record.setValue("age", ui->ageEdit->text());
     }
 
     if (!ui->emailEdit->text().isEmpty()) {
-        fields.insert("email", ui->emailEdit->text());
+        record.setValue("email", ui->emailEdit->text());
     }
 
     if (!ui->urlEdit->text().isEmpty()) {
-        fields.insert("web", ui->urlEdit->text());
+        record.setValue("web", ui->urlEdit->text());
     }
 
     if (!settings.value("station/grid").toString().isEmpty()) {
-        fields.insert("my_gridsquare", settings.value("station/grid").toString());
+        record.setValue("my_gridsquare", settings.value("station/grid").toString().toUpper());
     }
 
     if (!settings.value("station/callsign").toString().isEmpty()) {
-        fields.insert("station_callsign", settings.value("station/callsign").toString());
+        record.setValue("station_callsign", settings.value("station/callsign").toString().toUpper());
     }
 
     if (!settings.value("station/operator").toString().isEmpty()) {
-        fields.insert("operator", settings.value("station/operator").toString());
+        record.setValue("operator", settings.value("station/operator").toString().toUpper());
     }
-
-    QJsonDocument doc = QJsonDocument::fromVariant(QVariant(fields));
-    record.setValue("fields", QString(doc.toJson()));
 
     qCDebug(runtime) << record;
 
