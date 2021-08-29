@@ -411,6 +411,11 @@ void NewContactWidget::saveContact() {
         record.setValue("tx_pwr", ui->powerEdit->value());
     }
 
+    if ( !ui->propagationModeEdit->currentText().isEmpty() )
+    {
+        record.setValue("prop_mode", Data::instance()->propagationModeValueToID(ui->propagationModeEdit->currentText()));
+    }
+
     QMap<QString, QVariant> fields;
 
     if (!ui->commentEdit->text().isEmpty()) {

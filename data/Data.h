@@ -27,6 +27,8 @@ public:
     static QString statusToText(DxccStatus status);
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
+    QStringList propagationModesIDList() { return propagationModes.keys(); }
+    QString propagationModeValueToID(QString propagationText) { return propagationModes.key(propagationText);}
     DxccEntity lookupDxcc(QString callsign);
     QString dxccFlag(int dxcc);
     QPair<QString, QString> legacyMode(QString mode);
