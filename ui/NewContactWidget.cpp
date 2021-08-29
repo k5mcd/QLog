@@ -62,6 +62,13 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     new QShortcut(QKeySequence(Qt::Key_F10), this, SLOT(saveContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F9), this, SLOT(stopContactTimer()), nullptr, Qt::ApplicationShortcut);
 
+    /*
+     * qlog is not a contest log. There is missing many contest features so that it can compete at least a little
+     * with the contest logs . Therefore, for now, we will deactivate the tab with the contest information.
+     * Maybe later
+     * */
+    ui->tabWidget_2->removeTab(3);
+
     reloadSettings();
     readSettings();
     resetContact();

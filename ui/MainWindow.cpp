@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget* parent) :
     QString grid  = settings.value("station/grid", "NO GRID").toString();
 
     conditionsLabel = new QLabel("", ui->statusBar);
-
+    ui->toolBar->hide();
     ui->statusBar->addWidget(new QLabel(op, ui->statusBar));
     ui->statusBar->addWidget(new QLabel(grid, ui->statusBar));
     ui->statusBar->addWidget(conditionsLabel);
