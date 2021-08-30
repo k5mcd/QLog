@@ -97,7 +97,7 @@ ALTER TABLE contacts ADD region TEXT;
 ALTER TABLE contacts ADD rig TEXT;
 ALTER TABLE contacts ADD rig_intl TEXT;
 ALTER TABLE contacts ADD rx_pwr REAL;
-ALTER TABLE contacts ADD sat_mode TEXT;
+ALTER TABLE contacts ADD sat_mode CHECK(sat_mode IN ('K', 'T', 'A', 'A', 'J', 'B', 'S', 'L', 'VU', 'UV', 'US', 'LU', 'LS', 'LX', 'VS'));
 ALTER TABLE contacts ADD sat_name TEXT;
 ALTER TABLE contacts ADD sfi INTEGER;
 ALTER TABLE contacts ADD sig TEXT;

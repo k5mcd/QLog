@@ -28,10 +28,14 @@ public:
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
     QStringList propagationModesIDList() { return propagationModes.keys(); }
-    QString propagationModeValueToID(QString propagationText) { return propagationModes.key(propagationText);}
+    QString propagationModeTextToID(QString propagationText) { return propagationModes.key(propagationText);}
+    QString propagationModeIDToText(QString propagationID) { return propagationModes.value(propagationID);}
     DxccEntity lookupDxcc(QString callsign);
     QString dxccFlag(int dxcc);
     QPair<QString, QString> legacyMode(QString mode);
+    QStringList satModeList() { return satModes.values();}
+    QStringList satModesIDList() { return satModes.keys(); }
+    QString satModeTextToID(QString satModeText) { return satModes.key(satModeText);}
 
 signals:
 
@@ -42,11 +46,13 @@ private:
     void loadPropagationModes();
     void loadLegacyModes();
     void loadDxccFlags();
+    void loadSatModes();
 
     QMap<int, QString> flags;
     QMap<QString, QString> contests;
     QMap<QString, QString> propagationModes;
     QMap<QString, QPair<QString, QString>> legacyModes;
+    QMap<QString, QString> satModes;
 };
 
 #endif // DATA_H

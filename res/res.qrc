@@ -13,5 +13,6 @@
         <file>sql/modes.sql</file>
         <file>sql/contests.sql</file>
         <file>sql/migration_002.sql</file>
+        <file>data/sat_modes.json</file>
     </qresource>
 </RCC>

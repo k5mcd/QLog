@@ -12,7 +12,8 @@ MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::NewContactWidget)
+    ui(new Ui::NewContactWidget),
+    prop_cond(nullptr)
 {
     FCT_IDENTIFICATION;
 
@@ -42,6 +43,14 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     propagationModeList.prepend("");
     QStringListModel* propagationModeModel = new QStringListModel(propagationModeList, this);
     ui->propagationModeEdit->setModel(propagationModeModel);
+
+    QStringList satModesList = Data::instance()->satModeList();
+    satModesList.prepend("");
+    QStringListModel* satModesModel = new QStringListModel(satModesList, this);
+    ui->satModeEdit->setModel(satModesModel);
+
+    ui->satModeEdit->setEnabled(false);
+    ui->satNameEdit->setEnabled(false);
 
     connect(rig, &Rig::frequencyChanged,
             this, &NewContactWidget::changeFrequency);
@@ -411,17 +420,35 @@ void NewContactWidget::saveContact() {
     record.setValue("hrdlog_qso_upload_status", "N");
     record.setValue("qrzcom_qsoupload_status", "N");
 
+    if ( prop_cond )
+    {
+        if ( prop_cond->isFluxValid() )
+        {
+            record.setValue("sfi", prop_cond->getFlux());
+        }
+
+        if ( prop_cond->isKIndexValid() )
+        {
+            record.setValue("k_index", prop_cond->getKIndex());
+        }
+    }
+
     if (ui->powerEdit->value() != 0.0) {
         record.setValue("tx_pwr", ui->powerEdit->value());
     }
 
     if ( !ui->propagationModeEdit->currentText().isEmpty() )
     {
-        record.setValue("prop_mode", Data::instance()->propagationModeValueToID(ui->propagationModeEdit->currentText()));
+        record.setValue("prop_mode", Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()));
+    }
+
+    if ( !ui->satModeEdit->currentText().isEmpty() )
+    {
+        record.setValue("sat_mode", Data::instance()->satModeTextToID(ui->satModeEdit->currentText()));
     }
 
     if (!ui->commentEdit->text().isEmpty()) {
-        ("comment", ui->commentEdit->text());
+        record.setValue("comment", ui->commentEdit->text());
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {
@@ -631,6 +658,31 @@ void NewContactWidget::qrz() {
     FCT_IDENTIFICATION;
 
     QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
+}
+
+void NewContactWidget::addPropConditions(Conditions *cond)
+{
+    FCT_IDENTIFICATION;
+    prop_cond = cond;
+}
+
+void NewContactWidget::propModeChanged(QString propModeText)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << "propModeText: " << propModeText << " mode: "<< Data::instance()->propagationModeIDToText("SAT");
+    if ( propModeText == Data::instance()->propagationModeIDToText("SAT") )
+    {
+        ui->satModeEdit->setEnabled(true);
+        ui->satNameEdit->setEnabled(true);
+    }
+    else
+    {
+        ui->satModeEdit->setCurrentIndex(0);
+        ui->satNameEdit->setCurrentIndex(0);
+        ui->satModeEdit->setEnabled(false);
+        ui->satNameEdit->setEnabled(false);
+    }
 }
 
 NewContactWidget::~NewContactWidget() {

@@ -6,6 +6,7 @@
 #include "core/HamQTH.h"
 #include "core/Cty.h"
 #include "data/Data.h"
+#include "core/Conditions.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -59,6 +60,8 @@ public slots:
     void tuneDx(QString callsign, double frequency);
     void setDefaultReport();
     void qrz();
+    void addPropConditions(Conditions *);
+    void propModeChanged(QString);
 
 private:
     void queryDatabase(QString callsign);
@@ -76,6 +79,7 @@ private:
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;
+    Conditions *prop_cond;
 };
 
 #endif // NEWCONTACTWIDGET_H

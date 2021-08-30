@@ -81,6 +81,7 @@ MainWindow::MainWindow(QWidget* parent) :
     conditions = new Conditions(this);
     connect(conditions, &Conditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
     conditions->update();
+    ui->newContactWidget->addPropConditions(conditions);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -201,24 +202,35 @@ void MainWindow::conditionsUpdated() {
     FCT_IDENTIFICATION;
 
     QString kcolor;
-    if (conditions->k_index < 3.5) {
-        kcolor = "green";
+    QString k_index_string, flux_string;
+
+    k_index_string = flux_string = tr("N/A");
+
+    if ( conditions->isKIndexValid() )
+    {
+        double k_index = conditions->getKIndex();
+
+        if (k_index < 3.5) {
+            kcolor = "green";
+        }
+        else if (k_index < 4.5) {
+            kcolor = "orange";
+        }
+        else {
+            kcolor = "red";
+        }
+
+        k_index_string = QString::number(k_index, 'g', 2);
     }
-    else if (conditions->k_index < 4.5) {
-        kcolor = "orange";
-    }
-    else {
-        kcolor = "red";
+
+    if ( conditions->isFluxValid() )
+    {
+        flux_string = QString::number(conditions->getFlux());
     }
 
     conditionsLabel->setTextFormat(Qt::RichText);
-    conditionsLabel->setText(
-                QString("SFI <b>%1</B> K <b style='color: %2'>%3</b>").arg(
-                    QString::number(conditions->flux),
-                    kcolor,
-                    QString::number(conditions->k_index, 'g', 2)
-                )
-    );
+    conditionsLabel->setText(QString("SFI <b>%1</B> K <b style='color: %2'>%3</b>").arg(
+                             flux_string, kcolor, k_index_string ));
 }
 
 MainWindow::~MainWindow() {

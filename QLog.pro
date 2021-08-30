@@ -179,4 +179,5 @@ macx: {
 }
 
 DISTFILES += \
-    Changelog
+    Changelog \
+    res/data/sat_modes

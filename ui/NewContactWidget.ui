@@ -1129,7 +1129,7 @@
        <item>
         <layout class="QFormLayout" name="formLayout_9">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="propagationModeLabel">
            <property name="text">
             <string>Propagation Mode</string>
            </property>
@@ -1155,14 +1155,14 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="satModeLabel">
            <property name="text">
             <string>Satellite Mode</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="comboBox_5">
+          <widget class="QComboBox" name="satModeEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1181,14 +1181,14 @@
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="satNameLabel">
            <property name="text">
             <string>Satellite Name</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="comboBox_4">
+          <widget class="QComboBox" name="satNameEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1640,6 +1640,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>propagationModeEdit</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>propModeChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1314</x>
+     <y>506</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>562</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -1654,5 +1670,6 @@
   <slot>startContactTimer()</slot>
   <slot>updateTimeStop()</slot>
   <slot>subModeChanged()</slot>
+  <slot>propModeChanged(QString)</slot>
  </slots>
 </ui>

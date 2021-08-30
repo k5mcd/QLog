@@ -14,6 +14,7 @@ Data::Data(QObject *parent) : QObject(parent) {
     loadPropagationModes();
     loadLegacyModes();
     loadDxccFlags();
+    loadSatModes();
 }
 
 Data* Data::instance() {
@@ -337,6 +338,24 @@ void Data::loadDxccFlags() {
         QString flag = dxccData.value("flag").toString();
 
         flags.insert(id, flag);
+    }
+}
+
+void Data::loadSatModes()
+{
+    FCT_IDENTIFICATION;
+
+    QFile file(":/res/data/sat_modes.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray data = file.readAll();
+
+    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+        QVariantMap satModesData = object.toMap();
+
+        QString id = satModesData.value("id").toString();
+        QString name = satModesData.value("name").toString();
+
+        satModes.insert(id, name);
     }
 }
 

@@ -289,6 +289,19 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             depend_update_result = false;
             break;
         }
+
+        case COLUMN_SAT_MODE:
+        case COLUMN_SAT_NAME:
+        {
+            QString new_value = value.toString();
+
+            if ( !new_value.isEmpty() )
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_PROP_MODE), "SAT");
+            }
+            break;
+        }
+
         }
     }
 
