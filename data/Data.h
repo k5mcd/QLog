@@ -36,6 +36,9 @@ public:
     QStringList satModeList() { return satModes.values();}
     QStringList satModesIDList() { return satModes.keys(); }
     QString satModeTextToID(QString satModeText) { return satModes.key(satModeText);}
+    QStringList iotaList() { return iotaRef.values();}
+    QStringList iotaIDList() { return iotaRef.keys();}
+    QString iotaTextToID(QString iotaText) { return iotaRef.key(iotaText);}
 
 signals:
 
@@ -47,12 +50,14 @@ private:
     void loadLegacyModes();
     void loadDxccFlags();
     void loadSatModes();
+    void loadIOTA();
 
     QMap<int, QString> flags;
     QMap<QString, QString> contests;
     QMap<QString, QString> propagationModes;
     QMap<QString, QPair<QString, QString>> legacyModes;
     QMap<QString, QString> satModes;
+    QMap<QString, QString> iotaRef;
 };
 
 #endif // DATA_H

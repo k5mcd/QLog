@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSqlRecord>
+#include <QCompleter>
 #include "core/HamQTH.h"
 #include "core/Cty.h"
 #include "data/Data.h"
@@ -80,6 +81,7 @@ private:
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;
     Conditions *prop_cond;
+    QCompleter *iotaCompleter;
 };
 
 #endif // NEWCONTACTWIDGET_H

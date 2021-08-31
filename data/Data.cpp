@@ -15,6 +15,7 @@ Data::Data(QObject *parent) : QObject(parent) {
     loadLegacyModes();
     loadDxccFlags();
     loadSatModes();
+    loadIOTA();
 }
 
 Data* Data::instance() {
@@ -356,6 +357,24 @@ void Data::loadSatModes()
         QString name = satModesData.value("name").toString();
 
         satModes.insert(id, name);
+    }
+}
+
+void Data::loadIOTA()
+{
+    FCT_IDENTIFICATION;
+
+    QFile file(":/res/data/iota.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray data = file.readAll();
+
+    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+        QVariantMap iotaData = object.toMap();
+
+        QString id = iotaData.value("id").toString();
+        QString name = iotaData.value("name").toString();
+
+        iotaRef.insert(id, name);
     }
 }
 

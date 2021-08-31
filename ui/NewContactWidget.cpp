@@ -2,6 +2,7 @@
 #include <QShortcut>
 #include <QDesktopServices>
 #include <QDebug>
+#include <QCompleter>
 #include "core/Rig.h"
 #include "core/utils.h"
 #include "NewContactWidget.h"
@@ -61,6 +62,11 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     ui->satModeEdit->setEnabled(false);
     ui->satNameEdit->setEnabled(false);
+
+    iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
+    iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    iotaCompleter->setFilterMode(Qt::MatchContains);
+    ui->iotaEdit->setCompleter(iotaCompleter);
 
     connect(rig, &Rig::frequencyChanged,
             this, &NewContactWidget::changeFrequency);
@@ -435,7 +441,7 @@ void NewContactWidget::saveContact() {
     record.setValue("cont", ui->contEdit->currentText());
     record.setValue("cnty", ui->countyEdit->text());
     record.setValue("state", ui->stateEdit->text());
-    record.setValue("iota", ui->iotaEdit->text());
+    record.setValue("iota", ui->iotaEdit->text().toUpper());
     record.setValue("qsl_sent", "N");
     record.setValue("qsl_rcvd", "N");
     record.setValue("lotw_qsl_sent", "N");

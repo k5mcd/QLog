@@ -14,5 +14,6 @@
         <file>sql/contests.sql</file>
         <file>sql/migration_002.sql</file>
         <file>data/sat_modes.json</file>
+        <file>data/iota.json</file>
     </qresource>
 </RCC>
