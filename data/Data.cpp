@@ -16,6 +16,7 @@ Data::Data(QObject *parent) : QObject(parent) {
     loadDxccFlags();
     loadSatModes();
     loadIOTA();
+    loadSOTA();
 }
 
 Data* Data::instance() {
@@ -375,6 +376,23 @@ void Data::loadIOTA()
         QString name = iotaData.value("name").toString();
 
         iotaRef.insert(id, name);
+    }
+}
+
+void Data::loadSOTA()
+{
+    FCT_IDENTIFICATION;
+
+    QFile file(":/res/data/sota.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray data = file.readAll();
+
+    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+        QVariantMap sotaData = object.toMap();
+
+        QString id = sotaData.value("id").toString();
+        QString name = ""; // later - use UTF8 string
+        sotaRef.insert(id, name);
     }
 }
 

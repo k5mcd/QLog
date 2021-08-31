@@ -83,6 +83,7 @@ private:
     Conditions *prop_cond;
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
+    QCompleter *sotaCompleter;
 };
 
 #endif // NEWCONTACTWIDGET_H

@@ -60,7 +60,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     satCompleter->setModel(satModel);
     satCompleter->setCompletionColumn(satModel->fieldIndex("name"));
     satCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-    satCompleter->setFilterMode(Qt::MatchContains);
+    //satCompleter->setFilterMode(Qt::MatchContains);
     ui->satNameEdit->setCompleter(satCompleter);
     satModel->select();
 
@@ -71,6 +71,11 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
     ui->iotaEdit->setCompleter(iotaCompleter);
+
+    sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
+    sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    sotaCompleter->setFilterMode(Qt::MatchContains);
+    ui->sotaEdit->setCompleter(sotaCompleter);
 
     connect(rig, &Rig::frequencyChanged,
             this, &NewContactWidget::changeFrequency);
@@ -388,6 +393,7 @@ void NewContactWidget::resetContact() {
     ui->countyEdit->clear();
     ui->stateEdit->clear();
     ui->iotaEdit->clear();
+    ui->sotaEdit->clear();
     ui->dxccTableWidget->clear();
     ui->dxccStatus->clear();
     ui->flagView->setPixmap(QPixmap());
@@ -470,6 +476,11 @@ void NewContactWidget::saveContact() {
 
     if (ui->powerEdit->value() != 0.0) {
         record.setValue("tx_pwr", ui->powerEdit->value());
+    }
+
+    if ( !ui->sotaEdit->text().isEmpty() )
+    {
+        record.setValue("sota_ref", ui->sotaEdit->text().toUpper());
     }
 
     if ( !ui->propagationModeEdit->currentText().isEmpty() )

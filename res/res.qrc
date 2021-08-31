@@ -15,5 +15,6 @@
         <file>sql/migration_002.sql</file>
         <file>data/sat_modes.json</file>
         <file>data/iota.json</file>
+        <file>data/sota.json</file>
     </qresource>
 </RCC>
