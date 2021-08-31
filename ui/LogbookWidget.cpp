@@ -165,6 +165,10 @@ void LogbookWidget::filterCallsign(QString call) {
     {
        ui->callsignFilter->setText(call);
     }
+    else
+    {
+       ui->callsignFilter->setText("");
+    }
 }
 
 void LogbookWidget::callsignFilterChanged() {
