@@ -24,6 +24,9 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     QStringListModel* rigModel = new QStringListModel(this);
     ui->rigEdit->setModel(rigModel);
 
+    QStringListModel* antModel = new QStringListModel(this);
+    ui->antennaEdit->setModel(antModel);
+
     QStringListModel* submodeModel = new QStringListModel(this);
     ui->submodeEdit->setModel(submodeModel);
 
@@ -98,12 +101,14 @@ void NewContactWidget::readSettings() {
     QString submode = settings.value("newcontact/submode").toString();
     double freq = settings.value("newcontact/frequency", 3.5).toDouble();
     QString rig = settings.value("newcontact/rig").toString();
+    QString ant = settings.value("newcontact/antenna").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
     ui->frequencyEdit->setValue(freq);
     ui->rigEdit->setCurrentText(rig);
+    ui->antennaEdit->setCurrentText(ant);
     ui->powerEdit->setValue(power);
 
 }
@@ -116,20 +121,33 @@ void NewContactWidget::writeSettings() {
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
     settings.setValue("newcontact/frequency", ui->frequencyEdit->value());
     settings.setValue("newcontact/rig", ui->rigEdit->currentText());
+    settings.setValue("newcontact/antenna", ui->antennaEdit->currentText());
     settings.setValue("newcontact/power", ui->powerEdit->value());
 }
 
 void NewContactWidget::reloadSettings() {
     FCT_IDENTIFICATION;
 
-    QString selectedRig = ui->rigEdit->currentText();
     QSettings settings;
+
+    QString selectedRig = ui->rigEdit->currentText();
+    QString selectedAnt = ui->antennaEdit->currentText();
+
     QStringList rigs = settings.value("station/rigs").toStringList();
+    QStringList ants = settings.value("station/antennas").toStringList();
+
     QStringListModel* model = dynamic_cast<QStringListModel*>(ui->rigEdit->model());
+    QStringListModel* modelAnt = dynamic_cast<QStringListModel*>(ui->antennaEdit->model());
+
     model->setStringList(rigs);
+    modelAnt->setStringList(ants);
 
     if (!selectedRig.isEmpty()) {
         ui->rigEdit->setCurrentText(selectedRig);
+    }
+
+    if (!selectedAnt.isEmpty()) {
+        ui->antennaEdit->setCurrentText(selectedAnt);
     }
 
     //refresh mode combobox
@@ -471,6 +489,10 @@ void NewContactWidget::saveContact() {
         record.setValue("my_rig", ui->rigEdit->currentText());
     }
 
+    if (!ui->antennaEdit->currentText().isEmpty()) {
+        record.setValue("my_antenna", ui->antennaEdit->currentText());
+    }
+
     if (!ui->ageEdit->text().isEmpty()) {
         record.setValue("age", ui->ageEdit->text());
     }
@@ -485,6 +507,10 @@ void NewContactWidget::saveContact() {
 
     if (!settings.value("station/grid").toString().isEmpty()) {
         record.setValue("my_gridsquare", settings.value("station/grid").toString().toUpper());
+    }
+
+    if (!settings.value("station/qth").toString().isEmpty()) {
+        record.setValue("my_city", settings.value("station/qth").toString().toUpper());
     }
 
     if (!settings.value("station/callsign").toString().isEmpty()) {

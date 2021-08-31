@@ -20,6 +20,8 @@ public slots:
     void save();
     void addRig();
     void deleteRig();
+    void addAnt();
+    void deleteAnt();
     void rigChanged(int);
     void rotChanged(int);
 

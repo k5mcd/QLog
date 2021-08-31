@@ -34,6 +34,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QStringListModel* rigModel = new QStringListModel();
     ui->rigListView->setModel(rigModel);
 
+    QStringListModel* antModel = new QStringListModel();
+    ui->antListView->setModel(antModel);
+
     modeTableModel = new QSqlTableModel(this);
     modeTableModel->setTable("modes");
     modeTableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
@@ -96,6 +99,27 @@ void SettingsDialog::deleteRig() {
         ui->rigListView->model()->removeRow(index.row());
     }
     ui->rigListView->clearSelection();
+}
+
+void SettingsDialog::addAnt() {
+    FCT_IDENTIFICATION;
+
+    if (ui->antennasEdit->text().isEmpty()) return;
+
+    QStringListModel* model = (QStringListModel*)ui->antListView->model();
+    QStringList ants = model->stringList();
+    ants << ui->antennasEdit->text();
+    model->setStringList(ants);
+    ui->antennasEdit->clear();
+}
+
+void SettingsDialog::deleteAnt() {
+    FCT_IDENTIFICATION;
+
+    foreach (QModelIndex index, ui->antListView->selectionModel()->selectedRows()) {
+        ui->antListView->model()->removeRow(index.row());
+    }
+    ui->antListView->clearSelection();
 }
 
 void SettingsDialog::rigChanged(int index)
@@ -164,8 +188,13 @@ void SettingsDialog::readSettings() {
     ui->callsignEdit->setText(settings.value("station/callsign").toString());
     ui->locatorEdit->setText(settings.value("station/grid").toString());
     ui->operatorEdit->setText(settings.value("station/operator").toString());
+    ui->qthEdit->setText(settings.value("station/qth").toString());
     QStringList rigs = settings.value("station/rigs").toStringList();
+
     ((QStringListModel*)ui->rigListView->model())->setStringList(rigs);
+
+    QStringList ants = settings.value("station/antennas").toStringList();
+    ((QStringListModel*)ui->antListView->model())->setStringList(ants);
 
     ui->rigModelSelect->setCurrentIndex(settings.value("hamlib/rig/modelrow").toInt());
     ui->rigPortEdit->setText(settings.value("hamlib/rig/port").toString());
@@ -224,8 +253,13 @@ void SettingsDialog::writeSettings() {
     settings.setValue("station/callsign", ui->callsignEdit->text());
     settings.setValue("station/grid", ui->locatorEdit->text());
     settings.setValue("station/operator", ui->operatorEdit->text());
+    settings.setValue("station/qth", ui->qthEdit->text());
+
     QStringList rigs = ((QStringListModel*)ui->rigListView->model())->stringList();
     settings.setValue("station/rigs", rigs);
+
+    QStringList ants = ((QStringListModel*)ui->antListView->model())->stringList();
+    settings.setValue("station/antennas", ants);
 
     int rig_row = ui->rigModelSelect->currentIndex();
     QModelIndex rig_index = ui->rigModelSelect->model()->index(rig_row, 0);

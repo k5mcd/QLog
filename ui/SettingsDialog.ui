@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>720</width>
-    <height>828</height>
+    <height>850</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
@@ -27,7 +27,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -83,6 +83,16 @@
             <item row="2" column="1">
              <widget class="QLineEdit" name="operatorEdit"/>
             </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="qthLabel">
+              <property name="text">
+               <string>QTH</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="qthEdit"/>
+            </item>
            </layout>
           </item>
          </layout>
@@ -94,12 +104,22 @@
           <string>Rigs</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
+          <item row="1" column="1">
+           <widget class="QPushButton" name="addRigButton">
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QLineEdit" name="rigNameEdit">
             <property name="maxLength">
              <number>25</number>
             </property>
            </widget>
+          </item>
+          <item row="0" column="0" colspan="4">
+           <widget class="QListView" name="rigListView"/>
           </item>
           <item row="1" column="2">
            <widget class="QPushButton" name="deleteRigButton">
@@ -108,15 +128,38 @@
             </property>
            </widget>
           </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="title">
+          <string>Antennas</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0" columnstretch="0,0,0">
+          <item row="1" column="2">
+           <widget class="QPushButton" name="deleteAntButton">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
-           <widget class="QPushButton" name="addRigButton">
+           <widget class="QPushButton" name="addAntButton">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" colspan="4">
-           <widget class="QListView" name="rigListView"/>
+          <item row="1" column="0">
+           <widget class="QLineEdit" name="antennasEdit">
+            <property name="maxLength">
+             <number>25</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="3">
+           <widget class="QListView" name="antListView"/>
           </item>
          </layout>
         </widget>
@@ -954,6 +997,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>addAntButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addAnt()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>554</x>
+     <y>755</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteAntButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>deleteAnt()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>641</x>
+     <y>755</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -961,5 +1036,7 @@
   <slot>deleteRig()</slot>
   <slot>rigChanged(int)</slot>
   <slot>rotChanged(int)</slot>
+  <slot>addAnt()</slot>
+  <slot>deleteAnt()</slot>
  </slots>
 </ui>
