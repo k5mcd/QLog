@@ -82,6 +82,7 @@ private:
     CoordPrecision coordPrec;
     Conditions *prop_cond;
     QCompleter *iotaCompleter;
+    QCompleter *satCompleter;
 };
 
 #endif // NEWCONTACTWIDGET_H

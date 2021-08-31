@@ -55,9 +55,13 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     QSqlTableModel* satModel = new QSqlTableModel();
     satModel->setTable("sat_info");
-    satModel->setFilter("status = 'active'");
-    ui->satNameEdit->setModel(satModel);
-    ui->satNameEdit->setModelColumn(satModel->fieldIndex("name"));
+
+    satCompleter = new QCompleter();
+    satCompleter->setModel(satModel);
+    satCompleter->setCompletionColumn(satModel->fieldIndex("name"));
+    satCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    satCompleter->setFilterMode(Qt::MatchContains);
+    ui->satNameEdit->setCompleter(satCompleter);
     satModel->select();
 
     ui->satModeEdit->setEnabled(false);
@@ -478,9 +482,9 @@ void NewContactWidget::saveContact() {
         record.setValue("sat_mode", Data::instance()->satModeTextToID(ui->satModeEdit->currentText()));
     }
 
-    if ( !ui->satNameEdit->currentText().isEmpty() )
+    if ( !ui->satNameEdit->text().isEmpty() )
     {
-        record.setValue("sat_name", ui->satNameEdit->currentText());
+        record.setValue("sat_name", ui->satNameEdit->text().toUpper());
     }
 
     if (!ui->commentEdit->text().isEmpty()) {
@@ -723,7 +727,7 @@ void NewContactWidget::propModeChanged(QString propModeText)
     else
     {
         ui->satModeEdit->setCurrentIndex(-1);
-        ui->satNameEdit->setCurrentIndex(-1);
+        ui->satNameEdit->clear();
         ui->satModeEdit->setEnabled(false);
         ui->satNameEdit->setEnabled(false);
     }
