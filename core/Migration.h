@@ -20,7 +20,7 @@ private:
 
     bool updateBands();
     bool updateModes();
-    bool updateDxcc();
+    bool updateExternalResource();
 
     static const int latestVersion = 2;
 };

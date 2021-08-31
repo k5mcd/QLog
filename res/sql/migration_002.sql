@@ -120,5 +120,14 @@ ALTER TABLE contacts ADD ve_prov TEXT;
 ALTER TABLE contacts ADD vucc_grids TEXT;
 ALTER TABLE contacts ADD web TEXT;
 
-
+CREATE TABLE IF NOT EXISTS sat_info (
+        name TEXT NOT NULL,
+        number INTEGER,
+        uplink TEXT,
+        downlink TEXT,
+        beacon TEXT,
+        "mode" TEXT,
+        callsign TEXT,
+        status TEXT
+);
 

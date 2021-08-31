@@ -38,6 +38,7 @@ SOURCES += \
         core/Migration.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
+        core/Sat.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
         core/Migration.h \
         core/Rig.h \
         core/Rotator.h \
+        core/Sat.h \
         core/StyleItemDelegate.h \
         core/Wsjtx.h \
         core/debug.h \

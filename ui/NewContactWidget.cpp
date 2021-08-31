@@ -49,6 +49,13 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     QStringListModel* satModesModel = new QStringListModel(satModesList, this);
     ui->satModeEdit->setModel(satModesModel);
 
+    QSqlTableModel* satModel = new QSqlTableModel();
+    satModel->setTable("sat_info");
+    satModel->setFilter("status = 'active'");
+    ui->satNameEdit->setModel(satModel);
+    ui->satNameEdit->setModelColumn(satModel->fieldIndex("name"));
+    satModel->select();
+
     ui->satModeEdit->setEnabled(false);
     ui->satNameEdit->setEnabled(false);
 
@@ -447,6 +454,11 @@ void NewContactWidget::saveContact() {
         record.setValue("sat_mode", Data::instance()->satModeTextToID(ui->satModeEdit->currentText()));
     }
 
+    if ( !ui->satNameEdit->currentText().isEmpty() )
+    {
+        record.setValue("sat_name", ui->satNameEdit->currentText());
+    }
+
     if (!ui->commentEdit->text().isEmpty()) {
         record.setValue("comment", ui->commentEdit->text());
     }
@@ -678,8 +690,8 @@ void NewContactWidget::propModeChanged(QString propModeText)
     }
     else
     {
-        ui->satModeEdit->setCurrentIndex(0);
-        ui->satNameEdit->setCurrentIndex(0);
+        ui->satModeEdit->setCurrentIndex(-1);
+        ui->satNameEdit->setCurrentIndex(-1);
         ui->satModeEdit->setEnabled(false);
         ui->satNameEdit->setEnabled(false);
     }

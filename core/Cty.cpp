@@ -16,10 +16,9 @@
 #include "debug.h"
 
 #define CTY_URL "http://www.country-files.com/cty/cty.csv"
+#define CTY_FILE_AGING 21
 
 MODULE_IDENTIFICATION("qlog.core.cty");
-
-#define CTY_FILE_AGING 21
 
 Cty::Cty() {
     FCT_IDENTIFICATION;

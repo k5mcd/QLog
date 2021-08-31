@@ -302,6 +302,19 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
+        case COLUMN_PROP_MODE:
+        {
+            QString sat_mode = QSqlTableModel::data(this->index(index.row(), COLUMN_SAT_MODE), Qt::DisplayRole).toString();
+            QString sat_name = QSqlTableModel::data(this->index(index.row(), COLUMN_SAT_NAME), Qt::DisplayRole).toString();
+
+            /* If sat name or mode is not empty then do not allow to change propmode from SAT to any */
+            if ( !sat_name.isEmpty() || !sat_mode.isEmpty() )
+            {
+                depend_update_result = false;
+            }
+            break;
+        }
+
         }
     }
 

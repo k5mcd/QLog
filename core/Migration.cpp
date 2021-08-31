@@ -4,6 +4,7 @@
 #include <QDebug>
 #include "core/Migration.h"
 #include "core/Cty.h"
+#include "core/Sat.h"
 #include "debug.h"
 
 MODULE_IDENTIFICATION("qlog.core.migration");
@@ -19,7 +20,7 @@ bool Migration::run() {
 
     if (currentVersion == latestVersion) {
         qCDebug(runtime) << "Database schema already up to date";
-        updateDxcc();
+        updateExternalResource();
         return true;
     }
     else if (currentVersion < latestVersion) {
@@ -54,7 +55,7 @@ bool Migration::run() {
         updateModes();
     }
 
-    updateDxcc();
+    updateExternalResource();
 
     qCDebug(runtime) << "Database migration successful";
 
@@ -177,32 +178,61 @@ bool Migration::updateModes() {
     return runSqlFile(":/res/sql/modes.sql");
 }
 
-bool Migration::updateDxcc() {
+bool Migration::updateExternalResource() {
     FCT_IDENTIFICATION;
 
-    QProgressDialog progress("Updating DXCC entities...", nullptr, 0, Cty::MAX_ENTITIES);
-
     Cty cty;
+    Sat sats;
+
+    QProgressDialog progress("Updating DXCC entities...", nullptr, 0, Cty::MAX_ENTITIES);
 
     QObject::connect(&cty, &Cty::progress, &progress, &QProgressDialog::setValue);
     QObject::connect(&cty, &Cty::finished, &progress, &QProgressDialog::done);
     QObject::connect(&cty, &Cty::noUpdate, &progress, &QProgressDialog::cancel);
 
+    QObject::connect(&sats, &Sat::progress, &progress, &QProgressDialog::setValue);
+    QObject::connect(&sats, &Sat::finished, &progress, &QProgressDialog::done);
+    QObject::connect(&sats, &Sat::noUpdate, &progress, &QProgressDialog::cancel);
+
     cty.update();
 
     if ( progress.wasCanceled() )
     {
-        qCDebug(runtime) << "Update was canceled";
-        return true;
+        qCDebug(runtime) << "Update DXCC was canceled";
     }
+    else
+    {
+        progress.show();
+
+        if ( !progress.exec() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("DXCC update failed."));
+            return false;
+        }
+    }
+
+    progress.reset();
+    progress.setLabelText("Updating Sats Info...");
+    progress.setMinimum(0);
+    progress.setMaximum(Sat::MAX_ENTITIES);
 
     progress.show();
 
-    if ( !progress.exec() )
+    sats.update();
+
+    if ( progress.wasCanceled() )
     {
-        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("DXCC update failed."));
-        return false;
+        qCDebug(runtime) << "Update SATs was canceled";
+    }
+    else
+    {
+        if ( !progress.exec() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("Sats Info update failed."));
+            return false;
+        }
     }
     return true;
 }
