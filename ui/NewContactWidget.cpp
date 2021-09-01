@@ -394,6 +394,9 @@ void NewContactWidget::resetContact() {
     ui->stateEdit->clear();
     ui->iotaEdit->clear();
     ui->sotaEdit->clear();
+    ui->sigEdit->clear();
+    ui->sigInfoEdit->clear();
+    ui->dokEdit->clear();
     ui->dxccTableWidget->clear();
     ui->dxccStatus->clear();
     ui->flagView->setPixmap(QPixmap());
@@ -452,6 +455,8 @@ void NewContactWidget::saveContact() {
     record.setValue("cnty", ui->countyEdit->text());
     record.setValue("state", ui->stateEdit->text());
     record.setValue("iota", ui->iotaEdit->text().toUpper());
+    record.setValue("sig", ui->sigEdit->text().toUpper());
+    record.setValue("sig_info", ui->sigInfoEdit->text().toUpper());
     record.setValue("qsl_sent", "N");
     record.setValue("qsl_rcvd", "N");
     record.setValue("lotw_qsl_sent", "N");
@@ -481,6 +486,11 @@ void NewContactWidget::saveContact() {
     if ( !ui->sotaEdit->text().isEmpty() )
     {
         record.setValue("sota_ref", ui->sotaEdit->text().toUpper());
+    }
+
+    if ( !ui->dokEdit->text().isEmpty() )
+    {
+        record.setValue("darc_dok", ui->dokEdit->text().toUpper());
     }
 
     if ( !ui->propagationModeEdit->currentText().isEmpty() )
