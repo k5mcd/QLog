@@ -191,6 +191,12 @@ public:
         list = in_list;
     }
 
+    ComboFormatDelegate(QMap<QString, QString> in_map, QObject* parent = 0)
+    {
+        model = nullptr;
+        map = in_map;
+    }
+
     QWidget* createEditor(QWidget* parent,
                           const QStyleOptionViewItem&,
                           const QModelIndex&) const
@@ -208,38 +214,69 @@ public:
 
     void setEditorData(QWidget* editor, const QModelIndex& index) const
     {
+
         QComboBox* combo = static_cast<QComboBox*>(editor);
+        combo->clear();
+
         if ( model )
         {
             combo->setModel(model);
             combo->setCurrentText(index.model()->data(index).toString());
         }
-        else
+        else if ( ! list.isEmpty() )
         {
             combo->addItems(list);
             combo->setCurrentText(index.model()->data(index).toString());
         }
+        else if ( ! map.isEmpty() )
+        {
+            QMapIterator<QString, QString> iter(map);
+            int iter_index = 0;
+            int value_index = 0;
 
+            while ( iter.hasNext() )
+            {
+                iter.next();
+                combo->addItem(iter.value(), iter.key());
+                if ( iter.key() == index.model()->data(index).toString() )
+                {
+                    value_index = iter_index;
+                }
+                iter_index++;
+            }
+            combo->setCurrentIndex(value_index);
+        }
     }
 
     void setModelData(QWidget* editor, QAbstractItemModel* model,
                       const QModelIndex& index) const
     {
        QComboBox* combo = static_cast<QComboBox*>(editor);
-       if ( combo->currentText() == "" )
-       {
-           model->setData(index, QVariant(), Qt::EditRole);
+       QString curr_value;
 
+       if ( !map.isEmpty() )
+       {
+           curr_value = combo->currentData().toString();
        }
        else
        {
-           model->setData(index, QVariant(combo->currentText()), Qt::EditRole);
+           curr_value = combo->currentText();
+       }
+
+       if ( curr_value == " " )
+       {
+           model->setData(index, QVariant(), Qt::EditRole);
+       }
+       else
+       {
+           model->setData(index, QVariant(curr_value), Qt::EditRole);
        }
     }
 
 private:
     QAbstractTableModel *model;
     QStringList list;
+    QMap<QString, QString> map;
 };
 
 
