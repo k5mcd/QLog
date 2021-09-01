@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1135</width>
+    <width>1340</width>
     <height>622</height>
    </rect>
   </property>
@@ -918,6 +918,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
           </widget>
          </item>
          <item row="2" column="0">
@@ -943,6 +946,9 @@
          </item>
          <item row="2" column="1">
           <widget class="QLineEdit" name="sigEdit">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="toolTip">
             <string>Example WWFF or POTA</string>
            </property>
@@ -950,13 +956,20 @@
          </item>
          <item row="3" column="1">
           <widget class="QLineEdit" name="sigInfoEdit">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="toolTip">
             <string>Example OKFF-1097</string>
            </property>
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="dokEdit"/>
+          <widget class="QLineEdit" name="dokEdit">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -1179,6 +1192,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
            </property>
           </widget>
          </item>
