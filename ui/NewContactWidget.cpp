@@ -20,6 +20,17 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
+    ui->qslSentBox->addItem(tr("No"), QVariant("N"));
+    ui->qslSentBox->addItem(tr("Yes"), QVariant("Y"));
+    ui->qslSentBox->addItem(tr("Requested"), QVariant("R"));
+    ui->qslSentBox->addItem(tr("Queued"), QVariant("Q"));
+    ui->qslSentBox->addItem(tr("Ignored"), QVariant("I"));
+
+    ui->qslSentViaBox->addItem("", QVariant(""));
+    ui->qslSentViaBox->addItem(tr("Bureau"), QVariant("B"));
+    ui->qslSentViaBox->addItem(tr("Direct"), QVariant("D"));
+    ui->qslSentViaBox->addItem(tr("Electronic"), QVariant("E"));
+
     rig = Rig::instance();
 
     QStringListModel* rigModel = new QStringListModel(this);
@@ -387,6 +398,8 @@ void NewContactWidget::resetContact() {
     ui->distanceInfo->clear();
     ui->bearingInfo->clear();
     ui->qslViaEdit->clear();
+    ui->qslSentBox->setCurrentIndex(0);
+    ui->qslSentViaBox->setCurrentIndex(0);
     ui->cqEdit->clear();
     ui->ituEdit->clear();
     ui->contEdit->setCurrentText("");
@@ -457,7 +470,11 @@ void NewContactWidget::saveContact() {
     record.setValue("iota", ui->iotaEdit->text().toUpper());
     record.setValue("sig", ui->sigEdit->text().toUpper());
     record.setValue("sig_info", ui->sigInfoEdit->text().toUpper());
-    record.setValue("qsl_sent", "N");
+    record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
+    if ( ! ui->qslSentViaBox->currentText().isEmpty() )
+    {
+        record.setValue("qsl_sent_via", ui->qslSentViaBox->itemData(ui->qslSentViaBox->currentIndex()));
+    }
     record.setValue("qsl_rcvd", "N");
     record.setValue("lotw_qsl_sent", "N");
     record.setValue("lotw_qsl_rcvd", "N");
@@ -513,7 +530,7 @@ void NewContactWidget::saveContact() {
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {
-        record.setValue("qsl_via", ui->qslViaEdit->text());
+        record.setValue("qsl_via", ui->qslViaEdit->text().toUpper());
     }
 
     if (!ui->rigEdit->currentText().isEmpty()) {
