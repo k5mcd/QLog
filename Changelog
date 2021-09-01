@@ -33,3 +33,9 @@ TBD - 0.2
    - Added Column Visibility Setting
 - Added DEB control files
 - CTY is updated regularly
+- Main&NewContact Window reworking
+   - Removed Contest Tab
+   - Saving correct values for PROPMODE, QSL Sent/RCVD, SATs, IOTA, SOTA
+     SIG, SIG_INFO, DOK
+   - Added k-index, SFI saving
+   - Added my Ant parameter
