@@ -496,6 +496,11 @@ void NewContactWidget::saveContact() {
         }
     }
 
+    if ( coordPrec >= COORD_GRID)
+    {
+        record.setValue("distance", ui->distanceInfo->text().split(" ")[0]);
+    }
+
     if (ui->powerEdit->value() != 0.0) {
         record.setValue("tx_pwr", ui->powerEdit->value());
     }
