@@ -102,16 +102,25 @@ void HamQTH::processReply(QNetworkReply* reply) {
             data["qth"] = xml.readElementText();
         }
         else if (xml.name() == "grid") {
-            data["gridsquare"] = xml.readElementText();
+            data["gridsquare"] = xml.readElementText().toUpper();
         }
         else if (xml.name() == "qsl_via") {
-            data["qsl_via"] = xml.readElementText();
+            data["qsl_via"] = xml.readElementText().toUpper();
         }
         else if (xml.name() == "cq") {
             data["cqz"] = xml.readElementText();
         }
         else if (xml.name() == "itu") {
             data["ituz"] = xml.readElementText();
+        }
+        else if (xml.name() == "dok") {
+            data["dok"] = xml.readElementText().toUpper();
+        }
+        else if (xml.name() == "iota") {
+            data["iota"] = xml.readElementText().toUpper();
+        }
+        else if (xml.name() == "email") {
+            data["email"] = xml.readElementText();
         }
     }
 

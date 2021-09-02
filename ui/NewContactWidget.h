@@ -52,6 +52,7 @@ public slots:
     void updateTimeStop();
     void startContactTimer();
     void stopContactTimer();
+    void editCallsignFinished();
     void callsignResult(const QMap<QString, QString>& data);
     void updateCoordinates(double lat, double lon, CoordPrecision prec);
     void updateDxccStatus();
@@ -67,6 +68,7 @@ public slots:
 private:
     void queryDatabase(QString callsign);
     void queryDxcc(QString callsign);
+    void clearQueryFields();
     void readSettings();
     void writeSettings();
     void __modeChanged();

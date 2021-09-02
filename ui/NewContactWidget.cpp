@@ -194,15 +194,10 @@ void NewContactWidget::callsignChanged() {
     }
     else {
         callsign = newCallsign;
-        ui->nameEdit->setPlaceholderText(QString());
-        ui->gridEdit->setPlaceholderText(QString());
-        ui->qthEdit->setPlaceholderText(QString());
-        ui->qslViaEdit->setPlaceholderText(QString());
-        ui->cqEdit->setPlaceholderText(QString());
-        ui->ituEdit->setPlaceholderText(QString());
     }
 
     updateTime();
+    clearQueryFields();
 
     if (callsign.isEmpty()) {
         stopContactTimer();
@@ -213,7 +208,6 @@ void NewContactWidget::callsignChanged() {
 
         if (callsign.length() >= 3) {
             queryDatabase(callsign);
-            callbook.queryCallsign(callsign);
         }
     }
 }
@@ -253,6 +247,16 @@ void NewContactWidget::queryDxcc(QString callsign) {
     }
 }
 
+void NewContactWidget::clearQueryFields()
+{
+    ui->nameEdit->clear();
+    ui->gridEdit->clear();
+    ui->qthEdit->clear();
+    ui->dokEdit->clear();
+    ui->iotaEdit->clear();
+    ui->emailEdit->clear();
+}
+
 void NewContactWidget::queryDatabase(QString callsign) {
     FCT_IDENTIFICATION;
 
@@ -282,12 +286,12 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
         return;
     }
 
-        ui->nameEdit->setPlaceholderText(data.value("name"));
-        ui->gridEdit->setPlaceholderText(data.value("gridsquare"));
-        ui->qthEdit->setPlaceholderText(data.value("qth"));
-        ui->qslViaEdit->setPlaceholderText(data.value("qsl_via"));
-        ui->cqEdit->setPlaceholderText(data.value("cqz"));
-        ui->ituEdit->setPlaceholderText(data.value("ituz"));
+    ui->nameEdit->setText(data.value("name"));
+    ui->gridEdit->setText(data.value("gridsquare"));
+    ui->qthEdit->setText(data.value("qth"));
+    ui->dokEdit->setText(data.value("dok"));
+    ui->iotaEdit->setText(data.value("iota"));
+    ui->emailEdit->setText(data.value("email"));
 }
 
 void NewContactWidget::frequencyChanged() {
@@ -416,13 +420,6 @@ void NewContactWidget::resetContact() {
     ui->ageEdit->clear();
     ui->emailEdit->clear();
     ui->urlEdit->clear();
-
-    ui->nameEdit->setPlaceholderText(QString());
-    ui->gridEdit->setPlaceholderText(QString());
-    ui->qthEdit->setPlaceholderText(QString());
-    ui->qslViaEdit->setPlaceholderText(QString());
-    ui->cqEdit->setPlaceholderText(QString());
-    ui->ituEdit->setPlaceholderText(QString());
 
     stopContactTimer();
     setDefaultReport();
@@ -608,6 +605,15 @@ void NewContactWidget::stopContactTimer() {
     updateTimeOff();
 }
 
+void NewContactWidget::editCallsignFinished()
+{
+    startContactTimer();
+    if ( callsign.size() >= 3 )
+    {
+        callbook.queryCallsign(callsign);
+    }
+}
+
 void NewContactWidget::updateTime() {
     FCT_IDENTIFICATION;
 
@@ -731,6 +737,10 @@ void NewContactWidget::tuneDx(QString callsign, double frequency) {
     ui->callsignEdit->setText(callsign);
     ui->frequencyEdit->setValue(frequency);
     callsignChanged();
+    if ( callsign.size() >= 3 )
+    {
+        callbook.queryCallsign(callsign);
+    }
     stopContactTimer();
 }
 
