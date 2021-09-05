@@ -276,6 +276,66 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_GRID:
         {
             depend_update_result = gridValidate(value.toString());
+            if ( depend_update_result )
+            {
+                if ( !value.toString().isEmpty() )
+                {
+                    double myLat, myLon, lat, lon, distance;
+                    QString myGrid = QSqlTableModel::data(this->index(index.row(), COLUMN_MY_GRIDSQUARE), Qt::DisplayRole).toString();
+
+                    if ( !myGrid.isEmpty() )
+                    {
+                        gridToCoord(value.toString(), lat, lon);
+                        gridToCoord(myGrid, myLat, myLon);
+
+                        distance = coordDistance(myLat, myLon, lat, lon);
+
+                        bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
+                        depend_update_result = depend_update_result && ret;
+                    }
+                }
+                else
+                {
+                    bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                    depend_update_result = depend_update_result && ret;
+                }
+                main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
+
+                return main_update_result && depend_update_result;
+            }
+            break;
+        }
+
+        case COLUMN_MY_GRIDSQUARE:
+        {
+            depend_update_result = gridValidate(value.toString());
+            if ( depend_update_result )
+            {
+                if ( !value.toString().isEmpty() )
+                {
+                    double myLat, myLon, lat, lon, distance;
+                    QString dxGrid = QSqlTableModel::data(this->index(index.row(), COLUMN_GRID), Qt::DisplayRole).toString();
+
+                    if ( !dxGrid.isEmpty() )
+                    {
+                        gridToCoord(value.toString(), myLat, myLon);
+                        gridToCoord(dxGrid, lat, lon);
+
+                        distance = coordDistance(myLat, myLon, lat, lon);
+
+                        bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
+                        depend_update_result = depend_update_result && ret;
+                    }
+                }
+                else
+                {
+                    bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                    depend_update_result = depend_update_result && ret;
+                }
+                main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
+
+                return main_update_result && depend_update_result;
+            }
             break;
         }
 
@@ -285,6 +345,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_CONTINENT:
         case COLUMN_CQZ:
         case COLUMN_ITUZ:
+        case COLUMN_DISTANCE:
         {
             depend_update_result = false;
             break;
