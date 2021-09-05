@@ -32,12 +32,14 @@ LotwDialog::LotwDialog(QWidget *parent) :
     else {
         ui->dateEdit->setDate(QDateTime::currentDateTimeUtc().date());
     }
+
+    ui->stationCombo->addItem(settings.value("station/callsign").toString().toUpper());
 }
 
 void LotwDialog::download() {
     FCT_IDENTIFICATION;
 
-    QProgressDialog* dialog = new QProgressDialog(tr("Updating from LotW"), tr("Cancel"), 0, 0, this);
+    QProgressDialog* dialog = new QProgressDialog(tr("Downloading from LotW"), tr("Cancel"), 0, 0, this);
     dialog->setWindowModality(Qt::WindowModal);
     dialog->setRange(0, 0);
     dialog->show();
@@ -46,28 +48,36 @@ void LotwDialog::download() {
 
     Lotw* lotw = new Lotw(dialog);
     connect(lotw, &Lotw::updateProgress, dialog, &QProgressDialog::setValue);
+
     connect(lotw, &Lotw::updateStarted, [dialog] {
+        dialog->setLabelText(tr("Processing LotW QSLs"));
         dialog->setRange(0, 100);
     });
-    connect(lotw, &Lotw::updateComplete, [this, dialog, qsl](LotwUpdate update) {
+
+    connect(lotw, &Lotw::updateComplete, [this, dialog, qsl](QSLMergeStat stats) {
         if (qsl) {
             QSettings settings;
             settings.setValue("lotw/last_update", QDateTime::currentDateTimeUtc().date());
         }
         dialog->close();
-        QMessageBox::information(this, tr("QLog Error"),
-                                 tr("LotW Update completed.") + "\n" +
-                                 tr("QSOs checked: %n", "", update.qsos_checked) + "\n" +
-                                 tr("New QSLs received: %n", "", update.qsls_updated) + "\n" +
-                                 tr("QSOs updated: %n", "", update.qsos_updated) + "\n" +
-                                 tr("Unmatched QSOs: %n", "", update.qsos_unmatched));
+
+        QMessageBox::information(this, tr("QLog Info"),
+                                 tr("LotW Update completed.") + "\n\n" +
+                                 tr("QSOs checked: %n", "", stats.qsos_checked) + "\n" +
+                                 tr("New QSLs received: %n", "", stats.qsos_updated) + "\n" +
+                                 tr("Unmatched QSOs: %n", "", stats.qsos_unmatched) + "\n" +
+                                 tr("Error QSOs: %n", "", stats.qsos_errors)
+                                 );
+        qCDebug(runtime) << "New QSLs: " << stats.newQSLs;
+        qCDebug(runtime) << "Unmatched QSLs: " << stats.unmatchedQSLs;
     });
+
     connect(lotw, &Lotw::updateFailed, [this, dialog]() {
         dialog->close();
         QMessageBox::critical(this, tr("QLog Error"), tr("LotW Update failed."));
     });
 
-    lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked());
+    lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
 
     dialog->exec();
 }

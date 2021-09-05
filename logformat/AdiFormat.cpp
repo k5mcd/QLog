@@ -377,9 +377,9 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("cnty", contact.take("cnty"));
     record.setValue("iota", contact.take("iota").toString().toUpper());
     record.setValue("qsl_rcvd", parseQslRcvd(contact.take("qsl_rcvd").toString()));
-    record.setValue("qslrdate", parseDate(contact.take("qslrdate").toString()));
+    record.setValue("qsl_rdate", parseDate(contact.take("qslrdate").toString()));
     record.setValue("qsl_sent", parseQslSent(contact.take("qsl_sent").toString()));
-    record.setValue("qslsdate", parseDate(contact.take("qslsdate").toString()));
+    record.setValue("qsl_sdate", parseDate(contact.take("qslsdate").toString()));
     record.setValue("lotw_qsl_rcvd", parseQslRcvd(contact.take("lotw_qsl_rcvd").toString()));
     record.setValue("lotw_qslrdate", parseDate(contact.take("lotw_qslrdate").toString()));
     record.setValue("lotw_qsl_sent", parseQslSent(contact.take("lotw_qsl_sent").toString()));

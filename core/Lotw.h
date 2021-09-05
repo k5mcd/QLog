@@ -2,16 +2,10 @@
 #define LOTW_H
 
 #include <QObject>
+#include <logformat/LogFormat.h>
 
 class QNetworkAccessManager;
 class QNetworkReply;
-
-struct LotwUpdate {
-    int qsos_updated;
-    int qsls_updated;
-    int qsos_checked;
-    int qsos_unmatched;
-};
 
 class Lotw : public QObject
 {
@@ -19,14 +13,14 @@ class Lotw : public QObject
 public:
     explicit Lotw(QObject *parent = nullptr);
 
-    void update(QDate start_date, bool qso_since);
+    void update(QDate start_date, bool qso_since, QString stationCallsign);
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;
 
 signals:
     void updateProgress(int value);
     void updateStarted();
-    void updateComplete(LotwUpdate update);
+    void updateComplete(QSLMergeStat update);
     void updateFailed();
 
 public slots:

@@ -6,6 +6,15 @@
 
 class QSqlRecord;
 
+struct QSLMergeStat {
+    QStringList newQSLs;
+    QStringList unmatchedQSLs;
+    int qsos_updated;
+    int qsos_checked;
+    int qsos_unmatched;
+    int qsos_errors;
+};
+
 class LogFormat : public QObject {
     Q_OBJECT
 
@@ -17,6 +26,11 @@ public:
         JSON
     };
 
+    enum QSLFrom {
+        LOTW,
+        UNKNOW
+    };
+
     LogFormat(QTextStream& stream);
 
     virtual ~LogFormat();
@@ -25,6 +39,7 @@ public:
     static LogFormat* open(Type type, QTextStream& stream);
 
     void runImport();
+    void runQSLImport(QSLFrom fromService);
     int runExport();
     void setDefaults(QMap<QString, QString>& defaults);
     void setDateRange(QDate start, QDate end);
@@ -41,6 +56,7 @@ public:
 signals:
     void progress(qint64 value);
     void finished(int count);
+    void QSLMergeFinished(QSLMergeStat stats);
 
 protected:
     QTextStream& stream;

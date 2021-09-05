@@ -15,6 +15,11 @@ bool gridValidate(QString grid) {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters)<<grid;
 
+    if ( grid.isEmpty() )
+    {
+        return true;
+    }
+
     QRegExp regex("^[A-Za-z]{2}[0-9]{2}([A-Za-z]{2})?$");
     return regex.exactMatch(grid);
 }

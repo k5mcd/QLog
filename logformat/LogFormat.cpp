@@ -6,6 +6,7 @@
 #include "core/utils.h"
 #include "data/Data.h"
 #include "core/debug.h"
+#include "core/utils.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
@@ -148,6 +149,160 @@ void LogFormat::runImport() {
     this->importEnd();
 
     emit finished(count);
+}
+
+void LogFormat::runQSLImport(QSLFrom fromService)
+{
+    FCT_IDENTIFICATION;
+
+    QSLMergeStat stats = {QStringList(), QStringList(), 0, 0, 0, 0};
+
+    this->importStart();
+
+    QSqlTableModel model;
+    model.setTable("contacts");
+    model.setEditStrategy(QSqlTableModel::OnManualSubmit);
+    QSqlRecord QSLRecord = model.record();
+    QString filterString;
+
+    while ( true )
+    {
+        QSLRecord.clearValues();
+
+        if ( !this->importNext(QSLRecord) ) break;
+
+        stats.qsos_checked++;
+
+        if ( stats.qsos_checked % 10 == 0 )
+        {
+            emit progress(stream.pos());
+        }
+
+        /* checking matching fields if they are not empty */
+        if ( ! QSLRecord.value("start_time").toDateTime().isValid()
+             || QSLRecord.value("callsign").toString().isEmpty()
+             || QSLRecord.value("band").toString().isEmpty()
+             || QSLRecord.value("mode").toString().isEmpty() )
+        {
+            qCDebug(runtime) << "missing matching field";
+            qCDebug(runtime) << QSLRecord;
+            stats.qsos_errors++;
+            continue;
+        }
+
+        QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
+                .arg(QSLRecord.value("callsign").toString())
+                .arg(QSLRecord.value("mode").toString())
+                .arg(QSLRecord.value("band").toString())
+                .arg(QSLRecord.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+
+        /* set filter */
+        model.setFilter(matchFilter);
+        model.select();
+
+        if ( model.rowCount() != 1 )
+        {
+            stats.qsos_unmatched++;
+            stats.unmatchedQSLs.append(QSLRecord.value("callsign").toString());
+            continue;
+        }
+
+        /* we have one row for updating */
+        /* lets update it */
+        QSqlRecord originalRecord = model.record(0);
+
+        switch ( fromService )
+        {
+        case LOTW:
+        {
+            if ( !QSLRecord.value("lotw_qsl_rcvd").toString().isEmpty() )
+            {
+                if ( QSLRecord.value("qsl_rcvd") != originalRecord.value("lotw_qsl_rcvd")
+                     && QSLRecord.value("qsl_rcvd").toString() == 'Y' )
+                {
+                    originalRecord.setValue("lotw_qsl_rcvd", QSLRecord.value("qsl_rcvd"));
+
+                    originalRecord.setValue("lotw_qslrdate", QSLRecord.value("qsl_rdate"));
+
+                    if ( !QSLRecord.value("gridsquare").toString().isEmpty()
+                         && ( originalRecord.value("gridsquare").toString().isEmpty()
+                              ||
+                              QSLRecord.value("gridsquare").toString().contains(originalRecord.value("gridsquare").toString()))
+                       )
+                    {
+                        QString myGrid = originalRecord.value("my_gridsquare").toString();
+
+                        if ( ! myGrid.isEmpty() )
+                        {
+                            double myLat, myLon, lat, lon, distance;
+                            QString QSLGrid = QSLRecord.value("gridsquare").toString();
+
+                            gridToCoord(myGrid, myLat, myLon);
+                            gridToCoord(QSLGrid, lat, lon);
+
+                            distance = coordDistance(myLat, myLon, lat, lon);
+
+                            originalRecord.setValue("gridsquare", QSLGrid);
+                            originalRecord.setValue("distance", QVariant(distance));
+                        }
+
+                    }
+
+                    if ( !QSLRecord.value("credit_granted").toString().isEmpty() )
+                    {
+                        originalRecord.setValue("credit_granted", QSLRecord.value("credit_granted"));
+                    }
+
+                    if ( !QSLRecord.value("credit_submitted").toString().isEmpty() )
+                    {
+                        originalRecord.setValue("credit_submitted", QSLRecord.value("credit_submitted"));
+                    }
+
+                    if ( !QSLRecord.value("pfx").toString().isEmpty() )
+                    {
+                        originalRecord.setValue("pfx", QSLRecord.value("pfx"));
+                    }
+
+                    if ( !QSLRecord.value("iota").toString().isEmpty() )
+                    {
+                        originalRecord.setValue("iota", QSLRecord.value("iota"));
+                    }
+
+                    if ( !QSLRecord.value("vucc_grids").toString().isEmpty() )
+                    {
+                        originalRecord.setValue("vucc_grids", QSLRecord.value("vucc_grids"));
+                    }
+
+                    if ( !QSLRecord.value("state").toString().isEmpty() )
+                    {
+                        originalRecord.setValue("state", QSLRecord.value("state"));
+                    }
+
+                    if ( !QSLRecord.value("cnty").toString().isEmpty() )
+                    {
+                        originalRecord.setValue("cnty", QSLRecord.value("cnty"));
+                    }
+
+                    model.setRecord(0, originalRecord);
+                    model.submitAll();
+                    stats.qsos_updated++;
+                    stats.newQSLs.append(QSLRecord.value("callsign").toString());
+                }
+            }
+            else
+            {
+                qCInfo(runtime) << "Malformed Lotw Record " << QSLRecord;
+            }
+            break;
+        }
+        default:
+            qCDebug(runtime) << "Uknown QSL import";
+        }
+    }
+
+    this->importEnd();
+
+    emit QSLMergeFinished(stats);
 }
 
 int LogFormat::runExport() {

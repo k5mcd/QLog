@@ -107,6 +107,7 @@ void ImportDialog::runImport() {
     */
 
     ui->buttonBox->setEnabled(false);
+    //format->runImport();
     format->runImport();
     ui->buttonBox->setEnabled(true);
 

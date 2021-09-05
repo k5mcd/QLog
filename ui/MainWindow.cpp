@@ -180,6 +180,7 @@ void MainWindow::showLotw() {
 
     LotwDialog dialog;
     dialog.exec();
+    ui->logbookWidget->updateTable();
 }
 
 void MainWindow::showAbout() {
