@@ -67,6 +67,7 @@ SOURCES += \
         ui/MainWindow.cpp \
         ui/MapWidget.cpp \
         ui/NewContactWidget.cpp \
+        ui/QSLImportStatDialog.cpp \
         ui/RigWidget.cpp \
         ui/RotatorWidget.cpp \
         ui/SettingsDialog.cpp \
@@ -115,6 +116,7 @@ HEADERS += \
         ui/MainWindow.h \
         ui/MapWidget.h \
         ui/NewContactWidget.h \
+        ui/QSLImportStatDialog.h \
         ui/RigWidget.h \
         ui/RotatorWidget.h \
         ui/SettingsDialog.h \
@@ -133,6 +135,7 @@ FORMS += \
         ui/LotwDialog.ui \
         ui/MainWindow.ui \
         ui/NewContactWidget.ui \
+        ui/QSLImportStatDialog.ui \
         ui/RigWidget.ui \
         ui/RotatorWidget.ui \
         ui/SettingsDialog.ui \

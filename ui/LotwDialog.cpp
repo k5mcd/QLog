@@ -10,6 +10,7 @@
 #include "logformat/AdiFormat.h"
 #include "core/Lotw.h"
 #include "core/debug.h"
+#include "ui/QSLImportStatDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.lotwdialog");
 
@@ -61,13 +62,10 @@ void LotwDialog::download() {
         }
         dialog->close();
 
-        QMessageBox::information(this, tr("QLog Info"),
-                                 tr("LotW Update completed.") + "\n\n" +
-                                 tr("QSOs checked: %n", "", stats.qsos_checked) + "\n" +
-                                 tr("New QSLs received: %n", "", stats.qsos_updated) + "\n" +
-                                 tr("Unmatched QSOs: %n", "", stats.qsos_unmatched) + "\n" +
-                                 tr("Error QSOs: %n", "", stats.qsos_errors)
-                                 );
+
+        QSLImportStatDialog statDialog(stats);
+        statDialog.exec();
+
         qCDebug(runtime) << "New QSLs: " << stats.newQSLs;
         qCDebug(runtime) << "Unmatched QSLs: " << stats.unmatchedQSLs;
     });
