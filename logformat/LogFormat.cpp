@@ -6,7 +6,7 @@
 #include "core/utils.h"
 #include "data/Data.h"
 #include "core/debug.h"
-#include "core/utils.h"
+#include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
@@ -224,28 +224,24 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
                     originalRecord.setValue("lotw_qslrdate", QSLRecord.value("qsl_rdate"));
 
-                    if ( !QSLRecord.value("gridsquare").toString().isEmpty()
+                    Gridsquare dxNewGrid(QSLRecord.value("gridsquare").toString());
+
+                    if ( dxNewGrid.isValid()
                          && ( originalRecord.value("gridsquare").toString().isEmpty()
                               ||
-                              QSLRecord.value("gridsquare").toString().contains(originalRecord.value("gridsquare").toString()))
+                              dxNewGrid.getGrid().contains(originalRecord.value("gridsquare").toString()))
                        )
                     {
-                        QString myGrid = originalRecord.value("my_gridsquare").toString();
+                        Gridsquare myGrid(originalRecord.value("my_gridsquare").toString());
 
-                        if ( ! myGrid.isEmpty() )
+                        originalRecord.setValue("gridsquare", dxNewGrid.getGrid());
+
+                        double distance;
+
+                        if ( myGrid.distanceTo(dxNewGrid, distance) )
                         {
-                            double myLat, myLon, lat, lon, distance;
-                            QString QSLGrid = QSLRecord.value("gridsquare").toString();
-
-                            gridToCoord(myGrid, myLat, myLon);
-                            gridToCoord(QSLGrid, lat, lon);
-
-                            distance = coordDistance(myLat, myLon, lat, lon);
-
-                            originalRecord.setValue("gridsquare", QSLGrid);
                             originalRecord.setValue("distance", QVariant(distance));
                         }
-
                     }
 
                     if ( !QSLRecord.value("credit_granted").toString().isEmpty() )

@@ -33,6 +33,7 @@ SOURCES += \
         core/Conditions.cpp \
         core/Cty.cpp \
         core/Fldigi.cpp \
+        core/Gridsquare.cpp \
         core/HamQTH.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
         core/Conditions.h \
         core/Cty.h \
         core/Fldigi.h \
+        core/Gridsquare.h \
         core/HamQTH.h \
         core/Lotw.h \
         core/Migration.h \

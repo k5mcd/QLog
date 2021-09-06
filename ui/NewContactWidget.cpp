@@ -8,6 +8,7 @@
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
 #include "core/debug.h"
+#include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -244,6 +245,7 @@ void NewContactWidget::queryDxcc(QString callsign) {
         ui->cqEdit->clear();
         ui->ituEdit->clear();
         ui->contEdit->setCurrentText("");
+        emit newTarget(0, 0);
     }
 }
 
@@ -378,15 +380,16 @@ void NewContactWidget::updateBand(double freq) {
 void NewContactWidget::gridChanged() {
     FCT_IDENTIFICATION;
 
-    double lat, lon;
-    bool valid = gridToCoord(ui->gridEdit->text(), lat, lon);
-    if (!valid)
+    Gridsquare newGrid(ui->gridEdit->text());
+
+    if (!newGrid.isValid())
     {
         coordPrec = COORD_NONE;
         queryDxcc(ui->callsignEdit->text().toUpper());
         return;
     }
-    updateCoordinates(lat, lon, COORD_GRID);
+
+    updateCoordinates(newGrid.getLatitude(), newGrid.getLongitude(), COORD_GRID);
 }
 
 void NewContactWidget::resetContact() {
@@ -642,20 +645,21 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
     if (prec < coordPrec) return;
 
     QSettings settings;
-    QString myGrid = settings.value("station/grid").toString();
+    Gridsquare myGrid(settings.value("station/grid").toString());
+    double distance;
+    double bearing;
 
-    double myLat, myLon;
-    gridToCoord(myGrid, myLat, myLon);
+    if ( myGrid.distanceTo(lat, lon, distance)
+         && myGrid.bearingTo(lat, lon, bearing) )
+    {
+        ui->distanceInfo->setText(QString::number(distance, '.', 1) + " km");
+        ui->bearingInfo->setText(QString("%1°").arg(bearing));
 
-    double distance = coordDistance(myLat, myLon, lat, lon);
-    int bearing = coordBearing(myLat, myLon, lat, lon);
+        coordPrec = prec;
 
-    ui->distanceInfo->setText(QString::number(distance, '.', 1) + " km");
-    ui->bearingInfo->setText(QString("%1°").arg(bearing));
+        emit newTarget(lat, lon);
+    }
 
-    coordPrec = prec;
-
-    emit newTarget(lat, lon);
 }
 
 void NewContactWidget::updateDxccStatus() {

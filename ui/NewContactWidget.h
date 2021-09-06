@@ -8,6 +8,7 @@
 #include "core/Cty.h"
 #include "data/Data.h"
 #include "core/Conditions.h"
+#include "core/Gridsquare.h"
 
 namespace Ui {
 class NewContactWidget;

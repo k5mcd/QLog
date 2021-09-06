@@ -2,6 +2,7 @@
 #include "data/Data.h"
 #include "core/utils.h"
 #include "data/Dxcc.h"
+#include "core/Gridsquare.h"
 
 #include <QIcon>
 
@@ -275,66 +276,74 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
 
         case COLUMN_GRID:
         {
-            depend_update_result = gridValidate(value.toString());
-            if ( depend_update_result )
+            if ( ! value.toString().isEmpty() )
             {
-                if ( !value.toString().isEmpty() )
+                Gridsquare newgrid(value.toString());
+
+                if ( newgrid.isValid() )
                 {
-                    double myLat, myLon, lat, lon, distance;
-                    QString myGrid = QSqlTableModel::data(this->index(index.row(), COLUMN_MY_GRIDSQUARE), Qt::DisplayRole).toString();
+                    Gridsquare mygrid(QSqlTableModel::data(this->index(index.row(), COLUMN_MY_GRIDSQUARE), Qt::DisplayRole).toString());
+                    double distance;
 
-                    if ( !myGrid.isEmpty() )
+                    if ( mygrid.distanceTo(newgrid, distance) )
                     {
-                        gridToCoord(value.toString(), lat, lon);
-                        gridToCoord(myGrid, myLat, myLon);
-
-                        distance = coordDistance(myLat, myLon, lat, lon);
-
-                        bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
-                        depend_update_result = depend_update_result && ret;
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
                     }
+                    else
+                    {
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                    }
+
+                    main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
+
+                    return main_update_result && depend_update_result;
                 }
                 else
                 {
-                    bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
-                    depend_update_result = depend_update_result && ret;
+                    /* do not update field with invalid Grid */
+                    depend_update_result = false;
                 }
-                main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
-
-                return main_update_result && depend_update_result;
+            }
+            else
+            {
+                /* empty grid is valid (when removing a value); need to remove also Distance */
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
             }
             break;
         }
 
         case COLUMN_MY_GRIDSQUARE:
         {
-            depend_update_result = gridValidate(value.toString());
-            if ( depend_update_result )
+            if ( ! value.toString().isEmpty() )
             {
-                if ( !value.toString().isEmpty() )
+                Gridsquare mynewGrid(value.toString());
+
+                if ( mynewGrid.isValid() )
                 {
-                    double myLat, myLon, lat, lon, distance;
-                    QString dxGrid = QSqlTableModel::data(this->index(index.row(), COLUMN_GRID), Qt::DisplayRole).toString();
+                    Gridsquare dxgrid(QSqlTableModel::data(this->index(index.row(), COLUMN_GRID), Qt::DisplayRole).toString());
+                    double distance;
 
-                    if ( !dxGrid.isEmpty() )
+                    if ( mynewGrid.distanceTo(dxgrid, distance) )
                     {
-                        gridToCoord(value.toString(), myLat, myLon);
-                        gridToCoord(dxGrid, lat, lon);
-
-                        distance = coordDistance(myLat, myLon, lat, lon);
-
-                        bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
-                        depend_update_result = depend_update_result && ret;
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
                     }
+                    else
+                    {
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                    }
+                    main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
+                    return main_update_result && depend_update_result;
                 }
                 else
                 {
-                    bool ret = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
-                    depend_update_result = depend_update_result && ret;
+                    /* do not update field with invalid Grid */
+                    depend_update_result = false;
                 }
-                main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
-
-                return main_update_result && depend_update_result;
+            }
+            else
+            {
+                /* empty grid is valid (when removing a value); need to remove also Distance */
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
             }
             break;
         }
