@@ -86,7 +86,7 @@ void LotwDialog::upload() {
     QTemporaryFile file;
     file.open();
 
-    QSqlQuery query("SELECT * FROM contacts WHERE lotw_qsl_sent <> 'Y'");
+    QSqlQuery query("SELECT * FROM contacts WHERE lotw_qsl_sent <> 'Y' and prop_mode not in ('INTERNET', 'RPT', 'ECH', 'IRL');");
 
     QTextStream stream(&file);
     AdiFormat adi(stream);
