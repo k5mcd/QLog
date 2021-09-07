@@ -11,6 +11,7 @@
 #include "core/Lotw.h"
 #include "core/debug.h"
 #include "ui/QSLImportStatDialog.h"
+#include "models/SqlListModel.h"
 
 MODULE_IDENTIFICATION("qlog.ui.lotwdialog");
 
@@ -34,7 +35,7 @@ LotwDialog::LotwDialog(QWidget *parent) :
         ui->dateEdit->setDate(QDateTime::currentDateTimeUtc().date());
     }
 
-    ui->stationCombo->addItem(settings.value("station/callsign").toString().toUpper());
+    ui->stationCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
 }
 
 void LotwDialog::download() {
