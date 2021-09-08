@@ -87,7 +87,7 @@ void LotwDialog::upload() {
     QTemporaryFile file;
     file.open();
 
-    QSqlQuery query("SELECT * FROM contacts WHERE lotw_qsl_sent <> 'Y' and prop_mode not in ('INTERNET', 'RPT', 'ECH', 'IRL');");
+    QSqlQuery query("SELECT callsign, freq, band, freq_rx, mode, submode, start_time, prop_mode, sat_name, station_callsign, operator, rst_sent, rst_rcvd, my_state, my_cnty, my_vucc_grids FROM contacts WHERE (lotw_qsl_sent <> 'Y' OR lotw_qsl_sent is NULL) AND (prop_mode NOT IN ('INTERNET', 'RPT', 'ECH', 'IRL') OR prop_mode IS NULL)");
 
     QTextStream stream(&file);
     AdiFormat adi(stream);
@@ -103,8 +103,76 @@ void LotwDialog::upload() {
     stream.flush();
 
     if (count > 0) {
-        QProcess::execute("tqsl -d -q -u " + file.fileName());
-        QMessageBox::information(this, tr("QLog Information"), tr("%n QSO(s) uploaded.", "", count));
+        //QProcess::execute("tqsl -d -q -u " + file.fileName());
+        // how to make a backup of sended tsql file?
+        // path to tqsl ?
+        int ErrorCode = QProcess::execute("tqsl -d -q -o /home/foldynl/pokus.adif " + file.fileName());
+
+        /* list of Error Codes: http://www.arrl.org/command-1 */
+        QString ErrorString;
+
+        switch ( ErrorCode )
+        {
+        case 0: // Success
+            break;
+
+        case 1: // Cancelled by user
+            ErrorString = tr("Upload cancelled by user");
+            break;
+
+        case 2: // Rejected by LoTW
+            ErrorString = tr("Upload rejected by LoTW");
+            break;
+
+        case 3: // Unexpected response from TQSL server
+            ErrorString = tr("Unexpected response from TQSL server");
+            break;
+
+        case 4: // TQSL error
+            ErrorString = tr("TQSL utility error");
+            break;
+
+        case 5: // TQSLlib error
+            ErrorString = tr("TQSLlib error");
+            break;
+
+        case 6: // Unable to open input file
+            ErrorString = tr("Unable to open input file");
+            break;
+
+        case 7: // Unable to open output file
+            ErrorString = tr("Unable to open output file");
+            break;
+
+        case 8: // All QSOs were duplicates or out of date range
+            ErrorString = tr("All QSOs were duplicates or out of date range");
+            break;
+
+        case 9: // Some QSOs were duplicates or out of date range
+            ErrorString = tr("Some QSOs were duplicates or out of date range");
+            break;
+
+        case 10: // Command syntax error
+            ErrorString = tr("Command syntax error");
+            break;
+
+        case 11: // LoTW Connection error (no network or LoTW is unreachable)
+            ErrorString = tr("LoTW Connection error (no network or LoTW is unreachable)");
+            break;
+
+        default:
+            ErrorString = tr("Unexpected Error from TQSL");
+        }
+
+        if ( ErrorCode == 0 )
+        {
+            QMessageBox::information(this, tr("QLog Information"), tr("%n QSO(s) uploaded.", "", count));
+            //update contact set lotw_sent = y, lotwsdate curr_date
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("LoTW Error"), ErrorString);
+        }
     }
     else {
         QMessageBox::information(this, tr("QLog Information"), tr("No QSOs found to upload."));

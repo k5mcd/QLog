@@ -72,9 +72,10 @@ void Lotw::processReply(QNetworkReply* reply) {
 
     if (reply->error() != QNetworkReply::NoError)
     {
-        qCDebug(runtime) << "LotW error" << reply->errorString();
+        qCInfo(runtime) << "LotW error" << reply->errorString();
         reply->deleteLater();
         emit updateFailed();
+        //TODO: emit readable error
         return;
     }
 
