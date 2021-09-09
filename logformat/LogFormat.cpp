@@ -135,6 +135,23 @@ void LogFormat::runImport() {
             record.setValue("band", freqToBand(freq));
         }
 
+        QString gridsquare = record.value("gridsquare").toString();
+        QString my_gridsquare = record.value("my_gridsquare").toString();
+
+        if ( !gridsquare.isEmpty()
+             && !my_gridsquare.isEmpty()
+             && record.value("distance").toString().isEmpty() )
+        {
+            Gridsquare grid(gridsquare);
+            Gridsquare my_grid(my_gridsquare);
+            double distance;
+
+            if ( my_grid.distanceTo(grid, distance) )
+            {
+                record.setValue("distance", distance);
+            }
+        }
+
         model.insertRecord(-1, record);
 
         if (count % 10 == 0) {
