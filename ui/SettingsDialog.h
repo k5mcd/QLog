@@ -24,6 +24,7 @@ public slots:
     void deleteAnt();
     void rigChanged(int);
     void rotChanged(int);
+    void tqslPathBrowse();
 
 private:
     void readSettings();

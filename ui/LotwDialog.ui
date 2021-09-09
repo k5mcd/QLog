@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>336</height>
+    <width>447</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,23 +15,43 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="uploadBox">
      <property name="title">
       <string>Upload</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QPushButton" name="uploadButton">
+       <widget class="QLabel" name="myCallsignLabel">
         <property name="text">
-         <string>Upload</string>
+         <string>Own Callsign</string>
         </property>
        </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="myGridLabel">
+        <property name="text">
+         <string>Gridsquare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3">
+       <widget class="QPushButton" name="showButton">
+        <property name="text">
+         <string>Show Selection</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" rowspan="2" colspan="2">
+       <widget class="QComboBox" name="myCallsignCombo"/>
+      </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QComboBox" name="myGridCombo"/>
       </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="downloadBox">
      <property name="title">
       <string>Download</string>
      </property>
@@ -109,7 +129,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>uploadButton</sender>
+   <sender>showButton</sender>
    <signal>clicked()</signal>
    <receiver>LotwDialog</receiver>
    <slot>upload()</slot>
@@ -156,9 +176,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>myCallsignCombo</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>LotwDialog</receiver>
+   <slot>uploadCallsignChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>290</x>
+     <y>69</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>223</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>upload()</slot>
   <slot>download()</slot>
+  <slot>uploadCallsignChanged(QString)</slot>
+  <slot>slot1()</slot>
  </slots>
 </ui>

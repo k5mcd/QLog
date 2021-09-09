@@ -65,6 +65,7 @@ SOURCES += \
         ui/ImportDialog.cpp \
         ui/LogbookWidget.cpp \
         ui/LotwDialog.cpp \
+        ui/LotwShowUploadDialog.cpp \
         ui/MainWindow.cpp \
         ui/MapWidget.cpp \
         ui/NewContactWidget.cpp \
@@ -115,6 +116,7 @@ HEADERS += \
         ui/ImportDialog.h \
         ui/LogbookWidget.h \
         ui/LotwDialog.h \
+        ui/LotwShowUploadDialog.h \
         ui/MainWindow.h \
         ui/MapWidget.h \
         ui/NewContactWidget.h \
@@ -135,6 +137,7 @@ FORMS += \
         ui/ImportDialog.ui \
         ui/LogbookWidget.ui \
         ui/LotwDialog.ui \
+        ui/LotwShowUploadDialog.ui \
         ui/MainWindow.ui \
         ui/NewContactWidget.ui \
         ui/QSLImportStatDialog.ui \

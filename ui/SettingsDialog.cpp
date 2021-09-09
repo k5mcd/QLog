@@ -3,6 +3,7 @@
 #include <QSqlTableModel>
 #include <hamlib/rig.h>
 #include <hamlib/rotator.h>
+#include <QFileDialog>
 
 #include "SettingsDialog.h"
 #include "ui_SettingsDialog.h"
@@ -179,6 +180,27 @@ void SettingsDialog::rotChanged(int index)
 
 }
 
+void SettingsDialog::tqslPathBrowse()
+{
+    FCT_IDENTIFICATION;
+
+    QString filename = QFileDialog::getOpenFileName(this,
+                                                    tr("Select File"),
+                                                    "",
+#if defined(Q_OS_WIN)
+                                                    "TQSL (*.exe)",
+#elif (Q_OS_MACOS)
+                                                    "TQSL (*.app)",
+#else
+                                                    "TQSL (tqsl)"
+#endif
+                                                   );
+    if ( !filename.isEmpty() )
+    {
+        ui->tqslPathEdit->setText(filename);
+    }
+}
+
 void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
@@ -223,6 +245,7 @@ void SettingsDialog::readSettings() {
     username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
     ui->lotwUsernameEdit->setText(username);
     ui->lotwPasswordEdit->setText(getPassword(Lotw::SECURE_STORAGE_KEY, username));
+    ui->tqslPathEdit->setText(settings.value("lotw/tqsl").toString());
 
     username = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
     ui->clublogEmailEdit->setText(username);
@@ -309,6 +332,7 @@ void SettingsDialog::writeSettings() {
     }
     settings.setValue(Lotw::CONFIG_USERNAME_KEY, ui->lotwUsernameEdit->text());
     savePassword(Lotw::SECURE_STORAGE_KEY, ui->lotwUsernameEdit->text(), ui->lotwPasswordEdit->text());
+    settings.setValue("lotw/tqsl", ui->tqslPathEdit->text());
 
     /***********/
     /* ClubLog */
