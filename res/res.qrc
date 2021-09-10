@@ -16,5 +16,6 @@
         <file>data/sat_modes.json</file>
         <file>data/iota.json</file>
         <file>data/sota.json</file>
+        <file>qlog_screen.png</file>
     </qresource>
 </RCC>
