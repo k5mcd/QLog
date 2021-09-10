@@ -6,6 +6,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QTemporaryFile>
+#include <QMessageBox>
 #include "Lotw.h"
 #include "logformat/AdiFormat.h"
 #include "utils.h"
@@ -45,6 +47,85 @@ void Lotw::update(QDate start_date, bool qso_since, QString station_callsign)
     }
 
     get(params);
+}
+
+int Lotw::uploadAdif(QByteArray &data, QString &ErrorString)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QTemporaryFile file;
+    file.open();
+    file.write(data);
+    file.flush();
+
+    ErrorString = "";
+    int ErrorCode = QProcess::execute(settings.value("lotw/tqsl", "tqsl").toString() + " -d -q -u " + file.fileName());
+
+    /* list of Error Codes: http://www.arrl.org/command-1 */
+    switch ( ErrorCode )
+    {
+    case -2: // Error code of QProcess::execute - Process cannot start
+        ErrorString = tr("TQSL not found");
+        break;
+
+    case -1: // Error code of QProcess::execute - Process crashed
+        ErrorString = tr("TQSL crashed");
+        break;
+
+    case 0: // Success
+        break;
+
+    case 1: // Cancelled by user
+        ErrorString = tr("Upload cancelled by user");
+        break;
+
+    case 2: // Rejected by LoTW
+        ErrorString = tr("Upload rejected by LoTW");
+        break;
+
+    case 3: // Unexpected response from TQSL server
+        ErrorString = tr("Unexpected response from TQSL server");
+        break;
+
+    case 4: // TQSL error
+        ErrorString = tr("TQSL utility error");
+        break;
+
+    case 5: // TQSLlib error
+        ErrorString = tr("TQSLlib error");
+        break;
+
+    case 6: // Unable to open input file
+        ErrorString = tr("Unable to open input file");
+        break;
+
+    case 7: // Unable to open output file
+        ErrorString = tr("Unable to open output file");
+        break;
+
+    case 8: // All QSOs were duplicates or out of date range
+        ErrorString = tr("All QSOs were duplicates or out of date range");
+        break;
+
+    case 9: // Some QSOs were duplicates or out of date range
+        ErrorString = tr("Some QSOs were duplicates or out of date range");
+        break;
+
+    case 10: // Command syntax error
+        ErrorString = tr("Command syntax error");
+        break;
+
+    case 11: // LoTW Connection error (no network or LoTW is unreachable)
+        ErrorString = tr("LoTW Connection error (no network or LoTW is unreachable)");
+        break;
+
+    default:
+        ErrorString = tr("Unexpected Error from TQSL");
+    }
+
+    return ErrorCode;
 }
 
 void Lotw::get(QList<QPair<QString, QString>> params) {

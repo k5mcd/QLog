@@ -14,6 +14,7 @@ public:
     explicit Lotw(QObject *parent = nullptr);
 
     void update(QDate start_date, bool qso_since, QString stationCallsign);
+    int uploadAdif(QByteArray &data, QString &ErrorString);
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;
 
