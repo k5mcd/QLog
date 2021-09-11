@@ -264,7 +264,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
 
         case COLUMN_FREQUENCY:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND), QVariant(freqToBand(value.toDouble())), role );
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND), QVariant(Data::freqToBand(value.toDouble())), role );
             break;
         }
 

@@ -132,7 +132,7 @@ void LogFormat::runImport() {
 
         if (record.value("band").isNull() && !record.value("frequency").isNull()) {
             double freq = record.value("frequency").toDouble();
-            record.setValue("band", freqToBand(freq));
+            record.setValue("band", Data::freqToBand(freq));
         }
 
         QString gridsquare = record.value("gridsquare").toString();

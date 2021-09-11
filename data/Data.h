@@ -22,6 +22,7 @@ public:
     static DxccStatus dxccStatus(int dxcc, QString band, QString mode);
     static Band band(double freq);
     static QString freqToMode(double freq);
+    static QString freqToBand(double freq);
     static QColor statusToColor(DxccStatus status, QColor defaultColor);
     static QColor statusToInverseColor(DxccStatus status, QColor defaultColor);
     static QString statusToText(DxccStatus status);
