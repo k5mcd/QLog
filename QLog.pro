@@ -188,6 +188,17 @@ macx: {
     DISTFILES +=
 }
 
+win32: {
+    TARGET = qlog
+    QMAKE_TARGET_COMPANY = OK1MLG
+    QMAKE_TARGET_DESCRIPTION = Hamradio logging
+    LIBS += -L"$$PWD/../hamlib/lib/gcc" -lhamlib
+    LIBS += -L"$$PWD../hamlib/bin"
+    LIBS += -L"$$PWD/../qtkeychain" -llibqt5keychaind
+    INCLUDEPATH += "$$PWD/../hamlib/include/"
+    INCLUDEPATH += "$$PWD/../qtkeychain/"
+}
+
 DISTFILES += \
     Changelog \
     res/data/sat_modes
