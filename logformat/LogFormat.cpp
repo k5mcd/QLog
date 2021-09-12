@@ -3,7 +3,6 @@
 #include "AdiFormat.h"
 #include "AdxFormat.h"
 #include "JsonFormat.h"
-#include "core/utils.h"
 #include "data/Data.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"

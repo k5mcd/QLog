@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <QCompleter>
 #include "core/Rig.h"
-#include "core/utils.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
 #include "core/debug.h"

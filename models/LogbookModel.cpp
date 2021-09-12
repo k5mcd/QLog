@@ -1,6 +1,5 @@
 #include "LogbookModel.h"
 #include "data/Data.h"
-#include "core/utils.h"
 #include "data/Dxcc.h"
 #include "core/Gridsquare.h"
 

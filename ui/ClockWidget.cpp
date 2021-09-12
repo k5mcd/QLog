@@ -1,11 +1,14 @@
 #include <QTimer>
 #include <QSettings>
 #include <QDateTime>
+#include <cmath>
 #include "ClockWidget.h"
-#include "core/utils.h"
 #include "ui_ClockWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
+
+#define EARTH_RADIUS 6371
+#define EARTH_CIRCUM 40075
 
 #define MSECS_PER_DAY (24.0 * 60.0 * 60.0 * 1000.0)
 MODULE_IDENTIFICATION("qlog.ui.clockwidget");

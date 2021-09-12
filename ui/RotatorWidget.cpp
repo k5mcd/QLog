@@ -1,7 +1,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
 #include "core/Rotator.h"
-#include "core/utils.h"
 #include "RotatorWidget.h"
 #include "ui_RotatorWidget.h"
 #include "core/debug.h"

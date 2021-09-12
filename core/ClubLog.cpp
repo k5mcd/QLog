@@ -138,6 +138,6 @@ void ClubLog::processReply(QNetworkReply* reply) {
     }
 }
 
-const QString ClubLog::SECURE_STORAGE_KEY = "QLog: Clublog";
+const QString ClubLog::SECURE_STORAGE_KEY = "QLog:Clublog";
 const QString ClubLog::CONFIG_EMAIL_KEY = "clublog/email";
 const QString ClubLog::CONFIG_CALLSIGN_KEY = "clublog/callsign";

@@ -188,9 +188,9 @@ void SettingsDialog::tqslPathBrowse()
                                                     tr("Select File"),
                                                     "",
 #if defined(Q_OS_WIN)
-                                                    "TQSL (*.exe)",
+                                                    "TQSL (*.exe)"
 #elif (Q_OS_MACOS)
-                                                    "TQSL (*.app)",
+                                                    "TQSL (*.app)"
 #else
                                                     "TQSL (tqsl)"
 #endif

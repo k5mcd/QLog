@@ -6,7 +6,6 @@
 #include <QVector3D>
 #include <QSettings>
 #include <cmath>
-#include "core/utils.h"
 #include "MapWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
