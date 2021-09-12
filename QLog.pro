@@ -31,6 +31,7 @@ SOURCES += \
         core/AppGuard.cpp \
         core/ClubLog.cpp \
         core/Conditions.cpp \
+        core/CredentialStore.cpp \
         core/Cty.cpp \
         core/Fldigi.cpp \
         core/Gridsquare.cpp \
@@ -43,7 +44,6 @@ SOURCES += \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
-        core/utils.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
         logformat/AdiFormat.cpp \
@@ -80,6 +80,7 @@ HEADERS += \
         core/AppGuard.h \
         core/ClubLog.h \
         core/Conditions.h \
+        core/CredentialStore.h \
         core/Cty.h \
         core/Fldigi.h \
         core/Gridsquare.h \
@@ -92,7 +93,6 @@ HEADERS += \
         core/StyleItemDelegate.h \
         core/Wsjtx.h \
         core/debug.h \
-        core/utils.h \
         data/Band.h \
         data/Data.h \
         data/DxSpot.h \

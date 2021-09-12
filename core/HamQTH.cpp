@@ -8,8 +8,7 @@
 #include <QDebug>
 #include "HamQTH.h"
 #include "debug.h"
-
-#include "utils.h"
+#include "core/CredentialStore.h"
 
 #define API_URL "http://www.hamqth.com/xml.php"
 
@@ -54,7 +53,8 @@ void HamQTH::authenticate() {
 
     QSettings settings;
     QString username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    QString password = getPassword(HamQTH::SECURE_STORAGE_KEY, username);
+    QString password = CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
+                                                                username);
 
     if (!username.isEmpty() && !password.isEmpty()) {
         QUrlQuery query;

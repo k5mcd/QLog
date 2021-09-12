@@ -10,8 +10,8 @@
 #include <QMessageBox>
 #include "Lotw.h"
 #include "logformat/AdiFormat.h"
-#include "utils.h"
 #include "debug.h"
+#include "core/CredentialStore.h"
 
 #define ADIF_API "https://lotw.arrl.org/lotwuser/lotwreport.adi"
 
@@ -133,7 +133,8 @@ void Lotw::get(QList<QPair<QString, QString>> params) {
 
     QSettings settings;
     QString username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
-    QString password = getPassword(Lotw::SECURE_STORAGE_KEY, username);
+    QString password = CredentialStore::instance()->getPassword(Lotw::SECURE_STORAGE_KEY,
+                                                                username);
 
     QUrlQuery query;
     query.setQueryItems(params);

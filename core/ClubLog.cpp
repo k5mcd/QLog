@@ -7,8 +7,8 @@
 #include <QHttpMultiPart>
 #include "logformat/AdiFormat.h"
 #include "ClubLog.h"
-#include "utils.h"
 #include "debug.h"
+#include "core/CredentialStore.h"
 
 #define API_KEY "21507885dece41ca049fec7fe02a813f2105aff2"
 #define API_LIVE_UPLOAD_URL "https://clublog.org/realtime.php"
@@ -32,7 +32,8 @@ void ClubLog::uploadContact(QSqlRecord record) {
     QSettings settings;
     QString email = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
     QString callsign = settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
-    QString password = getPassword(ClubLog::SECURE_STORAGE_KEY,email);
+    QString password = CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
+                                                                email);
 
     if (email.isEmpty() || callsign.isEmpty() || password.isEmpty()) {
         return;
@@ -72,7 +73,8 @@ void ClubLog::uploadAdif(QByteArray& data) {
     QSettings settings;
     QString email = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
     QString callsign = settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
-    QString password = getPassword(ClubLog::SECURE_STORAGE_KEY,email);
+    QString password = CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
+                                                                email);
 
     if (email.isEmpty() || callsign.isEmpty() || password.isEmpty()) {
         return;
@@ -120,7 +122,6 @@ void ClubLog::uploadAdif(QByteArray& data) {
     QNetworkReply* reply = nam->post(request, multipart);
     multipart->setParent(reply);
 }
-
 
 void ClubLog::processReply(QNetworkReply* reply) {
     FCT_IDENTIFICATION;
