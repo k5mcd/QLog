@@ -1,5 +1,4 @@
 #include <QEventLoop>
-#include <QTimer>
 #include "CredentialStore.h"
 #include "core/debug.h"
 
@@ -40,8 +39,6 @@ int CredentialStore::savePassword(QString storage_key, QString user, QString pas
     }
 
     QEventLoop loop;
-    QTimer timer;
-    timer.setSingleShot(true);
 
     // write a password to Credential Storage
     WritePasswordJob job(QLatin1String(storage_key.toStdString().c_str()));
@@ -53,27 +50,15 @@ int CredentialStore::savePassword(QString storage_key, QString user, QString pas
     job.setKey(user);
     job.setTextData(pass);
 
-    connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     job.connect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
 
     job.start();
-    timer.start(5000);  // miliseconds
     loop.exec();
 
-    if ( timer.isActive() )
+    if (job.error())
     {
-        timer.stop();
-        if (job.error())
-        {
-            qWarning() << "Cannot save a password. Error " << job.errorString();
-            return 1;
-        }
-    }
-    else
-    {
-        // timeout
-        disconnect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
-        qWarning()<<"Secure Store error - timeout";
+        qWarning() << "Cannot save a password. Error " << job.errorString();
+        return 1;
     }
 
     return 0;
@@ -95,8 +80,6 @@ QString CredentialStore::getPassword(QString storage_key, QString user)
     }
 
     QEventLoop loop;
-    QTimer timer;
-    timer.setSingleShot(true);
 
     // get a password from Credential Storage
     ReadPasswordJob job(QLatin1String(storage_key.toStdString().c_str()));
@@ -107,29 +90,17 @@ QString CredentialStore::getPassword(QString storage_key, QString user)
 #endif
     job.setKey(user);
 
-    connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     job.connect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
 
     job.start();
-    timer.start(5000);  // miliseconds
     loop.exec();
 
-    if ( timer.isActive() )
-    {
-        timer.stop();
-        pass = job.textData();
+    pass = job.textData();
 
-        if ( job.error() )
-        {
-            qWarning() << "Cannot get a password. Error " << job.errorString();
-            return QString();
-        }
-    }
-    else
+    if ( job.error() )
     {
-        // timeout
-        disconnect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
-        qWarning()<<"Secure Store error - timeout";
+        qWarning() << "Cannot get a password. Error " << job.errorString();
+        return QString();
     }
 
     return pass;
@@ -150,8 +121,6 @@ void CredentialStore::deletePassword(QString storage_key, QString user)
     using namespace QKeychain;
 
     QEventLoop loop;
-    QTimer timer;
-    timer.setSingleShot(true);
 
     // delete password from Secure Storage
     DeletePasswordJob job(QLatin1String(storage_key.toStdString().c_str()));
@@ -162,21 +131,10 @@ void CredentialStore::deletePassword(QString storage_key, QString user)
 #endif
     job.setKey(user);
 
-    connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
     job.connect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
     job.start();
-    timer.start(5000);  // miliseconds
+
     loop.exec();
 
-    if ( timer.isActive() )
-    {
-        timer.stop();
-    }
-    else
-    {
-        // timeout
-        disconnect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
-        qWarning()<<"Secure Store error - timeout";
-    }
     return;
 }
