@@ -114,7 +114,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
      * with the contest logs . Therefore, for now, we will deactivate the tab with the contest information.
      * Maybe later
      * */
-    ui->tabWidget_2->removeTab(3);
+    ui->tabWidget_2->removeTab(4);
 
     reloadSettings();
     readSettings();
