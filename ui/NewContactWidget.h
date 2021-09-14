@@ -65,6 +65,7 @@ public slots:
     void qrz();
     void addPropConditions(Conditions *);
     void propModeChanged(QString);
+    void rigFreqOffsetChanged(double);
 
 private:
     void queryDatabase(QString callsign);
@@ -87,6 +88,7 @@ private:
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
+    double realRigFreq;
 };
 
 #endif // NEWCONTACTWIDGET_H

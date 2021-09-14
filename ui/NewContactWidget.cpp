@@ -127,14 +127,16 @@ void NewContactWidget::readSettings() {
     QSettings settings;
     QString mode = settings.value("newcontact/mode", "CW").toString();
     QString submode = settings.value("newcontact/submode").toString();
-    double freq = settings.value("newcontact/frequency", 3.5).toDouble();
+    double realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
+    double rigFreqOffset = settings.value("newcontact/freqOffset", 0.0).toDouble();
     QString rig = settings.value("newcontact/rig").toString();
     QString ant = settings.value("newcontact/antenna").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
-    ui->frequencyEdit->setValue(freq);
+    ui->rigFreqOffsetSpin->setValue(rigFreqOffset);
+    ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
     ui->rigEdit->setCurrentText(rig);
     ui->antennaEdit->setCurrentText(ant);
     ui->powerEdit->setValue(power);
@@ -147,7 +149,8 @@ void NewContactWidget::writeSettings() {
     QSettings settings;
     settings.setValue("newcontact/mode", ui->modeEdit->currentText());
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
-    settings.setValue("newcontact/frequency", ui->frequencyEdit->value());
+    settings.setValue("newcontact/frequency", realRigFreq);
+    settings.setValue("newcontact/freqOffset", ui->rigFreqOffsetSpin->value());
     settings.setValue("newcontact/rig", ui->rigEdit->currentText());
     settings.setValue("newcontact/antenna", ui->antennaEdit->currentText());
     settings.setValue("newcontact/power", ui->powerEdit->value());
@@ -297,13 +300,17 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
     ui->emailEdit->setText(data.value("email"));
 }
 
-void NewContactWidget::frequencyChanged() {
+/* call when newcontact frequency spinbox is changed */
+void NewContactWidget::frequencyChanged()
+{
     FCT_IDENTIFICATION;
 
-    double freq = ui->frequencyEdit->value();
-    updateBand(freq);
-    rig->setFrequency(freq);
-    emit userFrequencyChanged(freq);
+    realRigFreq = ui->frequencyEdit->value() - ui->rigFreqOffsetSpin->value();
+
+    updateBand(ui->frequencyEdit->value()); // show a converted frequency
+    rig->setFrequency(realRigFreq);  // set rig frequency
+    qCDebug(runtime) << "rig real freq: " << realRigFreq;
+    emit userFrequencyChanged(ui->frequencyEdit->value());
 }
 
 void NewContactWidget::bandChanged() {
@@ -698,14 +705,17 @@ void NewContactWidget::updateDxccStatus() {
     ui->callsignEdit->setPalette(palette);
 }
 
+/* call when rig freq is changed */
 void NewContactWidget::changeFrequency(double freq) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<freq;
+    qCDebug(runtime) << "current freq offset " << ui->rigFreqOffsetSpin->value();
+    realRigFreq = freq;
 
     ui->frequencyEdit->blockSignals(true);
-    ui->frequencyEdit->setValue(freq);
-    updateBand(freq);
+    ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
+    updateBand(realRigFreq + ui->rigFreqOffsetSpin->value());
     ui->frequencyEdit->blockSignals(false);
 }
 
@@ -789,6 +799,17 @@ void NewContactWidget::propModeChanged(QString propModeText)
         ui->satModeEdit->setEnabled(false);
         ui->satNameEdit->setEnabled(false);
     }
+}
+
+/* call when freq offset is changed */
+void NewContactWidget::rigFreqOffsetChanged(double offset)
+{
+    FCT_IDENTIFICATION;
+
+    double new_freq = realRigFreq + offset;
+    ui->frequencyEdit->setValue(new_freq);
+    updateBand(new_freq);
+    qCDebug(runtime) << "rig real freq: " << realRigFreq;
 }
 
 NewContactWidget::~NewContactWidget() {
