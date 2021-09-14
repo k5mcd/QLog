@@ -130,6 +130,8 @@ void Cty::parseData(QTextStream& data) {
     QRegExp prefixSeperator("[\\s;]");
     QRegExp prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
 
+    QSqlDatabase::database().transaction();
+
     deleteDXCCTables();
 
     QSqlTableModel entityTableModel;
@@ -170,7 +172,7 @@ void Cty::parseData(QTextStream& data) {
         entityRecord.setValue("lon", -fields.at(7).toFloat());
         entityRecord.setValue("tz", fields.at(8).toFloat());
         entityTableModel.insertRecord(-1, entityRecord);
-        entityTableModel.submitAll();
+
 
         QStringList prefixList = fields.at(9).split(prefixSeperator, QString::SkipEmptyParts);
         qCDebug(runtime) << prefixList;
@@ -186,12 +188,11 @@ void Cty::parseData(QTextStream& data) {
 
                 prefixTableModel.insertRecord(-1, prefixRecord);
             }
-            else  {
+            else
+            {
                 qCDebug(runtime) << "Failed to match " << prefix;
             }
         }
-
-        prefixTableModel.submitAll();
 
         emit progress(count);
         QCoreApplication::processEvents();
@@ -199,7 +200,17 @@ void Cty::parseData(QTextStream& data) {
         count++;
     }
 
-    qCDebug(runtime) << "DXCC update finished:" << count << "entities loaded.";
+    if ( entityTableModel.submitAll()
+         && entityTableModel.submitAll() )
+    {
+        qCDebug(runtime) << "DXCC update finished:" << count << "entities loaded.";
+        QSqlDatabase::database().commit();
+    }
+    else
+    {
+        qCWarning(runtime) << "DXCC update failed - rollback";
+        QSqlDatabase::database().rollback();
+    }
 }
 
 Cty::~Cty() {

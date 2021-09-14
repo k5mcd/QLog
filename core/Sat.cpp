@@ -125,6 +125,8 @@ void Sat::deleteSatTable()
 void Sat::parseData(QTextStream& data) {
     FCT_IDENTIFICATION;
 
+    QSqlDatabase::database().transaction();
+
     deleteSatTable();
 
     QSqlTableModel entityTableModel;
@@ -155,15 +157,22 @@ void Sat::parseData(QTextStream& data) {
         entityRecord.setValue("status", fields.at(7));
 
         entityTableModel.insertRecord(-1, entityRecord);
-        entityTableModel.submitAll();
-
         emit progress(count);
         QCoreApplication::processEvents();
 
         count++;
     }
 
-    qCDebug(runtime) << "Satlist update finished:" << count << "entities loaded.";
+    if ( entityTableModel.submitAll() )
+    {
+        QSqlDatabase::database().commit();
+        qCDebug(runtime) << "Satlist update finished:" << count << "entities loaded.";
+    }
+    else
+    {
+        qCWarning(runtime) << "Satlist update failed - rollback";
+        QSqlDatabase::database().rollback();
+    }
 }
 
 Sat::~Sat() {
