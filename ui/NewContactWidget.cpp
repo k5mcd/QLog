@@ -81,11 +81,13 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
+    iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->iotaEdit->setCompleter(iotaCompleter);
 
     sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
     sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     sotaCompleter->setFilterMode(Qt::MatchContains);
+    sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(sotaCompleter);
 
     connect(rig, &Rig::frequencyChanged,
