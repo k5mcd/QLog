@@ -22,6 +22,9 @@ HamQTH::HamQTH(QObject* parent) :
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(processReply(QNetworkReply*)));
+
+    incorrectLogin = false;
+    lastSeenPassword = "";
 }
 
 void HamQTH::queryCallsign(QString callsign) {
@@ -56,6 +59,12 @@ void HamQTH::authenticate() {
     QString password = CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
                                                                 username);
 
+    if ( incorrectLogin && password == lastSeenPassword)
+    {
+        queuedCallsign = QString();
+        return;
+    }
+
     if (!username.isEmpty() && !password.isEmpty()) {
         QUrlQuery query;
         query.addQueryItem("u", username);
@@ -65,6 +74,7 @@ void HamQTH::authenticate() {
         url.setQuery(query);
 
         nam->get(QNetworkRequest(url));
+        lastSeenPassword = password;
     }
 }
 
@@ -86,9 +96,25 @@ void HamQTH::processReply(QNetworkReply* reply) {
 
     while (!xml.atEnd() && !xml.hasError()) {
         QXmlStreamReader::TokenType token = xml.readNext();
+
         if (token != QXmlStreamReader::StartElement) {
             continue;
         }
+
+        if (xml.name() == "error")
+        {
+            queuedCallsign = QString();
+            sessionId = QString();
+            if ( xml.readElementText() == "Wrong user name or password")
+            {
+                incorrectLogin = true;
+            }
+        }
+        else
+        {
+            incorrectLogin = false;
+        }
+
         if (xml.name() == "session_id") {
             sessionId = xml.readElementText();
         }
