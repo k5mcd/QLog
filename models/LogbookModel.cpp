@@ -348,11 +348,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         }
 
         case COLUMN_ID:
-        case COLUMN_DXCC:
         case COLUMN_COUNTRY:
-        case COLUMN_CONTINENT:
-        case COLUMN_CQZ:
-        case COLUMN_ITUZ:
         case COLUMN_DISTANCE:
         {
             depend_update_result = false;
