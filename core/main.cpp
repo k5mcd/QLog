@@ -20,6 +20,7 @@
 #include "Rotator.h"
 #include "AppGuard.h"
 #include "logformat/AdiFormat.h"
+#include "ui/SettingsDialog.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
@@ -277,6 +278,14 @@ int main(int argc, char* argv[]) {
     QIcon icon(":/res/qlog.png");
     splash.finish(&w);
     w.setWindowIcon(icon);
+
+    QSettings settings;
+
+    if ( settings.value("station/callsign").toString().isEmpty() )
+    {
+        SettingsDialog s;
+        s.exec();
+    }
     w.show();
 
     return app.exec();
