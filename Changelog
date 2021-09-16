@@ -40,3 +40,4 @@ TBD - 0.2
    - Added k-index, SFI saving
    - Added my Ant parameter
 - LoTW Import/Export is verified and improved
+- Added Rig offset support (support for Transverters)
