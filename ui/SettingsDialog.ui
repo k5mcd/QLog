@@ -37,63 +37,96 @@
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>General</string>
+          <string>Station Locations Profiles</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <layout class="QFormLayout" name="formLayout">
-            <property name="fieldGrowthPolicy">
-             <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+          <item row="3" column="2" colspan="2">
+           <widget class="QLineEdit" name="operatorEdit"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="profileLabel">
+            <property name="text">
+             <string>Profile Name</string>
             </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="callsignLabel">
-              <property name="text">
-               <string>Callsign</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="callsignEdit">
-              <property name="maxLength">
-               <number>25</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="locatorLabel">
-              <property name="text">
-               <string>Locator</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="locatorEdit">
-              <property name="maxLength">
-               <number>12</number>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="operatorLabel">
-              <property name="text">
-               <string>Operator</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="operatorEdit"/>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="qthLabel">
-              <property name="text">
-               <string>QTH</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="qthEdit"/>
-            </item>
-           </layout>
+           </widget>
+          </item>
+          <item row="2" column="2" colspan="2">
+           <widget class="QLineEdit" name="locatorEdit">
+            <property name="maxLength">
+             <number>12</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" colspan="2">
+           <widget class="QLineEdit" name="callsignEdit">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="maxLength">
+             <number>25</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLabel" name="operatorLabel">
+            <property name="text">
+             <string>Operator</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QPushButton" name="deleteProfileButton">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="locatorLabel">
+            <property name="text">
+             <string>Locator</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" rowspan="6">
+           <widget class="QListView" name="profilesListView">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="qthLabel">
+            <property name="text">
+             <string>QTH</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="2">
+           <widget class="QLineEdit" name="profileEdit"/>
+          </item>
+          <item row="4" column="2" colspan="2">
+           <widget class="QLineEdit" name="qthEdit"/>
+          </item>
+          <item row="5" column="2">
+           <widget class="QPushButton" name="addProfileButton">
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="callsignLabel">
+            <property name="text">
+             <string>Callsign</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -104,7 +137,24 @@
           <string>Rigs</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
-          <item row="1" column="1">
+          <item row="0" column="0" colspan="4">
+           <widget class="QListView" name="rigListView">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QPushButton" name="deleteRigButton">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
            <widget class="QPushButton" name="addRigButton">
             <property name="text">
              <string>Add</string>
@@ -115,16 +165,6 @@
            <widget class="QLineEdit" name="rigNameEdit">
             <property name="maxLength">
              <number>25</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="4">
-           <widget class="QListView" name="rigListView"/>
-          </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="deleteRigButton">
-            <property name="text">
-             <string>Delete</string>
             </property>
            </widget>
           </item>
@@ -159,7 +199,14 @@
            </widget>
           </item>
           <item row="0" column="0" colspan="3">
-           <widget class="QListView" name="antListView"/>
+           <widget class="QListView" name="antListView">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -924,6 +971,56 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>profileEdit</tabstop>
+  <tabstop>callsignEdit</tabstop>
+  <tabstop>locatorEdit</tabstop>
+  <tabstop>operatorEdit</tabstop>
+  <tabstop>qthEdit</tabstop>
+  <tabstop>addProfileButton</tabstop>
+  <tabstop>deleteProfileButton</tabstop>
+  <tabstop>rigNameEdit</tabstop>
+  <tabstop>addRigButton</tabstop>
+  <tabstop>deleteRigButton</tabstop>
+  <tabstop>antennasEdit</tabstop>
+  <tabstop>addAntButton</tabstop>
+  <tabstop>deleteAntButton</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>profilesListView</tabstop>
+  <tabstop>rigListView</tabstop>
+  <tabstop>antListView</tabstop>
+  <tabstop>rotModelSelect</tabstop>
+  <tabstop>rotPortEdit</tabstop>
+  <tabstop>rotBaudSelect</tabstop>
+  <tabstop>rotDataBitsSelect</tabstop>
+  <tabstop>rotStopBitsSelect</tabstop>
+  <tabstop>rotFlowControlSelect</tabstop>
+  <tabstop>rotParitySelect</tabstop>
+  <tabstop>rotHostNameEdit</tabstop>
+  <tabstop>rotNetPortSpin</tabstop>
+  <tabstop>rigModelSelect</tabstop>
+  <tabstop>rigPortEdit</tabstop>
+  <tabstop>rigBaudSelect</tabstop>
+  <tabstop>rigDataBitsSelect</tabstop>
+  <tabstop>rigStopBitsSelect</tabstop>
+  <tabstop>rigFlowControlSelect</tabstop>
+  <tabstop>rigParitySelect</tabstop>
+  <tabstop>rigHostNameEdit</tabstop>
+  <tabstop>rigNetPortSpin</tabstop>
+  <tabstop>hamQthUsernameEdit</tabstop>
+  <tabstop>hamQthPasswordEdit</tabstop>
+  <tabstop>lotwUsernameEdit</tabstop>
+  <tabstop>lotwPasswordEdit</tabstop>
+  <tabstop>tqslPathEdit</tabstop>
+  <tabstop>tqslPathButton</tabstop>
+  <tabstop>clublogEmailEdit</tabstop>
+  <tabstop>clublogCallsignEdit</tabstop>
+  <tabstop>clublogPasswordEdit</tabstop>
+  <tabstop>bandTableView</tabstop>
+  <tabstop>modeTableView</tabstop>
+  <tabstop>dxccStartDateCheckBox</tabstop>
+  <tabstop>dxccStartDate</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -965,8 +1062,8 @@
    <slot>addRig()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>587</x>
-     <y>750</y>
+     <x>594</x>
+     <y>554</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -981,8 +1078,8 @@
    <slot>deleteRig()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>674</x>
-     <y>750</y>
+     <x>681</x>
+     <y>554</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -1013,8 +1110,8 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>392</x>
-     <y>475</y>
+     <x>484</x>
+     <y>508</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1070,6 +1167,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>addProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addStationProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>554</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>deleteStationProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>641</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>profilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickStationProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -1080,5 +1225,8 @@
   <slot>addAnt()</slot>
   <slot>deleteAnt()</slot>
   <slot>tqslPathBrowse()</slot>
+  <slot>addStationProfile()</slot>
+  <slot>deleteStationProfile()</slot>
+  <slot>doubleClickStationProfile(QModelIndex)</slot>
  </slots>
 </ui>

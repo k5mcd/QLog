@@ -25,6 +25,7 @@ signals:
 public slots:
     void rigErrorHandler(QString error);
     void rotErrorHandler(QString error);
+    void stationProfileChanged();
 
 private slots:
     void rigConnect();
@@ -41,6 +42,9 @@ private:
     Ui::MainWindow* ui;
     Conditions* conditions;
     QLabel* conditionsLabel;
+    QLabel* callsignLabel;
+    QLabel* locatorLabel;
+    QLabel* operatorLabel;
 };
 
 #endif // MAINWINDOW_H

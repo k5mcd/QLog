@@ -1239,7 +1239,34 @@
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="2" column="1">
+         <item row="1" column="0">
+          <widget class="QLabel" name="rigLabel">
+           <property name="text">
+            <string>Rig</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="rigEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="powerLabel">
+           <property name="text">
+            <string>Power</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
           <widget class="QDoubleSpinBox" name="powerEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -1264,51 +1291,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="antennaLabel">
-           <property name="text">
-            <string>Antenna</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="rigEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="powerLabel">
-           <property name="text">
-            <string>Power</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QComboBox" name="antennaEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="rigLabel">
-           <property name="text">
-            <string>Rig</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
+         <item row="4" column="1">
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -1321,10 +1304,50 @@
            </property>
           </spacer>
          </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="antennaEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="antennaLabel">
+           <property name="text">
+            <string>Antenna</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="stationProfileLabel">
+           <property name="text">
+            <string>Location Profile</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="stationProfileCombo"/>
+         </item>
         </layout>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_4">
+         <item row="1" column="1">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
          <item row="0" column="1">
           <widget class="QDoubleSpinBox" name="rigFreqOffsetSpin">
            <property name="suffix">
@@ -1350,19 +1373,6 @@
             <string>Rig Frequency Offset</string>
            </property>
           </widget>
-         </item>
-         <item row="1" column="1">
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </item>
@@ -1745,6 +1755,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>stationProfileCombo</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>stationProfileChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>215</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>669</x>
+     <y>310</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -1762,5 +1788,6 @@
   <slot>propModeChanged(QString)</slot>
   <slot>editCallsignFinished()</slot>
   <slot>rigFreqOffsetChanged(double)</slot>
+  <slot>stationProfileChanged(QString)</slot>
  </slots>
 </ui>

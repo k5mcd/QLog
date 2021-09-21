@@ -3,11 +3,13 @@
 #include <QDesktopServices>
 #include <QDebug>
 #include <QCompleter>
+#include <QMessageBox>
 #include "core/Rig.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -41,6 +43,10 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     QStringListModel* submodeModel = new QStringListModel(this);
     ui->submodeEdit->setModel(submodeModel);
+
+    QStringListModel* stationProfilesModel = new QStringListModel(this);
+    ui->stationProfileCombo->setModel(stationProfilesModel);
+    refreshStationProfileCombo();
 
     QSqlTableModel* modeModel = new QSqlTableModel();
     modeModel->setTable("modes");
@@ -132,6 +138,7 @@ void NewContactWidget::readSettings() {
     QString rig = settings.value("newcontact/rig").toString();
     QString ant = settings.value("newcontact/antenna").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
+    QString currStationProfile = StationProfilesManager::instance()->getCurrent().profileName;
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
@@ -140,6 +147,7 @@ void NewContactWidget::readSettings() {
     ui->rigEdit->setCurrentText(rig);
     ui->antennaEdit->setCurrentText(ant);
     ui->powerEdit->setValue(power);
+    ui->stationProfileCombo->setCurrentText(currStationProfile);
 
 }
 
@@ -188,6 +196,8 @@ void NewContactWidget::reloadSettings() {
 
     // return selected mode.
     ui->modeEdit->setCurrentText(current_mode);
+
+    refreshStationProfileCombo();
 }
 
 void NewContactWidget::callsignChanged() {
@@ -350,6 +360,27 @@ void NewContactWidget::__modeChanged()
     updateDxccStatus();
 
 }
+
+void NewContactWidget::refreshStationProfileCombo()
+{
+    FCT_IDENTIFICATION;
+
+    ui->stationProfileCombo->blockSignals(true);
+
+    QStringListModel* model = (QStringListModel*)ui->stationProfileCombo->model();
+    QStringList currProfiles = model->stringList();
+
+    currProfiles.clear();
+
+    currProfiles << StationProfilesManager::instance()->profilesList();
+
+    model->setStringList(currProfiles);
+
+    ui->stationProfileCombo->setCurrentText(StationProfilesManager::instance()->getCurrent().profileName);
+
+    ui->stationProfileCombo->blockSignals(false);
+}
+
 /* Mode is changed from GUI */
 void NewContactWidget::modeChanged()
 {
@@ -448,6 +479,15 @@ void NewContactWidget::saveContact() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
+    StationProfile profile = StationProfilesManager::instance()->getCurrent();
+
+    if ( profile.callsign.isEmpty() )
+    {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
+                              QMessageBox::tr("Your callsign is empty. Please, set your Station Profile"));
+        return;
+    }
+
     QSqlTableModel model;
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
@@ -564,22 +604,22 @@ void NewContactWidget::saveContact() {
 
     if (!ui->urlEdit->text().isEmpty()) {
         record.setValue("web", ui->urlEdit->text());
+    }    
+
+    if (!profile.locator.isEmpty()) {
+        record.setValue("my_gridsquare", profile.locator.toUpper());
     }
 
-    if (!settings.value("station/grid").toString().isEmpty()) {
-        record.setValue("my_gridsquare", settings.value("station/grid").toString().toUpper());
+    if (!profile.qthName.isEmpty()) {
+        record.setValue("my_city", profile.qthName.toUpper());
     }
 
-    if (!settings.value("station/qth").toString().isEmpty()) {
-        record.setValue("my_city", settings.value("station/qth").toString().toUpper());
+    if (!profile.callsign.isEmpty()) {
+        record.setValue("station_callsign", profile.callsign.toUpper());
     }
 
-    if (!settings.value("station/callsign").toString().isEmpty()) {
-        record.setValue("station_callsign", settings.value("station/callsign").toString().toUpper());
-    }
-
-    if (!settings.value("station/operator").toString().isEmpty()) {
-        record.setValue("operator", settings.value("station/operator").toString().toUpper());
+    if (!profile.operatorName.isEmpty()) {
+        record.setValue("operator", profile.operatorName.toUpper());
     }
 
     qCDebug(runtime) << record;
@@ -652,8 +692,7 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
 
     if (prec < coordPrec) return;
 
-    QSettings settings;
-    Gridsquare myGrid(settings.value("station/grid").toString());
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
     double distance;
     double bearing;
 
@@ -806,10 +845,22 @@ void NewContactWidget::rigFreqOffsetChanged(double offset)
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(function_parameters) << offset;
+
     double new_freq = realRigFreq + offset;
     ui->frequencyEdit->setValue(new_freq);
     updateBand(new_freq);
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
+}
+
+void NewContactWidget::stationProfileChanged(QString profileName)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << profileName;
+
+    StationProfilesManager::instance()->setCurrent(profileName);
+
+    emit newStationProfile();
 }
 
 NewContactWidget::~NewContactWidget() {

@@ -2,6 +2,11 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include <QModelIndex>
+#include <QHash>
+#include <QSqlTableModel>
+
+#include "data/StationProfile.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -22,6 +27,10 @@ public slots:
     void deleteRig();
     void addAnt();
     void deleteAnt();
+    void refreshStationProfilesView();
+    void addStationProfile();
+    void deleteStationProfile();
+    void doubleClickStationProfile(QModelIndex);
     void rigChanged(int);
     void rotChanged(int);
     void tqslPathBrowse();
@@ -32,6 +41,7 @@ private:
 
     QSqlTableModel* modeTableModel;
     QSqlTableModel* bandTableModel;
+    StationProfilesManager *profileManager;
     Ui::SettingsDialog *ui;
 };
 

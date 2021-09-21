@@ -15,11 +15,13 @@
 #include "../core/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "core/CredentialStore.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
+    profileManager(StationProfilesManager::instance()),
     ui(new Ui::SettingsDialog)
 {
     FCT_IDENTIFICATION;
@@ -37,6 +39,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     QStringListModel* antModel = new QStringListModel();
     ui->antListView->setModel(antModel);
+
+    QStringListModel* profilesModes = new QStringListModel();
+    ui->profilesListView->setModel(profilesModes);
 
     modeTableModel = new QSqlTableModel(this);
     modeTableModel->setTable("modes");
@@ -123,6 +128,75 @@ void SettingsDialog::deleteAnt() {
     ui->antListView->clearSelection();
 }
 
+void SettingsDialog::refreshStationProfilesView()
+{
+    FCT_IDENTIFICATION;
+    QStringListModel* model = (QStringListModel*)ui->profilesListView->model();
+    QStringList profiles = model->stringList();
+
+    profiles.clear();
+
+    profiles << profileManager->profilesList();
+
+    model->setStringList(profiles);
+}
+void SettingsDialog::addStationProfile()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->profileEdit->text().isEmpty() ) return;
+
+    if ( ui->addProfileButton->text() == tr("Modify"))
+    {
+        ui->addProfileButton->setText(tr("Add"));
+    }
+
+    StationProfile profile;
+
+    profile.profileName = ui->profileEdit->text();
+    profile.callsign = ui->callsignEdit->text();
+    profile.locator = ui->locatorEdit->text();
+    profile.operatorName = ui->operatorEdit->text();
+    profile.qthName = ui->qthEdit->text();
+
+    profileManager->add(profile);
+    refreshStationProfilesView();
+
+    ui->profileEdit->clear();
+    ui->callsignEdit->clear();
+    ui->locatorEdit->clear();
+    ui->operatorEdit->clear();
+    ui->qthEdit->clear();
+}
+
+void SettingsDialog::deleteStationProfile()
+{
+    FCT_IDENTIFICATION;
+
+    foreach (QModelIndex index, ui->profilesListView->selectionModel()->selectedRows()) {
+        profileManager->remove(ui->profilesListView->model()->data(index).toString());
+        ui->profilesListView->model()->removeRow(index.row());
+    }
+    ui->profilesListView->clearSelection();
+}
+
+void SettingsDialog::doubleClickStationProfile(QModelIndex i)
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile;
+
+    profile = profileManager->get(ui->profilesListView->model()->data(i).toString());
+
+    ui->profileEdit->setText(profile.profileName);
+    ui->callsignEdit->setText(profile.callsign);
+    ui->locatorEdit->setText(profile.locator);
+    ui->operatorEdit->setText(profile.operatorName);
+    ui->qthEdit->setText(profile.qthName);
+
+    ui->addProfileButton->setText(tr("Modify"));
+}
+
 void SettingsDialog::rigChanged(int index)
 {
     FCT_IDENTIFICATION;
@@ -207,12 +281,10 @@ void SettingsDialog::readSettings() {
     QSettings settings;
     QString username;
 
-    ui->callsignEdit->setText(settings.value("station/callsign").toString());
-    ui->locatorEdit->setText(settings.value("station/grid").toString());
-    ui->operatorEdit->setText(settings.value("station/operator").toString());
-    ui->qthEdit->setText(settings.value("station/qth").toString());
-    QStringList rigs = settings.value("station/rigs").toStringList();
+    QStringList profiles = profileManager->profilesList();
+    ((QStringListModel*)ui->profilesListView->model())->setStringList(profiles);
 
+    QStringList rigs = settings.value("station/rigs").toStringList();
     ((QStringListModel*)ui->rigListView->model())->setStringList(rigs);
 
     QStringList ants = settings.value("station/antennas").toStringList();
@@ -276,10 +348,7 @@ void SettingsDialog::writeSettings() {
     QSettings settings;
     QString old_username;
 
-    settings.setValue("station/callsign", ui->callsignEdit->text());
-    settings.setValue("station/grid", ui->locatorEdit->text());
-    settings.setValue("station/operator", ui->operatorEdit->text());
-    settings.setValue("station/qth", ui->qthEdit->text());
+    profileManager->save();
 
     QStringList rigs = ((QStringListModel*)ui->rigListView->model())->stringList();
     settings.setValue("station/rigs", rigs);

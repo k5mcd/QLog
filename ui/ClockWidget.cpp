@@ -1,11 +1,11 @@
 #include <QTimer>
-#include <QSettings>
 #include <QDateTime>
 #include <cmath>
 #include "ClockWidget.h"
 #include "ui_ClockWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
+#include "data/StationProfile.h"
 
 #define EARTH_RADIUS 6371
 #define EARTH_CIRCUM 40075
@@ -50,8 +50,7 @@ void ClockWidget::updateClock() {
 void ClockWidget::updateSun() {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-    Gridsquare myGrid (settings.value("station/grid").toString());
+    Gridsquare myGrid (StationProfilesManager::instance()->getCurrent().locator);
 
     if ( myGrid.isValid() )
     {

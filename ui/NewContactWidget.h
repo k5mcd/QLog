@@ -36,6 +36,7 @@ signals:
     void newTarget(double lat, double lon);
     void filterCallsign(QString call);
     void userFrequencyChanged(double freq);
+    void newStationProfile();
 
 public slots:
     void reloadSettings();
@@ -66,6 +67,7 @@ public slots:
     void addPropConditions(Conditions *);
     void propModeChanged(QString);
     void rigFreqOffsetChanged(double);
+    void stationProfileChanged(QString);
 
 private:
     void queryDatabase(QString callsign);
@@ -74,6 +76,7 @@ private:
     void readSettings();
     void writeSettings();
     void __modeChanged();
+    void refreshStationProfileCombo();
 
 private:
     Rig* rig;

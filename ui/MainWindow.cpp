@@ -18,6 +18,7 @@
 #include "core/Conditions.h"
 #include "data/Data.h"
 #include "core/debug.h"
+#include "ui/NewContactWidget.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -35,13 +36,17 @@ MainWindow::MainWindow(QWidget* parent) :
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("windowState").toByteArray());
 
-    QString op = settings.value("station/callsign", "NOCALL").toString();
-    QString grid  = settings.value("station/grid", "NO GRID").toString();
+    StationProfile profile = StationProfilesManager::instance()->getCurrent();
 
     conditionsLabel = new QLabel("", ui->statusBar);
+    callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
+    locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);
+    operatorLabel = new QLabel(profile.operatorName, ui->statusBar);
+
     ui->toolBar->hide();
-    ui->statusBar->addWidget(new QLabel(op, ui->statusBar));
-    ui->statusBar->addWidget(new QLabel(grid, ui->statusBar));
+    ui->statusBar->addWidget(callsignLabel);
+    ui->statusBar->addWidget(locatorLabel);
+    ui->statusBar->addWidget(operatorLabel);
     ui->statusBar->addWidget(conditionsLabel);
 
 /*
@@ -74,6 +79,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, clublog, &ClubLog::uploadContact);
     connect(ui->newContactWidget, &NewContactWidget::filterCallsign, ui->logbookWidget, &LogbookWidget::filterCallsign);
     connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->bandmapWidget, &BandmapWidget::updateRxFrequency);
+    connect(ui->newContactWidget, &NewContactWidget::newStationProfile, this, &MainWindow::stationProfileChanged);
 
     connect(ui->dxWidget, &DxWidget::newSpot, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->dxWidget, &DxWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
@@ -127,6 +133,21 @@ void MainWindow::rotErrorHandler(QString error)
     ui->actionConnectRotator->setChecked(false);
 }
 
+void MainWindow::stationProfileChanged()
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurrent();
+
+    qCDebug(runtime) << profile.callsign << " " << profile.locator << " " << profile.operatorName;
+
+    callsignLabel->setText(profile.callsign.toLower());
+    locatorLabel->setText(profile.locator.toLower());
+    operatorLabel->setText(profile.operatorName);
+
+    emit settingsChanged();
+}
+
 void MainWindow::rotConnect() {
     FCT_IDENTIFICATION;
 
@@ -148,8 +169,8 @@ void MainWindow::showSettings() {
     if (sw.exec() == QDialog::Accepted) {
         rigConnect();
         rotConnect();
+        stationProfileChanged();
         emit settingsChanged();
-
     }
 }
 

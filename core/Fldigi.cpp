@@ -4,6 +4,7 @@
 #include "Fldigi.h"
 #include "logformat/AdiFormat.h"
 #include "debug.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.core.fldigi");
 
@@ -145,7 +146,7 @@ QByteArray Fldigi::addRecord(QString data) {
     xml.writeEndDocument();
 
     QMap<QString, QString> defaults;
-    defaults["my_grid"] = settings.value("station/grid").toString();
+    defaults["my_grid"] = StationProfilesManager::instance()->getCurrent().locator;
 
     QTextStream in(&data);
     AdiFormat adif(in);

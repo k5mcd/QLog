@@ -4,12 +4,11 @@
 #include <QDebug>
 #include <QPainter>
 #include <QVector3D>
-#include <QSettings>
 #include <cmath>
 #include "MapWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
-#include "core/Gridsquare.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mapwidget");
 
@@ -58,8 +57,7 @@ void MapWidget::clear() {
         i.remove();
     }
 
-    QSettings settings;
-    Gridsquare myGrid(settings.value("station/grid").toString());
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
 
     double lat=0;
     double lon=0;
@@ -237,8 +235,7 @@ void MapWidget::setTarget(double lat, double lon) {
 
     if (lat == 0.0 && lon == 0.0) return;
 
-    QSettings settings;
-    Gridsquare myGrid(settings.value("station/grid").toString());
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
 
     QPoint point = coordToPoint(lat, lon);
     drawPoint(point);

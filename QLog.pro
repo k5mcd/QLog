@@ -46,6 +46,7 @@ SOURCES += \
         core/main.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
+        data/StationProfile.cpp \
         logformat/AdiFormat.cpp \
         logformat/AdxFormat.cpp \
         logformat/JsonFormat.cpp \
@@ -97,6 +98,7 @@ HEADERS += \
         data/Data.h \
         data/DxSpot.h \
         data/Dxcc.h \
+        data/StationProfile.h \
         logformat/AdiFormat.h \
         logformat/AdxFormat.h \
         logformat/JsonFormat.h \

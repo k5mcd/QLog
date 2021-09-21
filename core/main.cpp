@@ -21,6 +21,7 @@
 #include "AppGuard.h"
 #include "logformat/AdiFormat.h"
 #include "ui/SettingsDialog.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
@@ -227,6 +228,7 @@ int main(int argc, char* argv[]) {
     app.setApplicationName("QLog");
 
     qInstallMessageHandler(debugMessageOutput);
+    qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
 
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)
@@ -279,13 +281,12 @@ int main(int argc, char* argv[]) {
     splash.finish(&w);
     w.setWindowIcon(icon);
 
-    QSettings settings;
-
-    if ( settings.value("station/callsign").toString().isEmpty() )
+    if ( StationProfilesManager::instance()->profilesList().isEmpty() )
     {
         SettingsDialog s;
         s.exec();
     }
+
     w.show();
 
     return app.exec();
