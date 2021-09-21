@@ -2,6 +2,7 @@
 #define DATA_H
 
 #include <QtCore>
+#include <QRegularExpression>
 #include "Dxcc.h"
 #include "Band.h"
 
@@ -26,6 +27,7 @@ public:
     static QColor statusToColor(DxccStatus status, QColor defaultColor);
     static QColor statusToInverseColor(DxccStatus status, QColor defaultColor);
     static QString statusToText(DxccStatus status);
+    static QRegularExpression callsignRegEx();
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
     QStringList propagationModesIDList() { return propagationModes.keys(); }

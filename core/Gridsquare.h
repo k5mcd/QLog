@@ -10,6 +10,8 @@ class Gridsquare
 public:
     Gridsquare(QString grid = QString());
     ~Gridsquare() {};
+    static QRegularExpression gridRegEx();
+
     bool isValid();
     double getLongitude() {return lon;};
     double getLatitude() {return lat;};

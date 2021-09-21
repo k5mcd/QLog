@@ -1215,6 +1215,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>callsignEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustCallsignTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>598</x>
+     <y>160</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>locatorEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustLocatorTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>598</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -1228,5 +1260,7 @@
   <slot>addStationProfile()</slot>
   <slot>deleteStationProfile()</slot>
   <slot>doubleClickStationProfile(QModelIndex)</slot>
+  <slot>adjustCallsignTextColor()</slot>
+  <slot>adjustLocatorTextColor()</slot>
  </slots>
 </ui>

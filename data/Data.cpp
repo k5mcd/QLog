@@ -267,6 +267,14 @@ QString Data::statusToText(DxccStatus status) {
     }
 }
 
+QRegularExpression Data::callsignRegEx()
+{
+    FCT_IDENTIFICATION;
+
+    return QRegularExpression("[a-zA-Z0-9]{1,3}[0123456789][a-zA-Z0-9]{0,3}[a-zA-Z]",
+                              QRegularExpression::CaseInsensitiveOption);
+}
+
 QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
     FCT_IDENTIFICATION;
 

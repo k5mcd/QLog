@@ -16,6 +16,8 @@
 #include "core/debug.h"
 #include "core/CredentialStore.h"
 #include "data/StationProfile.h"
+#include "data/Data.h"
+#include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
@@ -75,6 +77,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->bandTableView->setItemDelegateForColumn(4,new CheckBoxDelegate(ui->bandTableView));
 
     bandTableModel->select();
+
+    ui->callsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
+    ui->locatorEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
 
     readSettings();
 }
@@ -144,7 +149,12 @@ void SettingsDialog::addStationProfile()
 {
     FCT_IDENTIFICATION;
 
-    if ( ui->profileEdit->text().isEmpty() ) return;
+    if ( ui->profileEdit->text().isEmpty()
+         || ! ui->callsignEdit->hasAcceptableInput()
+         || ! ui->locatorEdit->hasAcceptableInput() )
+    {
+        return;
+    }
 
     if ( ui->addProfileButton->text() == tr("Modify"))
     {
@@ -273,6 +283,36 @@ void SettingsDialog::tqslPathBrowse()
     {
         ui->tqslPathEdit->setText(filename);
     }
+}
+
+void SettingsDialog::adjustCallsignTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! ui->callsignEdit->hasAcceptableInput() )
+    {
+        ui->callsignEdit->setStyleSheet("QLineEdit { color: red;}");
+    }
+    else
+    {
+        ui->callsignEdit->setStyleSheet("QLineEdit { color: black;}");
+    }
+
+}
+
+void SettingsDialog::adjustLocatorTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! ui->locatorEdit->hasAcceptableInput() )
+    {
+        ui->locatorEdit->setStyleSheet("QLineEdit { color: red;}");
+    }
+    else
+    {
+        ui->locatorEdit->setStyleSheet("QLineEdit { color: black;}");
+    }
+
 }
 
 void SettingsDialog::readSettings() {

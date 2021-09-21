@@ -34,6 +34,8 @@ public slots:
     void rigChanged(int);
     void rotChanged(int);
     void tqslPathBrowse();
+    void adjustCallsignTextColor();
+    void adjustLocatorTextColor();
 
 private:
     void readSettings();

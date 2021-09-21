@@ -1,6 +1,7 @@
 #include "Gridsquare.h"
 #include <core/debug.h>
 #include <cmath>
+#include <QRegularExpression>
 
 #define EARTH_RADIUS 6371
 #define EARTH_CIRCUM 40075
@@ -20,9 +21,7 @@ Gridsquare::Gridsquare(QString in_grid)
     {
         grid = in_grid.toUpper();
 
-        QRegExp regex("^[A-Za-z]{2}[0-9]{2}([A-Za-z]{2})?$");
-
-        if ( regex.exactMatch(grid) )
+        if ( gridRegEx().match(grid).hasMatch() )
         {
             lon = (grid.at(0).toLatin1() - 'A') * 20 - 180;
             lat = (grid.at(1).toLatin1() - 'A') * 10 - 90;
@@ -54,11 +53,19 @@ Gridsquare::Gridsquare(QString in_grid)
     }
 }
 
+QRegularExpression Gridsquare::gridRegEx()
+{
+    FCT_IDENTIFICATION;
+
+    return QRegularExpression("^[A-Za-z]{2}[0-9]{2}([A-Za-z]{2})?$");
+}
+
 bool Gridsquare::isValid()
 {
     FCT_IDENTIFICATION;
     return validGrid;
 }
+
 bool Gridsquare::distanceTo(double lat, double lon, double &distance)
 {
     FCT_IDENTIFICATION;
