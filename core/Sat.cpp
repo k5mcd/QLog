@@ -15,7 +15,7 @@
 #include "Sat.h"
 #include "debug.h"
 
-#define SAT_URL "http://www.ne.jp/asahi/hamradio/je9pel/satslist.csv"
+#define SAT_URL "https://raw.githubusercontent.com/foldynl/QLog-data/main/sats/satslist.csv"
 #define SAT_FILE_AGING 30
 
 MODULE_IDENTIFICATION("qlog.core.sat");
