@@ -4,6 +4,7 @@
 #include <hamlib/rig.h>
 #include <hamlib/rotator.h>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "SettingsDialog.h"
 #include "ui_SettingsDialog.h"
@@ -86,6 +87,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
 void SettingsDialog::save() {
     FCT_IDENTIFICATION;
+
+    if ( profileManager->profilesList().isEmpty() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Please, define at least one Station Locations Profile"));
+        return;
+    }
 
     writeSettings();
     accept();
