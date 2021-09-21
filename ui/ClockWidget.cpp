@@ -42,7 +42,9 @@ void ClockWidget::updateClock() {
     QDateTime now = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
     ui->clockLabel->setText(now.toString("HH:mm:ss") + " UTC");
 
-    if (now.time().second() == 0) {
+    if (now.time().second() == 0)
+    {
+        updateSun();
         updateSunGraph();
     }
 }
