@@ -173,7 +173,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
 
     ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", "Band"));
     ui->modeFilter->setModel(new SqlListModel("SELECT name FROM modes", "Mode"));
-    ui->countryFilter->setModel(new SqlListModel("SELECT name FROM dxcc_entities ORDER BY name", "Country"));
+    ui->countryFilter->setModel(new SqlListModel("SELECT id, name FROM dxcc_entities WHERE id IN (SELECT DISTINCT dxcc FROM contacts) ORDER BY name;", "Country"));
+    ui->countryFilter->setModelColumn(1);
 
     clublog = new ClubLog(this);
 
@@ -261,8 +262,14 @@ void LogbookWidget::countryFilterChanged() {
     FCT_IDENTIFICATION;
 
     QString country = ui->countryFilter->currentText();
-    if (ui->countryFilter->currentIndex() != 0 && !country.isEmpty()) {
-        model->setFilter(QString("country = '%1'").arg(country));
+
+    int row = ui->countryFilter->currentIndex();
+    QModelIndex idx = ui->countryFilter->model()->index(row,0);
+    QVariant data = ui->countryFilter->model()->data(idx);
+
+    if ( ui->countryFilter->currentIndex() != 0 )
+    {
+        model->setFilter(QString("dxcc = '%1'").arg(data.toInt()));
     }
     else {
         model->setFilter(nullptr);

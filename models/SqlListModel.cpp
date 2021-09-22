@@ -32,7 +32,7 @@ QVariant SqlListModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role == Qt::DisplayRole and index.column() == 0) {
+    if (role == Qt::DisplayRole && (index.column() == 0 || index.column() == 1)) {
         if (!placeholder.isEmpty() && index.row() == 0) {
             return placeholder;
         }
@@ -41,7 +41,7 @@ QVariant SqlListModel::data(const QModelIndex &index, int role) const
             return QSqlQueryModel::data(sqlIndex, role);
         }
     }
-    else if (role == Qt::UserRole and index.column() == 0) {
+    else if (role == Qt::UserRole && (index.column() == 0  || index.column() == 1)) {
         return index.row() - (placeholder.isEmpty() ? 1 : 0);
     }
     else {
