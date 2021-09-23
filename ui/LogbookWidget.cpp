@@ -219,61 +219,28 @@ void LogbookWidget::filterCallsign(QString call) {
     }
 }
 
-void LogbookWidget::callsignFilterChanged() {
+void LogbookWidget::callsignFilterChanged()
+{
     FCT_IDENTIFICATION;
 
-    QString callsign = ui->callsignFilter->text();
-    if (!callsign.isEmpty()) {
-        model->setFilter(QString("callsign LIKE '%1%'").arg(ui->callsignFilter->text()));
-    }
-    else {
-        model->setFilter(nullptr);
-    }
     updateTable();
 }
 
 void LogbookWidget::bandFilterChanged() {
     FCT_IDENTIFICATION;
 
-    QString band = ui->bandFilter->currentText();
-    if (ui->bandFilter->currentIndex() != 0 && !band.isEmpty()) {
-        model->setFilter(QString("band = '%1'").arg(band));
-    }
-    else {
-        model->setFilter(nullptr);
-    }
     updateTable();
 }
 
 void LogbookWidget::modeFilterChanged() {
     FCT_IDENTIFICATION;
 
-    QString mode = ui->modeFilter->currentText();
-    if (ui->modeFilter->currentIndex() != 0 && !mode.isEmpty()) {
-        model->setFilter(QString("mode = '%1'").arg(mode));
-    }
-    else {
-        model->setFilter(nullptr);
-    }
     updateTable();
 }
 
 void LogbookWidget::countryFilterChanged() {
     FCT_IDENTIFICATION;
 
-    QString country = ui->countryFilter->currentText();
-
-    int row = ui->countryFilter->currentIndex();
-    QModelIndex idx = ui->countryFilter->model()->index(row,0);
-    QVariant data = ui->countryFilter->model()->data(idx);
-
-    if ( ui->countryFilter->currentIndex() != 0 )
-    {
-        model->setFilter(QString("dxcc = '%1'").arg(data.toInt()));
-    }
-    else {
-        model->setFilter(nullptr);
-    }
     updateTable();
 }
 
@@ -328,8 +295,45 @@ void LogbookWidget::displayedColumns()
     saveTableHeaderState();
 }
 
-void LogbookWidget::updateTable() {
+void LogbookWidget::updateTable()
+{
     FCT_IDENTIFICATION;
+
+    QStringList filterString;
+
+    QString callsignFilterValue = ui->callsignFilter->text();
+
+    if ( !callsignFilterValue.isEmpty() )
+    {
+        filterString.append(QString("callsign LIKE '%1%'").arg(callsignFilterValue.toUpper()));
+    }
+
+    QString bandFilterValue = ui->bandFilter->currentText();
+
+    if ( ui->bandFilter->currentIndex() != 0 && !bandFilterValue.isEmpty())
+    {
+        filterString.append(QString("band = '%1'").arg(bandFilterValue));
+    }
+
+    QString modeFilterValue = ui->modeFilter->currentText();
+
+    if ( ui->modeFilter->currentIndex() != 0 && !modeFilterValue.isEmpty() )
+    {
+        filterString.append(QString("mode = '%1'").arg(modeFilterValue));
+    }
+
+    QString country = ui->countryFilter->currentText();
+
+    int row = ui->countryFilter->currentIndex();
+    QModelIndex idx = ui->countryFilter->model()->index(row,0);
+    QVariant data = ui->countryFilter->model()->data(idx);
+
+    if ( ui->countryFilter->currentIndex() != 0 )
+    {
+        filterString.append(QString("dxcc = '%1'").arg(data.toInt()));
+    }
+
+    model->setFilter(filterString.join(" AND "));
 
     model->select();
     ui->contactTable->resizeColumnsToContents();

@@ -35,6 +35,9 @@
          <property name="focusPolicy">
           <enum>Qt::ClickFocus</enum>
          </property>
+         <property name="placeholderText">
+          <string>Search Callsign</string>
+         </property>
         </widget>
        </item>
        <item>
