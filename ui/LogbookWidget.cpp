@@ -372,7 +372,7 @@ void LogbookWidget::updateTable()
     {
         QSqlQuery userFilterQuery;
         userFilterQuery.prepare("SELECT "
-                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || o.sql_operator || ' (' || quote(r.value)  || ') ', m.sql_operator) || ')' "
+                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || o.sql_operator || ' (' || quote(case o.sql_operator when 'like' THEN '%' || r.value || '%' WHEN 'not like' THEN '%' || r.value || '%' ELSE r.value END)  || ') ', m.sql_operator) || ')' "
                                 "FROM qso_filters f, qso_filter_rules r, "
                                 "qso_filter_operators o, qso_filter_matching_types m, "
                                 "PRAGMA_TABLE_INFO('contacts') c "
