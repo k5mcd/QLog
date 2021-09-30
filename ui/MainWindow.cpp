@@ -19,6 +19,7 @@
 #include "data/Data.h"
 #include "core/debug.h"
 #include "ui/NewContactWidget.h"
+#include "ui/QSOFilterDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -252,7 +253,16 @@ void MainWindow::conditionsUpdated() {
 
     conditionsLabel->setTextFormat(Qt::RichText);
     conditionsLabel->setText(QString("SFI <b>%1</B> K <b style='color: %2'>%3</b>").arg(
-                             flux_string, kcolor, k_index_string ));
+                                 flux_string, kcolor, k_index_string ));
+}
+
+void MainWindow::QSOFilterSetting()
+{
+    FCT_IDENTIFICATION;
+
+    QSOFilterDialog dialog(this);
+    dialog.exec();
+    ui->logbookWidget->updateTable();
 }
 
 MainWindow::~MainWindow() {

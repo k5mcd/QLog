@@ -71,6 +71,8 @@ SOURCES += \
         ui/MapWidget.cpp \
         ui/NewContactWidget.cpp \
         ui/QSLImportStatDialog.cpp \
+        ui/QSOFilterDetail.cpp \
+        ui/QSOFilterDialog.cpp \
         ui/RigWidget.cpp \
         ui/RotatorWidget.cpp \
         ui/SettingsDialog.cpp \
@@ -123,6 +125,8 @@ HEADERS += \
         ui/MapWidget.h \
         ui/NewContactWidget.h \
         ui/QSLImportStatDialog.h \
+        ui/QSOFilterDetail.h \
+        ui/QSOFilterDialog.h \
         ui/RigWidget.h \
         ui/RotatorWidget.h \
         ui/SettingsDialog.h \
@@ -143,6 +147,8 @@ FORMS += \
         ui/MainWindow.ui \
         ui/NewContactWidget.ui \
         ui/QSLImportStatDialog.ui \
+        ui/QSOFilterDetail.ui \
+        ui/QSOFilterDialog.ui \
         ui/RigWidget.ui \
         ui/RotatorWidget.ui \
         ui/SettingsDialog.ui \

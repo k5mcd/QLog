@@ -73,6 +73,19 @@ static bool openDatabase() {
         return false;
     }
     else {
+        QSqlQuery query;
+        if ( !query.exec("PRAGMA foreign_keys = ON") )
+        {
+            qCritical() << "Cannot set PRAGMA foreign_keys";
+            return false;
+        }
+
+        if ( !query.exec("PRAGMA journal_mode = WALL") )
+        {
+            qCritical() << "Cannot set PRAGMA journal_mode";
+            return false;
+        }
+
         return true;
     }
 }

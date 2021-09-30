@@ -80,6 +80,15 @@
         </widget>
        </item>
        <item>
+        <widget class="QComboBox" name="userFilter">
+         <item>
+          <property name="text">
+           <string>User Filter</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -348,6 +357,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>userFilter</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>LogbookWidget</receiver>
+   <slot>userFilterChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>545</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>deleteContact()</slot>
@@ -360,5 +385,6 @@
   <slot>countryFilterChanged()</slot>
   <slot>editContact()</slot>
   <slot>displayedColumns()</slot>
+  <slot>userFilterChanged()</slot>
  </slots>
 </ui>

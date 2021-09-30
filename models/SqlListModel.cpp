@@ -1,12 +1,15 @@
 #include <QDebug>
 #include <QFile>
+#include <QSqlQuery>
 #include "SqlListModel.h"
 
 SqlListModel::SqlListModel(QString query, QString placeholder, QObject *parent)
     : QSqlQueryModel(parent),
-      placeholder(placeholder)
+      placeholder(placeholder),
+      stmt(query)
 {
-    this->setQuery(query);
+
+    this->setQuery(stmt);
 }
 
 QVariant SqlListModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -47,4 +50,9 @@ QVariant SqlListModel::data(const QModelIndex &index, int role) const
     else {
         return QVariant();
     }
+}
+
+void SqlListModel::refresh()
+{
+    setQuery(stmt);
 }

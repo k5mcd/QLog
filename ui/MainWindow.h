@@ -37,6 +37,7 @@ private slots:
     void showLotw();
     void showAbout();
     void conditionsUpdated();
+    void QSOFilterSetting();
 
 private:
     Ui::MainWindow* ui;

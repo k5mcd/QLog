@@ -171,10 +171,24 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
 
-    ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", "Band"));
-    ui->modeFilter->setModel(new SqlListModel("SELECT name FROM modes", "Mode"));
-    ui->countryFilter->setModel(new SqlListModel("SELECT id, name FROM dxcc_entities WHERE id IN (SELECT DISTINCT dxcc FROM contacts) ORDER BY name;", "Country"));
+    ui->bandFilter->blockSignals(true);
+    ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", tr("Band"), this));
+    ui->bandFilter->blockSignals(false);
+
+    ui->modeFilter->blockSignals(true);
+    ui->modeFilter->setModel(new SqlListModel("SELECT name FROM modes", tr("Mode"), this));
+    ui->modeFilter->blockSignals(false);
+
+    ui->countryFilter->blockSignals(true);
+    countryModel = new SqlListModel("SELECT id, name FROM dxcc_entities WHERE id IN (SELECT DISTINCT dxcc FROM contacts) ORDER BY name;", tr("Country"), this);
+    ui->countryFilter->setModel(countryModel);
     ui->countryFilter->setModelColumn(1);
+    ui->countryFilter->blockSignals(false);
+
+    ui->userFilter->blockSignals(true);
+    userFilterModel = new SqlListModel("SELECT filter_name FROM qso_filters ORDER BY filter_name", tr("User Filter"), this);
+    ui->userFilter->setModel(userFilterModel);
+    ui->userFilter->blockSignals(false);
 
     clublog = new ClubLog(this);
 
@@ -239,6 +253,13 @@ void LogbookWidget::modeFilterChanged() {
 }
 
 void LogbookWidget::countryFilterChanged() {
+    FCT_IDENTIFICATION;
+
+    updateTable();
+}
+
+void LogbookWidget::userFilterChanged()
+{
     FCT_IDENTIFICATION;
 
     updateTable();
@@ -322,7 +343,13 @@ void LogbookWidget::updateTable()
         filterString.append(QString("mode = '%1'").arg(modeFilterValue));
     }
 
+    /* Refresh dynamic Country selection combobox */
+    /* It is important to block its signals */
+    ui->countryFilter->blockSignals(true);
     QString country = ui->countryFilter->currentText();
+    countryModel->refresh();
+    ui->countryFilter->setCurrentText(country);
+    ui->countryFilter->blockSignals(false);
 
     int row = ui->countryFilter->currentIndex();
     QModelIndex idx = ui->countryFilter->model()->index(row,0);
@@ -333,9 +360,48 @@ void LogbookWidget::updateTable()
         filterString.append(QString("dxcc = '%1'").arg(data.toInt()));
     }
 
+    /* Refresh dynamic User Filter selection combobox */
+    /* block the signals !!! */
+    ui->userFilter->blockSignals(true);
+    QString userFilterString = ui->userFilter->currentText();
+    userFilterModel->refresh();
+    ui->userFilter->setCurrentText(userFilterString);
+    ui->userFilter->blockSignals(false);
+
+    if ( ui->userFilter->currentIndex() != 0 )
+    {
+        QSqlQuery userFilterQuery;
+        userFilterQuery.prepare("SELECT "
+                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || o.sql_operator || ' (' || quote(r.value)  || ') ', m.sql_operator) || ')' "
+                                "FROM qso_filters f, qso_filter_rules r, "
+                                "qso_filter_operators o, qso_filter_matching_types m, "
+                                "PRAGMA_TABLE_INFO('contacts') c "
+                                "WHERE f.filter_name = :filterName "
+                                "      AND f.filter_name = r.filter_name "
+                                "      AND o.operator_id = r.operator_id "
+                                "      AND m.matching_id = f.matching_type "
+                                "      AND c.cid = r.table_field_index");
+        userFilterQuery.bindValue(":filterName", ui->userFilter->currentText());
+
+        qCDebug(runtime) << "User filter SQL: " << userFilterQuery.lastQuery();
+
+        if ( userFilterQuery.exec() )
+        {
+            userFilterQuery.next();
+            filterString.append(QString("( ") + userFilterQuery.value(0).toString() + ")");
+        }
+        else
+        {
+            qInfo() << "User filter error - " << userFilterQuery.lastError().text();
+        }
+    }
+
+    qCDebug(runtime) << "SQL filter summary: " << filterString.join(" AND ");
+
     model->setFilter(filterString.join(" AND "));
 
     model->select();
+
     ui->contactTable->resizeColumnsToContents();
 }
 

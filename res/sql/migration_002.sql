@@ -131,3 +131,34 @@ CREATE TABLE IF NOT EXISTS sat_info (
         status TEXT
 );
 
+CREATE TABLE IF NOT EXISTS qso_filter_matching_types (
+        matching_id INTEGER PRIMARY KEY,
+        sql_operator TEXT NOT NULL
+);
+
+INSERT INTO qso_filter_matching_types values (0,'AND');
+INSERT INTO qso_filter_matching_types values (1,'OR');
+
+CREATE TABLE IF NOT EXISTS qso_filter_operators (
+        operator_id INTEGER PRIMARY KEY,
+        sql_operator TEXT NOT NULL
+);
+
+INSERT INTO qso_filter_operators values (0,'=');
+INSERT INTO qso_filter_operators values (1,'<>');
+INSERT INTO qso_filter_operators values (2,'like');
+INSERT INTO qso_filter_operators values (3,'not like');
+INSERT INTO qso_filter_operators values (4,'>');
+INSERT INTO qso_filter_operators values (5,'<');
+
+CREATE TABLE IF NOT EXISTS qso_filters (
+        filter_name text PRIMARY KEY,
+        matching_type INTEGER REFERENCES qso_filter_matching_types(matching_id)
+);
+
+CREATE TABLE IF NOT EXISTS qso_filter_rules (
+        filter_name       TEXT REFERENCES qso_filters(filter_name) ON DELETE CASCADE,
+        table_field_index INTEGER NOT NULL,
+        operator_id       INTEGER REFERENCES qso_filter_operators(operator_id) ,
+        "value"           TEXT
+);
