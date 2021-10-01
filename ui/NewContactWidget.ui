@@ -1771,6 +1771,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>sotaEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>sotaChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>422</x>
+     <y>418</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>669</x>
+     <y>310</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -1789,5 +1805,6 @@
   <slot>editCallsignFinished()</slot>
   <slot>rigFreqOffsetChanged(double)</slot>
   <slot>stationProfileChanged(QString)</slot>
+  <slot>sotaChanged(QString)</slot>
  </slots>
 </ui>

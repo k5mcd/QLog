@@ -68,6 +68,7 @@ public slots:
     void propModeChanged(QString);
     void rigFreqOffsetChanged(double);
     void stationProfileChanged(QString);
+    void sotaChanged(QString);
 
 private:
     void queryDatabase(QString callsign);

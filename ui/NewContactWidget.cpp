@@ -94,7 +94,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     sotaCompleter->setFilterMode(Qt::MatchContains);
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-    ui->sotaEdit->setCompleter(sotaCompleter);
+    ui->sotaEdit->setCompleter(nullptr);
 
     connect(rig, &Rig::frequencyChanged,
             this, &NewContactWidget::changeFrequency);
@@ -861,6 +861,20 @@ void NewContactWidget::stationProfileChanged(QString profileName)
     StationProfilesManager::instance()->setCurrent(profileName);
 
     emit newStationProfile();
+}
+
+void NewContactWidget::sotaChanged(QString newSOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newSOTA.length() >= 2 )
+    {
+        ui->sotaEdit->setCompleter(sotaCompleter);
+    }
+    else
+    {
+        ui->sotaEdit->setCompleter(nullptr);
+    }
 }
 
 NewContactWidget::~NewContactWidget() {
