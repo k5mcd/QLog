@@ -92,7 +92,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
     sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-    sotaCompleter->setFilterMode(Qt::MatchContains);
+    sotaCompleter->setFilterMode(Qt::MatchStartsWith);
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
