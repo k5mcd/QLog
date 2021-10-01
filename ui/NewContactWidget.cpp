@@ -867,7 +867,7 @@ void NewContactWidget::sotaChanged(QString newSOTA)
 {
     FCT_IDENTIFICATION;
 
-    if ( newSOTA.length() >= 2 )
+    if ( newSOTA.length() >= 3 )
     {
         ui->sotaEdit->setCompleter(sotaCompleter);
     }
