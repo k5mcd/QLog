@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QVector3D>
-#include <cmath>
+#include <QtMath>
 #include "MapWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"

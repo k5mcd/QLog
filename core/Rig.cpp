@@ -1,7 +1,12 @@
 #include <QDebug>
 #include <QSettings>
 #include <cstring>
+
+#ifdef Q_OS_WIN
+#include <windows.h>
+#else
 #include <unistd.h>
+#endif
 
 #include "Rig.h"
 #include "core/debug.h"
@@ -340,8 +345,13 @@ void Rig::setMode(QString newMode, QString newSubMode)
         */
         }
 
-        usleep(500); // wait a half of second because Rigs are slow and they are not possible to set and get
-                     // mode so quickly (get mode is called in the main thread's update() function
+        // wait a moment because Rigs are slow and they are not possible to set and get
+        // mode so quickly (get mode is called in the main thread's update() function
+#ifdef Q_OS_WIN
+        Sleep(100);
+#else
+        usleep(100000);
+#endif
     }
     rigLock.unlock();
 }

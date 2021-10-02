@@ -201,10 +201,10 @@ win32: {
     QMAKE_TARGET_COMPANY = OK1MLG
     QMAKE_TARGET_DESCRIPTION = Hamradio logging
     LIBS += -L"$$PWD/../hamlib/lib/gcc" -lhamlib
-    LIBS += -L"$$PWD../hamlib/bin"
-    LIBS += -L"$$PWD/../qtkeychain" -llibqt5keychaind
+    LIBS += -L"$$PWD/../hamlib/bin"
+    LIBS += -L"$$PWD/../qtkeychain" -lqt5keychain
     INCLUDEPATH += "$$PWD/../hamlib/include/"
-    INCLUDEPATH += "$$PWD/../qtkeychain/"
+    INCLUDEPATH += "$$PWD/../qtkeychain/include"
 }
 
 DISTFILES += \

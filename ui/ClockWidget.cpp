@@ -1,6 +1,6 @@
 #include <QTimer>
 #include <QDateTime>
-#include <cmath>
+#include <QtMath>
 #include "ClockWidget.h"
 #include "ui_ClockWidget.h"
 #include "core/debug.h"

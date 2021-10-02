@@ -1,6 +1,6 @@
 #include "Gridsquare.h"
 #include <core/debug.h>
-#include <cmath>
+#include <QtMath>
 #include <QRegularExpression>
 
 #define EARTH_RADIUS 6371

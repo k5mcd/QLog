@@ -1,12 +1,7 @@
 #include <QEventLoop>
+#include <qt5keychain/keychain.h>
 #include "CredentialStore.h"
 #include "core/debug.h"
-
-#ifdef Q_OS_WIN
-#include <keychain.h>
-#else
-#include <qt5keychain/keychain.h>
-#endif
 
 MODULE_IDENTIFICATION("qlog.core.appguard");
 
