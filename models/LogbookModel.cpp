@@ -380,6 +380,18 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
+        case COLUMN_SOTA_REF:
+        case COLUMN_MY_SOTA_REF:
+        case COLUMN_IOTA:
+        case COLUMN_MY_IOTA:
+        {
+            main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
+
+            return main_update_result;
+
+            break;
+        }
+
         }
     }
 
