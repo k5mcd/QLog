@@ -33,8 +33,12 @@ void Sat::update() {
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
+    QSettings settings;
+    QDate last_update = settings.value("last_sat_update").toDate();
+
     if ( dir.exists("satslist.csv")
-         && QFileInfo(dir.filePath("satslist.csv")).birthTime().date().daysTo(QDate::currentDate()) < SAT_FILE_AGING )
+         && last_update.isValid()
+         && last_update.daysTo(QDate::currentDate()) < SAT_FILE_AGING )
     {
         if ( isSatFilled() )
         {
@@ -92,8 +96,11 @@ void Sat::processReply(QNetworkReply* reply) {
         file.write(data);
         file.flush();
         file.close();
-
         reply->deleteLater();
+
+        QSettings settings;
+        settings.setValue("last_sat_update", QDateTime::currentDateTimeUtc().date());
+
         loadData();
     }
     else {

@@ -33,8 +33,12 @@ void Cty::update() {
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
+    QSettings settings;
+    QDate last_update = settings.value("last_cty_update").toDate();
+
     if ( dir.exists("cty.csv")
-         && QFileInfo(dir.filePath("cty.csv")).birthTime().date().daysTo(QDate::currentDate()) < CTY_FILE_AGING )
+         && last_update.isValid()
+         && last_update.daysTo(QDate::currentDate()) < CTY_FILE_AGING )
     {
         if ( isDXCCFilled() )
         {
@@ -92,8 +96,11 @@ void Cty::processReply(QNetworkReply* reply) {
         file.write(data);
         file.flush();
         file.close();
-
         reply->deleteLater();
+
+        QSettings settings;
+        settings.setValue("last_cty_update", QDateTime::currentDateTimeUtc().date());
+
         loadData();
     }
     else {
