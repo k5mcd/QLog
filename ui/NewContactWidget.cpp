@@ -542,6 +542,11 @@ void NewContactWidget::saveContact() {
         {
             record.setValue("k_index", prop_cond->getKIndex());
         }
+
+        if ( prop_cond->isAIndexValid() )
+        {
+            record.setValue("a_index", prop_cond->getAIndex());
+        }
     }
 
     if ( coordPrec >= COORD_GRID)

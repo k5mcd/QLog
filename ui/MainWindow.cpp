@@ -224,11 +224,13 @@ void MainWindow::showAbout() {
 void MainWindow::conditionsUpdated() {
     FCT_IDENTIFICATION;
 
-    QString kcolor;
-    QString k_index_string, flux_string;
+    QString kcolor, fluxcolor, acolor;
 
-    k_index_string = flux_string = tr("N/A");
+    QString k_index_string, flux_string, a_index_string;
 
+    k_index_string = flux_string = a_index_string = tr("N/A");
+
+    /* https://3fs.net.au/making-sense-of-solar-indices/ */
     if ( conditions->isKIndexValid() )
     {
         double k_index = conditions->getKIndex();
@@ -248,12 +250,44 @@ void MainWindow::conditionsUpdated() {
 
     if ( conditions->isFluxValid() )
     {
+        if ( conditions->getFlux() < 100 )
+        {
+            fluxcolor = "red";
+        }
+        else if ( conditions->getFlux() < 200 )
+        {
+            fluxcolor = "orange";
+        }
+        else
+        {
+            fluxcolor = "green";
+        }
+
         flux_string = QString::number(conditions->getFlux());
+
+    }
+
+    if ( conditions->isAIndexValid() )
+    {
+        if ( conditions->getAIndex() < 27 )
+        {
+            acolor = "green";
+        }
+        else if ( conditions->getFlux() < 48 )
+        {
+            acolor = "orange";
+        }
+        else
+        {
+            acolor = "red";
+        }
+
+        a_index_string = QString::number(conditions->getAIndex());
     }
 
     conditionsLabel->setTextFormat(Qt::RichText);
-    conditionsLabel->setText(QString("SFI <b>%1</B> K <b style='color: %2'>%3</b>").arg(
-                                 flux_string, kcolor, k_index_string ));
+    conditionsLabel->setText(QString("SFI <b style='color: %1'>%2</b> A <b style='color: %3'>%4</b> K <b style='color: %5'>%6</b>").arg(
+                                 fluxcolor, flux_string, acolor, a_index_string, kcolor, k_index_string ));
 }
 
 void MainWindow::QSOFilterSetting()

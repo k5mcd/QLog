@@ -15,7 +15,9 @@ public:
     ~Conditions();
     bool isFluxValid();
     bool isKIndexValid();
+    bool isAIndexValid();
     int getFlux();
+    int getAIndex();
     double getKIndex();
 
 signals:
@@ -28,7 +30,9 @@ public slots:
 private:
     QDateTime flux_last_update;
     QDateTime k_index_last_update;
+    QDateTime a_index_last_update;
     int flux;
+    int a_index;
     double k_index;
 
 private:
