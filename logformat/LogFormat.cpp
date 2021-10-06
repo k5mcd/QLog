@@ -231,6 +231,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
         {
         case LOTW:
         {
+            /* https://lotw.arrl.org/lotw-help/developer-query-qsos-qsls/?lang=en */
             if ( !QSLRecord.value("lotw_qsl_rcvd").toString().isEmpty() )
             {
                 if ( QSLRecord.value("qsl_rcvd") != originalRecord.value("lotw_qsl_rcvd")
@@ -307,6 +308,69 @@ void LogFormat::runQSLImport(QSLFrom fromService)
             }
             break;
         }
+
+        case EQSL:
+        {
+            /* http://www.eqsl.cc/qslcard/DownloadInBox.txt */
+            /*   CALL
+                 QSO_DATE
+                 TIME_ON
+                 BAND
+                 MODE
+                 SUBMODE (tag only present if non-blank)
+                 PROP_MODE (tag only present if non-blank)
+                 RST_SENT (will be the sender's RST Sent, not yours)
+                 RST_RCVD (we do not capture this in uploads, so will normally be 0 length)
+                 QSL_SENT (always Y)
+                 QSL_SENT_VIA (always E)
+                 QSLMSG (if non-null and containing only valid printable ASCII characters)
+                 QSLMSG_INTL (if non-null and containing international characters - see ADIF V3 specs)
+                 APP_EQSL_SWL (tag only present if sender is SWL and then always Y)
+                 APP_EQSL_AG (tag only present if sender has Authenticity Guaranteed status and then always Y)
+                 GRIDSQUARE (tag only present if non-blank and at least 4 long)
+            */
+
+            if ( originalRecord.value("eqsl_qsl_rcvd").toString() != 'Y' )
+            {
+                originalRecord.setValue("eqsl_qsl_rcvd", QSLRecord.value("qsl_sent"));
+
+                originalRecord.setValue("eqsl_qslrdate", QDateTime::currentDateTimeUtc().date().toString("yyyy-MM-dd"));
+
+                Gridsquare dxNewGrid(QSLRecord.value("gridsquare").toString());
+
+                if ( dxNewGrid.isValid()
+                     && ( originalRecord.value("gridsquare").toString().isEmpty()
+                          ||
+                          dxNewGrid.getGrid().contains(originalRecord.value("gridsquare").toString()))
+                     )
+                {
+                    Gridsquare myGrid(originalRecord.value("my_gridsquare").toString());
+
+                    originalRecord.setValue("gridsquare", dxNewGrid.getGrid());
+
+                    double distance;
+
+                    if ( myGrid.distanceTo(dxNewGrid, distance) )
+                    {
+                        originalRecord.setValue("distance", QVariant(distance));
+                    }
+                }
+
+                originalRecord.setValue("qslmsg", QSLRecord.value("qslmsg"));
+
+                originalRecord.setValue("qslmsg_int", QSLRecord.value("qslmsg_int"));
+
+                originalRecord.setValue("qsl_rcvd_via", QSLRecord.value("qsl_sent_via"));
+
+                model.setRecord(0, originalRecord);
+                model.submitAll();
+                stats.qsos_updated++;
+                stats.newQSLs.append(QSLRecord.value("callsign").toString());
+            }
+
+            break;
+        }
+
         default:
             qCDebug(runtime) << "Uknown QSL import";
         }

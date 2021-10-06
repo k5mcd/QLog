@@ -33,6 +33,7 @@ SOURCES += \
         core/Conditions.cpp \
         core/CredentialStore.cpp \
         core/Cty.cpp \
+        core/Eqsl.cpp \
         core/Fldigi.cpp \
         core/Gridsquare.cpp \
         core/HamQTH.cpp \
@@ -62,6 +63,7 @@ SOURCES += \
         ui/DxFilterDialog.cpp \
         ui/DxWidget.cpp \
         ui/DxccTableWidget.cpp \
+        ui/Eqsldialog.cpp \
         ui/ExportDialog.cpp \
         ui/ImportDialog.cpp \
         ui/LogbookWidget.cpp \
@@ -85,6 +87,7 @@ HEADERS += \
         core/Conditions.h \
         core/CredentialStore.h \
         core/Cty.h \
+        core/Eqsl.h \
         core/Fldigi.h \
         core/Gridsquare.h \
         core/HamQTH.h \
@@ -116,6 +119,7 @@ HEADERS += \
         ui/DxFilterDialog.h \
         ui/DxWidget.h \
         ui/DxccTableWidget.h \
+        ui/Eqsldialog.h \
         ui/ExportDialog.h \
         ui/ImportDialog.h \
         ui/LogbookWidget.h \
@@ -139,6 +143,7 @@ FORMS += \
         ui/ColumnSettingDialog.ui \
         ui/DxFilterDialog.ui \
         ui/DxWidget.ui \
+        ui/Eqsldialog.ui \
         ui/ExportDialog.ui \
         ui/ImportDialog.ui \
         ui/LogbookWidget.ui \

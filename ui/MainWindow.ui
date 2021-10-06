@@ -68,7 +68,6 @@
     <addaction name="actionExport"/>
     <addaction name="separator"/>
     <addaction name="actionStatistics"/>
-    <addaction name="actionLotw"/>
    </widget>
    <widget class="QMenu" name="menuRig">
     <property name="title">
@@ -95,8 +94,16 @@
     <addaction name="actionBandmap"/>
     <addaction name="actionClock"/>
    </widget>
+   <widget class="QMenu" name="menuQSL">
+    <property name="title">
+     <string>QSL</string>
+    </property>
+    <addaction name="actionLotw"/>
+    <addaction name="actioneQSL"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLogbook"/>
+   <addaction name="menuQSL"/>
    <addaction name="menuRig"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
@@ -353,6 +360,11 @@
   <action name="actionQSOFilters">
    <property name="text">
     <string>QSO Filters</string>
+   </property>
+  </action>
+  <action name="actioneQSL">
+   <property name="text">
+    <string>eQSL</string>
    </property>
   </action>
  </widget>
@@ -749,6 +761,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actioneQSL</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showeQSL()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -763,5 +791,6 @@
   <slot>showLotw()</slot>
   <slot>rotConnect()</slot>
   <slot>QSOFilterSetting()</slot>
+  <slot>showeQSL()</slot>
  </slots>
 </ui>

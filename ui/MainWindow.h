@@ -35,6 +35,7 @@ private slots:
     void importLog();
     void exportLog();
     void showLotw();
+    void showeQSL();
     void showAbout();
     void conditionsUpdated();
     void QSOFilterSetting();

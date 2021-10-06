@@ -20,6 +20,7 @@
 #include "core/debug.h"
 #include "ui/NewContactWidget.h"
 #include "ui/QSOFilterDialog.h"
+#include "ui/Eqsldialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -201,6 +202,15 @@ void MainWindow::showLotw() {
     FCT_IDENTIFICATION;
 
     LotwDialog dialog;
+    dialog.exec();
+    ui->logbookWidget->updateTable();
+}
+
+void MainWindow::showeQSL()
+{
+    FCT_IDENTIFICATION;
+
+    EqslDialog dialog;
     dialog.exec();
     ui->logbookWidget->updateTable();
 }

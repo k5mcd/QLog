@@ -28,6 +28,7 @@ public:
 
     enum QSLFrom {
         LOTW,
+        EQSL,
         UNKNOW
     };
 

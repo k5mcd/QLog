@@ -13,6 +13,7 @@
 #include "../core/HamQTH.h"
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
+#include "../core/Eqsl.h"
 #include "../core/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "core/CredentialStore.h"
@@ -358,22 +359,38 @@ void SettingsDialog::readSettings() {
     ui->rotHostNameEdit->setText(settings.value("hamlib/rot/hostname").toString());
     ui->rotNetPortSpin->setValue(settings.value("hamlib/rot/netport").toInt());
 
+    /**********/
+    /* HamQTH */
+    /**********/
     username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
     ui->hamQthUsernameEdit->setText(username);
     ui->hamQthPasswordEdit->setText(CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
                                                                              username));
-
+    /********/
+    /* LoTW */
+    /********/
     username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
     ui->lotwUsernameEdit->setText(username);
     ui->lotwPasswordEdit->setText(CredentialStore::instance()->getPassword(Lotw::SECURE_STORAGE_KEY,
                                                                            username));
     ui->tqslPathEdit->setText(settings.value("lotw/tqsl").toString());
 
+    /***********/
+    /* ClubLog */
+    /***********/
     username = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
     ui->clublogEmailEdit->setText(username);
     ui->clublogCallsignEdit->setText(settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString());
     ui->clublogPasswordEdit->setText(CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
                                                                               username));
+
+    /********/
+    /* eQSL */
+    /********/
+    username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
+    ui->eqslUsernameEdit->setText(username);
+    ui->eqslPasswordEdit->setText(CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
+                                                                           username));
 
     if (!settings.value("dxcc/start").isNull()) {
        ui->dxccStartDateCheckBox->setCheckState(Qt::Checked);
@@ -475,6 +492,20 @@ void SettingsDialog::writeSettings() {
     CredentialStore::instance()->savePassword(ClubLog::SECURE_STORAGE_KEY,
                                               ui->clublogEmailEdit->text(),
                                               ui->clublogPasswordEdit->text());
+
+    /********/
+    /* eQSL */
+    /********/
+    old_username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
+    if ( old_username != ui->eqslUsernameEdit->text() )
+    {
+        CredentialStore::instance()->deletePassword(EQSL::SECURE_STORAGE_KEY,
+                                                    old_username);
+    }
+    settings.setValue(EQSL::CONFIG_USERNAME_KEY, ui->eqslUsernameEdit->text());
+    CredentialStore::instance()->savePassword(EQSL::SECURE_STORAGE_KEY,
+                                              ui->eqslUsernameEdit->text(),
+                                              ui->eqslPasswordEdit->text());
 
     if (ui->dxccStartDateCheckBox->isChecked()) {
         settings.setValue("dxcc/start", ui->dxccStartDate->date());
