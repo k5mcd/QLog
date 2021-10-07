@@ -296,6 +296,8 @@ void LogFormat::runQSLImport(QSLFrom fromService)
                         originalRecord.setValue("cnty", QSLRecord.value("cnty"));
                     }
 
+                    originalRecord.setValue("qsl_rcvd_via", "E");
+
                     model.setRecord(0, originalRecord);
                     model.submitAll();
                     stats.qsos_updated++;
