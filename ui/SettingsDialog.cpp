@@ -324,6 +324,24 @@ void SettingsDialog::adjustLocatorTextColor()
 
 }
 
+void SettingsDialog::eqslDirBrowse()
+{
+    FCT_IDENTIFICATION;
+
+    QString dir = QFileDialog::getExistingDirectory(this,
+                                                    tr("Select Directory"),
+#if defined (Q_OS_WIN)
+                                                    "C:\",
+#else
+                                                    "~",
+#endif
+                                                    QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if ( !dir.isEmpty() )
+    {
+        ui->eqslFolderPathEdit->setText(dir);
+    }
+}
+
 void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
@@ -391,6 +409,7 @@ void SettingsDialog::readSettings() {
     ui->eqslUsernameEdit->setText(username);
     ui->eqslPasswordEdit->setText(CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
                                                                            username));
+    ui->eqslFolderPathEdit->setText(settings.value(EQSL::CONFIG_QSL_FOLDER_KEY,QStandardPaths::writableLocation(QStandardPaths::DataLocation)).toString());
 
     if (!settings.value("dxcc/start").isNull()) {
        ui->dxccStartDateCheckBox->setCheckState(Qt::Checked);
@@ -506,6 +525,8 @@ void SettingsDialog::writeSettings() {
     CredentialStore::instance()->savePassword(EQSL::SECURE_STORAGE_KEY,
                                               ui->eqslUsernameEdit->text(),
                                               ui->eqslPasswordEdit->text());
+
+    settings.setValue(EQSL::CONFIG_QSL_FOLDER_KEY, ui->eqslFolderPathEdit->text());
 
     if (ui->dxccStartDateCheckBox->isChecked()) {
         settings.setValue("dxcc/start", ui->dxccStartDate->date());

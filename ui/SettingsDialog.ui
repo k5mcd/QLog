@@ -830,6 +830,30 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="eqslImageFolderLabel">
+            <property name="text">
+             <string>Save QSLs to</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLineEdit" name="eqslFolderPathEdit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="eqslFolderPathButton">
+              <property name="text">
+               <string>Browse</string>
+              </property>
+              <property name="icon">
+               <iconset theme="folder-open"/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
@@ -1280,6 +1304,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>eqslFolderPathButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>eqslDirBrowse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>630</x>
+     <y>566</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -1295,5 +1335,6 @@
   <slot>doubleClickStationProfile(QModelIndex)</slot>
   <slot>adjustCallsignTextColor()</slot>
   <slot>adjustLocatorTextColor()</slot>
+  <slot>eqslDirBrowse()</slot>
  </slots>
 </ui>

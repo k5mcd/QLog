@@ -6,6 +6,9 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QHttpMultiPart>
+#include <QSqlRecord>
+#include <QDir>
+
 #include "Eqsl.h"
 #include "core/debug.h"
 #include "core/CredentialStore.h"
@@ -14,6 +17,8 @@
 #define DOWNLOAD_1ST_PAGE "https://www.eQSL.cc/qslcard/DownloadInBox.cfm"
 #define DOWNLOAD_2ND_PAGE "https://www.eQSL.cc/downloadedfiles/"
 #define UPLOAD_ADIF_PAGE "https://www.eQSL.cc/qslcard/ImportADIF.cfm"
+#define QSL_IMAGE_FILENAME_PAGE "https://www.eQSL.cc/qslcard/GeteQSL.cfm"
+#define QSL_IMAGE_DOWNLOAD_PAGE "https://www.eQSL.cc"
 
 MODULE_IDENTIFICATION("qlog.core.eqsl");
 
@@ -91,6 +96,51 @@ int EQSL::uploadAdif(QByteArray &data)
     return 0;
 }
 
+void EQSL::getQSLImage(QSqlRecord qso)
+{
+    FCT_IDENTIFICATION;
+
+    QString inCacheFilename;
+
+    if ( isQSLImageInCache(qso, inCacheFilename) )
+    {
+        emit QSLImageFound(inCacheFilename);
+        return;
+    }
+
+    /* QSL image is not in Cache */
+    qCDebug(runtime) << "QSL is not in Cache";
+
+    QSettings settings;
+    QString username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
+    QString password = CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
+                                                                username);
+
+    QDateTime time_start = qso.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
+
+    QUrlQuery query;
+
+    query.addQueryItem("UserName", username);
+    query.addQueryItem("Password", password);
+    query.addQueryItem("CallsignFrom", qso.value("callsign").toString());
+    query.addQueryItem("QSOYear", time_start.toString("yyyy"));
+    query.addQueryItem("QSOMonth", time_start.toString("MM"));
+    query.addQueryItem("QSODay", time_start.toString("dd"));
+    query.addQueryItem("QSOHour", time_start.toString("hh"));
+    query.addQueryItem("QSOMinute", time_start.toString("mm"));
+    query.addQueryItem("QSOBand", qso.value("band").toString());
+    query.addQueryItem("QSOMode", qso.value("mode").toString());
+
+    QUrl url(QSL_IMAGE_FILENAME_PAGE);
+    url.setQuery(query);
+
+    qCDebug(runtime) << url.toString();
+
+    QNetworkReply* reply = nam->get(QNetworkRequest(url));
+    reply->setProperty("messageType", QVariant("getQSLImageFileName"));
+    reply->setProperty("onDiskFilename", QVariant(inCacheFilename));
+}
+
 void EQSL::get(QList<QPair<QString, QString>> params)
 {
     FCT_IDENTIFICATION;
@@ -130,6 +180,54 @@ void EQSL::downloadADIF(QString filename)
     reply->setProperty("messageType", QVariant("getADIF"));
 }
 
+void EQSL::downloadImage(QString URLFilename, QString onDiskFilename)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << URLFilename << " " << onDiskFilename;
+
+    QUrlQuery query;
+    QUrl url(QSL_IMAGE_DOWNLOAD_PAGE + URLFilename);
+    url.setQuery(query);
+
+    qCDebug(runtime) << url.toString();
+
+    QNetworkReply* reply = nam->get(QNetworkRequest(url));
+    reply->setProperty("messageType", QVariant("downloadQSLImage"));
+    reply->setProperty("onDiskFilename", QVariant(onDiskFilename));
+}
+
+QString EQSL::QSLImageFilename(QSqlRecord qso)
+{
+    FCT_IDENTIFICATION;
+
+    /* QSL Fileformat YYYYMMDD_ID_Call_eqsl.jpg */
+
+    QDateTime time_start = qso.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
+
+    QString ret = QString("%1_%2_%3_eqsl.jpg").arg(time_start.toString("yyyyMMdd"),
+                                                   qso.value("id").toString(),
+                                                   qso.value("callsign").toString());
+    qCDebug(runtime) << "EQSL Image Filename: " << ret;
+    return ret;
+}
+
+bool EQSL::isQSLImageInCache(QSqlRecord qso, QString &fullPath)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QDir dir(settings.value(EQSL::CONFIG_QSL_FOLDER_KEY, QStandardPaths::writableLocation(QStandardPaths::DataLocation)).toString());
+    QString expectingFilename = QSLImageFilename(qso);
+    bool isFileExists = dir.exists(expectingFilename);
+    fullPath = dir.absoluteFilePath(expectingFilename);
+
+    qCDebug(runtime) << isFileExists << " " << fullPath;
+
+    return isFileExists;
+}
+
 void EQSL::processReply(QNetworkReply* reply)
 {
     FCT_IDENTIFICATION;
@@ -140,6 +238,7 @@ void EQSL::processReply(QNetworkReply* reply)
         qCDebug(runtime) << "eQSL error" << reply->errorString();
         reply->deleteLater();
         emit updateFailed(reply->errorString());
+        emit QSLImageError(reply->errorString());
         return;
     }
 
@@ -175,6 +274,61 @@ void EQSL::processReply(QNetworkReply* reply)
             {
                 qCInfo(runtime) << "File not found in HTTP reply ";
                 emit updateFailed(tr("ADIF file not found in eQSL response"));
+            }
+        }
+    }
+    /***********************/
+    /* getQSLImageFileName */
+    /***********************/
+    else if ( messageType == "getQSLImageFileName" )
+    {
+        //getting the first page where an Image filename is present
+
+        QString replayString(reply->readAll());
+
+        if ( replayString.contains("No such Username/Password found") )
+        {
+            emit QSLImageError(tr("Incorrect Username or password"));
+        }
+        else
+        {
+            QRegularExpression re("<img src=\"(.*)\" alt");
+            QRegularExpressionMatch match = re.match(replayString);
+
+            if ( match.hasMatch() )
+            {
+                QString filename = match.captured(1);
+                QString onDiskFilename = reply->property("onDiskFilename").toString();
+
+                downloadImage(filename,onDiskFilename);
+            }
+            else
+            {
+                QRegularExpression rError("Error: (.*)");
+                QRegularExpressionMatch matchError = rError.match(replayString);
+
+                if (matchError.hasMatch() )
+                {
+                    QString msg = matchError.captured(1);
+                    emit QSLImageError(msg);
+                }
+                else
+                {
+                    QRegularExpression rWarning("Warning: (.*) --");
+                    QRegularExpressionMatch matchWarning = rWarning.match(replayString);
+
+                    if ( matchWarning.hasMatch() )
+                    {
+                        QString msg = matchWarning.captured(1);
+                        emit QSLImageError(msg);
+                    }
+                    else
+                    {
+                        qCInfo(runtime) << replayString;
+                        emit QSLImageError(tr("Unknown Error"));
+                    }
+
+                }
             }
         }
     }
@@ -230,6 +384,31 @@ void EQSL::processReply(QNetworkReply* reply)
 
         tempFile.close();
     }
+    /********************/
+    /* downloadQSLImage */
+    /********************/
+    else if ( messageType == "downloadQSLImage")
+    {
+        qint64 size = reply->size();
+        qCDebug(runtime) << "Reply size: " << size;
+
+        QByteArray data = reply->readAll();
+
+        QSettings settings;
+
+        QString onDiskFilename = reply->property("onDiskFilename").toString();
+
+        QFile file(onDiskFilename);
+        if ( !file.open(QIODevice::WriteOnly))
+        {
+            emit QSLImageError("Cannot Save Image to file " + onDiskFilename);
+            return;
+        }
+        file.write(data);
+        file.flush();
+        file.close();
+        emit QSLImageFound(onDiskFilename);
+    }
     /******************/
     /* uploadADIFFile */
     /******************/
@@ -279,3 +458,4 @@ void EQSL::processReply(QNetworkReply* reply)
 
 const QString EQSL::SECURE_STORAGE_KEY = "QLog:eQSL";
 const QString EQSL::CONFIG_USERNAME_KEY = "eqsl/username";
+const QString EQSL::CONFIG_QSL_FOLDER_KEY = "eqsl/qslfolder";

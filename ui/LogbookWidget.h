@@ -34,6 +34,7 @@ public slots:
     void displayedColumns();
     void saveTableHeaderState();
     void showTableHeaderContextMenu(const QPoint& point);
+    void doubleClickColumn(QModelIndex);
 
 
 private:

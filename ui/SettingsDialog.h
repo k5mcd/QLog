@@ -36,6 +36,7 @@ public slots:
     void tqslPathBrowse();
     void adjustCallsignTextColor();
     void adjustLocatorTextColor();
+    void eqslDirBrowse();
 
 private:
     void readSettings();

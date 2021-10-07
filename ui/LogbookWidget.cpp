@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QMenu>
+#include <QProgressDialog>
 #include "logformat/AdiFormat.h"
 #include "models/LogbookModel.h"
 #include "models/SqlListModel.h"
@@ -13,6 +14,7 @@
 #include "models/SqlListModel.h"
 #include "ui/ColumnSettingDialog.h"
 #include "data/Data.h"
+#include "core/Eqsl.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -432,6 +434,39 @@ void LogbookWidget::showTableHeaderContextMenu(const QPoint& point) {
     }
 
     contextMenu->exec(point);
+}
+
+void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
+{
+    FCT_IDENTIFICATION;
+
+    if ( modelIndex.column() == LogbookModel::COLUMN_EQSL_QSL_RCVD
+         && modelIndex.data().toString() == 'Y')
+    {
+        QProgressDialog* dialog = new QProgressDialog(tr("Downloading eQSL Image"), tr("Cancel"), 0, 0, this);
+        dialog->setWindowModality(Qt::WindowModal);
+        dialog->setRange(0, 0);
+        dialog->show();
+
+        EQSL *eQSL = new EQSL(dialog);
+
+        connect(eQSL, &EQSL::QSLImageFound, [dialog](QString imgFile)
+        {
+            dialog->close();
+
+            QDesktopServices::openUrl(imgFile);
+
+        });
+
+        connect(eQSL, &EQSL::QSLImageError, [this, dialog](QString error)
+        {
+            dialog->close();
+            QMessageBox::critical(this, tr("QLog Error"), tr("eQSL Download Image failed: ") + error);
+        });
+
+        eQSL->getQSLImage(model->record(modelIndex.row()));
+    }
+
 }
 
 LogbookWidget::~LogbookWidget() {
