@@ -78,9 +78,9 @@ void LotwDialog::download() {
         qCDebug(runtime) << "Unmatched QSLs: " << stats.unmatchedQSLs;
     });
 
-    connect(lotw, &Lotw::updateFailed, [this, dialog]() {
+    connect(lotw, &Lotw::updateFailed, [this, dialog](QString error) {
         dialog->close();
-        QMessageBox::critical(this, tr("QLog Error"), tr("LotW Update failed."));
+        QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
     });
 
     lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());

@@ -156,7 +156,7 @@ void Lotw::processReply(QNetworkReply* reply) {
     {
         qCInfo(runtime) << "LotW error" << reply->errorString();
         reply->deleteLater();
-        emit updateFailed();
+        emit updateFailed(reply->errorString());
         //TODO: emit readable error
         return;
     }
@@ -173,7 +173,7 @@ void Lotw::processReply(QNetworkReply* reply) {
     if ( ! tempFile.open() )
     {
         qCDebug(runtime) << "Cannot open temp file";
-        emit updateFailed();
+        emit updateFailed(tr("Cannot open temporary file"));
         return;
     }
 

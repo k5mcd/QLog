@@ -22,7 +22,7 @@ signals:
     void updateProgress(int value);
     void updateStarted();
     void updateComplete(QSLMergeStat update);
-    void updateFailed();
+    void updateFailed(QString);
 
 public slots:
     void processReply(QNetworkReply* reply);
