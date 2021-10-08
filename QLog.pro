@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network xml charts
+QT       += core gui sql network xml charts webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -72,6 +72,7 @@ SOURCES += \
         ui/MainWindow.cpp \
         ui/MapWidget.cpp \
         ui/NewContactWidget.cpp \
+        ui/OnlineMapWidget.cpp \
         ui/QSLImportStatDialog.cpp \
         ui/QSOFilterDetail.cpp \
         ui/QSOFilterDialog.cpp \
@@ -128,6 +129,7 @@ HEADERS += \
         ui/MainWindow.h \
         ui/MapWidget.h \
         ui/NewContactWidget.h \
+        ui/OnlineMapWidget.h \
         ui/QSLImportStatDialog.h \
         ui/QSOFilterDetail.h \
         ui/QSOFilterDialog.h \

@@ -17,5 +17,6 @@
         <file>data/iota.json</file>
         <file>data/sota.json</file>
         <file>qlog_screen.png</file>
+        <file>map/onlinemap.html</file>
     </qresource>
 </RCC>

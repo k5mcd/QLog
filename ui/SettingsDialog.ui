@@ -27,7 +27,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -848,7 +848,8 @@
                <string>Browse</string>
               </property>
               <property name="icon">
-               <iconset theme="folder-open"/>
+               <iconset theme="folder-open">
+                <normaloff>.</normaloff>.</iconset>
               </property>
              </widget>
             </item>
