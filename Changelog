@@ -43,3 +43,5 @@ TBD - 0.2
 - Added Rig offset support (support for Transverters)
 - Added Station Location Profiles
 - Added User-defined filters
+- Added eQSL upload/download ADIF, download QSL Image
+- Added Online Map Widget
