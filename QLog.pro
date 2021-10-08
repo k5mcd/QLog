@@ -209,7 +209,7 @@ win32: {
     QMAKE_TARGET_DESCRIPTION = Hamradio logging
     LIBS += -L"$$PWD/../hamlib/lib/gcc" -lhamlib
     LIBS += -L"$$PWD/../hamlib/bin"
-    LIBS += -L"$$PWD/../qtkeychain" -lqt5keychain
+    LIBS += -L"$$PWD/../qtkeychain/lib/" -lqt5keychain
     INCLUDEPATH += "$$PWD/../hamlib/include/"
     INCLUDEPATH += "$$PWD/../qtkeychain/include"
 }

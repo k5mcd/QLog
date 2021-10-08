@@ -331,7 +331,7 @@ void SettingsDialog::eqslDirBrowse()
     QString dir = QFileDialog::getExistingDirectory(this,
                                                     tr("Select Directory"),
 #if defined (Q_OS_WIN)
-                                                    "C:\",
+                                                    "C:\\",
 #else
                                                     "~",
 #endif
