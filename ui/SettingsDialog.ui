@@ -840,7 +840,11 @@
           <item row="2" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QLineEdit" name="eqslFolderPathEdit"/>
+             <widget class="QLineEdit" name="eqslFolderPathEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="eqslFolderPathButton">
@@ -898,7 +902,14 @@
           <item row="2" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QLineEdit" name="tqslPathEdit"/>
+             <widget class="QLineEdit" name="tqslPathEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Use default path</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="tqslPathButton">
