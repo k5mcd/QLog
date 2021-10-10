@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QProgressDialog>
 #include <QSettings>
+#include <QNetworkReply>
+
 #include "LotwDialog.h"
 #include "ui_LotwDialog.h"
 #include "logformat/AdiFormat.h"
@@ -83,9 +85,14 @@ void LotwDialog::download() {
         QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
     });
 
-    lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
+    QNetworkReply *reply = lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
 
-    dialog->exec();
+    connect(dialog, &QProgressDialog::canceled, [reply]()
+    {
+        qCDebug(runtime)<< "Operation canceled";
+        reply->abort();
+        reply->deleteLater();
+    });
 }
 
 void LotwDialog::upload() {

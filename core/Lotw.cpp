@@ -26,7 +26,7 @@ Lotw::Lotw(QObject *parent) : QObject(parent)
             this, &Lotw::processReply);
 }
 
-void Lotw::update(QDate start_date, bool qso_since, QString station_callsign)
+QNetworkReply* Lotw::update(QDate start_date, bool qso_since, QString station_callsign)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << start_date << " " << qso_since;
@@ -46,7 +46,7 @@ void Lotw::update(QDate start_date, bool qso_since, QString station_callsign)
         params.append(qMakePair(QString("qso_qslsince"), start));
     }
 
-    get(params);
+    return get(params);
 }
 
 int Lotw::uploadAdif(QByteArray &data, QString &ErrorString)
@@ -128,7 +128,7 @@ int Lotw::uploadAdif(QByteArray &data, QString &ErrorString)
     return ErrorCode;
 }
 
-void Lotw::get(QList<QPair<QString, QString>> params) {
+QNetworkReply* Lotw::get(QList<QPair<QString, QString>> params) {
     FCT_IDENTIFICATION;
 
     QSettings settings;
@@ -146,18 +146,21 @@ void Lotw::get(QList<QPair<QString, QString>> params) {
 
     qCDebug(runtime) << url.toString();
 
-    nam->get(QNetworkRequest(url));
+    return nam->get(QNetworkRequest(url));
 }
 
-void Lotw::processReply(QNetworkReply* reply) {
+void Lotw::processReply(QNetworkReply* reply)
+{
     FCT_IDENTIFICATION;
 
     if (reply->error() != QNetworkReply::NoError)
     {
         qCInfo(runtime) << "LotW error" << reply->errorString();
         reply->deleteLater();
-        emit updateFailed(reply->errorString());
-        //TODO: emit readable error
+        if ( reply->error() != QNetworkReply::OperationCanceledError )
+        {
+           emit updateFailed(reply->errorString());
+        }
         return;
     }
 

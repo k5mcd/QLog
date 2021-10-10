@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QtSql/QtSql>
 #include <QMessageBox>
-#include <QProgressDialog>
 #include <QResource>
 #include <QDir>
 #include <QStandardPaths>

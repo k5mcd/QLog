@@ -31,7 +31,7 @@ EQSL::EQSL( QObject *parent )
             this, &EQSL::processReply);
 }
 
-void EQSL::update(QDate start_date, QString qthNick)
+QNetworkReply* EQSL::update(QDate start_date, QString qthNick)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << start_date << " " << qthNick;
@@ -45,10 +45,10 @@ void EQSL::update(QDate start_date, QString qthNick)
         params.append(qMakePair(QString("RcvdSince"), start));
     }
 
-    get(params);
+    return get(params);
 }
 
-int EQSL::uploadAdif(QByteArray &data)
+QNetworkReply* EQSL::uploadAdif(QByteArray &data)
 {
     FCT_IDENTIFICATION;
 
@@ -93,10 +93,10 @@ int EQSL::uploadAdif(QByteArray &data)
     QNetworkReply* reply = nam->post(request, multiPart);
     reply->setProperty("messageType", QVariant("uploadADIFFile"));
 
-    return 0;
+    return reply;
 }
 
-void EQSL::getQSLImage(QSqlRecord qso)
+QNetworkReply* EQSL::getQSLImage(QSqlRecord qso)
 {
     FCT_IDENTIFICATION;
 
@@ -105,7 +105,7 @@ void EQSL::getQSLImage(QSqlRecord qso)
     if ( isQSLImageInCache(qso, inCacheFilename) )
     {
         emit QSLImageFound(inCacheFilename);
-        return;
+        return nullptr;
     }
 
     /* QSL image is not in Cache */
@@ -139,9 +139,10 @@ void EQSL::getQSLImage(QSqlRecord qso)
     QNetworkReply* reply = nam->get(QNetworkRequest(url));
     reply->setProperty("messageType", QVariant("getQSLImageFileName"));
     reply->setProperty("onDiskFilename", QVariant(inCacheFilename));
+    return reply;
 }
 
-void EQSL::get(QList<QPair<QString, QString>> params)
+QNetworkReply* EQSL::get(QList<QPair<QString, QString>> params)
 {
     FCT_IDENTIFICATION;
 
@@ -162,6 +163,7 @@ void EQSL::get(QList<QPair<QString, QString>> params)
 
     QNetworkReply* reply = nam->get(QNetworkRequest(url));
     reply->setProperty("messageType", QVariant("getADIFFileName"));
+    return reply;
 }
 
 void EQSL::downloadADIF(QString filename)
@@ -232,13 +234,16 @@ void EQSL::processReply(QNetworkReply* reply)
 {
     FCT_IDENTIFICATION;
 
-    if ( reply->error() != QNetworkReply::NoError)
+    if ( reply->error() != QNetworkReply::NoError )
     {
         qCDebug(runtime) << "eQSL error URL " << reply->request().url().toString();
         qCDebug(runtime) << "eQSL error" << reply->errorString();
         reply->deleteLater();
-        emit updateFailed(reply->errorString());
-        emit QSLImageError(reply->errorString());
+        if ( reply->error() != QNetworkReply::OperationCanceledError )
+        {
+            emit updateFailed(reply->errorString());
+            emit QSLImageError(reply->errorString());
+        }
         return;
     }
 

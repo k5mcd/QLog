@@ -3,6 +3,8 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <ui/QSLImportStatDialog.h>
+#include <QNetworkReply>
+
 #include "Eqsldialog.h"
 #include "ui_Eqsldialog.h"
 #include "core/debug.h"
@@ -79,7 +81,15 @@ void EqslDialog::download()
 
     QSettings settings;
     settings.setValue("eqsl/last_QTHProfile", ui->qthProfileEdit->text());
-    eQSL->update(QDate(), ui->qthProfileEdit->text());
+
+    QNetworkReply* reply = eQSL->update(QDate(), ui->qthProfileEdit->text());
+
+    connect(dialog, &QProgressDialog::canceled, [reply]()
+    {
+        qCDebug(runtime)<< "Operation canceled";
+        reply->abort();
+        reply->deleteLater();
+    });
 }
 
 void EqslDialog::upload()
@@ -181,7 +191,15 @@ void EqslDialog::upload()
                 QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO: ") + msg);
             });
 
-            eQSL->uploadAdif(data);
+            QNetworkReply *reply = eQSL->uploadAdif(data);
+
+            connect(dialog, &QProgressDialog::canceled, [reply]()
+            {
+                qCDebug(runtime)<< "Operation canceled";
+                reply->abort();
+                reply->deleteLater();
+            });
+
         }
     }
     else

@@ -2,6 +2,7 @@
 #define LOTW_H
 
 #include <QObject>
+#include <QNetworkReply>
 #include <logformat/LogFormat.h>
 
 class QNetworkAccessManager;
@@ -13,7 +14,7 @@ class Lotw : public QObject
 public:
     explicit Lotw(QObject *parent = nullptr);
 
-    void update(QDate start_date, bool qso_since, QString stationCallsign);
+    QNetworkReply* update(QDate start_date, bool qso_since, QString stationCallsign);
     int uploadAdif(QByteArray &data, QString &ErrorString);
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;
@@ -30,7 +31,7 @@ public slots:
 private:
     QNetworkAccessManager* nam;
 
-    void get(QList<QPair<QString, QString>> params);
+    QNetworkReply* get(QList<QPair<QString, QString>> params);
 };
 
 #endif // LOTW_H

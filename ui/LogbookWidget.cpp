@@ -3,6 +3,8 @@
 #include <QDesktopServices>
 #include <QMenu>
 #include <QProgressDialog>
+#include <QNetworkReply>
+
 #include "logformat/AdiFormat.h"
 #include "models/LogbookModel.h"
 #include "models/SqlListModel.h"
@@ -464,9 +466,18 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
             QMessageBox::critical(this, tr("QLog Error"), tr("eQSL Download Image failed: ") + error);
         });
 
-        eQSL->getQSLImage(model->record(modelIndex.row()));
-    }
+        QNetworkReply* reply = eQSL->getQSLImage(model->record(modelIndex.row()));
 
+        connect(dialog, &QProgressDialog::canceled, [reply]()
+        {
+            qCDebug(runtime)<< "Operation canceled";
+            if ( reply )
+            {
+               reply->abort();
+               reply->deleteLater();
+            }
+        });
+    }
 }
 
 LogbookWidget::~LogbookWidget() {

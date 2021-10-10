@@ -13,9 +13,9 @@ class EQSL : public QObject
 public:
     explicit EQSL(QObject *parent = nullptr);
 
-    void update(QDate start_date, QString qthNick);
-    int uploadAdif(QByteArray &data);
-    void getQSLImage(QSqlRecord);
+    QNetworkReply* update(QDate start_date, QString qthNick);
+    QNetworkReply* uploadAdif(QByteArray &data);
+    QNetworkReply* getQSLImage(QSqlRecord);
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;
     static const QString CONFIG_QSL_FOLDER_KEY;
@@ -36,7 +36,7 @@ public slots:
 private:
     QNetworkAccessManager* nam;
 
-    void get(QList<QPair<QString, QString>> params);
+    QNetworkReply* get(QList<QPair<QString, QString>> params);
     void downloadADIF(QString filename);
     void downloadImage(QString filename, QString futureFilename);
     QString QSLImageFilename(QSqlRecord);
