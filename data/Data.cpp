@@ -14,6 +14,9 @@ Data::Data(QObject *parent) : QObject(parent) {
     loadPropagationModes();
     loadLegacyModes();
     loadDxccFlags();
+    loadSatModes();
+    loadIOTA();
+    loadSOTA();
 }
 
 Data* Data::instance() {
@@ -103,6 +106,27 @@ Band Data::band(double freq) {
     else {
         return Band();
     }
+}
+
+QString Data::freqToBand(double freq)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
+    if (freq <= 2.0 && freq >= 1.8) return "160m";
+    else if (freq <= 3.8 && freq >= 3.5) return "80m";
+    else if (freq <= 7.5 && freq >= 7.0) return "40m";
+    else if (freq <= 10.150 && freq >= 10.1) return"30m";
+    else if (freq <= 14.350 && freq >= 14.0) return "20m";
+    else if (freq <= 18.168 && freq >= 18.068) return "17m";
+    else if (freq <= 21.450 && freq >= 21.000) return "15m";
+    else if (freq <= 24.990 && freq >= 24.890) return "12m";
+    else if (freq <= 29.700 && freq >= 28.000) return "10m";
+    else if (freq <= 52 && freq >= 50) return "6m";
+    else if (freq <= 148 && freq >= 144) return "2m";
+    else if (freq <= 440 && freq >= 430) return "70cm";
+    else return QString();
 }
 
 QString Data::freqToMode(double freq)
@@ -243,6 +267,14 @@ QString Data::statusToText(DxccStatus status) {
     }
 }
 
+QRegularExpression Data::callsignRegEx()
+{
+    FCT_IDENTIFICATION;
+
+    return QRegularExpression("[a-zA-Z0-9]{1,3}[0123456789][a-zA-Z0-9]{0,3}[a-zA-Z]",
+                              QRegularExpression::CaseInsensitiveOption);
+}
+
 QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
     FCT_IDENTIFICATION;
 
@@ -337,6 +369,59 @@ void Data::loadDxccFlags() {
         QString flag = dxccData.value("flag").toString();
 
         flags.insert(id, flag);
+    }
+}
+
+void Data::loadSatModes()
+{
+    FCT_IDENTIFICATION;
+
+    QFile file(":/res/data/sat_modes.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray data = file.readAll();
+
+    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+        QVariantMap satModesData = object.toMap();
+
+        QString id = satModesData.value("id").toString();
+        QString name = satModesData.value("name").toString();
+
+        satModes.insert(id, name);
+    }
+}
+
+void Data::loadIOTA()
+{
+    FCT_IDENTIFICATION;
+
+    QFile file(":/res/data/iota.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray data = file.readAll();
+
+    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+        QVariantMap iotaData = object.toMap();
+
+        QString id = iotaData.value("id").toString();
+        QString name = iotaData.value("name").toString();
+
+        iotaRef.insert(id, name);
+    }
+}
+
+void Data::loadSOTA()
+{
+    FCT_IDENTIFICATION;
+
+    QFile file(":/res/data/sota.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray data = file.readAll();
+
+    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+        QVariantMap sotaData = object.toMap();
+
+        QString id = sotaData.value("id").toString();
+        QString name = ""; // later - use UTF8 string
+        sotaRef.insert(id, name);
     }
 }
 

@@ -4,11 +4,11 @@
 #include <QDebug>
 #include <QPainter>
 #include <QVector3D>
-#include <QSettings>
-#include <cmath>
-#include "core/utils.h"
+#include <QtMath>
 #include "MapWidget.h"
 #include "core/debug.h"
+#include "core/Gridsquare.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mapwidget");
 
@@ -57,11 +57,16 @@ void MapWidget::clear() {
         i.remove();
     }
 
-    QSettings settings;
-    QString grid = settings.value("station/grid").toString();
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
 
-    double lat, lon;
-    gridToCoord(grid, lat, lon);
+    double lat=0;
+    double lon=0;
+
+    if ( myGrid.isValid() )
+    {
+        lat = myGrid.getLatitude();
+        lon = myGrid.getLongitude();
+    }
 
     drawPoint(coordToPoint(lat, lon));
 }
@@ -230,16 +235,15 @@ void MapWidget::setTarget(double lat, double lon) {
 
     if (lat == 0.0 && lon == 0.0) return;
 
-    QSettings settings;
-    QString grid = settings.value("station/grid").toString();
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
 
     QPoint point = coordToPoint(lat, lon);
     drawPoint(point);
 
-    double qthLat = 0, qthLon = 0;
-    bool res = gridToCoord(grid, qthLat, qthLon);
-
-    if (res) {
+    if ( myGrid.isValid() )
+    {
+        double qthLat = myGrid.getLatitude();
+        double qthLon = myGrid.getLongitude();
         QPoint qth = coordToPoint(qthLat, qthLon);
         drawPoint(qth);
         drawLine(qth, point);

@@ -11,6 +11,7 @@
 #include "models/SqlListModel.h"
 #include "core/StyleItemDelegate.h"
 #include "core/debug.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.dxwidget");
 
@@ -270,7 +271,7 @@ void DxWidget::disconnectCluster() {
        socket->disconnect();
        socket->close();
 
-       delete socket;
+       socket->deleteLater();
        socket = nullptr;
     }
 }
@@ -355,7 +356,6 @@ void DxWidget::send() {
 void DxWidget::receive() {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
     foreach (QString line, lines)
@@ -368,7 +368,7 @@ void DxWidget::receive() {
         }
 
         if (line.startsWith("login") || line.contains(QRegExp("enter your call(sign)?:"))) {
-            QByteArray call = settings.value("station/callsign").toByteArray();
+            QByteArray call = StationProfilesManager::instance()->getCurrent().callsign.toLocal8Bit();
             call.append("\r\n");
             socket->write(call);
         }
@@ -454,18 +454,7 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
 
     QMessageBox::warning(nullptr, QMessageBox::tr("DXC Server Connection Error"),
                                   error_msg);
-    ui->sendButton->setEnabled(false);
-    ui->connectButton->setEnabled(true);
-    ui->connectButton->setText(tr("Connect"));
-
-    if ( socket )
-    {
-       socket->disconnect();
-       socket->close();
-
-       delete socket;
-       socket = nullptr;
-    }
+    disconnectCluster();
 }
 
 void DxWidget::connected() {

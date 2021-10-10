@@ -2,6 +2,7 @@
 #define DATA_H
 
 #include <QtCore>
+#include <QRegularExpression>
 #include "Dxcc.h"
 #include "Band.h"
 
@@ -22,14 +23,26 @@ public:
     static DxccStatus dxccStatus(int dxcc, QString band, QString mode);
     static Band band(double freq);
     static QString freqToMode(double freq);
+    static QString freqToBand(double freq);
     static QColor statusToColor(DxccStatus status, QColor defaultColor);
     static QColor statusToInverseColor(DxccStatus status, QColor defaultColor);
     static QString statusToText(DxccStatus status);
+    static QRegularExpression callsignRegEx();
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
+    QStringList propagationModesIDList() { return propagationModes.keys(); }
+    QString propagationModeTextToID(QString propagationText) { return propagationModes.key(propagationText);}
+    QString propagationModeIDToText(QString propagationID) { return propagationModes.value(propagationID);}
     DxccEntity lookupDxcc(QString callsign);
     QString dxccFlag(int dxcc);
     QPair<QString, QString> legacyMode(QString mode);
+    QStringList satModeList() { return satModes.values();}
+    QStringList satModesIDList() { return satModes.keys(); }
+    QString satModeTextToID(QString satModeText) { return satModes.key(satModeText);}
+    QStringList iotaList() { return iotaRef.values();}
+    QStringList iotaIDList() { return iotaRef.keys();}
+    QString iotaTextToID(QString iotaText) { return iotaRef.key(iotaText);}
+    QStringList sotaIDList() { return sotaRef.keys();}
 
 signals:
 
@@ -40,11 +53,17 @@ private:
     void loadPropagationModes();
     void loadLegacyModes();
     void loadDxccFlags();
+    void loadSatModes();
+    void loadIOTA();
+    void loadSOTA();
 
     QMap<int, QString> flags;
     QMap<QString, QString> contests;
     QMap<QString, QString> propagationModes;
     QMap<QString, QPair<QString, QString>> legacyModes;
+    QMap<QString, QString> satModes;
+    QMap<QString, QString> iotaRef;
+    QMap<QString, QString> sotaRef;
 };
 
 #endif // DATA_H

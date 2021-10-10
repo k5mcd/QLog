@@ -2,16 +2,11 @@
 #define LOTW_H
 
 #include <QObject>
+#include <QNetworkReply>
+#include <logformat/LogFormat.h>
 
 class QNetworkAccessManager;
 class QNetworkReply;
-
-struct LotwUpdate {
-    int qsos_updated;
-    int qsls_updated;
-    int qsos_checked;
-    int qsos_unmatched;
-};
 
 class Lotw : public QObject
 {
@@ -19,15 +14,16 @@ class Lotw : public QObject
 public:
     explicit Lotw(QObject *parent = nullptr);
 
-    void update(QDate start_date, bool qso_since);
+    QNetworkReply* update(QDate start_date, bool qso_since, QString stationCallsign);
+    int uploadAdif(QByteArray &data, QString &ErrorString);
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;
 
 signals:
     void updateProgress(int value);
     void updateStarted();
-    void updateComplete(LotwUpdate update);
-    void updateFailed();
+    void updateComplete(QSLMergeStat update);
+    void updateFailed(QString);
 
 public slots:
     void processReply(QNetworkReply* reply);
@@ -35,7 +31,7 @@ public slots:
 private:
     QNetworkAccessManager* nam;
 
-    void get(QList<QPair<QString, QString>> params);
+    QNetworkReply* get(QList<QPair<QString, QString>> params);
 };
 
 #endif // LOTW_H

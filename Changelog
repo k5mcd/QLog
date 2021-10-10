@@ -26,4 +26,22 @@ TBD - 0.2
 - Debug mode is more verbose and controled by QT_LOGGING_RULES variable
 - BandMap automatically clear spots when Aging Time is enabled
 - BandMap band is set based on NewContact Widget frequency
-
+- Many changes and improvements in LogWindow
+   - Minor changes in the input QSO forms
+   - Changed Editing QSO flow
+   - Full ADIF parsing and storing
+   - Added Column Visibility Setting
+- Added DEB control files
+- CTY is updated regularly
+- Main&NewContact Window reworking
+   - Removed Contest Tab
+   - Saving correct values for PROPMODE, QSL Sent/RCVD, SATs, IOTA, SOTA
+     SIG, SIG_INFO, DOK
+   - Added k-index, SFI saving
+   - Added my Ant parameter
+- LoTW Import/Export is verified and improved
+- Added Rig offset support (support for Transverters)
+- Added Station Location Profiles
+- Added User-defined filters
+- Added eQSL upload/download ADIF, download QSL Image
+- Added Online Map Widget

@@ -8,8 +8,7 @@
 #include <QDebug>
 #include "HamQTH.h"
 #include "debug.h"
-
-#include "utils.h"
+#include "core/CredentialStore.h"
 
 #define API_URL "http://www.hamqth.com/xml.php"
 
@@ -23,6 +22,9 @@ HamQTH::HamQTH(QObject* parent) :
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(processReply(QNetworkReply*)));
+
+    incorrectLogin = false;
+    lastSeenPassword = "";
 }
 
 void HamQTH::queryCallsign(QString callsign) {
@@ -54,7 +56,14 @@ void HamQTH::authenticate() {
 
     QSettings settings;
     QString username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    QString password = getPassword(HamQTH::SECURE_STORAGE_KEY, username);
+    QString password = CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
+                                                                username);
+
+    if ( incorrectLogin && password == lastSeenPassword)
+    {
+        queuedCallsign = QString();
+        return;
+    }
 
     if (!username.isEmpty() && !password.isEmpty()) {
         QUrlQuery query;
@@ -65,6 +74,7 @@ void HamQTH::authenticate() {
         url.setQuery(query);
 
         nam->get(QNetworkRequest(url));
+        lastSeenPassword = password;
     }
 }
 
@@ -86,9 +96,25 @@ void HamQTH::processReply(QNetworkReply* reply) {
 
     while (!xml.atEnd() && !xml.hasError()) {
         QXmlStreamReader::TokenType token = xml.readNext();
+
         if (token != QXmlStreamReader::StartElement) {
             continue;
         }
+
+        if (xml.name() == "error")
+        {
+            queuedCallsign = QString();
+            sessionId = QString();
+            if ( xml.readElementText() == "Wrong user name or password")
+            {
+                incorrectLogin = true;
+            }
+        }
+        else
+        {
+            incorrectLogin = false;
+        }
+
         if (xml.name() == "session_id") {
             sessionId = xml.readElementText();
         }
@@ -102,16 +128,25 @@ void HamQTH::processReply(QNetworkReply* reply) {
             data["qth"] = xml.readElementText();
         }
         else if (xml.name() == "grid") {
-            data["gridsquare"] = xml.readElementText();
+            data["gridsquare"] = xml.readElementText().toUpper();
         }
         else if (xml.name() == "qsl_via") {
-            data["qsl_via"] = xml.readElementText();
+            data["qsl_via"] = xml.readElementText().toUpper();
         }
         else if (xml.name() == "cq") {
             data["cqz"] = xml.readElementText();
         }
         else if (xml.name() == "itu") {
             data["ituz"] = xml.readElementText();
+        }
+        else if (xml.name() == "dok") {
+            data["dok"] = xml.readElementText().toUpper();
+        }
+        else if (xml.name() == "iota") {
+            data["iota"] = xml.readElementText().toUpper();
+        }
+        else if (xml.name() == "email") {
+            data["email"] = xml.readElementText();
         }
     }
 
@@ -126,5 +161,5 @@ void HamQTH::processReply(QNetworkReply* reply) {
     }
 }
 
-const QString HamQTH::SECURE_STORAGE_KEY = "QLog: HamQTH";
+const QString HamQTH::SECURE_STORAGE_KEY = "QLog:HamQTH";
 const QString HamQTH::CONFIG_USERNAME_KEY = "hamqth/username";

@@ -2,6 +2,7 @@
 #define CONDITIONS_H
 
 #include <QObject>
+#include <QDateTime>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -12,6 +13,12 @@ class Conditions : public QObject
 public:
     explicit Conditions(QObject *parent = nullptr);
     ~Conditions();
+    bool isFluxValid();
+    bool isKIndexValid();
+    bool isAIndexValid();
+    int getFlux();
+    int getAIndex();
+    double getKIndex();
 
 signals:
     void conditionsUpdated();
@@ -20,8 +27,12 @@ public slots:
     void update();
     void processReply(QNetworkReply* reply);
 
-public:
+private:
+    QDateTime flux_last_update;
+    QDateTime k_index_last_update;
+    QDateTime a_index_last_update;
     int flux;
+    int a_index;
     double k_index;
 
 private:

@@ -3,13 +3,17 @@
 #include <QSqlRecord>
 #include <QMessageBox>
 #include <QProgressDialog>
-#include <QTemporaryFile>
 #include <QSettings>
+#include <QNetworkReply>
+
 #include "LotwDialog.h"
 #include "ui_LotwDialog.h"
 #include "logformat/AdiFormat.h"
 #include "core/Lotw.h"
 #include "core/debug.h"
+#include "ui/QSLImportStatDialog.h"
+#include "models/SqlListModel.h"
+#include "ui/LotwShowUploadDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.lotwdialog");
 
@@ -21,6 +25,13 @@ LotwDialog::LotwDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
+    /* Upload */
+
+    ui->myCallsignCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
+    ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='"
+                                                + ui->myCallsignCombo->currentText()
+                                                + "' ORDER BY my_gridsquare", ""));
+    /* Download */
     ui->qslRadioButton->setChecked(true);
     ui->qsoRadioButton->setChecked(false);
 
@@ -32,12 +43,14 @@ LotwDialog::LotwDialog(QWidget *parent) :
     else {
         ui->dateEdit->setDate(QDateTime::currentDateTimeUtc().date());
     }
+
+    ui->stationCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
 }
 
 void LotwDialog::download() {
     FCT_IDENTIFICATION;
 
-    QProgressDialog* dialog = new QProgressDialog(tr("Updating from LotW"), tr("Cancel"), 0, 0, this);
+    QProgressDialog* dialog = new QProgressDialog(tr("Downloading from LotW"), tr("Cancel"), 0, 0, this);
     dialog->setWindowModality(Qt::WindowModal);
     dialog->setRange(0, 0);
     dialog->show();
@@ -46,60 +59,131 @@ void LotwDialog::download() {
 
     Lotw* lotw = new Lotw(dialog);
     connect(lotw, &Lotw::updateProgress, dialog, &QProgressDialog::setValue);
+
     connect(lotw, &Lotw::updateStarted, [dialog] {
+        dialog->setLabelText(tr("Processing LotW QSLs"));
         dialog->setRange(0, 100);
     });
-    connect(lotw, &Lotw::updateComplete, [this, dialog, qsl](LotwUpdate update) {
+
+    connect(lotw, &Lotw::updateComplete, [this, dialog, qsl](QSLMergeStat stats) {
         if (qsl) {
             QSettings settings;
             settings.setValue("lotw/last_update", QDateTime::currentDateTimeUtc().date());
         }
         dialog->close();
-        QMessageBox::information(this, tr("QLog Error"),
-                                 tr("LotW Update completed.") + "\n" +
-                                 tr("QSOs checked: %n", "", update.qsos_checked) + "\n" +
-                                 tr("New QSLs received: %n", "", update.qsls_updated) + "\n" +
-                                 tr("QSOs updated: %n", "", update.qsos_updated) + "\n" +
-                                 tr("Unmatched QSOs: %n", "", update.qsos_unmatched));
+
+
+        QSLImportStatDialog statDialog(stats);
+        statDialog.exec();
+
+        qCDebug(runtime) << "New QSLs: " << stats.newQSLs;
+        qCDebug(runtime) << "Unmatched QSLs: " << stats.unmatchedQSLs;
     });
-    connect(lotw, &Lotw::updateFailed, [this, dialog]() {
+
+    connect(lotw, &Lotw::updateFailed, [this, dialog](QString error) {
         dialog->close();
-        QMessageBox::critical(this, tr("QLog Error"), tr("LotW Update failed."));
+        QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
     });
 
-    lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked());
+    QNetworkReply *reply = lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
 
-    dialog->exec();
+    connect(dialog, &QProgressDialog::canceled, [reply]()
+    {
+        qCDebug(runtime)<< "Operation canceled";
+        reply->abort();
+        reply->deleteLater();
+    });
 }
 
 void LotwDialog::upload() {
     FCT_IDENTIFICATION;
 
-    QTemporaryFile file;
-    file.open();
+    QByteArray data;
+    QTextStream stream(&data, QIODevice::ReadWrite);
 
-    QSqlQuery query("SELECT * FROM contacts WHERE NOT lotw_qsl_sent = 'Y'");
-
-    QTextStream stream(&file);
     AdiFormat adi(stream);
-
+    QLocale locale;
+    QString QSOList;
     int count = 0;
 
-    while (query.next()) {
+    QString query_string = "SELECT callsign, freq, band, freq_rx, "
+                           "       mode, submode, start_time, prop_mode, "
+                           "       sat_name, station_callsign, operator, "
+                           "       rst_sent, rst_rcvd, my_state, my_cnty, "
+                           "       my_vucc_grids "
+                           "FROM contacts ";
+    QString query_where =  "WHERE (lotw_qsl_sent <> 'Y' OR lotw_qsl_sent is NULL) "
+                           "      AND (prop_mode NOT IN ('INTERNET', 'RPT', 'ECH', 'IRL') OR prop_mode IS NULL) ";
+    QString query_order = " ORDER BY start_time ";
+
+    if ( !ui->myCallsignCombo->currentText().isEmpty() )
+    {
+        query_where.append(" AND station_callsign = '" + ui->myCallsignCombo->currentText() + "'");
+    }
+
+    if ( !ui->myGridCombo->currentText().isEmpty() )
+    {
+        query_where.append(" AND my_gridsquare = '" + ui->myGridCombo->currentText() + "'");
+    }
+
+    query_string = query_string + query_where + query_order;
+
+    qCDebug(runtime) << query_string;
+
+    QSqlQuery query(query_string);
+
+    while (query.next())
+    {
         QSqlRecord record = query.record();
+
+        QSOList.append(" "
+                       + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat))
+                       + " " + record.value("callsign").toString()
+                       + " " + record.value("mode").toString()
+                       + "\n");
+
         adi.exportContact(record);
         count++;
     }
 
     stream.flush();
 
-    if (count > 0) {
-        QProcess::execute("tqsl -d -q -u " + file.fileName());
-        QMessageBox::information(this, tr("QLog Information"), tr("%n QSO(s) uploaded.", "", count));
+    if (count > 0)
+    {
+        LotwShowUploadDialog showDialog(QSOList);
+
+        if ( showDialog.exec() == QDialog::Accepted )
+        {
+            Lotw lotw;
+            QString ErrorString;
+
+            if ( lotw.uploadAdif(data, ErrorString) == 0 )
+            {
+                QMessageBox::information(this, tr("QLog Information"), tr("%n QSO(s) uploaded.", "", count));
+
+                query_string = "UPDATE contacts "
+                               "SET lotw_qsl_sent='Y', lotw_qslsdate = strftime('%Y-%m-%d',DATETIME('now', 'utc')) "
+                               + query_where;
+
+                qCDebug(runtime) << query_string;
+
+                QSqlQuery query_update(query_string);
+                query_update.exec();
+            }
+            else
+            {
+                QMessageBox::critical(this, tr("LoTW Error"), ErrorString);
+            }
+        }
     }
     else {
         QMessageBox::information(this, tr("QLog Information"), tr("No QSOs found to upload."));
     }
+}
+
+void LotwDialog::uploadCallsignChanged(QString my_callsign)
+{
+    ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='" + my_callsign + "' ORDER BY my_gridsquare", ""));
 }
 
 LotwDialog::~LotwDialog()

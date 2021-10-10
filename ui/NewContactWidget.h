@@ -3,9 +3,12 @@
 
 #include <QWidget>
 #include <QSqlRecord>
+#include <QCompleter>
 #include "core/HamQTH.h"
 #include "core/Cty.h"
 #include "data/Data.h"
+#include "core/Conditions.h"
+#include "core/Gridsquare.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -33,6 +36,7 @@ signals:
     void newTarget(double lat, double lon);
     void filterCallsign(QString call);
     void userFrequencyChanged(double freq);
+    void newStationProfile();
 
 public slots:
     void reloadSettings();
@@ -50,6 +54,7 @@ public slots:
     void updateTimeStop();
     void startContactTimer();
     void stopContactTimer();
+    void editCallsignFinished();
     void callsignResult(const QMap<QString, QString>& data);
     void updateCoordinates(double lat, double lon, CoordPrecision prec);
     void updateDxccStatus();
@@ -59,13 +64,20 @@ public slots:
     void tuneDx(QString callsign, double frequency);
     void setDefaultReport();
     void qrz();
+    void addPropConditions(Conditions *);
+    void propModeChanged(QString);
+    void rigFreqOffsetChanged(double);
+    void stationProfileChanged(QString);
+    void sotaChanged(QString);
 
 private:
     void queryDatabase(QString callsign);
     void queryDxcc(QString callsign);
+    void clearQueryFields();
     void readSettings();
     void writeSettings();
     void __modeChanged();
+    void refreshStationProfileCombo();
 
 private:
     Rig* rig;
@@ -76,6 +88,11 @@ private:
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;
+    Conditions *prop_cond;
+    QCompleter *iotaCompleter;
+    QCompleter *satCompleter;
+    QCompleter *sotaCompleter;
+    double realRigFreq;
 };
 
 #endif // NEWCONTACTWIDGET_H

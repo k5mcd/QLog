@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QtSql/QtSql>
 #include <QMessageBox>
-#include <QProgressDialog>
 #include <QResource>
 #include <QDir>
 #include <QStandardPaths>
@@ -20,6 +19,8 @@
 #include "Rotator.h"
 #include "AppGuard.h"
 #include "logformat/AdiFormat.h"
+#include "ui/SettingsDialog.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
@@ -71,6 +72,19 @@ static bool openDatabase() {
         return false;
     }
     else {
+        QSqlQuery query;
+        if ( !query.exec("PRAGMA foreign_keys = ON") )
+        {
+            qCritical() << "Cannot set PRAGMA foreign_keys";
+            return false;
+        }
+
+        if ( !query.exec("PRAGMA journal_mode = WALL") )
+        {
+            qCritical() << "Cannot set PRAGMA journal_mode";
+            return false;
+        }
+
         return true;
     }
 }
@@ -226,6 +240,7 @@ int main(int argc, char* argv[]) {
     app.setApplicationName("QLog");
 
     qInstallMessageHandler(debugMessageOutput);
+    qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
 
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)
@@ -277,6 +292,13 @@ int main(int argc, char* argv[]) {
     QIcon icon(":/res/qlog.png");
     splash.finish(&w);
     w.setWindowIcon(icon);
+
+    if ( StationProfilesManager::instance()->profilesList().isEmpty() )
+    {
+        SettingsDialog s;
+        s.exec();
+    }
+
     w.show();
 
     return app.exec();

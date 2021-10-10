@@ -10,10 +10,13 @@
 #include <QFile>
 #include <QSqlTableModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
+#include <QSqlError>
 #include "Cty.h"
 #include "debug.h"
 
 #define CTY_URL "http://www.country-files.com/cty/cty.csv"
+#define CTY_FILE_AGING 21
 
 MODULE_IDENTIFICATION("qlog.core.cty");
 
@@ -30,11 +33,26 @@ void Cty::update() {
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    if (dir.exists("cty.csv")) {
+    QSettings settings;
+    QDate last_update = settings.value("last_cty_update").toDate();
+
+    if ( dir.exists("cty.csv")
+         && last_update.isValid()
+         && last_update.daysTo(QDate::currentDate()) < CTY_FILE_AGING )
+    {
+        if ( isDXCCFilled() )
+        {
+            // nothing to do.
+            qCDebug(runtime) << "Not needed to update";
+            emit noUpdate();
+            return;
+        }
         qCDebug(runtime) << "use cached cty.csv at" << dir.path();
         QTimer::singleShot(0, this, &Cty::loadData);
     }
-    else {
+    else
+    {
+        qCDebug(runtime) << "CTY is too old or not exist ";
         download();
     }
 }
@@ -78,8 +96,11 @@ void Cty::processReply(QNetworkReply* reply) {
         file.write(data);
         file.flush();
         file.close();
-
         reply->deleteLater();
+
+        QSettings settings;
+        settings.setValue("last_cty_update", QDateTime::currentDateTimeUtc().date());
+
         loadData();
     }
     else {
@@ -91,11 +112,34 @@ void Cty::processReply(QNetworkReply* reply) {
 
 }
 
+bool Cty::isDXCCFilled()
+{
+    FCT_IDENTIFICATION;
+    QSqlQuery query(QString("select exists( select 1 from dxcc_entities )"));
+    int i = query.first() ? query.value(0).toInt() : 0;
+    qCDebug(runtime) << i;
+    return i==1;
+}
+
+void Cty::deleteDXCCTables()
+{
+    FCT_IDENTIFICATION;
+    QSqlQuery query;
+
+    query.exec("delete from dxcc_prefixes");
+    query.clear();
+    query.exec("delete from dxcc_entities");
+}
+
 void Cty::parseData(QTextStream& data) {
     FCT_IDENTIFICATION;
 
     QRegExp prefixSeperator("[\\s;]");
     QRegExp prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
+
+    QSqlDatabase::database().transaction();
+
+    deleteDXCCTables();
 
     QSqlTableModel entityTableModel;
     entityTableModel.setTable("dxcc_entities");
@@ -135,7 +179,7 @@ void Cty::parseData(QTextStream& data) {
         entityRecord.setValue("lon", -fields.at(7).toFloat());
         entityRecord.setValue("tz", fields.at(8).toFloat());
         entityTableModel.insertRecord(-1, entityRecord);
-        entityTableModel.submitAll();
+
 
         QStringList prefixList = fields.at(9).split(prefixSeperator, QString::SkipEmptyParts);
         qCDebug(runtime) << prefixList;
@@ -151,12 +195,11 @@ void Cty::parseData(QTextStream& data) {
 
                 prefixTableModel.insertRecord(-1, prefixRecord);
             }
-            else  {
+            else
+            {
                 qCDebug(runtime) << "Failed to match " << prefix;
             }
         }
-
-        prefixTableModel.submitAll();
 
         emit progress(count);
         QCoreApplication::processEvents();
@@ -164,9 +207,21 @@ void Cty::parseData(QTextStream& data) {
         count++;
     }
 
-    qCDebug(runtime) << "DXCC update finished:" << count << "entities loaded.";
+    if ( entityTableModel.submitAll()
+         && entityTableModel.submitAll() )
+    {
+        qCDebug(runtime) << "DXCC update finished:" << count << "entities loaded.";
+        QSqlDatabase::database().commit();
+    }
+    else
+    {
+        qCWarning(runtime) << "DXCC update failed - rollback";
+        QSqlDatabase::database().rollback();
+    }
 }
 
 Cty::~Cty() {
     delete nam;
 }
+
+int Cty::MAX_ENTITIES = 350;

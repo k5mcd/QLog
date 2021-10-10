@@ -35,7 +35,7 @@ private:
     void operator=(Rig const&);
 
     void __closeRig();
-    struct rig* rig;
+    RIG* rig;
     int freq_rx;
     rmode_t modeId;
     unsigned int power;

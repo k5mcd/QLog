@@ -26,6 +26,8 @@ private:
     QNetworkAccessManager* nam;
     QString sessionId;
     QString queuedCallsign;
+    bool incorrectLogin;
+    QString lastSeenPassword;
 
     void authenticate();
 };

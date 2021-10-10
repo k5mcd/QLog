@@ -6,52 +6,58 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>292</height>
+    <width>447</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>LoTW</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="uploadBox">
      <property name="title">
-      <string>Upload Data</string>
+      <string>Upload</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QPushButton" name="uploadButton">
+       <widget class="QLabel" name="myCallsignLabel">
         <property name="text">
-         <string>Upload</string>
+         <string>Own Callsign</string>
         </property>
        </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="myGridLabel">
+        <property name="text">
+         <string>Gridsquare</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3">
+       <widget class="QPushButton" name="showButton">
+        <property name="text">
+         <string>Show Selection</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" rowspan="2" colspan="2">
+       <widget class="QComboBox" name="myCallsignCombo"/>
+      </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QComboBox" name="myGridCombo"/>
       </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="downloadBox">
      <property name="title">
-      <string>Download Data</string>
+      <string>Download</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="0">
-         <widget class="QLabel" name="dateLabel">
-          <property name="text">
-           <string>Start Date:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QRadioButton" name="qslRadioButton">
-          <property name="text">
-           <string>QSLs since</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="2">
          <widget class="QRadioButton" name="qsoRadioButton">
           <property name="text">
@@ -61,6 +67,30 @@
         </item>
         <item row="1" column="1" colspan="2">
          <widget class="QDateEdit" name="dateEdit"/>
+        </item>
+        <item row="0" column="1">
+         <widget class="QRadioButton" name="qslRadioButton">
+          <property name="text">
+           <string>QSLs since</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="dateLabel">
+          <property name="text">
+           <string>Start Date:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="stationLabel">
+          <property name="text">
+           <string>Own Callsign</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QComboBox" name="stationCombo"/>
         </item>
        </layout>
       </item>
@@ -99,7 +129,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>uploadButton</sender>
+   <sender>showButton</sender>
    <signal>clicked()</signal>
    <receiver>LotwDialog</receiver>
    <slot>upload()</slot>
@@ -146,9 +176,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>myCallsignCombo</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>LotwDialog</receiver>
+   <slot>uploadCallsignChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>290</x>
+     <y>69</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>223</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>upload()</slot>
   <slot>download()</slot>
+  <slot>uploadCallsignChanged(QString)</slot>
+  <slot>slot1()</slot>
  </slots>
 </ui>

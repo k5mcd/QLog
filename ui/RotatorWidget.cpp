@@ -1,10 +1,11 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
 #include "core/Rotator.h"
-#include "core/utils.h"
 #include "RotatorWidget.h"
 #include "ui_RotatorWidget.h"
 #include "core/debug.h"
+#include "core/Gridsquare.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.rotatorwidget");
 
@@ -28,11 +29,10 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
 
     QImage map(MAP_RESOLUTION, MAP_RESOLUTION, QImage::Format_ARGB32);
 
-    QSettings settings;
-    QString grid = settings.value("station/grid").toString();
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
 
-    double lat, lon;
-    gridToCoord(grid, lat, lon);
+    double lat = myGrid.getLatitude();
+    double lon = myGrid.getLongitude();
 
     double lambda0 = (lon / 180.0) * (2.0 * M_PI);
     double phi1 = - (lat / 90.0) * (0.5 * M_PI);

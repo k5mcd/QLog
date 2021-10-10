@@ -48,9 +48,13 @@ void Conditions::processReply(QNetworkReply* reply) {
         if (reply->url() == FLUX_URL) {
             QVariantMap obj = doc.object().toVariantMap();
             flux = obj.value("Flux").toInt();
+            flux_last_update = QDateTime::currentDateTime();
         }
         else if (reply->url() == K_INDEX_URL) {
             k_index = doc.array().last().toArray().at(2).toString().toDouble();
+            a_index = doc.array().last().toArray().at(3).toString().toInt();
+            k_index_last_update = QDateTime::currentDateTime();
+            a_index_last_update = k_index_last_update;
         }
         reply->deleteLater();
         emit conditionsUpdated();
@@ -62,4 +66,70 @@ void Conditions::processReply(QNetworkReply* reply) {
 
 Conditions::~Conditions() {
     delete nam;
+}
+
+bool Conditions::isFluxValid()
+{
+    FCT_IDENTIFICATION;
+    bool ret = false;
+
+    qCDebug(runtime)<<"Date valid: " << flux_last_update.isValid() << " last_update: " << flux_last_update;
+
+    ret = (flux_last_update.isValid()
+           && flux_last_update.secsTo(QDateTime::currentDateTime()) < 20 * 60);
+
+    qCDebug(runtime)<< "Result: " << ret;
+    return ret;
+}
+
+bool Conditions::isKIndexValid()
+{
+    FCT_IDENTIFICATION;
+    bool ret = false;
+
+    qCDebug(runtime)<<"Date valid: " << k_index_last_update.isValid() << " last_update: " << k_index_last_update;
+
+    ret = (k_index_last_update.isValid()
+           && k_index_last_update.secsTo(QDateTime::currentDateTime()) < 20 * 60);
+
+    qCDebug(runtime)<< "Result: " << ret;
+
+    return ret;
+}
+
+bool Conditions::isAIndexValid()
+{
+    FCT_IDENTIFICATION;
+    bool ret = false;
+
+    qCDebug(runtime)<<"Date valid: " << a_index_last_update.isValid() << " last_update: " << a_index_last_update;
+
+    ret = (a_index_last_update.isValid()
+           && a_index_last_update.secsTo(QDateTime::currentDateTime()) < 20 * 60);
+
+    qCDebug(runtime)<< "Result: " << ret;
+
+    return ret;
+}
+
+int Conditions::getFlux()
+{
+    FCT_IDENTIFICATION;
+    qCDebug(runtime)<<"Current Flux: " << flux << " last_update: " << flux_last_update;
+    return flux;
+
+}
+
+int Conditions::getAIndex()
+{
+    FCT_IDENTIFICATION;
+    qCDebug(runtime)<<"Current A-Index: " << a_index << " last_update: " << a_index_last_update;
+    return a_index;
+}
+
+double Conditions::getKIndex()
+{
+    FCT_IDENTIFICATION;
+    qCDebug(runtime)<<"Current K-Index: " << k_index << " last_update: " << k_index_last_update;
+    return k_index;
 }

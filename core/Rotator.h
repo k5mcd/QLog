@@ -2,6 +2,7 @@
 #define ROTATOR_H
 
 #include <QtCore>
+#include <hamlib/rotator.h>
 
 struct rot;
 
@@ -32,7 +33,7 @@ private:
     int azimuth;
     int elevation;
 
-    struct rot* rot;
+    ROT* rot;
     QMutex rotLock;
 };
 

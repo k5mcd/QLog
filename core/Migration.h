@@ -20,9 +20,9 @@ private:
 
     bool updateBands();
     bool updateModes();
-    bool updateDxcc();
+    bool updateExternalResource();
 
-    static const int latestVersion = 1;
+    static const int latestVersion = 2;
 };
 
 #endif // MIGRATION_H

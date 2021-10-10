@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>894</width>
-    <height>529</height>
+    <width>913</width>
+    <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>894</width>
+     <width>913</width>
      <height>30</height>
     </rect>
    </property>
@@ -62,12 +62,12 @@
     </property>
     <addaction name="actionNewContact"/>
     <addaction name="actionSaveContact"/>
+    <addaction name="actionQSOFilters"/>
     <addaction name="separator"/>
     <addaction name="actionImport"/>
     <addaction name="actionExport"/>
     <addaction name="separator"/>
     <addaction name="actionStatistics"/>
-    <addaction name="actionLotw"/>
    </widget>
    <widget class="QMenu" name="menuRig">
     <property name="title">
@@ -86,22 +86,34 @@
     <property name="title">
      <string>Window</string>
     </property>
-    <addaction name="actionDXClusterWindow"/>
-    <addaction name="actionMapWindow"/>
-    <addaction name="actionWsjtx"/>
-    <addaction name="actionRotator"/>
-    <addaction name="actionRig"/>
     <addaction name="actionBandmap"/>
     <addaction name="actionClock"/>
+    <addaction name="actionDXClusterWindow"/>
+    <addaction name="actionMapWindow"/>
+    <addaction name="actionOnlineMap"/>
+    <addaction name="actionRig"/>
+    <addaction name="actionRotator"/>
+    <addaction name="actionWsjtx"/>
+   </widget>
+   <widget class="QMenu" name="menuQSL">
+    <property name="title">
+     <string>QSL</string>
+    </property>
+    <addaction name="actionLotw"/>
+    <addaction name="actioneQSL"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLogbook"/>
+   <addaction name="menuQSL"/>
    <addaction name="menuRig"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>Toolbar</string>
    </property>
@@ -191,6 +203,15 @@
     <number>2</number>
    </attribute>
    <widget class="RigWidget" name="dockWidgetContents"/>
+  </widget>
+  <widget class="QDockWidget" name="onlineMapDockWidget">
+   <property name="windowTitle">
+    <string>Online Map</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="OnlineMapWidget" name="onlineMapWidget"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -346,6 +367,21 @@
     <string>Clock</string>
    </property>
   </action>
+  <action name="actionQSOFilters">
+   <property name="text">
+    <string>QSO Filters</string>
+   </property>
+  </action>
+  <action name="actioneQSL">
+   <property name="text">
+    <string>eQSL</string>
+   </property>
+  </action>
+  <action name="actionOnlineMap">
+   <property name="text">
+    <string>Online Map</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -415,6 +451,12 @@
    <class>RigWidget</class>
    <extends>QWidget</extends>
    <header>ui/RigWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OnlineMapWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/OnlineMapWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -724,6 +766,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionQSOFilters</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>QSOFilterSetting()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actioneQSL</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showeQSL()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOnlineMap</sender>
+   <signal>triggered()</signal>
+   <receiver>onlineMapDockWidget</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>879</x>
+     <y>545</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -737,5 +827,7 @@
   <slot>showStatistics()</slot>
   <slot>showLotw()</slot>
   <slot>rotConnect()</slot>
+  <slot>QSOFilterSetting()</slot>
+  <slot>showeQSL()</slot>
  </slots>
 </ui>

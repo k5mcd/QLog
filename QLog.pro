@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network xml charts
+QT       += core gui sql network xml charts webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,19 +31,23 @@ SOURCES += \
         core/AppGuard.cpp \
         core/ClubLog.cpp \
         core/Conditions.cpp \
+        core/CredentialStore.cpp \
         core/Cty.cpp \
+        core/Eqsl.cpp \
         core/Fldigi.cpp \
+        core/Gridsquare.cpp \
         core/HamQTH.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
+        core/Sat.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
-        core/utils.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
+        data/StationProfile.cpp \
         logformat/AdiFormat.cpp \
         logformat/AdxFormat.cpp \
         logformat/JsonFormat.cpp \
@@ -55,16 +59,23 @@ SOURCES += \
         models/SqlListModel.cpp \
         ui/BandmapWidget.cpp \
         ui/ClockWidget.cpp \
+        ui/ColumnSettingDialog.cpp \
         ui/DxFilterDialog.cpp \
         ui/DxWidget.cpp \
         ui/DxccTableWidget.cpp \
+        ui/Eqsldialog.cpp \
         ui/ExportDialog.cpp \
         ui/ImportDialog.cpp \
         ui/LogbookWidget.cpp \
         ui/LotwDialog.cpp \
+        ui/LotwShowUploadDialog.cpp \
         ui/MainWindow.cpp \
         ui/MapWidget.cpp \
         ui/NewContactWidget.cpp \
+        ui/OnlineMapWidget.cpp \
+        ui/QSLImportStatDialog.cpp \
+        ui/QSOFilterDetail.cpp \
+        ui/QSOFilterDialog.cpp \
         ui/RigWidget.cpp \
         ui/RotatorWidget.cpp \
         ui/SettingsDialog.cpp \
@@ -75,21 +86,25 @@ HEADERS += \
         core/AppGuard.h \
         core/ClubLog.h \
         core/Conditions.h \
+        core/CredentialStore.h \
         core/Cty.h \
+        core/Eqsl.h \
         core/Fldigi.h \
+        core/Gridsquare.h \
         core/HamQTH.h \
         core/Lotw.h \
         core/Migration.h \
         core/Rig.h \
         core/Rotator.h \
+        core/Sat.h \
         core/StyleItemDelegate.h \
         core/Wsjtx.h \
         core/debug.h \
-        core/utils.h \
         data/Band.h \
         data/Data.h \
         data/DxSpot.h \
         data/Dxcc.h \
+        data/StationProfile.h \
         logformat/AdiFormat.h \
         logformat/AdxFormat.h \
         logformat/JsonFormat.h \
@@ -101,16 +116,23 @@ HEADERS += \
         models/SqlListModel.h \
         ui/BandmapWidget.h \
         ui/ClockWidget.h \
+        ui/ColumnSettingDialog.h \
         ui/DxFilterDialog.h \
         ui/DxWidget.h \
         ui/DxccTableWidget.h \
+        ui/Eqsldialog.h \
         ui/ExportDialog.h \
         ui/ImportDialog.h \
         ui/LogbookWidget.h \
         ui/LotwDialog.h \
+        ui/LotwShowUploadDialog.h \
         ui/MainWindow.h \
         ui/MapWidget.h \
         ui/NewContactWidget.h \
+        ui/OnlineMapWidget.h \
+        ui/QSLImportStatDialog.h \
+        ui/QSOFilterDetail.h \
+        ui/QSOFilterDialog.h \
         ui/RigWidget.h \
         ui/RotatorWidget.h \
         ui/SettingsDialog.h \
@@ -120,14 +142,20 @@ HEADERS += \
 FORMS += \
         ui/BandmapWidget.ui \
         ui/ClockWidget.ui \
+        ui/ColumnSettingDialog.ui \
         ui/DxFilterDialog.ui \
         ui/DxWidget.ui \
+        ui/Eqsldialog.ui \
         ui/ExportDialog.ui \
         ui/ImportDialog.ui \
         ui/LogbookWidget.ui \
         ui/LotwDialog.ui \
+        ui/LotwShowUploadDialog.ui \
         ui/MainWindow.ui \
         ui/NewContactWidget.ui \
+        ui/QSLImportStatDialog.ui \
+        ui/QSOFilterDetail.ui \
+        ui/QSOFilterDialog.ui \
         ui/RigWidget.ui \
         ui/RotatorWidget.ui \
         ui/SettingsDialog.ui \
@@ -175,5 +203,17 @@ macx: {
     DISTFILES +=
 }
 
+win32: {
+    TARGET = qlog
+    QMAKE_TARGET_COMPANY = OK1MLG
+    QMAKE_TARGET_DESCRIPTION = Hamradio logging
+    LIBS += -L"$$PWD/../hamlib/lib/gcc" -lhamlib
+    LIBS += -L"$$PWD/../hamlib/bin"
+    LIBS += -L"$$PWD/../qtkeychain/lib/" -lqt5keychain
+    INCLUDEPATH += "$$PWD/../hamlib/include/"
+    INCLUDEPATH += "$$PWD/../qtkeychain/include"
+}
+
 DISTFILES += \
-    Changelog
+    Changelog \
+    res/data/sat_modes
