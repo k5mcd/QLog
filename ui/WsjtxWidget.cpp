@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QSortFilterProxyModel>
 #include "WsjtxWidget.h"
 #include "ui_WsjtxWidget.h"
 #include "data/Data.h"
@@ -7,79 +8,118 @@
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
 
-int WsjtxTableModel::rowCount(const QModelIndex&) const {
+bool operator==(const WsjtxEntry& a, const WsjtxEntry& b)
+{
+    return a.callsign == b.callsign;
+}
+
+int WsjtxTableModel::rowCount(const QModelIndex&) const
+{
     return wsjtxData.count();
 }
 
-int WsjtxTableModel::columnCount(const QModelIndex&) const {
+int WsjtxTableModel::columnCount(const QModelIndex&) const
+{
     return 5;
 }
 
-QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const {
-    if (role == Qt::DisplayRole) {
+QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
+{
+    QLocale locale;
+    if (role == Qt::DisplayRole)
+    {
         WsjtxEntry entry = wsjtxData.at(index.row());
-        switch (index.column()) {
-        case 0: return QString::number(entry.decode.snr);
-        case 1: return entry.callsign;
-        case 2: return entry.grid;
-        case 3: return entry.dxcc.country;
-        case 4:
-            switch (entry.status) {
-            case DxccStatus::NewEntity:
-                return tr("New Entity");
-            case DxccStatus::NewBand:
-                return tr("New Band");
-            case DxccStatus::NewMode:
-                return tr("New Mode");
-            case DxccStatus::NewBandMode:
-                return tr("New Band & Mode");
-            case DxccStatus::NewSlot:
-                return tr("New Slot");
-            default:
-                return QVariant();
-            }
+
+        switch ( index.column() )
+        {
+        case 0: return entry.callsign;
+        case 1: return entry.grid;
+        case 2: return QString::number(entry.decode.snr);
+        case 3: return entry.decode.time.toString();
+        case 4: return entry.decode.message;
         default: return QVariant();
         }
     }
-    else if (index.column() == 1 && role == Qt::BackgroundRole) {
+    else if (index.column() == 0 && role == Qt::BackgroundRole)
+    {
         WsjtxEntry entry = wsjtxData.at(index.row());
         return Data::statusToColor(entry.status, QColor(Qt::white));
     }
-    else if (index.column() == 1 && role == Qt::TextColorRole) {
+    else if (index.column() == 0 && role == Qt::TextColorRole)
+    {
         WsjtxEntry entry = wsjtxData.at(index.row());
         return Data::statusToInverseColor(entry.status, QColor(Qt::black));
     }
     return QVariant();
 }
 
-QVariant WsjtxTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant WsjtxTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal) return QVariant();
 
-    switch (section) {
-    case 0: return tr("SNR");
-    case 1: return tr("Callsign");
-    case 2: return tr("Grid");
-    case 3: return tr("Country");
-    case 4: return tr("DXCC Status");
+    switch (section)
+    {
+    case 0: return tr("Callsign");
+    case 1: return tr("Grid");
+    case 2: return tr("SNR");
+    case 3: return tr("Last Activity");
+    case 4: return tr("Last Message");
     default: return QVariant();
     }
 }
 
-void WsjtxTableModel::addEntry(WsjtxEntry entry) {
-    beginInsertRows(QModelIndex(), wsjtxData.count(), wsjtxData.count());
-    wsjtxData.append(entry);
-    endInsertRows();
+void WsjtxTableModel::addOrReplaceEntry(WsjtxEntry entry)
+{
+    FCT_IDENTIFICATION;
+
+    int idx = wsjtxData.indexOf(entry);
+
+    if ( idx >= 0 )
+    {
+        qCDebug(runtime) << "Updating " << entry.callsign;
+
+        if ( ! entry.grid.isEmpty() )
+        {
+            wsjtxData[idx].grid = entry.grid;
+        }
+
+        wsjtxData[idx].status = entry.status;
+        wsjtxData[idx].decode = entry.decode;
+        wsjtxData[idx].receivedTime = entry.receivedTime;
+
+        emit dataChanged(createIndex(idx,0), createIndex(idx,4));
+    }
+    else
+    {
+       qCDebug(runtime) << "Inserting " << entry.callsign;
+       beginInsertRows(QModelIndex(), wsjtxData.count(), wsjtxData.count());
+       wsjtxData.append(entry);
+       endInsertRows();
+    }
 }
 
+void WsjtxTableModel::clearOld()
+{
+    FCT_IDENTIFICATION;
 
-WsjtxEntry WsjtxTableModel::entry(const QModelIndex& index) {
-    return wsjtxData.at(index.row());
-}
-
-void WsjtxTableModel::clear() {
     beginResetModel();
-    wsjtxData.clear();
+    for (auto entry: wsjtxData )
+    {
+        if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > 120 )
+        {
+            qCDebug(runtime) << "Removing " << entry.callsign;
+            wsjtxData.removeOne(entry);
+        }
+    }
     endResetModel();
+}
+
+bool WsjtxTableModel::callsignExists(WsjtxEntry call)
+{
+    FCT_IDENTIFICATION;
+
+    return wsjtxData.contains(call);
 }
 
 WsjtxWidget::WsjtxWidget(QWidget *parent) :
@@ -91,60 +131,69 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     ui->setupUi(this);
 
     wsjtxTableModel = new WsjtxTableModel(this);
-    ui->tableView->setModel(wsjtxTableModel);
+
+    proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(wsjtxTableModel);
+
+    ui->tableView->setModel(proxyModel);
 }
 
-void WsjtxWidget::decodeReceived(WsjtxDecode decode) {
+void WsjtxWidget::decodeReceived(WsjtxDecode decode)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<decode.message;
 
-    if (decode.message.startsWith("CQ")) {
-        QRegExp cqRegExp("^CQ (DX |TEST )?([A-Z0-9\/]+) ?([A-Z]{2}[0-9]{2})?");
-        if (cqRegExp.exactMatch(decode.message)) {
+    if ( decode.message.startsWith("CQ") )
+    {
+        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\/]+) ?([A-Z]{2}[0-9]{2})?");
+        if ( cqRegExp.exactMatch(decode.message) )
+        {
             WsjtxEntry entry;
+
             entry.decode = decode;
             entry.callsign = cqRegExp.cap(2);
             entry.grid = cqRegExp.cap(3);
             entry.dxcc = Data::instance()->lookupDxcc(entry.callsign);
             entry.status = Data::instance()->dxccStatus(entry.dxcc.dxcc, band, status.mode);
-            wsjtxTableModel->addEntry(entry);
-            ui->tableView->repaint();
+            entry.receivedTime = QDateTime::currentDateTimeUtc();
+
+            wsjtxTableModel->addOrReplaceEntry(entry);
         }
     }
+    else
+    {
+        QStringList decodedElements = decode.message.split(" ");
+
+        if ( decodedElements.count() > 1 )
+        {
+            QString callsign = decode.message.split(" ").at(1);
+            WsjtxEntry entry;
+            entry.callsign = callsign;
+            if ( wsjtxTableModel->callsignExists(entry) )
+            {
+                entry.dxcc = Data::instance()->lookupDxcc(entry.callsign);
+                entry.status = Data::instance()->dxccStatus(entry.dxcc.dxcc, band, status.mode);
+                entry.decode = decode;
+                entry.receivedTime = QDateTime::currentDateTimeUtc();
+
+                wsjtxTableModel->addOrReplaceEntry(entry);
+            }
+        }
+    }
+
+    wsjtxTableModel->clearOld();
+    proxyModel->sort(3, Qt::DescendingOrder);
+    ui->tableView->repaint();
 }
 
-void WsjtxWidget::statusReceived(WsjtxStatus newStatus) {
+void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
+{
     FCT_IDENTIFICATION;
 
     if (this->status.dial_freq != newStatus.dial_freq) {
         band = Data::instance()->band(newStatus.dial_freq/1e6).name;
         ui->freqLabel->setText(QString("%1 MHz").arg(newStatus.dial_freq/1e6));
-    }
-
-    if (status.decoding != newStatus.decoding) {
-        if (newStatus.decoding) {
-            wsjtxTableModel->clear();
-        }
-        else {
-            wsjtxTableModel->sort(1, Qt::DescendingOrder);
-            if (ui->autoCallCheckBox->isChecked() && !status.tx_enabled && !status.transmitting) {
-                WsjtxEntry best;
-                best.status = DxccStatus::Worked;
-
-                for (int i = 0; i < wsjtxTableModel->rowCount(); i++) {
-                    WsjtxEntry entry = wsjtxTableModel->entry(wsjtxTableModel->index(i, 0));
-                    if (entry.status < best.status && entry.decode.snr >= -10) {
-                        best = entry;
-                    }
-                }
-
-                if (!best.callsign.isEmpty()) {
-                    ui->autoCallCheckBox->setCheckState(Qt::Unchecked);
-                    emit reply(best.decode);
-                }
-            }
-        }
     }
 
     if (status.transmitting) {
@@ -157,16 +206,6 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus) {
     status = newStatus;
 
     ui->modeLabel->setText(status.mode);
-}
-
-
-void WsjtxWidget::startReply(QModelIndex index) {
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<index;
-
-    WsjtxEntry entry = wsjtxTableModel->entry(index);
-    emit reply(entry.decode);
 }
 
 WsjtxWidget::~WsjtxWidget()

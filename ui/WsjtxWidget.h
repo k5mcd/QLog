@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QAbstractTableModel>
+#include <QSortFilterProxyModel>
 #include "core/Wsjtx.h"
 #include "data/Data.h"
 
@@ -16,6 +17,7 @@ struct WsjtxEntry {
     DxccStatus status;
     QString callsign;
     QString grid;
+    QDateTime receivedTime;
 };
 
 class WsjtxTableModel : public QAbstractTableModel {
@@ -27,9 +29,9 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    void addEntry(WsjtxEntry entry);
-    WsjtxEntry entry(const QModelIndex& index);
-    void clear();
+    void addOrReplaceEntry(WsjtxEntry entry);
+    void clearOld();
+    bool callsignExists(WsjtxEntry call);
 
 private:
     QList<WsjtxEntry> wsjtxData;
@@ -43,19 +45,16 @@ public:
     explicit WsjtxWidget(QWidget *parent = nullptr);
     ~WsjtxWidget();
 
-signals:
-    void reply(WsjtxDecode);
-
 public slots:
     void decodeReceived(WsjtxDecode);
     void statusReceived(WsjtxStatus);
-    void startReply(QModelIndex index);
 
 private:
     WsjtxTableModel* wsjtxTableModel;
     WsjtxStatus status;
     QString band;
     Ui::WsjtxWidget *ui;
+    QSortFilterProxyModel *proxyModel;
 };
 
 #endif // WSJTXWIDGET_H

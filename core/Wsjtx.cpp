@@ -13,13 +13,17 @@ MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
 Wsjtx::Wsjtx(QObject *parent) : QObject(parent)
 {
+    FCT_IDENTIFICATION;
     socket = new QUdpSocket(this);
     socket->bind(QHostAddress::Any, 2237);
 
     connect(socket, &QUdpSocket::readyRead, this, &Wsjtx::readPendingDatagrams);
 }
 
-void Wsjtx::readPendingDatagrams() {
+void Wsjtx::readPendingDatagrams()
+{
+    FCT_IDENTIFICATION;
+
     while (socket->hasPendingDatagrams()) {
         QNetworkDatagram datagram = socket->receiveDatagram();
 
@@ -134,7 +138,12 @@ void Wsjtx::readPendingDatagrams() {
     }
 }
 
-void Wsjtx::insertContact(WsjtxLog log) {
+void Wsjtx::insertContact(WsjtxLog log)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << log;
+
     QSqlTableModel model;
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
@@ -192,7 +201,12 @@ void Wsjtx::insertContact(WsjtxLog log) {
     emit contactAdded(record);
 }
 
-void Wsjtx::startReply(WsjtxDecode decode) {
+void Wsjtx::startReply(WsjtxDecode decode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << decode;
+
     QByteArray data;
     QDataStream stream(&data, QIODevice::ReadWrite);
     stream << static_cast<quint32>(0xadbccbda);

@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QModelIndex>
-#include <QHash>
 #include <QSqlTableModel>
 
 #include "data/StationProfile.h"
