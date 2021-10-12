@@ -271,8 +271,14 @@ QRegularExpression Data::callsignRegEx()
 {
     FCT_IDENTIFICATION;
 
-    return QRegularExpression("[a-zA-Z0-9]{1,3}[0123456789][a-zA-Z0-9]{0,3}[a-zA-Z]",
-                              QRegularExpression::CaseInsensitiveOption);
+    return QRegularExpression(callsignRegExString(), QRegularExpression::CaseInsensitiveOption);
+}
+
+QString Data::callsignRegExString()
+{
+    FCT_IDENTIFICATION;
+
+    return QString("^([A-Z0-9]+[\/])?([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)([\/][A-Z0-9]+)?");
 }
 
 QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
