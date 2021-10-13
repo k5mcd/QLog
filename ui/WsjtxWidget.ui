@@ -82,5 +82,25 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tableView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>WsjtxWidget</receiver>
+   <slot>tableViewDoubleClicked(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>tableViewDoubleClicked(QModelIndex)</slot>
+ </slots>
 </ui>

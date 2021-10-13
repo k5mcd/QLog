@@ -62,6 +62,7 @@ public slots:
     void changeMode(QString mode, QString subMode);
     void changePower(double power);
     void tuneDx(QString callsign, double frequency);
+    void showDx(QString callsign, QString grid);
     void setDefaultReport();
     void qrz();
     void addPropConditions(Conditions *);

@@ -302,12 +302,38 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
         return;
     }
 
-    ui->nameEdit->setText(data.value("name"));
-    ui->gridEdit->setText(data.value("gridsquare"));
-    ui->qthEdit->setText(data.value("qth"));
-    ui->dokEdit->setText(data.value("dok"));
-    ui->iotaEdit->setText(data.value("iota"));
-    ui->emailEdit->setText(data.value("email"));
+    /* not filled or not fully filled then update it */
+
+    if ( ui->nameEdit->text().isEmpty() )
+    {
+        ui->nameEdit->setText(data.value("name"));
+    }
+
+    if ( ui->gridEdit->text().isEmpty()
+         || data.value("gridsquare").contains(ui->gridEdit->text()) )
+    {
+        ui->gridEdit->setText(data.value("gridsquare"));
+    }
+
+    if ( ui->qthEdit->text().isEmpty() )
+    {
+        ui->qthEdit->setText(data.value("qth"));
+    }
+
+    if ( ui->dokEdit->text().isEmpty() )
+    {
+        ui->dokEdit->setText(data.value("dok"));
+    }
+
+    if ( ui->iotaEdit->text().isEmpty() )
+    {
+        ui->iotaEdit->setText(data.value("iota"));
+    }
+
+    if ( ui->emailEdit->text().isEmpty() )
+    {
+        ui->emailEdit->setText(data.value("email"));
+    }
 }
 
 /* call when newcontact frequency spinbox is changed */
@@ -795,6 +821,23 @@ void NewContactWidget::tuneDx(QString callsign, double frequency) {
     resetContact();
     ui->callsignEdit->setText(callsign);
     ui->frequencyEdit->setValue(frequency);
+    callsignChanged();
+    if ( callsign.size() >= 3 )
+    {
+        callbook.queryCallsign(callsign);
+    }
+    stopContactTimer();
+}
+
+void NewContactWidget::showDx(QString callsign, QString grid)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<callsign<< " " << grid;
+
+    resetContact();
+    ui->callsignEdit->setText(callsign.toUpper());
+    ui->gridEdit->setText(grid);
     callsignChanged();
     if ( callsign.size() >= 3 )
     {

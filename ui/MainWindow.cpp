@@ -86,6 +86,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->dxWidget, &DxWidget::newSpot, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->dxWidget, &DxWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
+    connect(ui->wsjtxWidget, &WsjtxWidget::showDxDetails, ui->newContactWidget, &NewContactWidget::showDx);
+
     conditions = new Conditions(this);
     connect(conditions, &Conditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
     conditions->update();

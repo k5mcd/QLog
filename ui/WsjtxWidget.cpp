@@ -25,11 +25,10 @@ int WsjtxTableModel::columnCount(const QModelIndex&) const
 
 QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
 {
-    QLocale locale;
+    WsjtxEntry entry = wsjtxData.at(index.row());
+
     if (role == Qt::DisplayRole)
     {
-        WsjtxEntry entry = wsjtxData.at(index.row());
-
         switch ( index.column() )
         {
         case 0: return entry.callsign;
@@ -42,13 +41,15 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
     }
     else if (index.column() == 0 && role == Qt::BackgroundRole)
     {
-        WsjtxEntry entry = wsjtxData.at(index.row());
         return Data::statusToColor(entry.status, QColor(Qt::white));
     }
     else if (index.column() == 0 && role == Qt::TextColorRole)
     {
-        WsjtxEntry entry = wsjtxData.at(index.row());
         return Data::statusToInverseColor(entry.status, QColor(Qt::black));
+    }
+    else if (index.column() == 0 && role == Qt::ToolTipRole)
+    {
+        return  entry.dxcc.country + " [" + Data::statusToText(entry.status) + "]";
     }
     return QVariant();
 }
@@ -122,6 +123,20 @@ bool WsjtxTableModel::callsignExists(WsjtxEntry call)
     return wsjtxData.contains(call);
 }
 
+QString WsjtxTableModel::getCallsign(QModelIndex idx)
+{
+    FCT_IDENTIFICATION;
+
+    return data(index(idx.row(),0),Qt::DisplayRole).toString();
+}
+
+QString WsjtxTableModel::getGrid(QModelIndex idx)
+{
+    FCT_IDENTIFICATION;
+
+    return data(index(idx.row(),1),Qt::DisplayRole).toString();
+}
+
 WsjtxWidget::WsjtxWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WsjtxWidget)
@@ -146,7 +161,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     if ( decode.message.startsWith("CQ") )
     {
-        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\/]+) ?([A-Z]{2}[0-9]{2})?");
+        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\/]+) ?([A-Z]{2}[0-9]{2})?.*");
         if ( cqRegExp.exactMatch(decode.message) )
         {
             WsjtxEntry entry;
@@ -206,6 +221,16 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
     status = newStatus;
 
     ui->modeLabel->setText(status.mode);
+}
+
+void WsjtxWidget::tableViewDoubleClicked(QModelIndex index)
+{
+    FCT_IDENTIFICATION;
+
+    QModelIndex source_index = proxyModel->mapToSource(index);
+    QString callsign = wsjtxTableModel->getCallsign(source_index);
+    QString grid = wsjtxTableModel->getGrid(source_index);
+    emit showDxDetails(callsign, grid);
 }
 
 WsjtxWidget::~WsjtxWidget()

@@ -32,6 +32,8 @@ public:
     void addOrReplaceEntry(WsjtxEntry entry);
     void clearOld();
     bool callsignExists(WsjtxEntry call);
+    QString getCallsign(QModelIndex idx);
+    QString getGrid(QModelIndex idx);
 
 private:
     QList<WsjtxEntry> wsjtxData;
@@ -48,6 +50,10 @@ public:
 public slots:
     void decodeReceived(WsjtxDecode);
     void statusReceived(WsjtxStatus);
+    void tableViewDoubleClicked(QModelIndex);
+
+signals:
+    void showDxDetails(QString callsign, QString grid);
 
 private:
     WsjtxTableModel* wsjtxTableModel;
