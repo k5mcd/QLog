@@ -48,6 +48,7 @@ public slots:
     void updateBand(double freq);
     void resetContact();
     void saveContact();
+    void saveExternalContact(QSqlRecord record);
     void gridChanged();
     void updateTime();
     void updateTimeOff();
@@ -79,6 +80,7 @@ private:
     void writeSettings();
     void __modeChanged();
     void refreshStationProfileCombo();
+    void addAddlFields(QSqlRecord &record);
 
 private:
     Rig* rig;

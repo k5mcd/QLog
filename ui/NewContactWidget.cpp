@@ -501,7 +501,117 @@ void NewContactWidget::resetContact() {
     emit newTarget(0, 0);
 }
 
-void NewContactWidget::saveContact() {
+void NewContactWidget::addAddlFields(QSqlRecord &record)
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurrent();
+
+    record.setValue("qsl_sent", "N");
+    record.setValue("qsl_rcvd", "N");
+    record.setValue("lotw_qsl_sent", "N");
+    record.setValue("lotw_qsl_rcvd", "N");
+    record.setValue("eqsl_qsl_rcvd", "N");
+    record.setValue("eqsl_qsl_sent", "N");
+    record.setValue("hrdlog_qso_upload_status", "N");
+    record.setValue("qrzcom_qsoupload_status", "N");
+
+    /* isNull is not necessary to use because NULL Text fields are empty */
+    if ( record.value("my_gridsquare").toString().isEmpty()
+         && !profile.locator.isEmpty())
+    {
+        record.setValue("my_gridsquare", profile.locator.toUpper());
+    }
+
+    if ( ! record.value("gridsquare").toString().isEmpty()
+         && ! record.value("my_gridsquare").toString().isEmpty() )
+    {
+        Gridsquare myGrid(record.value("my_gridsquare").toString());
+        double distance;
+        if ( myGrid.distanceTo(Gridsquare(record.value("gridsquare").toString()), distance) )
+        {
+            record.setValue("distance", distance);
+        }
+    }
+
+    if ( prop_cond )
+    {
+        if ( record.value("sfi").isNull()
+             && prop_cond->isFluxValid() )
+        {
+            record.setValue("sfi", prop_cond->getFlux());
+        }
+
+        if ( record.value("k_index").isNull()
+             && prop_cond->isKIndexValid() )
+        {
+            record.setValue("k_index", prop_cond->getKIndex());
+        }
+
+        if ( record.value("a_index").isNull()
+             && prop_cond->isAIndexValid() )
+        {
+            record.setValue("a_index", prop_cond->getAIndex());
+        }
+    }
+
+    if ( record.value("tx_pwr").isNull()
+         && ui->powerEdit->value() != 0.0)
+    {
+        record.setValue("tx_pwr", ui->powerEdit->value());
+    }
+
+    if ( record.value("prop_mode").toString().isEmpty()
+         && !ui->propagationModeEdit->currentText().isEmpty())
+    {
+        record.setValue("prop_mode", Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()));
+    }
+
+    if ( record.value("sat_mode").toString().isEmpty()
+         && !ui->satModeEdit->currentText().isEmpty() )
+    {
+        record.setValue("sat_mode", Data::instance()->satModeTextToID(ui->satModeEdit->currentText()));
+    }
+
+    if ( record.value("sat_name").toString().isEmpty()
+         && !ui->satNameEdit->text().isEmpty() )
+    {
+        record.setValue("sat_name", ui->satNameEdit->text().toUpper());
+    }
+
+    if ( record.value("my_rig").toString().isEmpty()
+         && !ui->rigEdit->currentText().isEmpty() )
+    {
+       record.setValue("my_rig", ui->rigEdit->currentText());
+    }
+
+    if ( record.value("my_antenna").toString().isEmpty()
+         && !ui->antennaEdit->currentText().isEmpty())
+    {
+       record.setValue("my_antenna", ui->antennaEdit->currentText());
+    }
+
+    if ( record.value("my_city").toString().isEmpty()
+         && !profile.qthName.isEmpty())
+    {
+       record.setValue("my_city", profile.qthName.toUpper());
+    }
+
+    if ( record.value("station_callsign").toString().isEmpty()
+         && !profile.callsign.isEmpty() )
+    {
+       record.setValue("station_callsign", profile.callsign.toUpper());
+    }
+
+    if ( record.value("operator").toString().isEmpty()
+         && !profile.operatorName.isEmpty() )
+    {
+       record.setValue("operator", profile.operatorName.toUpper());
+    }
+
+}
+void NewContactWidget::saveContact()
+{
     FCT_IDENTIFICATION;
 
     QSettings settings;
@@ -545,43 +655,15 @@ void NewContactWidget::saveContact() {
     record.setValue("sig", ui->sigEdit->text().toUpper());
     record.setValue("sig_info", ui->sigInfoEdit->text().toUpper());
     record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
+
     if ( ! ui->qslSentViaBox->currentText().isEmpty() )
     {
         record.setValue("qsl_sent_via", ui->qslSentViaBox->itemData(ui->qslSentViaBox->currentIndex()));
-    }
-    record.setValue("qsl_rcvd", "N");
-    record.setValue("lotw_qsl_sent", "N");
-    record.setValue("lotw_qsl_rcvd", "N");
-    record.setValue("eqsl_qsl_rcvd", "N");
-    record.setValue("eqsl_qsl_sent", "N");
-    record.setValue("hrdlog_qso_upload_status", "N");
-    record.setValue("qrzcom_qsoupload_status", "N");
-
-    if ( prop_cond )
-    {
-        if ( prop_cond->isFluxValid() )
-        {
-            record.setValue("sfi", prop_cond->getFlux());
-        }
-
-        if ( prop_cond->isKIndexValid() )
-        {
-            record.setValue("k_index", prop_cond->getKIndex());
-        }
-
-        if ( prop_cond->isAIndexValid() )
-        {
-            record.setValue("a_index", prop_cond->getAIndex());
-        }
     }
 
     if ( coordPrec >= COORD_GRID)
     {
         record.setValue("distance", ui->distanceInfo->text().split(" ")[0]);
-    }
-
-    if (ui->powerEdit->value() != 0.0) {
-        record.setValue("tx_pwr", ui->powerEdit->value());
     }
 
     if ( !ui->sotaEdit->text().isEmpty() )
@@ -594,35 +676,12 @@ void NewContactWidget::saveContact() {
         record.setValue("darc_dok", ui->dokEdit->text().toUpper());
     }
 
-    if ( !ui->propagationModeEdit->currentText().isEmpty() )
-    {
-        record.setValue("prop_mode", Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()));
-    }
-
-    if ( !ui->satModeEdit->currentText().isEmpty() )
-    {
-        record.setValue("sat_mode", Data::instance()->satModeTextToID(ui->satModeEdit->currentText()));
-    }
-
-    if ( !ui->satNameEdit->text().isEmpty() )
-    {
-        record.setValue("sat_name", ui->satNameEdit->text().toUpper());
-    }
-
     if (!ui->commentEdit->text().isEmpty()) {
         record.setValue("comment", ui->commentEdit->text());
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {
         record.setValue("qsl_via", ui->qslViaEdit->text().toUpper());
-    }
-
-    if (!ui->rigEdit->currentText().isEmpty()) {
-        record.setValue("my_rig", ui->rigEdit->currentText());
-    }
-
-    if (!ui->antennaEdit->currentText().isEmpty()) {
-        record.setValue("my_antenna", ui->antennaEdit->currentText());
     }
 
     if (!ui->ageEdit->text().isEmpty()) {
@@ -637,35 +696,65 @@ void NewContactWidget::saveContact() {
         record.setValue("web", ui->urlEdit->text());
     }    
 
-    if (!profile.locator.isEmpty()) {
-        record.setValue("my_gridsquare", profile.locator.toUpper());
-    }
-
-    if (!profile.qthName.isEmpty()) {
-        record.setValue("my_city", profile.qthName.toUpper());
-    }
-
-    if (!profile.callsign.isEmpty()) {
-        record.setValue("station_callsign", profile.callsign.toUpper());
-    }
-
-    if (!profile.operatorName.isEmpty()) {
-        record.setValue("operator", profile.operatorName.toUpper());
-    }
+    addAddlFields(record);
 
     qCDebug(runtime) << record;
 
-    if (!model.insertRecord(-1, record)) {
+    if ( !model.insertRecord(-1, record) )
+    {
         qCDebug(runtime) << model.lastError();
         return;
     }
 
-    if (!model.submitAll()) {
+    if ( !model.submitAll() )
+    {
         qCDebug(runtime) << model.lastError();
         return;
     }
 
     resetContact();
+
+    emit contactAdded(record);
+}
+
+void NewContactWidget::saveExternalContact(QSqlRecord record)
+{
+    FCT_IDENTIFICATION;
+
+    if ( record.value("callsign").toString().isEmpty() ) return;
+
+    QSqlTableModel model;
+
+    model.setTable("contacts");
+    model.removeColumn(model.fieldIndex("id"));
+
+    DxccEntity dxcc = Data::instance()->lookupDxcc(record.value("callsign").toString());
+
+    if ( !dxcc.country.isEmpty() )
+    {
+        record.setValue("country", dxcc.country);
+        record.setValue("cqz", dxcc.cqz);
+        record.setValue("ituz", dxcc.ituz);
+        record.setValue("cont", dxcc.cont);
+        record.setValue("dxcc", dxcc.dxcc);
+    }
+
+    addAddlFields(record);
+
+    qCDebug(runtime) << record;
+
+    if ( !model.insertRecord(-1, record) )
+    {
+        qCInfo(runtime) << model.lastError();
+        return;
+    }
+
+    if ( !model.submitAll() )
+    {
+        qCInfo(runtime) << model.lastError();
+        return;
+    }
+
     emit contactAdded(record);
 }
 

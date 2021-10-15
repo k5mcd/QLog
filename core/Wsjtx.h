@@ -127,7 +127,7 @@ public:
 signals:
     void statusReceived(WsjtxStatus);
     void decodeReceived(WsjtxDecode);
-    void contactAdded(QSqlRecord);
+    void addContact(QSqlRecord);
 
 public slots:
     void startReply(WsjtxDecode);

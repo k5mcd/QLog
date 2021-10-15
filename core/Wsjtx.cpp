@@ -101,17 +101,17 @@ void Wsjtx::readPendingDatagrams()
             stream >> my_call >> my_grid >> exch_sent >> exch_rcvd >> prop_mode;
 
             log.id = QString(id);
-            log.dx_call = QString(dx_call);
-            log.dx_grid = QString(dx_grid);
+            log.dx_call = QString(dx_call).toUpper();
+            log.dx_grid = QString(dx_grid).toUpper();
             log.mode = QString(mode);
             log.rprt_sent = QString(rprt_sent);
             log.rprt_rcvd = QString(rprt_rcvd);
             log.tx_pwr = QString(tx_pwr);
             log.comments = QString(comments);
             log.name = QString(name);
-            log.op_call = QString(op_call);
-            log.my_call = QString(my_call);
-            log.my_grid = QString(my_grid);
+            log.op_call = QString(op_call).toUpper();
+            log.my_call = QString(my_call).toUpper();
+            log.my_grid = QString(my_grid).toUpper();
             log.exch_sent = QString(exch_sent);
             log.exch_rcvd = QString(exch_rcvd);
             log.prop_mode = QString(prop_mode);
@@ -153,52 +153,92 @@ void Wsjtx::insertContact(WsjtxLog log)
     double freq = static_cast<double>(log.tx_freq)/1e6;
     QString band = Data::band(freq).name;
 
-    record.setValue("callsign", log.dx_call);
-    record.setValue("rst_rcvd", log.rprt_rcvd);
-    record.setValue("rst_sent", log.rprt_sent);
-    record.setValue("name", log.name);
-    record.setValue("gridsquare", log.dx_grid);
     record.setValue("freq", freq);
     record.setValue("band", band);
-    record.setValue("mode", log.mode);
-    record.setValue("qsl_sent", "N");
-    record.setValue("qsl_rcvd", "N");
-    record.setValue("lotw_qsl_sent", "N");
-    record.setValue("lotw_qsl_rcvd", "N");
 
-    if (!log.tx_pwr.isEmpty()) record.setValue("tx_pwr", log.tx_pwr);
-
-    DxccEntity dxcc = Data::instance()->lookupDxcc(log.dx_call);
-    if (!dxcc.country.isEmpty()) {
-        record.setValue("country", dxcc.country);
-        record.setValue("cqz", dxcc.cqz);
-        record.setValue("ituz", dxcc.ituz);
-        record.setValue("cont", dxcc.cont);
-        record.setValue("dxcc", dxcc.dxcc);
+    /* if field is empty then do not initialize it, leave it NULL
+     * for database */
+    if ( !log.dx_call.isEmpty() )
+    {
+        record.setValue("callsign", log.dx_call);
     }
 
-    QVariantMap fields;
-    if (!log.op_call.isEmpty()) fields.insert("operator", log.op_call);
-    if (!log.my_grid.isEmpty()) fields.insert("my_gridsquare", log.my_grid);
-    if (!log.my_call.isEmpty()) fields.insert("station_callsign", log.my_call);
-
-    QJsonDocument doc = QJsonDocument::fromVariant(QVariant(fields));
-    record.setValue("fields", QString(doc.toJson()));
-
-    record.setValue("start_time", log.time_on);
-    record.setValue("end_time", log.time_off);
-
-    if (!model.insertRecord(-1, record)) {
-        qCDebug(runtime) << model.lastError();
-        return;
+    if ( !log.rprt_rcvd.isEmpty() )
+    {
+        record.setValue("rst_rcvd", log.rprt_rcvd);
     }
 
-    if (!model.submitAll()) {
-        qCDebug(runtime) << model.lastError();
-        return;
+    if ( !log.rprt_sent.isEmpty() )
+    {
+        record.setValue("rst_sent", log.rprt_sent);
     }
 
-    emit contactAdded(record);
+    if ( !log.name.isEmpty() )
+    {
+        record.setValue("name", log.name);
+    }
+
+    if ( !log.dx_grid.isEmpty() )
+    {
+        record.setValue("gridsquare", log.dx_grid);
+    }
+
+    if ( !log.mode.isEmpty() )
+    {
+        record.setValue("mode", log.mode);
+    }
+
+    if ( log.time_on.isValid() )
+    {
+        record.setValue("start_time", log.time_on);
+    }
+
+    if ( log.time_off.isValid() )
+    {
+        record.setValue("end_time", log.time_off);
+    }
+
+    if ( !log.comments.isEmpty() )
+    {
+        record.setValue("comment", log.comments);
+    }
+
+    if ( !log.exch_sent.isEmpty() )
+    {
+        record.setValue("stx_string", log.exch_sent);
+    }
+
+    if ( !log.exch_rcvd.isEmpty() )
+    {
+        record.setValue("srx_string", log.exch_rcvd);
+    }
+
+    if ( !log.prop_mode.isEmpty() )
+    {
+        record.setValue("prop_mode", log.prop_mode);
+    }
+
+    if ( !log.tx_pwr.isEmpty() )
+    {
+        record.setValue("tx_pwr", log.tx_pwr);
+    }
+
+    if ( !log.op_call.isEmpty() )
+    {
+        record.setValue("operator", log.op_call);
+    }
+
+    if ( !log.my_grid.isEmpty() )
+    {
+        record.setValue("my_gridsquare", log.my_grid);
+    }
+
+    if ( !log.my_call.isEmpty() )
+    {
+        record.setValue("station_callsign", log.my_call);
+    }
+
+    emit addContact(record);
 }
 
 void Wsjtx::startReply(WsjtxDecode decode)

@@ -70,10 +70,9 @@ MainWindow::MainWindow(QWidget* parent) :
     Wsjtx* wsjtx = new Wsjtx(this);
     connect(wsjtx, &Wsjtx::statusReceived, ui->wsjtxWidget, &WsjtxWidget::statusReceived);
     connect(wsjtx, &Wsjtx::decodeReceived, ui->wsjtxWidget, &WsjtxWidget::decodeReceived);
-    connect(wsjtx, &Wsjtx::contactAdded, ui->logbookWidget, &LogbookWidget::updateTable);
+    connect(wsjtx, &Wsjtx::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
 
     ClubLog* clublog = new ClubLog(this);
-    connect(wsjtx, &Wsjtx::contactAdded, clublog, &ClubLog::uploadContact);
 
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, ui->logbookWidget, &LogbookWidget::updateTable);
     connect(ui->newContactWidget, &NewContactWidget::newTarget, ui->mapWidget, &MapWidget::setTarget);
@@ -91,6 +90,7 @@ MainWindow::MainWindow(QWidget* parent) :
     conditions = new Conditions(this);
     connect(conditions, &Conditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
     conditions->update();
+
     ui->newContactWidget->addPropConditions(conditions);
 }
 
