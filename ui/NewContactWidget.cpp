@@ -520,7 +520,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("my_gridsquare").toString().isEmpty()
          && !profile.locator.isEmpty())
     {
-        record.setValue("my_gridsquare", profile.locator.toUpper());
+        record.setValue("my_gridsquare", profile.locator);
     }
 
     if ( ! record.value("gridsquare").toString().isEmpty()

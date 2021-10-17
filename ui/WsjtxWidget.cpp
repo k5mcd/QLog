@@ -6,6 +6,8 @@
 #include "ui_WsjtxWidget.h"
 #include "data/Data.h"
 #include "core/debug.h"
+#include "data/StationProfile.h"
+#include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
@@ -22,7 +24,7 @@ int WsjtxTableModel::rowCount(const QModelIndex&) const
 
 int WsjtxTableModel::columnCount(const QModelIndex&) const
 {
-    return 5;
+    return 6;
 }
 
 QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
@@ -35,9 +37,27 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
         {
         case 0: return entry.callsign;
         case 1: return entry.grid;
-        case 2: return QString::number(entry.decode.snr);
-        case 3: return entry.decode.time.toString();
-        case 4: return entry.decode.message;
+        case 2:
+        {
+            StationProfile profile = StationProfilesManager::instance()->getCurrent();
+            QString ret = entry.grid;
+
+            if ( !profile.locator.isEmpty() )
+            {
+                Gridsquare myGrid(profile.locator);
+                double distance;
+
+                if ( myGrid.distanceTo(entry.grid, distance) )
+                {
+                    return round(distance);
+                }
+            }
+
+            return QVariant();
+        }
+        case 3: return QString::number(entry.decode.snr);
+        case 4: return entry.decode.time.toString();
+        case 5: return entry.decode.message;
         default: return QVariant();
         }
     }
@@ -53,6 +73,7 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
     {
         return  entry.dxcc.country + " [" + Data::statusToText(entry.status) + "]";
     }
+
     return QVariant();
 }
 
@@ -65,9 +86,10 @@ QVariant WsjtxTableModel::headerData(int section, Qt::Orientation orientation, i
     {
     case 0: return tr("Callsign");
     case 1: return tr("Grid");
-    case 2: return tr("SNR");
-    case 3: return tr("Last Activity");
-    case 4: return tr("Last Message");
+    case 2: return tr("Distance");
+    case 3: return tr("SNR");
+    case 4: return tr("Last Activity");
+    case 5: return tr("Last Message");
     default: return QVariant();
     }
 }
@@ -215,7 +237,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
     }
 
     wsjtxTableModel->spotAging();
-    proxyModel->sort(3, Qt::DescendingOrder);
+    proxyModel->sort(4, Qt::DescendingOrder);
 
     ui->tableView->repaint();
 
