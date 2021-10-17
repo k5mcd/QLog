@@ -24,19 +24,21 @@ class WsjtxTableModel : public QAbstractTableModel {
     Q_OBJECT
 
 public:
-    WsjtxTableModel(QObject* parent = 0) : QAbstractTableModel(parent) {}
+    WsjtxTableModel(QObject* parent = 0) : QAbstractTableModel(parent) {spotAgingPeriod = 120;}
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     int columnCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     void addOrReplaceEntry(WsjtxEntry entry);
-    void clearOld();
+    void spotAging();
     bool callsignExists(WsjtxEntry call);
     QString getCallsign(QModelIndex idx);
     QString getGrid(QModelIndex idx);
+    void setSpotAging(int seconds);
 
 private:
     QList<WsjtxEntry> wsjtxData;
+    int spotAgingPeriod;
 };
 
 class WsjtxWidget : public QWidget

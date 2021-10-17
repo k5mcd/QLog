@@ -74,6 +74,7 @@ void WsjtxTableModel::addOrReplaceEntry(WsjtxEntry entry)
 {
     FCT_IDENTIFICATION;
 
+
     int idx = wsjtxData.indexOf(entry);
 
     if ( idx >= 0 )
@@ -100,14 +101,15 @@ void WsjtxTableModel::addOrReplaceEntry(WsjtxEntry entry)
     }
 }
 
-void WsjtxTableModel::clearOld()
+void WsjtxTableModel::spotAging()
 {
     FCT_IDENTIFICATION;
 
     beginResetModel();
+
     for (auto entry: wsjtxData )
     {
-        if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > 120 )
+        if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > spotAgingPeriod )
         {
             qCDebug(runtime) << "Removing " << entry.callsign;
             wsjtxData.removeOne(entry);
@@ -137,6 +139,13 @@ QString WsjtxTableModel::getGrid(QModelIndex idx)
     return data(index(idx.row(),1),Qt::DisplayRole).toString();
 }
 
+void WsjtxTableModel::setSpotAging(int seconds)
+{
+    FCT_IDENTIFICATION;
+
+    spotAgingPeriod = seconds;
+}
+
 WsjtxWidget::WsjtxWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WsjtxWidget)
@@ -158,6 +167,15 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<decode.message;
+
+    QItemSelection selection = ui->tableView->selectionModel()->selection();
+    QModelIndex savedFocusIndex;
+
+    /* preserve focus */
+    if ( selection.count() > 0 )
+    {
+        savedFocusIndex = proxyModel->mapToSource(selection.indexes().first());
+    }
 
     if ( decode.message.startsWith("CQ") )
     {
@@ -197,9 +215,15 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
         }
     }
 
-    wsjtxTableModel->clearOld();
+    wsjtxTableModel->spotAging();
     proxyModel->sort(3, Qt::DescendingOrder);
     ui->tableView->repaint();
+
+    /* recover focus */
+    if ( selection.count() > 0 )
+    {
+        ui->tableView->selectionModel()->setCurrentIndex(proxyModel->mapFromSource(savedFocusIndex), QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    }
 }
 
 void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
@@ -221,6 +245,11 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
     status = newStatus;
 
     ui->modeLabel->setText(status.mode);
+
+    if ( status.mode == "FT8" )
+    {
+        wsjtxTableModel->setSpotAging(45);
+    }
 }
 
 void WsjtxWidget::tableViewDoubleClicked(QModelIndex index)
