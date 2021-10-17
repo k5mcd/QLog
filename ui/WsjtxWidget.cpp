@@ -1,5 +1,7 @@
 #include <QDebug>
 #include <QSortFilterProxyModel>
+#include <QScrollBar>
+
 #include "WsjtxWidget.h"
 #include "ui_WsjtxWidget.h"
 #include "data/Data.h"
@@ -139,6 +141,12 @@ QString WsjtxTableModel::getGrid(QModelIndex idx)
     return data(index(idx.row(),1),Qt::DisplayRole).toString();
 }
 
+WsjtxDecode WsjtxTableModel::getDecode(QModelIndex idx)
+{
+    FCT_IDENTIFICATION;
+    return wsjtxData.at(idx.row()).decode;
+}
+
 void WsjtxTableModel::setSpotAging(int seconds)
 {
     FCT_IDENTIFICATION;
@@ -167,15 +175,6 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<decode.message;
-
-    QItemSelection selection = ui->tableView->selectionModel()->selection();
-    QModelIndex savedFocusIndex;
-
-    /* preserve focus */
-    if ( selection.count() > 0 )
-    {
-        savedFocusIndex = proxyModel->mapToSource(selection.indexes().first());
-    }
 
     if ( decode.message.startsWith("CQ") )
     {
@@ -217,13 +216,9 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     wsjtxTableModel->spotAging();
     proxyModel->sort(3, Qt::DescendingOrder);
+
     ui->tableView->repaint();
 
-    /* recover focus */
-    if ( selection.count() > 0 )
-    {
-        ui->tableView->selectionModel()->setCurrentIndex(proxyModel->mapFromSource(savedFocusIndex), QItemSelectionModel::Select | QItemSelectionModel::Rows);
-    }
 }
 
 void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
@@ -248,7 +243,7 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
 
     if ( status.mode == "FT8" )
     {
-        wsjtxTableModel->setSpotAging(45);
+        wsjtxTableModel->setSpotAging(55);
     }
 }
 
@@ -260,6 +255,7 @@ void WsjtxWidget::tableViewDoubleClicked(QModelIndex index)
     QString callsign = wsjtxTableModel->getCallsign(source_index);
     QString grid = wsjtxTableModel->getGrid(source_index);
     emit showDxDetails(callsign, grid);
+    emit reply(wsjtxTableModel->getDecode(source_index));
 }
 
 WsjtxWidget::~WsjtxWidget()

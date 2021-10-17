@@ -34,6 +34,7 @@ public:
     bool callsignExists(WsjtxEntry call);
     QString getCallsign(QModelIndex idx);
     QString getGrid(QModelIndex idx);
+    WsjtxDecode getDecode(QModelIndex idx);
     void setSpotAging(int seconds);
 
 private:
@@ -56,6 +57,7 @@ public slots:
 
 signals:
     void showDxDetails(QString callsign, QString grid);
+    void reply(WsjtxDecode);
 
 private:
     WsjtxTableModel* wsjtxTableModel;
