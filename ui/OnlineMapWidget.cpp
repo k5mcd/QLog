@@ -24,6 +24,8 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
     setPage(main_page);
     main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
     connect(this, &OnlineMapWidget::loadFinished, this, &OnlineMapWidget::finishLoading);
+
+    setFocusPolicy(Qt::ClickFocus);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
