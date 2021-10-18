@@ -45,3 +45,6 @@ TBD - 0.2
 - Added User-defined filters
 - Added eQSL upload/download ADIF, download QSL Image
 - Added Online Map Widget
+- Reworked WSJTX Widget
+   - Added Spot Aging
+   - Sorted based on Last Activity Time
