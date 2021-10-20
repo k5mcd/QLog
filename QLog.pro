@@ -52,11 +52,13 @@ SOURCES += \
         logformat/AdxFormat.cpp \
         logformat/JsonFormat.cpp \
         logformat/LogFormat.cpp \
+        models/AwardsTableModel.cpp \
         models/DxccTableModel.cpp \
         models/LogbookModel.cpp \
         models/RigTypeModel.cpp \
         models/RotTypeModel.cpp \
         models/SqlListModel.cpp \
+        ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
         ui/ClockWidget.cpp \
         ui/ColumnSettingDialog.cpp \
@@ -109,11 +111,13 @@ HEADERS += \
         logformat/AdxFormat.h \
         logformat/JsonFormat.h \
         logformat/LogFormat.h \
+        models/AwardsTableModel.h \
         models/DxccTableModel.h \
         models/LogbookModel.h \
         models/RigTypeModel.h \
         models/RotTypeModel.h \
         models/SqlListModel.h \
+        ui/AwardsDialog.h \
         ui/BandmapWidget.h \
         ui/ClockWidget.h \
         ui/ColumnSettingDialog.h \
@@ -140,6 +144,7 @@ HEADERS += \
         ui/WsjtxWidget.h
 
 FORMS += \
+        ui/AwardsDialog.ui \
         ui/BandmapWidget.ui \
         ui/ClockWidget.ui \
         ui/ColumnSettingDialog.ui \

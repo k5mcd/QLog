@@ -21,6 +21,7 @@
 #include "ui/NewContactWidget.h"
 #include "ui/QSOFilterDialog.h"
 #include "ui/Eqsldialog.h"
+#include "ui/AwardsDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -216,6 +217,14 @@ void MainWindow::showeQSL()
     EqslDialog dialog;
     dialog.exec();
     ui->logbookWidget->updateTable();
+}
+
+void MainWindow::showAwards()
+{
+    FCT_IDENTIFICATION;
+
+    AwardsDialog dialog;
+    dialog.exec();
 }
 
 void MainWindow::showAbout() {
