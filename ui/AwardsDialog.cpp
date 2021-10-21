@@ -17,10 +17,10 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
 
     ui->myCallComboBox->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
 
-    QMap<QString, QString> supportedAwards;
-    supportedAwards["dxcc"] = tr("DXCC");
-
     ui->awardComboBox->addItem(tr("DXCC"), QVariant("dxcc"));
+    ui->awardComboBox->addItem(tr("ITU"), QVariant("itu"));
+    ui->awardComboBox->addItem(tr("WAC"), QVariant("wac"));
+    ui->awardComboBox->addItem(tr("WAZ"), QVariant("waz"));
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
 
@@ -41,71 +41,96 @@ void AwardsDialog::refreshTable(int idx)
     FCT_IDENTIFICATION;
 
     QString awardSelected = ui->awardComboBox->itemData(ui->awardComboBox->currentIndex()).toString();
+    QStringList confirmed("1=2 ");
+    QStringList modes("'NONE'");
+    QString headersColumns;
+    QString uniqColumns;
+    QString sqlPart = "FROM contacts c, modes m  "
+                      "WHERE c.mode = m.name"
+                      "      AND c.station_callsign = '" + ui->myCallComboBox->currentText() + "' ";
+
+
+    if ( ui->cwCheckBox->isChecked() )
+    {
+        modes << "'CW'";
+    }
+
+    if ( ui->phoneCheckBox->isChecked() )
+    {
+        modes << "'PHONE'";
+    }
+
+    if ( ui->digiCheckBox->isChecked() )
+    {
+        modes << "'DIGITAL'";
+
+    }
 
     if ( awardSelected == "dxcc" )
     {
-        QStringList confirmed("1=2 ");
-        QStringList modes("'NONE'");
+        headersColumns = "d.name col1, d.prefix col2 ";
+        uniqColumns = "c.dxcc";
+        sqlPart = " FROM dxcc_entities d "
+                  "     LEFT OUTER JOIN contacts c ON d.id = c.dxcc "
+                  "     LEFT OUTER JOIN modes m on c.mode = m.name "
+                  "WHERE (c.id is NULL or c.station_callsign = '" + ui->myCallComboBox->currentText() + "') ";
+    }
+    else if ( awardSelected == "waz" )
+    {
+        headersColumns = "c.cqz col1, NULL col2 ";
+        uniqColumns = "c.cqz";
+    }
+    else if ( awardSelected == "itu" )
+    {
+        headersColumns = "c.ituz col1, NULL col2 ";
+        uniqColumns = "c.ituz";
+    }
+    else if ( awardSelected == "wac" )
+    {
+        headersColumns = "c.cont col1, NULL col2 ";
+        uniqColumns = "c.cont";
+    }
 
-        if ( ui->eqslCheckBox->isChecked() )
-        {
-            confirmed << " eqsl_qsl_rcvd = 'Y' ";
-        }
+    if ( ui->eqslCheckBox->isChecked() )
+    {
+        confirmed << " eqsl_qsl_rcvd = 'Y' ";
+    }
 
-        if ( ui->lotwCheckBox->isChecked() )
-        {
-            confirmed << " lotw_qsl_rcvd = 'Y' ";
-        }
+    if ( ui->lotwCheckBox->isChecked() )
+    {
+        confirmed << " lotw_qsl_rcvd = 'Y' ";
+    }
 
-        if ( ui->paperCheckBox->isChecked() )
-        {
-            confirmed << " qsl_rcvd = 'Y' ";
-        }
+    if ( ui->paperCheckBox->isChecked() )
+    {
+        confirmed << " qsl_rcvd = 'Y' ";
+    }
 
-        if ( ui->cwCheckBox->isChecked() )
-        {
-            modes << "'CW'";
-        }
+    QString innerCase = " CASE WHEN (" + confirmed.join("or") + ") THEN 2 ELSE 1 END ";
 
-        if ( ui->phoneCheckBox->isChecked() )
-        {
-            modes << "'PHONE'";
-        }
-
-        if ( ui->digiCheckBox->isChecked() )
-        {
-            modes << "'DIGITAL'";
-        }
-
-        QString innerCase = " CASE WHEN (" + confirmed.join("or") + ") THEN 2 ELSE 1 END ";
-
-        detailedViewModel->setQuery(
+    detailedViewModel->setQuery(
                     "WITH dxcc_summary AS ( "
-                    "SELECT  d.name, d.prefix, "
-                    "    MAX(CASE WHEN band = '160m' THEN " + innerCase + " ELSE 0 END) as '160m', "
-                    "    MAX(CASE WHEN band = '80m'  THEN " + innerCase + " ELSE 0 END) as '80m', "
-                    "    MAX(CASE WHEN band = '40m'  THEN " + innerCase + " ELSE 0 END) as '40m', "
-                    "    MAX(CASE WHEN band = '30m'  THEN " + innerCase + " ELSE 0 END) as '30m', "
-                    "    MAX(CASE WHEN band = '20m'  THEN " + innerCase + " ELSE 0 END) as '20m', "
-                    "    MAX(CASE WHEN band = '17m'  THEN " + innerCase + " ELSE 0 END) as '17m', "
-                    "    MAX(CASE WHEN band = '15m'  THEN " + innerCase + " ELSE 0 END) as '15m', "
-                    "    MAX(CASE WHEN band = '12m'  THEN " + innerCase + " ELSE 0 END) as '12m', "
-                    "    MAX(CASE WHEN band = '10m'  THEN " + innerCase + " ELSE 0 END) as '10m', "
-                    "    MAX(CASE WHEN band = '6m'   THEN " + innerCase + " ELSE 0 END) as '6m', "
-                    "    MAX(CASE WHEN band = '2m'   THEN " + innerCase + " ELSE 0 END) as '2m', "
-                    "    MAX(CASE WHEN band = '70cm' THEN " + innerCase + " ELSE 0 END) as '70cm', "
-                    "    MAX(CASE WHEN prop_mode = 'SAT' THEN " + innerCase + " ELSE 0 END) as 'SAT', "
-                    "    MAX(CASE WHEN prop_mode = 'EME' THEN " + innerCase + " ELSE 0 END) as 'EME' "
-                    "FROM contacts c, dxcc_entities d, modes m  "
-                    "WHERE c.dxcc = d.id "
-                    "      AND c.mode = m.name "
-                    "      AND c.station_callsign = '" + ui->myCallComboBox->currentText() + "' "
-                    "      AND m.dxcc IN (" + modes.join(",") + ") "
+                    "SELECT  " + headersColumns +", "
+                    "    MAX(CASE WHEN band = '160m' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '160m', "
+                    "    MAX(CASE WHEN band = '80m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '80m', "
+                    "    MAX(CASE WHEN band = '40m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '40m', "
+                    "    MAX(CASE WHEN band = '30m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '30m', "
+                    "    MAX(CASE WHEN band = '20m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '20m', "
+                    "    MAX(CASE WHEN band = '17m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '17m', "
+                    "    MAX(CASE WHEN band = '15m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '15m', "
+                    "    MAX(CASE WHEN band = '12m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '12m', "
+                    "    MAX(CASE WHEN band = '10m'  AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '10m', "
+                    "    MAX(CASE WHEN band = '6m'   AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '6m', "
+                    "    MAX(CASE WHEN band = '2m'   AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '2m', "
+                    "    MAX(CASE WHEN band = '70cm' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '70cm', "
+                    "    MAX(CASE WHEN prop_mode = 'SAT' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as 'SAT', "
+                    "    MAX(CASE WHEN prop_mode = 'EME' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as 'EME' "
+                    + sqlPart +
                     "GROUP BY  1,2) "
                     "SELECT * FROM ( "
                     "SELECT 0 column_idx, "
                     "       '" + tr("TOTAL Worked") + "',  "
-                    "       count(DISTINCT c.dxcc), "
+                    "       count(DISTINCT " + uniqColumns + "), "
                     "       NULL '160m', "
                     "       NULL '80m', "
                     "       NULL '40m', "
@@ -127,7 +152,7 @@ void AwardsDialog::refreshTable(int idx)
                     "UNION ALL "
                     "SELECT 0 column_idx, "
                     "       '" + tr("TOTAL Confirmed") + "',  "
-                    "       count(DISTINCT c.dxcc), "
+                    "       count(DISTINCT " + uniqColumns + "), "
                     "       NULL '160m', "
                     "       NULL '80m', "
                     "       NULL '40m', "
@@ -187,30 +212,29 @@ void AwardsDialog::refreshTable(int idx)
                     "GROUP BY 1 "
                     "UNION ALL "
                     "SELECT 3 column_idx,  "
-                    "       a.name, a.prefix,  "
-                    "       SUM(a.'160m') '160m',  "
-                    "       SUM(a.'80m') '80m',  "
-                    "       SUM(a.'40m') '40m',  "
-                    "       SUM(a.'30m') '30m',  "
-                    "       SUM(a.'20m') '20m',  "
-                    "       SUM(a.'17m') '17m',  "
-                    "       SUM(a.'15m') '15m',  "
-                    "       SUM(a.'12m') '12m',  "
-                    "       SUM(a.'10m') '10m',  "
-                    "       SUM(a.'6m') '6m',  "
-                    "       SUM(a.'2m') '2m',  "
-                    "       SUM(a.'70cm') '70cm',  "
-                    "       SUM(a.'SAT') 'SAT',  "
-                    "       SUM(a.'EME') 'EME'  "
-                    "       from dxcc_summary a "
-                    "GROUP BY a.name, a.prefix "
+                    "       col1, col2, "
+                    "       SUM(d.'160m') '160m',  "
+                    "       SUM(d.'80m') '80m',  "
+                    "       SUM(d.'40m') '40m',  "
+                    "       SUM(d.'30m') '30m',  "
+                    "       SUM(d.'20m') '20m',  "
+                    "       SUM(d.'17m') '17m',  "
+                    "       SUM(d.'15m') '15m',  "
+                    "       SUM(d.'12m') '12m',  "
+                    "       SUM(d.'10m') '10m',  "
+                    "       SUM(d.'6m') '6m',  "
+                    "       SUM(d.'2m') '2m',  "
+                    "       SUM(d.'70cm') '70cm',  "
+                    "       SUM(d.'SAT') 'SAT',  "
+                    "       SUM(d.'EME') 'EME'  "
+                    "       from dxcc_summary d "
+                    "GROUP BY 2,3 "
                     ") "
-                    "ORDER BY 1,2 "
-                    );
-        qDebug(runtime) << detailedViewModel->query().lastQuery();
-        detailedViewModel->setHeaderData(1, Qt::Horizontal, "");
-        detailedViewModel->setHeaderData(2, Qt::Horizontal, "");
-    }
+                    "ORDER BY 1,2 ");
+
+    qDebug(runtime) << detailedViewModel->query().lastQuery();
+    detailedViewModel->setHeaderData(1, Qt::Horizontal, "");
+    detailedViewModel->setHeaderData(2, Qt::Horizontal, "");
 
     ui->awardTableView->setModel(detailedViewModel);
     ui->awardTableView->setColumnHidden(0,true);
