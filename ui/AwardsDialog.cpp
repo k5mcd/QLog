@@ -21,6 +21,7 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
     ui->awardComboBox->addItem(tr("ITU"), QVariant("itu"));
     ui->awardComboBox->addItem(tr("WAC"), QVariant("wac"));
     ui->awardComboBox->addItem(tr("WAZ"), QVariant("waz"));
+    ui->awardComboBox->addItem(tr("IOTA"), QVariant("iota"));
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
 
@@ -48,7 +49,7 @@ void AwardsDialog::refreshTable(int idx)
     QString sqlPart = "FROM contacts c, modes m  "
                       "WHERE c.mode = m.name"
                       "      AND c.station_callsign = '" + ui->myCallComboBox->currentText() + "' ";
-
+    QString excludePart;
 
     if ( ui->cwCheckBox->isChecked() )
     {
@@ -90,6 +91,12 @@ void AwardsDialog::refreshTable(int idx)
         headersColumns = "c.cont col1, NULL col2 ";
         uniqColumns = "c.cont";
     }
+    else if ( awardSelected == "iota" )
+    {
+        headersColumns = "c.iota col1, NULL col2 ";
+        uniqColumns = "c.iota";
+        excludePart = " AND c.iota is not NULL ";
+    }
 
     if ( ui->eqslCheckBox->isChecked() )
     {
@@ -125,7 +132,8 @@ void AwardsDialog::refreshTable(int idx)
                     "    MAX(CASE WHEN band = '70cm' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as '70cm', "
                     "    MAX(CASE WHEN prop_mode = 'SAT' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as 'SAT', "
                     "    MAX(CASE WHEN prop_mode = 'EME' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as 'EME' "
-                    + sqlPart +
+                    + sqlPart
+                    + excludePart +
                     "GROUP BY  1,2) "
                     "SELECT * FROM ( "
                     "SELECT 0 column_idx, "
@@ -149,6 +157,7 @@ void AwardsDialog::refreshTable(int idx)
                     "WHERE c.mode = m.name "
                     "      AND c.station_callsign = '" + ui->myCallComboBox->currentText() + "' "
                     "      AND m.dxcc IN (" + modes.join(",") + ") "
+                    + excludePart +
                     "UNION ALL "
                     "SELECT 0 column_idx, "
                     "       '" + tr("TOTAL Confirmed") + "',  "
@@ -172,6 +181,7 @@ void AwardsDialog::refreshTable(int idx)
                     "      AND c.mode = m.name "
                     "      AND m.dxcc IN (" + modes.join(",") + ") "
                     "      AND c.station_callsign = '" + ui->myCallComboBox->currentText() + "' "
+                    + excludePart +
                     "UNION ALL "
                     "SELECT 1 column_idx, "
                     "       '" + tr("Confirmed") + "', NULL prefix, "
