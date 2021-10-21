@@ -632,28 +632,88 @@ void NewContactWidget::saveContact()
     QDateTime end = QDateTime(ui->dateEdit->date(), ui->timeOffEdit->time(), Qt::UTC);
 
     QSqlRecord record = model.record();
-    record.setValue("callsign", callsign);
-    record.setValue("rst_sent", ui->rstSentEdit->text());
-    record.setValue("rst_rcvd", ui->rstRcvdEdit->text());
-    record.setValue("name", ui->nameEdit->text());
-    record.setValue("qth", ui->qthEdit->text());
-    record.setValue("gridsquare", ui->gridEdit->text());
+
     record.setValue("start_time", start);
     record.setValue("end_time", end);
+
+    if ( ! callsign.isEmpty() )
+    {
+        record.setValue("callsign", callsign);
+    }
+
+    if ( ! ui->rstSentEdit->text().isEmpty() )
+    {
+        record.setValue("rst_sent", ui->rstSentEdit->text());
+    }
+
+    if ( ! ui->rstRcvdEdit->text().isEmpty() )
+    {
+        record.setValue("rst_rcvd", ui->rstRcvdEdit->text());
+    }
+
+    if ( ! ui->nameEdit->text().isEmpty() )
+    {
+        record.setValue("name", ui->nameEdit->text());
+    }
+
+    if ( ! ui->qthEdit->text().isEmpty() )
+    {
+        record.setValue("qth", ui->qthEdit->text());
+    }
+
+    if ( ! ui->gridEdit->text().isEmpty() )
+    {
+        record.setValue("gridsquare", ui->gridEdit->text());
+    }
+
     record.setValue("freq", ui->frequencyEdit->value());
     record.setValue("band", ui->bandText->text());
-    record.setValue("mode", ui->modeEdit->currentText());
-    record.setValue("submode", ui->submodeEdit->currentText());
+
+    if ( ! ui->modeEdit->currentText().isEmpty() )
+    {
+        record.setValue("mode", ui->modeEdit->currentText());
+    }
+
+    if ( ! ui->submodeEdit->currentText().isEmpty() )
+    {
+        record.setValue("submode", ui->submodeEdit->currentText());
+    }
+
     record.setValue("cqz", ui->cqEdit->text().toInt());
     record.setValue("ituz", ui->ituEdit->text().toInt());
     record.setValue("dxcc", dxccEntity.dxcc);
     record.setValue("country", dxccEntity.country);
-    record.setValue("cont", ui->contEdit->currentText());
-    record.setValue("cnty", ui->countyEdit->text());
-    record.setValue("state", ui->stateEdit->text());
-    record.setValue("iota", ui->iotaEdit->text().toUpper());
-    record.setValue("sig", ui->sigEdit->text().toUpper());
-    record.setValue("sig_info", ui->sigInfoEdit->text().toUpper());
+
+    if ( ! ui->contEdit->currentText().isEmpty() )
+    {
+        record.setValue("cont", ui->contEdit->currentText());
+    }
+
+    if ( ! ui->countyEdit->text().isEmpty() )
+    {
+        record.setValue("cnty", ui->countyEdit->text());
+    }
+
+    if ( ! ui->stateEdit->text().isEmpty() )
+    {
+        record.setValue("state", ui->stateEdit->text());
+    }
+
+    if ( ! ui->iotaEdit->text().isEmpty() )
+    {
+        record.setValue("iota", ui->iotaEdit->text().toUpper());
+    }
+
+    if ( ! ui->sigEdit->text().isEmpty() )
+    {
+        record.setValue("sig", ui->sigEdit->text().toUpper());
+    }
+
+    if ( ! ui->sigInfoEdit->text().isEmpty() )
+    {
+        record.setValue("sig_info", ui->sigInfoEdit->text().toUpper());
+    }
+
     record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
 
     if ( ! ui->qslSentViaBox->currentText().isEmpty() )
