@@ -384,6 +384,9 @@
    </property>
   </action>
   <action name="actionAwards">
+   <property name="icon">
+    <iconset theme="application-certificate"/>
+   </property>
    <property name="text">
     <string>Awards</string>
    </property>
