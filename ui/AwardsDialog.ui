@@ -137,7 +137,7 @@
       <enum>QAbstractItemView::NoSelection</enum>
      </property>
      <attribute name="horizontalHeaderVisible">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
      <attribute name="horizontalHeaderCascadingSectionResizes">
       <bool>true</bool>
@@ -177,8 +177,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>259</x>
+     <y>738</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -193,8 +193,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>327</x>
+     <y>738</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -241,8 +241,8 @@
    <slot>refreshTable(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>409</x>
-     <y>149</y>
+     <x>689</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
      <x>345</x>
@@ -273,8 +273,8 @@
    <slot>refreshTable(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>582</x>
-     <y>149</y>
+     <x>960</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
      <x>345</x>
@@ -305,8 +305,8 @@
    <slot>refreshTable(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>409</x>
-     <y>189</y>
+     <x>689</x>
+     <y>204</y>
     </hint>
     <hint type="destinationlabel">
      <x>345</x>
@@ -321,8 +321,8 @@
    <slot>refreshTable(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>582</x>
-     <y>189</y>
+     <x>960</x>
+     <y>204</y>
     </hint>
     <hint type="destinationlabel">
      <x>345</x>
