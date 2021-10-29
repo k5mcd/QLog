@@ -235,6 +235,8 @@ int main(int argc, char* argv[]) {
 
     QApplication app(argc, argv);
 
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
     app.setApplicationVersion(VERSION);
     app.setOrganizationName("hamradio");
     app.setApplicationName("QLog");

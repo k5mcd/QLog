@@ -6,31 +6,487 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1316</width>
+    <height>1010</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Statistics</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
-   <property name="spacing">
-    <number>0</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Options</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="3" column="2">
+       <widget class="QComboBox" name="statTypeSecCombo">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QComboBox" name="myCallCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="myCalLabel">
+        <property name="text">
+         <string>Own Callsign</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QComboBox" name="myAntennaCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLabel" name="rangeLabel">
+        <property name="text">
+         <string>Date Range</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="4">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="statTypeLabel">
+          <property name="text">
+           <string>Graph Type</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="statTypeMainCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::NoInsert</enum>
+        </property>
+        <item>
+         <property name="text">
+          <string>QSOs per</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Percents</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Top 10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Histogram</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QComboBox" name="myGridCombo">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="myGridLabel">
+        <property name="text">
+         <string>Own Grid</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QComboBox" name="myRigCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QCheckBox" name="useDateRangeCheckBox">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="startDateEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::UpDownArrows</enum>
+          </property>
+          <property name="specialValueText">
+           <string/>
+          </property>
+          <property name="keyboardTracking">
+           <bool>false</bool>
+          </property>
+          <property name="showGroupSeparator" stdset="0">
+           <bool>false</bool>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+          <property name="timeSpec">
+           <enum>Qt::UTC</enum>
+          </property>
+          <property name="date">
+           <date>
+            <year>1999</year>
+            <month>12</month>
+            <day>31</day>
+           </date>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="toLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>to</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="endDateEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
+          <property name="wrapping">
+           <bool>false</bool>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="keyboardTracking">
+           <bool>false</bool>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+          <property name="timeSpec">
+           <enum>Qt::UTC</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="9" column="2">
+       <widget class="QLabel" name="bandLabel">
+        <property name="text">
+         <string>Band</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="2">
+       <widget class="QComboBox" name="bandCombo"/>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLabel" name="myAntennaLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Antenna</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="myRigLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Rig</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QChartView" name="graphView"/>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header>QtCharts</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>statTypeMainCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>mainStatChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>487</x>
+     <y>566</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>642</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>useDateRangeCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>dateRangeCheckBoxChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>699</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>642</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>statTypeSecCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>744</x>
+     <y>563</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>745</x>
+     <y>604</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myGridCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>600</x>
+     <y>529</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>604</x>
+     <y>599</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myCallCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>491</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>387</x>
+     <y>602</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myAntennaCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1035</x>
+     <y>534</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1001</x>
+     <y>605</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myRigCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1121</x>
+     <y>483</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1102</x>
+     <y>606</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startDateEdit</sender>
+   <signal>userDateChanged(QDate)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>353</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>602</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>endDateEdit</sender>
+   <signal>userDateChanged(QDate)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>542</x>
+     <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>79</x>
+     <y>603</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bandCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>824</x>
+     <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>504</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>mainStatChanged(int)</slot>
+  <slot>refreshGraph()</slot>
+  <slot>dateRangeCheckBoxChanged(int)</slot>
+ </slots>
 </ui>

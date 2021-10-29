@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AwardsDialog</class>
+ <widget class="QDialog" name="AwardsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>987</width>
+    <height>750</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Awards</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="awardGroupBox">
+     <property name="title">
+      <string>Award Options</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="awardNameLabel">
+        <property name="text">
+         <string>Award</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="awardComboBox"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="myCallLabel">
+        <property name="text">
+         <string>Own Callsign</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="myCallComboBox"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="confirmedLabel">
+        <property name="text">
+         <string>Confirmed by</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="lotwCheckBox">
+          <property name="text">
+           <string>LoTW</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="eqslCheckBox">
+          <property name="text">
+           <string>eQSL</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="paperCheckBox">
+          <property name="text">
+           <string>Paper</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="modelabel">
+        <property name="text">
+         <string>Mode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="cwCheckBox">
+          <property name="text">
+           <string>CW</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="phoneCheckBox">
+          <property name="text">
+           <string>Phone</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="digiCheckBox">
+          <property name="text">
+           <string>Digi</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="awardTableView">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::NoSelection</enum>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderHighlightSections">
+      <bool>false</bool>
+     </attribute>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>259</x>
+     <y>738</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>327</x>
+     <y>738</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>awardComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>409</x>
+     <y>69</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myCallComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>409</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>eqslCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>689</x>
+     <y>164</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lotwCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>236</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>paperCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>960</x>
+     <y>164</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>236</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>phoneCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>689</x>
+     <y>204</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>digiCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>refreshTable(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>960</x>
+     <y>204</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>345</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>refreshTable(int)</slot>
+ </slots>
+</ui>

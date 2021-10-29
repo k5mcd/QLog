@@ -67,6 +67,7 @@
     <addaction name="actionImport"/>
     <addaction name="actionExport"/>
     <addaction name="separator"/>
+    <addaction name="actionAwards"/>
     <addaction name="actionStatistics"/>
    </widget>
    <widget class="QMenu" name="menuRig">
@@ -380,6 +381,14 @@
   <action name="actionOnlineMap">
    <property name="text">
     <string>Online Map</string>
+   </property>
+  </action>
+  <action name="actionAwards">
+   <property name="icon">
+    <iconset theme="application-certificate"/>
+   </property>
+   <property name="text">
+    <string>Awards</string>
    </property>
   </action>
  </widget>
@@ -814,6 +823,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAwards</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showAwards()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -829,5 +854,6 @@
   <slot>rotConnect()</slot>
   <slot>QSOFilterSetting()</slot>
   <slot>showeQSL()</slot>
+  <slot>showAwards()</slot>
  </slots>
 </ui>
