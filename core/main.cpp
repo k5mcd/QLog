@@ -117,7 +117,7 @@ static bool backupDatabase()
     /* remove those older than 30 days from the remaining files. */
     Q_FOREACH (auto fileInfo, file_list)
     {
-        if (fileInfo.birthTime().date().daysTo(QDate::currentDate()) > retention_time)
+        if (fileInfo.lastModified().date().daysTo(QDate::currentDate()) > retention_time)
         {
             QString filepath = fileInfo.absoluteFilePath();
             QDir deletefile;
