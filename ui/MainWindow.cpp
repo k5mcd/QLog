@@ -9,7 +9,6 @@
 #include "ui/ImportDialog.h"
 #include "ui/ExportDialog.h"
 #include "ui/LotwDialog.h"
-#include "ui/StatisticsWidget.h"
 #include "core/Fldigi.h"
 #include "core/Rig.h"
 #include "core/Rotator.h"
@@ -27,7 +26,8 @@ MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    stats(new StatisticsWidget)
 {
     FCT_IDENTIFICATION;
 
@@ -105,6 +105,11 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
 
+    if ( stats )
+    {
+        stats->close();
+    }
+
     QMainWindow::closeEvent(event);
 }
 
@@ -180,10 +185,10 @@ void MainWindow::showSettings() {
     }
 }
 
-void MainWindow::showStatistics() {
+void MainWindow::showStatistics()
+{
     FCT_IDENTIFICATION;
 
-    StatisticsWidget* stats = new StatisticsWidget();
     stats->show();
 }
 

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ui/StatisticsWidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -48,6 +49,7 @@ private:
     QLabel* callsignLabel;
     QLabel* locatorLabel;
     QLabel* operatorLabel;
+    StatisticsWidget* stats;
 };
 
 #endif // MAINWINDOW_H
