@@ -50,6 +50,7 @@ void StatisticsWidget::mainStatChanged(int idx)
      case 2:
      {
          ui->statTypeSecCombo->addItem(tr("Countries"));
+         ui->statTypeSecCombo->addItem(tr("Big Gridsquares"));
      }
      break;
 
@@ -265,6 +266,9 @@ void StatisticsWidget::refreshGraph()
          {
          case 0:
              stmt = "SELECT d.name, COUNT(1) AS cnt FROM contacts c, dxcc_entities d WHERE " + genericFilter.join(" AND ") + " AND c.dxcc = d.id GROUP BY d.name ORDER BY cnt DESC LIMIT 10";
+             break;
+         case 1:
+             stmt = "SELECT SUBSTR(gridsquare,1,4), COUNT(1) AS cnt FROM contacts WHERE gridsquare IS NOT NULL GROUP by SUBSTR(gridsquare,1,4) ORDER BY cnt DESC LIMIT 10";
              break;
          }
 
