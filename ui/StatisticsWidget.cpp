@@ -21,6 +21,8 @@ void StatisticsWidget::mainStatChanged(int idx)
 
      qCDebug(function_parameters) << idx;
 
+     ui->statTypeSecCombo->blockSignals(true);
+
      ui->statTypeSecCombo->clear();
 
      switch ( idx )
@@ -61,6 +63,8 @@ void StatisticsWidget::mainStatChanged(int idx)
      }
      break;
      }
+
+     ui->statTypeSecCombo->blockSignals(false);
 
      refreshGraph();
 }
@@ -126,6 +130,8 @@ void StatisticsWidget::refreshGraph()
      {
          genericFilter << " (start_time BETWEEN '" + ui->startDateEdit->date().toString("yyyy-MM-dd") + "' AND '" + ui->endDateEdit->date().toString("yyyy-MM-dd") + "' ) ";
      }
+
+     qCDebug(runtime) << "main " << ui->statTypeMainCombo->currentIndex() << " secondary " << ui->statTypeSecCombo->currentIndex();
 
      if ( ui->statTypeMainCombo->currentIndex() == 0 )
      {
@@ -363,6 +369,8 @@ void StatisticsWidget::drawBarGraphs(QString title, QSqlQuery query)
 {
     FCT_IDENTIFICATION;
 
+    if ( query.lastQuery().isEmpty() ) return;
+
     QChart *chart = ui->graphView->chart();
     QBarSet* set = new QBarSet(title);
     QBarCategoryAxis* axisX = new QBarCategoryAxis();
@@ -383,18 +391,19 @@ void StatisticsWidget::drawBarGraphs(QString title, QSqlQuery query)
     }
 
     series->append(set);
-    series->setLabelsPosition(QAbstractBarSeries::LabelsInsideEnd);
-    series->setLabelsVisible(true);
+    chart->addSeries(series);
+    chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
 
     axisY->setTickCount(10);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
     axisY->applyNiceNumbers();
     axisY->setLabelFormat("%d");
-    series->attachAxis(axisY);
 
-    chart->addSeries(series);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    chart->addAxis(axisY, Qt::AlignLeft);
+    series->setLabelsPosition(QAbstractBarSeries::LabelsInsideEnd);
+    series->setLabelsVisible(true);
+
     chart->setTitle(title);
     chart->legend()->hide();
     chart->setAnimationOptions(QChart::SeriesAnimations);
