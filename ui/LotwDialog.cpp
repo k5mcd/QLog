@@ -70,7 +70,7 @@ void LotwDialog::download() {
             QSettings settings;
             settings.setValue("lotw/last_update", QDateTime::currentDateTimeUtc().date());
         }
-        dialog->close();
+        dialog->done(0);
 
 
         QSLImportStatDialog statDialog(stats);
@@ -81,7 +81,7 @@ void LotwDialog::download() {
     });
 
     connect(lotw, &Lotw::updateFailed, [this, dialog](QString error) {
-        dialog->close();
+        dialog->done(1);
         QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
     });
 
@@ -90,8 +90,11 @@ void LotwDialog::download() {
     connect(dialog, &QProgressDialog::canceled, [reply]()
     {
         qCDebug(runtime)<< "Operation canceled";
-        reply->abort();
-        reply->deleteLater();
+        if ( reply )
+        {
+            reply->abort();
+            reply->deleteLater();
+        }
     });
 }
 

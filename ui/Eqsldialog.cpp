@@ -65,7 +65,7 @@ void EqslDialog::download()
         QSettings settings;
         settings.setValue("eqsl/last_update", QDateTime::currentDateTimeUtc().date());
 
-        dialog->close();
+        dialog->done(0);
 
         QSLImportStatDialog statDialog(stats);
         statDialog.exec();
@@ -75,7 +75,7 @@ void EqslDialog::download()
     });
 
     connect(eQSL, &EQSL::updateFailed, [this, dialog](QString error) {
-        dialog->close();
+        dialog->done(1);
         QMessageBox::critical(this, tr("QLog Error"), tr("eQSL update failed: ") + error);
     });
 
@@ -87,8 +87,12 @@ void EqslDialog::download()
     connect(dialog, &QProgressDialog::canceled, [reply]()
     {
         qCDebug(runtime)<< "Operation canceled";
-        reply->abort();
-        reply->deleteLater();
+
+        if ( reply )
+        {
+            reply->abort();
+            reply->deleteLater();
+        }
     });
 }
 
@@ -171,7 +175,7 @@ void EqslDialog::upload()
 
             connect(eQSL, &EQSL::uploadOK, [this, dialog, query_where](QString msg)
             {
-                dialog->close();
+                dialog->done(0);
                 qCDebug(runtime) << "eQSL Upload OK: " << msg;
                 QMessageBox::information(this, tr("QLog Information"), tr("QSO(s) uploaded."));
                 QString query_string = "UPDATE contacts "
@@ -186,7 +190,7 @@ void EqslDialog::upload()
 
             connect(eQSL, &EQSL::uploadError, [this, dialog](QString msg)
             {
-                dialog->close();
+                dialog->done(1);
                 qCInfo(runtime) << "eQSL Upload Error: " << msg;
                 QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO: ") + msg);
             });
@@ -196,8 +200,11 @@ void EqslDialog::upload()
             connect(dialog, &QProgressDialog::canceled, [reply]()
             {
                 qCDebug(runtime)<< "Operation canceled";
-                reply->abort();
-                reply->deleteLater();
+                if ( reply )
+                {
+                    reply->abort();
+                    reply->deleteLater();
+                }
             });
 
         }

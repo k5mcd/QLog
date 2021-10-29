@@ -448,21 +448,21 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
         QProgressDialog* dialog = new QProgressDialog(tr("Downloading eQSL Image"), tr("Cancel"), 0, 0, this);
         dialog->setWindowModality(Qt::WindowModal);
         dialog->setRange(0, 0);
+        dialog->setAutoClose(true);
         dialog->show();
 
         EQSL *eQSL = new EQSL(dialog);
 
         connect(eQSL, &EQSL::QSLImageFound, [dialog](QString imgFile)
         {
-            dialog->close();
-
+            dialog->done(0);
             QDesktopServices::openUrl(imgFile);
 
         });
 
         connect(eQSL, &EQSL::QSLImageError, [this, dialog](QString error)
         {
-            dialog->close();
+            dialog->done(1);
             QMessageBox::critical(this, tr("QLog Error"), tr("eQSL Download Image failed: ") + error);
         });
 
