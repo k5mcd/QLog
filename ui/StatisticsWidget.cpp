@@ -113,6 +113,14 @@ void StatisticsWidget::refreshGraph()
          }
      }
 
+     if ( ui->bandCombo->currentIndex() != 0 )
+     {
+         if ( ! ui->bandCombo->currentText().isEmpty() )
+         {
+             genericFilter << " (band = '" + ui->bandCombo->currentText() + "') ";
+         }
+     }
+
      if ( ui->useDateRangeCheckBox->isChecked() )
      {
          genericFilter << " (start_time BETWEEN '" + ui->startDateEdit->date().toString("yyyy-MM-dd") + "' AND '" + ui->endDateEdit->date().toString("yyyy-MM-dd") + "' ) ";
@@ -329,10 +337,11 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
-    ui->myCallCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", tr("All")));
-    ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts ORDER BY my_gridsquare", tr("All")));
-    ui->myRigCombo->setModel(new SqlListModel("SELECT DISTINCT my_rig FROM contacts ORDER BY my_gridsquare", tr("All")));
-    ui->myAntennaCombo->setModel(new SqlListModel("SELECT DISTINCT my_antenna FROM contacts ORDER BY my_gridsquare", tr("All")));
+    ui->myCallCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", tr("All"), this));
+    ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts ORDER BY my_gridsquare", tr("All"), this));
+    ui->myRigCombo->setModel(new SqlListModel("SELECT DISTINCT my_rig FROM contacts ORDER BY my_gridsquare", tr("All"), this));
+    ui->myAntennaCombo->setModel(new SqlListModel("SELECT DISTINCT my_antenna FROM contacts ORDER BY my_gridsquare", tr("All"), this));
+    ui->bandCombo->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", tr("All"), this));
 
     ui->graphView->setRenderHint(QPainter::Antialiasing);
     ui->graphView->setChart(new QChart());
