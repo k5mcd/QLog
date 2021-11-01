@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
-    <height>251</height>
+    <width>480</width>
+    <height>327</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,6 +129,9 @@
        <widget class="QPushButton" name="browseButton">
         <property name="text">
          <string>Browse</string>
+        </property>
+        <property name="icon">
+         <iconset theme="folder-open"/>
         </property>
        </widget>
       </item>

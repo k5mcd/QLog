@@ -33,6 +33,8 @@ ImportDialog::ImportDialog(QWidget *parent) :
     if (!ui->rigSelect->currentText().isEmpty()) {
         ui->rigCheckBox->setChecked(true);
     }
+
+     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Import"));
 }
 
 void ImportDialog::browse() {

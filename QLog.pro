@@ -178,7 +178,8 @@ OTHER_FILES += \
     res/qlog.rc \
     res/qlog.desktop
 
-TRANSLATIONS = i18n/qlog_de.ts
+TRANSLATIONS = i18n/qlog_de.ts \
+               i18n/qlog_cs.ts
 
 RC_ICONS = res/qlog.ico
 ICON = res/qlog.icns

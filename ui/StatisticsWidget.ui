@@ -107,6 +107,9 @@
         <property name="focusPolicy">
          <enum>Qt::ClickFocus</enum>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
         <property name="insertPolicy">
          <enum>QComboBox::NoInsert</enum>
         </property>
