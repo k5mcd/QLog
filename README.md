@@ -32,10 +32,12 @@ TBD
 ### Linux
 
 For development:
-sudo apt-get -y install qtbase5-dev libsqlite3-dev install libhamlib++-dev libqt5charts5-dev qt5-default qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev
 
-qmake QLog.pro
-make
+`sudo apt-get -y install qtbase5-dev libsqlite3-dev install libhamlib++-dev libqt5charts5-dev qt5-default qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev`
+
+`qmake QLog.pro`
+
+`make`
 
 
 ## License
