@@ -1,4 +1,5 @@
 #include <QFileDialog>
+#include <QMessageBox>
 #include "ImportDialog.h"
 #include "ui_ImportDialog.h"
 #include "logformat/LogFormat.h"
@@ -56,6 +57,50 @@ void ImportDialog::progress(qint64 value) {
     QCoreApplication::processEvents();
 }
 
+LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *imported, QSqlRecord *original)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << *imported << " " << *original;
+
+    LogFormat::duplicateQSOBehaviour ret = LogFormat::ACCEPT_ONE;
+
+    QMessageBox::StandardButton reply;
+
+    QString inLogQSO = tr("<p><b>In-Log QSO:</b></p><p>")
+                       + original->value("start_time").toString() + " "
+                       + original->value("callsign").toString() + "</p>";
+
+    QString importedQSO = tr("<p><b>Importing:</b></p><p>")
+                       + imported->value("start_time").toString() + " "
+                       + imported->value("callsign").toString() + "<p> ";
+
+    reply = QMessageBox::question(nullptr,
+                                  tr("Duplicate QSO"),
+                                  tr("<p>Do you want to import duplicate QSO?</p>%1 %2").arg(inLogQSO).arg(importedQSO),
+                                  QMessageBox::Yes|QMessageBox::No|QMessageBox::YesAll|QMessageBox::NoAll);
+    switch ( reply )
+    {
+    case QMessageBox::Yes:
+        ret = LogFormat::ACCEPT_ONE;
+        break;
+    case QMessageBox::YesAll:
+        ret = LogFormat::ACCEPT_ALL;
+        break;
+    case QMessageBox::No:
+        ret = LogFormat::SKIP_ONE;
+        break;
+    case QMessageBox::NoAll:
+        ret = LogFormat::SKIP_ALL;
+        break;
+    default:
+        ret = LogFormat::ASK_NEXT;
+    }
+
+    qCDebug(runtime) << "ret: " << ret;
+    return ret;
+}
+
 void ImportDialog::runImport() {
     FCT_IDENTIFICATION;
 
@@ -91,6 +136,8 @@ void ImportDialog::runImport() {
     if (!ui->allCheckBox->isChecked()) {
         format->setDateRange(ui->startDateEdit->date(), ui->endDateEdit->date());
     }
+
+    format->setDuplicateQSOCallback(showDuplicateDialog);
 
     /*
     QThread* thread = new QThread;

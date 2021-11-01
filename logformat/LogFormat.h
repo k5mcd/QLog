@@ -32,6 +32,14 @@ public:
         UNKNOW
     };
 
+    enum duplicateQSOBehaviour {
+        ASK_NEXT,
+        SKIP_ONE,
+        SKIP_ALL,
+        ACCEPT_ONE,
+        ACCEPT_ALL
+    };
+
     LogFormat(QTextStream& stream);
 
     virtual ~LogFormat();
@@ -45,6 +53,7 @@ public:
     void setDefaults(QMap<QString, QString>& defaults);
     void setDateRange(QDate start, QDate end);
     void setUpdateDxcc(bool updateDxcc);
+    void setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord *, QSqlRecord *));
 
     virtual void importStart() {}
     virtual void importEnd() {}
@@ -68,6 +77,7 @@ private:
     bool inDateRange(QDate date);
     QDate startDate, endDate;
     bool updateDxcc = false;
+    duplicateQSOBehaviour (*duplicateQSOFunc)(QSqlRecord *, QSqlRecord *);
 };
 
 #endif // LOGFORMAT_H

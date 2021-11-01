@@ -2,6 +2,8 @@
 #define IMPORTDIALOG_H
 
 #include <QDialog>
+#include <QSqlRecord>
+#include <logformat/LogFormat.h>
 
 namespace Ui {
 class ImportDialog;
@@ -23,6 +25,8 @@ public slots:
 private:
     Ui::ImportDialog *ui;
     qint64 size;
+
+    static LogFormat::duplicateQSOBehaviour showDuplicateDialog(QSqlRecord *, QSqlRecord *);
 };
 
 #endif // IMPORTDIALOG_H

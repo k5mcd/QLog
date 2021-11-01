@@ -9,7 +9,7 @@
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
-LogFormat::LogFormat(QTextStream& stream) : QObject(nullptr), stream(stream) {
+LogFormat::LogFormat(QTextStream& stream) : QObject(nullptr), stream(stream), duplicateQSOFunc(nullptr) {
     FCT_IDENTIFICATION;
     this->defaults = nullptr;
 }
@@ -87,6 +87,13 @@ void LogFormat::setUpdateDxcc(bool updateDxcc) {
     this->updateDxcc = updateDxcc;
 }
 
+void LogFormat::setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord *, QSqlRecord *))
+{
+    FCT_IDENTIFICATION;
+
+    duplicateQSOFunc = func;
+}
+
 void LogFormat::runImport() {
     FCT_IDENTIFICATION;
 
@@ -98,8 +105,10 @@ void LogFormat::runImport() {
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
     QSqlRecord record = model.record();
+    duplicateQSOBehaviour dupSetting = LogFormat::ASK_NEXT;
 
-    while (true) {
+    while (true)
+    {
         record.clearValues();
 
         if (!this->importNext(record)) break;
@@ -107,6 +116,58 @@ void LogFormat::runImport() {
         if (dateRangeSet()) {
             if (!inDateRange(record.value("start_time").toDateTime().date())) {
                 continue;
+            }
+        }
+
+        if ( dupSetting != ACCEPT_ALL )
+        {
+            /* checking matching fields if they are not empty */
+            if ( ! record.value("start_time").toDateTime().isValid()
+                 || record.value("callsign").toString().isEmpty()
+                 || record.value("band").toString().isEmpty()
+                 || record.value("mode").toString().isEmpty() )
+            {
+                qCDebug(runtime) << "missing matching field";
+                qCDebug(runtime) << record;
+                continue;
+            }
+
+            QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
+                    .arg(record.value("callsign").toString())
+                    .arg(record.value("mode").toString())
+                    .arg(record.value("band").toString())
+                    .arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+
+            /* set filter */
+            model.setFilter(matchFilter);
+            model.select();
+
+            if ( model.rowCount() > 0 )
+            {
+                if ( dupSetting == SKIP_ALL)
+                {
+                    continue;
+                }
+
+                /* Duplicate QSO found */
+                if ( duplicateQSOFunc )
+                {
+                    QSqlRecord originalRecord = model.record(0);
+                    dupSetting = duplicateQSOFunc(&record, &originalRecord);
+                }
+
+                switch ( dupSetting )
+                {
+                case ACCEPT_ALL:
+                case ACCEPT_ONE:
+                case ASK_NEXT:
+                    break;
+
+                case SKIP_ONE:
+                case SKIP_ALL:
+                    continue;
+                    break;
+                }
             }
         }
 
