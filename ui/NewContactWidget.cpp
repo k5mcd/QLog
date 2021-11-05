@@ -393,15 +393,10 @@ void NewContactWidget::refreshStationProfileCombo()
 
     ui->stationProfileCombo->blockSignals(true);
 
-    QStringListModel* model = (QStringListModel*)ui->stationProfileCombo->model();
-    QStringList currProfiles = model->stringList();
-
-    currProfiles.clear();
-
-    currProfiles << StationProfilesManager::instance()->profilesList();
+    QStringList currProfiles = StationProfilesManager::instance()->profilesList();
+    QStringListModel* model = dynamic_cast<QStringListModel*>(ui->stationProfileCombo->model());
 
     model->setStringList(currProfiles);
-
     ui->stationProfileCombo->setCurrentText(StationProfilesManager::instance()->getCurrent().profileName);
 
     ui->stationProfileCombo->blockSignals(false);
