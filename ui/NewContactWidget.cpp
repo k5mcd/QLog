@@ -527,7 +527,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("my_gridsquare").toString().isEmpty()
          && !profile.locator.isEmpty())
     {
-        record.setValue("my_gridsquare", profile.locator);
+        record.setValue("my_gridsquare", profile.locator.toUpper());
     }
 
     if ( ! record.value("gridsquare").toString().isEmpty()
@@ -670,7 +670,7 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->gridEdit->text().isEmpty() )
     {
-        record.setValue("gridsquare", ui->gridEdit->text());
+        record.setValue("gridsquare", ui->gridEdit->text().toUpper());
     }
 
     record.setValue("freq", ui->frequencyEdit->value());
