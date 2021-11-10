@@ -158,10 +158,35 @@ void SettingsDialog::addStationProfile()
 {
     FCT_IDENTIFICATION;
 
-    if ( ui->profileEdit->text().isEmpty()
-         || ! ui->callsignEdit->hasAcceptableInput()
-         || ! ui->locatorEdit->hasAcceptableInput() )
+    if ( ui->profileEdit->text().isEmpty() )
     {
+        ui->profileEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
+    if ( ui->callsignEdit->text().isEmpty() )
+    {
+        ui->callsignEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
+    if ( ui->locatorEdit->text().isEmpty() )
+    {
+        ui->locatorEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
+    if ( ! ui->callsignEdit->hasAcceptableInput() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Callsign has an invalid format"));
+        return;
+    }
+
+    if ( ! ui->locatorEdit->hasAcceptableInput() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Locator has an invalid format"));
         return;
     }
 
@@ -182,8 +207,11 @@ void SettingsDialog::addStationProfile()
     refreshStationProfilesView();
 
     ui->profileEdit->clear();
+    ui->profileEdit->setPlaceholderText(QString());
     ui->callsignEdit->clear();
+    ui->callsignEdit->setPlaceholderText(QString());
     ui->locatorEdit->clear();
+    ui->locatorEdit->setPlaceholderText(QString());
     ui->operatorEdit->clear();
     ui->qthEdit->clear();
 }
