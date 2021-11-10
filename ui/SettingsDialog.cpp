@@ -198,8 +198,8 @@ void SettingsDialog::addStationProfile()
     StationProfile profile;
 
     profile.profileName = ui->profileEdit->text();
-    profile.callsign = ui->callsignEdit->text();
-    profile.locator = ui->locatorEdit->text();
+    profile.callsign = ui->callsignEdit->text().toUpper();
+    profile.locator = ui->locatorEdit->text().toUpper();
     profile.operatorName = ui->operatorEdit->text();
     profile.qthName = ui->qthEdit->text();
 

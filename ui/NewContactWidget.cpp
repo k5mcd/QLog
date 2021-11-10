@@ -397,7 +397,19 @@ void NewContactWidget::refreshStationProfileCombo()
     QStringListModel* model = dynamic_cast<QStringListModel*>(ui->stationProfileCombo->model());
 
     model->setStringList(currProfiles);
-    ui->stationProfileCombo->setCurrentText(StationProfilesManager::instance()->getCurrent().profileName);
+
+    if ( StationProfilesManager::instance()->getCurrent().profileName.isEmpty()
+         && currProfiles.count() > 0 )
+    {
+        /* changing profile from empty to something */
+        ui->stationProfileCombo->setCurrentText(currProfiles.first());
+        stationProfileChanged(currProfiles.first());
+    }
+    else
+    {
+        /* no profile change, just refresh the combo and preserve current profile */
+        ui->stationProfileCombo->setCurrentText(StationProfilesManager::instance()->getCurrent().profileName);
+    }
 
     ui->stationProfileCombo->blockSignals(false);
 }

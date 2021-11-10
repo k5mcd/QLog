@@ -75,6 +75,11 @@ int StationProfilesManager::remove(QString profileName)
 {
     FCT_IDENTIFICATION;
 
+    if ( currentProfile == profileName )
+    {
+        currentProfile = QString();
+    }
+
     return stationsProfiles.remove(profileName);
 }
 
