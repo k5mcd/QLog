@@ -13,12 +13,59 @@ MODULE_IDENTIFICATION("qlog.ui.rotatorwidget");
 
 RotatorWidget::RotatorWidget(QWidget *parent) :
     QWidget(parent),
+    compassScene(nullptr),
     ui(new Ui::RotatorWidget)
 {
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
 
+    azimuth = 0;
+
+    redrawMap();
+
+    connect(Rotator::instance(), &Rotator::positionChanged, this, &RotatorWidget::positionChanged);
+}
+
+void RotatorWidget::gotoPosition() {
+    FCT_IDENTIFICATION;
+
+    int azimuth = ui->gotoSpinBox->value();
+    int elevation = 0;
+    Rotator::instance()->setPosition(azimuth, elevation);
+}
+
+
+void RotatorWidget::positionChanged(int in_azimuth, int in_elevation) {
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<in_azimuth<<" "<<in_elevation;
+    azimuth = in_elevation;
+    compassNeedle->setRotation(in_elevation);
+}
+
+void RotatorWidget::showEvent(QShowEvent* event) {
+    FCT_IDENTIFICATION;
+
+    ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
+    QWidget::showEvent(event);
+}
+
+void RotatorWidget::resizeEvent(QResizeEvent* event) {
+    FCT_IDENTIFICATION;
+
+    ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
+    QWidget::resizeEvent(event);
+}
+
+void RotatorWidget::redrawMap()
+{
+    FCT_IDENTIFICATION;
+
+    if ( compassScene )
+    {
+        compassScene->deleteLater();
+    }
     compassScene = new QGraphicsScene(this);
     ui->compassView->setScene(compassScene);
     ui->compassView->setStyleSheet("background-color: transparent;");
@@ -36,8 +83,6 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
 
     double lambda0 = (lon / 180.0) * (2.0 * M_PI);
     double phi1 = - (lat / 90.0) * (0.5 * M_PI);
-    //double lambda0 = 0.2;
-    //double phi1 = -0.8;
 
     for (int x = 0; x < map.width(); x++) {
         double x2 = 2.0 * M_PI * (static_cast<double>(x) / static_cast<double>(map.width()) - 0.5);
@@ -66,10 +111,10 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
         }
     }
 
-    QGraphicsPixmapItem* pixmapItem = compassScene->addPixmap(QPixmap::fromImage(map));
-    pixmapItem->moveBy(-MAP_RESOLUTION/2, -MAP_RESOLUTION/2);
-    pixmapItem->setTransformOriginPoint(MAP_RESOLUTION/2, MAP_RESOLUTION/2);
-    pixmapItem->setScale(200.0/MAP_RESOLUTION);
+    QGraphicsPixmapItem *pixMapItem = compassScene->addPixmap(QPixmap::fromImage(map));
+    pixMapItem->moveBy(-MAP_RESOLUTION/2, -MAP_RESOLUTION/2);
+    pixMapItem->setTransformOriginPoint(MAP_RESOLUTION/2, MAP_RESOLUTION/2);
+    pixMapItem->setScale(200.0/MAP_RESOLUTION);
 
     compassScene->addEllipse(-100, -100, 200, 200, QPen(QColor(100, 100, 100), 2),
                                              QBrush(QColor(0, 0, 0), Qt::NoBrush));
@@ -84,61 +129,7 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
     path.closeSubpath();
     compassNeedle = compassScene->addPath(path, QPen(Qt::NoPen),
                     QBrush(QColor(255, 255, 255), Qt::SolidPattern));
-
-    //compassScene->addLine(0, 100, 0, 90);
-    //compassScene->addLine(0, -100, 0, -90);
-    //compassScene->addLine(100, 0, 90, 0);
-    //compassScene->addLine(-100, 0, -90, 0);
-
-    /*
-    QGraphicsTextItem* north = compassScene->addText("N");
-    north->adjustSize();
-    north->setPos(-north->boundingRect().width()/2, -90);
-
-    QGraphicsTextItem* south = compassScene->addText("S");
-    south->adjustSize();
-    south->setPos(-south->boundingRect().width()/2, 90 - south->boundingRect().height());
-
-    QGraphicsTextItem* east = compassScene->addText("E");
-    east->adjustSize();
-    east->setPos(90 - east->boundingRect().width(), -east->boundingRect().height()/2);
-
-    QGraphicsTextItem* west = compassScene->addText("W");
-    west->adjustSize();
-    west->setPos(-90, -west->boundingRect().height()/2);
-    */
-
-    connect(Rotator::instance(), &Rotator::positionChanged, this, &RotatorWidget::positionChanged);
-}
-
-void RotatorWidget::gotoPosition() {
-    FCT_IDENTIFICATION;
-
-    int azimuth = ui->gotoSpinBox->value();
-    int elevation = 0;
-    Rotator::instance()->setPosition(azimuth, elevation);
-}
-
-
-void RotatorWidget::positionChanged(int azimuth, int elevation) {
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<azimuth<<" "<<elevation;
     compassNeedle->setRotation(azimuth);
-}
-
-void RotatorWidget::showEvent(QShowEvent* event) {
-    FCT_IDENTIFICATION;
-
-    ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
-    QWidget::showEvent(event);
-}
-
-void RotatorWidget::resizeEvent(QResizeEvent* event) {
-    FCT_IDENTIFICATION;
-
-    ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
-    QWidget::resizeEvent(event);
 }
 
 RotatorWidget::~RotatorWidget()

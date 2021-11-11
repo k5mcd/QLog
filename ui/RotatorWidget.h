@@ -2,6 +2,7 @@
 #define ROTATORWIDGET_H
 
 #include <QWidget>
+#include <QGraphicsPixmapItem>
 
 namespace Ui {
 class RotatorWidget;
@@ -21,15 +22,18 @@ public:
 public slots:
     void gotoPosition();
     void positionChanged(int azimuth, int elevation);
+    void redrawMap();
 
 protected:
     void showEvent(QShowEvent* event);
     void resizeEvent(QResizeEvent* event);
 
+
 private:
     QGraphicsPathItem* compassNeedle;
     QGraphicsScene* compassScene;
     Ui::RotatorWidget *ui;
+    int azimuth;
 };
 
 #endif // ROTATORWIDGET_H
