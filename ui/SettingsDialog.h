@@ -36,6 +36,7 @@ public slots:
     void adjustCallsignTextColor();
     void adjustLocatorTextColor();
     void eqslDirBrowse();
+    void cancelled();
 
 private:
     void readSettings();

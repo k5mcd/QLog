@@ -295,12 +295,6 @@ int main(int argc, char* argv[]) {
     splash.finish(&w);
     w.setWindowIcon(icon);
 
-    if ( StationProfilesManager::instance()->profilesList().isEmpty() )
-    {
-        SettingsDialog s;
-        s.exec();
-    }
-
     w.show();
 
     return app.exec();

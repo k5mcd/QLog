@@ -37,7 +37,7 @@
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>Station Locations Profiles</string>
+          <string>Station Location Profiles</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
           <item row="3" column="2" colspan="2">
@@ -137,7 +137,7 @@
           <string>Rigs</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
-          <item row="0" column="0" colspan="4">
+          <item row="0" column="0" colspan="6">
            <widget class="QListView" name="rigListView">
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
@@ -147,24 +147,31 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
+          <item row="1" column="5">
            <widget class="QPushButton" name="deleteRigButton">
             <property name="text">
              <string>Delete</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
+          <item row="1" column="4">
            <widget class="QPushButton" name="addRigButton">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="1" column="3">
            <widget class="QLineEdit" name="rigNameEdit">
             <property name="maxLength">
              <number>25</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QLabel" name="rigNameLabel">
+            <property name="text">
+             <string>Rig Name</string>
             </property>
            </widget>
           </item>
@@ -176,35 +183,42 @@
          <property name="title">
           <string>Antennas</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0" columnstretch="0,0,0">
-          <item row="1" column="2">
-           <widget class="QPushButton" name="deleteAntButton">
-            <property name="text">
-             <string>Delete</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="addAntButton">
-            <property name="text">
-             <string>Add</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLineEdit" name="antennasEdit">
-            <property name="maxLength">
-             <number>25</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" colspan="3">
+         <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0" columnstretch="0,0,0,0,0,0">
+          <item row="0" column="0" colspan="6">
            <widget class="QListView" name="antListView">
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QPushButton" name="deleteAntButton">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QPushButton" name="addAntButton">
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Antenna Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="antennasEdit">
+            <property name="maxLength">
+             <number>25</number>
             </property>
            </widget>
           </item>
@@ -1048,11 +1062,8 @@
   <tabstop>qthEdit</tabstop>
   <tabstop>addProfileButton</tabstop>
   <tabstop>deleteProfileButton</tabstop>
-  <tabstop>rigNameEdit</tabstop>
   <tabstop>addRigButton</tabstop>
   <tabstop>deleteRigButton</tabstop>
-  <tabstop>antennasEdit</tabstop>
-  <tabstop>addAntButton</tabstop>
   <tabstop>deleteAntButton</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>profilesListView</tabstop>
@@ -1096,7 +1107,7 @@
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>reject()</slot>
+   <slot>cancelled()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>308</x>
@@ -1163,8 +1174,8 @@
    <slot>rigChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>392</x>
-     <y>127</y>
+     <x>202</x>
+     <y>140</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1179,8 +1190,8 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>484</x>
-     <y>508</y>
+     <x>202</x>
+     <y>505</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1227,8 +1238,8 @@
    <slot>tqslPathBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>630</x>
-     <y>200</y>
+     <x>679</x>
+     <y>214</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1323,8 +1334,8 @@
    <slot>eqslDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>630</x>
-     <y>566</y>
+     <x>679</x>
+     <y>580</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1348,5 +1359,6 @@
   <slot>adjustCallsignTextColor()</slot>
   <slot>adjustLocatorTextColor()</slot>
   <slot>eqslDirBrowse()</slot>
+  <slot>cancelled()</slot>
  </slots>
 </ui>

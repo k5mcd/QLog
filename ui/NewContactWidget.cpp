@@ -138,7 +138,7 @@ void NewContactWidget::readSettings() {
     QString rig = settings.value("newcontact/rig").toString();
     QString ant = settings.value("newcontact/antenna").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
-    QString currStationProfile = StationProfilesManager::instance()->getCurrent().profileName;
+    //QString currStationProfile = StationProfilesManager::instance()->getCurrent().profileName;
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
@@ -147,7 +147,9 @@ void NewContactWidget::readSettings() {
     ui->rigEdit->setCurrentText(rig);
     ui->antennaEdit->setCurrentText(ant);
     ui->powerEdit->setValue(power);
-    ui->stationProfileCombo->setCurrentText(currStationProfile);
+    //ui->stationProfileCombo->setCurrentText(currStationProfile);
+
+    refreshStationProfileCombo();
 
 }
 

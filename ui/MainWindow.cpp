@@ -95,6 +95,11 @@ MainWindow::MainWindow(QWidget* parent) :
     conditions->update();
 
     ui->newContactWidget->addPropConditions(conditions);
+
+    if ( StationProfilesManager::instance()->profilesList().isEmpty() )
+    {
+        showSettings();
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {

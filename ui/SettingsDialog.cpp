@@ -370,6 +370,20 @@ void SettingsDialog::eqslDirBrowse()
     }
 }
 
+void SettingsDialog::cancelled()
+{
+    FCT_IDENTIFICATION;
+
+    if ( profileManager->profilesList().isEmpty() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Please, define at least one Station Locations Profile"));
+        return;
+    }
+
+    reject();
+}
+
 void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
