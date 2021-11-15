@@ -21,6 +21,8 @@
 #include "ui/QSOFilterDialog.h"
 #include "ui/Eqsldialog.h"
 #include "ui/AwardsDialog.h"
+#include "core/Lotw.h"
+#include "core/Eqsl.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -213,21 +215,38 @@ void MainWindow::exportLog() {
     dialog.exec();
 }
 
-void MainWindow::showLotw() {
+void MainWindow::showLotw()
+{
     FCT_IDENTIFICATION;
 
-    LotwDialog dialog;
-    dialog.exec();
-    ui->logbookWidget->updateTable();
+    QSettings settinsg;
+    if ( ! settinsg.value(Lotw::CONFIG_USERNAME_KEY).toString().isEmpty() )
+    {
+        LotwDialog dialog;
+        dialog.exec();
+        ui->logbookWidget->updateTable();
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("QLog Warning"), tr("LoTW is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
+    }
 }
 
 void MainWindow::showeQSL()
 {
     FCT_IDENTIFICATION;
 
-    EqslDialog dialog;
-    dialog.exec();
-    ui->logbookWidget->updateTable();
+    QSettings settinsg;
+    if ( ! settinsg.value(EQSL::CONFIG_USERNAME_KEY).toString().isEmpty() )
+    {
+        EqslDialog dialog;
+        dialog.exec();
+        ui->logbookWidget->updateTable();
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("QLog Warning"), tr("eQSL is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
+    }
 }
 
 void MainWindow::showAwards()

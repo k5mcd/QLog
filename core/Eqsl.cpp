@@ -1,4 +1,3 @@
-#include <QUrl>
 #include <QUrlQuery>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
