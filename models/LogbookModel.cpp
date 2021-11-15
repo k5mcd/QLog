@@ -12,7 +12,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setEditStrategy(QSqlTableModel::OnFieldChange);
     setSort(COLUMN_TIME_ON, Qt::DescendingOrder);
 
-    setHeaderData(COLUMN_ID, Qt::Horizontal, tr("ID"));
+    setHeaderData(COLUMN_ID, Qt::Horizontal, tr("QSO ID"));
     setHeaderData(COLUMN_TIME_ON, Qt::Horizontal, tr("Time on"));
     setHeaderData(COLUMN_TIME_OFF, Qt::Horizontal, tr("Time off"));
     setHeaderData(COLUMN_CALL, Qt::Horizontal, tr("Call"));
@@ -105,8 +105,8 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_MY_LON, Qt::Horizontal, tr("My Longitude"));
     setHeaderData(COLUMN_MY_NAME, Qt::Horizontal, tr("My Name"));
     setHeaderData(COLUMN_MY_NAME_INTL, Qt::Horizontal, tr("My Name(Int)"));
-    setHeaderData(COLUMN_MY_POSTAL_CODE, Qt::Horizontal, tr("Postal Code"));
-    setHeaderData(COLUMN_MY_POSTAL_CODE_INTL, Qt::Horizontal, tr("Postal Code(Int)"));
+    setHeaderData(COLUMN_MY_POSTAL_CODE, Qt::Horizontal, tr("My Postal Code"));
+    setHeaderData(COLUMN_MY_POSTAL_CODE_INTL, Qt::Horizontal, tr("My Postal Code(Int)"));
     setHeaderData(COLUMN_MY_RIG, Qt::Horizontal, tr("My Rig"));
     setHeaderData(COLUMN_MY_RIG_INTL, Qt::Horizontal, tr("My Rig(Int)"));
     setHeaderData(COLUMN_MY_SIG, Qt::Horizontal, tr("My Special Interest Activity"));

@@ -858,7 +858,7 @@
     <name>LogbookModel</name>
     <message>
         <location filename="../models/LogbookModel.cpp" line="15"/>
-        <source>ID</source>
+        <source>QSO ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1250,12 +1250,12 @@
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="108"/>
-        <source>Postal Code</source>
+        <source>My Postal Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="109"/>
-        <source>Postal Code(Int)</source>
+        <source>My Postal Code(Int)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2308,7 +2308,7 @@
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="288"/>
-        <location filename="../ui/MainWindow.cpp" line="248"/>
+        <location filename="../ui/MainWindow.cpp" line="249"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
@@ -2386,12 +2386,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="238"/>
+        <location filename="../ui/MainWindow.cpp" line="239"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="258"/>
+        <location filename="../ui/MainWindow.cpp" line="259"/>
         <source>N/A</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2813,27 +2813,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="904"/>
+        <location filename="../ui/NewContactWidget.cpp" line="911"/>
         <source>New Entity!</source>
         <translation>Neues DXCC!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="907"/>
+        <location filename="../ui/NewContactWidget.cpp" line="914"/>
         <source>New Band!</source>
         <translation>Neues Band!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="910"/>
+        <location filename="../ui/NewContactWidget.cpp" line="917"/>
         <source>New Mode!</source>
         <translation>Neuer Mode!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="913"/>
+        <location filename="../ui/NewContactWidget.cpp" line="920"/>
         <source>New Band &amp; Mode!</source>
         <translation>Neues Band &amp; Mode!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="916"/>
+        <location filename="../ui/NewContactWidget.cpp" line="923"/>
         <source>New Slot!</source>
         <translation>Neuer Slot!</translation>
     </message>
@@ -2845,7 +2845,7 @@
         <location filename="../core/main.cpp" line="272"/>
         <location filename="../core/main.cpp" line="280"/>
         <location filename="../core/main.cpp" line="285"/>
-        <location filename="../ui/NewContactWidget.cpp" line="622"/>
+        <location filename="../ui/NewContactWidget.cpp" line="629"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="267"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="278"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="287"/>
@@ -2875,9 +2875,11 @@
     <message>
         <location filename="../core/Migration.cpp" line="209"/>
         <location filename="../core/Migration.cpp" line="232"/>
-        <location filename="../ui/MainWindow.cpp" line="133"/>
-        <location filename="../ui/MainWindow.cpp" line="142"/>
+        <location filename="../ui/MainWindow.cpp" line="134"/>
+        <location filename="../ui/MainWindow.cpp" line="143"/>
         <location filename="../ui/SettingsDialog.cpp" line="94"/>
+        <location filename="../ui/SettingsDialog.cpp" line="181"/>
+        <location filename="../ui/SettingsDialog.cpp" line="188"/>
         <source>QLog Warning</source>
         <translation>QLog Warnung</translation>
     </message>
@@ -2907,17 +2909,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="134"/>
+        <location filename="../ui/MainWindow.cpp" line="135"/>
         <source>Rig Error: &lt;p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="143"/>
+        <location filename="../ui/MainWindow.cpp" line="144"/>
         <source>Rotator Error: &lt;p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="623"/>
+        <location filename="../ui/NewContactWidget.cpp" line="630"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2949,6 +2951,16 @@
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="95"/>
         <source>Please, define at least one Station Locations Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="182"/>
+        <source>Callsign has an invalid format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="189"/>
+        <source>Locator has an invalid format</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3297,7 +3309,7 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="120"/>
         <location filename="../ui/SettingsDialog.ui" line="160"/>
         <location filename="../ui/SettingsDialog.ui" line="190"/>
-        <location filename="../ui/SettingsDialog.cpp" line="170"/>
+        <location filename="../ui/SettingsDialog.cpp" line="195"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
@@ -3643,18 +3655,25 @@ Unmatched QSLs:
         <translation type="unfinished">Staat</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="168"/>
-        <location filename="../ui/SettingsDialog.cpp" line="216"/>
+        <location filename="../ui/SettingsDialog.cpp" line="163"/>
+        <location filename="../ui/SettingsDialog.cpp" line="169"/>
+        <location filename="../ui/SettingsDialog.cpp" line="175"/>
+        <source>Must not be empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="193"/>
+        <location filename="../ui/SettingsDialog.cpp" line="244"/>
         <source>Modify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="281"/>
+        <location filename="../ui/SettingsDialog.cpp" line="309"/>
         <source>Select File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="332"/>
+        <location filename="../ui/SettingsDialog.cpp" line="360"/>
         <source>Select Directory</source>
         <translation type="unfinished"></translation>
     </message>

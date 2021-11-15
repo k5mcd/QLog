@@ -808,9 +808,13 @@
 <context>
     <name>LogbookModel</name>
     <message>
-        <location filename="../models/LogbookModel.cpp" line="15"/>
         <source>ID</source>
-        <translation>ID</translation>
+        <translation type="vanished">ID</translation>
+    </message>
+    <message>
+        <location filename="../models/LogbookModel.cpp" line="15"/>
+        <source>QSO ID</source>
+        <translation>QSO ID</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="16"/>
@@ -1271,13 +1275,21 @@
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="108"/>
-        <source>Postal Code</source>
-        <translation>Směrovací číslo</translation>
+        <source>My Postal Code</source>
+        <translation>Mé směrovací číslo</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="109"/>
+        <source>My Postal Code(Int)</source>
+        <translation>Mé směrovací číslo (Int)</translation>
+    </message>
+    <message>
+        <source>Postal Code</source>
+        <translation type="vanished">Směrovací číslo</translation>
+    </message>
+    <message>
         <source>Postal Code(Int)</source>
-        <translation>Směrovací číslo(Int)</translation>
+        <translation type="vanished">Směrovací číslo(Int)</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="110"/>
@@ -1532,7 +1544,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="161"/>
         <source>SWL</source>
-        <translation type="unfinished"></translation>
+        <translation>SWL</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="162"/>
@@ -2090,7 +2102,7 @@
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="288"/>
-        <location filename="../ui/MainWindow.cpp" line="248"/>
+        <location filename="../ui/MainWindow.cpp" line="249"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
@@ -2140,12 +2152,12 @@
         <translation>Diplomy</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="238"/>
+        <location filename="../ui/MainWindow.cpp" line="239"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/p&gt;</source>
         <translation>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="258"/>
+        <location filename="../ui/MainWindow.cpp" line="259"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
@@ -2499,27 +2511,27 @@
         <translation>Elektronicky</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="904"/>
+        <location filename="../ui/NewContactWidget.cpp" line="911"/>
         <source>New Entity!</source>
         <translation>Nová země!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="907"/>
+        <location filename="../ui/NewContactWidget.cpp" line="914"/>
         <source>New Band!</source>
         <translation>Nové pásmo!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="910"/>
+        <location filename="../ui/NewContactWidget.cpp" line="917"/>
         <source>New Mode!</source>
         <translation>Nový druh provozu!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="913"/>
+        <location filename="../ui/NewContactWidget.cpp" line="920"/>
         <source>New Band &amp; Mode!</source>
         <translation>Nové pásmo &amp; druh!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="916"/>
+        <location filename="../ui/NewContactWidget.cpp" line="923"/>
         <source>New Slot!</source>
         <translation>Nový slot!</translation>
     </message>
@@ -2529,9 +2541,11 @@
     <message>
         <location filename="../core/Migration.cpp" line="209"/>
         <location filename="../core/Migration.cpp" line="232"/>
-        <location filename="../ui/MainWindow.cpp" line="133"/>
-        <location filename="../ui/MainWindow.cpp" line="142"/>
+        <location filename="../ui/MainWindow.cpp" line="134"/>
+        <location filename="../ui/MainWindow.cpp" line="143"/>
         <location filename="../ui/SettingsDialog.cpp" line="94"/>
+        <location filename="../ui/SettingsDialog.cpp" line="181"/>
+        <location filename="../ui/SettingsDialog.cpp" line="188"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
@@ -2550,7 +2564,7 @@
         <location filename="../core/main.cpp" line="272"/>
         <location filename="../core/main.cpp" line="280"/>
         <location filename="../core/main.cpp" line="285"/>
-        <location filename="../ui/NewContactWidget.cpp" line="622"/>
+        <location filename="../ui/NewContactWidget.cpp" line="629"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="267"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="278"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="287"/>
@@ -2593,17 +2607,17 @@
         <translation>Chyba připojení k DXC serveru</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="134"/>
+        <location filename="../ui/MainWindow.cpp" line="135"/>
         <source>Rig Error: &lt;p&gt;</source>
         <translation>Chyba Rig: &lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="143"/>
+        <location filename="../ui/MainWindow.cpp" line="144"/>
         <source>Rotator Error: &lt;p&gt;</source>
         <translation>Chyba Rotátoru: &lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="623"/>
+        <location filename="../ui/NewContactWidget.cpp" line="630"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>Vaše značka není vyplněna. Prosím, nastavte Profil Stanice</translation>
     </message>
@@ -2636,6 +2650,16 @@
         <location filename="../ui/SettingsDialog.cpp" line="95"/>
         <source>Please, define at least one Station Locations Profile</source>
         <translation>Prosím, definujte alespoň jeden Profil Stanice</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="182"/>
+        <source>Callsign has an invalid format</source>
+        <translation>Značka má chybný formát</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="189"/>
+        <source>Locator has an invalid format</source>
+        <translation>Lokátor má chybný formát</translation>
     </message>
 </context>
 <context>
@@ -2962,7 +2986,7 @@ Nesprárované:
         <location filename="../ui/SettingsDialog.ui" line="120"/>
         <location filename="../ui/SettingsDialog.ui" line="160"/>
         <location filename="../ui/SettingsDialog.ui" line="190"/>
-        <location filename="../ui/SettingsDialog.cpp" line="170"/>
+        <location filename="../ui/SettingsDialog.cpp" line="195"/>
         <source>Add</source>
         <translation>Přidat</translation>
     </message>
@@ -3314,18 +3338,25 @@ Nesprárované:
         <translation>Konec</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="168"/>
-        <location filename="../ui/SettingsDialog.cpp" line="216"/>
+        <location filename="../ui/SettingsDialog.cpp" line="163"/>
+        <location filename="../ui/SettingsDialog.cpp" line="169"/>
+        <location filename="../ui/SettingsDialog.cpp" line="175"/>
+        <source>Must not be empty</source>
+        <translation>Nesmí být prázdné</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="193"/>
+        <location filename="../ui/SettingsDialog.cpp" line="244"/>
         <source>Modify</source>
         <translation>Upravit</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="281"/>
+        <location filename="../ui/SettingsDialog.cpp" line="309"/>
         <source>Select File</source>
         <translation>Vybrat soubor</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="332"/>
+        <location filename="../ui/SettingsDialog.cpp" line="360"/>
         <source>Select Directory</source>
         <translation>Vybrat adresář</translation>
     </message>
