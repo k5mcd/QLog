@@ -10,7 +10,7 @@ public:
     bool readContact(QVariantMap& contact);
 
     bool importNext(QSqlRecord& contact);
-    void exportContact(QSqlRecord& record);
+    void exportContact(const QSqlRecord&record, QMap<QString, QString> * applTags = nullptr);
     void exportStart();
 
     static QDate parseDate(QString date);

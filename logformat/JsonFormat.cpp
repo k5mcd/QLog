@@ -6,7 +6,7 @@
 
 MODULE_IDENTIFICATION("qlog.logformat.jsonformat");
 
-void JsonFormat::exportContact(QSqlRecord& record) {
+void JsonFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *applTags) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<record;

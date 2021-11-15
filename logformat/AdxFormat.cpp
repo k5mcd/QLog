@@ -33,7 +33,7 @@ void AdxFormat::exportEnd() {
     delete writer;
 }
 
-void AdxFormat::exportContact(QSqlRecord& record) {
+void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *applTag) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<record;

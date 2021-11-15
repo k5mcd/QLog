@@ -143,6 +143,13 @@ void EqslDialog::upload()
 
     adi.exportStart();
 
+    QMap<QString, QString> *applTags = nullptr;
+    if ( !ui->qthProfileUploadEdit->text().isEmpty() )
+    {
+        applTags = new QMap<QString, QString>;
+        applTags->insert("app_eqsl_qth_nickname", ui->qthProfileUploadEdit->text());
+    }
+
     while (query.next())
     {
         QSqlRecord record = query.record();
@@ -153,8 +160,13 @@ void EqslDialog::upload()
                        + " " + record.value("mode").toString()
                        + "\n");
 
-        adi.exportContact(record);
+        adi.exportContact(record, applTags);
         count++;
+    }
+
+    if ( applTags )
+    {
+        delete applTags;
     }
 
     stream.flush();

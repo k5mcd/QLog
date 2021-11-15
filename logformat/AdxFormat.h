@@ -9,7 +9,7 @@ class AdxFormat : public LogFormat {
 public:
     AdxFormat(QTextStream& stream) : LogFormat(stream) {}
 
-    void exportContact(QSqlRecord& record);
+    void exportContact(const QSqlRecord& record,QMap<QString, QString> * = nullptr);
     void exportStart();
     void exportEnd();
 

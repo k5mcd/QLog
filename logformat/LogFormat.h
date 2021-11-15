@@ -61,7 +61,7 @@ public:
 
     virtual void exportStart() {}
     virtual void exportEnd() {}
-    virtual void exportContact(QSqlRecord&) {}
+    virtual void exportContact(const QSqlRecord&, QMap<QString, QString> * = nullptr) {}
 
 signals:
     void progress(qint64 value);

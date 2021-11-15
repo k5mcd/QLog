@@ -10,7 +10,7 @@ public:
     JsonFormat(QTextStream& stream) : LogFormat(stream) {}
 
     bool importNext(QSqlRecord& contact);
-    void exportContact(QSqlRecord& record);
+    void exportContact(const QSqlRecord& record, QMap<QString, QString> * = nullptr);
     void exportEnd();
 
 private:

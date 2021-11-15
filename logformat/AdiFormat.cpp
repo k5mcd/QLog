@@ -17,7 +17,8 @@ void AdiFormat::exportStart() {
     stream << "<EOH>\n\n";
 }
 
-void AdiFormat::exportContact(QSqlRecord& record) {
+void AdiFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *applTags)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<record;
@@ -182,6 +183,15 @@ void AdiFormat::exportContact(QSqlRecord& record) {
 
     for (const QString& key : fields.keys()) {
         writeField(key, fields.value(key).toString());
+    }
+
+    /* Add application-specific tags */
+    if ( applTags )
+    {
+       foreach (QString key, applTags->keys())
+       {
+           writeField(key, applTags->value(key));
+       }
     }
 
     stream << "<eor>\n\n";
