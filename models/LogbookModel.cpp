@@ -196,9 +196,8 @@ QVariant LogbookModel::data(const QModelIndex &index, int role) const
 //            return QIcon(":/icons/close-24px.svg");
 //        }
     }
-    else {
-        return QSqlTableModel::data(index, role);
-    }
+
+    return QSqlTableModel::data(index, role);
 }
 
 bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int role)
