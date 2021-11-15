@@ -36,7 +36,10 @@ QNetworkReply* EQSL::update(QDate start_date, QString qthNick)
     qCDebug(function_parameters) << start_date << " " << qthNick;
 
     QList<QPair<QString, QString>> params;
-    params.append(qMakePair(QString("QTHNickname"), qthNick));
+    if ( !qthNick.isEmpty() )
+    {
+        params.append(qMakePair(QString("QTHNickname"), qthNick));
+    }
 
     QString start = start_date.toString("yyyyMMdd");
     if (start_date.isValid())
