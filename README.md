@@ -1,4 +1,4 @@
-# QLog - UNDER DEVELOPMENT - NOT YET READY FOR USE - TESTERS ARE WELCOME
+# QLog - UNDER DEVELOPMENT - TESTERS ARE WELCOME
 
 QLog is an Amateur Radio logging application for Linux, Windows and Mac OS. It
 is based on the Qt 5 framework und uses SQLite as database backend.
@@ -13,25 +13,41 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - Rig and rotator control via Hamlib
 - HamQTH callbook integration
 - DX cluster integration
-- LotW, eQSL and Clublog integration (eQSL includes QSL pictures download)
-- Secure Password Storage for all services with password
-- Online and offline map
+- **LotW**, **eQSL** and **Clublog** integration (**eQSL includes QSL pictures download**)
+- **Secure Password Storage** for all services with password
+- **Online** and **Offline** map
 - Bandmap
 - WSJT-X integration
 - Station Location Profile support
-- Various statistics
+- Various station statistics
 - Basic Awards support
 - Custom QSO Filters
 - Basic Satellite support
+- **NO** ads, **NO** user tracking, **NO** hidden telemetry - simply free and open-source
 
 ## Installation
 
 ### Windows
-TBD
+**For developers:**
+
+Prerequisites
+
+- Visual Studio 2015
+- Installed Qt 5.12 for Windows
+- Installed qtkeychain-devel library and headers (https://github.com/frankosterfeld/qtkeychain)
+- Installed OpenSSL-devel libraries and headers
+- Installed HamLib-devel libraries and headers
+- All integrated in QT Creator
+
+To be honest, It is not easy to compile it under Windows but it is possible.
+
+**For users:**
+
+Installation .exe package will be available for every release - only 64bit version.
 
 ### Linux
 
-For development:
+**For developers:**
 
 `sudo apt-get -y install qtbase5-dev libsqlite3-dev install libhamlib++-dev libqt5charts5-dev qt5-default qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev`
 
@@ -39,6 +55,13 @@ For development:
 
 `make`
 
+For users:
+
+Repos for Ubuntu (.deb) will be available soon via PPA. RPM package are planned in a next version. Snap or Flatpak are not planned at this moment.
+
+### MacOS
+
+TBD - Need help
 
 ## License
 
