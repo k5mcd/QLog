@@ -43,6 +43,10 @@ To be honest, It is not easy to compile it under Windows but it is possible.
 
 **For users:**
 
+Prerequisites:
+
+- Installed Trusted QSL (Optional)
+
 Installation .exe package will be available for every release - only 64bit version.
 
 ### Linux
@@ -55,7 +59,11 @@ Installation .exe package will be available for every release - only 64bit versi
 
 `make`
 
-For users:
+**For users:**
+
+Prerequisites:
+
+- Installed Trusted QSL (Optional)
 
 Repos for Ubuntu (.deb) will be available soon via PPA. RPM package are planned in a next version. Snap or Flatpak are not planned at this moment.
 
