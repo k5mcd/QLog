@@ -1249,7 +1249,7 @@
          <item row="1" column="1">
           <widget class="QComboBox" name="rigEdit">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -1307,10 +1307,13 @@
          <item row="2" column="1">
           <widget class="QComboBox" name="antennaEdit">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
            </property>
           </widget>
          </item>
@@ -1329,7 +1332,11 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="stationProfileCombo"/>
+          <widget class="QComboBox" name="stationProfileCombo">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -1350,6 +1357,9 @@
          </item>
          <item row="0" column="1">
           <widget class="QDoubleSpinBox" name="rigFreqOffsetSpin">
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="suffix">
             <string> MHz</string>
            </property>

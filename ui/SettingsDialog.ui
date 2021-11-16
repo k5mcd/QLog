@@ -41,7 +41,11 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
           <item row="3" column="2" colspan="2">
-           <widget class="QLineEdit" name="operatorEdit"/>
+           <widget class="QLineEdit" name="operatorEdit">
+            <property name="toolTip">
+             <string>Operator name (Optional parameter)</string>
+            </property>
+           </widget>
           </item>
           <item row="0" column="1">
            <widget class="QLabel" name="profileLabel">
@@ -52,6 +56,9 @@
           </item>
           <item row="2" column="2" colspan="2">
            <widget class="QLineEdit" name="locatorEdit">
+            <property name="toolTip">
+             <string>Station Gridsquare (Mandatory parameter)</string>
+            </property>
             <property name="maxLength">
              <number>12</number>
             </property>
@@ -59,6 +66,9 @@
           </item>
           <item row="1" column="2" colspan="2">
            <widget class="QLineEdit" name="callsignEdit">
+            <property name="toolTip">
+             <string>Callsign (Mandatory parameter)</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -84,7 +94,7 @@
           <item row="2" column="1">
            <widget class="QLabel" name="locatorLabel">
             <property name="text">
-             <string>Locator</string>
+             <string>Gridsquare</string>
             </property>
            </widget>
           </item>
@@ -95,6 +105,9 @@
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
+            </property>
+            <property name="toolTip">
+             <string>List of all available Station Profiles</string>
             </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
@@ -109,10 +122,18 @@
            </widget>
           </item>
           <item row="0" column="2" colspan="2">
-           <widget class="QLineEdit" name="profileEdit"/>
+           <widget class="QLineEdit" name="profileEdit">
+            <property name="toolTip">
+             <string>Profile name that is used as the alias for the call sign, locator, operator name, and QTH (required parameter) </string>
+            </property>
+           </widget>
           </item>
           <item row="4" column="2" colspan="2">
-           <widget class="QLineEdit" name="qthEdit"/>
+           <widget class="QLineEdit" name="qthEdit">
+            <property name="toolTip">
+             <string>QTH Name (Optional parameter)</string>
+            </property>
+           </widget>
           </item>
           <item row="5" column="2">
            <widget class="QPushButton" name="addProfileButton">
@@ -134,7 +155,7 @@
        <item row="1" column="0">
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
-          <string>Rigs</string>
+          <string>My Rigs</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
           <item row="0" column="0" colspan="6">
@@ -144,6 +165,9 @@
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
+            </property>
+            <property name="toolTip">
+             <string>List of all available Rigs</string>
             </property>
            </widget>
           </item>
@@ -163,6 +187,9 @@
           </item>
           <item row="1" column="3">
            <widget class="QLineEdit" name="rigNameEdit">
+            <property name="toolTip">
+             <string/>
+            </property>
             <property name="maxLength">
              <number>25</number>
             </property>
@@ -181,7 +208,7 @@
        <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox_8">
          <property name="title">
-          <string>Antennas</string>
+          <string>My Antennas</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0" columnstretch="0,0,0,0,0,0">
           <item row="0" column="0" colspan="6">
@@ -191,6 +218,9 @@
             </property>
             <property name="contextMenuPolicy">
              <enum>Qt::NoContextMenu</enum>
+            </property>
+            <property name="toolTip">
+             <string>List of all available Antennas</string>
             </property>
            </widget>
           </item>

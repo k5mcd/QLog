@@ -23,14 +23,14 @@
       <item row="0" column="0">
        <widget class="QLabel" name="myCallsignLabel">
         <property name="text">
-         <string>Own Callsign</string>
+         <string>My Callsign</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="myGridLabel">
         <property name="text">
-         <string>Own Gridsquare</string>
+         <string>My Gridsquare</string>
         </property>
        </widget>
       </item>
@@ -85,7 +85,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="stationLabel">
           <property name="text">
-           <string>Own Callsign</string>
+           <string>My Callsign</string>
           </property>
          </widget>
         </item>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>343</width>
-    <height>444</height>
+    <width>480</width>
+    <height>559</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -91,19 +91,13 @@
    </item>
    <item row="2" column="0">
     <widget class="QGroupBox" name="groupBox_2">
+     <property name="toolTip">
+      <string>The values are used when an input record does not contain the value</string>
+     </property>
      <property name="title">
       <string>Defaults</string>
      </property>
      <layout class="QFormLayout" name="formLayout">
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-      </property>
-      <property name="labelAlignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-      </property>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="gridEdit"/>
-      </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="gridCheckBox">
         <property name="sizePolicy">
@@ -120,19 +114,16 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="commentEdit"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="commentCheckBox">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="gridEdit">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text">
-         <string>Comment</string>
+        <property name="toolTip">
+         <string>The value is used when an input record does not contain the value</string>
         </property>
        </widget>
       </item>
@@ -150,13 +141,52 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="rigSelect"/>
+       <widget class="QComboBox" name="rigSelect">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>The value is used when an input record does not contain the value</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="commentCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Comment</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="commentEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>The value is used when an input record does not contain the value</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox">
+     <property name="toolTip">
+      <string>Import only QSOs from the given period</string>
+     </property>
      <property name="title">
       <string>Date Range</string>
      </property>
@@ -231,8 +261,11 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QCheckBox" name="updateDxccCheckBox">
+        <property name="toolTip">
+         <string>Recalculate DXCC Entity Information (DXCC, Country name, Continent etc.)</string>
+        </property>
         <property name="text">
-         <string>Update DXCC entities</string>
+         <string>Update DXCC Entity Information</string>
         </property>
        </widget>
       </item>

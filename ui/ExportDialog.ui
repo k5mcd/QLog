@@ -49,6 +49,9 @@
    </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_2">
+     <property name="toolTip">
+      <string>Export only QSOs from the given period</string>
+     </property>
      <property name="title">
       <string>Date Range</string>
      </property>
@@ -131,7 +134,8 @@
          <string>Browse</string>
         </property>
         <property name="icon">
-         <iconset theme="folder-open"/>
+         <iconset theme="folder-open">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>

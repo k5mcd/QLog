@@ -52,7 +52,7 @@
       <item row="5" column="0">
        <widget class="QLabel" name="myCalLabel">
         <property name="text">
-         <string>Own Callsign</string>
+         <string>My Callsign</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -145,7 +145,7 @@
       <item row="5" column="1">
        <widget class="QLabel" name="myGridLabel">
         <property name="text">
-         <string>Own Grid</string>
+         <string>My Grid</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -286,7 +286,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Antenna</string>
+         <string>My Antenna</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -302,7 +302,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Rig</string>
+         <string>My Rig</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
