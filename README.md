@@ -35,8 +35,8 @@ Prerequisites
 - Visual Studio 2015
 - Installed Qt 5.12 for Windows
 - Installed qtkeychain-devel library and headers (https://github.com/frankosterfeld/qtkeychain)
-- Installed OpenSSL-devel libraries and headers
-- Installed HamLib-devel libraries and headers
+- Installed OpenSSL-devel libraries and headers (https://wiki.openssl.org/index.php/Binaries)
+- Installed HamLib-devel libraries and headers (https://github.com/Hamlib/Hamlib/releases/latest)
 - All integrated in QT Creator
 
 To be honest, It is not easy to compile it under Windows but it is possible.
