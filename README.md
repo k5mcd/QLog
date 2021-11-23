@@ -53,7 +53,11 @@ Installation .exe package will be available for every release - only 64bit versi
 
 **For developers:**
 
-`sudo apt-get -y install qtbase5-dev libsqlite3-dev install libhamlib++-dev libqt5charts5-dev qt5-default qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev`
+`sudo apt-get -y install qtbase5-dev libsqlite3-dev libhamlib++-dev libqt5charts5-dev qt5-default qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev `
+
+`git clone --recurse-submodules https://github.com/foldynl/QLog.git`
+
+`cd  QLog`
 
 `qmake QLog.pro`
 
