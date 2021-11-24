@@ -33,7 +33,7 @@ For more details, screenshots etc, please, see [QLog Wiki](https://github.com/fo
 
 Prerequisites:
 
-- Installed Trusted QSL (Optional)
+- Installed [Trusted QSL](http://www.arrl.org/tqsl-download) (Optional)
 
 Installation .exe package will be available for every release - only 64bit version.
 
@@ -43,9 +43,9 @@ Prerequisites
 
 - Visual Studio 2015
 - Installed Qt 5.12 for Windows
-- Installed qtkeychain-devel library and headers (https://github.com/frankosterfeld/qtkeychain)
-- Installed OpenSSL-devel libraries and headers (https://wiki.openssl.org/index.php/Binaries)
-- Installed HamLib-devel libraries and headers (https://github.com/Hamlib/Hamlib/releases/latest)
+- Installed [qtkeychain-devel](https://github.com/frankosterfeld/qtkeychain) library and headers
+- Installed [OpenSSL-devel](https://wiki.openssl.org/index.php/Binaries) libraries and headers
+- Installed [HamLib-devel](https://github.com/Hamlib/Hamlib/releases/latest) libraries and headers
 - All integrated in QT Creator
 
 To be honest, It is not easy to compile it under Windows but it is possible.
@@ -56,7 +56,7 @@ To be honest, It is not easy to compile it under Windows but it is possible.
 
 Prerequisites:
 
-- Installed Trusted QSL (Optional)
+- Installed Trusted QSL (Optional) - `sudo apt install trustedqsl` or from [ARRL](http://www.arrl.org/tqsl-download)
 
 Repos for Ubuntu (.deb) will be available soon via PPA. RPM package are planned in a next version. Snap or Flatpak are not planned at this moment.
 
