@@ -25,9 +25,18 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - Basic Satellite support
 - **NO** ads, **NO** user tracking, **NO** hidden telemetry - simply free and open-source
 
+For more details, screenshots etc, please, see [QLog Wiki](https://github.com/foldynl/QLog/wiki)
 ## Installation
 
 ### Windows
+**For users:**
+
+Prerequisites:
+
+- Installed Trusted QSL (Optional)
+
+Installation .exe package will be available for every release - only 64bit version.
+
 **For developers:**
 
 Prerequisites
@@ -41,15 +50,16 @@ Prerequisites
 
 To be honest, It is not easy to compile it under Windows but it is possible.
 
+### Linux
+
 **For users:**
 
 Prerequisites:
 
 - Installed Trusted QSL (Optional)
 
-Installation .exe package will be available for every release - only 64bit version.
+Repos for Ubuntu (.deb) will be available soon via PPA. RPM package are planned in a next version. Snap or Flatpak are not planned at this moment.
 
-### Linux
 
 **For developers:**
 
@@ -63,13 +73,6 @@ Installation .exe package will be available for every release - only 64bit versi
 
 `make`
 
-**For users:**
-
-Prerequisites:
-
-- Installed Trusted QSL (Optional)
-
-Repos for Ubuntu (.deb) will be available soon via PPA. RPM package are planned in a next version. Snap or Flatpak are not planned at this moment.
 
 ### MacOS
 
