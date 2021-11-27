@@ -1,4 +1,4 @@
-# QLog - UNDER DEVELOPMENT - TESTERS ARE WELCOME
+# QLog
 
 QLog is an Amateur Radio logging application for Linux, Windows and Mac OS. It
 is based on the Qt 5 framework und uses SQLite as database backend.
