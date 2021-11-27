@@ -26,6 +26,10 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - **NO** ads, **NO** user tracking, **NO** hidden telemetry - simply free and open-source
 
 For more details, screenshots etc, please, see [QLog Wiki](https://github.com/foldynl/QLog/wiki)
+
+Please, used [QLog Issues](https://github.com/foldynl/QLog/issues) for reporting any issue or open a [discussion](https://github.com/foldynl/QLog/discussions).
+
+
 ## Installation
 
 ### Windows
