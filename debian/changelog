@@ -1,3 +1,19 @@
+qlog (0.2.0-1) UNRELEASED; urgency=low
+
+  * Fork changes
+  * Many GUI Changes
+  * Added Online Map
+  * Secure Storage for passwords
+  * Improved Logging
+  * CTY and SAT Name auto-update
+  * Added Station Profile
+  * Reworked Stats
+  * Added Awards
+  * Added Czech Translation
+  * many other changes
+
+ -- foldynl <foldyna@gmail.com>  Sat, 27 Nov 2021 19:07:01 +0200
+
 qlog (0.1.0-1) UNRELEASED; urgency=low
 
   * Initial release - non-public
