@@ -62,7 +62,15 @@ Prerequisites:
 
 - Installed Trusted QSL (Optional) - `sudo apt install trustedqsl` or from [ARRL](http://www.arrl.org/tqsl-download)
 
-Repos for Ubuntu (.deb) will be available soon via PPA. RPM package are planned in a next version. Snap or Flatpak are not planned at this moment.
+Repos for Ubuntu (**.deb**) are available for amd64, arm64 and armhf platforms via [Ubuntu PPA](https://launchpad.net/~foldyna/+archive/ubuntu/qlog). Ubuntu 20.04 users can use following commands:
+
+`sudo add-apt-repository ppa:foldyna/qlog`
+
+`sudo apt update`
+
+`sudo apt install qlog`
+
+**RPM package** is planned in a future version. **Snap or Flatpak** are not planned at this moment.
 
 
 **For developers:**
