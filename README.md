@@ -31,7 +31,12 @@ Please, used [QLog Issues](https://github.com/foldynl/QLog/issues) for reporting
 
 
 ## Installation
-
+### Minimum Hardware Requirements
+- The recommended graphical resolution: 1920x1080
+- CPU and memory: minimum requirements the same as for your OS
+- Graphic Card with OpenGL support
+- Serial connection if radio control is used
+ 
 ### Windows
 **For users:**
 
