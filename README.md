@@ -44,7 +44,7 @@ Prerequisites:
 
 - Installed [Trusted QSL](http://www.arrl.org/tqsl-download) (Optional)
 
-Installation .exe package will be available for every release - only 64bit version.
+Installaction packages are available for [Windows 64bit](https://github.com/foldynl/QLog/releases)
 
 **For developers:**
 
