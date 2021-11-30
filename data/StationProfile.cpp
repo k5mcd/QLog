@@ -9,7 +9,7 @@ MODULE_IDENTIFICATION("qlog.data.stationprofile");
 
 QDataStream& operator<<(QDataStream& out, const StationProfile& v)
 {
-    out << v.profileName << v.callsign << v.locator << v.operatorName << v.qthName;
+    out << v.profileName << v.callsign << v.locator << v.operatorName << v.qthName << v.iota << v.sota << v.sig << v.sigInfo << v.vucc;
     return out;
 }
 
@@ -20,6 +20,12 @@ QDataStream& operator>>(QDataStream& in, StationProfile& v)
     in >> v.locator;
     in >> v.operatorName;
     in >> v.qthName;
+    in >> v.iota;
+    in >> v.sota;
+    in >> v.sig;
+    in >> v.sigInfo;
+    in >> v.vucc;
+
     return in;
 }
 

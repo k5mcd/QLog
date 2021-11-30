@@ -618,6 +618,35 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
        record.setValue("operator", profile.operatorName.toUpper());
     }
 
+    if ( record.value("my_iota").toString().isEmpty()
+         && !profile.iota.isEmpty())
+    {
+       record.setValue("my_iota", profile.iota.toUpper());
+    }
+
+    if ( record.value("my_sota_ref").toString().isEmpty()
+         && !profile.sota.isEmpty())
+    {
+       record.setValue("my_sota_ref", profile.sota.toUpper());
+    }
+
+    if ( record.value("my_sig").toString().isEmpty()
+         && !profile.sig.isEmpty())
+    {
+       record.setValue("my_sig", profile.sig.toUpper());
+    }
+
+    if ( record.value("my_sig_info").toString().isEmpty()
+         && !profile.sigInfo.isEmpty())
+    {
+       record.setValue("my_sig_info", profile.sigInfo.toUpper());
+    }
+
+    if ( record.value("my_vucc_grids").toString().isEmpty()
+         && !profile.vucc.isEmpty())
+    {
+       record.setValue("my_vucc_grids", profile.vucc.toUpper());
+    }
 }
 void NewContactWidget::saveContact()
 {

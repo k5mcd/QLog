@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QModelIndex>
 #include <QSqlTableModel>
+#include <QCompleter>
 
 #include "data/StationProfile.h"
 
@@ -35,8 +36,10 @@ public slots:
     void tqslPathBrowse();
     void adjustCallsignTextColor();
     void adjustLocatorTextColor();
+    void adjustVUCCLocatorTextColor();
     void eqslDirBrowse();
     void cancelled();
+    void sotaChanged(QString);
 
 private:
     void readSettings();
@@ -45,6 +48,8 @@ private:
     QSqlTableModel* modeTableModel;
     QSqlTableModel* bandTableModel;
     StationProfilesManager *profileManager;
+    QCompleter *sotaCompleter;
+    QCompleter *iotaCompleter;
     Ui::SettingsDialog *ui;
 };
 

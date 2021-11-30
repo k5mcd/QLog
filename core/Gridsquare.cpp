@@ -60,6 +60,13 @@ QRegularExpression Gridsquare::gridRegEx()
     return QRegularExpression("^[A-Za-z]{2}[0-9]{2}([A-Za-z]{2})?$");
 }
 
+QRegularExpression Gridsquare::gridVUCCRegEx()
+{
+    FCT_IDENTIFICATION;
+
+    return QRegularExpression("^[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2}$|^[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2}$");
+}
+
 bool Gridsquare::isValid()
 {
     FCT_IDENTIFICATION;

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>720</width>
+    <width>756</width>
     <height>850</height>
    </rect>
   </property>
@@ -40,65 +40,14 @@
           <string>Station Location Profiles</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="3" column="2" colspan="2">
-           <widget class="QLineEdit" name="operatorEdit">
+          <item row="2" column="5">
+           <widget class="QLineEdit" name="sigEdit">
             <property name="toolTip">
-             <string>Operator name (Optional parameter)</string>
+             <string>SIG (Optional parameter). Ex. WWFT or POTA</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="profileLabel">
-            <property name="text">
-             <string>Profile Name</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2" colspan="2">
-           <widget class="QLineEdit" name="locatorEdit">
-            <property name="toolTip">
-             <string>Station Gridsquare (Mandatory parameter)</string>
-            </property>
-            <property name="maxLength">
-             <number>12</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2" colspan="2">
-           <widget class="QLineEdit" name="callsignEdit">
-            <property name="toolTip">
-             <string>Callsign (Mandatory parameter)</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="maxLength">
-             <number>25</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="operatorLabel">
-            <property name="text">
-             <string>Operator</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="3">
-           <widget class="QPushButton" name="deleteProfileButton">
-            <property name="text">
-             <string>Delete</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="locatorLabel">
-            <property name="text">
-             <string>Gridsquare</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" rowspan="6">
+          <item row="0" column="0" rowspan="7">
            <widget class="QListView" name="profilesListView">
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
@@ -114,31 +63,10 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QLabel" name="qthLabel">
-            <property name="text">
-             <string>QTH</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" colspan="2">
-           <widget class="QLineEdit" name="profileEdit">
+          <item row="1" column="5">
+           <widget class="QLineEdit" name="sotaEdit">
             <property name="toolTip">
-             <string>Profile name that is used as the alias for the call sign, locator, operator name, and QTH (required parameter) </string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2" colspan="2">
-           <widget class="QLineEdit" name="qthEdit">
-            <property name="toolTip">
-             <string>QTH Name (Optional parameter)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <widget class="QPushButton" name="addProfileButton">
-            <property name="text">
-             <string>Add</string>
+             <string>SOTA (Optional parameter)</string>
             </property>
            </widget>
           </item>
@@ -146,6 +74,157 @@
            <widget class="QLabel" name="callsignLabel">
             <property name="text">
              <string>Callsign</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="5">
+           <widget class="QPushButton" name="deleteProfileButton">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLabel" name="sotaLabel">
+            <property name="text">
+             <string>SOTA</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QLabel" name="sigInfoLabel">
+            <property name="text">
+             <string>Sig Info</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="4">
+           <widget class="QLabel" name="sigLabel">
+            <property name="text">
+             <string>SIG</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="iotaLabel">
+            <property name="text">
+             <string>IOTA</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="profileLabel">
+            <property name="text">
+             <string>Profile Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLabel" name="operatorLabel">
+            <property name="text">
+             <string>Operator</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QLineEdit" name="iotaEdit">
+            <property name="toolTip">
+             <string>IOTA  (Optional parameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="5">
+           <widget class="QLineEdit" name="sigInfoEdit">
+            <property name="toolTip">
+             <string>SIG Information (Optional parameter)</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLabel" name="vuccLabel">
+            <property name="text">
+             <string>VUCC</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="qthLabel">
+            <property name="text">
+             <string>QTH</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="locatorLabel">
+            <property name="text">
+             <string>Gridsquare</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLineEdit" name="locatorEdit">
+            <property name="toolTip">
+             <string>Station Gridsquare (Mandatory parameter)</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="maxLength">
+             <number>12</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLineEdit" name="qthEdit">
+            <property name="toolTip">
+             <string>QTH Name (Optional parameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLineEdit" name="operatorEdit">
+            <property name="toolTip">
+             <string>Operator name (Optional parameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLineEdit" name="callsignEdit">
+            <property name="toolTip">
+             <string>Callsign (Mandatory parameter)</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="maxLength">
+             <number>25</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLineEdit" name="profileEdit">
+            <property name="toolTip">
+             <string>Profile name that is used as the alias for the call sign, locator, operator name, and QTH (required parameter) </string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="QPushButton" name="addProfileButton">
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2" colspan="3">
+           <widget class="QLineEdit" name="vuccEdit">
+            <property name="toolTip">
+             <string>VUCC  Grids (Optional parameter). Ex. EN98,FM08,EM97,FM07</string>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -1087,27 +1166,23 @@
  <tabstops>
   <tabstop>profileEdit</tabstop>
   <tabstop>callsignEdit</tabstop>
-  <tabstop>locatorEdit</tabstop>
-  <tabstop>operatorEdit</tabstop>
   <tabstop>qthEdit</tabstop>
+  <tabstop>operatorEdit</tabstop>
+  <tabstop>locatorEdit</tabstop>
+  <tabstop>vuccEdit</tabstop>
+  <tabstop>iotaEdit</tabstop>
+  <tabstop>sotaEdit</tabstop>
+  <tabstop>sigEdit</tabstop>
+  <tabstop>sigInfoEdit</tabstop>
   <tabstop>addProfileButton</tabstop>
   <tabstop>deleteProfileButton</tabstop>
+  <tabstop>rigNameEdit</tabstop>
   <tabstop>addRigButton</tabstop>
   <tabstop>deleteRigButton</tabstop>
+  <tabstop>antennasEdit</tabstop>
+  <tabstop>addAntButton</tabstop>
   <tabstop>deleteAntButton</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>profilesListView</tabstop>
-  <tabstop>rigListView</tabstop>
-  <tabstop>antListView</tabstop>
-  <tabstop>rotModelSelect</tabstop>
-  <tabstop>rotPortEdit</tabstop>
-  <tabstop>rotBaudSelect</tabstop>
-  <tabstop>rotDataBitsSelect</tabstop>
-  <tabstop>rotStopBitsSelect</tabstop>
-  <tabstop>rotFlowControlSelect</tabstop>
-  <tabstop>rotParitySelect</tabstop>
-  <tabstop>rotHostNameEdit</tabstop>
-  <tabstop>rotNetPortSpin</tabstop>
   <tabstop>rigModelSelect</tabstop>
   <tabstop>rigPortEdit</tabstop>
   <tabstop>rigBaudSelect</tabstop>
@@ -1115,8 +1190,13 @@
   <tabstop>rigStopBitsSelect</tabstop>
   <tabstop>rigFlowControlSelect</tabstop>
   <tabstop>rigParitySelect</tabstop>
-  <tabstop>rigHostNameEdit</tabstop>
-  <tabstop>rigNetPortSpin</tabstop>
+  <tabstop>rotModelSelect</tabstop>
+  <tabstop>rotPortEdit</tabstop>
+  <tabstop>rotBaudSelect</tabstop>
+  <tabstop>rotDataBitsSelect</tabstop>
+  <tabstop>rotStopBitsSelect</tabstop>
+  <tabstop>rotFlowControlSelect</tabstop>
+  <tabstop>rotParitySelect</tabstop>
   <tabstop>hamQthUsernameEdit</tabstop>
   <tabstop>hamQthPasswordEdit</tabstop>
   <tabstop>lotwUsernameEdit</tabstop>
@@ -1126,10 +1206,18 @@
   <tabstop>clublogEmailEdit</tabstop>
   <tabstop>clublogCallsignEdit</tabstop>
   <tabstop>clublogPasswordEdit</tabstop>
+  <tabstop>eqslUsernameEdit</tabstop>
+  <tabstop>eqslPasswordEdit</tabstop>
+  <tabstop>eqslFolderPathEdit</tabstop>
+  <tabstop>eqslFolderPathButton</tabstop>
   <tabstop>bandTableView</tabstop>
   <tabstop>modeTableView</tabstop>
   <tabstop>dxccStartDateCheckBox</tabstop>
   <tabstop>dxccStartDate</tabstop>
+  <tabstop>rotNetPortSpin</tabstop>
+  <tabstop>rotHostNameEdit</tabstop>
+  <tabstop>rigNetPortSpin</tabstop>
+  <tabstop>rigHostNameEdit</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -1172,8 +1260,8 @@
    <slot>addRig()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>594</x>
-     <y>554</y>
+     <x>637</x>
+     <y>537</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -1188,8 +1276,8 @@
    <slot>deleteRig()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>681</x>
-     <y>554</y>
+     <x>723</x>
+     <y>537</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -1220,8 +1308,8 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>202</x>
-     <y>505</y>
+     <x>275</x>
+     <y>482</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1236,8 +1324,8 @@
    <slot>addAnt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>554</x>
-     <y>755</y>
+     <x>637</x>
+     <y>786</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1252,8 +1340,8 @@
    <slot>deleteAnt()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>641</x>
-     <y>755</y>
+     <x>723</x>
+     <y>786</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1268,8 +1356,8 @@
    <slot>tqslPathBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>679</x>
-     <y>214</y>
+     <x>722</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1284,8 +1372,8 @@
    <slot>addStationProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>554</x>
-     <y>320</y>
+     <x>518</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1300,8 +1388,8 @@
    <slot>deleteStationProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>641</x>
-     <y>320</y>
+     <x>723</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1332,8 +1420,8 @@
    <slot>adjustCallsignTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>598</x>
-     <y>160</y>
+     <x>518</x>
+     <y>134</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1348,8 +1436,8 @@
    <slot>adjustLocatorTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>598</x>
-     <y>200</y>
+     <x>518</x>
+     <y>227</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1364,11 +1452,43 @@
    <slot>eqslDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>679</x>
-     <y>580</y>
+     <x>722</x>
+     <y>545</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>vuccEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustVUCCLocatorTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>482</x>
+     <y>246</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sotaEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>sotaChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>656</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
      <y>424</y>
     </hint>
    </hints>
@@ -1390,5 +1510,7 @@
   <slot>adjustLocatorTextColor()</slot>
   <slot>eqslDirBrowse()</slot>
   <slot>cancelled()</slot>
+  <slot>adjustVUCCLocatorTextColor()</slot>
+  <slot>sotaChanged(QString)</slot>
  </slots>
 </ui>

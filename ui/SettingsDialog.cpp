@@ -82,6 +82,19 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     ui->callsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
     ui->locatorEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
+    ui->vuccEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), this));
+
+    iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
+    iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    iotaCompleter->setFilterMode(Qt::MatchContains);
+    iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->iotaEdit->setCompleter(iotaCompleter);
+
+    sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
+    sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    sotaCompleter->setFilterMode(Qt::MatchStartsWith);
+    sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->sotaEdit->setCompleter(nullptr);
 
     readSettings();
 }
@@ -190,6 +203,16 @@ void SettingsDialog::addStationProfile()
         return;
     }
 
+    if ( ! ui->vuccEdit->text().isEmpty() )
+    {
+        if ( ! ui->vuccEdit->hasAcceptableInput() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("VUCC Locator has an invalid format (must be 2 or 4 locators separated by ',')"));
+            return;
+        }
+    }
+
     if ( ui->addProfileButton->text() == tr("Modify"))
     {
         ui->addProfileButton->setText(tr("Add"));
@@ -202,6 +225,11 @@ void SettingsDialog::addStationProfile()
     profile.locator = ui->locatorEdit->text().toUpper();
     profile.operatorName = ui->operatorEdit->text();
     profile.qthName = ui->qthEdit->text();
+    profile.iota = ui->iotaEdit->text().toUpper();
+    profile.sota = ui->sotaEdit->text().toUpper();
+    profile.sig = ui->sigEdit->text().toUpper();
+    profile.sigInfo = ui->sigInfoEdit->text();
+    profile.vucc = ui->vuccEdit->text().toUpper();
 
     profileManager->add(profile);
     refreshStationProfilesView();
@@ -214,6 +242,11 @@ void SettingsDialog::addStationProfile()
     ui->locatorEdit->setPlaceholderText(QString());
     ui->operatorEdit->clear();
     ui->qthEdit->clear();
+    ui->sotaEdit->clear();
+    ui->iotaEdit->clear();
+    ui->sigEdit->clear();
+    ui->sigInfoEdit->clear();
+    ui->vuccEdit->clear();
 }
 
 void SettingsDialog::deleteStationProfile()
@@ -240,6 +273,11 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->locatorEdit->setText(profile.locator);
     ui->operatorEdit->setText(profile.operatorName);
     ui->qthEdit->setText(profile.qthName);
+    ui->iotaEdit->setText(profile.iota);
+    ui->sotaEdit->setText(profile.sota);
+    ui->sigEdit->setText(profile.sig);
+    ui->sigInfoEdit->setText(profile.sigInfo);
+    ui->vuccEdit->setText(profile.vucc);
 
     ui->addProfileButton->setText(tr("Modify"));
 }
@@ -352,6 +390,20 @@ void SettingsDialog::adjustLocatorTextColor()
 
 }
 
+void SettingsDialog::adjustVUCCLocatorTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! ui->vuccEdit->hasAcceptableInput() )
+    {
+        ui->vuccEdit->setStyleSheet("QLineEdit { color: red;}");
+    }
+    else
+    {
+        ui->vuccEdit->setStyleSheet("QLineEdit { color: black;}");
+    }
+}
+
 void SettingsDialog::eqslDirBrowse()
 {
     FCT_IDENTIFICATION;
@@ -382,6 +434,20 @@ void SettingsDialog::cancelled()
     }
 
     reject();
+}
+
+void SettingsDialog::sotaChanged(QString newSOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newSOTA.length() >= 3 )
+    {
+        ui->sotaEdit->setCompleter(sotaCompleter);
+    }
+    else
+    {
+        ui->sotaEdit->setCompleter(nullptr);
+    }
 }
 
 void SettingsDialog::readSettings() {
@@ -581,7 +647,9 @@ void SettingsDialog::writeSettings() {
 SettingsDialog::~SettingsDialog() {
     FCT_IDENTIFICATION;
 
-    delete modeTableModel;
-    delete bandTableModel;
+    modeTableModel->deleteLater();
+    bandTableModel->deleteLater();
+    sotaCompleter->deleteLater();
+    iotaCompleter->deleteLater();
     delete ui;
 }
