@@ -491,6 +491,7 @@ void NewContactWidget::resetContact() {
     ui->sigEdit->clear();
     ui->sigInfoEdit->clear();
     ui->dokEdit->clear();
+    ui->vuccEdit->clear();
     ui->dxccTableWidget->clear();
     ui->dxccStatus->clear();
     ui->flagView->setPixmap(QPixmap());
@@ -772,6 +773,11 @@ void NewContactWidget::saveContact()
     if ( !ui->dokEdit->text().isEmpty() )
     {
         record.setValue("darc_dok", ui->dokEdit->text().toUpper());
+    }
+
+    if ( !ui->vuccEdit->text().isEmpty() )
+    {
+        record.setValue("vucc_grids", ui->vuccEdit->text().toUpper());
     }
 
     if (!ui->commentEdit->text().isEmpty()) {
