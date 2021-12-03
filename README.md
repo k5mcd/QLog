@@ -24,6 +24,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - Custom QSO Filters
 - Basic Satellite support
 - **NO** ads, **NO** user tracking, **NO** hidden telemetry - simply free and open-source
+- SQLite backend.
 
 For more details, screenshots etc, please, see [QLog Wiki](https://github.com/foldynl/QLog/wiki)
 
