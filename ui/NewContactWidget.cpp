@@ -114,6 +114,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     new QShortcut(QKeySequence(Qt::ALT + Qt::Key_W), this, SLOT(resetContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F10), this, SLOT(saveContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F9), this, SLOT(stopContactTimer()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_M), this, SLOT(markContact()), nullptr, Qt::ApplicationShortcut);
 
     /*
      * qlog is not a contest log. There is missing many contest features so that it can compete at least a little
@@ -878,6 +879,22 @@ void NewContactWidget::stopContactTimer() {
         contactTimer->stop();
     }
     updateTimeOff();
+}
+
+void NewContactWidget::markContact()
+{
+    FCT_IDENTIFICATION;
+
+    if ( !ui->callsignEdit->text().isEmpty() )
+    {
+        DxSpot spot;
+
+        spot.time = QDateTime::currentDateTimeUtc().time(); //QTime::currentTime();
+        spot.freq = ui->frequencyEdit->value();
+        spot.band = Data::band(spot.freq).name;
+        spot.callsign = ui->callsignEdit->text().toUpper();
+        emit markQSO(spot);
+    }
 }
 
 void NewContactWidget::editCallsignFinished()
