@@ -128,7 +128,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableView" name="contactTable">
+      <widget class="QTableQSOView" name="contactTable">
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
@@ -217,6 +217,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QTableQSOView</class>
+   <extends>QTableView</extends>
+   <header>ui/QTableQSOView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../res/icons/icons.qrc"/>
  </resources>

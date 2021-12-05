@@ -43,6 +43,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->contactTable->horizontalHeader(), &QHeaderView::customContextMenuRequested,
             this, &LogbookWidget::showTableHeaderContextMenu);
+    connect(ui->contactTable, &QTableQSOView::dataCommitted, this, &LogbookWidget::updateTable);
 
     QMap<QString, QString> qslSentEnum;
     qslSentEnum["Y"] = tr("Yes");

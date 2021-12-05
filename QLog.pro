@@ -78,6 +78,7 @@ SOURCES += \
         ui/QSLImportStatDialog.cpp \
         ui/QSOFilterDetail.cpp \
         ui/QSOFilterDialog.cpp \
+        ui/QTableQSOView.cpp \
         ui/RigWidget.cpp \
         ui/RotatorWidget.cpp \
         ui/SettingsDialog.cpp \
@@ -137,6 +138,7 @@ HEADERS += \
         ui/QSLImportStatDialog.h \
         ui/QSOFilterDetail.h \
         ui/QSOFilterDialog.h \
+        ui/QTableQSOView.h \
         ui/RigWidget.h \
         ui/RotatorWidget.h \
         ui/SettingsDialog.h \
