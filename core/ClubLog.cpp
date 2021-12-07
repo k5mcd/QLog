@@ -65,7 +65,8 @@ void ClubLog::uploadContact(QSqlRecord record) {
     nam->post(request, query.query().toUtf8());
 }
 
-void ClubLog::uploadAdif(QByteArray& data) {
+QNetworkReply* ClubLog::uploadAdif(QByteArray& data)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << data;
@@ -75,10 +76,6 @@ void ClubLog::uploadAdif(QByteArray& data) {
     QString callsign = settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
     QString password = CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
                                                                 email);
-
-    if (email.isEmpty() || callsign.isEmpty() || password.isEmpty()) {
-        return;
-    }
 
     QUrl url(API_LOG_UPLOAD_URL);
 
@@ -120,22 +117,41 @@ void ClubLog::uploadAdif(QByteArray& data) {
 
     QNetworkRequest request(url);
     QNetworkReply* reply = nam->post(request, multipart);
+    reply->setProperty("messageType", QVariant("uploadADIFFile"));
     multipart->setParent(reply);
+
+    return reply;
 }
 
-void ClubLog::processReply(QNetworkReply* reply) {
+void ClubLog::processReply(QNetworkReply* reply)
+{
     FCT_IDENTIFICATION;
 
-    if (reply->error() != QNetworkReply::NoError) {
-        qCDebug(runtime) << "ClubLog error" << reply->errorString();
+    if ( reply->error() != QNetworkReply::NoError )
+    {
+        qCDebug(runtime) << "eQSL error URL " << reply->request().url().toString();
+        qCDebug(runtime) << "eQSL error" << reply->errorString();
         reply->deleteLater();
+        if ( reply->error() != QNetworkReply::OperationCanceledError )
+        {
+            emit uploadError(reply->errorString());
+        }
         return;
     }
-    else {
-        qCDebug(runtime) << "ClubLog update sent.";
-        reply->deleteLater();
-        return;
+
+    QString messageType = reply->property("messageType").toString();
+
+    qCDebug(runtime) << "Received Message Type: " << messageType;
+
+    /******************/
+    /* uploadADIFFile */
+    /******************/
+    if ( messageType == "uploadADIFFile" )
+    {
+        emit uploadOK("OK");
     }
+
+    reply->deleteLater();
 }
 
 const QString ClubLog::SECURE_STORAGE_KEY = "QLog:Clublog";

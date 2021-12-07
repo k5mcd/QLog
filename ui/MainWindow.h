@@ -37,6 +37,7 @@ private slots:
     void exportLog();
     void showLotw();
     void showeQSL();
+    void showClublog();
     void showAwards();
     void showAbout();
     void conditionsUpdated();

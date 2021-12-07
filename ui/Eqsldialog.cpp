@@ -185,11 +185,11 @@ void EqslDialog::upload()
 
             EQSL *eQSL = new EQSL(dialog);
 
-            connect(eQSL, &EQSL::uploadOK, [this, dialog, query_where](QString msg)
+            connect(eQSL, &EQSL::uploadOK, [this, dialog, query_where, count](QString msg)
             {
                 dialog->done(0);
                 qCDebug(runtime) << "eQSL Upload OK: " << msg;
-                QMessageBox::information(this, tr("QLog Information"), tr("QSO(s) uploaded."));
+                QMessageBox::information(this, tr("QLog Information"), tr("%n QSO(s) uploaded.", "", count));
                 QString query_string = "UPDATE contacts "
                                        "SET eqsl_qsl_sent='Y', eqsl_qslsdate = strftime('%Y-%m-%d',DATETIME('now', 'utc')) "
                         + query_where;

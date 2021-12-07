@@ -35,7 +35,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->addAction(ui->actionFilter);
     ui->contactTable->addAction(ui->actionLookup);
     ui->contactTable->addAction(ui->actionDisplayedColumns);
-    ui->contactTable->addAction(ui->actionUploadClublog);
+    //ui->contactTable->addAction(ui->actionUploadClublog);
     ui->contactTable->addAction(ui->actionDeleteContact);
 
     //ui->contactTable->sortByColumn(1, Qt::DescendingOrder);

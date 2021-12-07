@@ -61,6 +61,7 @@ SOURCES += \
         ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
         ui/ClockWidget.cpp \
+        ui/ClublogDialog.cpp \
         ui/ColumnSettingDialog.cpp \
         ui/DxFilterDialog.cpp \
         ui/DxWidget.cpp \
@@ -121,6 +122,7 @@ HEADERS += \
         ui/AwardsDialog.h \
         ui/BandmapWidget.h \
         ui/ClockWidget.h \
+        ui/ClublogDialog.h \
         ui/ColumnSettingDialog.h \
         ui/DxFilterDialog.h \
         ui/DxWidget.h \
@@ -149,6 +151,7 @@ FORMS += \
         ui/AwardsDialog.ui \
         ui/BandmapWidget.ui \
         ui/ClockWidget.ui \
+        ui/ClublogDialog.ui \
         ui/ColumnSettingDialog.ui \
         ui/DxFilterDialog.ui \
         ui/DxWidget.ui \

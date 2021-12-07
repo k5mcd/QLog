@@ -15,11 +15,14 @@ public:
     const static QString SECURE_STORAGE_KEY;
     const static QString CONFIG_EMAIL_KEY;
     const static QString CONFIG_CALLSIGN_KEY;
+
 signals:
+    void uploadOK(QString);
+    void uploadError(QString);
 
 public slots:
     void uploadContact(QSqlRecord record);
-    void uploadAdif(QByteArray& data);
+    QNetworkReply* uploadAdif(QByteArray &data);
     void processReply(QNetworkReply* reply);
 
 private:
