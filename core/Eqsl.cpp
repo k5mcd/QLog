@@ -435,7 +435,7 @@ void EQSL::processReply(QNetworkReply* reply)
         if ( matchOK.hasMatch() )
         {
             msg = matchOK.captured(1);
-            uploadOK(msg);
+            emit uploadOK(msg);
         }
         else if (matchError.hasMatch() )
         {
@@ -445,12 +445,12 @@ void EQSL::processReply(QNetworkReply* reply)
         else if (matchWarning.hasMatch() )
         {
             msg = matchWarning.captured(1);
-            uploadOK(msg);
+            emit uploadOK(msg);
         }
         else if (matchCaution.hasMatch() )
         {
             msg = matchCaution.captured(1);
-            uploadError(msg);
+            emit uploadError(msg);
         }
         else
         {
