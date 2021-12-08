@@ -61,7 +61,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->modeTableView->hideColumn(0);
     ui->modeTableView->hideColumn(2);
     ui->modeTableView->setItemDelegateForColumn(5,new CheckBoxDelegate(ui->modeTableView));
-
+    ui->modeTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     modeTableModel->select();
 
     bandTableModel = new QSqlTableModel(this);
@@ -77,6 +77,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->bandTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->bandTableView->hideColumn(0);
     ui->bandTableView->setItemDelegateForColumn(4,new CheckBoxDelegate(ui->bandTableView));
+    ui->bandTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     bandTableModel->select();
 

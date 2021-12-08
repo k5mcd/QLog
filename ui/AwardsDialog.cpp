@@ -26,6 +26,7 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
 
     ui->awardTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->awardTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     refreshTable(0);
 }

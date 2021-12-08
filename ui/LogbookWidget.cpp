@@ -175,6 +175,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     }
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
+    ui->contactTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     ui->bandFilter->blockSignals(true);
     ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", tr("Band"), this));
