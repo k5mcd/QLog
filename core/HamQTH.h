@@ -3,23 +3,23 @@
 
 #include <QObject>
 #include <QString>
+#include "core/GenericCallbook.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class HamQTH : public QObject {
+class HamQTH : public GenericCallbook
+{
     Q_OBJECT
 
 public:
     explicit HamQTH(QObject *parent = nullptr);
-    const static QString SECURE_STORAGE_KEY;
-    const static QString CONFIG_USERNAME_KEY;
-
-signals:
-    void callsignResult(const QMap<QString, QString>& data);
+    ~HamQTH();
 
 public slots:
     void queryCallsign(QString callsign);
+
+public slots:
     void processReply(QNetworkReply* reply);
 
 private:

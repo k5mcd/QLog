@@ -10,7 +10,7 @@
 #include "ui_SettingsDialog.h"
 #include "models/RigTypeModel.h"
 #include "models/RotTypeModel.h"
-#include "../core/HamQTH.h"
+#include "../core/GenericCallbook.h"
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
 #include "../core/Eqsl.h"
@@ -486,13 +486,14 @@ void SettingsDialog::readSettings() {
     ui->rotHostNameEdit->setText(settings.value("hamlib/rot/hostname").toString());
     ui->rotNetPortSpin->setValue(settings.value("hamlib/rot/netport").toInt());
 
-    /**********/
-    /* HamQTH */
-    /**********/
-    username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+    /************/
+    /* Callbook */
+    /************/
+    ui->callbookCombo->setCurrentText(settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY,"HamQTH").toString());
+    username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
     ui->callbookUsernameEdit->setText(username);
-    ui->callbookPasswordEdit->setText(CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
-                                                                             username));
+    ui->callbookPasswordEdit->setText(CredentialStore::instance()->getPassword(GenericCallbook::SECURE_STORAGE_KEY,
+                                                                               username));
     /********/
     /* LoTW */
     /********/
@@ -575,21 +576,23 @@ void SettingsDialog::writeSettings() {
     settings.setValue("hamlib/rot/hostname", ui->rotHostNameEdit->text());
     settings.setValue("hamlib/rot/netport", ui->rotNetPortSpin->value());
 
-    /**********/
-    /* HamQTH */
-    /**********/
-    old_username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+    /************/
+    /* Callbook */
+    /************/
+    old_username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
     if ( old_username != ui->callbookUsernameEdit->text() )
     {
-        CredentialStore::instance()->deletePassword(HamQTH::SECURE_STORAGE_KEY,
+        CredentialStore::instance()->deletePassword(GenericCallbook::SECURE_STORAGE_KEY,
                                                     old_username);
     }
 
-    settings.setValue(HamQTH::CONFIG_USERNAME_KEY, ui->callbookUsernameEdit->text());
+    settings.setValue(GenericCallbook::CONFIG_USERNAME_KEY, ui->callbookUsernameEdit->text());
 
-    CredentialStore::instance()->savePassword(HamQTH::SECURE_STORAGE_KEY,
+    CredentialStore::instance()->savePassword(GenericCallbook::SECURE_STORAGE_KEY,
                                               ui->callbookUsernameEdit->text(),
                                               ui->callbookPasswordEdit->text());
+
+    settings.setValue(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY, ui->callbookCombo->currentText());
 
     /********/
     /* LoTW */

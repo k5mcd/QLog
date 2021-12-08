@@ -35,6 +35,7 @@ SOURCES += \
         core/Cty.cpp \
         core/Eqsl.cpp \
         core/Fldigi.cpp \
+        core/GenericCallbook.cpp \
         core/Gridsquare.cpp \
         core/HamQTH.cpp \
         core/Lotw.cpp \
@@ -94,6 +95,7 @@ HEADERS += \
         core/Cty.h \
         core/Eqsl.h \
         core/Fldigi.h \
+        core/GenericCallbook.h \
         core/Gridsquare.h \
         core/HamQTH.h \
         core/Lotw.h \

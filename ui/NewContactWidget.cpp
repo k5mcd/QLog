@@ -15,6 +15,7 @@ MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
+    callbook(nullptr),
     ui(new Ui::NewContactWidget),
     prop_cond(nullptr)
 {
@@ -108,8 +109,6 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     contactTimer = new QTimer(this);
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
 
-    connect(&callbook, &HamQTH::callsignResult, this, &NewContactWidget::callsignResult);
-
     new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(resetContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::ALT + Qt::Key_W), this, SLOT(resetContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F10), this, SLOT(saveContact()), nullptr, Qt::ApplicationShortcut);
@@ -199,6 +198,24 @@ void NewContactWidget::reloadSettings() {
 
     // return selected mode.
     ui->modeEdit->setCurrentText(current_mode);
+
+    if ( callbook )
+    {
+        callbook->deleteLater();
+        callbook = nullptr;
+    }
+
+    QString callbook_selection = settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY).toString();
+
+    if ( callbook_selection == "HamQTH" )
+    {
+        callbook = new HamQTH(this);
+        connect(callbook, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
+    }
+    else
+    {
+
+    }
 
     refreshStationProfileCombo();
 }
@@ -900,9 +917,9 @@ void NewContactWidget::markContact()
 void NewContactWidget::editCallsignFinished()
 {
     startContactTimer();
-    if ( callsign.size() >= 3 )
+    if ( callsign.size() >= 3 && callbook )
     {
-        callbook.queryCallsign(callsign);
+        callbook->queryCallsign(callsign);
     }
 }
 
@@ -1032,9 +1049,9 @@ void NewContactWidget::tuneDx(QString callsign, double frequency) {
     ui->callsignEdit->setText(callsign);
     ui->frequencyEdit->setValue(frequency);
     callsignChanged();
-    if ( callsign.size() >= 3 )
+    if ( callsign.size() >= 3 && callbook )
     {
-        callbook.queryCallsign(callsign);
+        callbook->queryCallsign(callsign);
     }
     stopContactTimer();
 }
@@ -1049,9 +1066,9 @@ void NewContactWidget::showDx(QString callsign, QString grid)
     ui->callsignEdit->setText(callsign.toUpper());
     ui->gridEdit->setText(grid);
     callsignChanged();
-    if ( callsign.size() >= 3 )
+    if ( callsign.size() >= 3  && callbook )
     {
-        callbook.queryCallsign(callsign);
+        callbook->queryCallsign(callsign);
     }
     stopContactTimer();
 }
@@ -1139,5 +1156,6 @@ NewContactWidget::~NewContactWidget() {
     FCT_IDENTIFICATION;
 
     writeSettings();
+    callbook->deleteLater();
     delete ui;
 }

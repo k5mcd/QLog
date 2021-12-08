@@ -90,7 +90,7 @@ private:
     QString callsign;
     DxccEntity dxccEntity;
     QString defaultReport;
-    HamQTH callbook;
+    GenericCallbook *callbook;
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;

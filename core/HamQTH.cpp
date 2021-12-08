@@ -15,19 +15,25 @@
 MODULE_IDENTIFICATION("qlog.core.hamqth");
 
 HamQTH::HamQTH(QObject* parent) :
-    QObject(parent)
+    GenericCallbook(parent)
 {
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(processReply(QNetworkReply*)));
+    connect(nam, &QNetworkAccessManager::finished,
+            this, &HamQTH::processReply);
 
     incorrectLogin = false;
     lastSeenPassword = "";
 }
 
-void HamQTH::queryCallsign(QString callsign) {
+HamQTH::~HamQTH()
+{
+    nam->deleteLater();
+}
+
+void HamQTH::queryCallsign(QString callsign)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<< callsign;
@@ -55,8 +61,8 @@ void HamQTH::authenticate() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
+    QString username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
+    QString password = CredentialStore::instance()->getPassword(GenericCallbook::SECURE_STORAGE_KEY,
                                                                 username);
 
     if ( incorrectLogin && password == lastSeenPassword)
@@ -75,6 +81,10 @@ void HamQTH::authenticate() {
 
         nam->get(QNetworkRequest(url));
         lastSeenPassword = password;
+    }
+    else
+    {
+        qCDebug(runtime) << "Empty username or password";
     }
 }
 
@@ -107,6 +117,7 @@ void HamQTH::processReply(QNetworkReply* reply) {
             sessionId = QString();
             if ( xml.readElementText() == "Wrong user name or password")
             {
+                qInfo()<< "hamQTH Incorrect username or password";
                 incorrectLogin = true;
             }
         }
@@ -160,6 +171,3 @@ void HamQTH::processReply(QNetworkReply* reply) {
         queryCallsign(queuedCallsign);
     }
 }
-
-const QString HamQTH::SECURE_STORAGE_KEY = "QLog:HamQTH";
-const QString HamQTH::CONFIG_USERNAME_KEY = "hamqth/username";
