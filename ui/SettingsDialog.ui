@@ -24,7 +24,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -360,7 +360,7 @@
           <item row="1" column="0" colspan="2">
            <widget class="QStackedWidget" name="rotStackedWidget">
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_serial_2">
              <layout class="QFormLayout" name="formLayout_10">
@@ -871,30 +871,50 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QComboBox" name="callbookCombo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <item>
+          <property name="text">
+           <string>HamQTH</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>QRZ.com</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>HamQTH</string>
+          <string/>
          </property>
          <layout class="QFormLayout" name="formLayout_3">
           <item row="0" column="0">
-           <widget class="QLabel" name="hamQthUsernameLabel">
+           <widget class="QLabel" name="calllbookUsernameLabel">
             <property name="text">
              <string>Username</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="hamQthUsernameEdit"/>
+           <widget class="QLineEdit" name="callbookUsernameEdit"/>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="hamQthPasswordLabel">
+           <widget class="QLabel" name="callbookPasswordLabel">
             <property name="text">
              <string>Password</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="hamQthPasswordEdit">
+           <widget class="QLineEdit" name="callbookPasswordEdit">
             <property name="echoMode">
              <enum>QLineEdit::Password</enum>
             </property>
@@ -1182,7 +1202,6 @@
   <tabstop>antennasEdit</tabstop>
   <tabstop>addAntButton</tabstop>
   <tabstop>deleteAntButton</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>rigModelSelect</tabstop>
   <tabstop>rigPortEdit</tabstop>
   <tabstop>rigBaudSelect</tabstop>
@@ -1197,8 +1216,8 @@
   <tabstop>rotStopBitsSelect</tabstop>
   <tabstop>rotFlowControlSelect</tabstop>
   <tabstop>rotParitySelect</tabstop>
-  <tabstop>hamQthUsernameEdit</tabstop>
-  <tabstop>hamQthPasswordEdit</tabstop>
+  <tabstop>callbookUsernameEdit</tabstop>
+  <tabstop>callbookPasswordEdit</tabstop>
   <tabstop>lotwUsernameEdit</tabstop>
   <tabstop>lotwPasswordEdit</tabstop>
   <tabstop>tqslPathEdit</tabstop>

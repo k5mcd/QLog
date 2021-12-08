@@ -490,8 +490,8 @@ void SettingsDialog::readSettings() {
     /* HamQTH */
     /**********/
     username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    ui->hamQthUsernameEdit->setText(username);
-    ui->hamQthPasswordEdit->setText(CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
+    ui->callbookUsernameEdit->setText(username);
+    ui->callbookPasswordEdit->setText(CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
                                                                              username));
     /********/
     /* LoTW */
@@ -579,17 +579,17 @@ void SettingsDialog::writeSettings() {
     /* HamQTH */
     /**********/
     old_username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->hamQthUsernameEdit->text() )
+    if ( old_username != ui->callbookUsernameEdit->text() )
     {
         CredentialStore::instance()->deletePassword(HamQTH::SECURE_STORAGE_KEY,
                                                     old_username);
     }
 
-    settings.setValue(HamQTH::CONFIG_USERNAME_KEY, ui->hamQthUsernameEdit->text());
+    settings.setValue(HamQTH::CONFIG_USERNAME_KEY, ui->callbookUsernameEdit->text());
 
     CredentialStore::instance()->savePassword(HamQTH::SECURE_STORAGE_KEY,
-                                              ui->hamQthUsernameEdit->text(),
-                                              ui->hamQthPasswordEdit->text());
+                                              ui->callbookUsernameEdit->text(),
+                                              ui->callbookPasswordEdit->text());
 
     /********/
     /* LoTW */
