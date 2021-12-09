@@ -5,7 +5,7 @@ TBD - 0.3.0
 - Added BandMap marks
 - Clublog is uploaded the same way as EQSL and LOTW (modification are resend)
 - Clublog real-time uploaded was removed
-
+- QRZ.com - Added callsign query support
 
 2021/11/28 - 0.2.0
 - Initial fork changes
