@@ -128,6 +128,7 @@ void HamQTH::processReply(QNetworkReply* reply) {
                 qInfo() << "HamQTH Error - " << errorString;
             }
             emit lookupError(errorString);
+            return;
         }
         else
         {
