@@ -262,7 +262,10 @@ void EQSL::processReply(QNetworkReply* reply)
 
         QString replayString(reply->readAll());
 
-        if ( replayString.contains("No such Username/Password found") )
+        qCDebug(runtime) << replayString;
+
+        if ( replayString.contains("No such Username/Password found")
+             || replayString.contains("No such Callsign found") )
         {
             qCDebug(runtime) << "Incorrect Password or QTHProfile Id";
             emit updateFailed(tr("Incorrect Password or QTHProfile Id"));
@@ -292,6 +295,8 @@ void EQSL::processReply(QNetworkReply* reply)
         //getting the first page where an Image filename is present
 
         QString replayString(reply->readAll());
+
+        qCDebug(runtime) << replayString;
 
         if ( replayString.contains("No such Username/Password found") )
         {
@@ -422,6 +427,8 @@ void EQSL::processReply(QNetworkReply* reply)
     else if ( messageType == "uploadADIFFile" )
     {
         QString replayString(reply->readAll());
+        qCDebug(runtime) << replayString;
+
         QRegularExpression rOK("Result: (.*)");
         QRegularExpressionMatch matchOK = rOK.match(replayString);
         QRegularExpression rError("Error: (.*)");

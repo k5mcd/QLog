@@ -182,6 +182,16 @@ void Lotw::processReply(QNetworkReply* reply)
 
     QByteArray data = reply->readAll();
 
+    qCDebug(runtime) << data;
+
+    /* verify the Username/password incorrect only in case when message is short (10k).
+     * otherwise, it is a long ADIF and it is not necessary to verify login status */
+    if ( size < 10000 && data.contains("Username/password incorrect") )
+    {
+        emit updateFailed(tr("Incorrect Loging or password"));
+        return;
+    }
+
     tempFile.write(data);
     tempFile.flush();
     tempFile.seek(0);
