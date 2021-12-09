@@ -220,6 +220,14 @@ void NewContactWidget::reloadSettings() {
         connect(callbook, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
     }
 
+    if ( callbook )
+    {
+        connect(callbook, &GenericCallbook::loginFailed, [this]()
+        {
+            QMessageBox::critical(this, tr("QLog Error"), tr("Callbook login failed"));
+        });
+    }
+
     refreshStationProfileCombo();
 }
 

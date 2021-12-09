@@ -16,6 +16,8 @@ public:
 
 signals:
     void callsignResult(const QMap<QString, QString>& data);
+    void lookupError(const QString);
+    void loginFailed();
 
 public slots:
     virtual void queryCallsign(QString callsign) {};

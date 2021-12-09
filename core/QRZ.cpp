@@ -7,8 +7,10 @@
 #include <QtXml>
 #include <QDebug>
 #include "QRZ.h"
+#include <QMessageBox>
 #include "debug.h"
 #include "core/CredentialStore.h"
+
 
 #define API_URL "https://xmldata.qrz.com/xml/current/"
 
@@ -122,15 +124,19 @@ void QRZ::processReply(QNetworkReply* reply) {
         {
             queuedCallsign = QString();
             sessionId = QString();
-            if ( xml.readElementText().contains("Username/password incorrect"))
+            QString errorString = xml.readElementText();
+
+            if ( errorString.contains("Username/password incorrect"))
             {
                 qInfo()<< "QRZ Incorrect username or password";
                 incorrectLogin = true;
+                emit loginFailed();
             }
             else
             {
-                qInfo() << "QRZ Error - " << xml.readElementText();
+                qInfo() << "QRZ Error - " << errorString;
             }
+            emit lookupError(errorString);
         }
         else
         {

@@ -115,11 +115,19 @@ void HamQTH::processReply(QNetworkReply* reply) {
         {
             queuedCallsign = QString();
             sessionId = QString();
-            if ( xml.readElementText() == "Wrong user name or password")
+            QString errorString = xml.readElementText();
+
+            if ( errorString == "Wrong user name or password")
             {
                 qInfo()<< "hamQTH Incorrect username or password";
                 incorrectLogin = true;
+                emit loginFailed();
             }
+            else
+            {
+                qInfo() << "HamQTH Error - " << errorString;
+            }
+            emit lookupError(errorString);
         }
         else
         {
