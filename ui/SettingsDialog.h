@@ -40,6 +40,7 @@ public slots:
     void eqslDirBrowse();
     void cancelled();
     void sotaChanged(QString);
+    void callbookChanged(int);
 
 private:
     void readSettings();

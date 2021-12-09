@@ -27,7 +27,7 @@
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -880,6 +880,11 @@
          </property>
          <item>
           <property name="text">
+           <string>Disabled</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>HamQTH</string>
           </property>
          </item>
@@ -1512,6 +1517,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>callbookCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>callbookChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>65</x>
+     <y>59</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -1531,5 +1552,6 @@
   <slot>cancelled()</slot>
   <slot>adjustVUCCLocatorTextColor()</slot>
   <slot>sotaChanged(QString)</slot>
+  <slot>callbookChanged(int)</slot>
  </slots>
 </ui>

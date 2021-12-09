@@ -207,14 +207,14 @@ void NewContactWidget::reloadSettings() {
         callbook = nullptr;
     }
 
-    QString callbook_selection = settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY).toString();
+    int callbook_selection = settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY).toInt();
 
-    if ( callbook_selection == "HamQTH" )
+    if ( callbook_selection == 1 )
     {
         callbook = new HamQTH(this);
         connect(callbook, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
     }
-    else
+    else if ( callbook_selection == 2 )
     {
         callbook = new QRZ(this);
         connect(callbook, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);

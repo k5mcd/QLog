@@ -97,6 +97,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
+    ui->callbookPasswordEdit->setEnabled(false);
+    ui->callbookUsernameEdit->setEnabled(false);
+
     readSettings();
 }
 
@@ -451,6 +454,24 @@ void SettingsDialog::sotaChanged(QString newSOTA)
     }
 }
 
+void SettingsDialog::callbookChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << index;
+
+    if ( index == 0 )
+    {
+        ui->callbookPasswordEdit->setEnabled(false);
+        ui->callbookUsernameEdit->setEnabled(false);
+    }
+    else
+    {
+        ui->callbookPasswordEdit->setEnabled(true);
+        ui->callbookUsernameEdit->setEnabled(true);
+    }
+}
+
 void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
@@ -489,7 +510,7 @@ void SettingsDialog::readSettings() {
     /************/
     /* Callbook */
     /************/
-    ui->callbookCombo->setCurrentText(settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY,"HamQTH").toString());
+    ui->callbookCombo->setCurrentIndex(settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY,0).toInt());
     username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
     ui->callbookUsernameEdit->setText(username);
     ui->callbookPasswordEdit->setText(CredentialStore::instance()->getPassword(GenericCallbook::SECURE_STORAGE_KEY,
@@ -592,7 +613,7 @@ void SettingsDialog::writeSettings() {
                                               ui->callbookUsernameEdit->text(),
                                               ui->callbookPasswordEdit->text());
 
-    settings.setValue(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY, ui->callbookCombo->currentText());
+    settings.setValue(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY, ui->callbookCombo->currentIndex());
 
     /********/
     /* LoTW */
