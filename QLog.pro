@@ -40,6 +40,7 @@ SOURCES += \
         core/HamQTH.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
+        core/QRZ.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/Sat.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
         core/HamQTH.h \
         core/Lotw.h \
         core/Migration.h \
+        core/QRZ.h \
         core/Rig.h \
         core/Rotator.h \
         core/Sat.h \

@@ -6,33 +6,33 @@
 #include <QSettings>
 #include <QtXml>
 #include <QDebug>
-#include "HamQTH.h"
+#include "QRZ.h"
 #include "debug.h"
 #include "core/CredentialStore.h"
 
-#define API_URL "http://www.hamqth.com/xml.php"
+#define API_URL "https://xmldata.qrz.com/xml/current/"
 
-MODULE_IDENTIFICATION("qlog.core.hamqth");
+MODULE_IDENTIFICATION("qlog.core.qrz");
 
-HamQTH::HamQTH(QObject* parent) :
+QRZ::QRZ(QObject* parent) :
     GenericCallbook(parent)
 {
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
     connect(nam, &QNetworkAccessManager::finished,
-            this, &HamQTH::processReply);
+            this, &QRZ::processReply);
 
     incorrectLogin = false;
-    lastSeenPassword = "";
+    lastSeenPassword = QString();
 }
 
-HamQTH::~HamQTH()
+QRZ::~QRZ()
 {
     nam->deleteLater();
 }
 
-void HamQTH::queryCallsign(QString callsign)
+void QRZ::queryCallsign(QString callsign)
 {
     FCT_IDENTIFICATION;
 
@@ -47,17 +47,17 @@ void HamQTH::queryCallsign(QString callsign)
     queuedCallsign = "";
 
     QUrlQuery query;
-    query.addQueryItem("id", sessionId);
+    query.addQueryItem("s", sessionId);
     query.addQueryItem("callsign", callsign);
-    query.addQueryItem("prg", "QLog");
 
     QUrl url(API_URL);
     url.setQuery(query);
 
+    qCDebug(runtime) << url;
     nam->get(QNetworkRequest(url));
 }
 
-void HamQTH::authenticate() {
+void QRZ::authenticate() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
@@ -73,12 +73,14 @@ void HamQTH::authenticate() {
 
     if (!username.isEmpty() && !password.isEmpty()) {
         QUrlQuery query;
-        query.addQueryItem("u", username);
-        query.addQueryItem("p", password);
+        query.addQueryItem("username", username);
+        query.addQueryItem("password", password);
+        query.addQueryItem("agent", "QLog");
 
         QUrl url(API_URL);
         url.setQuery(query);
 
+        qCDebug(runtime) << url;
         nam->get(QNetworkRequest(url));
         lastSeenPassword = password;
     }
@@ -88,11 +90,11 @@ void HamQTH::authenticate() {
     }
 }
 
-void HamQTH::processReply(QNetworkReply* reply) {
+void QRZ::processReply(QNetworkReply* reply) {
     FCT_IDENTIFICATION;
 
     if (reply->error() != QNetworkReply::NoError) {
-        qCDebug(runtime) << "HamQTH error" << reply->errorString();
+        qCDebug(runtime) << "QRZ error" << reply->errorString();
         reply->deleteLater();
         return;
     }
@@ -101,6 +103,11 @@ void HamQTH::processReply(QNetworkReply* reply) {
     qCDebug(runtime) << response;
     QXmlStreamReader xml(response);
 
+    /* Reset Session Key */
+    /* Every response contains a valid key. If the key is not present
+     * then it is needed to request a new one */
+
+    sessionId = QString();
 
     QMap<QString, QString> data;
 
@@ -111,14 +118,18 @@ void HamQTH::processReply(QNetworkReply* reply) {
             continue;
         }
 
-        if (xml.name() == "error")
+        if (xml.name() == "Error")
         {
             queuedCallsign = QString();
             sessionId = QString();
-            if ( xml.readElementText() == "Wrong user name or password")
+            if ( xml.readElementText().contains("Username/password incorrect"))
             {
-                qInfo()<< "hamQTH Incorrect username or password";
+                qInfo()<< "QRZ Incorrect username or password";
                 incorrectLogin = true;
+            }
+            else
+            {
+                qInfo() << "QRZ Error - " << xml.readElementText();
             }
         }
         else
@@ -126,87 +137,85 @@ void HamQTH::processReply(QNetworkReply* reply) {
             incorrectLogin = false;
         }
 
-        if (xml.name() == "session_id") {
+        if (xml.name() == "Key") {
             sessionId = xml.readElementText();
         }
-        else if (xml.name() == "callsign") {
+        else if (xml.name() == "call") {
             data["call"] = xml.readElementText().toUpper();
         }
-        else if (xml.name() == "nick") {
-            data["name"] = xml.readElementText();
+        else if (xml.name() == "dxcc") {
+            data["dxcc"] = xml.readElementText().toUpper();
         }
-        else if (xml.name() == "qth") {
+        else if (xml.name() == "fname") {
+            data["fname"] = xml.readElementText().toUpper();
+        }
+        else if (xml.name() == "name") {
+            data["lname"] = xml.readElementText().toUpper();
+        }
+        else if (xml.name() == "addr1") {
+            data["addr1"] = xml.readElementText().toUpper();
+        }
+        else if (xml.name() == "addr2") {
             data["qth"] = xml.readElementText();
         }
-        else if (xml.name() == "grid") {
-            data["gridsquare"] = xml.readElementText().toUpper();
-        }
-        else if (xml.name() == "qsl_via") {
-            data["qsl_via"] = xml.readElementText().toUpper();
-        }
-        else if (xml.name() == "cq") {
-            data["cqz"] = xml.readElementText();
-        }
-        else if (xml.name() == "itu") {
-            data["ituz"] = xml.readElementText();
-        }
-        else if (xml.name() == "dok") {
-            data["dok"] = xml.readElementText().toUpper();
-        }
-        else if (xml.name() == "iota") {
-            data["iota"] = xml.readElementText().toUpper();
-        }
-        else if (xml.name() == "email") {
-            data["email"] = xml.readElementText();
-        }
-        else if (xml.name() == "adif") {
-            data["dxcc"] = xml.readElementText();
-        }
-        else if (xml.name() == "addr_name") {
-            data["lname"] = xml.readElementText();
-        }
-        else if (xml.name() == "adr_street1") {
-            data["addr1"] = xml.readElementText();
-        }
-        else if (xml.name() == "us_state") {
+        else if (xml.name() == "state") {
             data["us_state"] = xml.readElementText();
         }
-        else if (xml.name() == "adr_zip") {
+        else if (xml.name() == "zip") {
             data["zipcode"] = xml.readElementText();
         }
         else if (xml.name() == "country") {
             data["country"] = xml.readElementText();
         }
-        else if (xml.name() == "latitude") {
+        else if (xml.name() == "lat") {
             data["latitude"] = xml.readElementText();
         }
-        else if (xml.name() == "longitude") {
+        else if (xml.name() == "lon") {
             data["longitude"] = xml.readElementText();
         }
         else if (xml.name() == "county") {
             data["county"] = xml.readElementText();
         }
-        else if (xml.name() == "lic_year") {
+        else if (xml.name() == "efdate") {
             data["lic_year"] = xml.readElementText();
         }
-        else if (xml.name() == "utc_offset") {
+        else if (xml.name() == "qslmgr") {
+            data["qsl_via"] = xml.readElementText();
+        }
+        else if (xml.name() == "email") {
+            data["email"] = xml.readElementText();
+        }
+        else if (xml.name() == "GMTOffset") {
             data["utc_offset"] = xml.readElementText();
         }
         else if (xml.name() == "eqsl") {
             data["eqsl"] = xml.readElementText();
         }
-        else if (xml.name() == "qsl") {
+        else if (xml.name() == "mqsl") {
             data["pqsl"] = xml.readElementText();
         }
-        else if (xml.name() == "birth_year") {
+        else if (xml.name() == "cqzone") {
+            data["cqz"] = xml.readElementText();
+        }
+        else if (xml.name() == "ituzone") {
+            data["ituz"] = xml.readElementText();
+        }
+        else if (xml.name() == "born") {
             data["born"] = xml.readElementText();
         }
         else if (xml.name() == "lotw") {
             data["lotw"] = xml.readElementText();
         }
-        else if (xml.name() == "lotw") {
-            data["lotw"] = xml.readElementText();
+        else if (xml.name() == "iota") {
+            data["iota"] = xml.readElementText();
         }
+        else if (xml.name() == "nickname") {
+            data["name"] = xml.readElementText();
+        }
+        else if (xml.name() == "url") {
+            data["url"] = xml.readElementText();
+        }
+
     }
 
     reply->deleteLater();

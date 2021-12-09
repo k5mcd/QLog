@@ -10,6 +10,8 @@
 #include "core/debug.h"
 #include "core/Gridsquare.h"
 #include "data/StationProfile.h"
+#include "core/HamQTH.h"
+#include "core/QRZ.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -214,7 +216,8 @@ void NewContactWidget::reloadSettings() {
     }
     else
     {
-
+        callbook = new QRZ(this);
+        connect(callbook, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
     }
 
     refreshStationProfileCombo();
@@ -326,7 +329,17 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
 
     if ( ui->nameEdit->text().isEmpty() )
     {
-        ui->nameEdit->setText(data.value("name"));
+        QString name = data.value("name");
+
+        if ( name.isEmpty() )
+        {
+            name = data.value("fname");
+        }
+
+        if ( ui->nameEdit->text().isEmpty() )
+        {
+            ui->nameEdit->setText(name);
+        }
     }
 
     if ( ui->gridEdit->text().isEmpty()
@@ -353,6 +366,26 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
     if ( ui->emailEdit->text().isEmpty() )
     {
         ui->emailEdit->setText(data.value("email"));
+    }
+
+    if ( ui->countyEdit->text().isEmpty() )
+    {
+        ui->countyEdit->setText(data.value("county"));
+    }
+
+    if ( ui->qslViaEdit->text().isEmpty() )
+    {
+        ui->qslViaEdit->setText(data.value("qsl_via"));
+    }
+
+    if ( ui->urlEdit->text().isEmpty() )
+    {
+        ui->urlEdit->setText(data.value("url"));
+    }
+
+    if ( ui->stateEdit->text().isEmpty() )
+    {
+        ui->stateEdit->setText(data.value("us_state"));
     }
 }
 
