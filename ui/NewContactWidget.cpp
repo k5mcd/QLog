@@ -17,7 +17,8 @@ MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
-    callbook(nullptr),
+    primaryCallbook(nullptr),
+    secondaryCallbook(nullptr),
     ui(new Ui::NewContactWidget),
     prop_cond(nullptr)
 {
@@ -201,33 +202,31 @@ void NewContactWidget::reloadSettings() {
     // return selected mode.
     ui->modeEdit->setCurrentText(current_mode);
 
-    if ( callbook )
+    /* Reload Callbooks */
+    if ( primaryCallbook )
     {
-        callbook->deleteLater();
-        callbook = nullptr;
+        primaryCallbook->deleteLater();
+        primaryCallbook = nullptr;
     }
 
-    int callbook_selection = settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY).toInt();
-
-    if ( callbook_selection == 1 )
+    if ( secondaryCallbook )
     {
-        callbook = new HamQTH(this);
-        connect(callbook, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
-    }
-    else if ( callbook_selection == 2 )
-    {
-        callbook = new QRZ(this);
-        connect(callbook, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
+        secondaryCallbook->deleteLater();
+        secondaryCallbook = nullptr;
     }
 
-    if ( callbook )
+    QString primaryCallbookSelection = settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY).toString();
+    QString secondaryCallbookSelection = settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY).toString();
+
+    primaryCallbook = createCallbook(primaryCallbookSelection);
+    secondaryCallbook = createCallbook(secondaryCallbookSelection);
+
+    if ( primaryCallbook && secondaryCallbook )
     {
-        connect(callbook, &GenericCallbook::loginFailed, [this]()
-        {
-            QMessageBox::critical(this, tr("QLog Error"), tr("Callbook login failed"));
-        });
+        connect(primaryCallbook, &GenericCallbook::callsignNotFound, this, &NewContactWidget::callbookCallsignNotFound);
     }
 
+    /* Refresh Station Profile Combobox */
     refreshStationProfileCombo();
 }
 
@@ -302,6 +301,10 @@ void NewContactWidget::clearQueryFields()
     ui->dokEdit->clear();
     ui->iotaEdit->clear();
     ui->emailEdit->clear();
+    ui->countyEdit->clear();
+    ui->qslViaEdit->clear();
+    ui->urlEdit->clear();
+    ui->stateEdit->clear();
 }
 
 void NewContactWidget::queryDatabase(QString callsign) {
@@ -708,6 +711,36 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
        record.setValue("my_vucc_grids", profile.vucc.toUpper());
     }
 }
+
+GenericCallbook *NewContactWidget::createCallbook(QString callbookID)
+{
+    FCT_IDENTIFICATION;
+
+    GenericCallbook *ret = nullptr;
+    QString callbookString;
+
+    if (callbookID == HamQTH::CALLBOOK_NAME )
+    {
+        ret = new HamQTH(this);
+        callbookString = tr("HamQTH");
+    }
+    else if ( callbookID == QRZ::CALLBOOK_NAME )
+    {
+        ret = new QRZ(this);
+        callbookString = tr("QRZ.com");
+    }
+
+    if ( ret )
+    {
+        connect(ret, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
+        connect(ret, &GenericCallbook::loginFailed, [this, callbookString]()
+        {
+            QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+        });
+    }
+
+    return ret;
+}
 void NewContactWidget::saveContact()
 {
     FCT_IDENTIFICATION;
@@ -958,9 +991,9 @@ void NewContactWidget::markContact()
 void NewContactWidget::editCallsignFinished()
 {
     startContactTimer();
-    if ( callsign.size() >= 3 && callbook )
+    if ( callsign.size() >= 3 && primaryCallbook )
     {
-        callbook->queryCallsign(callsign);
+        primaryCallbook->queryCallsign(callsign);
     }
 }
 
@@ -1090,9 +1123,9 @@ void NewContactWidget::tuneDx(QString callsign, double frequency) {
     ui->callsignEdit->setText(callsign);
     ui->frequencyEdit->setValue(frequency);
     callsignChanged();
-    if ( callsign.size() >= 3 && callbook )
+    if ( callsign.size() >= 3 && primaryCallbook )
     {
-        callbook->queryCallsign(callsign);
+        primaryCallbook->queryCallsign(callsign);
     }
     stopContactTimer();
 }
@@ -1107,9 +1140,9 @@ void NewContactWidget::showDx(QString callsign, QString grid)
     ui->callsignEdit->setText(callsign.toUpper());
     ui->gridEdit->setText(grid);
     callsignChanged();
-    if ( callsign.size() >= 3  && callbook )
+    if ( callsign.size() >= 3  && primaryCallbook )
     {
-        callbook->queryCallsign(callsign);
+        primaryCallbook->queryCallsign(callsign);
     }
     stopContactTimer();
 }
@@ -1193,10 +1226,33 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     }
 }
 
+void NewContactWidget::callbookCallsignNotFound(QString queryCallsign)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << queryCallsign;
+
+    if ( queryCallsign != callsign )
+        return ;
+
+    if (!secondaryCallbook) return;
+
+    secondaryCallbook->queryCallsign(queryCallsign);
+}
+
 NewContactWidget::~NewContactWidget() {
     FCT_IDENTIFICATION;
 
     writeSettings();
-    callbook->deleteLater();
+    if ( primaryCallbook )
+    {
+        primaryCallbook->deleteLater();
+    }
+
+    if ( secondaryCallbook )
+    {
+        secondaryCallbook->deleteLater();
+    }
+
     delete ui;
 }

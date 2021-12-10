@@ -15,11 +15,14 @@ class QRZ : public GenericCallbook
 public:
     explicit QRZ(QObject *parent = nullptr);
     ~QRZ();
+    const static QString SECURE_STORAGE_KEY;
+    const static QString CONFIG_USERNAME_KEY;
+    const static QString CALLBOOK_NAME;
 
 public slots:
-    void queryCallsign(QString callsign);
+    void queryCallsign(QString callsign) override;
 
-public slots:
+private slots:
     void processReply(QNetworkReply* reply);
 
 private:

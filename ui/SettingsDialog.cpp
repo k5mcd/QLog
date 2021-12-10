@@ -11,6 +11,8 @@
 #include "models/RigTypeModel.h"
 #include "models/RotTypeModel.h"
 #include "../core/GenericCallbook.h"
+#include "../core/QRZ.h"
+#include "../core/HamQTH.h"
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
 #include "../core/Eqsl.h"
@@ -97,8 +99,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
-    ui->callbookPasswordEdit->setEnabled(false);
-    ui->callbookUsernameEdit->setEnabled(false);
+    ui->primaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
+    ui->primaryCallbookCombo->addItem(tr("HamQTH"),   QVariant(HamQTH::CALLBOOK_NAME));
+    ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
 
     readSettings();
 }
@@ -454,22 +457,40 @@ void SettingsDialog::sotaChanged(QString newSOTA)
     }
 }
 
-void SettingsDialog::callbookChanged(int index)
+void SettingsDialog::primaryCallbookChanged(int index)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << index;
 
-    if ( index == 0 )
+    QString primaryCallbookSelection = ui->primaryCallbookCombo->itemData(index).toString();
+
+    if ( primaryCallbookSelection == GenericCallbook::CALLBOOK_NAME )
     {
-        ui->callbookPasswordEdit->setEnabled(false);
-        ui->callbookUsernameEdit->setEnabled(false);
+        ui->secondaryCallbookCombo->clear();
+        ui->secondaryCallbookCombo->setEnabled(false);
     }
-    else
+    else if ( primaryCallbookSelection == HamQTH::CALLBOOK_NAME )
     {
-        ui->callbookPasswordEdit->setEnabled(true);
-        ui->callbookUsernameEdit->setEnabled(true);
+        ui->secondaryCallbookCombo->setEnabled(true);
+        ui->secondaryCallbookCombo->clear();
+        ui->secondaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
+        ui->secondaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
     }
+    else if ( primaryCallbookSelection == QRZ::CALLBOOK_NAME )
+    {
+        ui->secondaryCallbookCombo->setEnabled(true);
+        ui->secondaryCallbookCombo->clear();
+        ui->secondaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
+        ui->secondaryCallbookCombo->addItem(tr("HamQTH"),  QVariant(HamQTH::CALLBOOK_NAME));
+    }
+}
+
+void SettingsDialog::secondaryCallbookChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << index;
 }
 
 void SettingsDialog::readSettings() {
@@ -510,11 +531,25 @@ void SettingsDialog::readSettings() {
     /************/
     /* Callbook */
     /************/
-    ui->callbookCombo->setCurrentIndex(settings.value(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY,0).toInt());
-    username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
-    ui->callbookUsernameEdit->setText(username);
-    ui->callbookPasswordEdit->setText(CredentialStore::instance()->getPassword(GenericCallbook::SECURE_STORAGE_KEY,
-                                                                               username));
+
+    int primaryCallbookIndex = ui->primaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY, "none"));
+
+    ui->primaryCallbookCombo->setCurrentIndex(primaryCallbookIndex);
+
+    int secondaryCallbookIndex = ui->secondaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY, "none"));
+
+    ui->secondaryCallbookCombo->setCurrentIndex(secondaryCallbookIndex);
+
+    username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+    ui->hamQthUsernameEdit->setText(username);
+    ui->hamQthPasswordEdit->setText(CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
+                                                                             username));
+
+    username = settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
+    ui->qrzUsernameEdit->setText(username);
+    ui->qrzPasswordEdit->setText(CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_KEY,
+                                                                             username));
+
     /********/
     /* LoTW */
     /********/
@@ -600,20 +635,36 @@ void SettingsDialog::writeSettings() {
     /************/
     /* Callbook */
     /************/
-    old_username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->callbookUsernameEdit->text() )
+    old_username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+    if ( old_username != ui->hamQthUsernameEdit->text() )
     {
-        CredentialStore::instance()->deletePassword(GenericCallbook::SECURE_STORAGE_KEY,
+        CredentialStore::instance()->deletePassword(HamQTH::SECURE_STORAGE_KEY,
                                                     old_username);
     }
 
-    settings.setValue(GenericCallbook::CONFIG_USERNAME_KEY, ui->callbookUsernameEdit->text());
+    settings.setValue(HamQTH::CONFIG_USERNAME_KEY, ui->hamQthUsernameEdit->text());
 
-    CredentialStore::instance()->savePassword(GenericCallbook::SECURE_STORAGE_KEY,
-                                              ui->callbookUsernameEdit->text(),
-                                              ui->callbookPasswordEdit->text());
+    CredentialStore::instance()->savePassword(HamQTH::SECURE_STORAGE_KEY,
+                                              ui->hamQthUsernameEdit->text(),
+                                              ui->hamQthPasswordEdit->text());
 
-    settings.setValue(GenericCallbook::CONFIG_SELECTED_CALLBOOK_KEY, ui->callbookCombo->currentIndex());
+    old_username = settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
+    if ( old_username != ui->qrzUsernameEdit->text() )
+    {
+        CredentialStore::instance()->deletePassword(QRZ::SECURE_STORAGE_KEY,
+                                                    old_username);
+    }
+
+    settings.setValue(QRZ::CONFIG_USERNAME_KEY, ui->qrzUsernameEdit->text());
+
+    CredentialStore::instance()->savePassword(QRZ::SECURE_STORAGE_KEY,
+                                              ui->qrzUsernameEdit->text(),
+                                              ui->qrzPasswordEdit->text());
+
+    settings.setValue(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY,
+                      ui->primaryCallbookCombo->itemData(ui->primaryCallbookCombo->currentIndex()).toString());
+    settings.setValue(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY,
+                      ui->secondaryCallbookCombo->itemData(ui->secondaryCallbookCombo->currentIndex()).toString());
 
     /********/
     /* LoTW */

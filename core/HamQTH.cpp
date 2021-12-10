@@ -54,15 +54,15 @@ void HamQTH::queryCallsign(QString callsign)
     QUrl url(API_URL);
     url.setQuery(query);
 
-    nam->get(QNetworkRequest(url));
+    nam->get(QNetworkRequest(url))->setProperty("queryCallsign", callsign);
 }
 
 void HamQTH::authenticate() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(GenericCallbook::SECURE_STORAGE_KEY,
+    QString username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+    QString password = CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
                                                                 username);
 
     if ( incorrectLogin && password == lastSeenPassword)
@@ -91,8 +91,10 @@ void HamQTH::authenticate() {
 void HamQTH::processReply(QNetworkReply* reply) {
     FCT_IDENTIFICATION;
 
-    if (reply->error() != QNetworkReply::NoError) {
-        qCDebug(runtime) << "HamQTH error" << reply->errorString();
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        qInfo() << "HamQTH error" << reply->errorString();
+        emit lookupError(reply->errorString());
         reply->deleteLater();
         return;
     }
@@ -104,7 +106,8 @@ void HamQTH::processReply(QNetworkReply* reply) {
 
     QMap<QString, QString> data;
 
-    while (!xml.atEnd() && !xml.hasError()) {
+    while (!xml.atEnd() && !xml.hasError())
+    {
         QXmlStreamReader::TokenType token = xml.readNext();
 
         if (token != QXmlStreamReader::StartElement) {
@@ -114,19 +117,24 @@ void HamQTH::processReply(QNetworkReply* reply) {
         if (xml.name() == "error")
         {
             queuedCallsign = QString();
-            sessionId = QString();
             QString errorString = xml.readElementText();
 
-            if ( errorString == "Wrong user name or password")
+            if ( errorString == "Wrong user name or password" )
             {
-                qInfo()<< "hamQTH Incorrect username or password";
                 incorrectLogin = true;
                 emit loginFailed();
+            }
+            else if ( errorString == "Callsign not found" )
+            {
+                incorrectLogin = false;
+                emit callsignNotFound(reply->property("queryCallsign").toString());
+                return;
             }
             else
             {
                 qInfo() << "HamQTH Error - " << errorString;
             }
+            sessionId = QString();
             emit lookupError(errorString);
             return;
         }
@@ -216,6 +224,9 @@ void HamQTH::processReply(QNetworkReply* reply) {
         else if (xml.name() == "lotw") {
             data["lotw"] = xml.readElementText();
         }
+        else if (xml.name() == "web") {
+            data["url"] = xml.readElementText();
+        }
     }
 
     reply->deleteLater();
@@ -228,3 +239,7 @@ void HamQTH::processReply(QNetworkReply* reply) {
         queryCallsign(queuedCallsign);
     }
 }
+
+const QString HamQTH::SECURE_STORAGE_KEY = "QLog:HamQTH";
+const QString HamQTH::CONFIG_USERNAME_KEY = "hamqth/username";
+const QString HamQTH::CALLBOOK_NAME = "hamqth";

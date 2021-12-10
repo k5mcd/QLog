@@ -55,16 +55,15 @@ void QRZ::queryCallsign(QString callsign)
     QUrl url(API_URL);
     url.setQuery(query);
 
-    qCDebug(runtime) << url;
-    nam->get(QNetworkRequest(url));
+    nam->get(QNetworkRequest(url))->setProperty("queryCallsign", callsign);
 }
 
 void QRZ::authenticate() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = settings.value(GenericCallbook::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(GenericCallbook::SECURE_STORAGE_KEY,
+    QString username = settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
+    QString password = CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_KEY,
                                                                 username);
 
     if ( incorrectLogin && password == lastSeenPassword)
@@ -82,7 +81,6 @@ void QRZ::authenticate() {
         QUrl url(API_URL);
         url.setQuery(query);
 
-        qCDebug(runtime) << url;
         nam->get(QNetworkRequest(url));
         lastSeenPassword = password;
     }
@@ -95,8 +93,10 @@ void QRZ::authenticate() {
 void QRZ::processReply(QNetworkReply* reply) {
     FCT_IDENTIFICATION;
 
-    if (reply->error() != QNetworkReply::NoError) {
-        qCDebug(runtime) << "QRZ error" << reply->errorString();
+    if ( reply->error() != QNetworkReply::NoError )
+    {
+        qInfo() << "QRZ error" << reply->errorString();
+        emit lookupError(reply->errorString());
         reply->deleteLater();
         return;
     }
@@ -113,7 +113,8 @@ void QRZ::processReply(QNetworkReply* reply) {
 
     QMap<QString, QString> data;
 
-    while (!xml.atEnd() && !xml.hasError()) {
+    while ( !xml.atEnd() && !xml.hasError() )
+    {
         QXmlStreamReader::TokenType token = xml.readNext();
 
         if (token != QXmlStreamReader::StartElement) {
@@ -128,15 +129,21 @@ void QRZ::processReply(QNetworkReply* reply) {
 
             if ( errorString.contains("Username/password incorrect"))
             {
-                qInfo()<< "QRZ Incorrect username or password";
                 incorrectLogin = true;
                 emit loginFailed();
+            }
+            else if ( errorString.contains("Not found:") )
+            {
+                incorrectLogin = false;
+                emit callsignNotFound(reply->property("queryCallsign").toString());
+                return;
             }
             else
             {
                 qInfo() << "QRZ Error - " << errorString;
             }
             emit lookupError(errorString);
+            // do not call return here, we need to obtain Key from error message (if present)
         }
         else
         {
@@ -234,3 +241,7 @@ void QRZ::processReply(QNetworkReply* reply) {
         queryCallsign(queuedCallsign);
     }
 }
+
+const QString QRZ::SECURE_STORAGE_KEY = "QLog:QRZCOM";
+const QString QRZ::CONFIG_USERNAME_KEY = "qrzcom/username";
+const QString QRZ::CALLBOOK_NAME = "qrzcom";

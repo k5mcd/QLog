@@ -74,6 +74,8 @@ public slots:
     void rigFreqOffsetChanged(double);
     void stationProfileChanged(QString);
     void sotaChanged(QString);
+    void callbookCallsignNotFound(QString);
+
 
 private:
     void queryDatabase(QString callsign);
@@ -84,13 +86,15 @@ private:
     void __modeChanged();
     void refreshStationProfileCombo();
     void addAddlFields(QSqlRecord &record);
+    GenericCallbook *createCallbook(QString);
 
 private:
     Rig* rig;
     QString callsign;
     DxccEntity dxccEntity;
     QString defaultReport;
-    GenericCallbook *callbook;
+    GenericCallbook *primaryCallbook;
+    GenericCallbook *secondaryCallbook;
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;
