@@ -532,11 +532,13 @@ void SettingsDialog::readSettings() {
     /* Callbook */
     /************/
 
-    int primaryCallbookIndex = ui->primaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY, "none"));
+    int primaryCallbookIndex = ui->primaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY,
+                                                                                 GenericCallbook::CALLBOOK_NAME));
 
     ui->primaryCallbookCombo->setCurrentIndex(primaryCallbookIndex);
 
-    int secondaryCallbookIndex = ui->secondaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY, "none"));
+    int secondaryCallbookIndex = ui->secondaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY,
+                                                                                     GenericCallbook::CALLBOOK_NAME));
 
     ui->secondaryCallbookCombo->setCurrentIndex(secondaryCallbookIndex);
 
