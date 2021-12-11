@@ -105,6 +105,7 @@ void QRZ::processReply(QNetworkReply* reply) {
     qCDebug(runtime) << response;
     QXmlStreamReader xml(response);
 
+
     /* Reset Session Key */
     /* Every response contains a valid key. If the key is not present
      * then it is needed to request a new one */
@@ -124,7 +125,6 @@ void QRZ::processReply(QNetworkReply* reply) {
         if (xml.name() == "Error")
         {
             queuedCallsign = QString();
-            sessionId = QString();
             QString errorString = xml.readElementText();
 
             if ( errorString.contains("Username/password incorrect"))
@@ -136,13 +136,14 @@ void QRZ::processReply(QNetworkReply* reply) {
             {
                 incorrectLogin = false;
                 emit callsignNotFound(reply->property("queryCallsign").toString());
-                return;
+                //return;
             }
             else
             {
                 qInfo() << "QRZ Error - " << errorString;
+                emit lookupError(errorString);
             }
-            emit lookupError(errorString);
+
             // do not call return here, we need to obtain Key from error message (if present)
         }
         else
