@@ -81,13 +81,29 @@ Repos for Ubuntu (**.deb**) are available for amd64, arm64 and armhf platforms v
 
 **For developers:**
 
+for Debian:
+
 `sudo apt-get -y install qtbase5-dev libsqlite3-dev libhamlib++-dev libqt5charts5-dev qt5-default qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev `
+
+for Fedora:
+
+`dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel`
+
+for all:
 
 `git clone --recurse-submodules https://github.com/foldynl/QLog.git`
 
 `cd  QLog`
 
+for Debian:
+
 `qmake QLog.pro`
+
+for Fedora:
+
+`/usr/bin/qmake-qt5`
+
+for all:
 
 `make`
 
