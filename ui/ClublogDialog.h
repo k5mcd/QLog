@@ -22,6 +22,9 @@ public slots:
 
 private:
     Ui::ClublogDialog *ui;
+
+    void saveDialogState();
+    void loadDialogState();
 };
 
 #endif // CLUBLOGDIALOG_H

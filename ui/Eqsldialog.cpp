@@ -22,19 +22,13 @@ EqslDialog::EqslDialog(QWidget *parent) :
     FCT_IDENTIFICATION;
     ui->setupUi(this);
 
-    QSettings settings;
-
     /* Upload */
-
     ui->myCallsignCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
     ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='"
                                                 + ui->myCallsignCombo->currentText()
                                                 + "' ORDER BY my_gridsquare", ""));
-    ui->qthProfileUploadEdit->setText(settings.value("eqsl/last_QTHProfile").toString());
 
-    /* Download */
-
-    ui->qthProfileEdit->setText(settings.value("eqsl/last_QTHProfile").toString());
+    loadDialogState();
 }
 
 EqslDialog::~EqslDialog()
@@ -79,8 +73,12 @@ void EqslDialog::download()
         QMessageBox::critical(this, tr("QLog Error"), tr("eQSL update failed: ") + error);
     });
 
+
+    /* do not call saveDialogState() here */
+    /* we want to save only profile from download part */
     QSettings settings;
     settings.setValue("eqsl/last_QTHProfile", ui->qthProfileEdit->text());
+
 
     QNetworkReply* reply = eQSL->update(QDate(), ui->qthProfileEdit->text());
 
@@ -117,8 +115,7 @@ void EqslDialog::upload()
     QString query_where =  "WHERE (eqsl_qsl_sent <> 'Y' OR eqsl_qsl_sent is NULL) ";
     QString query_order = " ORDER BY start_time ";
 
-    QSettings settings;
-    settings.setValue("eqsl/last_QTHProfile", ui->qthProfileUploadEdit->text());
+    saveDialogState();
 
     if ( ui->uploadcommentCheck->isChecked() )
     {
@@ -234,3 +231,30 @@ void EqslDialog::uploadCallsignChanged(QString my_callsign)
     ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='" + my_callsign + "' ORDER BY my_gridsquare", ""));
 
 }
+
+void EqslDialog::saveDialogState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    settings.setValue("eqsl/last_QTHProfile", ui->qthProfileUploadEdit->text());
+    settings.setValue("eqsl/last_mycallsign", ui->myCallsignCombo->currentText());
+    settings.setValue("eqsl/last_mygrid", ui->myGridCombo->currentText());
+    settings.setValue("eqsl/last_checkcomment", ui->uploadcommentCheck->isChecked());
+
+}
+
+void EqslDialog::loadDialogState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    ui->myCallsignCombo->setCurrentText(settings.value("eqsl/last_mycallsign").toString());
+    ui->myGridCombo->setCurrentText(settings.value("eqsl/last_mygrid").toString());
+    ui->qthProfileUploadEdit->setText(settings.value("eqsl/last_QTHProfile").toString());
+    ui->uploadcommentCheck->setChecked(settings.value("eqsl/last_checkcomment",false).toBool());
+
+    ui->qthProfileEdit->setText(settings.value("eqsl/last_QTHProfile").toString());
+
+}
+

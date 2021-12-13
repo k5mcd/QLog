@@ -35,16 +35,9 @@ LotwDialog::LotwDialog(QWidget *parent) :
     ui->qslRadioButton->setChecked(true);
     ui->qsoRadioButton->setChecked(false);
 
-    QSettings settings;
-    if (settings.value("lotw/last_update").isValid()) {
-        QDate last_update = settings.value("lotw/last_update").toDate();
-        ui->dateEdit->setDate(last_update);
-    }
-    else {
-        ui->dateEdit->setDate(QDateTime::currentDateTimeUtc().date());
-    }
-
     ui->stationCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
+
+    loadDialogState();
 }
 
 void LotwDialog::download() {
@@ -85,6 +78,8 @@ void LotwDialog::download() {
         QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
     });
 
+    saveDialogState();
+
     QNetworkReply *reply = lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
 
     connect(dialog, &QProgressDialog::canceled, [reply]()
@@ -118,6 +113,8 @@ void LotwDialog::upload() {
     QString query_where =  "WHERE (lotw_qsl_sent <> 'Y' OR lotw_qsl_sent is NULL) "
                            "      AND (prop_mode NOT IN ('INTERNET', 'RPT', 'ECH', 'IRL') OR prop_mode IS NULL) ";
     QString query_order = " ORDER BY start_time ";
+
+    saveDialogState();
 
     if ( !ui->myCallsignCombo->currentText().isEmpty() )
     {
@@ -187,6 +184,36 @@ void LotwDialog::upload() {
 void LotwDialog::uploadCallsignChanged(QString my_callsign)
 {
     ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='" + my_callsign + "' ORDER BY my_gridsquare", ""));
+}
+
+void LotwDialog::saveDialogState()
+{
+    FCT_IDENTIFICATION;
+    QSettings settings;
+    settings.setValue("lotw/last_mycallsign", ui->myCallsignCombo->currentText());
+    settings.setValue("lotw/last_mygrid", ui->myGridCombo->currentText());
+    settings.setValue("lotw/last_station", ui->stationCombo->currentText());
+    settings.setValue("lotw/last_qsoqsl", ui->qslRadioButton->isChecked());
+}
+
+void LotwDialog::loadDialogState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    ui->myCallsignCombo->setCurrentText(settings.value("lotw/last_mycallsign").toString());
+    ui->myGridCombo->setCurrentText(settings.value("lotw/last_mygrid").toString());
+
+    if (settings.value("lotw/last_update").isValid()) {
+        QDate last_update = settings.value("lotw/last_update").toDate();
+        ui->dateEdit->setDate(last_update);
+    }
+    else {
+        ui->dateEdit->setDate(QDateTime::currentDateTimeUtc().date());
+    }
+
+    ui->qslRadioButton->setChecked(settings.value("lotw/last_qsoqsl",0).toBool());
+    ui->qsoRadioButton->setChecked(!settings.value("lotw/last_qsoqsl",0).toBool());
 }
 
 LotwDialog::~LotwDialog()

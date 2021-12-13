@@ -29,6 +29,7 @@ ClublogDialog::ClublogDialog(QWidget *parent) :
                                                 + ui->myCallsignCombo->currentText()
                                                 + "' ORDER BY my_gridsquare", ""));
 
+    loadDialogState();
 }
 
 ClublogDialog::~ClublogDialog()
@@ -63,6 +64,7 @@ void ClublogDialog::upload()
     QString query_where =  "WHERE (clublog_qso_upload_status <> 'Y' OR clublog_qso_upload_status is NULL) ";
     QString query_order = " ORDER BY start_time ";
 
+    saveDialogState();
 
     if ( !ui->myCallsignCombo->currentText().isEmpty() )
     {
@@ -161,5 +163,26 @@ void ClublogDialog::uploadCallsignChanged(QString my_callsign)
     FCT_IDENTIFICATION;
 
     ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='" + my_callsign + "' ORDER BY my_gridsquare", ""));
+
+}
+
+void ClublogDialog::saveDialogState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue("clublog/last_mycallsign", ui->myCallsignCombo->currentText());
+    settings.setValue("clublog/last_mygrid", ui->myGridCombo->currentText());
+}
+
+void ClublogDialog::loadDialogState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    ui->myCallsignCombo->setCurrentText(settings.value("clublog/last_mycallsign").toString());
+    ui->myGridCombo->setCurrentText(settings.value("clublog/last_mygrid").toString());
 
 }

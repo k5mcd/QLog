@@ -22,6 +22,9 @@ public slots:
 
 private:
     Ui::LotwDialog *ui;
+
+    void saveDialogState();
+    void loadDialogState();
 };
 
 #endif // LOTWDIALOG_H
