@@ -592,6 +592,17 @@ void SettingsDialog::readSettings() {
     //until hamlib guyes fix it.
     ui->rigNetPortSpin->setDisabled(true);
     ui->rotNetPortSpin->setDisabled(true);
+
+    /***********/
+    /* QRZ.COM */
+    /***********/
+
+    /* Currently QRZ has no username - just API KEY */
+    /* Therefore we will use syntetic username to store the key to Secure Storage */
+    username = settings.value(QRZ::CONFIG_USERNAME_API_KEY, QRZ::CONFIG_USERNAME_API_CONST).toString();
+    ui->qrzApiKeyEdit->setText(CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_API_KEY,
+                                                                        username));
+
 }
 
 void SettingsDialog::writeSettings() {
@@ -719,6 +730,23 @@ void SettingsDialog::writeSettings() {
     }
     else {
         settings.setValue("dxcc/start", QVariant());
+    }
+
+    /***********/
+    /* QRZ.COM */
+    /***********/
+
+    /* Currently QRZ has no username - just API KEY */
+    /* Therefore we will use syntetic username to store the key to Secure Storage */
+    settings.setValue(QRZ::CONFIG_USERNAME_API_KEY, QRZ::CONFIG_USERNAME_API_CONST);
+    CredentialStore::instance()->deletePassword(QRZ::SECURE_STORAGE_API_KEY,
+                                                QRZ::CONFIG_USERNAME_API_CONST);
+
+    if ( ! ui->qrzApiKeyEdit->text().isEmpty() )
+    {
+        CredentialStore::instance()->savePassword(QRZ::SECURE_STORAGE_API_KEY,
+                                                  QRZ::CONFIG_USERNAME_API_CONST,
+                                                  ui->qrzApiKeyEdit->text());
     }
 }
 

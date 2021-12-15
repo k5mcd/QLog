@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ClublogDialog</class>
- <widget class="QDialog" name="ClublogDialog">
+ <class>QRZDialog</class>
+ <widget class="QDialog" name="QRZDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>198</height>
+    <height>197</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Clublog</string>
+   <string>QRZ.com</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -67,7 +67,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ClublogDialog</receiver>
+   <receiver>QRZDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -83,7 +83,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ClublogDialog</receiver>
+   <receiver>QRZDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -99,7 +99,7 @@
   <connection>
    <sender>showButton</sender>
    <signal>clicked()</signal>
-   <receiver>ClublogDialog</receiver>
+   <receiver>QRZDialog</receiver>
    <slot>upload()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -115,7 +115,7 @@
   <connection>
    <sender>myCallsignCombo</sender>
    <signal>currentIndexChanged(QString)</signal>
-   <receiver>ClublogDialog</receiver>
+   <receiver>QRZDialog</receiver>
    <slot>uploadCallsignChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">

@@ -201,7 +201,7 @@ void EqslDialog::upload()
             {
                 dialog->done(1);
                 qCInfo(runtime) << "eQSL Upload Error: " << msg;
-                QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO: ") + msg);
+                QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO(s): ") + msg);
             });
 
             QNetworkReply *reply = eQSL->uploadAdif(data);

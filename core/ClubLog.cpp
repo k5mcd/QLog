@@ -131,11 +131,11 @@ void ClubLog::processReply(QNetworkReply* reply)
     {
         qCDebug(runtime) << "eQSL error URL " << reply->request().url().toString();
         qCDebug(runtime) << "eQSL error" << reply->errorString();
-        reply->deleteLater();
         if ( reply->error() != QNetworkReply::OperationCanceledError )
         {
             emit uploadError(reply->errorString());
         }
+        reply->deleteLater();
         return;
     }
 

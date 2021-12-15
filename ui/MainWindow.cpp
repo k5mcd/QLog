@@ -21,9 +21,11 @@
 #include "ui/QSOFilterDialog.h"
 #include "ui/Eqsldialog.h"
 #include "ui/ClublogDialog.h"
+#include "ui/QrzDialog.h"
 #include "ui/AwardsDialog.h"
 #include "core/Lotw.h"
 #include "core/Eqsl.h"
+#include "core/QRZ.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -268,6 +270,24 @@ void MainWindow::showClublog()
     {
         QMessageBox::warning(this, tr("QLog Warning"), tr("Clublog is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
     }
+}
+
+void MainWindow::showQRZ()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settinsg;
+    if ( ! settinsg.value(QRZ::CONFIG_USERNAME_API_KEY).toString().isEmpty() )
+    {
+        QRZDialog dialog;
+        dialog.exec();
+        ui->logbookWidget->updateTable();
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("QLog Warning"), tr("QRZ.com is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
+    }
+
 }
 
 void MainWindow::showAwards()

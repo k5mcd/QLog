@@ -320,8 +320,6 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
                     {
                         depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
                     }
-                    main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
-                    return main_update_result && depend_update_result;
                 }
                 else
                 {
@@ -383,6 +381,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_MY_SOTA_REF:
         case COLUMN_IOTA:
         case COLUMN_MY_IOTA:
+        case COLUMN_MY_GRIDSQUARE:
         case COLUMN_CALL:
         case COLUMN_GRID:
             main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
@@ -422,10 +421,12 @@ void LogbookModel::updateExternalServicesUploadStatus(const QModelIndex &index, 
     case COLUMN_GRID:
     case COLUMN_NOTES:
         updateUploadToModified(index, role, COLUMN_CLUBLOG_QSO_UPLOAD_STATUS, updateResult);
-        //updateUploadToModified(index, role, COLUMN_QRZCOM_QSO_UPLOAD_STATUS, updateResult);
         //updateUploadToModified(index, role, COLUMN_HRDLOG_QSO_UPLOAD_STATUS, updateResult);
         break;
     }
+
+    /* QRZ consumes all ADIF Fields */
+    updateUploadToModified(index, role, COLUMN_QRZCOM_QSO_UPLOAD_STATUS, updateResult);
 }
 
 void LogbookModel::updateUploadToModified(const QModelIndex &index, int role, int column, bool &updateResult)

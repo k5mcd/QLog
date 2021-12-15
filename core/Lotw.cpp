@@ -156,11 +156,11 @@ void Lotw::processReply(QNetworkReply* reply)
     if (reply->error() != QNetworkReply::NoError)
     {
         qCInfo(runtime) << "LotW error" << reply->errorString();
-        reply->deleteLater();
         if ( reply->error() != QNetworkReply::OperationCanceledError )
         {
            emit updateFailed(reply->errorString());
         }
+        reply->deleteLater();
         return;
     }
 

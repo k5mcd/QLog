@@ -103,6 +103,7 @@
     <addaction name="actionClublog"/>
     <addaction name="actioneQSL"/>
     <addaction name="actionLotw"/>
+    <addaction name="actionQRZ_com"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLogbook"/>
@@ -396,6 +397,11 @@
   <action name="actionClublog">
    <property name="text">
     <string>Clublog</string>
+   </property>
+  </action>
+  <action name="actionQRZ_com">
+   <property name="text">
+    <string>QRZ.com</string>
    </property>
   </action>
  </widget>
@@ -862,6 +868,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionQRZ_com</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showQRZ()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -879,5 +901,6 @@
   <slot>showeQSL()</slot>
   <slot>showAwards()</slot>
   <slot>showClublog()</slot>
+  <slot>showQRZ()</slot>
  </slots>
 </ui>

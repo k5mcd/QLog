@@ -240,12 +240,13 @@ void EQSL::processReply(QNetworkReply* reply)
     {
         qCDebug(runtime) << "eQSL error URL " << reply->request().url().toString();
         qCDebug(runtime) << "eQSL error" << reply->errorString();
-        reply->deleteLater();
+
         if ( reply->error() != QNetworkReply::OperationCanceledError )
         {
             emit updateFailed(reply->errorString());
             emit QSLImageError(reply->errorString());
         }
+        reply->deleteLater();
         return;
     }
 

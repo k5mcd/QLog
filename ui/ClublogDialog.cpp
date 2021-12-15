@@ -133,7 +133,7 @@ void ClublogDialog::upload()
             {
                 dialog->done(1);
                 qCInfo(runtime) << "Clublog Upload Error: " << msg;
-                QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO: ") + msg);
+                QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO(s): ") + msg);
             });
 
             QNetworkReply *reply = clublog->uploadAdif(data);
