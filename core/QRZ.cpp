@@ -191,9 +191,10 @@ void QRZ::processReply(QNetworkReply* reply) {
         if ( reply->error() != QNetworkReply::OperationCanceledError )
         {
             emit uploadError(reply->errorString());
+            emit lookupError(reply->errorString());
+            reply->deleteLater();
         }
-        emit lookupError(reply->errorString());
-        reply->deleteLater();
+
         lastUploadReply = nullptr;
         cancelUpload = true;
         return;

@@ -101,6 +101,7 @@ void QRZDialog::upload()
                                                           0, count, this);
             dialog->setWindowModality(Qt::WindowModal);
             dialog->setValue(0);
+            dialog->setAttribute(Qt::WA_DeleteOnClose, true);
             dialog->show();
 
             QRZ *qrz = new QRZ(dialog);
@@ -128,12 +129,10 @@ void QRZDialog::upload()
 
             connect(qrz, &QRZ::uploadFinished, [this, dialog, query_where, count](bool result)
             {
-                dialog->done(result);
+                dialog->done(QDialog::Accepted);
                 QMessageBox::information(this, tr("QLog Information"),
                                          tr("%n QSO(s) uploaded.", "", count));
             });
-
-            //connect(qrz, &QRZ::uploadFinished, dialog, &QProgressDialog::done);
 
             connect(qrz, &QRZ::uploadError, [this, dialog](QString msg)
             {

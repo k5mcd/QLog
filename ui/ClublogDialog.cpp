@@ -110,13 +110,14 @@ void ClublogDialog::upload()
             QProgressDialog* dialog = new QProgressDialog(tr("Uploading to Clublog"), tr("Cancel"), 0, 0, this);
             dialog->setWindowModality(Qt::WindowModal);
             dialog->setRange(0, 0);
+            dialog->setAttribute(Qt::WA_DeleteOnClose, true);
             dialog->show();
 
             ClubLog *clublog = new ClubLog(dialog);
 
             connect(clublog, &ClubLog::uploadOK, [this, dialog, query_where, count](QString msg)
             {
-                dialog->done(0);
+                dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "Clublog Upload OK: " << msg;
                 QMessageBox::information(this, tr("QLog Information"), tr("%n QSO(s) uploaded.", "", count));
                 QString query_string = "UPDATE contacts "
@@ -131,7 +132,7 @@ void ClublogDialog::upload()
 
             connect(clublog, &ClubLog::uploadError, [this, dialog](QString msg)
             {
-                dialog->done(1);
+                dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "Clublog Upload Error: " << msg;
                 QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO(s): ") + msg);
             });

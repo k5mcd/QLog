@@ -46,6 +46,7 @@ void LotwDialog::download() {
     QProgressDialog* dialog = new QProgressDialog(tr("Downloading from LotW"), tr("Cancel"), 0, 0, this);
     dialog->setWindowModality(Qt::WindowModal);
     dialog->setRange(0, 0);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->show();
 
     bool qsl = ui->qslRadioButton->isChecked();
@@ -58,23 +59,19 @@ void LotwDialog::download() {
         dialog->setRange(0, 100);
     });
 
-    connect(lotw, &Lotw::updateComplete, [this, dialog, qsl](QSLMergeStat stats) {
+    connect(lotw, &Lotw::updateComplete, [dialog, qsl](QSLMergeStat stats) {
         if (qsl) {
             QSettings settings;
             settings.setValue("lotw/last_update", QDateTime::currentDateTimeUtc().date());
         }
-        dialog->done(0);
-
+        dialog->done(QDialog::Accepted);
 
         QSLImportStatDialog statDialog(stats);
         statDialog.exec();
-
-        qCDebug(runtime) << "New QSLs: " << stats.newQSLs;
-        qCDebug(runtime) << "Unmatched QSLs: " << stats.unmatchedQSLs;
     });
 
     connect(lotw, &Lotw::updateFailed, [this, dialog](QString error) {
-        dialog->done(1);
+        dialog->done(QDialog::Accepted);
         QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
     });
 

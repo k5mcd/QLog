@@ -245,8 +245,9 @@ void EQSL::processReply(QNetworkReply* reply)
         {
             emit updateFailed(reply->errorString());
             emit QSLImageError(reply->errorString());
+            emit uploadError(reply->errorString());
+            reply->deleteLater();
         }
-        reply->deleteLater();
         return;
     }
 

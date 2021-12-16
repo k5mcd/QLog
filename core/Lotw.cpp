@@ -159,8 +159,8 @@ void Lotw::processReply(QNetworkReply* reply)
         if ( reply->error() != QNetworkReply::OperationCanceledError )
         {
            emit updateFailed(reply->errorString());
+           reply->deleteLater();
         }
-        reply->deleteLater();
         return;
     }
 

@@ -134,8 +134,8 @@ void ClubLog::processReply(QNetworkReply* reply)
         if ( reply->error() != QNetworkReply::OperationCanceledError )
         {
             emit uploadError(reply->errorString());
+            reply->deleteLater();
         }
-        reply->deleteLater();
         return;
     }
 

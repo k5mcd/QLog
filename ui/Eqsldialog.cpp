@@ -184,7 +184,7 @@ void EqslDialog::upload()
 
             connect(eQSL, &EQSL::uploadOK, [this, dialog, query_where, count](QString msg)
             {
-                dialog->done(0);
+                dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "eQSL Upload OK: " << msg;
                 QMessageBox::information(this, tr("QLog Information"), tr("%n QSO(s) uploaded.", "", count));
                 QString query_string = "UPDATE contacts "
@@ -199,7 +199,7 @@ void EqslDialog::upload()
 
             connect(eQSL, &EQSL::uploadError, [this, dialog](QString msg)
             {
-                dialog->done(1);
+                dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "eQSL Upload Error: " << msg;
                 QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO(s): ") + msg);
             });
@@ -215,7 +215,6 @@ void EqslDialog::upload()
                     reply->deleteLater();
                 }
             });
-
         }
     }
     else
