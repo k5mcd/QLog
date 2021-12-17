@@ -32,6 +32,45 @@ HamQTH::~HamQTH()
     nam->deleteLater();
 }
 
+const QString HamQTH::getUsername()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+
+}
+
+const QString HamQTH::getPassword()
+{
+    FCT_IDENTIFICATION;
+
+    return CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
+                                                   getUsername());
+}
+
+void HamQTH::saveUsernamePassword(const QString newUsername, const QString newPassword)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QString oldUsername = getUsername();
+    if ( oldUsername != newUsername )
+    {
+        CredentialStore::instance()->deletePassword(HamQTH::SECURE_STORAGE_KEY,
+                                                    oldUsername);
+    }
+
+    settings.setValue(HamQTH::CONFIG_USERNAME_KEY, newUsername);
+
+    CredentialStore::instance()->savePassword(HamQTH::SECURE_STORAGE_KEY,
+                                              newUsername,
+                                              newPassword);
+
+}
+
 void HamQTH::queryCallsign(QString callsign)
 {
     FCT_IDENTIFICATION;

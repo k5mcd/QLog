@@ -542,42 +542,32 @@ void SettingsDialog::readSettings() {
 
     ui->secondaryCallbookCombo->setCurrentIndex(secondaryCallbookIndex);
 
-    username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    ui->hamQthUsernameEdit->setText(username);
-    ui->hamQthPasswordEdit->setText(CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
-                                                                             username));
+    ui->hamQthUsernameEdit->setText(HamQTH::getUsername());
+    ui->hamQthPasswordEdit->setText(HamQTH::getPassword());
 
-    username = settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
-    ui->qrzUsernameEdit->setText(username);
-    ui->qrzPasswordEdit->setText(CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_KEY,
-                                                                             username));
+    ui->qrzUsernameEdit->setText(QRZ::getUsername());
+    ui->qrzPasswordEdit->setText(QRZ::getPassword());
 
     /********/
     /* LoTW */
     /********/
-    username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
-    ui->lotwUsernameEdit->setText(username);
-    ui->lotwPasswordEdit->setText(CredentialStore::instance()->getPassword(Lotw::SECURE_STORAGE_KEY,
-                                                                           username));
-    ui->tqslPathEdit->setText(settings.value("lotw/tqsl").toString());
+    ui->lotwUsernameEdit->setText(Lotw::getUsername());
+    ui->lotwPasswordEdit->setText(Lotw::getPassword());
+    ui->tqslPathEdit->setText(Lotw::getTQSLPath());
 
     /***********/
     /* ClubLog */
     /***********/
-    username = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
-    ui->clublogEmailEdit->setText(username);
-    ui->clublogCallsignEdit->setText(settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString());
-    ui->clublogPasswordEdit->setText(CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
-                                                                              username));
+    ui->clublogEmailEdit->setText(ClubLog::getEmail());
+    ui->clublogCallsignEdit->setText(ClubLog::getRegisteredCallsign());
+    ui->clublogPasswordEdit->setText(ClubLog::getPassword());
 
     /********/
     /* eQSL */
     /********/
-    username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
-    ui->eqslUsernameEdit->setText(username);
-    ui->eqslPasswordEdit->setText(CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
-                                                                           username));
-    ui->eqslFolderPathEdit->setText(settings.value(EQSL::CONFIG_QSL_FOLDER_KEY,QStandardPaths::writableLocation(QStandardPaths::DataLocation)).toString());
+    ui->eqslUsernameEdit->setText(EQSL::getUsername());
+    ui->eqslPasswordEdit->setText(EQSL::getPassword());
+    ui->eqslFolderPathEdit->setText(EQSL::getQSLImageFolder());
 
     if (!settings.value("dxcc/start").isNull()) {
        ui->dxccStartDateCheckBox->setCheckState(Qt::Checked);
@@ -596,12 +586,7 @@ void SettingsDialog::readSettings() {
     /***********/
     /* QRZ.COM */
     /***********/
-
-    /* Currently QRZ has no username - just API KEY */
-    /* Therefore we will use syntetic username to store the key to Secure Storage */
-    username = settings.value(QRZ::CONFIG_USERNAME_API_KEY, QRZ::CONFIG_USERNAME_API_CONST).toString();
-    ui->qrzApiKeyEdit->setText(CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_API_KEY,
-                                                                        username));
+    ui->qrzApiKeyEdit->setText(QRZ::getLogbookAPIKey());
 
 }
 
@@ -648,31 +633,11 @@ void SettingsDialog::writeSettings() {
     /************/
     /* Callbook */
     /************/
-    old_username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->hamQthUsernameEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(HamQTH::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
+    HamQTH::saveUsernamePassword(ui->hamQthUsernameEdit->text(),
+                                 ui->hamQthPasswordEdit->text());
 
-    settings.setValue(HamQTH::CONFIG_USERNAME_KEY, ui->hamQthUsernameEdit->text());
-
-    CredentialStore::instance()->savePassword(HamQTH::SECURE_STORAGE_KEY,
-                                              ui->hamQthUsernameEdit->text(),
-                                              ui->hamQthPasswordEdit->text());
-
-    old_username = settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->qrzUsernameEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(QRZ::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
-
-    settings.setValue(QRZ::CONFIG_USERNAME_KEY, ui->qrzUsernameEdit->text());
-
-    CredentialStore::instance()->savePassword(QRZ::SECURE_STORAGE_KEY,
-                                              ui->qrzUsernameEdit->text(),
-                                              ui->qrzPasswordEdit->text());
+    QRZ::saveUsernamePassword(ui->qrzUsernameEdit->text(),
+                              ui->qrzPasswordEdit->text());
 
     settings.setValue(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY,
                       ui->primaryCallbookCombo->itemData(ui->primaryCallbookCombo->currentIndex()).toString());
@@ -682,48 +647,25 @@ void SettingsDialog::writeSettings() {
     /********/
     /* LoTW */
     /********/
-    old_username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->lotwUsernameEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(Lotw::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
-    settings.setValue(Lotw::CONFIG_USERNAME_KEY, ui->lotwUsernameEdit->text());
-    CredentialStore::instance()->savePassword(Lotw::SECURE_STORAGE_KEY,
-                                              ui->lotwUsernameEdit->text(),
-                                              ui->lotwPasswordEdit->text());
-    settings.setValue("lotw/tqsl", ui->tqslPathEdit->text());
+
+    Lotw::saveUsernamePassword(ui->lotwUsernameEdit->text(),
+                               ui->lotwPasswordEdit->text());
+    Lotw::saveTQSLPath(ui->tqslPathEdit->text());
 
     /***********/
     /* ClubLog */
     /***********/
-    old_username = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
-    if ( old_username != ui->clublogEmailEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(ClubLog::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
-    settings.setValue(ClubLog::CONFIG_EMAIL_KEY, ui->clublogEmailEdit->text());
-    settings.setValue(ClubLog::CONFIG_CALLSIGN_KEY, ui->clublogCallsignEdit->text());
-    CredentialStore::instance()->savePassword(ClubLog::SECURE_STORAGE_KEY,
-                                              ui->clublogEmailEdit->text(),
-                                              ui->clublogPasswordEdit->text());
+    ClubLog::saveRegistredCallsign(ui->clublogCallsignEdit->text());
+    ClubLog::saveUsernamePassword(ui->clublogEmailEdit->text(),
+                                  ui->clublogPasswordEdit->text());
 
     /********/
     /* eQSL */
     /********/
-    old_username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->eqslUsernameEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(EQSL::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
-    settings.setValue(EQSL::CONFIG_USERNAME_KEY, ui->eqslUsernameEdit->text());
-    CredentialStore::instance()->savePassword(EQSL::SECURE_STORAGE_KEY,
-                                              ui->eqslUsernameEdit->text(),
-                                              ui->eqslPasswordEdit->text());
 
-    settings.setValue(EQSL::CONFIG_QSL_FOLDER_KEY, ui->eqslFolderPathEdit->text());
+    EQSL::saveUsernamePassword(ui->eqslUsernameEdit->text(),
+                               ui->eqslPasswordEdit->text());
+    EQSL::saveQSLImageFolder(ui->eqslFolderPathEdit->text());
 
     if (ui->dxccStartDateCheckBox->isChecked()) {
         settings.setValue("dxcc/start", ui->dxccStartDate->date());
@@ -735,19 +677,7 @@ void SettingsDialog::writeSettings() {
     /***********/
     /* QRZ.COM */
     /***********/
-
-    /* Currently QRZ has no username - just API KEY */
-    /* Therefore we will use syntetic username to store the key to Secure Storage */
-    settings.setValue(QRZ::CONFIG_USERNAME_API_KEY, QRZ::CONFIG_USERNAME_API_CONST);
-    CredentialStore::instance()->deletePassword(QRZ::SECURE_STORAGE_API_KEY,
-                                                QRZ::CONFIG_USERNAME_API_CONST);
-
-    if ( ! ui->qrzApiKeyEdit->text().isEmpty() )
-    {
-        CredentialStore::instance()->savePassword(QRZ::SECURE_STORAGE_API_KEY,
-                                                  QRZ::CONFIG_USERNAME_API_CONST,
-                                                  ui->qrzApiKeyEdit->text());
-    }
+    QRZ::saveLogbookAPI(ui->qrzApiKeyEdit->text());
 }
 
 SettingsDialog::~SettingsDialog() {

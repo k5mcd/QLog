@@ -16,8 +16,13 @@ public:
 
     QNetworkReply* update(QDate start_date, bool qso_since, QString stationCallsign);
     int uploadAdif(QByteArray &data, QString &ErrorString);
-    static const QString SECURE_STORAGE_KEY;
-    static const QString CONFIG_USERNAME_KEY;
+
+    static const QString getUsername();
+    static const QString getPassword();
+    static const QString getTQSLPath(const QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+
+    static void saveUsernamePassword(const QString, const QString);
+    static void saveTQSLPath(const QString );
 
 signals:
     void updateProgress(int value);
@@ -30,6 +35,8 @@ public slots:
 
 private:
     QNetworkAccessManager* nam;
+    static const QString SECURE_STORAGE_KEY;
+    static const QString CONFIG_USERNAME_KEY;
 
     QNetworkReply* get(QList<QPair<QString, QString>> params);
 };

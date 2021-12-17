@@ -53,15 +53,13 @@ int Lotw::uploadAdif(QByteArray &data, QString &ErrorString)
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-
     QTemporaryFile file;
     file.open();
     file.write(data);
     file.flush();
 
     ErrorString = "";
-    int ErrorCode = QProcess::execute(settings.value("lotw/tqsl", "tqsl").toString() + " -d -q -u " + file.fileName());
+    int ErrorCode = QProcess::execute(getTQSLPath("tqsl") + " -d -q -u " + file.fileName());
 
     /* list of Error Codes: http://www.arrl.org/command-1 */
     switch ( ErrorCode )
@@ -128,13 +126,69 @@ int Lotw::uploadAdif(QByteArray &data, QString &ErrorString)
     return ErrorCode;
 }
 
-QNetworkReply* Lotw::get(QList<QPair<QString, QString>> params) {
+const QString Lotw::getUsername()
+{
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(Lotw::SECURE_STORAGE_KEY,
-                                                                username);
+
+    return settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
+
+}
+
+const QString Lotw::getPassword()
+{
+    FCT_IDENTIFICATION;
+
+    return CredentialStore::instance()->getPassword(Lotw::SECURE_STORAGE_KEY,
+                                                    getUsername());
+
+}
+
+const QString Lotw::getTQSLPath(const QString defaultPath)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value("lotw/tqsl", defaultPath).toString();
+}
+
+void Lotw::saveUsernamePassword(const QString newUsername, const QString newPassword)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QString oldUsername = getUsername();
+    if ( oldUsername != newUsername )
+    {
+        CredentialStore::instance()->deletePassword(Lotw::SECURE_STORAGE_KEY,
+                                                    oldUsername);
+    }
+    settings.setValue(Lotw::CONFIG_USERNAME_KEY, newUsername);
+    CredentialStore::instance()->savePassword(Lotw::SECURE_STORAGE_KEY,
+                                              newUsername,
+                                              newPassword);
+
+}
+
+void Lotw::saveTQSLPath(const QString newPath)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue("lotw/tqsl", newPath);
+
+}
+
+QNetworkReply* Lotw::get(QList<QPair<QString, QString>> params)
+{
+    FCT_IDENTIFICATION;
+
+    QString username = getUsername();
+    QString password = getPassword();
 
     QUrlQuery query;
     query.setQueryItems(params);

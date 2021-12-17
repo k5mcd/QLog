@@ -16,9 +16,13 @@ public:
     QNetworkReply* update(QDate start_date, QString qthNick);
     QNetworkReply* uploadAdif(QByteArray &data);
     QNetworkReply* getQSLImage(QSqlRecord);
-    static const QString SECURE_STORAGE_KEY;
-    static const QString CONFIG_USERNAME_KEY;
-    static const QString CONFIG_QSL_FOLDER_KEY;
+
+    static const QString getUsername();
+    static const QString getPassword();
+    static const QString getQSLImageFolder(const QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+
+    static void saveUsernamePassword(const QString, const QString);
+    static void saveQSLImageFolder(const QString );
 
 signals:
     void updateProgress(int value);
@@ -42,6 +46,9 @@ private:
     QString QSLImageFilename(QSqlRecord);
     bool isQSLImageInCache(QSqlRecord qso, QString &fullPath);
 
+    static const QString SECURE_STORAGE_KEY;
+    static const QString CONFIG_USERNAME_KEY;
+    static const QString CONFIG_QSL_FOLDER_KEY;
 
 };
 

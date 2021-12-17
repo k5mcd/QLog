@@ -26,6 +26,7 @@
 #include "core/Lotw.h"
 #include "core/Eqsl.h"
 #include "core/QRZ.h"
+#include "core/CredentialStore.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -225,8 +226,7 @@ void MainWindow::showLotw()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settinsg;
-    if ( ! settinsg.value(Lotw::CONFIG_USERNAME_KEY).toString().isEmpty() )
+    if ( ! Lotw::getUsername().isEmpty() )
     {
         LotwDialog dialog;
         dialog.exec();
@@ -242,8 +242,7 @@ void MainWindow::showeQSL()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settinsg;
-    if ( ! settinsg.value(EQSL::CONFIG_USERNAME_KEY).toString().isEmpty() )
+    if ( ! EQSL::getUsername().isEmpty() )
     {
         EqslDialog dialog;
         dialog.exec();
@@ -259,8 +258,7 @@ void MainWindow::showClublog()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settinsg;
-    if ( ! settinsg.value(ClubLog::CONFIG_CALLSIGN_KEY).toString().isEmpty() )
+    if ( ! ClubLog::getEmail().isEmpty() )
     {
         ClublogDialog dialog;
         dialog.exec();
@@ -276,8 +274,9 @@ void MainWindow::showQRZ()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settinsg;
-    if ( ! settinsg.value(QRZ::CONFIG_USERNAME_API_KEY).toString().isEmpty() )
+    QString logbookAPIKey = QRZ::getLogbookAPIKey();
+
+    if ( !logbookAPIKey.isEmpty() )
     {
         QRZDialog dialog;
         dialog.exec();

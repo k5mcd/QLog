@@ -12,9 +12,13 @@ class ClubLog : public QObject
     Q_OBJECT
 public:
     explicit ClubLog(QObject *parent = nullptr);
-    const static QString SECURE_STORAGE_KEY;
-    const static QString CONFIG_EMAIL_KEY;
-    const static QString CONFIG_CALLSIGN_KEY;
+
+    static const QString getEmail();
+    static const QString getRegisteredCallsign();
+    static const QString getPassword();
+
+    static void saveRegistredCallsign(const QString);
+    static void saveUsernamePassword(const QString, const QString);
 
 signals:
     void uploadOK(QString);
@@ -27,6 +31,10 @@ public slots:
 
 private:
     QNetworkAccessManager* nam;
+
+    const static QString SECURE_STORAGE_KEY;
+    const static QString CONFIG_EMAIL_KEY;
+    const static QString CONFIG_CALLSIGN_KEY;
 };
 
 #endif // CLUBLOG_H

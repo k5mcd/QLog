@@ -20,11 +20,13 @@ public:
     QNetworkReply* uploadContact(const QSqlRecord record);
     void uploadContacts(const QList<QSqlRecord>);
 
-    const static QString SECURE_STORAGE_KEY;
-    const static QString SECURE_STORAGE_API_KEY;
-    const static QString CONFIG_USERNAME_KEY;
-    const static QString CONFIG_USERNAME_API_KEY;
-    const static QString CONFIG_USERNAME_API_CONST;
+    static const QString getUsername();
+    static const QString getPassword();
+    static const QString getLogbookAPIKey();
+
+    static void saveUsernamePassword(const QString, const QString);
+    static void saveLogbookAPI(const QString );
+
     const static QString CALLBOOK_NAME;
 
 signals:
@@ -52,6 +54,13 @@ private:
     void authenticate();
     QNetworkReply *actionInsert(QByteArray& data, QString insertPolicy);
     QMap<QString, QString> parseActionResponse(const QString);
+
+    const static QString SECURE_STORAGE_KEY;
+    const static QString SECURE_STORAGE_API_KEY;
+    const static QString CONFIG_USERNAME_KEY;
+    const static QString CONFIG_USERNAME_API_KEY;
+    const static QString CONFIG_USERNAME_API_CONST;
+
 };
 
 #endif // QRZ_H

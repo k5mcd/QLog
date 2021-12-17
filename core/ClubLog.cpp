@@ -24,16 +24,72 @@ ClubLog::ClubLog(QObject *parent) : QObject(parent) {
             this, SLOT(processReply(QNetworkReply*)));
 }
 
+const QString ClubLog::getEmail()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
+
+}
+
+const QString ClubLog::getRegisteredCallsign()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
+
+}
+
+const QString ClubLog::getPassword()
+{
+    FCT_IDENTIFICATION;
+
+    return CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
+                                                    getEmail());
+}
+
+void ClubLog::saveRegistredCallsign(const QString newRegistredCallsign)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(ClubLog::CONFIG_CALLSIGN_KEY, newRegistredCallsign);
+
+}
+
+void ClubLog::saveUsernamePassword(const QString newEmail, const QString newPassword)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QString oldEmail = getEmail();
+    if ( oldEmail != newEmail )
+    {
+        CredentialStore::instance()->deletePassword(ClubLog::SECURE_STORAGE_KEY,
+                                                    oldEmail);
+    }
+    settings.setValue(ClubLog::CONFIG_EMAIL_KEY, newEmail);
+
+    CredentialStore::instance()->savePassword(ClubLog::SECURE_STORAGE_KEY,
+                                              newEmail,
+                                              newPassword);
+
+}
+
 void ClubLog::uploadContact(QSqlRecord record) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << record;
 
-    QSettings settings;
-    QString email = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
-    QString callsign = settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
-                                                                email);
+    QString email = getEmail();
+    QString callsign = getRegisteredCallsign();
+    QString password = getPassword();
 
     if (email.isEmpty() || callsign.isEmpty() || password.isEmpty()) {
         return;
@@ -71,11 +127,9 @@ QNetworkReply* ClubLog::uploadAdif(QByteArray& data)
 
     qCDebug(function_parameters) << data;
 
-    QSettings settings;
-    QString email = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
-    QString callsign = settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
-                                                                email);
+    QString email = getEmail();
+    QString callsign = getRegisteredCallsign();
+    QString password = getPassword();
 
     QUrl url(API_LOG_UPLOAD_URL);
 

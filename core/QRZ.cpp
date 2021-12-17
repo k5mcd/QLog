@@ -99,10 +99,8 @@ QNetworkReply *QRZ::actionInsert(QByteArray& data, QString insertPolicy)
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-    QString username = settings.value(QRZ::CONFIG_USERNAME_API_KEY).toString();
-    QString logbookAPIKey = CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_API_KEY,
-                                                                username);
+    QString username = getUsername();
+    QString logbookAPIKey = getLogbookAPIKey();
 
     QUrlQuery params;
     params.addQueryItem("KEY", logbookAPIKey);
@@ -146,14 +144,81 @@ void QRZ::uploadContacts(const QList<QSqlRecord> qsos)
     queuedContacts4Upload.removeFirst();
 }
 
-void QRZ::authenticate()
+const QString QRZ::getUsername()
 {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_KEY,
-                                                                username);
+
+    return settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
+}
+
+const QString QRZ::getPassword()
+{
+    FCT_IDENTIFICATION;
+
+    return CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_KEY,
+                                                    getUsername());
+
+}
+
+const QString QRZ::getLogbookAPIKey()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return CredentialStore::instance()->getPassword(QRZ::SECURE_STORAGE_API_KEY,
+                                        settings.value(QRZ::CONFIG_USERNAME_API_KEY,
+                                                       QRZ::CONFIG_USERNAME_API_CONST).toString());
+}
+
+void QRZ::saveUsernamePassword(const QString newUsername, const QString newPassword)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QString oldUsername = getUsername();
+    if ( oldUsername != newUsername )
+    {
+        CredentialStore::instance()->deletePassword(QRZ::SECURE_STORAGE_KEY,
+                                                    oldUsername);
+    }
+
+    settings.setValue(QRZ::CONFIG_USERNAME_KEY, newUsername);
+
+    CredentialStore::instance()->savePassword(QRZ::SECURE_STORAGE_KEY,
+                                              newUsername,
+                                              newPassword);
+}
+
+void QRZ::saveLogbookAPI(const QString newKey)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(QRZ::CONFIG_USERNAME_API_KEY, QRZ::CONFIG_USERNAME_API_CONST);
+
+    CredentialStore::instance()->deletePassword(QRZ::SECURE_STORAGE_API_KEY,
+                                                QRZ::CONFIG_USERNAME_API_CONST);
+
+    if ( ! newKey.isEmpty() )
+    {
+        CredentialStore::instance()->savePassword(QRZ::SECURE_STORAGE_API_KEY,
+                                                  QRZ::CONFIG_USERNAME_API_CONST,
+                                                  newKey);
+    }
+
+}
+
+void QRZ::authenticate()
+{
+    FCT_IDENTIFICATION;
+
+    QString username = getUsername();
+    QString password = getPassword();
 
     if ( incorrectLogin && password == lastSeenPassword)
     {
@@ -428,7 +493,6 @@ QMap<QString, QString> QRZ::parseActionResponse(const QString reponseString)
 
     return data;
 }
-
 
 const QString QRZ::SECURE_STORAGE_KEY = "QLog:QRZCOM";
 const QString QRZ::SECURE_STORAGE_API_KEY = "QLog:QRZCOMAPI";

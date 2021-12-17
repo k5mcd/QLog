@@ -144,14 +144,69 @@ QNetworkReply* EQSL::getQSLImage(QSqlRecord qso)
     return reply;
 }
 
+const QString EQSL::getUsername()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
+
+}
+
+const QString EQSL::getPassword()
+{
+    FCT_IDENTIFICATION;
+
+    return CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
+                                                    getUsername());
+}
+
+const QString EQSL::getQSLImageFolder(const QString defaultPath)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(EQSL::CONFIG_QSL_FOLDER_KEY, defaultPath).toString();
+}
+
+void EQSL::saveUsernamePassword(const QString newUsername, const QString newPassword)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QString oldUsername = getUsername();
+
+    if ( oldUsername != newUsername )
+    {
+        CredentialStore::instance()->deletePassword(EQSL::SECURE_STORAGE_KEY,
+                                                    oldUsername);
+    }
+    settings.setValue(EQSL::CONFIG_USERNAME_KEY, newUsername);
+    CredentialStore::instance()->savePassword(EQSL::SECURE_STORAGE_KEY,
+                                              newUsername,
+                                              newPassword);
+}
+
+void EQSL::saveQSLImageFolder(const QString path)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(EQSL::CONFIG_QSL_FOLDER_KEY, path);
+}
+
+
 QNetworkReply* EQSL::get(QList<QPair<QString, QString>> params)
 {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
-                                                                username);
+    QString username = getUsername();
+    QString password = getPassword();
 
     QUrlQuery query;
     query.setQueryItems(params);
@@ -220,9 +275,7 @@ bool EQSL::isQSLImageInCache(QSqlRecord qso, QString &fullPath)
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-
-    QDir dir(settings.value(EQSL::CONFIG_QSL_FOLDER_KEY, QStandardPaths::writableLocation(QStandardPaths::DataLocation)).toString());
+    QDir dir(getQSLImageFolder());
     QString expectingFilename = QSLImageFilename(qso);
     bool isFileExists = dir.exists(expectingFilename);
     fullPath = dir.absoluteFilePath(expectingFilename);
@@ -407,8 +460,6 @@ void EQSL::processReply(QNetworkReply* reply)
         qCDebug(runtime) << "Reply size: " << size;
 
         QByteArray data = reply->readAll();
-
-        QSettings settings;
 
         QString onDiskFilename = reply->property("onDiskFilename").toString();
 
