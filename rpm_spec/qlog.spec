@@ -42,5 +42,14 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Dec 19 2021 Ladislav Foldyna - 0.3.0-1
+- Rework Station Profile - stored in DB, new fields
+- Added VUCC fields support
+- Added BandMap marks (CTRL+M)
+- Clublog is uploaded the same way as EQSL and LOTW (modified QSO are resent)
+- Clublog real-time upload is temporary disabled
+- Added QRZ suppor - upload QSO and Callsign query
+- Callbook cooperation - Primary&Secondary - Secondary used when Primary did not find
+
 * Sat Nov 27 2021 Ladislav Foldyna - 0.2.0-1
 - Initial version of the package based on v0.2.0

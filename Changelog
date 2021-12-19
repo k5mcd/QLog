@@ -4,7 +4,7 @@ TBD - 0.3.0
 - Added VUCC field for QSO
 - Added BandMap marks (CTRL+M)
 - Clublog is uploaded the same way as EQSL and LOTW (modifications are resent too)
-- Clublog real-time uploaded was removed (temporary)
+- Clublog real-time upload was removed (temporary)
 - QRZ.com - Added callsign query and upload QSO support
 - Callbook cooperation - Primary&Secondary - Secondary used when Primary did not find
 
