@@ -1,4 +1,4 @@
-TBD - 0.3.0
+2021/12/19 - 0.3.0
 - Added new fields to Station Profile
 - Station Profile is stored in DB (not in QSetting)
 - Added VUCC field for QSO
