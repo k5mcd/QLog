@@ -1,4 +1,4 @@
-qlog (0.2.0-1) UNRELEASED; urgency=low
+qlog (0.3.0-1) UNRELEASED; urgency=low
 
   * Rework Station Profile - stored in DB, new fields
   * Added VUCC fields support
