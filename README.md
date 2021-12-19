@@ -68,7 +68,7 @@ Prerequisites:
 
 - Installed Trusted QSL (Optional) - `sudo apt install trustedqsl` or from [ARRL](http://www.arrl.org/tqsl-download)
 
-Repos for Ubuntu (**.deb**) are available for amd64, arm64 and armhf platforms via [Ubuntu PPA](https://launchpad.net/~foldyna/+archive/ubuntu/qlog). Ubuntu 20.04 users can use following commands:
+**DEB packages**  are available for amd64, arm64 and armhf platforms via [Ubuntu PPA](https://launchpad.net/~foldyna/+archive/ubuntu/qlog). Ubuntu 20.04 users can use following commands:
 
 `sudo add-apt-repository ppa:foldyna/qlog`
 
@@ -76,8 +76,9 @@ Repos for Ubuntu (**.deb**) are available for amd64, arm64 and armhf platforms v
 
 `sudo apt install qlog`
 
-**RPM package** is planned in a future version. **Snap or Flatpak** are not planned at this moment.
+**RPM packages** are available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
 
+**Snap or Flatpak** are not planned at this moment.
 
 **For developers:**
 
