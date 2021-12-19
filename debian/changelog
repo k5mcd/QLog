@@ -8,7 +8,7 @@ qlog (0.3.0-1) UNRELEASED; urgency=low
   * Added QRZ suppor - upload QSO and Callsign query
   * Callbook cooperation - Primary&Secondary - Secondary used when Primary did not find
 
- -- foldynl <foldyna@gmail.com> Sun, 19 Dec 2021 12:00:00 +0200
+ -- foldynl <foldyna@gmail.com>  Sun, 19 Dec 2021 12:00:00 +0200
 
 qlog (0.2.0-1) UNRELEASED; urgency=low
 
