@@ -19,6 +19,12 @@ public:
     QString locator;
     QString operatorName;
     QString qthName;
+    QString iota;
+    QString sota;
+    QString sig;
+    QString sigInfo;
+    QString vucc;
+
 private:
     friend QDataStream& operator<<(QDataStream& out, const StationProfile& v);
     friend QDataStream& operator>>(QDataStream& in, StationProfile& v);

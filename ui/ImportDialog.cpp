@@ -5,6 +5,7 @@
 #include "logformat/LogFormat.h"
 #include "core/debug.h"
 #include "data/StationProfile.h"
+#include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.ui.importdialog");
 
@@ -22,6 +23,7 @@ ImportDialog::ImportDialog(QWidget *parent) :
     ui->startDateEdit->setDate(QDate::currentDate());
     ui->endDateEdit->setDate(QDate::currentDate());
     ui->gridEdit->setText(StationProfilesManager::instance()->getCurrent().locator);
+    ui->gridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
     ui->progressBar->setValue(0);
     ui->progressBar->setMinimum(0);
     ui->progressBar->setMaximum(100);
@@ -34,7 +36,7 @@ ImportDialog::ImportDialog(QWidget *parent) :
         ui->rigCheckBox->setChecked(true);
     }
 
-     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Import"));
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Import"));
 }
 
 void ImportDialog::browse() {
@@ -49,6 +51,40 @@ void ImportDialog::toggleAll() {
 
     ui->startDateEdit->setEnabled(!ui->allCheckBox->isChecked());
     ui->endDateEdit->setEnabled(!ui->allCheckBox->isChecked());
+}
+
+void ImportDialog::toggleMyGrid()
+{
+    FCT_IDENTIFICATION;
+
+    ui->gridEdit->setEnabled(ui->gridCheckBox->isChecked());
+}
+void ImportDialog::toggleMyRig()
+{
+    FCT_IDENTIFICATION;
+
+    ui->rigSelect->setEnabled(ui->rigCheckBox->isChecked());
+}
+
+void ImportDialog::toggleComment()
+{
+    FCT_IDENTIFICATION;
+
+    ui->commentEdit->setEnabled(ui->commentCheckBox->isChecked());
+}
+
+void ImportDialog::adjustLocatorTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! ui->gridEdit->hasAcceptableInput() )
+    {
+        ui->gridEdit->setStyleSheet("QLineEdit { color: red;}");
+    }
+    else
+    {
+        ui->gridEdit->setStyleSheet("QLineEdit { color: black;}");
+    }
 }
 
 void ImportDialog::progress(qint64 value) {
@@ -106,6 +142,20 @@ LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *i
 void ImportDialog::runImport() {
     FCT_IDENTIFICATION;
 
+    if ( ui->gridCheckBox->isChecked() && ! ui->gridEdit->hasAcceptableInput() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Grid has an invalid format"));
+        return;
+    }
+
+    if ( ui->fileEdit->text().isEmpty() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Filename is empty"));
+        return;
+    }
+
     QFile file(ui->fileEdit->text());
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream in(&file);
@@ -141,28 +191,13 @@ void ImportDialog::runImport() {
 
     format->setDuplicateQSOCallback(showDuplicateDialog);
 
-    /*
-    QThread* thread = new QThread;
-    format->moveToThread(thread);
-    */
-
     connect(format, &LogFormat::progress, this, &ImportDialog::progress);
-    /*
-    connect(thread, &QThread::started, format, &LogFormat::runImport);
-    connect(format, &LogFormat::finished, thread, &QThread::quit);
-    connect(format, &LogFormat::finished, format, &LogFormat::deleteLater);
-    connect(format, &LogFormat::finished, thread, &QThread::deleteLater);
-
-    thread->start();
-    */
 
     ui->buttonBox->setEnabled(false);
-    //format->runImport();
     format->runImport();
     ui->buttonBox->setEnabled(true);
 
     this->close();
-    //ui->statusLabel->setText(tr("Imported %n contacts.", "", count));
 }
 
 ImportDialog::~ImportDialog()

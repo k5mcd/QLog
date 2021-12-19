@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = qlog
 TEMPLATE = app
-VERSION = 0.2.0
+VERSION = 0.3.0
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 
@@ -35,10 +35,12 @@ SOURCES += \
         core/Cty.cpp \
         core/Eqsl.cpp \
         core/Fldigi.cpp \
+        core/GenericCallbook.cpp \
         core/Gridsquare.cpp \
         core/HamQTH.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
+        core/QRZ.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/Sat.cpp \
@@ -61,6 +63,7 @@ SOURCES += \
         ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
         ui/ClockWidget.cpp \
+        ui/ClublogDialog.cpp \
         ui/ColumnSettingDialog.cpp \
         ui/DxFilterDialog.cpp \
         ui/DxWidget.cpp \
@@ -78,6 +81,8 @@ SOURCES += \
         ui/QSLImportStatDialog.cpp \
         ui/QSOFilterDetail.cpp \
         ui/QSOFilterDialog.cpp \
+        ui/QTableQSOView.cpp \
+        ui/QrzDialog.cpp \
         ui/RigWidget.cpp \
         ui/RotatorWidget.cpp \
         ui/SettingsDialog.cpp \
@@ -92,10 +97,12 @@ HEADERS += \
         core/Cty.h \
         core/Eqsl.h \
         core/Fldigi.h \
+        core/GenericCallbook.h \
         core/Gridsquare.h \
         core/HamQTH.h \
         core/Lotw.h \
         core/Migration.h \
+        core/QRZ.h \
         core/Rig.h \
         core/Rotator.h \
         core/Sat.h \
@@ -120,6 +127,7 @@ HEADERS += \
         ui/AwardsDialog.h \
         ui/BandmapWidget.h \
         ui/ClockWidget.h \
+        ui/ClublogDialog.h \
         ui/ColumnSettingDialog.h \
         ui/DxFilterDialog.h \
         ui/DxWidget.h \
@@ -137,6 +145,8 @@ HEADERS += \
         ui/QSLImportStatDialog.h \
         ui/QSOFilterDetail.h \
         ui/QSOFilterDialog.h \
+        ui/QTableQSOView.h \
+        ui/QrzDialog.h \
         ui/RigWidget.h \
         ui/RotatorWidget.h \
         ui/SettingsDialog.h \
@@ -147,6 +157,7 @@ FORMS += \
         ui/AwardsDialog.ui \
         ui/BandmapWidget.ui \
         ui/ClockWidget.ui \
+        ui/ClublogDialog.ui \
         ui/ColumnSettingDialog.ui \
         ui/DxFilterDialog.ui \
         ui/DxWidget.ui \
@@ -161,6 +172,7 @@ FORMS += \
         ui/QSLImportStatDialog.ui \
         ui/QSOFilterDetail.ui \
         ui/QSOFilterDialog.ui \
+        ui/QrzDialog.ui \
         ui/RigWidget.ui \
         ui/RotatorWidget.ui \
         ui/SettingsDialog.ui \

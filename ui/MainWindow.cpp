@@ -20,9 +20,13 @@
 #include "ui/NewContactWidget.h"
 #include "ui/QSOFilterDialog.h"
 #include "ui/Eqsldialog.h"
+#include "ui/ClublogDialog.h"
+#include "ui/QrzDialog.h"
 #include "ui/AwardsDialog.h"
 #include "core/Lotw.h"
 #include "core/Eqsl.h"
+#include "core/QRZ.h"
+#include "core/CredentialStore.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -76,19 +80,22 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(wsjtx, &Wsjtx::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
     connect(ui->wsjtxWidget, &WsjtxWidget::reply, wsjtx, &Wsjtx::startReply);
 
-    ClubLog* clublog = new ClubLog(this);
+    //ClubLog* clublog = new ClubLog(this);
 
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, ui->logbookWidget, &LogbookWidget::updateTable);
     connect(ui->newContactWidget, &NewContactWidget::newTarget, ui->mapWidget, &MapWidget::setTarget);
     connect(ui->newContactWidget, &NewContactWidget::newTarget, ui->onlineMapWidget, &OnlineMapWidget::setTarget);
-    connect(ui->newContactWidget, &NewContactWidget::contactAdded, clublog, &ClubLog::uploadContact);
+    //connect(ui->newContactWidget, &NewContactWidget::contactAdded, clublog, &ClubLog::uploadContact);
     connect(ui->newContactWidget, &NewContactWidget::filterCallsign, ui->logbookWidget, &LogbookWidget::filterCallsign);
     connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->bandmapWidget, &BandmapWidget::updateRxFrequency);
     connect(ui->newContactWidget, &NewContactWidget::newStationProfile, this, &MainWindow::stationProfileChanged);
     connect(ui->newContactWidget, &NewContactWidget::newStationProfile, ui->rotatorWidget, &RotatorWidget::redrawMap);
+    connect(ui->newContactWidget, &NewContactWidget::markQSO, ui->bandmapWidget, &BandmapWidget::addSpot);
 
     connect(ui->dxWidget, &DxWidget::newSpot, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->dxWidget, &DxWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
+
+    connect(ui->bandmapWidget, &BandmapWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
     connect(ui->wsjtxWidget, &WsjtxWidget::showDxDetails, ui->newContactWidget, &NewContactWidget::showDx);
 
@@ -219,8 +226,7 @@ void MainWindow::showLotw()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settinsg;
-    if ( ! settinsg.value(Lotw::CONFIG_USERNAME_KEY).toString().isEmpty() )
+    if ( ! Lotw::getUsername().isEmpty() )
     {
         LotwDialog dialog;
         dialog.exec();
@@ -236,8 +242,7 @@ void MainWindow::showeQSL()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settinsg;
-    if ( ! settinsg.value(EQSL::CONFIG_USERNAME_KEY).toString().isEmpty() )
+    if ( ! EQSL::getUsername().isEmpty() )
     {
         EqslDialog dialog;
         dialog.exec();
@@ -247,6 +252,41 @@ void MainWindow::showeQSL()
     {
         QMessageBox::warning(this, tr("QLog Warning"), tr("eQSL is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
     }
+}
+
+void MainWindow::showClublog()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! ClubLog::getEmail().isEmpty() )
+    {
+        ClublogDialog dialog;
+        dialog.exec();
+        ui->logbookWidget->updateTable();
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("QLog Warning"), tr("Clublog is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
+    }
+}
+
+void MainWindow::showQRZ()
+{
+    FCT_IDENTIFICATION;
+
+    QString logbookAPIKey = QRZ::getLogbookAPIKey();
+
+    if ( !logbookAPIKey.isEmpty() )
+    {
+        QRZDialog dialog;
+        dialog.exec();
+        ui->logbookWidget->updateTable();
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("QLog Warning"), tr("QRZ.com is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
+    }
+
 }
 
 void MainWindow::showAwards()

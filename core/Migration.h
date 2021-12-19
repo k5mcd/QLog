@@ -22,7 +22,7 @@ private:
     bool updateModes();
     bool updateExternalResource();
 
-    static const int latestVersion = 2;
+    static const int latestVersion = 3;
 };
 
 #endif // MIGRATION_H

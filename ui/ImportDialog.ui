@@ -142,6 +142,9 @@
       </item>
       <item row="1" column="1">
        <widget class="QComboBox" name="rigSelect">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -168,6 +171,9 @@
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="commentEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -354,10 +360,78 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>gridCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ImportDialog</receiver>
+   <slot>toggleMyGrid()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>303</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rigCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ImportDialog</receiver>
+   <slot>toggleMyRig()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>341</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>commentCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ImportDialog</receiver>
+   <slot>toggleComment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>66</x>
+     <y>379</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gridEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ImportDialog</receiver>
+   <slot>adjustLocatorTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>303</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>browse()</slot>
   <slot>toggleAll()</slot>
   <slot>runImport()</slot>
+  <slot>toggleMyGrid()</slot>
+  <slot>toggleMyRig()</slot>
+  <slot>toggleComment()</slot>
+  <slot>adjustLocatorTextColor()</slot>
  </slots>
 </ui>

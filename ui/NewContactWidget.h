@@ -9,6 +9,7 @@
 #include "data/Data.h"
 #include "core/Conditions.h"
 #include "core/Gridsquare.h"
+#include "data/DxSpot.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -37,6 +38,7 @@ signals:
     void filterCallsign(QString call);
     void userFrequencyChanged(double freq);
     void newStationProfile();
+    void markQSO(DxSpot spot);
 
 public slots:
     void reloadSettings();
@@ -55,6 +57,7 @@ public slots:
     void updateTimeStop();
     void startContactTimer();
     void stopContactTimer();
+    void markContact();
     void editCallsignFinished();
     void callsignResult(const QMap<QString, QString>& data);
     void updateCoordinates(double lat, double lon, CoordPrecision prec);
@@ -71,6 +74,8 @@ public slots:
     void rigFreqOffsetChanged(double);
     void stationProfileChanged(QString);
     void sotaChanged(QString);
+    void callbookCallsignNotFound(QString);
+
 
 private:
     void queryDatabase(QString callsign);
@@ -81,13 +86,15 @@ private:
     void __modeChanged();
     void refreshStationProfileCombo();
     void addAddlFields(QSqlRecord &record);
+    GenericCallbook *createCallbook(QString);
 
 private:
     Rig* rig;
     QString callsign;
     DxccEntity dxccEntity;
     QString defaultReport;
-    HamQTH callbook;
+    GenericCallbook *primaryCallbook;
+    GenericCallbook *secondaryCallbook;
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;

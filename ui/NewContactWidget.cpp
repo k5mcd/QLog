@@ -10,11 +10,15 @@
 #include "core/debug.h"
 #include "core/Gridsquare.h"
 #include "data/StationProfile.h"
+#include "core/HamQTH.h"
+#include "core/QRZ.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
+    primaryCallbook(nullptr),
+    secondaryCallbook(nullptr),
     ui(new Ui::NewContactWidget),
     prop_cond(nullptr)
 {
@@ -108,12 +112,11 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     contactTimer = new QTimer(this);
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
 
-    connect(&callbook, &HamQTH::callsignResult, this, &NewContactWidget::callsignResult);
-
     new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(resetContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::ALT + Qt::Key_W), this, SLOT(resetContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F10), this, SLOT(saveContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F9), this, SLOT(stopContactTimer()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_M), this, SLOT(markContact()), nullptr, Qt::ApplicationShortcut);
 
     /*
      * qlog is not a contest log. There is missing many contest features so that it can compete at least a little
@@ -199,6 +202,31 @@ void NewContactWidget::reloadSettings() {
     // return selected mode.
     ui->modeEdit->setCurrentText(current_mode);
 
+    /* Reload Callbooks */
+    if ( primaryCallbook )
+    {
+        primaryCallbook->deleteLater();
+        primaryCallbook = nullptr;
+    }
+
+    if ( secondaryCallbook )
+    {
+        secondaryCallbook->deleteLater();
+        secondaryCallbook = nullptr;
+    }
+
+    QString primaryCallbookSelection = settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY).toString();
+    QString secondaryCallbookSelection = settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY).toString();
+
+    primaryCallbook = createCallbook(primaryCallbookSelection);
+    secondaryCallbook = createCallbook(secondaryCallbookSelection);
+
+    if ( primaryCallbook && secondaryCallbook )
+    {
+        connect(primaryCallbook, &GenericCallbook::callsignNotFound, this, &NewContactWidget::callbookCallsignNotFound);
+    }
+
+    /* Refresh Station Profile Combobox */
     refreshStationProfileCombo();
 }
 
@@ -273,6 +301,10 @@ void NewContactWidget::clearQueryFields()
     ui->dokEdit->clear();
     ui->iotaEdit->clear();
     ui->emailEdit->clear();
+    ui->countyEdit->clear();
+    ui->qslViaEdit->clear();
+    ui->urlEdit->clear();
+    ui->stateEdit->clear();
 }
 
 void NewContactWidget::queryDatabase(QString callsign) {
@@ -308,7 +340,17 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
 
     if ( ui->nameEdit->text().isEmpty() )
     {
-        ui->nameEdit->setText(data.value("name"));
+        QString name = data.value("name");
+
+        if ( name.isEmpty() )
+        {
+            name = data.value("fname");
+        }
+
+        if ( ui->nameEdit->text().isEmpty() )
+        {
+            ui->nameEdit->setText(name);
+        }
     }
 
     if ( ui->gridEdit->text().isEmpty()
@@ -335,6 +377,26 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
     if ( ui->emailEdit->text().isEmpty() )
     {
         ui->emailEdit->setText(data.value("email"));
+    }
+
+    if ( ui->countyEdit->text().isEmpty() )
+    {
+        ui->countyEdit->setText(data.value("county"));
+    }
+
+    if ( ui->qslViaEdit->text().isEmpty() )
+    {
+        ui->qslViaEdit->setText(data.value("qsl_via"));
+    }
+
+    if ( ui->urlEdit->text().isEmpty() )
+    {
+        ui->urlEdit->setText(data.value("url"));
+    }
+
+    if ( ui->stateEdit->text().isEmpty() )
+    {
+        ui->stateEdit->setText(data.value("us_state"));
     }
 }
 
@@ -491,6 +553,7 @@ void NewContactWidget::resetContact() {
     ui->sigEdit->clear();
     ui->sigInfoEdit->clear();
     ui->dokEdit->clear();
+    ui->vuccEdit->clear();
     ui->dxccTableWidget->clear();
     ui->dxccStatus->clear();
     ui->flagView->setPixmap(QPixmap());
@@ -618,6 +681,65 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
        record.setValue("operator", profile.operatorName.toUpper());
     }
 
+    if ( record.value("my_iota").toString().isEmpty()
+         && !profile.iota.isEmpty())
+    {
+       record.setValue("my_iota", profile.iota.toUpper());
+    }
+
+    if ( record.value("my_sota_ref").toString().isEmpty()
+         && !profile.sota.isEmpty())
+    {
+       record.setValue("my_sota_ref", profile.sota.toUpper());
+    }
+
+    if ( record.value("my_sig").toString().isEmpty()
+         && !profile.sig.isEmpty())
+    {
+       record.setValue("my_sig", profile.sig.toUpper());
+    }
+
+    if ( record.value("my_sig_info").toString().isEmpty()
+         && !profile.sigInfo.isEmpty())
+    {
+       record.setValue("my_sig_info", profile.sigInfo.toUpper());
+    }
+
+    if ( record.value("my_vucc_grids").toString().isEmpty()
+         && !profile.vucc.isEmpty())
+    {
+       record.setValue("my_vucc_grids", profile.vucc.toUpper());
+    }
+}
+
+GenericCallbook *NewContactWidget::createCallbook(QString callbookID)
+{
+    FCT_IDENTIFICATION;
+
+    GenericCallbook *ret = nullptr;
+    QString callbookString;
+
+    if (callbookID == HamQTH::CALLBOOK_NAME )
+    {
+        ret = new HamQTH(this);
+        callbookString = tr("HamQTH");
+    }
+    else if ( callbookID == QRZ::CALLBOOK_NAME )
+    {
+        ret = new QRZ(this);
+        callbookString = tr("QRZ.com");
+    }
+
+    if ( ret )
+    {
+        connect(ret, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
+        connect(ret, &GenericCallbook::loginFailed, [this, callbookString]()
+        {
+            QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+        });
+    }
+
+    return ret;
 }
 void NewContactWidget::saveContact()
 {
@@ -745,6 +867,11 @@ void NewContactWidget::saveContact()
         record.setValue("darc_dok", ui->dokEdit->text().toUpper());
     }
 
+    if ( !ui->vuccEdit->text().isEmpty() )
+    {
+        record.setValue("vucc_grids", ui->vuccEdit->text().toUpper());
+    }
+
     if (!ui->commentEdit->text().isEmpty()) {
         record.setValue("comment", ui->commentEdit->text());
     }
@@ -845,12 +972,28 @@ void NewContactWidget::stopContactTimer() {
     updateTimeOff();
 }
 
+void NewContactWidget::markContact()
+{
+    FCT_IDENTIFICATION;
+
+    if ( !ui->callsignEdit->text().isEmpty() )
+    {
+        DxSpot spot;
+
+        spot.time = QDateTime::currentDateTimeUtc().time(); //QTime::currentTime();
+        spot.freq = ui->frequencyEdit->value();
+        spot.band = Data::band(spot.freq).name;
+        spot.callsign = ui->callsignEdit->text().toUpper();
+        emit markQSO(spot);
+    }
+}
+
 void NewContactWidget::editCallsignFinished()
 {
     startContactTimer();
-    if ( callsign.size() >= 3 )
+    if ( callsign.size() >= 3 && primaryCallbook )
     {
-        callbook.queryCallsign(callsign);
+        primaryCallbook->queryCallsign(callsign);
     }
 }
 
@@ -980,9 +1123,9 @@ void NewContactWidget::tuneDx(QString callsign, double frequency) {
     ui->callsignEdit->setText(callsign);
     ui->frequencyEdit->setValue(frequency);
     callsignChanged();
-    if ( callsign.size() >= 3 )
+    if ( callsign.size() >= 3 && primaryCallbook )
     {
-        callbook.queryCallsign(callsign);
+        primaryCallbook->queryCallsign(callsign);
     }
     stopContactTimer();
 }
@@ -997,9 +1140,9 @@ void NewContactWidget::showDx(QString callsign, QString grid)
     ui->callsignEdit->setText(callsign.toUpper());
     ui->gridEdit->setText(grid);
     callsignChanged();
-    if ( callsign.size() >= 3 )
+    if ( callsign.size() >= 3  && primaryCallbook )
     {
-        callbook.queryCallsign(callsign);
+        primaryCallbook->queryCallsign(callsign);
     }
     stopContactTimer();
 }
@@ -1083,9 +1226,33 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     }
 }
 
+void NewContactWidget::callbookCallsignNotFound(QString queryCallsign)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << queryCallsign;
+
+    if ( queryCallsign != callsign )
+        return ;
+
+    if (!secondaryCallbook) return;
+
+    secondaryCallbook->queryCallsign(queryCallsign);
+}
+
 NewContactWidget::~NewContactWidget() {
     FCT_IDENTIFICATION;
 
     writeSettings();
+    if ( primaryCallbook )
+    {
+        primaryCallbook->deleteLater();
+    }
+
+    if ( secondaryCallbook )
+    {
+        secondaryCallbook->deleteLater();
+    }
+
     delete ui;
 }

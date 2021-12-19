@@ -1,5 +1,6 @@
 #include <QFileDialog>
 #include <QDebug>
+#include <QMessageBox>
 #include "ui/ExportDialog.h"
 #include "ui_ExportDialog.h"
 #include "logformat/LogFormat.h"
@@ -36,6 +37,13 @@ void ExportDialog::toggleAll() {
 
 void ExportDialog::runExport() {
     FCT_IDENTIFICATION;
+
+    if ( ui->fileEdit->text().isEmpty() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Filename is empty"));
+        return;
+    }
 
     QFile file(ui->fileEdit->text());
     file.open(QFile::WriteOnly | QFile::Text);

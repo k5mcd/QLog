@@ -857,6 +857,32 @@
            </property>
           </widget>
          </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="ageLabel">
+           <property name="text">
+            <string>Age</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="ageEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -953,31 +979,25 @@
            <property name="focusPolicy">
             <enum>Qt::ClickFocus</enum>
            </property>
+           <property name="toolTip">
+            <string>the contacted station's DARC DOK (District Location Code) (ex. A01)</string>
+           </property>
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QLabel" name="ageLabel">
+          <widget class="QLabel" name="vuccLabel">
            <property name="text">
-            <string>Age</string>
+            <string>VUCC</string>
            </property>
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="ageEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>50</width>
-             <height>16777215</height>
-            </size>
-           </property>
+          <widget class="QLineEdit" name="vuccEdit">
            <property name="focusPolicy">
             <enum>Qt::ClickFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</string>
            </property>
           </widget>
          </item>

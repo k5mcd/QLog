@@ -190,6 +190,7 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     proxyModel->setSourceModel(wsjtxTableModel);
 
     ui->tableView->setModel(proxyModel);
+    ui->tableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 void WsjtxWidget::decodeReceived(WsjtxDecode decode)

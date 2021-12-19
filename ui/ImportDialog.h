@@ -19,6 +19,10 @@ public:
 public slots:
     void browse();
     void toggleAll();
+    void toggleMyGrid();
+    void toggleMyRig();
+    void toggleComment();
+    void adjustLocatorTextColor();
     void runImport();
     void progress(qint64 value);
 

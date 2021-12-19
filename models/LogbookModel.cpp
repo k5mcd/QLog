@@ -216,6 +216,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             qint64 diff = time_on.secsTo(time_off);
 
             depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_TIME_OFF), QVariant(value.toDateTime().addSecs(diff)), role);
+
             break;
         }
 
@@ -232,30 +233,24 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
 
         case COLUMN_CALL:
         {
-            bool ret1, ret2, ret3, ret4, ret5;
             QString new_callsign = value.toString();
             DxccEntity dxccEntity = Data::instance()->lookupDxcc(new_callsign);
             if ( dxccEntity.dxcc )
             {
-                ret1 = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), QVariant(dxccEntity.country),role);
-                ret2 = QSqlTableModel::setData(this->index(index.row(), COLUMN_CQZ), QVariant(dxccEntity.cqz),role);
-                ret3 = QSqlTableModel::setData(this->index(index.row(), COLUMN_ITUZ), QVariant(dxccEntity.ituz),role);
-                ret4 = QSqlTableModel::setData(this->index(index.row(), COLUMN_DXCC), QVariant(dxccEntity.dxcc),role);
-                ret5 = QSqlTableModel::setData(this->index(index.row(), COLUMN_CONTINENT), QVariant(dxccEntity.cont),role);
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), QVariant(dxccEntity.country),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CQZ), QVariant(dxccEntity.cqz),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_ITUZ), QVariant(dxccEntity.ituz),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_DXCC), QVariant(dxccEntity.dxcc),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CONTINENT), QVariant(dxccEntity.cont),role);
             }
             else
             {
-                ret1 = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), QVariant(QString()),role);
-                ret2 = QSqlTableModel::setData(this->index(index.row(), COLUMN_CQZ), QVariant(QString()),role);
-                ret3 = QSqlTableModel::setData(this->index(index.row(), COLUMN_ITUZ), QVariant(QString()),role);
-                ret4 = QSqlTableModel::setData(this->index(index.row(), COLUMN_DXCC), QVariant(QString()),role);
-                ret5 = QSqlTableModel::setData(this->index(index.row(), COLUMN_CONTINENT), QVariant(QString()),role);
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), QVariant(QString()),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CQZ), QVariant(QString()),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_ITUZ), QVariant(QString()),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_DXCC), QVariant(QString()),role);
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CONTINENT), QVariant(QString()),role);
             }
-            depend_update_result = ret1 && ret2 && ret3 && ret4 && ret5;
-
-            main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
-
-            return main_update_result && depend_update_result;
 
             break;
         }
@@ -291,10 +286,6 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
                     {
                         depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
                     }
-
-                    main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
-
-                    return main_update_result && depend_update_result;
                 }
                 else
                 {
@@ -329,8 +320,6 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
                     {
                         depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
                     }
-                    main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
-                    return main_update_result && depend_update_result;
                 }
                 else
                 {
@@ -350,6 +339,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_COUNTRY:
         case COLUMN_DISTANCE:
         {
+            /* Do not allow to edit them */
             depend_update_result = false;
             break;
         }
@@ -357,9 +347,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_SAT_MODE:
         case COLUMN_SAT_NAME:
         {
-            QString new_value = value.toString();
-
-            if ( !new_value.isEmpty() )
+            if ( !value.toString().isEmpty() )
             {
                 depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_PROP_MODE), "SAT");
             }
@@ -376,28 +364,77 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             {
                 depend_update_result = false;
             }
+
             break;
         }
 
+        }
+    }
+
+    updateExternalServicesUploadStatus(index, role, depend_update_result);
+
+    if ( depend_update_result )
+    {
+        switch ( index.column() )
+        {
         case COLUMN_SOTA_REF:
         case COLUMN_MY_SOTA_REF:
         case COLUMN_IOTA:
         case COLUMN_MY_IOTA:
-        {
+        case COLUMN_MY_GRIDSQUARE:
+        case COLUMN_CALL:
+        case COLUMN_GRID:
             main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
-
-            return main_update_result;
-
             break;
+        default:
+            main_update_result = QSqlTableModel::setData(index, value, role);
         }
 
-        }
-    }
-
-    if ( depend_update_result )
-    {
-        main_update_result = QSqlTableModel::setData(index, value, role);
     }
 
     return main_update_result && depend_update_result;
+}
+
+void LogbookModel::updateExternalServicesUploadStatus(const QModelIndex &index, int role, bool &updateResult)
+{
+    switch (index.column() )
+    {
+    case COLUMN_TIME_ON:
+    case COLUMN_CALL:
+    case COLUMN_FREQUENCY:
+    case COLUMN_PROP_MODE:
+    case COLUMN_SAT_MODE:
+    case COLUMN_SAT_NAME:
+    case COLUMN_MODE:
+    case COLUMN_SUBMODE:
+    case COLUMN_STATION_CALLSIGN:
+    case COLUMN_RST_RCVD:
+    case COLUMN_RST_SENT:
+    case COLUMN_QSL_RCVD:
+    case COLUMN_QSL_SENT:
+    case COLUMN_QSL_RCVD_DATE:
+    case COLUMN_QSL_SENT_DATE:
+    case COLUMN_DXCC:
+    case COLUMN_CREDIT_GRANTED:
+    case COLUMN_VUCC_GRIDS:
+    case COLUMN_OPERATOR:
+    case COLUMN_GRID:
+    case COLUMN_NOTES:
+        updateUploadToModified(index, role, COLUMN_CLUBLOG_QSO_UPLOAD_STATUS, updateResult);
+        //updateUploadToModified(index, role, COLUMN_HRDLOG_QSO_UPLOAD_STATUS, updateResult);
+        break;
+    }
+
+    /* QRZ consumes all ADIF Fields */
+    updateUploadToModified(index, role, COLUMN_QRZCOM_QSO_UPLOAD_STATUS, updateResult);
+}
+
+void LogbookModel::updateUploadToModified(const QModelIndex &index, int role, int column, bool &updateResult)
+{
+    QString status    = QSqlTableModel::data(this->index(index.row(), column), Qt::DisplayRole).toString();
+
+    if ( status == "Y" )
+    {
+        updateResult = updateResult && QSqlTableModel::setData(this->index(index.row(), column), QVariant("M"), role);
+    }
 }

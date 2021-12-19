@@ -22,6 +22,9 @@ public slots:
 
 private:
     Ui::EqslDialog *ui;
+
+    void saveDialogState();
+    void loadDialogState();
 };
 
 #endif // EQSLDIALOG_H

@@ -10,6 +10,8 @@
 #include "ui_SettingsDialog.h"
 #include "models/RigTypeModel.h"
 #include "models/RotTypeModel.h"
+#include "../core/GenericCallbook.h"
+#include "../core/QRZ.h"
 #include "../core/HamQTH.h"
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
@@ -61,7 +63,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->modeTableView->hideColumn(0);
     ui->modeTableView->hideColumn(2);
     ui->modeTableView->setItemDelegateForColumn(5,new CheckBoxDelegate(ui->modeTableView));
-
+    ui->modeTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     modeTableModel->select();
 
     bandTableModel = new QSqlTableModel(this);
@@ -77,11 +79,29 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->bandTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->bandTableView->hideColumn(0);
     ui->bandTableView->setItemDelegateForColumn(4,new CheckBoxDelegate(ui->bandTableView));
+    ui->bandTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     bandTableModel->select();
 
     ui->callsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
     ui->locatorEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
+    ui->vuccEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), this));
+
+    iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
+    iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    iotaCompleter->setFilterMode(Qt::MatchContains);
+    iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->iotaEdit->setCompleter(iotaCompleter);
+
+    sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
+    sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    sotaCompleter->setFilterMode(Qt::MatchStartsWith);
+    sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->sotaEdit->setCompleter(nullptr);
+
+    ui->primaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
+    ui->primaryCallbookCombo->addItem(tr("HamQTH"),   QVariant(HamQTH::CALLBOOK_NAME));
+    ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
 
     readSettings();
 }
@@ -190,6 +210,16 @@ void SettingsDialog::addStationProfile()
         return;
     }
 
+    if ( ! ui->vuccEdit->text().isEmpty() )
+    {
+        if ( ! ui->vuccEdit->hasAcceptableInput() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("VUCC Locator has an invalid format (must be 2 or 4 locators separated by ',')"));
+            return;
+        }
+    }
+
     if ( ui->addProfileButton->text() == tr("Modify"))
     {
         ui->addProfileButton->setText(tr("Add"));
@@ -202,6 +232,11 @@ void SettingsDialog::addStationProfile()
     profile.locator = ui->locatorEdit->text().toUpper();
     profile.operatorName = ui->operatorEdit->text();
     profile.qthName = ui->qthEdit->text();
+    profile.iota = ui->iotaEdit->text().toUpper();
+    profile.sota = ui->sotaEdit->text().toUpper();
+    profile.sig = ui->sigEdit->text().toUpper();
+    profile.sigInfo = ui->sigInfoEdit->text();
+    profile.vucc = ui->vuccEdit->text().toUpper();
 
     profileManager->add(profile);
     refreshStationProfilesView();
@@ -214,6 +249,11 @@ void SettingsDialog::addStationProfile()
     ui->locatorEdit->setPlaceholderText(QString());
     ui->operatorEdit->clear();
     ui->qthEdit->clear();
+    ui->sotaEdit->clear();
+    ui->iotaEdit->clear();
+    ui->sigEdit->clear();
+    ui->sigInfoEdit->clear();
+    ui->vuccEdit->clear();
 }
 
 void SettingsDialog::deleteStationProfile()
@@ -240,6 +280,11 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->locatorEdit->setText(profile.locator);
     ui->operatorEdit->setText(profile.operatorName);
     ui->qthEdit->setText(profile.qthName);
+    ui->iotaEdit->setText(profile.iota);
+    ui->sotaEdit->setText(profile.sota);
+    ui->sigEdit->setText(profile.sig);
+    ui->sigInfoEdit->setText(profile.sigInfo);
+    ui->vuccEdit->setText(profile.vucc);
 
     ui->addProfileButton->setText(tr("Modify"));
 }
@@ -352,6 +397,20 @@ void SettingsDialog::adjustLocatorTextColor()
 
 }
 
+void SettingsDialog::adjustVUCCLocatorTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! ui->vuccEdit->hasAcceptableInput() )
+    {
+        ui->vuccEdit->setStyleSheet("QLineEdit { color: red;}");
+    }
+    else
+    {
+        ui->vuccEdit->setStyleSheet("QLineEdit { color: black;}");
+    }
+}
+
 void SettingsDialog::eqslDirBrowse()
 {
     FCT_IDENTIFICATION;
@@ -382,6 +441,56 @@ void SettingsDialog::cancelled()
     }
 
     reject();
+}
+
+void SettingsDialog::sotaChanged(QString newSOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newSOTA.length() >= 3 )
+    {
+        ui->sotaEdit->setCompleter(sotaCompleter);
+    }
+    else
+    {
+        ui->sotaEdit->setCompleter(nullptr);
+    }
+}
+
+void SettingsDialog::primaryCallbookChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << index;
+
+    QString primaryCallbookSelection = ui->primaryCallbookCombo->itemData(index).toString();
+
+    if ( primaryCallbookSelection == GenericCallbook::CALLBOOK_NAME )
+    {
+        ui->secondaryCallbookCombo->clear();
+        ui->secondaryCallbookCombo->setEnabled(false);
+    }
+    else if ( primaryCallbookSelection == HamQTH::CALLBOOK_NAME )
+    {
+        ui->secondaryCallbookCombo->setEnabled(true);
+        ui->secondaryCallbookCombo->clear();
+        ui->secondaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
+        ui->secondaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
+    }
+    else if ( primaryCallbookSelection == QRZ::CALLBOOK_NAME )
+    {
+        ui->secondaryCallbookCombo->setEnabled(true);
+        ui->secondaryCallbookCombo->clear();
+        ui->secondaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
+        ui->secondaryCallbookCombo->addItem(tr("HamQTH"),  QVariant(HamQTH::CALLBOOK_NAME));
+    }
+}
+
+void SettingsDialog::secondaryCallbookChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << index;
 }
 
 void SettingsDialog::readSettings() {
@@ -419,39 +528,46 @@ void SettingsDialog::readSettings() {
     ui->rotHostNameEdit->setText(settings.value("hamlib/rot/hostname").toString());
     ui->rotNetPortSpin->setValue(settings.value("hamlib/rot/netport").toInt());
 
-    /**********/
-    /* HamQTH */
-    /**********/
-    username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    ui->hamQthUsernameEdit->setText(username);
-    ui->hamQthPasswordEdit->setText(CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
-                                                                             username));
+    /************/
+    /* Callbook */
+    /************/
+
+    int primaryCallbookIndex = ui->primaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY,
+                                                                                 GenericCallbook::CALLBOOK_NAME));
+
+    ui->primaryCallbookCombo->setCurrentIndex(primaryCallbookIndex);
+
+    int secondaryCallbookIndex = ui->secondaryCallbookCombo->findData(settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY,
+                                                                                     GenericCallbook::CALLBOOK_NAME));
+
+    ui->secondaryCallbookCombo->setCurrentIndex(secondaryCallbookIndex);
+
+    ui->hamQthUsernameEdit->setText(HamQTH::getUsername());
+    ui->hamQthPasswordEdit->setText(HamQTH::getPassword());
+
+    ui->qrzUsernameEdit->setText(QRZ::getUsername());
+    ui->qrzPasswordEdit->setText(QRZ::getPassword());
+
     /********/
     /* LoTW */
     /********/
-    username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
-    ui->lotwUsernameEdit->setText(username);
-    ui->lotwPasswordEdit->setText(CredentialStore::instance()->getPassword(Lotw::SECURE_STORAGE_KEY,
-                                                                           username));
-    ui->tqslPathEdit->setText(settings.value("lotw/tqsl").toString());
+    ui->lotwUsernameEdit->setText(Lotw::getUsername());
+    ui->lotwPasswordEdit->setText(Lotw::getPassword());
+    ui->tqslPathEdit->setText(Lotw::getTQSLPath());
 
     /***********/
     /* ClubLog */
     /***********/
-    username = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
-    ui->clublogEmailEdit->setText(username);
-    ui->clublogCallsignEdit->setText(settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString());
-    ui->clublogPasswordEdit->setText(CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
-                                                                              username));
+    ui->clublogEmailEdit->setText(ClubLog::getEmail());
+    ui->clublogCallsignEdit->setText(ClubLog::getRegisteredCallsign());
+    ui->clublogPasswordEdit->setText(ClubLog::getPassword());
 
     /********/
     /* eQSL */
     /********/
-    username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
-    ui->eqslUsernameEdit->setText(username);
-    ui->eqslPasswordEdit->setText(CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
-                                                                           username));
-    ui->eqslFolderPathEdit->setText(settings.value(EQSL::CONFIG_QSL_FOLDER_KEY,QStandardPaths::writableLocation(QStandardPaths::DataLocation)).toString());
+    ui->eqslUsernameEdit->setText(EQSL::getUsername());
+    ui->eqslPasswordEdit->setText(EQSL::getPassword());
+    ui->eqslFolderPathEdit->setText(EQSL::getQSLImageFolder());
 
     if (!settings.value("dxcc/start").isNull()) {
        ui->dxccStartDateCheckBox->setCheckState(Qt::Checked);
@@ -466,6 +582,12 @@ void SettingsDialog::readSettings() {
     //until hamlib guyes fix it.
     ui->rigNetPortSpin->setDisabled(true);
     ui->rotNetPortSpin->setDisabled(true);
+
+    /***********/
+    /* QRZ.COM */
+    /***********/
+    ui->qrzApiKeyEdit->setText(QRZ::getLogbookAPIKey());
+
 }
 
 void SettingsDialog::writeSettings() {
@@ -508,67 +630,42 @@ void SettingsDialog::writeSettings() {
     settings.setValue("hamlib/rot/hostname", ui->rotHostNameEdit->text());
     settings.setValue("hamlib/rot/netport", ui->rotNetPortSpin->value());
 
-    /**********/
-    /* HamQTH */
-    /**********/
-    old_username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->hamQthUsernameEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(HamQTH::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
+    /************/
+    /* Callbook */
+    /************/
+    HamQTH::saveUsernamePassword(ui->hamQthUsernameEdit->text(),
+                                 ui->hamQthPasswordEdit->text());
 
-    settings.setValue(HamQTH::CONFIG_USERNAME_KEY, ui->hamQthUsernameEdit->text());
+    QRZ::saveUsernamePassword(ui->qrzUsernameEdit->text(),
+                              ui->qrzPasswordEdit->text());
 
-    CredentialStore::instance()->savePassword(HamQTH::SECURE_STORAGE_KEY,
-                                              ui->hamQthUsernameEdit->text(),
-                                              ui->hamQthPasswordEdit->text());
+    settings.setValue(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY,
+                      ui->primaryCallbookCombo->itemData(ui->primaryCallbookCombo->currentIndex()).toString());
+    settings.setValue(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY,
+                      ui->secondaryCallbookCombo->itemData(ui->secondaryCallbookCombo->currentIndex()).toString());
 
     /********/
     /* LoTW */
     /********/
-    old_username = settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->lotwUsernameEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(Lotw::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
-    settings.setValue(Lotw::CONFIG_USERNAME_KEY, ui->lotwUsernameEdit->text());
-    CredentialStore::instance()->savePassword(Lotw::SECURE_STORAGE_KEY,
-                                              ui->lotwUsernameEdit->text(),
-                                              ui->lotwPasswordEdit->text());
-    settings.setValue("lotw/tqsl", ui->tqslPathEdit->text());
+
+    Lotw::saveUsernamePassword(ui->lotwUsernameEdit->text(),
+                               ui->lotwPasswordEdit->text());
+    Lotw::saveTQSLPath(ui->tqslPathEdit->text());
 
     /***********/
     /* ClubLog */
     /***********/
-    old_username = settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
-    if ( old_username != ui->clublogEmailEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(ClubLog::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
-    settings.setValue(ClubLog::CONFIG_EMAIL_KEY, ui->clublogEmailEdit->text());
-    settings.setValue(ClubLog::CONFIG_CALLSIGN_KEY, ui->clublogCallsignEdit->text());
-    CredentialStore::instance()->savePassword(ClubLog::SECURE_STORAGE_KEY,
-                                              ui->clublogEmailEdit->text(),
-                                              ui->clublogPasswordEdit->text());
+    ClubLog::saveRegistredCallsign(ui->clublogCallsignEdit->text());
+    ClubLog::saveUsernamePassword(ui->clublogEmailEdit->text(),
+                                  ui->clublogPasswordEdit->text());
 
     /********/
     /* eQSL */
     /********/
-    old_username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
-    if ( old_username != ui->eqslUsernameEdit->text() )
-    {
-        CredentialStore::instance()->deletePassword(EQSL::SECURE_STORAGE_KEY,
-                                                    old_username);
-    }
-    settings.setValue(EQSL::CONFIG_USERNAME_KEY, ui->eqslUsernameEdit->text());
-    CredentialStore::instance()->savePassword(EQSL::SECURE_STORAGE_KEY,
-                                              ui->eqslUsernameEdit->text(),
-                                              ui->eqslPasswordEdit->text());
 
-    settings.setValue(EQSL::CONFIG_QSL_FOLDER_KEY, ui->eqslFolderPathEdit->text());
+    EQSL::saveUsernamePassword(ui->eqslUsernameEdit->text(),
+                               ui->eqslPasswordEdit->text());
+    EQSL::saveQSLImageFolder(ui->eqslFolderPathEdit->text());
 
     if (ui->dxccStartDateCheckBox->isChecked()) {
         settings.setValue("dxcc/start", ui->dxccStartDate->date());
@@ -576,12 +673,19 @@ void SettingsDialog::writeSettings() {
     else {
         settings.setValue("dxcc/start", QVariant());
     }
+
+    /***********/
+    /* QRZ.COM */
+    /***********/
+    QRZ::saveLogbookAPI(ui->qrzApiKeyEdit->text());
 }
 
 SettingsDialog::~SettingsDialog() {
     FCT_IDENTIFICATION;
 
-    delete modeTableModel;
-    delete bandTableModel;
+    modeTableModel->deleteLater();
+    bandTableModel->deleteLater();
+    sotaCompleter->deleteLater();
+    iotaCompleter->deleteLater();
     delete ui;
 }

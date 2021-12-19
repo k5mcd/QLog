@@ -204,6 +204,7 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
+    ui->dxTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);

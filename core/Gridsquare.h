@@ -11,6 +11,7 @@ public:
     Gridsquare(QString grid = QString());
     ~Gridsquare() {};
     static QRegularExpression gridRegEx();
+    static QRegularExpression gridVUCCRegEx();
 
     bool isValid();
     double getLongitude() {return lon;};

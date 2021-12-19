@@ -28,6 +28,8 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 
     bandmapScene = new QGraphicsScene(this);
     bandmapScene->setSceneRect(0, -10, 300, 1000);
+    connect(bandmapScene, &QGraphicsScene::focusItemChanged, this, &BandmapWidget::spotClicked);
+
     ui->graphicsView->setScene(bandmapScene);
     ui->graphicsView->setStyleSheet("background-color: transparent;");
 
@@ -96,13 +98,18 @@ void BandmapWidget::update() {
 //        text->setPos(100, text_y - (text->boundingRect().height() / 2));
 
 //    }
-    for (; lower != upper; lower++) {
+    for (; lower != upper; lower++)
+    {
         double freq_y = ((lower.key() - band.start) / step) * 10;
         double text_y = std::max(min_y, freq_y);
         bandmapScene->addLine(17, freq_y, 100, text_y);
 
         QGraphicsTextItem* text = bandmapScene->addText(lower.value().callsign + " [" + lower.value().time.toString("HH:mm")+"]");
         text->setPos(100, text_y - (text->boundingRect().height() / 2));
+        text->setFlags(QGraphicsItem::ItemIsFocusable |
+                       QGraphicsItem::ItemIsSelectable |
+                       text->flags());
+        text->setProperty("freq", lower.key());
 
         min_y = text_y + text->boundingRect().height() / 2;
 
@@ -145,10 +152,12 @@ void BandmapWidget::removeDuplicates(DxSpot &spot) {
     QMap<double, DxSpot>::iterator upper = spots.upperBound(spot.freq + 0.005);
 
     for (; lower != upper;) {
-        if (lower.value().callsign == spot.callsign) {
+        if ( lower.value().callsign.compare(spot.callsign, Qt::CaseInsensitive) == 0 )
+        {
             spots.erase(lower++);
         }
-        else {
+        else
+        {
             ++lower;
         }
     }
@@ -194,6 +203,19 @@ void BandmapWidget::zoomOut() {
         zoom = static_cast<BandmapZoom>(static_cast<int>(zoom) + 1);
     }
     update();
+}
+
+void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason)
+{
+    FCT_IDENTIFICATION;
+
+    QGraphicsTextItem *focusedSpot = dynamic_cast<QGraphicsTextItem*>(newFocusItem);
+
+    if ( focusedSpot )
+    {
+        emit tuneDx(focusedSpot->toPlainText().split(" ").first(),
+                    focusedSpot->property("freq").toDouble());
+    }
 }
 
 void BandmapWidget::updateRxFrequency(double freq) {

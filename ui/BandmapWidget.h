@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMap>
 #include <QTimer>
+#include <QGraphicsItem>
 
 #include "data/DxSpot.h"
 #include "data/Band.h"
@@ -40,6 +41,10 @@ public slots:
     void clearSpots();
     void zoomIn();
     void zoomOut();
+    void spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason);
+
+signals:
+    void tuneDx(QString, double);
 
 private:
     void removeDuplicates(DxSpot &spot);

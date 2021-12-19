@@ -35,7 +35,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->addAction(ui->actionFilter);
     ui->contactTable->addAction(ui->actionLookup);
     ui->contactTable->addAction(ui->actionDisplayedColumns);
-    ui->contactTable->addAction(ui->actionUploadClublog);
+    //ui->contactTable->addAction(ui->actionUploadClublog);
     ui->contactTable->addAction(ui->actionDeleteContact);
 
     //ui->contactTable->sortByColumn(1, Qt::DescendingOrder);
@@ -43,6 +43,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->contactTable->horizontalHeader(), &QHeaderView::customContextMenuRequested,
             this, &LogbookWidget::showTableHeaderContextMenu);
+    connect(ui->contactTable, &QTableQSOView::dataCommitted, this, &LogbookWidget::updateTable);
 
     QMap<QString, QString> qslSentEnum;
     qslSentEnum["Y"] = tr("Yes");
@@ -174,6 +175,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     }
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
+    ui->contactTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     ui->bandFilter->blockSignals(true);
     ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", tr("Band"), this));

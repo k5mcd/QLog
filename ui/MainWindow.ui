@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>913</width>
-     <height>30</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -96,16 +96,18 @@
     <addaction name="actionRotator"/>
     <addaction name="actionWsjtx"/>
    </widget>
-   <widget class="QMenu" name="menuQSL">
+   <widget class="QMenu" name="menuServices">
     <property name="title">
-     <string>QSL</string>
+     <string>Services</string>
     </property>
-    <addaction name="actionLotw"/>
+    <addaction name="actionClublog"/>
     <addaction name="actioneQSL"/>
+    <addaction name="actionLotw"/>
+    <addaction name="actionQRZ_com"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLogbook"/>
-   <addaction name="menuQSL"/>
+   <addaction name="menuServices"/>
    <addaction name="menuRig"/>
    <addaction name="menuWindow"/>
    <addaction name="menuHelp"/>
@@ -385,10 +387,21 @@
   </action>
   <action name="actionAwards">
    <property name="icon">
-    <iconset theme="application-certificate"/>
+    <iconset theme="application-certificate">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Awards</string>
+   </property>
+  </action>
+  <action name="actionClublog">
+   <property name="text">
+    <string>Clublog</string>
+   </property>
+  </action>
+  <action name="actionQRZ_com">
+   <property name="text">
+    <string>QRZ.com</string>
    </property>
   </action>
  </widget>
@@ -839,6 +852,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionClublog</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showClublog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionQRZ_com</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showQRZ()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -855,5 +900,7 @@
   <slot>QSOFilterSetting()</slot>
   <slot>showeQSL()</slot>
   <slot>showAwards()</slot>
+  <slot>showClublog()</slot>
+  <slot>showQRZ()</slot>
  </slots>
 </ui>

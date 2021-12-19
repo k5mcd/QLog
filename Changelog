@@ -1,3 +1,13 @@
+2021/12/19 - 0.3.0
+- Added new fields to Station Profile
+- Station Profile is stored in DB (not in QSetting)
+- Added VUCC field for QSO
+- Added BandMap marks (CTRL+M)
+- Clublog is uploaded the same way as EQSL and LOTW (modifications are resent too)
+- Clublog real-time upload was removed (temporary)
+- QRZ.com - Added callsign query and upload QSO support
+- Callbook cooperation - Primary&Secondary - Secondary used when Primary did not find
+
 2021/11/28 - 0.2.0
 - Initial fork changes
 - Changed Logging format (Time + severity + context)
