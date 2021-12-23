@@ -29,7 +29,7 @@ class NewContactWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit NewContactWidget(QWidget *parent = 0);
+    explicit NewContactWidget(QWidget *parent = nullptr);
     ~NewContactWidget();
 
 signals:
@@ -70,7 +70,7 @@ public slots:
     void setDefaultReport();
     void qrz();
     void addPropConditions(Conditions *);
-    void propModeChanged(QString);
+    void propModeChanged(const QString&);
     void rigFreqOffsetChanged(double);
     void stationProfileChanged(QString);
     void sotaChanged(QString);
@@ -86,7 +86,7 @@ private:
     void __modeChanged();
     void refreshStationProfileCombo();
     void addAddlFields(QSqlRecord &record);
-    GenericCallbook *createCallbook(QString);
+    GenericCallbook *createCallbook(const QString&);
 
 private:
     Rig* rig;

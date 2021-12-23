@@ -141,7 +141,7 @@ void MainWindow::rigConnect() {
     }
 }
 
-void MainWindow::rigErrorHandler(QString error)
+void MainWindow::rigErrorHandler(const QString &error)
 {
     FCT_IDENTIFICATION;
 
@@ -150,7 +150,7 @@ void MainWindow::rigErrorHandler(QString error)
     ui->actionConnectRig->setChecked(false);
 }
 
-void MainWindow::rotErrorHandler(QString error)
+void MainWindow::rotErrorHandler(const QString &error)
 {
     FCT_IDENTIFICATION;
 

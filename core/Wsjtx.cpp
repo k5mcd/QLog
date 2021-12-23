@@ -11,7 +11,8 @@
 
 MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
-Wsjtx::Wsjtx(QObject *parent) : QObject(parent)
+Wsjtx::Wsjtx(QObject *parent) :
+    QObject(parent)
 {
     FCT_IDENTIFICATION;
     socket = new QUdpSocket(this);

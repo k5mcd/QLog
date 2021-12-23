@@ -32,8 +32,9 @@ QModelIndex RigTypeModel::index(int row, int column, const QModelIndex& parent) 
         return QModelIndex();
 }
 
-int RigTypeModel::addRig(const struct rig_caps* caps, void* data) {
-    RigTypeModel* rigTypeModel = (RigTypeModel*)data;
+int RigTypeModel::addRig(const struct rig_caps* caps, void* data)
+{
+    RigTypeModel* rigTypeModel = static_cast<RigTypeModel*>(data);
     QString name = QString("%1 %2 (%3)").arg(caps->mfg_name, caps->model_name, caps->version);
     rigTypeModel->rigList.append(name);
     rigTypeModel->rigIds[name] = caps->rig_model;

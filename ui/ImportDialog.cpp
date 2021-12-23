@@ -115,7 +115,7 @@ LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *i
 
     reply = QMessageBox::question(nullptr,
                                   tr("Duplicate QSO"),
-                                  tr("<p>Do you want to import duplicate QSO?</p>%1 %2").arg(inLogQSO).arg(importedQSO),
+                                  tr("<p>Do you want to import duplicate QSO?</p>%1 %2").arg(inLogQSO,importedQSO),
                                   QMessageBox::Yes|QMessageBox::No|QMessageBox::YesAll|QMessageBox::NoAll);
     switch ( reply )
     {

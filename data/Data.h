@@ -20,29 +20,29 @@ public:
     explicit Data(QObject *parent = nullptr);
     static Data* instance();
 
-    static DxccStatus dxccStatus(int dxcc, QString band, QString mode);
+    static DxccStatus dxccStatus(int dxcc, const QString &band, const QString &mode);
     static Band band(double freq);
     static QString freqToMode(double freq);
     static QString freqToBand(double freq);
-    static QColor statusToColor(DxccStatus status, QColor defaultColor);
-    static QColor statusToInverseColor(DxccStatus status, QColor defaultColor);
-    static QString statusToText(DxccStatus status);
+    static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
+    static QColor statusToInverseColor(const DxccStatus &status, const QColor &defaultColor);
+    static QString statusToText(const DxccStatus &status);
     static QRegularExpression callsignRegEx();
     static QString callsignRegExString();
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
     QStringList propagationModesIDList() { return propagationModes.keys(); }
-    QString propagationModeTextToID(QString propagationText) { return propagationModes.key(propagationText);}
-    QString propagationModeIDToText(QString propagationID) { return propagationModes.value(propagationID);}
-    DxccEntity lookupDxcc(QString callsign);
+    QString propagationModeTextToID(const QString &propagationText) { return propagationModes.key(propagationText);}
+    QString propagationModeIDToText(const QString &propagationID) { return propagationModes.value(propagationID);}
+    DxccEntity lookupDxcc(const QString &callsign);
     QString dxccFlag(int dxcc);
-    QPair<QString, QString> legacyMode(QString mode);
+    QPair<QString, QString> legacyMode(const QString &mode);
     QStringList satModeList() { return satModes.values();}
     QStringList satModesIDList() { return satModes.keys(); }
-    QString satModeTextToID(QString satModeText) { return satModes.key(satModeText);}
+    QString satModeTextToID(const QString &satModeText) { return satModes.key(satModeText);}
     QStringList iotaList() { return iotaRef.values();}
     QStringList iotaIDList() { return iotaRef.keys();}
-    QString iotaTextToID(QString iotaText) { return iotaRef.key(iotaText);}
+    QString iotaTextToID(const QString &iotaText) { return iotaRef.key(iotaText);}
     QStringList sotaIDList() { return sotaRef.keys();}
 
 signals:

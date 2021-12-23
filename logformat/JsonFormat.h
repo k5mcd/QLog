@@ -7,11 +7,11 @@ class QJsonArray;
 
 class JsonFormat : public LogFormat {
 public:
-    JsonFormat(QTextStream& stream) : LogFormat(stream) {}
+    explicit JsonFormat(QTextStream& stream) : LogFormat(stream) {}
 
-    bool importNext(QSqlRecord& contact);
-    void exportContact(const QSqlRecord& record, QMap<QString, QString> * = nullptr);
-    void exportEnd();
+    bool importNext(QSqlRecord& contact) override;
+    void exportContact(const QSqlRecord& record, QMap<QString, QString> *) override;
+    void exportEnd() override;
 
 private:
    QJsonArray data;

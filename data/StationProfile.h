@@ -45,9 +45,9 @@ public:
     QStringList profilesList();
     void save();
     void add(StationProfile profile);
-    int remove(QString profileName);
-    StationProfile get(QString profileName);
-    void setCurrent(QString profileName);
+    int remove(const QString &profileName);
+    StationProfile get(const QString &profileName);
+    void setCurrent(const QString &profileName);
     StationProfile getCurrent();
 
 private:

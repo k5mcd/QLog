@@ -20,7 +20,9 @@
 
 MODULE_IDENTIFICATION("qlog.core.sat");
 
-Sat::Sat() {
+Sat::Sat(QObject *parent) :
+    QObject(parent)
+{
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);

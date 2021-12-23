@@ -28,11 +28,11 @@ protected:
 
 private:
     void redrawNightOverlay();
-    void drawPoint(QPoint point);
-    void drawLine(QPoint pointA, QPoint pointB);
+    void drawPoint(const QPoint &point);
+    void drawLine(const QPoint &pointA, const QPoint &pointB);
 
-    void pointToRad(QPoint point, double& lat, double& lon);
-    void pointToCoord(QPoint point, double& lat, double& lon);
+    void pointToRad(const QPoint &point, double& lat, double& lon);
+    void pointToCoord(const QPoint &point, double& lat, double& lon);
     QPoint radToPoint(double lat, double lon);
     QPoint coordToPoint(double lat, double lon);
 

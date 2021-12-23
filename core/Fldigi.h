@@ -9,8 +9,7 @@ class Fldigi : public QTcpServer {
     Q_OBJECT
 
 public:
-    explicit Fldigi(QObject *parent = 0);
-    void incomingConnection(int socket);
+    explicit Fldigi(QObject *parent = nullptr);
 
 signals:
     void contactAdded();
@@ -24,6 +23,8 @@ private:
     QString parseParam(QXmlStreamReader& xml);
     QByteArray listMethods();
     QByteArray addRecord(QString data);
+
+    void incomingConnection(qintptr socket) override;
 };
 
 #endif // FLDIGI_H

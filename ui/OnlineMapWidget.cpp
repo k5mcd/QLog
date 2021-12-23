@@ -89,7 +89,7 @@ QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, doub
 
     double d = 2*asin(sqrt(pow(sin(latA-latB)/2, 2) + cos(latA)* cos(latB) * pow(sin((lonA-lonB)/2), 2)));
 
-    for (double f = 0; f < 1; f += 0.001) {
+    for (double f = 0; f <= 1; f += 0.001) {
         double A = sin((1-f)*d)/sin(d);
         double B = sin(f*d)/sin(d);
         double x = A*cos(latA)*cos(lonA) + B*cos(latB)*cos(lonB);

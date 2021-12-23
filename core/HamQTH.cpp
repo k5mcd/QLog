@@ -50,7 +50,7 @@ const QString HamQTH::getPassword()
                                                    getUsername());
 }
 
-void HamQTH::saveUsernamePassword(const QString newUsername, const QString newPassword)
+void HamQTH::saveUsernamePassword(const QString &newUsername, const QString &newPassword)
 {
     FCT_IDENTIFICATION;
 

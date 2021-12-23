@@ -429,7 +429,7 @@ void LogbookWidget::showTableHeaderContextMenu(const QPoint& point) {
         action->setCheckable(true);
         action->setChecked(!ui->contactTable->isColumnHidden(i));
 
-        connect(action, &QAction::triggered, [this, i]() {
+        connect(action, &QAction::triggered, this, [this, i]() {
             ui->contactTable->setColumnHidden(i, !ui->contactTable->isColumnHidden(i));
             saveTableHeaderState();
         });
@@ -455,14 +455,14 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
 
         EQSL *eQSL = new EQSL(dialog);
 
-        connect(eQSL, &EQSL::QSLImageFound, [dialog](QString imgFile)
+        connect(eQSL, &EQSL::QSLImageFound, this, [dialog](QString imgFile)
         {
             dialog->done(0);
             QDesktopServices::openUrl(imgFile);
 
         });
 
-        connect(eQSL, &EQSL::QSLImageError, [this, dialog](QString error)
+        connect(eQSL, &EQSL::QSLImageError, this, [this, dialog](QString error)
         {
             dialog->done(1);
             QMessageBox::critical(this, tr("QLog Error"), tr("eQSL Download Image failed: ") + error);
@@ -470,7 +470,7 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
 
         QNetworkReply* reply = eQSL->getQSLImage(model->record(modelIndex.row()));
 
-        connect(dialog, &QProgressDialog::canceled, [reply]()
+        connect(dialog, &QProgressDialog::canceled, this, [reply]()
         {
             qCDebug(runtime)<< "Operation canceled";
             if ( reply )

@@ -365,7 +365,7 @@ StatisticsWidget::~StatisticsWidget()
     delete ui;
 }
 
-void StatisticsWidget::drawBarGraphs(QString title, QSqlQuery query)
+void StatisticsWidget::drawBarGraphs(const QString &title, QSqlQuery &query)
 {
     FCT_IDENTIFICATION;
 
@@ -411,7 +411,7 @@ void StatisticsWidget::drawBarGraphs(QString title, QSqlQuery query)
     ui->graphView->setChart(chart);
 }
 
-void StatisticsWidget::drawPieGraph(QString title, QPieSeries *series)
+void StatisticsWidget::drawPieGraph(const QString &title, QPieSeries *series)
 {
     FCT_IDENTIFICATION;
 

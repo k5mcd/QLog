@@ -712,7 +712,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     }
 }
 
-GenericCallbook *NewContactWidget::createCallbook(QString callbookID)
+GenericCallbook *NewContactWidget::createCallbook(const QString &callbookID)
 {
     FCT_IDENTIFICATION;
 
@@ -733,7 +733,7 @@ GenericCallbook *NewContactWidget::createCallbook(QString callbookID)
     if ( ret )
     {
         connect(ret, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
-        connect(ret, &GenericCallbook::loginFailed, [this, callbookString]()
+        connect(ret, &GenericCallbook::loginFailed, this, [this, callbookString]()
         {
             QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
         });
@@ -1170,7 +1170,7 @@ void NewContactWidget::addPropConditions(Conditions *cond)
     prop_cond = cond;
 }
 
-void NewContactWidget::propModeChanged(QString propModeText)
+void NewContactWidget::propModeChanged(const QString &propModeText)
 {
     FCT_IDENTIFICATION;
 

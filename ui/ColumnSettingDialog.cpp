@@ -37,7 +37,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         columnCheckbox->setChecked(!table->isColumnHidden(columnIndex));
         columnCheckbox->setText(columnNameString);
 
-        connect(columnCheckbox, &QCheckBox::stateChanged, [columnIndex, table]() {
+        connect(columnCheckbox, &QCheckBox::stateChanged, this, [columnIndex, table]() {
             table->setColumnHidden(columnIndex, !table->isColumnHidden(columnIndex));
         });
 
@@ -232,7 +232,7 @@ void ColumnSettingDialog::addSelectUnselect(QGridLayout *grid, int elementsPerRo
     grid->addWidget(buttonUnselectAll, current_rows + 1, 0);
     grid->addWidget(buttonSelectAll, current_rows + 1, elementsPerRow - 1);
 
-    connect(buttonUnselectAll, &QPushButton::clicked, [grid]() {
+    connect(buttonUnselectAll, &QPushButton::clicked, this, [grid]() {
         for(int idx = 0; idx < grid->count(); idx++)
         {
             QLayoutItem *item = grid->itemAt(idx);
@@ -248,7 +248,7 @@ void ColumnSettingDialog::addSelectUnselect(QGridLayout *grid, int elementsPerRo
         }
     });
 
-    connect(buttonSelectAll, &QPushButton::clicked, [grid]() {
+    connect(buttonSelectAll, &QPushButton::clicked, this, [grid]() {
         for(int idx = 0; idx < grid->count(); idx++)
         {
             QLayoutItem *item = grid->itemAt(idx);

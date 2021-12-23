@@ -26,7 +26,7 @@ Data* Data::instance() {
     return &instance;
 }
 
-DxccStatus Data::dxccStatus(int dxcc, QString band, QString mode) {
+DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << dxcc << " " << band << " " << mode;
@@ -225,7 +225,7 @@ QString Data::freqToMode(double freq)
     else return QString();
 }
 
-QColor Data::statusToColor(DxccStatus status, QColor defaultColor) {
+QColor Data::statusToColor(const DxccStatus &status, const QColor &defaultColor) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << status;
@@ -244,7 +244,7 @@ QColor Data::statusToColor(DxccStatus status, QColor defaultColor) {
     }
 }
 
-QString Data::statusToText(DxccStatus status) {
+QString Data::statusToText(const DxccStatus &status) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << status;
@@ -278,10 +278,10 @@ QString Data::callsignRegExString()
 {
     FCT_IDENTIFICATION;
 
-    return QString("^([A-Z0-9]+[\/])?([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)([\/][A-Z0-9]+)?");
+    return QString("^([A-Z0-9]+[\\/])?([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)([\\/][A-Z0-9]+)?");
 }
 
-QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
+QColor Data::statusToInverseColor(const DxccStatus &status, const QColor &defaultColor) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << status;
@@ -300,7 +300,7 @@ QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
     }
 }
 
-QPair<QString, QString> Data::legacyMode(QString mode) {
+QPair<QString, QString> Data::legacyMode(const QString &mode) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << mode;
@@ -314,7 +314,9 @@ void Data::loadContests() {
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objectList = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objectList))
+    {
         QVariantMap contestData = object.toMap();
 
         QString id = contestData.value("id").toString();
@@ -331,7 +333,9 @@ void Data::loadPropagationModes() {
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap propagationModeData = object.toMap();
 
         QString id = propagationModeData.value("id").toString();
@@ -349,8 +353,10 @@ void Data::loadLegacyModes() {
     QByteArray data = file.readAll();
 
     QVariantMap modes = QJsonDocument::fromJson(data).toVariant().toMap();
+    auto keys = modes.keys();
 
-    for (QString key : modes.keys()) {
+    for (auto &key : qAsConst(keys))
+    {
         QVariantMap legacyModeData = modes[key].toMap();
 
         QString mode = legacyModeData.value("mode").toString();
@@ -361,14 +367,17 @@ void Data::loadLegacyModes() {
     }
 }
 
-void Data::loadDxccFlags() {
+void Data::loadDxccFlags()
+{
     FCT_IDENTIFICATION;
 
     QFile file(":/res/data/dxcc.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap dxccData = object.toMap();
 
         int id = dxccData.value("id").toInt();
@@ -386,7 +395,9 @@ void Data::loadSatModes()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap satModesData = object.toMap();
 
         QString id = satModesData.value("id").toString();
@@ -404,7 +415,9 @@ void Data::loadIOTA()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap iotaData = object.toMap();
 
         QString id = iotaData.value("id").toString();
@@ -422,7 +435,9 @@ void Data::loadSOTA()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap sotaData = object.toMap();
 
         QString id = sotaData.value("id").toString();
@@ -431,7 +446,7 @@ void Data::loadSOTA()
     }
 }
 
-DxccEntity Data::lookupDxcc(QString callsign) {
+DxccEntity Data::lookupDxcc(const QString &callsign) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << callsign;

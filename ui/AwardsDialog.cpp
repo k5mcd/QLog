@@ -38,7 +38,7 @@ AwardsDialog::~AwardsDialog()
     detailedViewModel->deleteLater();
 }
 
-void AwardsDialog::refreshTable(int idx)
+void AwardsDialog::refreshTable(int)
 {
     FCT_IDENTIFICATION;
 

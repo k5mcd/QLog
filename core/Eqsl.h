@@ -19,10 +19,10 @@ public:
 
     static const QString getUsername();
     static const QString getPassword();
-    static const QString getQSLImageFolder(const QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    static const QString getQSLImageFolder(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    static void saveUsernamePassword(const QString, const QString);
-    static void saveQSLImageFolder(const QString );
+    static void saveUsernamePassword(const QString&, const QString&);
+    static void saveQSLImageFolder(const QString&);
 
 signals:
     void updateProgress(int value);
@@ -41,9 +41,9 @@ private:
     QNetworkAccessManager* nam;
 
     QNetworkReply* get(QList<QPair<QString, QString>> params);
-    void downloadADIF(QString filename);
-    void downloadImage(QString filename, QString futureFilename);
-    QString QSLImageFilename(QSqlRecord);
+    void downloadADIF(const QString &filename);
+    void downloadImage(const QString &filename, const QString  &futureFilename);
+    QString QSLImageFilename(const QSqlRecord);
     bool isQSLImageInCache(QSqlRecord qso, QString &fullPath);
 
     static const QString SECURE_STORAGE_KEY;

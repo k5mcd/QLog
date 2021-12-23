@@ -33,7 +33,7 @@ void AdxFormat::exportEnd() {
     delete writer;
 }
 
-void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *applTag) {
+void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<record;
@@ -78,7 +78,9 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
 
     QJsonObject fields = QJsonDocument::fromJson(record.value("fields").toByteArray()).object();
 
-    for (const QString& key : fields.keys()) {
+    auto keys = fields.keys();
+    for (const QString& key : qAsConst(keys))
+    {
         writeField(key, fields.value(key).toString());
     }
 

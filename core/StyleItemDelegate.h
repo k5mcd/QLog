@@ -181,17 +181,20 @@ private:
 
 class ComboFormatDelegate : public QStyledItemDelegate {
 public:
-    ComboFormatDelegate(QAbstractTableModel* in_model, QObject* parent = 0)
+    ComboFormatDelegate(QAbstractTableModel* in_model, QObject* parent = nullptr):
+        QStyledItemDelegate(parent)
     {
         model = in_model;
     }
-    ComboFormatDelegate(QStringList in_list, QObject* parent = 0)
+    ComboFormatDelegate(QStringList in_list, QObject* parent = nullptr):
+        QStyledItemDelegate(parent)
     {
         model = nullptr;
         list = in_list;
     }
 
-    ComboFormatDelegate(QMap<QString, QString> in_map, QObject* parent = 0)
+    ComboFormatDelegate(QMap<QString, QString> in_map, QObject* parent = nullptr):
+        QStyledItemDelegate(parent)
     {
         model = nullptr;
         map = in_map;

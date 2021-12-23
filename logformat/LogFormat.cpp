@@ -133,10 +133,10 @@ void LogFormat::runImport() {
             }
 
             QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
-                    .arg(record.value("callsign").toString())
-                    .arg(record.value("mode").toString())
-                    .arg(record.value("band").toString())
-                    .arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+                    .arg(record.value("callsign").toString(),
+                         record.value("mode").toString(),
+                         record.value("band").toString(),
+                         record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
             /* set filter */
             model.setFilter(matchFilter);
@@ -240,7 +240,6 @@ void LogFormat::runQSLImport(QSLFrom fromService)
     model.setTable("contacts");
     model.setEditStrategy(QSqlTableModel::OnManualSubmit);
     QSqlRecord QSLRecord = model.record();
-    QString filterString;
 
     while ( true )
     {
@@ -268,10 +267,10 @@ void LogFormat::runQSLImport(QSLFrom fromService)
         }
 
         QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
-                .arg(QSLRecord.value("callsign").toString())
-                .arg(QSLRecord.value("mode").toString())
-                .arg(QSLRecord.value("band").toString())
-                .arg(QSLRecord.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+                .arg(QSLRecord.value("callsign").toString(),
+                     QSLRecord.value("mode").toString(),
+                     QSLRecord.value("band").toString(),
+                     QSLRecord.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
         /* set filter */
         model.setFilter(matchFilter);

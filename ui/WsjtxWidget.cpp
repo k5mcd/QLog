@@ -40,14 +40,14 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
         case 2:
         {
             StationProfile profile = StationProfilesManager::instance()->getCurrent();
-            QString ret = entry.grid;
+            //QString ret = entry.grid;
 
             if ( !profile.locator.isEmpty() )
             {
                 Gridsquare myGrid(profile.locator);
                 double distance;
 
-                if ( myGrid.distanceTo(entry.grid, distance) )
+                if ( myGrid.distanceTo(Gridsquare(entry.grid), distance) )
                 {
                     return round(distance);
                 }
@@ -131,7 +131,7 @@ void WsjtxTableModel::spotAging()
 
     beginResetModel();
 
-    for (auto entry: wsjtxData )
+    for (auto &entry: qAsConst(wsjtxData) )
     {
         if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > spotAgingPeriod )
         {
@@ -201,7 +201,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     if ( decode.message.startsWith("CQ") )
     {
-        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\/]+) ?([A-Z]{2}[0-9]{2})?.*");
+        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\\/]+) ?([A-Z]{2}[0-9]{2})?.*");
         if ( cqRegExp.exactMatch(decode.message) )
         {
             WsjtxEntry entry;

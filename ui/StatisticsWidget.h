@@ -25,8 +25,8 @@ public:
     ~StatisticsWidget();
 
 private:
-    void drawBarGraphs(QString title, QSqlQuery query);
-    void drawPieGraph(QString title, QPieSeries* series);
+    void drawBarGraphs(const QString &title, QSqlQuery &query);
+    void drawPieGraph(const QString &title, QPieSeries* series);
 
 private:
     Ui::StatisticsWidget *ui;

@@ -50,7 +50,7 @@ static QString modeToString(rmode_t mode, QString &submode) {
     }
 }
 
-static rmode_t stringToMode(QString mode, QString submode)
+static rmode_t stringToMode(const QString &mode, const QString &submode)
 {
     FCT_IDENTIFICATION;
 
@@ -82,7 +82,7 @@ static rmode_t stringToMode(QString mode, QString submode)
 
 }
 
-static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
+static enum serial_handshake_e stringToFlowControl(const QString &in_flowcontrol)
 {
     FCT_IDENTIFICATION;
 
@@ -95,7 +95,7 @@ static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
     return RIG_HANDSHAKE_NONE;
 }
 
-static enum serial_parity_e stringToParity(const QString in_parity)
+static enum serial_parity_e stringToParity(const QString &in_parity)
 {
     FCT_IDENTIFICATION;
 
@@ -319,7 +319,7 @@ void Rig::setFrequency(double newFreq) {
     rigLock.unlock();
 }
 
-void Rig::setMode(QString newMode, QString newSubMode)
+void Rig::setMode(const QString &newMode, const QString &newSubMode)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters)<<newMode << " " << newSubMode;
@@ -363,4 +363,14 @@ void Rig::setPower(double newPower) {
 
     if (!rig) return;
     power = (int)(newPower*1000);
+}
+
+Rig::Rig(QObject *parent) :
+    QObject(parent)
+{
+    FCT_IDENTIFICATION;
+
+    rig = nullptr;
+    freq_rx = 0;
+    power = 0;
 }

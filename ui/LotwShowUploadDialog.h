@@ -12,7 +12,7 @@ class LotwShowUploadDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit LotwShowUploadDialog(QString qsoList, QWidget *parent = nullptr);
+    explicit LotwShowUploadDialog(const QString &qsoList, QWidget *parent = nullptr);
     ~LotwShowUploadDialog();
 
 private:

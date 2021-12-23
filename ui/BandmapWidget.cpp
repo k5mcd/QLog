@@ -205,7 +205,7 @@ void BandmapWidget::zoomOut() {
     update();
 }
 
-void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason)
+void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *, Qt::FocusReason)
 {
     FCT_IDENTIFICATION;
 

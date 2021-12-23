@@ -16,7 +16,8 @@ Fldigi::Fldigi(QObject *parent) :
     listen(QHostAddress::Any, 8421);
 }
 
-void Fldigi::incomingConnection(int socket) {
+void Fldigi::incomingConnection(qintptr socket)
+{
     FCT_IDENTIFICATION;
 
     QTcpSocket* sock = new QTcpSocket(this);

@@ -18,7 +18,7 @@ public:
 public slots:
     void download();
     void upload();
-    void uploadCallsignChanged(QString );
+    void uploadCallsignChanged(const QString& );
 
 private:
     Ui::LotwDialog *ui;

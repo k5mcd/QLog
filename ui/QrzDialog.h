@@ -17,7 +17,7 @@ public:
 
 public slots:
     void upload();
-    void uploadCallsignChanged(QString );
+    void uploadCallsignChanged(const QString&);
 
 private:
     Ui::QRZDialog *ui;

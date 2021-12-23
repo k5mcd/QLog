@@ -52,7 +52,7 @@ const QString ClubLog::getPassword()
                                                     getEmail());
 }
 
-void ClubLog::saveRegistredCallsign(const QString newRegistredCallsign)
+void ClubLog::saveRegistredCallsign(const QString &newRegistredCallsign)
 {
     FCT_IDENTIFICATION;
 
@@ -62,7 +62,7 @@ void ClubLog::saveRegistredCallsign(const QString newRegistredCallsign)
 
 }
 
-void ClubLog::saveUsernamePassword(const QString newEmail, const QString newPassword)
+void ClubLog::saveUsernamePassword(const QString &newEmail, const QString &newPassword)
 {
     FCT_IDENTIFICATION;
 

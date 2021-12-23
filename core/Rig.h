@@ -19,7 +19,7 @@ public slots:
     void close();
 
     void setFrequency(double freq);
-    void setMode(QString mod, QString submode);
+    void setMode(const QString &mod, const QString &submode);
     void setPower(double power);
 
 signals:
@@ -29,7 +29,7 @@ signals:
     void rigErrorPresent(QString);
 
 private:
-    Rig() { }
+    Rig(QObject *parent = nullptr);
 
     Rig(Rig const&);
     void operator=(Rig const&);

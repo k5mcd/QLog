@@ -129,7 +129,7 @@ void QSOFilterDetail::addCondition(int fieldIdx, int operatorId, QString value)
 
     conditionLayout->addWidget(removeButton);
 
-    connect(removeButton, &QPushButton::clicked, [conditionLayout]()
+    connect(removeButton, &QPushButton::clicked, this, [conditionLayout]()
     {
         QLayoutItem *item = NULL;
         while ((item = conditionLayout->takeAt(0)) != 0)
@@ -192,7 +192,6 @@ void QSOFilterDetail::save()
 {
     FCT_IDENTIFICATION;
 
-    int fieldNameIdx, conditionIdx;
     QString valueString;
     QSqlQuery filterInsertStmt, deleteFilterStmt, updateStmt;
 
@@ -228,10 +227,14 @@ void QSOFilterDetail::save()
         {
             QList<QHBoxLayout *> conditionLayouts = ui->conditionsLayout->findChildren<QHBoxLayout *>();
 
-            for (auto condition: conditionLayouts )
+            for (auto &condition: qAsConst(conditionLayouts) )
             {
+                int fieldNameIdx = 0;
+                int conditionIdx = 0;
+
                 for (int i = 0; i < 3; i++)
                 {
+
                     QString objectName = condition->itemAt(i)->widget()->objectName();
 
                     if ( objectName.contains("fieldNameCom") )
@@ -294,7 +297,7 @@ void QSOFilterDetail::save()
     accept();
 }
 
-void QSOFilterDetail::filterNameChanged(QString newFilterName)
+void QSOFilterDetail::filterNameChanged(const QString &newFilterName)
 {
     FCT_IDENTIFICATION;
 

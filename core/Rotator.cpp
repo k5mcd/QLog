@@ -8,7 +8,7 @@ MODULE_IDENTIFICATION("qlog.core.rotator");
 #define HAMLIB_FILPATHLEN FILPATHLEN
 #endif
 
-static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
+static enum serial_handshake_e stringToFlowControl(const QString &in_flowcontrol)
 {
     FCT_IDENTIFICATION;
 
@@ -21,7 +21,7 @@ static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
     return RIG_HANDSHAKE_NONE;
 }
 
-static enum serial_parity_e stringToParity(const QString in_parity)
+static enum serial_parity_e stringToParity(const QString &in_parity)
 {
     FCT_IDENTIFICATION;
 
@@ -37,9 +37,14 @@ static enum serial_parity_e stringToParity(const QString in_parity)
     return RIG_PARITY_NONE;
 }
 
-Rotator::Rotator() : QObject(nullptr)
+Rotator::Rotator(QObject *parent) :
+    QObject(parent)
 {
     FCT_IDENTIFICATION;
+
+    azimuth = 0;
+    elevation = 0;
+    rot = nullptr;
 }
 
 Rotator* Rotator::instance() {

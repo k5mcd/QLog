@@ -12,7 +12,7 @@ class Cty : public QObject {
     Q_OBJECT
 
 public:
-    Cty();
+    Cty(QObject *parent = nullptr);
     ~Cty();
 
     static int MAX_ENTITIES;
