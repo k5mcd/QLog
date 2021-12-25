@@ -265,13 +265,6 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
         ui->freqLabel->setText(QString("%1 MHz").arg(newStatus.dial_freq/1e6));
     }
 
-    if (status.transmitting) {
-        ui->txStatus->setText(tr("Transmitting"));
-    }
-    else {
-        ui->txStatus->setText(tr("Monitoring"));
-    }
-
     status = newStatus;
 
     ui->modeLabel->setText(status.mode);
