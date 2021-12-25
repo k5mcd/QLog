@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QSortFilterProxyModel>
 #include <QScrollBar>
+#include <QMutableListIterator>
 
 #include "WsjtxWidget.h"
 #include "ui_WsjtxWidget.h"
@@ -131,14 +132,25 @@ void WsjtxTableModel::spotAging()
 
     beginResetModel();
 
-    for (auto &entry: qAsConst(wsjtxData) )
+    QMutableListIterator<WsjtxEntry> entry(wsjtxData);
+
+    qDebug(runtime)<< "start ";
+
+    while ( entry.hasNext() )
     {
-        if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > spotAgingPeriod )
+        WsjtxEntry current = entry.next();
+
+        qDebug(runtime)<< "entry:" << current.callsign << " " << wsjtxData.indexOf(current);
+
+        if ( current.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > spotAgingPeriod )
         {
-            qCDebug(runtime) << "Removing " << entry.callsign;
-            wsjtxData.removeOne(entry);
+            qCDebug(runtime) << "Removing " << current.callsign;
+            entry.remove();
         }
+
     }
+
+    qDebug(runtime)<<"end";
     endResetModel();
 }
 
