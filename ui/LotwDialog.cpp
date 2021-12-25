@@ -1,5 +1,6 @@
 #include <QTextStream>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QSqlRecord>
 #include <QMessageBox>
 #include <QProgressDialog>
@@ -165,7 +166,11 @@ void LotwDialog::upload() {
                 qCDebug(runtime) << query_string;
 
                 QSqlQuery query_update(query_string);
-                query_update.exec();
+                if ( ! query_update.exec() )
+                {
+                    qWarning() << "Cannot execute update query" << query.lastError().text();
+                    return;
+                }
             }
             else
             {

@@ -8,7 +8,7 @@
 class Gridsquare
 {
 public:
-    explicit Gridsquare(QString grid = QString());
+    explicit Gridsquare(QString in_grid = QString());
     ~Gridsquare() {};
     static QRegularExpression gridRegEx();
     static QRegularExpression gridVUCCRegEx();

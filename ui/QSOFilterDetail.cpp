@@ -30,17 +30,23 @@ QSOFilterDetail::QSOFilterDetail(QString filterName, QWidget *parent) :
         /* get Filters name from DB to checking whether a new filter name
          * will be unique */
         QSqlQuery filterStmt;
-        filterStmt.prepare("SELECT filter_name FROM qso_filters ORDER BY filter_name");
-        if ( filterStmt.exec() )
+        if ( ! filterStmt.prepare("SELECT filter_name FROM qso_filters ORDER BY filter_name") )
         {
-            while (filterStmt.next())
-            {
-                filterNamesList << filterStmt.value(0).toString();
-            }
+            qWarning() << "Cannot prepare select statement";
         }
         else
         {
-            qInfo()<< "Cannot get filters names from DB";
+            if ( filterStmt.exec() )
+            {
+                while (filterStmt.next())
+                {
+                    filterNamesList << filterStmt.value(0).toString();
+                }
+            }
+            else
+            {
+                qInfo()<< "Cannot get filters names from DB" << filterStmt.lastError();;
+            }
         }
     }
 }
@@ -156,9 +162,14 @@ void QSOFilterDetail::loadFilter(QString filterName)
     ui->filterLineEdit->setEnabled(false);
 
     QSqlQuery query;
-    query.prepare("SELECT matching_type, table_field_index, operator_id, value "
+    if ( ! query.prepare("SELECT matching_type, table_field_index, operator_id, value "
                   "FROM qso_filter_rules r, qso_filters f "
-                  "WHERE f.filter_name = :filter AND f.filter_name = r.filter_name");
+                  "WHERE f.filter_name = :filter AND f.filter_name = r.filter_name") )
+    {
+        qWarning() << "Cannot prepare select statement";
+        return;
+    }
+
     query.bindValue(":filter", filterName);
 
     if ( query.exec() )
@@ -208,15 +219,28 @@ void QSOFilterDetail::save()
         return;
     }
 
-    filterInsertStmt.prepare("INSERT INTO qso_filter_rules(filter_name, table_field_index, operator_id, value) "
-                              "VALUES (:filterName, :tableFieldIndex, :operatorID, :valueString)");
+    if ( ! filterInsertStmt.prepare("INSERT INTO qso_filter_rules(filter_name, table_field_index, operator_id, value) "
+                              "VALUES (:filterName, :tableFieldIndex, :operatorID, :valueString)") )
+    {
+        qWarning() << "cannot preapre insert statement";
+        return;
+    }
 
-    updateStmt.prepare("INSERT INTO qso_filters (filter_name, matching_type) VALUES (:filterName, :matchingType) "
-                       "ON CONFLICT(filter_name) DO UPDATE SET matching_type = :matchingType WHERE filter_name = :filterName");
+    if ( ! updateStmt.prepare("INSERT INTO qso_filters (filter_name, matching_type) VALUES (:filterName, :matchingType) "
+                       "ON CONFLICT(filter_name) DO UPDATE SET matching_type = :matchingType WHERE filter_name = :filterName") )
+    {
+        qWarning() << "Cannot prepare insert statement";
+        return;
+    }
+
     updateStmt.bindValue(":matchingType", ui->matchingCombo->currentIndex());
     updateStmt.bindValue(":filterName", ui->filterLineEdit->text());
 
-    deleteFilterStmt.prepare("DELETE FROM qso_filter_rules WHERE filter_name = :filterName");
+    if ( ! deleteFilterStmt.prepare("DELETE FROM qso_filter_rules WHERE filter_name = :filterName") )
+    {
+        qWarning() << "Cannot prepare delete statement";
+        return;
+    }
     deleteFilterStmt.bindValue(":filterName", ui->filterLineEdit->text());
 
     QSqlDatabase::database().transaction();

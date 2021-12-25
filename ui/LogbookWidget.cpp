@@ -377,7 +377,7 @@ void LogbookWidget::updateTable()
     if ( ui->userFilter->currentIndex() != 0 )
     {
         QSqlQuery userFilterQuery;
-        userFilterQuery.prepare("SELECT "
+        if ( ! userFilterQuery.prepare("SELECT "
                                 "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || o.sql_operator || ' (' || quote(case o.sql_operator when 'like' THEN '%' || r.value || '%' WHEN 'not like' THEN '%' || r.value || '%' ELSE r.value END)  || ') ', m.sql_operator) || ')' "
                                 "FROM qso_filters f, qso_filter_rules r, "
                                 "qso_filter_operators o, qso_filter_matching_types m, "
@@ -386,7 +386,12 @@ void LogbookWidget::updateTable()
                                 "      AND f.filter_name = r.filter_name "
                                 "      AND o.operator_id = r.operator_id "
                                 "      AND m.matching_id = f.matching_type "
-                                "      AND c.cid = r.table_field_index");
+                                "      AND c.cid = r.table_field_index") )
+        {
+            qWarning() << "Cannot prepare select statement";
+            return;
+        }
+
         userFilterQuery.bindValue(":filterName", ui->userFilter->currentText());
 
         qCDebug(runtime) << "User filter SQL: " << userFilterQuery.lastQuery();

@@ -22,6 +22,6 @@ typedef enum debug_level
     LEVEL_PRODUCTION
 } DEBUG_LEVEL_TYPE;
 
-void set_debug_level(DEBUG_LEVEL_TYPE level);
+void set_debug_level(DEBUG_LEVEL_TYPE);
 
 #endif // DEBUG_LOG_H

@@ -45,19 +45,29 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
     }
 
     QSqlQuery query;
-    query.prepare("SELECT (SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc " + filter + " ORDER BY start_time ASC LIMIT 1) as entity,"
+
+    if ( ! query.prepare("SELECT (SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc " + filter + " ORDER BY start_time ASC LIMIT 1) as entity,"
                   "(SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc AND band = :band " + filter + " ORDER BY start_time ASC LIMIT 1) as band,"
                   "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
                   "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
                   "        ORDER BY start_time ASC LIMIT 1) as mode,"
                   "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
                   "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
-                  "        AND band = :band ORDER BY start_time ASC LIMIT 1) as slot;");
+                  "        AND band = :band ORDER BY start_time ASC LIMIT 1) as slot;") )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return DxccStatus::Unknown;
+    }
 
     query.bindValue(":dxcc", dxcc);
     query.bindValue(":band", band);
     query.bindValue(":mode", mode);
-    query.exec();
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute Select statement" << query.lastError();
+        return DxccStatus::Unknown;
+    }
 
     if (query.next()) {
         if (query.value(0).isNull()) {
@@ -92,9 +102,18 @@ Band Data::band(double freq) {
     qCDebug(function_parameters) << freq;
 
     QSqlQuery query;
-    query.prepare("SELECT name, start_freq, end_freq FROM bands WHERE :freq BETWEEN start_freq AND end_freq");
+    if ( ! query.prepare("SELECT name, start_freq, end_freq FROM bands WHERE :freq BETWEEN start_freq AND end_freq") )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return Band();
+    }
     query.bindValue(0, freq);
-    query.exec();
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return Band();
+    }
 
     if (query.next()) {
         Band band;
@@ -452,7 +471,7 @@ DxccEntity Data::lookupDxcc(const QString &callsign) {
     qCDebug(function_parameters) << callsign;
 
     QSqlQuery query;
-    query.prepare(
+    if ( ! query.prepare(
                 "SELECT\n"
                 "    dxcc_entities.id,\n"
                 "    dxcc_entities.name,\n"
@@ -477,10 +496,19 @@ DxccEntity Data::lookupDxcc(const QString &callsign) {
                 "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
                 "ORDER BY dxcc_prefixes.prefix\n"
                 "DESC LIMIT 1\n"
-    );
+    ) )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return DxccEntity();
+    }
 
     query.bindValue(":callsign", callsign);
-    query.exec();
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execte Select statement" << query.lastError();
+        return DxccEntity();
+    }
 
     DxccEntity dxcc;
     if (query.next()) {

@@ -21,7 +21,7 @@ public:
 
 public slots:
     void gotoPosition();
-    void positionChanged(int azimuth, int elevation);
+    void positionChanged(int, int);
     void redrawMap();
 
 protected:

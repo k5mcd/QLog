@@ -128,9 +128,18 @@ void Cty::deleteDXCCTables()
     FCT_IDENTIFICATION;
     QSqlQuery query;
 
-    query.exec("delete from dxcc_prefixes");
+    if ( ! query.exec("delete from dxcc_prefixes") )
+    {
+        qWarning() << "Cannot delete dxcc_prefixes " << query.lastError();
+
+    }
+
     query.clear();
-    query.exec("delete from dxcc_entities");
+
+    if ( ! query.exec("delete from dxcc_entities") )
+    {
+        qWarning() << "Cannot delete dxcc_entities " << query.lastError();
+    }
 }
 
 void Cty::parseData(QTextStream& data) {

@@ -324,8 +324,6 @@ void Rig::setMode(const QString &newMode, const QString &newSubMode)
     FCT_IDENTIFICATION;
     qCDebug(function_parameters)<<newMode << " " << newSubMode;
 
-    int status = RIG_OK;
-
     if (!rig) return;
 
     rigLock.lock();
@@ -334,7 +332,7 @@ void Rig::setMode(const QString &newMode, const QString &newSubMode)
 
     if ( new_modeId != RIG_MODE_NONE )
     {
-        status = rig_set_mode(rig, RIG_VFO_CURR, new_modeId, RIG_PASSBAND_NOCHANGE);
+        int status = rig_set_mode(rig, RIG_VFO_CURR, new_modeId, RIG_PASSBAND_NOCHANGE);
 
         if (status != RIG_OK)
         {

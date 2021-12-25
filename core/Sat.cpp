@@ -128,7 +128,10 @@ void Sat::deleteSatTable()
     FCT_IDENTIFICATION;
     QSqlQuery query;
 
-    query.exec("delete from sat_info");
+    if ( ! query.exec("delete from sat_info") )
+    {
+        qWarning() << "Cannot delete sat_info" << query.lastError();
+    }
 }
 
 void Sat::parseData(QTextStream& data) {

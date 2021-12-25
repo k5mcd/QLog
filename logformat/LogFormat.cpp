@@ -449,18 +449,31 @@ int LogFormat::runExport() {
     this->exportStart();
 
     QSqlQuery query;
-    if (dateRangeSet()) {
-        query.prepare("SELECT * FROM contacts"
+    if (dateRangeSet())
+    {
+        if ( ! query.prepare("SELECT * FROM contacts"
                       " WHERE (start_time BETWEEN :start_date AND :end_date)"
-                      " ORDER BY start_time ASC");
+                      " ORDER BY start_time ASC") )
+        {
+            qWarning() << "Cannot prepare select statement";
+            return 0;
+        }
         query.bindValue(":start_date", QDateTime(startDate));
         query.bindValue(":end_date", QDateTime(endDate));
     }
     else {
-        query.prepare("SELECT * FROM contacts ORDER BY start_time ASC");
+        if ( ! query.prepare("SELECT * FROM contacts ORDER BY start_time ASC") )
+        {
+            qWarning() << "Cannot prepare select statement";
+            return 0;
+        }
     }
 
-    query.exec();
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return 0;
+    }
 
     int count = 0;
     while (query.next()) {

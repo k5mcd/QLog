@@ -14,8 +14,8 @@ class Lotw : public QObject
 public:
     explicit Lotw(QObject *parent = nullptr);
 
-    QNetworkReply* update(const QDate &start_date, bool qso_since, const QString &stationCallsign);
-    int uploadAdif(const QByteArray &data, QString &ErrorString);
+    QNetworkReply* update(const QDate &, bool, const QString &);
+    int uploadAdif(const QByteArray &, QString &);
 
     static const QString getUsername();
     static const QString getPassword();

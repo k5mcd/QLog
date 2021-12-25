@@ -7,10 +7,10 @@ class AdiFormat : public LogFormat {
 public:
     explicit AdiFormat(QTextStream& stream) : LogFormat(stream) {}
 
-    bool readContact(QVariantMap& contact);
+    bool readContact(QVariantMap& );
 
-    bool importNext(QSqlRecord& contact) override;
-    void exportContact(const QSqlRecord&record, QMap<QString, QString> * applTags = nullptr) override;
+    bool importNext(QSqlRecord& ) override;
+    void exportContact(const QSqlRecord&, QMap<QString, QString> * applTags = nullptr) override;
     void exportStart() override;
 
     static QDate parseDate(const QString &date);

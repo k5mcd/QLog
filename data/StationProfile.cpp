@@ -41,7 +41,12 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
     QSettings settings;
 
     QSqlQuery profileQuery;
-    profileQuery.prepare("SELECT * FROM station_profiles");
+
+
+    if ( ! profileQuery.prepare("SELECT * FROM station_profiles") )
+    {
+        qWarning()<< "Cannot prepare select";
+    }
 
     if ( profileQuery.exec() )
     {
@@ -103,9 +108,18 @@ void StationProfilesManager::save()
     QSqlQuery deleteQuery;
     QSqlQuery insertQuery;
 
-    deleteQuery.prepare("DELETE FROM station_profiles");
-    insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc) "
-                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc)");
+    if ( ! deleteQuery.prepare("DELETE FROM station_profiles") )
+    {
+        qWarning() << "cannot prepare Delete statement";
+        return;
+    }
+
+    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc) "
+                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc)") )
+    {
+        qWarning() << "cannot prepare Insert statement";
+        return;
+    }
 
     if ( deleteQuery.exec() )
     {

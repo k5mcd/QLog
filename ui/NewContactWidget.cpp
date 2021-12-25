@@ -313,10 +313,18 @@ void NewContactWidget::queryDatabase(QString callsign) {
     qCDebug(function_parameters)<<callsign;
 
     QSqlQuery query;
-    query.prepare("SELECT name, qth, gridsquare FROM contacts "
-                  "WHERE callsign = :callsign ORDER BY start_time DESC LIMIT 1");
+    if ( !query.prepare("SELECT name, qth, gridsquare FROM contacts "
+                  "WHERE callsign = :callsign ORDER BY start_time DESC LIMIT 1") )
+    {
+        qWarning() << "Cannot prepare select statement";
+        return;
+    }
     query.bindValue(":callsign", callsign);
-    query.exec();
+
+    if ( !query.exec() )
+    {
+        qWarning() << "Cannot execute statement" << query.lastError();
+    }
 
     if (query.next()){
         ui->nameEdit->setText(query.value(0).toString());
