@@ -190,7 +190,8 @@ void WsjtxTableModel::setSpotAging(int seconds)
 
 WsjtxWidget::WsjtxWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::WsjtxWidget)
+    ui(new Ui::WsjtxWidget),
+    lastSelectedCallsign(QString())
 {
     FCT_IDENTIFICATION;
 
@@ -254,6 +255,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     ui->tableView->repaint();
 
+    setLastSelectedCallsign();
 }
 
 void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
@@ -284,6 +286,26 @@ void WsjtxWidget::tableViewDoubleClicked(QModelIndex index)
     QString grid = wsjtxTableModel->getGrid(source_index);
     emit showDxDetails(callsign, grid);
     emit reply(wsjtxTableModel->getDecode(source_index));
+}
+
+void WsjtxWidget::tableViewClicked(QModelIndex index)
+{
+    FCT_IDENTIFICATION;
+
+    QModelIndex source_index = proxyModel->mapToSource(index);
+    lastSelectedCallsign = wsjtxTableModel->getCallsign(source_index);
+}
+
+void WsjtxWidget::setLastSelectedCallsign()
+{
+    FCT_IDENTIFICATION;
+
+    QModelIndexList nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, lastSelectedCallsign, 1);
+
+    if ( nextMatches.size() >= 1 )
+    {
+        ui->tableView->setCurrentIndex(nextMatches.at(0));
+    }
 }
 
 WsjtxWidget::~WsjtxWidget()

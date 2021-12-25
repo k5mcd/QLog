@@ -54,6 +54,7 @@ public slots:
     void decodeReceived(WsjtxDecode);
     void statusReceived(WsjtxStatus);
     void tableViewDoubleClicked(QModelIndex);
+    void tableViewClicked(QModelIndex);
 
 signals:
     void showDxDetails(QString callsign, QString grid);
@@ -65,6 +66,9 @@ private:
     QString band;
     Ui::WsjtxWidget *ui;
     QSortFilterProxyModel *proxyModel;
+    QString lastSelectedCallsign;
+
+    void setLastSelectedCallsign();
 };
 
 #endif // WSJTXWIDGET_H
