@@ -255,7 +255,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     ui->tableView->repaint();
 
-    setLastSelectedCallsign();
+    setSelectedCallsign(lastSelectedCallsign);
 }
 
 void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
@@ -265,6 +265,13 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
     if (this->status.dial_freq != newStatus.dial_freq) {
         band = Data::instance()->band(newStatus.dial_freq/1e6).name;
         ui->freqLabel->setText(QString("%1 MHz").arg(newStatus.dial_freq/1e6));
+    }
+
+    if ( this->status.dx_call != newStatus.dx_call )
+    {
+        lastSelectedCallsign = newStatus.dx_call;
+        setSelectedCallsign(lastSelectedCallsign);
+        emit showDxDetails(newStatus.dx_call, newStatus.dx_grid);
     }
 
     status = newStatus;
@@ -296,11 +303,11 @@ void WsjtxWidget::tableViewClicked(QModelIndex index)
     lastSelectedCallsign = wsjtxTableModel->getCallsign(source_index);
 }
 
-void WsjtxWidget::setLastSelectedCallsign()
+void WsjtxWidget::setSelectedCallsign(const QString &selectCallsign)
 {
     FCT_IDENTIFICATION;
 
-    QModelIndexList nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, lastSelectedCallsign, 1);
+    QModelIndexList nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, selectCallsign, 1);
 
     if ( nextMatches.size() >= 1 )
     {
