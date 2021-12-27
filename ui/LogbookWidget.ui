@@ -216,6 +216,14 @@
     <string>Which columns should be displayed</string>
    </property>
   </action>
+  <action name="actionExportAs">
+   <property name="text">
+    <string>Export Selected</string>
+   </property>
+   <property name="toolTip">
+    <string>Export selected QSOs</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -420,6 +428,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionExportAs</sender>
+   <signal>triggered()</signal>
+   <receiver>LogbookWidget</receiver>
+   <slot>exportContact()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>deleteContact()</slot>
@@ -434,5 +458,6 @@
   <slot>displayedColumns()</slot>
   <slot>userFilterChanged()</slot>
   <slot>doubleClickColumn(QModelIndex)</slot>
+  <slot>exportContact()</slot>
  </slots>
 </ui>

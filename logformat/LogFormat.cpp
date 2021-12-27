@@ -486,6 +486,23 @@ int LogFormat::runExport() {
     return count;
 }
 
+int LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
+{
+    FCT_IDENTIFICATION;
+
+    this->exportStart();
+
+    int count = 0;
+    for (const QSqlRecord &qso: selectedQSOs)
+    {
+        this->exportContact(qso);
+        count++;
+    }
+
+    this->exportEnd();
+    return count;
+}
+
 bool LogFormat::dateRangeSet() {
     FCT_IDENTIFICATION;
 

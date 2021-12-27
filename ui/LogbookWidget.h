@@ -30,6 +30,7 @@ public slots:
     void updateTable();
     void uploadClublog();
     void deleteContact();
+    void exportContact();
     void editContact();
     void displayedColumns();
     void saveTableHeaderState();

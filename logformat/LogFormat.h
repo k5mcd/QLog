@@ -50,6 +50,7 @@ public:
     void runImport();
     void runQSLImport(QSLFrom fromService);
     int runExport();
+    int runExport(const QList<QSqlRecord>&);
     void setDefaults(QMap<QString, QString>& defaults);
     void setDateRange(QDate start, QDate end);
     void setUpdateDxcc(bool updateDxcc);

@@ -17,6 +17,7 @@
 #include "ui/ColumnSettingDialog.h"
 #include "data/Data.h"
 #include "core/Eqsl.h"
+#include "ui/ExportDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -32,6 +33,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->setModel(model);
 
     ui->contactTable->addAction(ui->actionEditContact);
+    ui->contactTable->addAction(ui->actionExportAs);
     ui->contactTable->addAction(ui->actionFilter);
     ui->contactTable->addAction(ui->actionLookup);
     ui->contactTable->addAction(ui->actionDisplayedColumns);
@@ -303,6 +305,26 @@ void LogbookWidget::deleteContact() {
     }
     ui->contactTable->clearSelection();
     updateTable();
+}
+
+void LogbookWidget::exportContact()
+{
+    FCT_IDENTIFICATION;
+
+    QList<QSqlRecord>QSOs;
+    auto selectedIndexes = ui->contactTable->selectionModel()->selectedRows();
+
+    if ( selectedIndexes.count() < 1 )
+    {
+        return;
+    }
+
+    for (auto &index : qAsConst(selectedIndexes))
+    {
+        QSOs << model->record(index.row());
+    }
+    ExportDialog dialog(QSOs);
+    dialog.exec();
 }
 
 void LogbookWidget::editContact()

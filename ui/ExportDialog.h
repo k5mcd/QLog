@@ -2,6 +2,8 @@
 #define EXPORTDIALOG_H
 
 #include <QDialog>
+#include <QSqlRecord>
+#include <QList>
 
 namespace Ui {
 class ExportDialog;
@@ -11,7 +13,8 @@ class ExportDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit ExportDialog(QWidget *parent = 0);
+    explicit ExportDialog(QWidget *parent = nullptr);
+    explicit ExportDialog(const QList<QSqlRecord>&, QWidget *parent = nullptr);
     ~ExportDialog();
 
 public slots:
@@ -21,6 +24,8 @@ public slots:
 
 private:
     Ui::ExportDialog *ui;
+
+    const QList<QSqlRecord> qsos4export;
 };
 
 #endif // EXPORTDIALOG_H
