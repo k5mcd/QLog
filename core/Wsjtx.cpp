@@ -21,6 +21,43 @@ Wsjtx::Wsjtx(QObject *parent) :
     connect(socket, &QUdpSocket::readyRead, this, &Wsjtx::readPendingDatagrams);
 }
 
+float Wsjtx::modePeriodLenght(const QString &mode)
+{
+    FCT_IDENTIFICATION;
+
+    float ret = 60;
+
+    qCDebug(function_parameters) << mode;
+
+    if ( mode == "FST4"
+         || mode == "FT8"
+         || mode == "MSK144" )
+    {
+        ret = 15;
+    }
+    else if ( mode == "FT4" )
+    {
+        ret = 7.5;
+    }
+    else if ( mode == "JT4"
+              || mode == "JT9"
+              || mode.contains("JT65")
+              || mode == "QRA64"
+              || mode == "ISCAT" )
+    {
+        ret = 60;
+    }
+    else if ( mode == "FST4W"
+              || mode == "WSPR" )
+    {
+        ret = 120;
+    }
+
+    qCDebug(runtime) << "Period: " << ret;
+
+    return ret;
+}
+
 void Wsjtx::readPendingDatagrams()
 {
     FCT_IDENTIFICATION;

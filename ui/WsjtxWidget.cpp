@@ -66,6 +66,14 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
     {
         return Data::statusToColor(entry.status, QColor(Qt::white));
     }
+    else if (index.column() > 0 && role == Qt::BackgroundRole)
+    {
+        if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) >= spotPeriod * 0.8)
+            /* -20% time of period because WSTX sends messages in waves and not exactly in time period */
+        {
+            return QColor(Qt::lightGray);
+        }
+    }
     else if (index.column() == 0 && role == Qt::TextColorRole)
     {
         return Data::statusToInverseColor(entry.status, QColor(Qt::black));
@@ -142,19 +150,19 @@ void WsjtxTableModel::spotAging()
 
         qDebug(runtime)<< "entry:" << current.callsign << " " << wsjtxData.indexOf(current);
 
-        if ( current.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > spotAgingPeriod )
+        if ( current.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > (3.0 * spotPeriod)*1.2 )
+            /* +20% time of period because WSTX sends messages in waves and not exactly in time period */
         {
             qCDebug(runtime) << "Removing " << current.callsign;
             entry.remove();
         }
-
     }
 
     qDebug(runtime)<<"end";
     endResetModel();
 }
 
-bool WsjtxTableModel::callsignExists(WsjtxEntry call)
+bool WsjtxTableModel::callsignExists(const WsjtxEntry &call)
 {
     FCT_IDENTIFICATION;
 
@@ -181,11 +189,20 @@ WsjtxDecode WsjtxTableModel::getDecode(QModelIndex idx)
     return wsjtxData.at(idx.row()).decode;
 }
 
-void WsjtxTableModel::setSpotAging(int seconds)
+void WsjtxTableModel::setCurrentSpotPeriod(float period)
 {
     FCT_IDENTIFICATION;
 
-    spotAgingPeriod = seconds;
+    spotPeriod = period;
+}
+
+void WsjtxTableModel::clear()
+{
+    FCT_IDENTIFICATION;
+
+    beginResetModel();
+    wsjtxData.clear();
+    endResetModel();
 }
 
 WsjtxWidget::WsjtxWidget(QWidget *parent) :
@@ -265,6 +282,7 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
     if (this->status.dial_freq != newStatus.dial_freq) {
         band = Data::instance()->band(newStatus.dial_freq/1e6).name;
         ui->freqLabel->setText(QString("%1 MHz").arg(newStatus.dial_freq/1e6));
+        wsjtxTableModel->clear();
     }
 
     if ( this->status.dx_call != newStatus.dx_call )
@@ -274,14 +292,15 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
         emit showDxDetails(newStatus.dx_call, newStatus.dx_grid);
     }
 
-    status = newStatus;
-
-    ui->modeLabel->setText(status.mode);
-
-    if ( status.mode == "FT8" )
+    if ( this->status.mode != newStatus.mode )
     {
-        wsjtxTableModel->setSpotAging(55);
+        ui->modeLabel->setText(newStatus.mode);
+        wsjtxTableModel->setCurrentSpotPeriod(Wsjtx::modePeriodLenght(newStatus.mode)); /*currently, only Status has a correct Mode in the message */
     }
+
+    status = newStatus;
+    wsjtxTableModel->spotAging();
+    ui->tableView->repaint();
 }
 
 void WsjtxWidget::tableViewDoubleClicked(QModelIndex index)
