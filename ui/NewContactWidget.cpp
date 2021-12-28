@@ -635,10 +635,16 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
         }
     }
 
-    if ( record.value("tx_pwr").isNull()
+    if ( (record.value("tx_pwr").isNull() || record.value("tx_pwr") == 0.0 )
          && ui->powerEdit->value() != 0.0)
     {
         record.setValue("tx_pwr", ui->powerEdit->value());
+    }
+
+    if ( record.value("band").toString().isEmpty()
+         && ! record.value("freq").isNull() )
+    {
+        record.setValue("band", Data::freqToBand(record.value("freq").toDouble()));
     }
 
     if ( record.value("prop_mode").toString().isEmpty()

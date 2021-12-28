@@ -215,7 +215,7 @@ void AdiFormat::writeField(const QString &name, const QString &value, const QStr
 void AdiFormat::readField(QString& field, QString& value) {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<field<< " " << value;
+    //qCDebug(function_parameters)<<field<< " " << value;
 
     char c;
 
@@ -330,22 +330,26 @@ void AdiFormat::readField(QString& field, QString& value) {
     }
 }
 
-bool AdiFormat::readContact(QMap<QString, QVariant>& contact) {
+bool AdiFormat::readContact(QMap<QString, QVariant>& contact)
+{
     FCT_IDENTIFICATION;
 
-    QString field;
-    QString value;
+    while (!stream.atEnd())
+    {
+        QString field;
+        QString value;
 
-    while (!stream.atEnd()) {
         readField(field, value);
         field = field.toLower();
 
-        if (field == "eor") {
+        if (field == "eor")
+        {
             return true;
         }
 
-        if (!value.isEmpty()) {
-             contact[field] = QVariant(value);
+        if (!value.isEmpty())
+        {
+            contact[field] = QVariant(value);
         }
     }
 

@@ -2,6 +2,7 @@
 #define FLDIGI_H
 
 #include <QTcpServer>
+#include <QSqlRecord>
 
 class QXmlStreamReader;
 
@@ -12,7 +13,7 @@ public:
     explicit Fldigi(QObject *parent = nullptr);
 
 signals:
-    void contactAdded();
+    void addContact(QSqlRecord);
 
 public slots:
     void readClient();
