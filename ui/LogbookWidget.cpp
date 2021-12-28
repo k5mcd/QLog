@@ -436,6 +436,8 @@ void LogbookWidget::updateTable()
     model->select();
 
     ui->contactTable->resizeColumnsToContents();
+
+    emit logbookUpdated();
 }
 
 void LogbookWidget::saveTableHeaderState() {

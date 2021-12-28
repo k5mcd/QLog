@@ -18,6 +18,9 @@ public:
     explicit LogbookWidget(QWidget *parent = nullptr);
     ~LogbookWidget();
 
+signals:
+    void logbookUpdated();
+
 public slots:
     void filterCallsign(QString call);
     void filterSelectedCallsign();
