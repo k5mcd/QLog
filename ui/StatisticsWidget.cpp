@@ -12,6 +12,7 @@
 #include "ui_StatisticsWidget.h"
 #include "core/debug.h"
 #include "models/SqlListModel.h"
+#include <core/Gridsquare.h>
 
 MODULE_IDENTIFICATION("qlog.ui.statisticswidget");
 
@@ -60,6 +61,13 @@ void StatisticsWidget::mainStatChanged(int idx)
      case 3:
      {
          ui->statTypeSecCombo->addItem(tr("Distance"));
+     }
+     break;
+
+     /* Show on Map */
+     case 4:
+     {
+         ui->statTypeSecCombo->addItem(tr("QSOs"));
      }
      break;
      }
@@ -319,6 +327,13 @@ void StatisticsWidget::refreshGraph()
                        + ui->statTypeSecCombo->currentText(),
                        query);
      }
+     else if ( ui->statTypeMainCombo->currentIndex() == 4 )
+     {
+         QString stmt = "SELECT DISTINCT callsign || ' (' || band || ')',gridsquare FROM contacts WHERE " + genericFilter.join(" AND ");
+         QSqlQuery query(stmt);
+         qCDebug(runtime) << stmt;
+         drawOnMap(query);
+     }
 }
 
 void StatisticsWidget::dateRangeCheckBoxChanged(int)
@@ -339,9 +354,18 @@ void StatisticsWidget::dateRangeCheckBoxChanged(int)
     refreshGraph();
 }
 
+void StatisticsWidget::mapLoaded(bool)
+{
+    FCT_IDENTIFICATION;
+
+    isMainPageLoaded = true;
+}
+
 StatisticsWidget::StatisticsWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::StatisticsWidget)
+    ui(new Ui::StatisticsWidget),
+    main_page(new QWebEnginePage),
+    isMainPageLoaded(false)
 {
     FCT_IDENTIFICATION;
 
@@ -356,12 +380,18 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
     ui->graphView->setRenderHint(QPainter::Antialiasing);
     ui->graphView->setChart(new QChart());
 
+    ui->mapView->setPage(main_page);
+    main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
+    ui->mapView->setFocusPolicy(Qt::ClickFocus);
+    connect(ui->mapView, &QWebEngineView::loadFinished, this, &StatisticsWidget::mapLoaded);
+
     mainStatChanged(0);
 }
 
 StatisticsWidget::~StatisticsWidget()
 {
     FCT_IDENTIFICATION;
+    main_page->deleteLater();
     delete ui;
 }
 
@@ -408,6 +438,7 @@ void StatisticsWidget::drawBarGraphs(const QString &title, QSqlQuery &query)
     chart->legend()->hide();
     chart->setAnimationOptions(QChart::SeriesAnimations);
 
+    ui->stackedWidget->setCurrentIndex(0);
     ui->graphView->setChart(chart);
 }
 
@@ -430,5 +461,47 @@ void StatisticsWidget::drawPieGraph(const QString &title, QPieSeries *series)
     chart->legend()->hide();
     chart->setTitle(title);
 
+    ui->stackedWidget->setCurrentIndex(0);
     ui->graphView->setChart(chart);
+}
+
+void StatisticsWidget::drawOnMap(QSqlQuery &query)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !isMainPageLoaded )
+    {
+        return;
+    }
+
+    if ( query.lastQuery().isEmpty() ) return;
+
+    QList<QString> stations;
+
+    while ( query.next() )
+    {
+
+
+        Gridsquare stationGrid(query.value(1).toString());
+
+        if ( stationGrid.isValid() )
+        {
+            double lat = stationGrid.getLatitude();
+            double lon = stationGrid.getLongitude();
+            stations.append(QString("[\"%1\", %2, %3]").arg(query.value(0).toString()).arg(lat).arg(lon));
+        }
+    }
+
+    QString javaScript = QString("if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
+                                 " var QSOGroup = L.layerGroup().addTo(map); "
+                                 " var locations = [ %1 ]; "
+                                 " for (var i = 0; i < locations.length; i++) { "
+                                 "   QSOGroup.addLayer(L.marker([locations[i][1], locations[i][2]],{icon: redIcon}) "
+                                 "   .bindPopup(locations[i][0])); }").arg(stations.join(","));
+
+    qCDebug(runtime) << javaScript;
+
+    main_page->runJavaScript(javaScript);
+
+    ui->stackedWidget->setCurrentIndex(1);
 }

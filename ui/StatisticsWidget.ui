@@ -133,6 +133,11 @@
           <string>Histogram</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Show on Map</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="6" column="1">
@@ -313,11 +318,40 @@
     </widget>
    </item>
    <item>
-    <widget class="QChartView" name="graphView"/>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="graphPage">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QChartView" name="graphView"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="mapPage">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QWebEngineView" name="mapView">
+         <property name="url">
+          <url>
+           <string>about:blank</string>
+          </url>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
   <customwidget>
    <class>QChartView</class>
    <extends>QGraphicsView</extends>
