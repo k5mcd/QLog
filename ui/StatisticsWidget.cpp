@@ -72,6 +72,19 @@ void StatisticsWidget::mainStatChanged(int idx)
      break;
      }
 
+     if ( idx == 4 )
+     {
+         ui->lotwCheckBox->setEnabled(true);
+         ui->eqslCheckBox->setEnabled(true);
+         ui->paperCheckBox->setEnabled(true);
+     }
+     else
+     {
+         ui->lotwCheckBox->setEnabled(false);
+         ui->eqslCheckBox->setEnabled(false);
+         ui->paperCheckBox->setEnabled(false);
+     }
+
      ui->statTypeSecCombo->blockSignals(false);
 
      refreshGraph();
@@ -329,7 +342,27 @@ void StatisticsWidget::refreshGraph()
      }
      else if ( ui->statTypeMainCombo->currentIndex() == 4 )
      {
-         QString stmt = "SELECT DISTINCT callsign || ' (' || band || ')',gridsquare FROM contacts WHERE " + genericFilter.join(" AND ");
+         QStringList confirmed("1=2 ");
+
+         if ( ui->eqslCheckBox->isChecked() )
+         {
+             confirmed << " eqsl_qsl_rcvd = 'Y' ";
+         }
+
+         if ( ui->lotwCheckBox->isChecked() )
+         {
+             confirmed << " lotw_qsl_rcvd = 'Y' ";
+         }
+
+         if ( ui->paperCheckBox->isChecked() )
+         {
+             confirmed << " qsl_rcvd = 'Y' ";
+         }
+
+         QString innerCase = " CASE WHEN (" + confirmed.join("or") + ") THEN 1 ELSE 0 END ";
+
+         //QString stmt = "SELECT DISTINCT callsign || ' (' || band || ')',gridsquare FROM contacts WHERE " + genericFilter.join(" AND ");
+         QString stmt ="SELECT callsign, gridsquare, SUM(confirmed) FROM (SELECT callsign, gridsquare, " + innerCase +" AS confirmed FROM contacts WHERE gridsquare is not NULL AND " + genericFilter.join(" AND ") +" ) GROUP BY callsign, gridsquare";
          QString stmt2 = "SELECT DISTINCT my_gridsquare FROM contacts WHERE " + genericFilter.join(" AND ");
          QSqlQuery query(stmt);
          QSqlQuery myLocations(stmt2);
@@ -517,7 +550,7 @@ void StatisticsWidget::drawOnMap(QSqlQuery &query, QSqlQuery &myLocations)
         {
             double lat = stationGrid.getLatitude();
             double lon = stationGrid.getLongitude();
-            stations.append(QString("[\"%1\", %2, %3]").arg(query.value(0).toString()).arg(lat).arg(lon));
+            stations.append(QString("[\"%1\", %2, %3, %4]").arg(query.value(0).toString()).arg(lat).arg(lon).arg(query.value(2).toInt()));
         }
     }
 
@@ -525,7 +558,7 @@ void StatisticsWidget::drawOnMap(QSqlQuery &query, QSqlQuery &myLocations)
                                  " var QSOGroup = L.layerGroup().addTo(map); "
                                  " var locations = [ %1 ]; "
                                  " for (var i = 0; i < locations.length; i++) { "
-                                 "   QSOGroup.addLayer(L.marker([locations[i][1], locations[i][2]],{icon: redIcon}) "
+                                 "   QSOGroup.addLayer(L.marker([locations[i][1], locations[i][2]],{icon: (locations[i][3] > 0) ? greenIcon: yellowIcon}) "
                                  "   .bindPopup(locations[i][0])); }").arg(stations.join(","));
 
     qCDebug(runtime) << javaScript;
