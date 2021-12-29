@@ -330,9 +330,12 @@ void StatisticsWidget::refreshGraph()
      else if ( ui->statTypeMainCombo->currentIndex() == 4 )
      {
          QString stmt = "SELECT DISTINCT callsign || ' (' || band || ')',gridsquare FROM contacts WHERE " + genericFilter.join(" AND ");
+         QString stmt2 = "SELECT DISTINCT my_gridsquare FROM contacts WHERE " + genericFilter.join(" AND ");
          QSqlQuery query(stmt);
+         QSqlQuery myLocations(stmt2);
          qCDebug(runtime) << stmt;
-         drawOnMap(query);
+         qCDebug(runtime) << stmt2;
+         drawOnMap(query, myLocations);
      }
 }
 
@@ -465,7 +468,7 @@ void StatisticsWidget::drawPieGraph(const QString &title, QPieSeries *series)
     ui->graphView->setChart(chart);
 }
 
-void StatisticsWidget::drawOnMap(QSqlQuery &query)
+void StatisticsWidget::drawOnMap(QSqlQuery &query, QSqlQuery &myLocations)
 {
     FCT_IDENTIFICATION;
 
@@ -476,12 +479,38 @@ void StatisticsWidget::drawOnMap(QSqlQuery &query)
 
     if ( query.lastQuery().isEmpty() ) return;
 
+    if ( myLocations.lastQuery().isEmpty() ) return;
+
+    QList<QString> locations;
+
+    while ( myLocations.next() )
+    {
+        QString loc = myLocations.value(0).toString();
+        Gridsquare stationGrid(loc);
+
+        if ( stationGrid.isValid() )
+        {
+            double lat = stationGrid.getLatitude();
+            double lon = stationGrid.getLongitude();
+            locations.append(QString("[\"%1\", %2, %3]").arg(loc).arg(lat).arg(lon));
+        }
+    }
+
+    QString javaScript = QString("if ( typeof myLocGroup !== 'undefined' ) { map.removeLayer(myLocGroup)};"
+                                 " var myLocGroup = L.layerGroup().addTo(map); "
+                                 " var mylocations = [ %1 ]; "
+                                 " for (var i = 0; i < mylocations.length; i++) { "
+                                 "   myLocGroup.addLayer(L.marker([mylocations[i][1], mylocations[i][2]],{icon: homeIcon}) "
+                                 "   .bindPopup(mylocations[i][0])); }").arg(locations.join(","));
+
+    qCDebug(runtime) << javaScript;
+
+    main_page->runJavaScript(javaScript);
+
     QList<QString> stations;
 
     while ( query.next() )
     {
-
-
         Gridsquare stationGrid(query.value(1).toString());
 
         if ( stationGrid.isValid() )
@@ -492,7 +521,7 @@ void StatisticsWidget::drawOnMap(QSqlQuery &query)
         }
     }
 
-    QString javaScript = QString("if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
+    javaScript = QString("if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
                                  " var QSOGroup = L.layerGroup().addTo(map); "
                                  " var locations = [ %1 ]; "
                                  " for (var i = 0; i < locations.length; i++) { "

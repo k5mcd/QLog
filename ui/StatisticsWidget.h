@@ -30,7 +30,7 @@ public:
 private:
     void drawBarGraphs(const QString &title, QSqlQuery &query);
     void drawPieGraph(const QString &title, QPieSeries* series);
-    void drawOnMap(QSqlQuery &query);
+    void drawOnMap(QSqlQuery &, QSqlQuery &);
 
 private:
     Ui::StatisticsWidget *ui;
