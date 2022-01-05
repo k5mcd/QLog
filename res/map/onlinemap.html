@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-   <script src="https://foldynl.github.io/QLog/js/L.Maidenhead.js"></script>
+   <script src="https://foldynl.github.io/QLog/js/L.MaidenheadConfWorked.js"></script>
    <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
   <style>
     body {
@@ -32,13 +32,18 @@
           }
 
 
+    var grids_worked = [];
+    var grids_confirmed = [];
+    var mylocations = [];
+    var locations = [];
+
     var map = L.map('map', mapOptions);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 {
                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
                 }).addTo(map);
 
-    var maidenhead = L.maidenhead({color : 'rgba(0, 0, 255, 0.5)'}).addTo(map);
+    var maidenheadConfWorked = L.maidenheadConfWorked({color : 'rgba(0, 0, 255, 0.5)'}).addTo(map);
 
     var t = L.terminator({fillOpacity: 0.2});
 
@@ -52,7 +57,7 @@
     }
 
     var layerControl = new L.Control.Layers(null, {
-    "Grip": maidenhead,
+    "Grip": maidenheadConfWorked,
     "Gray-Line": t,},{}).addTo(map);
 
     var greenIcon = new L.Icon({
