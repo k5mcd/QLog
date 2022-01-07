@@ -44,10 +44,12 @@ public slots:
     void reloadSettings();
     void callsignChanged();
     void frequencyChanged();
+    void frequencyRXChanged();
     void bandChanged();
     void modeChanged();
     void subModeChanged();
     void updateBand(double freq);
+    void updateRXBand(double freq);
     void resetContact();
     void saveContact();
     void saveExternalContact(QSqlRecord record);
@@ -72,6 +74,7 @@ public slots:
     void addPropConditions(Conditions *);
     void propModeChanged(const QString&);
     void rigFreqOffsetChanged(double);
+    void rigFreqRXOffsetChanged(double);
     void stationProfileChanged(QString);
     void sotaChanged(QString);
     void callbookCallsignNotFound(QString);

@@ -5,7 +5,6 @@
 #include <QPainter>
 #include <QVector3D>
 #include <QtMath>
-#include <QWebEngineProfile>
 #include "OnlineMapWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
@@ -16,7 +15,7 @@ MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
 OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   QWebEngineView(parent),
-  main_page(new QWebEnginePage),
+  main_page(new QWebEnginePage(this)),
   isMainPageLoaded(false)
 {
     FCT_IDENTIFICATION;

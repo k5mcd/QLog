@@ -396,5 +396,11 @@ void MainWindow::QSOFilterSetting()
 MainWindow::~MainWindow() {
     FCT_IDENTIFICATION;
 
+    stats->deleteLater();
+    conditions->deleteLater();
+    conditionsLabel->deleteLater();
+    callsignLabel->deleteLater();
+    locatorLabel->deleteLater();
+    operatorLabel->deleteLater();
     delete ui;
 }

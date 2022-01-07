@@ -430,7 +430,7 @@ void StatisticsWidget::mapLoaded(bool)
 StatisticsWidget::StatisticsWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StatisticsWidget),
-    main_page(new QWebEnginePage),
+    main_page(new QWebEnginePage(this)),
     isMainPageLoaded(false)
 {
     FCT_IDENTIFICATION;

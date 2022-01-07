@@ -125,6 +125,11 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
      * */
     ui->tabWidget_2->removeTab(4);
 
+    ui->frequencyRXEdit->setVisible(false);
+    ui->bandRXText->setVisible(false);
+    ui->frequencyRXLabel->setVisible(false);
+    ui->frequencyTXLabel->setVisible(false);
+
     reloadSettings();
     readSettings();
     resetContact();
@@ -138,6 +143,7 @@ void NewContactWidget::readSettings() {
     QString submode = settings.value("newcontact/submode").toString();
     double realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
     double rigFreqOffset = settings.value("newcontact/freqOffset", 0.0).toDouble();
+    double rigFreqRXOffset = settings.value("newcontact/freqRXOffset", 0.0).toDouble();
     QString rig = settings.value("newcontact/rig").toString();
     QString ant = settings.value("newcontact/antenna").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
@@ -146,7 +152,9 @@ void NewContactWidget::readSettings() {
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
     ui->rigFreqOffsetSpin->setValue(rigFreqOffset);
+    ui->rigFreqRXOffsetSpin->setValue(rigFreqRXOffset);
     ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
+    ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
     ui->rigEdit->setCurrentText(rig);
     ui->antennaEdit->setCurrentText(ant);
     ui->powerEdit->setValue(power);
@@ -164,6 +172,7 @@ void NewContactWidget::writeSettings() {
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
     settings.setValue("newcontact/frequency", realRigFreq);
     settings.setValue("newcontact/freqOffset", ui->rigFreqOffsetSpin->value());
+    settings.setValue("newcontact/freqRXOffset", ui->rigFreqRXOffsetSpin->value());
     settings.setValue("newcontact/rig", ui->rigEdit->currentText());
     settings.setValue("newcontact/antenna", ui->antennaEdit->currentText());
     settings.setValue("newcontact/power", ui->powerEdit->value());
@@ -415,10 +424,32 @@ void NewContactWidget::frequencyChanged()
 
     realRigFreq = ui->frequencyEdit->value() - ui->rigFreqOffsetSpin->value();
 
+    ui->frequencyRXEdit->blockSignals(true);
+    ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
+    updateRXBand(realRigFreq + ui->rigFreqRXOffsetSpin->value());
+    ui->frequencyRXEdit->blockSignals(false);
+
     updateBand(ui->frequencyEdit->value()); // show a converted frequency
     rig->setFrequency(realRigFreq);  // set rig frequency
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
     emit userFrequencyChanged(ui->frequencyEdit->value());
+}
+
+void NewContactWidget::frequencyRXChanged()
+{
+    FCT_IDENTIFICATION;
+
+    realRigFreq = ui->frequencyRXEdit->value() - ui->rigFreqRXOffsetSpin->value();
+
+    ui->frequencyEdit->blockSignals(true);
+    ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
+    updateBand(realRigFreq + ui->rigFreqRXOffsetSpin->value());
+    ui->frequencyEdit->blockSignals(false);
+
+    updateRXBand(ui->frequencyEdit->value()); // show a converted frequency
+    rig->setFrequency(realRigFreq);  // set rig frequency
+    qCDebug(runtime) << "rig real freq: " << realRigFreq;
+    emit userFrequencyChanged(ui->frequencyEdit->value()); // emit only TX frequency here because qlog tune based on
 }
 
 void NewContactWidget::bandChanged() {
@@ -519,6 +550,23 @@ void NewContactWidget::updateBand(double freq) {
         ui->bandText->setText(band.name);
         bandChanged();
     }
+}
+
+void NewContactWidget::updateRXBand(double freq)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<freq;
+
+    Band band = Data::band(freq);
+
+    if (band.name.isEmpty()) {
+        ui->bandRXText->setText("OOB!");
+    }
+    else if (band.name != ui->bandRXText->text()) {
+        ui->bandRXText->setText(band.name);
+    }
+
 }
 
 void NewContactWidget::gridChanged() {
@@ -811,8 +859,21 @@ void NewContactWidget::saveContact()
         record.setValue("gridsquare", ui->gridEdit->text().toUpper());
     }
 
+    qInfo()<<""<<ui->frequencyEdit->value();
+
     record.setValue("freq", ui->frequencyEdit->value());
     record.setValue("band", ui->bandText->text());
+
+    if ( ui->rigFreqRXOffsetSpin->value() != 0 )
+    {
+        record.setValue("freq_rx", ui->frequencyRXEdit->value());
+        record.setValue("band_rx", ui->bandRXText->text());
+    }
+    else
+    {
+        record.setValue("freq_rx", ui->frequencyEdit->value());
+        record.setValue("band_rx", ui->bandText->text());
+    }
 
     if ( ! ui->modeEdit->currentText().isEmpty() )
     {
@@ -1102,6 +1163,13 @@ void NewContactWidget::changeFrequency(double freq) {
     ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
     updateBand(realRigFreq + ui->rigFreqOffsetSpin->value());
     ui->frequencyEdit->blockSignals(false);
+
+    ui->frequencyRXEdit->blockSignals(true);
+    ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
+    updateRXBand(realRigFreq + ui->rigFreqRXOffsetSpin->value());
+    ui->frequencyRXEdit->blockSignals(false);
+
+
 }
 
 /* mode is changed from RIG */
@@ -1213,6 +1281,33 @@ void NewContactWidget::rigFreqOffsetChanged(double offset)
     double new_freq = realRigFreq + offset;
     ui->frequencyEdit->setValue(new_freq);
     updateBand(new_freq);
+    qCDebug(runtime) << "rig real freq: " << realRigFreq;
+}
+
+void NewContactWidget::rigFreqRXOffsetChanged(double offset)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << offset;
+
+    if ( offset != 0 )
+    {
+        ui->frequencyRXEdit->setVisible(true);
+        ui->bandRXText->setVisible(true);
+        ui->frequencyRXLabel->setVisible(true);
+        ui->frequencyTXLabel->setVisible(true);
+    }
+    else
+    {
+        ui->frequencyRXEdit->setVisible(false);
+        ui->bandRXText->setVisible(false);
+        ui->frequencyRXLabel->setVisible(false);
+        ui->frequencyTXLabel->setVisible(false);
+    }
+
+    double new_freq = realRigFreq + offset;
+    ui->frequencyRXEdit->setValue(new_freq);
+    updateRXBand(new_freq);
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
 }
 
