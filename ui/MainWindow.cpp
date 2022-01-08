@@ -304,7 +304,7 @@ void MainWindow::showAbout() {
 
     QString aboutText = tr("<h1>QLog %1</h1>"
                         "<p>&copy; 2019 Thomas Gatzweiler DL2IC<br/>"
-                        "&copy; 2021 Ladislav Foldyna OK1MLG</p>"
+                        "&copy; 2021-2022 Ladislav Foldyna OK1MLG</p>"
                         "<p>Icon by <a href='http://www.iconshock.com'>Icon Shock</a><br />"
                         "Satellite images by <a href='http://www.nasa.gov'>NASA</p>");
 

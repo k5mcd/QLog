@@ -1,3 +1,12 @@
+2022/01/09 - 0.4.0
+- Stats: Added Show on Map - QSOs and Worked&Confirmed Grids
+- Stats: Stats are refreshed after every QSO
+- WSJTX: Remove TRX/Monitoring Status
+- Added Split mode - RX/TX RIG Offset
+- Added export of selected QSOs
+- Fixed FLdigi interface
+- CPPChecks & Clazy cleanup
+
 2021/12/19 - 0.3.0
 - Added new fields to Station Profile
 - Station Profile is stored in DB (not in QSetting)
