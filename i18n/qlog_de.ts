@@ -2558,7 +2558,7 @@
     </message>
     <message>
         <location filename="../ui/MainWindow.cpp" line="305"/>
-        <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/p&gt;</source>
+        <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2022 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3502,27 +3502,27 @@ Unmatched QSLs:
 <context>
     <name>Rig</name>
     <message>
-        <location filename="../core/Rig.cpp" line="153"/>
+        <location filename="../core/Rig.cpp" line="154"/>
         <source>Get Frequency Error - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/Rig.cpp" line="179"/>
+        <location filename="../core/Rig.cpp" line="180"/>
         <source>Get Mode Error - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/Rig.cpp" line="246"/>
+        <location filename="../core/Rig.cpp" line="250"/>
         <source>Initialization Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/Rig.cpp" line="277"/>
+        <location filename="../core/Rig.cpp" line="281"/>
         <source>Open Connection Error - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/Rig.cpp" line="316"/>
+        <location filename="../core/Rig.cpp" line="320"/>
         <source>Set Frequency Error - </source>
         <translation type="unfinished"></translation>
     </message>
@@ -3553,22 +3553,22 @@ Unmatched QSLs:
 <context>
     <name>Rotator</name>
     <message>
-        <location filename="../core/Rotator.cpp" line="92"/>
+        <location filename="../core/Rotator.cpp" line="102"/>
         <source>Get Position Error - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="126"/>
+        <location filename="../core/Rotator.cpp" line="137"/>
         <source>Initialization Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="154"/>
+        <location filename="../core/Rotator.cpp" line="165"/>
         <source>Open Connection Error - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="192"/>
+        <location filename="../core/Rotator.cpp" line="203"/>
         <source>Set Possition Error - </source>
         <translation type="unfinished"></translation>
     </message>
