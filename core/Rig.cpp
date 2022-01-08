@@ -121,7 +121,7 @@ Rig* Rig::instance() {
 void Rig::start() {
     FCT_IDENTIFICATION;
 
-    QTimer* timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(500);
 }
@@ -138,6 +138,7 @@ void Rig::update() {
     freq_t vfo_freq;
 
     status = rig_get_freq(rig, RIG_VFO_CURR, &vfo_freq);
+
     if ( status == RIG_OK )
     {
         int new_freq = static_cast<int>(vfo_freq);
@@ -151,16 +152,16 @@ void Rig::update() {
     {
         __closeRig();
          emit rigErrorPresent(QString(tr("Get Frequency Error - ")) + QString(rigerror(status)));
+        timer->start(500);
         rigLock.unlock();
         return;
     }
-
-
 
     pbwidth_t pbwidth;
     rmode_t curr_modeId;
 
     status = rig_get_mode(rig, RIG_VFO_CURR, &curr_modeId, &pbwidth);
+
     if ( status == RIG_OK )
     {
         if ( curr_modeId != modeId )
@@ -177,6 +178,7 @@ void Rig::update() {
     {
         __closeRig();
         emit rigErrorPresent(QString(tr("Get Mode Error - ")) + QString(rigerror(status)));
+        timer->start(500);
         rigLock.unlock();
         return;
     }
@@ -188,7 +190,9 @@ void Rig::update() {
 
     if ( status == RIG_OK )
     {
+
         status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
+
         if (  status == RIG_OK )
         {
             if (rigPower != power) {
@@ -213,7 +217,7 @@ void Rig::update() {
         emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
         */
     }
-
+    timer->start(500);
     rigLock.unlock();
 }
 
@@ -364,11 +368,21 @@ void Rig::setPower(double newPower) {
 }
 
 Rig::Rig(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    timer(nullptr)
 {
     FCT_IDENTIFICATION;
 
     rig = nullptr;
     freq_rx = 0;
     power = 0;
+}
+
+Rig::~Rig()
+{
+    if ( timer )
+    {
+        timer->stop();
+        timer->deleteLater();
+    }
 }

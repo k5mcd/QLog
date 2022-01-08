@@ -38,13 +38,23 @@ static enum serial_parity_e stringToParity(const QString &in_parity)
 }
 
 Rotator::Rotator(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    timer(nullptr)
 {
     FCT_IDENTIFICATION;
 
     azimuth = 0;
     elevation = 0;
     rot = nullptr;
+}
+
+Rotator::~Rotator()
+{
+    if ( timer )
+    {
+        timer->stop();
+        timer->deleteLater();
+    }
 }
 
 Rotator* Rotator::instance() {
@@ -57,7 +67,7 @@ Rotator* Rotator::instance() {
 void Rotator::start() {
     FCT_IDENTIFICATION;
 
-    QTimer* timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(1000);
 }
@@ -92,6 +102,7 @@ void Rotator::update() {
        emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
     }
 
+    timer->start(1000);
     rotLock.unlock();
 }
 

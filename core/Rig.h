@@ -32,6 +32,7 @@ private:
     Rig(QObject *parent = nullptr);
 
     Rig(Rig const&);
+    ~Rig();
     void operator=(Rig const&);
 
     void __closeRig();
@@ -40,6 +41,7 @@ private:
     rmode_t modeId;
     unsigned int power;
     QMutex rigLock;
+    QTimer* timer;
 };
 
 #endif // RIG_H

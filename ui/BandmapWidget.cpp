@@ -252,7 +252,7 @@ BandmapWidget::~BandmapWidget()
     if ( update_timer )
     {
         update_timer->stop();
-        delete update_timer;
+        update_timer->deleteLater();
     }
 
     delete ui;

@@ -27,6 +27,7 @@ public slots:
 
 private:
     Rotator(QObject *parent = nullptr);
+    ~Rotator();
 
     void __closeRot();
 
@@ -35,6 +36,7 @@ private:
 
     ROT* rot;
     QMutex rotLock;
+    QTimer* timer;
 };
 
 #endif // ROTATOR_H
