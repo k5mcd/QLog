@@ -1,6 +1,9 @@
 #include <QTcpSocket>
 #include <QtXml>
 #include <QtDebug>
+#include <QSqlTableModel>
+#include <QSqlRecord>
+
 #include "Fldigi.h"
 #include "logformat/AdiFormat.h"
 #include "debug.h"
@@ -16,7 +19,8 @@ Fldigi::Fldigi(QObject *parent) :
     listen(QHostAddress::Any, 8421);
 }
 
-void Fldigi::incomingConnection(int socket) {
+void Fldigi::incomingConnection(qintptr socket)
+{
     FCT_IDENTIFICATION;
 
     QTcpSocket* sock = new QTcpSocket(this);
@@ -145,15 +149,18 @@ QByteArray Fldigi::addRecord(QString data) {
     xml.writeStartElement("value");
     xml.writeEndDocument();
 
-    QMap<QString, QString> defaults;
-    defaults["my_grid"] = StationProfilesManager::instance()->getCurrent().locator;
+    QSqlTableModel model;
+    model.setTable("contacts");
+    model.removeColumn(model.fieldIndex("id"));
+
+    QSqlRecord record = model.record();
 
     QTextStream in(&data);
     AdiFormat adif(in);
-    adif.setDefaults(defaults);
-    adif.runImport();
 
-    emit contactAdded();
+    adif.importNext(record);
+
+    emit addContact(record);
 
     return out;
 }

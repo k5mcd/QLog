@@ -26,7 +26,7 @@ Data* Data::instance() {
     return &instance;
 }
 
-DxccStatus Data::dxccStatus(int dxcc, QString band, QString mode) {
+DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << dxcc << " " << band << " " << mode;
@@ -45,19 +45,29 @@ DxccStatus Data::dxccStatus(int dxcc, QString band, QString mode) {
     }
 
     QSqlQuery query;
-    query.prepare("SELECT (SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc " + filter + " ORDER BY start_time ASC LIMIT 1) as entity,"
+
+    if ( ! query.prepare("SELECT (SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc " + filter + " ORDER BY start_time ASC LIMIT 1) as entity,"
                   "(SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc AND band = :band " + filter + " ORDER BY start_time ASC LIMIT 1) as band,"
                   "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
                   "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
                   "        ORDER BY start_time ASC LIMIT 1) as mode,"
                   "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
                   "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
-                  "        AND band = :band ORDER BY start_time ASC LIMIT 1) as slot;");
+                  "        AND band = :band ORDER BY start_time ASC LIMIT 1) as slot;") )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return DxccStatus::Unknown;
+    }
 
     query.bindValue(":dxcc", dxcc);
     query.bindValue(":band", band);
     query.bindValue(":mode", mode);
-    query.exec();
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute Select statement" << query.lastError();
+        return DxccStatus::Unknown;
+    }
 
     if (query.next()) {
         if (query.value(0).isNull()) {
@@ -92,9 +102,18 @@ Band Data::band(double freq) {
     qCDebug(function_parameters) << freq;
 
     QSqlQuery query;
-    query.prepare("SELECT name, start_freq, end_freq FROM bands WHERE :freq BETWEEN start_freq AND end_freq");
+    if ( ! query.prepare("SELECT name, start_freq, end_freq FROM bands WHERE :freq BETWEEN start_freq AND end_freq") )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return Band();
+    }
     query.bindValue(0, freq);
-    query.exec();
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return Band();
+    }
 
     if (query.next()) {
         Band band;
@@ -225,7 +244,7 @@ QString Data::freqToMode(double freq)
     else return QString();
 }
 
-QColor Data::statusToColor(DxccStatus status, QColor defaultColor) {
+QColor Data::statusToColor(const DxccStatus &status, const QColor &defaultColor) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << status;
@@ -244,7 +263,7 @@ QColor Data::statusToColor(DxccStatus status, QColor defaultColor) {
     }
 }
 
-QString Data::statusToText(DxccStatus status) {
+QString Data::statusToText(const DxccStatus &status) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << status;
@@ -278,10 +297,10 @@ QString Data::callsignRegExString()
 {
     FCT_IDENTIFICATION;
 
-    return QString("^([A-Z0-9]+[\/])?([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)([\/][A-Z0-9]+)?");
+    return QString("^([A-Z0-9]+[\\/])?([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)([\\/][A-Z0-9]+)?");
 }
 
-QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
+QColor Data::statusToInverseColor(const DxccStatus &status, const QColor &defaultColor) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << status;
@@ -300,7 +319,7 @@ QColor Data::statusToInverseColor(DxccStatus status, QColor defaultColor) {
     }
 }
 
-QPair<QString, QString> Data::legacyMode(QString mode) {
+QPair<QString, QString> Data::legacyMode(const QString &mode) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << mode;
@@ -314,7 +333,9 @@ void Data::loadContests() {
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objectList = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objectList))
+    {
         QVariantMap contestData = object.toMap();
 
         QString id = contestData.value("id").toString();
@@ -331,7 +352,9 @@ void Data::loadPropagationModes() {
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap propagationModeData = object.toMap();
 
         QString id = propagationModeData.value("id").toString();
@@ -349,8 +372,10 @@ void Data::loadLegacyModes() {
     QByteArray data = file.readAll();
 
     QVariantMap modes = QJsonDocument::fromJson(data).toVariant().toMap();
+    auto keys = modes.keys();
 
-    for (QString key : modes.keys()) {
+    for (auto &key : qAsConst(keys))
+    {
         QVariantMap legacyModeData = modes[key].toMap();
 
         QString mode = legacyModeData.value("mode").toString();
@@ -361,14 +386,17 @@ void Data::loadLegacyModes() {
     }
 }
 
-void Data::loadDxccFlags() {
+void Data::loadDxccFlags()
+{
     FCT_IDENTIFICATION;
 
     QFile file(":/res/data/dxcc.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap dxccData = object.toMap();
 
         int id = dxccData.value("id").toInt();
@@ -386,7 +414,9 @@ void Data::loadSatModes()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap satModesData = object.toMap();
 
         QString id = satModesData.value("id").toString();
@@ -404,7 +434,9 @@ void Data::loadIOTA()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap iotaData = object.toMap();
 
         QString id = iotaData.value("id").toString();
@@ -422,7 +454,9 @@ void Data::loadSOTA()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    for (QVariant object : QJsonDocument::fromJson(data).toVariant().toList()) {
+    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for (auto &object : qAsConst(objects))
+    {
         QVariantMap sotaData = object.toMap();
 
         QString id = sotaData.value("id").toString();
@@ -431,13 +465,13 @@ void Data::loadSOTA()
     }
 }
 
-DxccEntity Data::lookupDxcc(QString callsign) {
+DxccEntity Data::lookupDxcc(const QString &callsign) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << callsign;
 
     QSqlQuery query;
-    query.prepare(
+    if ( ! query.prepare(
                 "SELECT\n"
                 "    dxcc_entities.id,\n"
                 "    dxcc_entities.name,\n"
@@ -462,10 +496,19 @@ DxccEntity Data::lookupDxcc(QString callsign) {
                 "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
                 "ORDER BY dxcc_prefixes.prefix\n"
                 "DESC LIMIT 1\n"
-    );
+    ) )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return DxccEntity();
+    }
 
     query.bindValue(":callsign", callsign);
-    query.exec();
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execte Select statement" << query.lastError();
+        return DxccEntity();
+    }
 
     DxccEntity dxcc;
     if (query.next()) {

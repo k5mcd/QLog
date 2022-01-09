@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString)), this, SLOT(rotErrorHandler(QString)));
 
     Fldigi* fldigi = new Fldigi(this);
-    connect(fldigi, SIGNAL(contactAdded()), ui->logbookWidget, SLOT(updateTable()));
+    connect(fldigi, &Fldigi::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
 
     Wsjtx* wsjtx = new Wsjtx(this);
     connect(wsjtx, &Wsjtx::statusReceived, ui->wsjtxWidget, &WsjtxWidget::statusReceived);
@@ -81,6 +81,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->wsjtxWidget, &WsjtxWidget::reply, wsjtx, &Wsjtx::startReply);
 
     //ClubLog* clublog = new ClubLog(this);
+
+    connect(ui->logbookWidget, &LogbookWidget::logbookUpdated, stats, &StatisticsWidget::refreshGraph);
 
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, ui->logbookWidget, &LogbookWidget::updateTable);
     connect(ui->newContactWidget, &NewContactWidget::newTarget, ui->mapWidget, &MapWidget::setTarget);
@@ -141,7 +143,7 @@ void MainWindow::rigConnect() {
     }
 }
 
-void MainWindow::rigErrorHandler(QString error)
+void MainWindow::rigErrorHandler(const QString &error)
 {
     FCT_IDENTIFICATION;
 
@@ -150,7 +152,7 @@ void MainWindow::rigErrorHandler(QString error)
     ui->actionConnectRig->setChecked(false);
 }
 
-void MainWindow::rotErrorHandler(QString error)
+void MainWindow::rotErrorHandler(const QString &error)
 {
     FCT_IDENTIFICATION;
 
@@ -302,7 +304,7 @@ void MainWindow::showAbout() {
 
     QString aboutText = tr("<h1>QLog %1</h1>"
                         "<p>&copy; 2019 Thomas Gatzweiler DL2IC<br/>"
-                        "&copy; 2021 Ladislav Foldyna OK1MLG</p>"
+                        "&copy; 2021-2022 Ladislav Foldyna OK1MLG</p>"
                         "<p>Icon by <a href='http://www.iconshock.com'>Icon Shock</a><br />"
                         "Satellite images by <a href='http://www.nasa.gov'>NASA</p>");
 
@@ -394,5 +396,11 @@ void MainWindow::QSOFilterSetting()
 MainWindow::~MainWindow() {
     FCT_IDENTIFICATION;
 
+    stats->deleteLater();
+    conditions->deleteLater();
+    conditionsLabel->deleteLater();
+    callsignLabel->deleteLater();
+    locatorLabel->deleteLater();
+    operatorLabel->deleteLater();
     delete ui;
 }

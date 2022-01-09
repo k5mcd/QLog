@@ -17,15 +17,15 @@ public:
     explicit QRZ(QObject *parent = nullptr);
     ~QRZ();
 
-    QNetworkReply* uploadContact(const QSqlRecord record);
-    void uploadContacts(const QList<QSqlRecord>);
+    QNetworkReply* uploadContact(const QSqlRecord &record);
+    void uploadContacts(const QList<QSqlRecord>&);
 
     static const QString getUsername();
     static const QString getPassword();
     static const QString getLogbookAPIKey();
 
-    static void saveUsernamePassword(const QString, const QString);
-    static void saveLogbookAPI(const QString );
+    static void saveUsernamePassword(const QString&, const QString&);
+    static void saveLogbookAPI(const QString&);
 
     const static QString CALLBOOK_NAME;
 
@@ -52,8 +52,8 @@ private:
     QNetworkReply *lastUploadReply;
 
     void authenticate();
-    QNetworkReply *actionInsert(QByteArray& data, QString insertPolicy);
-    QMap<QString, QString> parseActionResponse(const QString);
+    QNetworkReply *actionInsert(QByteArray& data, const QString &insertPolicy);
+    QMap<QString, QString> parseActionResponse(const QString&);
 
     const static QString SECURE_STORAGE_KEY;
     const static QString SECURE_STORAGE_API_KEY;

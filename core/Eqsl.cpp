@@ -21,7 +21,8 @@
 
 MODULE_IDENTIFICATION("qlog.core.eqsl");
 
-EQSL::EQSL( QObject *parent )
+EQSL::EQSL( QObject *parent ):
+   QObject(parent)
 {
     FCT_IDENTIFICATION;
 
@@ -162,7 +163,7 @@ const QString EQSL::getPassword()
                                                     getUsername());
 }
 
-const QString EQSL::getQSLImageFolder(const QString defaultPath)
+const QString EQSL::getQSLImageFolder(const QString &defaultPath)
 {
     FCT_IDENTIFICATION;
 
@@ -171,7 +172,7 @@ const QString EQSL::getQSLImageFolder(const QString defaultPath)
     return settings.value(EQSL::CONFIG_QSL_FOLDER_KEY, defaultPath).toString();
 }
 
-void EQSL::saveUsernamePassword(const QString newUsername, const QString newPassword)
+void EQSL::saveUsernamePassword(const QString &newUsername, const QString &newPassword)
 {
     FCT_IDENTIFICATION;
 
@@ -190,7 +191,7 @@ void EQSL::saveUsernamePassword(const QString newUsername, const QString newPass
                                               newPassword);
 }
 
-void EQSL::saveQSLImageFolder(const QString path)
+void EQSL::saveQSLImageFolder(const QString &path)
 {
     FCT_IDENTIFICATION;
 
@@ -223,7 +224,7 @@ QNetworkReply* EQSL::get(QList<QPair<QString, QString>> params)
     return reply;
 }
 
-void EQSL::downloadADIF(QString filename)
+void EQSL::downloadADIF(const QString &filename)
 {
     FCT_IDENTIFICATION;
 
@@ -239,7 +240,7 @@ void EQSL::downloadADIF(QString filename)
     reply->setProperty("messageType", QVariant("getADIF"));
 }
 
-void EQSL::downloadImage(QString URLFilename, QString onDiskFilename)
+void EQSL::downloadImage(const QString &URLFilename, const QString &onDiskFilename)
 {
     FCT_IDENTIFICATION;
 
@@ -256,7 +257,7 @@ void EQSL::downloadImage(QString URLFilename, QString onDiskFilename)
     reply->setProperty("onDiskFilename", QVariant(onDiskFilename));
 }
 
-QString EQSL::QSLImageFilename(QSqlRecord qso)
+QString EQSL::QSLImageFilename(const QSqlRecord qso)
 {
     FCT_IDENTIFICATION;
 
@@ -433,7 +434,7 @@ void EQSL::processReply(QNetworkReply* reply)
         QTextStream stream(&tempFile);
         AdiFormat adi(stream);
 
-        connect(&adi, &AdiFormat::progress, [this, size](qint64 position)
+        connect(&adi, &AdiFormat::progress, this, [this, size](qint64 position)
         {
             if ( size > 0 )
             {
@@ -442,7 +443,7 @@ void EQSL::processReply(QNetworkReply* reply)
             }
         });
 
-        connect(&adi, &AdiFormat::QSLMergeFinished, [this](QSLMergeStat stats)
+        connect(&adi, &AdiFormat::QSLMergeFinished, this, [this](QSLMergeStat stats)
         {
             emit updateComplete(stats);
         });
@@ -500,7 +501,7 @@ void EQSL::processReply(QNetworkReply* reply)
         else if (matchError.hasMatch() )
         {
             msg = matchError.captured(1);
-            uploadError(msg);
+            emit uploadError(msg);
         }
         else if (matchWarning.hasMatch() )
         {

@@ -33,14 +33,20 @@ QDataStream& operator>>(QDataStream& in, StationProfile& v)
     return in;
 }
 
-StationProfilesManager::StationProfilesManager(QObject *parent)
+StationProfilesManager::StationProfilesManager(QObject *parent) :
+    QObject(parent)
 {
     FCT_IDENTIFICATION;
 
     QSettings settings;
 
     QSqlQuery profileQuery;
-    profileQuery.prepare("SELECT * FROM station_profiles");
+
+
+    if ( ! profileQuery.prepare("SELECT * FROM station_profiles") )
+    {
+        qWarning()<< "Cannot prepare select";
+    }
 
     if ( profileQuery.exec() )
     {
@@ -85,7 +91,8 @@ QStringList StationProfilesManager::profilesList()
 
     QStringList ret;
 
-    for ( auto key : stationsProfiles.keys() )
+    auto keys = stationsProfiles.keys();
+    for ( auto &key : qAsConst(keys) )
     {
         ret << key;
     }
@@ -101,13 +108,23 @@ void StationProfilesManager::save()
     QSqlQuery deleteQuery;
     QSqlQuery insertQuery;
 
-    deleteQuery.prepare("DELETE FROM station_profiles");
-    insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc) "
-                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc)");
+    if ( ! deleteQuery.prepare("DELETE FROM station_profiles") )
+    {
+        qWarning() << "cannot prepare Delete statement";
+        return;
+    }
+
+    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc) "
+                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc)") )
+    {
+        qWarning() << "cannot prepare Insert statement";
+        return;
+    }
 
     if ( deleteQuery.exec() )
     {
-        for ( auto key: stationsProfiles.keys() )
+        auto keys = stationsProfiles.keys();
+        for ( auto &key: qAsConst(keys) )
         {
             insertQuery.bindValue(":profile_name", key);
             insertQuery.bindValue(":callsign", stationsProfiles.value(key).value<StationProfile>().callsign);
@@ -142,7 +159,7 @@ void StationProfilesManager::add(StationProfile profile)
     stationsProfiles.insert(profile.profileName, QVariant::fromValue(profile));
 }
 
-int StationProfilesManager::remove(QString profileName)
+int StationProfilesManager::remove(const QString &profileName)
 {
     FCT_IDENTIFICATION;
 
@@ -156,7 +173,7 @@ int StationProfilesManager::remove(QString profileName)
     return stationsProfiles.remove(profileName);
 }
 
-StationProfile StationProfilesManager::get(QString profileName)
+StationProfile StationProfilesManager::get(const QString &profileName)
 {
     FCT_IDENTIFICATION;
 
@@ -173,7 +190,7 @@ StationProfile StationProfilesManager::get(QString profileName)
     }
 }
 
-void StationProfilesManager::setCurrent(QString profileName)
+void StationProfilesManager::setCurrent(const QString &profileName)
 {
     FCT_IDENTIFICATION;
 

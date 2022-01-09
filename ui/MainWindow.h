@@ -24,8 +24,8 @@ signals:
     void settingsChanged();
 
 public slots:
-    void rigErrorHandler(QString error);
-    void rotErrorHandler(QString error);
+    void rigErrorHandler(const QString &error);
+    void rotErrorHandler(const QString &error);
     void stationProfileChanged();
 
 private slots:

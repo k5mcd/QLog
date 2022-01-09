@@ -8,7 +8,7 @@ MODULE_IDENTIFICATION("qlog.core.rotator");
 #define HAMLIB_FILPATHLEN FILPATHLEN
 #endif
 
-static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
+static enum serial_handshake_e stringToFlowControl(const QString &in_flowcontrol)
 {
     FCT_IDENTIFICATION;
 
@@ -21,7 +21,7 @@ static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
     return RIG_HANDSHAKE_NONE;
 }
 
-static enum serial_parity_e stringToParity(const QString in_parity)
+static enum serial_parity_e stringToParity(const QString &in_parity)
 {
     FCT_IDENTIFICATION;
 
@@ -37,9 +37,24 @@ static enum serial_parity_e stringToParity(const QString in_parity)
     return RIG_PARITY_NONE;
 }
 
-Rotator::Rotator() : QObject(nullptr)
+Rotator::Rotator(QObject *parent) :
+    QObject(parent),
+    timer(nullptr)
 {
     FCT_IDENTIFICATION;
+
+    azimuth = 0;
+    elevation = 0;
+    rot = nullptr;
+}
+
+Rotator::~Rotator()
+{
+    if ( timer )
+    {
+        timer->stop();
+        timer->deleteLater();
+    }
 }
 
 Rotator* Rotator::instance() {
@@ -52,7 +67,7 @@ Rotator* Rotator::instance() {
 void Rotator::start() {
     FCT_IDENTIFICATION;
 
-    QTimer* timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(1000);
 }
@@ -87,6 +102,7 @@ void Rotator::update() {
        emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
     }
 
+    timer->start(1000);
     rotLock.unlock();
 }
 

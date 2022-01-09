@@ -1,3 +1,15 @@
+qlog (0.4.0-1) UNRELEASED; urgency=low
+
+  * Stats: Added Show on Map - QSOs and Worked&Confirmed Grids
+  * Stats: Stats are refreshed after every QSO
+  * WSJTX: Remove TRX/Monitoring Status
+  * Added Split mode - RX/TX RIG Offset
+  * Added export of selected QSOs
+  * Fixed FLdigi interface
+  * CPPChecks & Clazy cleanup
+
+ -- foldynl <foldyna@gmail.com>  Sun, 9 Jan 2022 12:00:00 +0200
+
 qlog (0.3.0-1) UNRELEASED; urgency=low
 
   * Rework Station Profile - stored in DB, new fields

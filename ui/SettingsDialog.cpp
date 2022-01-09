@@ -497,7 +497,6 @@ void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username;
 
     QStringList profiles = profileManager->profilesList();
     ((QStringListModel*)ui->profilesListView->model())->setStringList(profiles);
@@ -594,7 +593,6 @@ void SettingsDialog::writeSettings() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString old_username;
 
     profileManager->save();
 

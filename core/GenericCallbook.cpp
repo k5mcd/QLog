@@ -1,6 +1,7 @@
 #include "GenericCallbook.h"
 
-GenericCallbook::GenericCallbook(QObject *parent) : QObject(parent)
+GenericCallbook::GenericCallbook(QObject *parent) :
+    QObject(parent)
 {
 
 }

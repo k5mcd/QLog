@@ -115,7 +115,7 @@ LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *i
 
     reply = QMessageBox::question(nullptr,
                                   tr("Duplicate QSO"),
-                                  tr("<p>Do you want to import duplicate QSO?</p>%1 %2").arg(inLogQSO).arg(importedQSO),
+                                  tr("<p>Do you want to import duplicate QSO?</p>%1 %2").arg(inLogQSO,importedQSO),
                                   QMessageBox::Yes|QMessageBox::No|QMessageBox::YesAll|QMessageBox::NoAll);
     switch ( reply )
     {
@@ -177,13 +177,14 @@ void ImportDialog::runImport() {
     }
 
     LogFormat* format = LogFormat::open(ui->typeSelect->currentText(), in);
-    format->setDefaults(defaults);
-    format->setUpdateDxcc(ui->updateDxccCheckBox->isChecked());
 
     if (!format) {
         qCritical() << "unknown log format";
         return;
     }
+
+    format->setDefaults(defaults);
+    format->setUpdateDxcc(ui->updateDxccCheckBox->isChecked());
 
     if (!ui->allCheckBox->isChecked()) {
         format->setDateRange(ui->startDateEdit->date(), ui->endDateEdit->date());

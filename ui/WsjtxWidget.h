@@ -24,22 +24,23 @@ class WsjtxTableModel : public QAbstractTableModel {
     Q_OBJECT
 
 public:
-    WsjtxTableModel(QObject* parent = 0) : QAbstractTableModel(parent) {spotAgingPeriod = 120;}
+    WsjtxTableModel(QObject* parent = nullptr) : QAbstractTableModel(parent) {spotPeriod = 120;}
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     int columnCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     void addOrReplaceEntry(WsjtxEntry entry);
     void spotAging();
-    bool callsignExists(WsjtxEntry call);
+    bool callsignExists(const WsjtxEntry &);
     QString getCallsign(QModelIndex idx);
     QString getGrid(QModelIndex idx);
     WsjtxDecode getDecode(QModelIndex idx);
-    void setSpotAging(int seconds);
+    void setCurrentSpotPeriod(float);
+    void clear();
 
 private:
     QList<WsjtxEntry> wsjtxData;
-    int spotAgingPeriod;
+    float spotPeriod;
 };
 
 class WsjtxWidget : public QWidget
@@ -54,6 +55,8 @@ public slots:
     void decodeReceived(WsjtxDecode);
     void statusReceived(WsjtxStatus);
     void tableViewDoubleClicked(QModelIndex);
+    void tableViewClicked(QModelIndex);
+    void setSelectedCallsign(const QString&);
 
 signals:
     void showDxDetails(QString callsign, QString grid);
@@ -65,6 +68,7 @@ private:
     QString band;
     Ui::WsjtxWidget *ui;
     QSortFilterProxyModel *proxyModel;
+    QString lastSelectedCallsign;
 };
 
 #endif // WSJTXWIDGET_H

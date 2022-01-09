@@ -7,11 +7,11 @@ class QXmlStreamWriter;
 
 class AdxFormat : public LogFormat {
 public:
-    AdxFormat(QTextStream& stream) : LogFormat(stream) {}
+    explicit AdxFormat(QTextStream& stream) : LogFormat(stream) {writer = nullptr;}
 
-    void exportContact(const QSqlRecord& record,QMap<QString, QString> * = nullptr);
-    void exportStart();
-    void exportEnd();
+    void exportContact(const QSqlRecord& record,QMap<QString, QString> *) override;
+    void exportStart() override;
+    void exportEnd() override;
 
 private:
     void writeField(QString name, QString value);

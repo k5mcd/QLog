@@ -106,7 +106,7 @@ void QRZDialog::upload()
 
             QRZ *qrz = new QRZ(dialog);
 
-            connect(qrz, &QRZ::uploadedQSO, [qrz, dialog](int qsoID)
+            connect(qrz, &QRZ::uploadedQSO, this, [qrz, dialog](int qsoID)
             {
                 QString query_string = "UPDATE contacts "
                                        "SET qrzcom_qso_upload_status='Y', qrzcom_qso_upload_date = strftime('%Y-%m-%d',DATETIME('now', 'utc')) "
@@ -127,14 +127,14 @@ void QRZDialog::upload()
                 dialog->setValue(dialog->value() + 1);
             });
 
-            connect(qrz, &QRZ::uploadFinished, [this, dialog, query_where, count](bool result)
+            connect(qrz, &QRZ::uploadFinished, this, [this, dialog, query_where, count](bool)
             {
                 dialog->done(QDialog::Accepted);
                 QMessageBox::information(this, tr("QLog Information"),
                                          tr("%n QSO(s) uploaded.", "", count));
             });
 
-            connect(qrz, &QRZ::uploadError, [this, dialog](QString msg)
+            connect(qrz, &QRZ::uploadError, this, [this, dialog](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "QRZ.com Upload Error: " << msg;
@@ -154,7 +154,7 @@ void QRZDialog::upload()
 
 }
 
-void QRZDialog::uploadCallsignChanged(QString my_callsign)
+void QRZDialog::uploadCallsignChanged(const QString &my_callsign)
 {
     FCT_IDENTIFICATION;
 

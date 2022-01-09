@@ -20,7 +20,7 @@ public:
 public slots:
     void addCondition(int fieldIdx = -1, int operatorId = -1, QString value = QString());
     void save();
-    void filterNameChanged(QString);
+    void filterNameChanged(const QString&);
 
 private:
     Ui::QSOFilterDetail *ui;

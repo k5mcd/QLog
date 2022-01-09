@@ -9,8 +9,16 @@
 MODULE_IDENTIFICATION("qlog.ui.exportdialog");
 
 ExportDialog::ExportDialog(QWidget *parent) :
+   ExportDialog(QList<QSqlRecord>(), parent)
+{
+    FCT_IDENTIFICATION;
+    this->setWindowTitle(tr("Export All QSOs"));
+}
+
+ExportDialog::ExportDialog(const QList<QSqlRecord>& qsos, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ExportDialog)
+    ui(new Ui::ExportDialog),
+    qsos4export(qsos)
 {
     FCT_IDENTIFICATION;
 
@@ -19,6 +27,7 @@ ExportDialog::ExportDialog(QWidget *parent) :
     ui->allCheckBox->setChecked(true);
     ui->startDateEdit->setDate(QDate::currentDate());
     ui->endDateEdit->setDate(QDate::currentDate().addDays(1));
+
 }
 
 void ExportDialog::browse() {
@@ -60,7 +69,16 @@ void ExportDialog::runExport() {
         format->setDateRange(ui->startDateEdit->date(), ui->endDateEdit->date());
     }
 
-    int count = format->runExport();
+    int count = 0;
+
+    if ( qsos4export.size() > 0 )
+    {
+        count = format->runExport(qsos4export);
+    }
+    else
+    {
+        count = format->runExport();
+    }
 
     delete format;
 

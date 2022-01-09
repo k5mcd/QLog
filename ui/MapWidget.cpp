@@ -77,7 +77,7 @@ void MapWidget::redraw() {
     redrawNightOverlay();
 }
 
-void MapWidget::drawPoint(QPoint point) {
+void MapWidget::drawPoint(const QPoint &point) {
     FCT_IDENTIFICATION;
 
     items << scene->addEllipse(point.x()-2, point.y()-2, 4, 4,
@@ -86,7 +86,7 @@ void MapWidget::drawPoint(QPoint point) {
                                       Qt::SolidPattern));
 }
 
-void MapWidget::drawLine(QPoint pointA, QPoint pointB) {
+void MapWidget::drawLine(const QPoint &pointA, const QPoint &pointB) {
     FCT_IDENTIFICATION;
 
     QPainterPath path;
@@ -98,7 +98,8 @@ void MapWidget::drawLine(QPoint pointA, QPoint pointB) {
 
     double d = 2*asin(sqrt(pow(sin(latA-latB)/2, 2) + cos(latA)* cos(latB) * pow(sin((lonA-lonB)/2), 2)));
 
-    for (double f = 0; f < 1; f += 0.0001) {
+    for (double f = 0; f <= 1; f += 0.001)
+    {
         double A = sin((1-f)*d)/sin(d);
         double B = sin(f*d)/sin(d);
         double x = A*cos(latA)*cos(lonA) + B*cos(latB)*cos(lonB);
@@ -198,14 +199,14 @@ void MapWidget::redrawNightOverlay() {
     nightOverlay->setPixmap(QPixmap::fromImage(overlay));
 }
 
-void MapWidget::pointToRad(QPoint point, double& lat, double& lon) {
+void MapWidget::pointToRad(const QPoint &point, double& lat, double& lon) {
     FCT_IDENTIFICATION;
 
     lat = M_PI / 2.0 - static_cast<double>(point.y()) / (scene->height() - 1.0) * M_PI;
     lon = 2 * M_PI *(static_cast<double>(point.x()) / (scene->width() - 1.0)) - M_PI;
 }
 
-void MapWidget::pointToCoord(QPoint point, double& lat, double& lon) {
+void MapWidget::pointToCoord(const QPoint &point, double& lat, double& lon) {
     FCT_IDENTIFICATION;
 
     lat = 90.0 - (point.y() / scene->height()) * 180.0;

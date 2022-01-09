@@ -1,5 +1,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
+#include <QMutableMapIterator>
+
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
 #include "core/Rig.h"
@@ -128,19 +130,15 @@ void BandmapWidget::bandmapAging()
 
     if ( clear_interval_sec == 0 ) return;
 
-    QMap<double, DxSpot>::iterator lower = spots.begin();
-    QMap<double, DxSpot>::iterator upper = spots.end();
+    QMutableMapIterator<double, DxSpot> spotIterator(spots);
 
-    for (; lower != upper;)
+    while ( spotIterator.hasNext() )
     {
+        spotIterator.next();
         //clear spots automatically
-        if ( lower.value().time.addSecs(clear_interval_sec) <= QDateTime::currentDateTimeUtc().time() )
+        if ( spotIterator.value().time.addSecs(clear_interval_sec) <= QDateTime::currentDateTimeUtc().time() )
         {
-            spots.erase(lower++);
-        }
-        else
-        {
-            lower++;
+            spotIterator.remove();
         }
     }
 }
@@ -151,6 +149,18 @@ void BandmapWidget::removeDuplicates(DxSpot &spot) {
     QMap<double, DxSpot>::iterator lower = spots.lowerBound(spot.freq - 0.005);
     QMap<double, DxSpot>::iterator upper = spots.upperBound(spot.freq + 0.005);
 
+    while ( lower != upper )
+    {
+        if ( lower.value().callsign.compare(spot.callsign, Qt::CaseInsensitive) == 0 )
+        {
+            lower = spots.erase(lower);
+        }
+        else
+        {
+            ++lower;
+        }
+    }
+    /*
     for (; lower != upper;) {
         if ( lower.value().callsign.compare(spot.callsign, Qt::CaseInsensitive) == 0 )
         {
@@ -160,7 +170,7 @@ void BandmapWidget::removeDuplicates(DxSpot &spot) {
         {
             ++lower;
         }
-    }
+    }*/
 }
 
 void BandmapWidget::addSpot(DxSpot spot) {
@@ -205,7 +215,7 @@ void BandmapWidget::zoomOut() {
     update();
 }
 
-void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason)
+void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *, Qt::FocusReason)
 {
     FCT_IDENTIFICATION;
 
@@ -242,7 +252,7 @@ BandmapWidget::~BandmapWidget()
     if ( update_timer )
     {
         update_timer->stop();
-        delete update_timer;
+        update_timer->deleteLater();
     }
 
     delete ui;

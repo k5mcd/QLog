@@ -3,7 +3,7 @@
 #include <QSqlQuery>
 #include "SqlListModel.h"
 
-SqlListModel::SqlListModel(QString query, QString placeholder, QObject *parent)
+SqlListModel::SqlListModel(const QString &query, const QString &placeholder, QObject *parent)
     : QSqlQueryModel(parent),
       placeholder(placeholder),
       stmt(query)

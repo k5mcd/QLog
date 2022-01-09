@@ -86,8 +86,11 @@ bool Migration::setVersion(int version) {
     qCDebug(function_parameters) << version;
 
     QSqlQuery query;
-    query.prepare("INSERT INTO schema_versions (version, updated) "
-                  "VALUES (:version, datetime('now'))");
+    if ( ! query.prepare("INSERT INTO schema_versions (version, updated) "
+                  "VALUES (:version, datetime('now'))") )
+    {
+        qWarning() << "Cannot prepare Insert statement";
+    }
 
     query.bindValue(":version", version);
 

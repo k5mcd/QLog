@@ -270,7 +270,7 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Export</string>
+    <string>Export All</string>
    </property>
   </action>
   <action name="actionConnectRig">

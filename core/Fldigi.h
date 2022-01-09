@@ -2,6 +2,7 @@
 #define FLDIGI_H
 
 #include <QTcpServer>
+#include <QSqlRecord>
 
 class QXmlStreamReader;
 
@@ -9,11 +10,10 @@ class Fldigi : public QTcpServer {
     Q_OBJECT
 
 public:
-    explicit Fldigi(QObject *parent = 0);
-    void incomingConnection(int socket);
+    explicit Fldigi(QObject *parent = nullptr);
 
 signals:
-    void contactAdded();
+    void addContact(QSqlRecord);
 
 public slots:
     void readClient();
@@ -24,6 +24,8 @@ private:
     QString parseParam(QXmlStreamReader& xml);
     QByteArray listMethods();
     QByteArray addRecord(QString data);
+
+    void incomingConnection(qintptr socket) override;
 };
 
 #endif // FLDIGI_H

@@ -26,7 +26,8 @@ public slots:
     void setPosition(int azimuth, int elevation);
 
 private:
-    Rotator();
+    Rotator(QObject *parent = nullptr);
+    ~Rotator();
 
     void __closeRot();
 
@@ -35,6 +36,7 @@ private:
 
     ROT* rot;
     QMutex rotLock;
+    QTimer* timer;
 };
 
 #endif // ROTATOR_H

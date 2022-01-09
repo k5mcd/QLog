@@ -5,16 +5,16 @@
 
 class AdiFormat : public LogFormat {
 public:
-    AdiFormat(QTextStream& stream) : LogFormat(stream) {}
+    explicit AdiFormat(QTextStream& stream) : LogFormat(stream) {}
 
-    bool readContact(QVariantMap& contact);
+    bool readContact(QVariantMap& );
 
-    bool importNext(QSqlRecord& contact);
-    void exportContact(const QSqlRecord&record, QMap<QString, QString> * applTags = nullptr);
-    void exportStart();
+    bool importNext(QSqlRecord& ) override;
+    void exportContact(const QSqlRecord&, QMap<QString, QString> * applTags = nullptr) override;
+    void exportStart() override;
 
-    static QDate parseDate(QString date);
-    static QTime parseTime(QString time);
+    static QDate parseDate(const QString &date);
+    static QTime parseTime(const QString &time);
 private:
     enum ParserState {
         START,
@@ -25,10 +25,10 @@ private:
         VALUE
     };
 
-    void writeField(QString name, QString value, QString type="");
-    void readField(QString& field, QString& value);
-    QString parseQslRcvd(QString value);
-    QString parseQslSent(QString value);
+    void writeField(const QString &name, const QString &value, const QString &type="");
+    void readField(QString& field,QString& value);
+    QString parseQslRcvd(const QString &value);
+    QString parseQslSent(const QString &value);
 
     ParserState state = START;
     bool inHeader = false;

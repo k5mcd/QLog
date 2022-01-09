@@ -10,8 +10,8 @@
 #include "Conditions.h"
 #include "debug.h"
 
-const QUrl FLUX_URL = QUrl("https://services.swpc.noaa.gov/products/summary/10cm-flux.json");
-const QUrl K_INDEX_URL = QUrl("https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json");
+#define FLUX_URL "https://services.swpc.noaa.gov/products/summary/10cm-flux.json"
+#define K_INDEX_URL "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
 
 MODULE_IDENTIFICATION("qlog.core.conditions");
 
@@ -31,8 +31,8 @@ Conditions::Conditions(QObject *parent) : QObject(parent)
 void Conditions::update() {
     FCT_IDENTIFICATION;
 
-    nam->get(QNetworkRequest(FLUX_URL));
-    nam->get(QNetworkRequest(K_INDEX_URL));
+    nam->get(QNetworkRequest(QUrl(FLUX_URL)));
+    nam->get(QNetworkRequest(QUrl(K_INDEX_URL)));
 }
 
 void Conditions::processReply(QNetworkReply* reply) {
@@ -45,12 +45,13 @@ void Conditions::processReply(QNetworkReply* reply) {
     if (reply->isFinished() && reply->error() == QNetworkReply::NoError) {
         QJsonDocument doc = QJsonDocument::fromJson(data);
 
-        if (reply->url() == FLUX_URL) {
+        if (reply->url() == QUrl(FLUX_URL))
+        {
             QVariantMap obj = doc.object().toVariantMap();
             flux = obj.value("Flux").toInt();
             flux_last_update = QDateTime::currentDateTime();
         }
-        else if (reply->url() == K_INDEX_URL) {
+        else if (reply->url() == QUrl(K_INDEX_URL)) {
             k_index = doc.array().last().toArray().at(2).toString().toDouble();
             a_index = doc.array().last().toArray().at(3).toString().toInt();
             k_index_last_update = QDateTime::currentDateTime();

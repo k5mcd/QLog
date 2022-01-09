@@ -73,14 +73,14 @@ public slots:
     void receive();
     void send();
     void connected();
-    void socketError(QAbstractSocket::SocketError error);
+    void socketError(QAbstractSocket::SocketError);
     void rawModeChanged();
-    void entryDoubleClicked(QModelIndex index);
+    void entryDoubleClicked(QModelIndex);
     void actionFilter();
 
 signals:
-    void tuneDx(QString callsign, double freq);
-    void newSpot(DxSpot spot);
+    void tuneDx(QString, double);
+    void newSpot(DxSpot);
 
 private:
     DxTableModel* dxTableModel;

@@ -42,6 +42,15 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Jan 9 2021 Ladislav Foldyna - 0.4.0-1
+- Stats: Added Show on Map - QSOs and Worked&Confirmed Grids
+- Stats: Stats are refreshed after every QSO
+- WSJTX: Remove TRX/Monitoring Status
+- Added Split mode - RX/TX RIG Offset
+- Added export of selected QSOs
+- Fixed FLdigi interface
+- CPPChecks & Clazy cleanup
+
 * Sun Dec 19 2021 Ladislav Foldyna - 0.3.0-1
 - Rework Station Profile - stored in DB, new fields
 - Added VUCC fields support

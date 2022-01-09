@@ -8,7 +8,7 @@
 class Gridsquare
 {
 public:
-    Gridsquare(QString grid = QString());
+    explicit Gridsquare(QString in_grid = QString());
     ~Gridsquare() {};
     static QRegularExpression gridRegEx();
     static QRegularExpression gridVUCCRegEx();
@@ -17,7 +17,7 @@ public:
     double getLongitude() {return lon;};
     double getLatitude() {return lat;};
     QString getGrid() { return grid;};
-    bool distanceTo(Gridsquare  in_grid, double &distance);
+    bool distanceTo(Gridsquare in_grid, double &distance);
     bool distanceTo(double lat, double lon, double &distance);
     bool bearingTo(Gridsquare in_grid, double &bearing);
     bool bearingTo(double lat, double lon, double &bearing);

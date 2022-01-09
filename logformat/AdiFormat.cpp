@@ -181,14 +181,16 @@ void AdiFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
 
     QJsonObject fields = QJsonDocument::fromJson(record.value("fields").toByteArray()).object();
 
-    for (const QString& key : fields.keys()) {
+    auto keys = fields.keys();
+    for (auto &key : qAsConst(keys)) {
         writeField(key, fields.value(key).toString());
     }
 
     /* Add application-specific tags */
     if ( applTags )
     {
-       foreach (QString key, applTags->keys())
+       auto keys = applTags->keys();
+       for (auto &key : qAsConst(keys))
        {
            writeField(key, applTags->value(key));
        }
@@ -197,7 +199,8 @@ void AdiFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     stream << "<eor>\n\n";
 }
 
-void AdiFormat::writeField(QString name, QString value, QString type) {
+void AdiFormat::writeField(const QString &name, const QString &value, const QString &type)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<name<< " " << value << " " << type;
@@ -212,7 +215,7 @@ void AdiFormat::writeField(QString name, QString value, QString type) {
 void AdiFormat::readField(QString& field, QString& value) {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<field<< " " << value;
+    //qCDebug(function_parameters)<<field<< " " << value;
 
     char c;
 
@@ -327,22 +330,26 @@ void AdiFormat::readField(QString& field, QString& value) {
     }
 }
 
-bool AdiFormat::readContact(QMap<QString, QVariant>& contact) {
+bool AdiFormat::readContact(QMap<QString, QVariant>& contact)
+{
     FCT_IDENTIFICATION;
 
-    QString field;
-    QString value;
+    while (!stream.atEnd())
+    {
+        QString field;
+        QString value;
 
-    while (!stream.atEnd()) {
         readField(field, value);
         field = field.toLower();
 
-        if (field == "eor") {
+        if (field == "eor")
+        {
             return true;
         }
 
-        if (!value.isEmpty()) {
-             contact[field] = QVariant(value);
+        if (!value.isEmpty())
+        {
+            contact[field] = QVariant(value);
         }
     }
 
@@ -362,7 +369,9 @@ bool AdiFormat::importNext(QSqlRecord& record) {
 
     /* Set default values if not present */
     if (defaults) {
-        foreach (QString key, defaults->keys()) {
+        auto keys = defaults->keys();
+        for (auto &key : qAsConst(keys))
+        {
             if (contact.value(key).isNull()) {
                 contact.insert(key, defaults->value(key));
             }
@@ -566,7 +575,8 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     return true;
 }
 
-QDate AdiFormat::parseDate(QString date) {
+QDate AdiFormat::parseDate(const QString &date)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<date;
@@ -579,7 +589,8 @@ QDate AdiFormat::parseDate(QString date) {
     }
 }
 
-QTime AdiFormat::parseTime(QString time) {
+QTime AdiFormat::parseTime(const QString &time)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<time;
@@ -596,7 +607,7 @@ QTime AdiFormat::parseTime(QString time) {
     }
 }
 
-QString AdiFormat::parseQslRcvd(QString value) {
+QString AdiFormat::parseQslRcvd(const QString &value) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<value;
@@ -616,7 +627,7 @@ QString AdiFormat::parseQslRcvd(QString value) {
     }
 }
 
-QString AdiFormat::parseQslSent(QString value) {
+QString AdiFormat::parseQslSent(const QString &value) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<value;

@@ -9,7 +9,7 @@ class AppGuard
 {
 
 public:
-    AppGuard( const QString& key );
+    explicit AppGuard( const QString& key );
     ~AppGuard();
 
     bool isAnotherRunning(void);

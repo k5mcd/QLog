@@ -133,10 +133,10 @@ void LogFormat::runImport() {
             }
 
             QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
-                    .arg(record.value("callsign").toString())
-                    .arg(record.value("mode").toString())
-                    .arg(record.value("band").toString())
-                    .arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+                    .arg(record.value("callsign").toString(),
+                         record.value("mode").toString(),
+                         record.value("band").toString(),
+                         record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
             /* set filter */
             model.setFilter(matchFilter);
@@ -240,7 +240,6 @@ void LogFormat::runQSLImport(QSLFrom fromService)
     model.setTable("contacts");
     model.setEditStrategy(QSqlTableModel::OnManualSubmit);
     QSqlRecord QSLRecord = model.record();
-    QString filterString;
 
     while ( true )
     {
@@ -268,10 +267,10 @@ void LogFormat::runQSLImport(QSLFrom fromService)
         }
 
         QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
-                .arg(QSLRecord.value("callsign").toString())
-                .arg(QSLRecord.value("mode").toString())
-                .arg(QSLRecord.value("band").toString())
-                .arg(QSLRecord.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+                .arg(QSLRecord.value("callsign").toString(),
+                     QSLRecord.value("mode").toString(),
+                     QSLRecord.value("band").toString(),
+                     QSLRecord.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
         /* set filter */
         model.setFilter(matchFilter);
@@ -450,23 +449,53 @@ int LogFormat::runExport() {
     this->exportStart();
 
     QSqlQuery query;
-    if (dateRangeSet()) {
-        query.prepare("SELECT * FROM contacts"
+    if (dateRangeSet())
+    {
+        if ( ! query.prepare("SELECT * FROM contacts"
                       " WHERE (start_time BETWEEN :start_date AND :end_date)"
-                      " ORDER BY start_time ASC");
+                      " ORDER BY start_time ASC") )
+        {
+            qWarning() << "Cannot prepare select statement";
+            return 0;
+        }
         query.bindValue(":start_date", QDateTime(startDate));
         query.bindValue(":end_date", QDateTime(endDate));
     }
     else {
-        query.prepare("SELECT * FROM contacts ORDER BY start_time ASC");
+        if ( ! query.prepare("SELECT * FROM contacts ORDER BY start_time ASC") )
+        {
+            qWarning() << "Cannot prepare select statement";
+            return 0;
+        }
     }
 
-    query.exec();
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return 0;
+    }
 
     int count = 0;
     while (query.next()) {
         QSqlRecord record = query.record();
         this->exportContact(record);
+        count++;
+    }
+
+    this->exportEnd();
+    return count;
+}
+
+int LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
+{
+    FCT_IDENTIFICATION;
+
+    this->exportStart();
+
+    int count = 0;
+    for (const QSqlRecord &qso: selectedQSOs)
+    {
+        this->exportContact(qso);
         count++;
     }
 

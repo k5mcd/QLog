@@ -20,7 +20,7 @@ public:
     static const QString getUsername();
     static const QString getPassword();
 
-    static void saveUsernamePassword(const QString, const QString);
+    static void saveUsernamePassword(const QString&, const QString&);
 
 public slots:
     void queryCallsign(QString callsign) override;

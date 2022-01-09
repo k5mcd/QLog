@@ -1,5 +1,6 @@
 #include <QTextStream>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QSqlRecord>
 #include <QMessageBox>
 #include <QProgressDialog>
@@ -54,12 +55,12 @@ void LotwDialog::download() {
     Lotw* lotw = new Lotw(dialog);
     connect(lotw, &Lotw::updateProgress, dialog, &QProgressDialog::setValue);
 
-    connect(lotw, &Lotw::updateStarted, [dialog] {
+    connect(lotw, &Lotw::updateStarted, this, [dialog] {
         dialog->setLabelText(tr("Processing LotW QSLs"));
         dialog->setRange(0, 100);
     });
 
-    connect(lotw, &Lotw::updateComplete, [dialog, qsl](QSLMergeStat stats) {
+    connect(lotw, &Lotw::updateComplete, this, [dialog, qsl](QSLMergeStat stats) {
         if (qsl) {
             QSettings settings;
             settings.setValue("lotw/last_update", QDateTime::currentDateTimeUtc().date());
@@ -70,7 +71,7 @@ void LotwDialog::download() {
         statDialog.exec();
     });
 
-    connect(lotw, &Lotw::updateFailed, [this, dialog](QString error) {
+    connect(lotw, &Lotw::updateFailed, this, [this, dialog](QString error) {
         dialog->done(QDialog::Accepted);
         QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
     });
@@ -79,7 +80,7 @@ void LotwDialog::download() {
 
     QNetworkReply *reply = lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
 
-    connect(dialog, &QProgressDialog::canceled, [reply]()
+    connect(dialog, &QProgressDialog::canceled, this, [reply]()
     {
         qCDebug(runtime)<< "Operation canceled";
         if ( reply )
@@ -165,7 +166,11 @@ void LotwDialog::upload() {
                 qCDebug(runtime) << query_string;
 
                 QSqlQuery query_update(query_string);
-                query_update.exec();
+                if ( ! query_update.exec() )
+                {
+                    qWarning() << "Cannot execute update query" << query.lastError().text();
+                    return;
+                }
             }
             else
             {
@@ -178,7 +183,7 @@ void LotwDialog::upload() {
     }
 }
 
-void LotwDialog::uploadCallsignChanged(QString my_callsign)
+void LotwDialog::uploadCallsignChanged(const QString &my_callsign)
 {
     ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='" + my_callsign + "' ORDER BY my_gridsquare", ""));
 }

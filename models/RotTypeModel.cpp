@@ -32,8 +32,9 @@ QModelIndex RotTypeModel::index(int row, int column, const QModelIndex& parent) 
         return QModelIndex();
 }
 
-int RotTypeModel::addRot(const struct rot_caps* caps, void* data) {
-    RotTypeModel* rotTypeModel = (RotTypeModel*)data;
+int RotTypeModel::addRot(const struct rot_caps* caps, void* data)
+{
+    RotTypeModel* rotTypeModel = static_cast<RotTypeModel*>(data);
     QString name = QString("%1 %2 (%3)").arg(caps->mfg_name, caps->model_name, caps->version);
     rotTypeModel->rotList.append(name);
     rotTypeModel->rotIds[name] = caps->rot_model;

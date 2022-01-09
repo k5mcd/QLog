@@ -8,15 +8,15 @@ class SqlListModel : public QSqlQueryModel
     Q_OBJECT
 
 public:
-    explicit SqlListModel(QString query, QString placeholder, QObject *parent = nullptr);
+    explicit SqlListModel(const QString &, const QString &, QObject *parent = nullptr);
 
     // Header:
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int, Qt::Orientation, int role = Qt::DisplayRole) const override;
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const override;
 
     void refresh();
 private:

@@ -17,7 +17,8 @@
 
 MODULE_IDENTIFICATION("qlog.core.lotw");
 
-Lotw::Lotw(QObject *parent) : QObject(parent)
+Lotw::Lotw(QObject *parent) :
+    QObject(parent)
 {
     FCT_IDENTIFICATION;
 
@@ -26,7 +27,7 @@ Lotw::Lotw(QObject *parent) : QObject(parent)
             this, &Lotw::processReply);
 }
 
-QNetworkReply* Lotw::update(QDate start_date, bool qso_since, QString station_callsign)
+QNetworkReply* Lotw::update(const QDate &start_date, bool qso_since, const QString &station_callsign)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << start_date << " " << qso_since;
@@ -49,7 +50,7 @@ QNetworkReply* Lotw::update(QDate start_date, bool qso_since, QString station_ca
     return get(params);
 }
 
-int Lotw::uploadAdif(QByteArray &data, QString &ErrorString)
+int Lotw::uploadAdif(const QByteArray &data, QString &ErrorString)
 {
     FCT_IDENTIFICATION;
 
@@ -59,7 +60,9 @@ int Lotw::uploadAdif(QByteArray &data, QString &ErrorString)
     file.flush();
 
     ErrorString = "";
-    int ErrorCode = QProcess::execute(getTQSLPath("tqsl") + " -d -q -u " + file.fileName());
+    QStringList args;
+    args << "-d" << "-q" << "-u" << file.fileName();
+    int ErrorCode = QProcess::execute(getTQSLPath("tqsl"),args);
 
     /* list of Error Codes: http://www.arrl.org/command-1 */
     switch ( ErrorCode )
@@ -145,7 +148,7 @@ const QString Lotw::getPassword()
 
 }
 
-const QString Lotw::getTQSLPath(const QString defaultPath)
+const QString Lotw::getTQSLPath(const QString &defaultPath)
 {
     FCT_IDENTIFICATION;
 
@@ -154,7 +157,7 @@ const QString Lotw::getTQSLPath(const QString defaultPath)
     return settings.value("lotw/tqsl", defaultPath).toString();
 }
 
-void Lotw::saveUsernamePassword(const QString newUsername, const QString newPassword)
+void Lotw::saveUsernamePassword(const QString &newUsername, const QString &newPassword)
 {
     FCT_IDENTIFICATION;
 
@@ -173,7 +176,7 @@ void Lotw::saveUsernamePassword(const QString newUsername, const QString newPass
 
 }
 
-void Lotw::saveTQSLPath(const QString newPath)
+void Lotw::saveTQSLPath(const QString &newPath)
 {
     FCT_IDENTIFICATION;
 
@@ -256,7 +259,7 @@ void Lotw::processReply(QNetworkReply* reply)
     QTextStream stream(&tempFile);
     AdiFormat adi(stream);
 
-    connect(&adi, &AdiFormat::progress, [this, size](qint64 position)
+    connect(&adi, &AdiFormat::progress, this, [this, size](qint64 position)
     {
         if ( size > 0 )
         {
@@ -265,7 +268,7 @@ void Lotw::processReply(QNetworkReply* reply)
         }
     });
 
-    connect(&adi, &AdiFormat::QSLMergeFinished, [this](QSLMergeStat stats)
+    connect(&adi, &AdiFormat::QSLMergeFinished, this, [this](QSLMergeStat stats)
     {
         emit updateComplete(stats);
     });

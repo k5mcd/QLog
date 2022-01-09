@@ -29,38 +29,8 @@
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="2">
-       <widget class="QComboBox" name="statTypeSecCombo">
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QComboBox" name="myCallCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="myCalLabel">
-        <property name="text">
-         <string>My Callsign</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="3">
-       <widget class="QComboBox" name="myAntennaCombo">
+      <item row="6" column="2">
+       <widget class="QComboBox" name="myRigCombo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -72,29 +42,38 @@
         </property>
        </widget>
       </item>
-      <item row="9" column="1">
-       <widget class="QLabel" name="rangeLabel">
+      <item row="5" column="3">
+       <widget class="QLabel" name="myAntennaLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
-         <string>Date Range</string>
+         <string>My Antenna</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="4">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="statTypeLabel">
-          <property name="text">
-           <string>Graph Type</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
+      <item row="5" column="1">
+       <widget class="QLabel" name="myGridLabel">
+        <property name="text">
+         <string>My Grid</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QComboBox" name="myGridCombo">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
       </item>
       <item row="3" column="1">
        <widget class="QComboBox" name="statTypeMainCombo">
@@ -133,29 +112,17 @@
           <string>Histogram</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Show on Map</string>
+         </property>
+        </item>
        </widget>
       </item>
-      <item row="6" column="1">
-       <widget class="QComboBox" name="myGridCombo">
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLabel" name="myGridLabel">
-        <property name="text">
-         <string>My Grid</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="2">
-       <widget class="QComboBox" name="myRigCombo">
+      <item row="6" column="0">
+       <widget class="QComboBox" name="myCallCombo">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -164,6 +131,27 @@
          <enum>Qt::ClickFocus</enum>
         </property>
        </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QComboBox" name="statTypeSecCombo">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="4">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="statTypeLabel">
+          <property name="text">
+           <string>Graph Type</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item row="10" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -264,35 +252,6 @@
         </item>
        </layout>
       </item>
-      <item row="9" column="2">
-       <widget class="QLabel" name="bandLabel">
-        <property name="text">
-         <string>Band</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="2">
-       <widget class="QComboBox" name="bandCombo"/>
-      </item>
-      <item row="5" column="3">
-       <widget class="QLabel" name="myAntennaLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>My Antenna</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
       <item row="5" column="2">
        <widget class="QLabel" name="myRigLabel">
         <property name="sizePolicy">
@@ -309,15 +268,137 @@
         </property>
        </widget>
       </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="myCalLabel">
+        <property name="text">
+         <string>My Callsign</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="2">
+       <widget class="QLabel" name="bandLabel">
+        <property name="text">
+         <string>Band</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QComboBox" name="myAntennaCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLabel" name="rangeLabel">
+        <property name="text">
+         <string>Date Range</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="2">
+       <widget class="QComboBox" name="bandCombo"/>
+      </item>
+      <item row="12" column="1" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="confirmedLabel">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Confirmed by:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="lotwCheckBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>LoTW</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="eqslCheckBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>eQSL</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="paperCheckBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Paper</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QChartView" name="graphView"/>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="graphPage">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QChartView" name="graphView"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="mapPage">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QWebEngineView" name="mapView">
+         <property name="url">
+          <url>
+           <string>about:blank</string>
+          </url>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
   <customwidget>
    <class>QChartView</class>
    <extends>QGraphicsView</extends>
@@ -479,6 +560,54 @@
     <hint type="sourcelabel">
      <x>824</x>
      <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>504</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lotwCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>578</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>504</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>eqslCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>737</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>657</x>
+     <y>504</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>paperCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>StatisticsWidget</receiver>
+   <slot>refreshGraph()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>897</x>
+     <y>220</y>
     </hint>
     <hint type="destinationlabel">
      <x>657</x>

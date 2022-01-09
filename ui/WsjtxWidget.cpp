@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QSortFilterProxyModel>
 #include <QScrollBar>
+#include <QMutableListIterator>
 
 #include "WsjtxWidget.h"
 #include "ui_WsjtxWidget.h"
@@ -40,14 +41,14 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
         case 2:
         {
             StationProfile profile = StationProfilesManager::instance()->getCurrent();
-            QString ret = entry.grid;
+            //QString ret = entry.grid;
 
             if ( !profile.locator.isEmpty() )
             {
                 Gridsquare myGrid(profile.locator);
                 double distance;
 
-                if ( myGrid.distanceTo(entry.grid, distance) )
+                if ( myGrid.distanceTo(Gridsquare(entry.grid), distance) )
                 {
                     return round(distance);
                 }
@@ -64,6 +65,14 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
     else if (index.column() == 0 && role == Qt::BackgroundRole)
     {
         return Data::statusToColor(entry.status, QColor(Qt::white));
+    }
+    else if (index.column() > 0 && role == Qt::BackgroundRole)
+    {
+        if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) >= spotPeriod * 0.8)
+            /* -20% time of period because WSTX sends messages in waves and not exactly in time period */
+        {
+            return QColor(Qt::lightGray);
+        }
     }
     else if (index.column() == 0 && role == Qt::TextColorRole)
     {
@@ -131,18 +140,29 @@ void WsjtxTableModel::spotAging()
 
     beginResetModel();
 
-    for (auto entry: wsjtxData )
+    QMutableListIterator<WsjtxEntry> entry(wsjtxData);
+
+    qDebug(runtime)<< "start ";
+
+    while ( entry.hasNext() )
     {
-        if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > spotAgingPeriod )
+        WsjtxEntry current = entry.next();
+
+        qDebug(runtime)<< "entry:" << current.callsign << " " << wsjtxData.indexOf(current);
+
+        if ( current.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) > (3.0 * spotPeriod)*1.2 )
+            /* +20% time of period because WSTX sends messages in waves and not exactly in time period */
         {
-            qCDebug(runtime) << "Removing " << entry.callsign;
-            wsjtxData.removeOne(entry);
+            qCDebug(runtime) << "Removing " << current.callsign;
+            entry.remove();
         }
     }
+
+    qDebug(runtime)<<"end";
     endResetModel();
 }
 
-bool WsjtxTableModel::callsignExists(WsjtxEntry call)
+bool WsjtxTableModel::callsignExists(const WsjtxEntry &call)
 {
     FCT_IDENTIFICATION;
 
@@ -169,16 +189,26 @@ WsjtxDecode WsjtxTableModel::getDecode(QModelIndex idx)
     return wsjtxData.at(idx.row()).decode;
 }
 
-void WsjtxTableModel::setSpotAging(int seconds)
+void WsjtxTableModel::setCurrentSpotPeriod(float period)
 {
     FCT_IDENTIFICATION;
 
-    spotAgingPeriod = seconds;
+    spotPeriod = period;
+}
+
+void WsjtxTableModel::clear()
+{
+    FCT_IDENTIFICATION;
+
+    beginResetModel();
+    wsjtxData.clear();
+    endResetModel();
 }
 
 WsjtxWidget::WsjtxWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::WsjtxWidget)
+    ui(new Ui::WsjtxWidget),
+    lastSelectedCallsign(QString())
 {
     FCT_IDENTIFICATION;
 
@@ -201,7 +231,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     if ( decode.message.startsWith("CQ") )
     {
-        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\/]+) ?([A-Z]{2}[0-9]{2})?.*");
+        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\\/]+) ?([A-Z]{2}[0-9]{2})?.*");
         if ( cqRegExp.exactMatch(decode.message) )
         {
             WsjtxEntry entry;
@@ -242,6 +272,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     ui->tableView->repaint();
 
+    setSelectedCallsign(lastSelectedCallsign);
 }
 
 void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
@@ -251,23 +282,25 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
     if (this->status.dial_freq != newStatus.dial_freq) {
         band = Data::instance()->band(newStatus.dial_freq/1e6).name;
         ui->freqLabel->setText(QString("%1 MHz").arg(newStatus.dial_freq/1e6));
+        wsjtxTableModel->clear();
     }
 
-    if (status.transmitting) {
-        ui->txStatus->setText(tr("Transmitting"));
+    if ( this->status.dx_call != newStatus.dx_call )
+    {
+        lastSelectedCallsign = newStatus.dx_call;
+        setSelectedCallsign(lastSelectedCallsign);
+        emit showDxDetails(newStatus.dx_call, newStatus.dx_grid);
     }
-    else {
-        ui->txStatus->setText(tr("Monitoring"));
+
+    if ( this->status.mode != newStatus.mode )
+    {
+        ui->modeLabel->setText(newStatus.mode);
+        wsjtxTableModel->setCurrentSpotPeriod(Wsjtx::modePeriodLenght(newStatus.mode)); /*currently, only Status has a correct Mode in the message */
     }
 
     status = newStatus;
-
-    ui->modeLabel->setText(status.mode);
-
-    if ( status.mode == "FT8" )
-    {
-        wsjtxTableModel->setSpotAging(55);
-    }
+    wsjtxTableModel->spotAging();
+    ui->tableView->repaint();
 }
 
 void WsjtxWidget::tableViewDoubleClicked(QModelIndex index)
@@ -279,6 +312,26 @@ void WsjtxWidget::tableViewDoubleClicked(QModelIndex index)
     QString grid = wsjtxTableModel->getGrid(source_index);
     emit showDxDetails(callsign, grid);
     emit reply(wsjtxTableModel->getDecode(source_index));
+}
+
+void WsjtxWidget::tableViewClicked(QModelIndex index)
+{
+    FCT_IDENTIFICATION;
+
+    QModelIndex source_index = proxyModel->mapToSource(index);
+    lastSelectedCallsign = wsjtxTableModel->getCallsign(source_index);
+}
+
+void WsjtxWidget::setSelectedCallsign(const QString &selectCallsign)
+{
+    FCT_IDENTIFICATION;
+
+    QModelIndexList nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, selectCallsign, 1);
+
+    if ( nextMatches.size() >= 1 )
+    {
+        ui->tableView->setCurrentIndex(nextMatches.at(0));
+    }
 }
 
 WsjtxWidget::~WsjtxWidget()

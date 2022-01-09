@@ -14,15 +14,15 @@ class Lotw : public QObject
 public:
     explicit Lotw(QObject *parent = nullptr);
 
-    QNetworkReply* update(QDate start_date, bool qso_since, QString stationCallsign);
-    int uploadAdif(QByteArray &data, QString &ErrorString);
+    QNetworkReply* update(const QDate &, bool, const QString &);
+    int uploadAdif(const QByteArray &, QString &);
 
     static const QString getUsername();
     static const QString getPassword();
-    static const QString getTQSLPath(const QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    static const QString getTQSLPath(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    static void saveUsernamePassword(const QString, const QString);
-    static void saveTQSLPath(const QString );
+    static void saveUsernamePassword(const QString&, const QString&);
+    static void saveTQSLPath(const QString&);
 
 signals:
     void updateProgress(int value);

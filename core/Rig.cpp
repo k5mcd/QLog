@@ -50,7 +50,7 @@ static QString modeToString(rmode_t mode, QString &submode) {
     }
 }
 
-static rmode_t stringToMode(QString mode, QString submode)
+static rmode_t stringToMode(const QString &mode, const QString &submode)
 {
     FCT_IDENTIFICATION;
 
@@ -82,7 +82,7 @@ static rmode_t stringToMode(QString mode, QString submode)
 
 }
 
-static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
+static enum serial_handshake_e stringToFlowControl(const QString &in_flowcontrol)
 {
     FCT_IDENTIFICATION;
 
@@ -95,7 +95,7 @@ static enum serial_handshake_e stringToFlowControl(const QString in_flowcontrol)
     return RIG_HANDSHAKE_NONE;
 }
 
-static enum serial_parity_e stringToParity(const QString in_parity)
+static enum serial_parity_e stringToParity(const QString &in_parity)
 {
     FCT_IDENTIFICATION;
 
@@ -121,7 +121,7 @@ Rig* Rig::instance() {
 void Rig::start() {
     FCT_IDENTIFICATION;
 
-    QTimer* timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(500);
 }
@@ -138,6 +138,7 @@ void Rig::update() {
     freq_t vfo_freq;
 
     status = rig_get_freq(rig, RIG_VFO_CURR, &vfo_freq);
+
     if ( status == RIG_OK )
     {
         int new_freq = static_cast<int>(vfo_freq);
@@ -151,16 +152,16 @@ void Rig::update() {
     {
         __closeRig();
          emit rigErrorPresent(QString(tr("Get Frequency Error - ")) + QString(rigerror(status)));
+        timer->start(500);
         rigLock.unlock();
         return;
     }
-
-
 
     pbwidth_t pbwidth;
     rmode_t curr_modeId;
 
     status = rig_get_mode(rig, RIG_VFO_CURR, &curr_modeId, &pbwidth);
+
     if ( status == RIG_OK )
     {
         if ( curr_modeId != modeId )
@@ -177,6 +178,7 @@ void Rig::update() {
     {
         __closeRig();
         emit rigErrorPresent(QString(tr("Get Mode Error - ")) + QString(rigerror(status)));
+        timer->start(500);
         rigLock.unlock();
         return;
     }
@@ -188,7 +190,9 @@ void Rig::update() {
 
     if ( status == RIG_OK )
     {
+
         status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
+
         if (  status == RIG_OK )
         {
             if (rigPower != power) {
@@ -213,7 +217,7 @@ void Rig::update() {
         emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
         */
     }
-
+    timer->start(500);
     rigLock.unlock();
 }
 
@@ -319,12 +323,10 @@ void Rig::setFrequency(double newFreq) {
     rigLock.unlock();
 }
 
-void Rig::setMode(QString newMode, QString newSubMode)
+void Rig::setMode(const QString &newMode, const QString &newSubMode)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters)<<newMode << " " << newSubMode;
-
-    int status = RIG_OK;
 
     if (!rig) return;
 
@@ -334,7 +336,7 @@ void Rig::setMode(QString newMode, QString newSubMode)
 
     if ( new_modeId != RIG_MODE_NONE )
     {
-        status = rig_set_mode(rig, RIG_VFO_CURR, new_modeId, RIG_PASSBAND_NOCHANGE);
+        int status = rig_set_mode(rig, RIG_VFO_CURR, new_modeId, RIG_PASSBAND_NOCHANGE);
 
         if (status != RIG_OK)
         {
@@ -363,4 +365,24 @@ void Rig::setPower(double newPower) {
 
     if (!rig) return;
     power = (int)(newPower*1000);
+}
+
+Rig::Rig(QObject *parent) :
+    QObject(parent),
+    timer(nullptr)
+{
+    FCT_IDENTIFICATION;
+
+    rig = nullptr;
+    freq_rx = 0;
+    power = 0;
+}
+
+Rig::~Rig()
+{
+    if ( timer )
+    {
+        timer->stop();
+        timer->deleteLater();
+    }
 }

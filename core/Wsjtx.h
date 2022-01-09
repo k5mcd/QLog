@@ -123,6 +123,7 @@ class Wsjtx : public QObject
     Q_OBJECT
 public:
     explicit Wsjtx(QObject *parent = nullptr);
+    static float modePeriodLenght(const QString &);
 
 signals:
     void statusReceived(WsjtxStatus);

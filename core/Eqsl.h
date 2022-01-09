@@ -13,38 +13,38 @@ class EQSL : public QObject
 public:
     explicit EQSL(QObject *parent = nullptr);
 
-    QNetworkReply* update(QDate start_date, QString qthNick);
-    QNetworkReply* uploadAdif(QByteArray &data);
+    QNetworkReply* update(QDate, QString);
+    QNetworkReply* uploadAdif(QByteArray &);
     QNetworkReply* getQSLImage(QSqlRecord);
 
     static const QString getUsername();
     static const QString getPassword();
-    static const QString getQSLImageFolder(const QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    static const QString getQSLImageFolder(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 
-    static void saveUsernamePassword(const QString, const QString);
-    static void saveQSLImageFolder(const QString );
+    static void saveUsernamePassword(const QString&, const QString&);
+    static void saveQSLImageFolder(const QString&);
 
 signals:
     void updateProgress(int value);
     void updateStarted();
-    void updateComplete(QSLMergeStat update);
-    void updateFailed(QString error);
+    void updateComplete(QSLMergeStat);
+    void updateFailed(QString);
     void uploadOK(QString);
     void uploadError(QString);
     void QSLImageFound(QString);
     void QSLImageError(QString);
 
 public slots:
-    void processReply(QNetworkReply* reply);
+    void processReply(QNetworkReply*);
 
 private:
     QNetworkAccessManager* nam;
 
-    QNetworkReply* get(QList<QPair<QString, QString>> params);
-    void downloadADIF(QString filename);
-    void downloadImage(QString filename, QString futureFilename);
-    QString QSLImageFilename(QSqlRecord);
-    bool isQSLImageInCache(QSqlRecord qso, QString &fullPath);
+    QNetworkReply* get(QList<QPair<QString, QString>>);
+    void downloadADIF(const QString &);
+    void downloadImage(const QString &, const QString &);
+    QString QSLImageFilename(const QSqlRecord);
+    bool isQSLImageInCache(QSqlRecord, QString &);
 
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;

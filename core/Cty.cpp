@@ -20,7 +20,9 @@
 
 MODULE_IDENTIFICATION("qlog.core.cty");
 
-Cty::Cty() {
+Cty::Cty(QObject *parent) :
+    QObject(parent)
+{
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
@@ -126,9 +128,18 @@ void Cty::deleteDXCCTables()
     FCT_IDENTIFICATION;
     QSqlQuery query;
 
-    query.exec("delete from dxcc_prefixes");
+    if ( ! query.exec("delete from dxcc_prefixes") )
+    {
+        qWarning() << "Cannot delete dxcc_prefixes " << query.lastError();
+
+    }
+
     query.clear();
-    query.exec("delete from dxcc_entities");
+
+    if ( ! query.exec("delete from dxcc_entities") )
+    {
+        qWarning() << "Cannot delete dxcc_entities " << query.lastError();
+    }
 }
 
 void Cty::parseData(QTextStream& data) {
@@ -184,7 +195,7 @@ void Cty::parseData(QTextStream& data) {
         QStringList prefixList = fields.at(9).split(prefixSeperator, QString::SkipEmptyParts);
         qCDebug(runtime) << prefixList;
 
-        for (QString prefix : prefixList) {
+        for (auto &prefix : qAsConst(prefixList)) {
             if (prefixFormat.exactMatch(prefix)) {
                 prefixRecord.clearValues();
                 prefixRecord.setValue("dxcc", dxcc_id);

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Export</string>
+   <string>Export Selected QSOs</string>
   </property>
   <property name="modal">
    <bool>true</bool>

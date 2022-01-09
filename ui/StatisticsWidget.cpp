@@ -12,6 +12,7 @@
 #include "ui_StatisticsWidget.h"
 #include "core/debug.h"
 #include "models/SqlListModel.h"
+#include <core/Gridsquare.h>
 
 MODULE_IDENTIFICATION("qlog.ui.statisticswidget");
 
@@ -62,6 +63,27 @@ void StatisticsWidget::mainStatChanged(int idx)
          ui->statTypeSecCombo->addItem(tr("Distance"));
      }
      break;
+
+     /* Show on Map */
+     case 4:
+     {
+         ui->statTypeSecCombo->addItem(tr("QSOs"));
+         ui->statTypeSecCombo->addItem(tr("Confirmed/Worked Grids"));
+     }
+     break;
+     }
+
+     if ( idx == 4 )
+     {
+         ui->lotwCheckBox->setEnabled(true);
+         ui->eqslCheckBox->setEnabled(true);
+         ui->paperCheckBox->setEnabled(true);
+     }
+     else
+     {
+         ui->lotwCheckBox->setEnabled(false);
+         ui->eqslCheckBox->setEnabled(false);
+         ui->paperCheckBox->setEnabled(false);
      }
 
      ui->statTypeSecCombo->blockSignals(false);
@@ -128,10 +150,12 @@ void StatisticsWidget::refreshGraph()
 
      if ( ui->useDateRangeCheckBox->isChecked() )
      {
-         genericFilter << " (start_time BETWEEN '" + ui->startDateEdit->date().toString("yyyy-MM-dd") + "' AND '" + ui->endDateEdit->date().toString("yyyy-MM-dd") + "' ) ";
+         genericFilter << " (start_time BETWEEN '" + ui->startDateEdit->date().toString("yyyy-MM-dd")
+                          + "' AND '" + ui->endDateEdit->date().toString("yyyy-MM-dd") + "' ) ";
      }
 
-     qCDebug(runtime) << "main " << ui->statTypeMainCombo->currentIndex() << " secondary " << ui->statTypeSecCombo->currentIndex();
+     qCDebug(runtime) << "main " << ui->statTypeMainCombo->currentIndex()
+                      << " secondary " << ui->statTypeSecCombo->currentIndex();
 
      if ( ui->statTypeMainCombo->currentIndex() == 0 )
      {
@@ -213,16 +237,22 @@ void StatisticsWidget::refreshGraph()
          }
              break;
          case 4:
-             stmt = "SELECT mode, COUNT(1) FROM contacts WHERE " + genericFilter.join(" AND ") + " GROUP BY mode ORDER BY mode";
+             stmt = "SELECT mode, COUNT(1) FROM contacts WHERE "
+                     + genericFilter.join(" AND ") + " GROUP BY mode ORDER BY mode";
              break;
          case 5:
-             stmt = "SELECT band, cnt FROM (SELECT band, start_freq, COUNT(1) AS cnt FROM contacts c, bands b WHERE " + genericFilter.join(" AND ") + " AND c.band = b.name GROUP BY band, start_freq) ORDER BY start_freq";
+             stmt = "SELECT band, cnt FROM (SELECT band, start_freq, COUNT(1) AS cnt FROM contacts c, bands b WHERE "
+                    + genericFilter.join(" AND ")
+                    + " AND c.band = b.name GROUP BY band, start_freq) ORDER BY start_freq";
              break;
          case 6:
-             stmt = "SELECT cont, COUNT(1) FROM contacts WHERE " + genericFilter.join(" AND ") + " GROUP BY cont ORDER BY cont";
+             stmt = "SELECT cont, COUNT(1) FROM contacts WHERE "
+                    + genericFilter.join(" AND ")
+                    + " GROUP BY cont ORDER BY cont";
              break;
          case 7:
-             stmt = "SELECT IFNULL(prop_mode, '" + tr("Not specified") + "'), COUNT(1) FROM contacts WHERE " + genericFilter.join(" AND ") + " GROUP BY prop_mode ORDER BY prop_mode";
+             stmt = "SELECT IFNULL(prop_mode, '" + tr("Not specified") + "'), COUNT(1) FROM contacts WHERE "
+                    + genericFilter.join(" AND ") + " GROUP BY prop_mode ORDER BY prop_mode";
              break;
          }
 
@@ -243,7 +273,9 @@ void StatisticsWidget::refreshGraph()
          {
 
          case 0:
-             stmt = "SELECT (1.0 * COUNT(1)/(SELECT COUNT(1) AS total_cnt FROM contacts)) * 100 FROM contacts WHERE " + genericFilter.join(" AND ") + " AND eqsl_qsl_rcvd = 'Y' OR lotw_qsl_rcvd = 'Y' OR qsl_rcvd = 'Y'";
+             stmt = "SELECT (1.0 * COUNT(1)/(SELECT COUNT(1) AS total_cnt FROM contacts)) * 100 FROM contacts WHERE "
+                    + genericFilter.join(" AND ")
+                    + " AND eqsl_qsl_rcvd = 'Y' OR lotw_qsl_rcvd = 'Y' OR qsl_rcvd = 'Y'";
              break;
          }
 
@@ -271,7 +303,9 @@ void StatisticsWidget::refreshGraph()
          switch ( ui->statTypeSecCombo->currentIndex() )
          {
          case 0:
-             stmt = "SELECT d.name, COUNT(1) AS cnt FROM contacts c, dxcc_entities d WHERE " + genericFilter.join(" AND ") + " AND c.dxcc = d.id GROUP BY d.name ORDER BY cnt DESC LIMIT 10";
+             stmt = "SELECT d.name, COUNT(1) AS cnt FROM contacts c, dxcc_entities d WHERE "
+                    + genericFilter.join(" AND ")
+                    + " AND c.dxcc = d.id GROUP BY d.name ORDER BY cnt DESC LIMIT 10";
              break;
          case 1:
              stmt = "SELECT SUBSTR(gridsquare,1,4), COUNT(1) AS cnt FROM contacts WHERE gridsquare IS NOT NULL GROUP by SUBSTR(gridsquare,1,4) ORDER BY cnt DESC LIMIT 10";
@@ -319,6 +353,53 @@ void StatisticsWidget::refreshGraph()
                        + ui->statTypeSecCombo->currentText(),
                        query);
      }
+     else if ( ui->statTypeMainCombo->currentIndex() == 4 )
+     {
+         QStringList confirmed("1=2 ");
+
+         if ( ui->eqslCheckBox->isChecked() )
+         {
+             confirmed << " eqsl_qsl_rcvd = 'Y' ";
+         }
+
+         if ( ui->lotwCheckBox->isChecked() )
+         {
+             confirmed << " lotw_qsl_rcvd = 'Y' ";
+         }
+
+         if ( ui->paperCheckBox->isChecked() )
+         {
+             confirmed << " qsl_rcvd = 'Y' ";
+         }
+
+         QString innerCase = " CASE WHEN (" + confirmed.join("or") + ") THEN 1 ELSE 0 END ";
+
+
+         QString stmtMyLocations = "SELECT DISTINCT my_gridsquare FROM contacts WHERE " + genericFilter.join(" AND ");
+         QSqlQuery myLocations(stmtMyLocations);
+         qCDebug(runtime) << stmtMyLocations;
+
+         drawMyLocationsOnMap(myLocations);
+
+         QString stmt = "SELECT callsign, gridsquare, SUM(confirmed) FROM (SELECT callsign, gridsquare, "
+                        + innerCase +" AS confirmed FROM contacts WHERE gridsquare is not NULL AND "
+                        + genericFilter.join(" AND ") +" ) GROUP BY callsign, gridsquare";
+         QSqlQuery query(stmt);
+         qCDebug(runtime) << stmt;
+
+         switch ( ui->statTypeSecCombo->currentIndex() )
+         {
+         case 0:
+             drawPointsOnMap(query);
+             break;
+
+         case 1:
+             drawFilledGridsOnMap(query);
+             break;
+         }
+
+         ui->stackedWidget->setCurrentIndex(1);
+     }
 }
 
 void StatisticsWidget::dateRangeCheckBoxChanged(int)
@@ -339,9 +420,18 @@ void StatisticsWidget::dateRangeCheckBoxChanged(int)
     refreshGraph();
 }
 
+void StatisticsWidget::mapLoaded(bool)
+{
+    FCT_IDENTIFICATION;
+
+    isMainPageLoaded = true;
+}
+
 StatisticsWidget::StatisticsWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::StatisticsWidget)
+    ui(new Ui::StatisticsWidget),
+    main_page(new QWebEnginePage(this)),
+    isMainPageLoaded(false)
 {
     FCT_IDENTIFICATION;
 
@@ -356,16 +446,22 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
     ui->graphView->setRenderHint(QPainter::Antialiasing);
     ui->graphView->setChart(new QChart());
 
+    ui->mapView->setPage(main_page);
+    main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
+    ui->mapView->setFocusPolicy(Qt::ClickFocus);
+    connect(ui->mapView, &QWebEngineView::loadFinished, this, &StatisticsWidget::mapLoaded);
+
     mainStatChanged(0);
 }
 
 StatisticsWidget::~StatisticsWidget()
 {
     FCT_IDENTIFICATION;
+    main_page->deleteLater();
     delete ui;
 }
 
-void StatisticsWidget::drawBarGraphs(QString title, QSqlQuery query)
+void StatisticsWidget::drawBarGraphs(const QString &title, QSqlQuery &query)
 {
     FCT_IDENTIFICATION;
 
@@ -408,10 +504,11 @@ void StatisticsWidget::drawBarGraphs(QString title, QSqlQuery query)
     chart->legend()->hide();
     chart->setAnimationOptions(QChart::SeriesAnimations);
 
+    ui->stackedWidget->setCurrentIndex(0);
     ui->graphView->setChart(chart);
 }
 
-void StatisticsWidget::drawPieGraph(QString title, QPieSeries *series)
+void StatisticsWidget::drawPieGraph(const QString &title, QPieSeries *series)
 {
     FCT_IDENTIFICATION;
 
@@ -430,5 +527,126 @@ void StatisticsWidget::drawPieGraph(QString title, QPieSeries *series)
     chart->legend()->hide();
     chart->setTitle(title);
 
+    ui->stackedWidget->setCurrentIndex(0);
     ui->graphView->setChart(chart);
+}
+
+void StatisticsWidget::drawMyLocationsOnMap(QSqlQuery &query)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !isMainPageLoaded )
+    {
+        return;
+    }
+
+    if ( query.lastQuery().isEmpty() ) return;
+
+    QList<QString> locations;
+
+    while ( query.next() )
+    {
+        QString loc = query.value(0).toString();
+        Gridsquare stationGrid(loc);
+
+        if ( stationGrid.isValid() )
+        {
+            double lat = stationGrid.getLatitude();
+            double lon = stationGrid.getLongitude();
+            locations.append(QString("[\"%1\", %2, %3]").arg(loc).arg(lat).arg(lon));
+        }
+    }
+
+    QString javaScript = QString("grids_confirmed = [];"
+                                 "grids_worked = [];"
+                                 "if ( typeof myLocGroup !== 'undefined' ) { map.removeLayer(myLocGroup)};"
+                                 " var myLocGroup = L.layerGroup().addTo(map); "
+                                 " mylocations = [ %1 ]; "
+                                 " for (var i = 0; i < mylocations.length; i++) { "
+                                 "   myLocGroup.addLayer(L.marker([mylocations[i][1], mylocations[i][2]],{icon: homeIcon}) "
+                                 "   .bindPopup(mylocations[i][0])); }"
+                                 "maidenheadConfWorked.redraw();").arg(locations.join(","));
+
+    qCDebug(runtime) << javaScript;
+
+    main_page->runJavaScript(javaScript);
+}
+
+void StatisticsWidget::drawPointsOnMap(QSqlQuery &query)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !isMainPageLoaded )
+    {
+        return;
+    }
+
+    if ( query.lastQuery().isEmpty() ) return;
+
+    QList<QString> stations;
+
+    while ( query.next() )
+    {
+        Gridsquare stationGrid(query.value(1).toString());
+
+        if ( stationGrid.isValid() )
+        {
+            double lat = stationGrid.getLatitude();
+            double lon = stationGrid.getLongitude();
+            stations.append(QString("[\"%1\", %2, %3, %4]").arg(query.value(0).toString()).arg(lat).arg(lon).arg(query.value(2).toInt()));
+        }
+    }
+
+    QString javaScript = QString("grids_confirmed = [];"
+                                 "grids_worked = [];"
+                                 "if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
+                                 " var QSOGroup = L.layerGroup().addTo(map); "
+                                 " locations = [ %1 ]; "
+                                 " for (var i = 0; i < locations.length; i++) { "
+                                 "   QSOGroup.addLayer(L.marker([locations[i][1], locations[i][2]],{icon: (locations[i][3] > 0) ? greenIcon: yellowIcon}) "
+                                 "   .bindPopup(locations[i][0])); }"
+                                 "maidenheadConfWorked.redraw();").arg(stations.join(","));
+
+    qCDebug(runtime) << javaScript;
+
+    main_page->runJavaScript(javaScript);
+}
+
+void StatisticsWidget::drawFilledGridsOnMap(QSqlQuery &query)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !isMainPageLoaded )
+    {
+        return;
+    }
+
+    if ( query.lastQuery().isEmpty() ) return;
+
+    QList<QString> confirmedGrids;
+    QList<QString> workedGrids;
+
+    while ( query.next() )
+    {
+        if ( query.value(2).toInt() > 0 && ! confirmedGrids.contains(query.value(1).toString()) )
+        {
+            confirmedGrids << QString("\"" + query.value(1).toString() + "\"");
+        }
+        else
+        {
+            workedGrids << QString("\"" + query.value(1).toString() + "\"");
+        }
+    }
+
+    QString javaScript = QString(" grids_confirmed = [ %1 ]; "
+                                 " grids_worked = [ %2 ];"
+                                 " mylocations = [];"
+                                 " locations = [];"
+                                 "if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
+                                 "maidenheadConfWorked.redraw();").arg(confirmedGrids.join(","), workedGrids.join(","));
+
+    qCDebug(runtime) << javaScript;
+
+    main_page->runJavaScript(javaScript);
+
 }

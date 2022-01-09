@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSqlQuery>
 #include <QPieSeries>
+#include <QWebEngineView>
 
 namespace Ui {
 class StatisticsWidget;
@@ -19,17 +20,24 @@ public slots:
     void mainStatChanged(int);
     void refreshGraph();
     void dateRangeCheckBoxChanged(int);
+    void mapLoaded(bool);
+
 
 public:
     explicit StatisticsWidget(QWidget *parent = nullptr);
     ~StatisticsWidget();
 
 private:
-    void drawBarGraphs(QString title, QSqlQuery query);
-    void drawPieGraph(QString title, QPieSeries* series);
+    void drawBarGraphs(const QString &title, QSqlQuery &query);
+    void drawPieGraph(const QString &title, QPieSeries* series);
+    void drawMyLocationsOnMap(QSqlQuery &);
+    void drawPointsOnMap(QSqlQuery&);
+    void drawFilledGridsOnMap(QSqlQuery&);
 
 private:
     Ui::StatisticsWidget *ui;
+    QWebEnginePage *main_page;
+    bool isMainPageLoaded;
 };
 
 #endif // STATISTICSWIDGET_H

@@ -75,7 +75,7 @@ void QRZ::cancelUploadContacts()
 }
 
 
-QNetworkReply *QRZ::uploadContact(const QSqlRecord record)
+QNetworkReply *QRZ::uploadContact(const QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
 
@@ -95,11 +95,10 @@ QNetworkReply *QRZ::uploadContact(const QSqlRecord record)
     return reply;
 }
 
-QNetworkReply *QRZ::actionInsert(QByteArray& data, QString insertPolicy)
+QNetworkReply *QRZ::actionInsert(QByteArray& data, const QString &insertPolicy)
 {
     FCT_IDENTIFICATION;
 
-    QString username = getUsername();
     QString logbookAPIKey = getLogbookAPIKey();
 
     QUrlQuery params;
@@ -124,7 +123,7 @@ QNetworkReply *QRZ::actionInsert(QByteArray& data, QString insertPolicy)
 }
 
 
-void QRZ::uploadContacts(const QList<QSqlRecord> qsos)
+void QRZ::uploadContacts(const QList<QSqlRecord> &qsos)
 {
     FCT_IDENTIFICATION;
 
@@ -173,7 +172,7 @@ const QString QRZ::getLogbookAPIKey()
                                                        QRZ::CONFIG_USERNAME_API_CONST).toString());
 }
 
-void QRZ::saveUsernamePassword(const QString newUsername, const QString newPassword)
+void QRZ::saveUsernamePassword(const QString &newUsername, const QString &newPassword)
 {
     FCT_IDENTIFICATION;
 
@@ -193,7 +192,7 @@ void QRZ::saveUsernamePassword(const QString newUsername, const QString newPassw
                                               newPassword);
 }
 
-void QRZ::saveLogbookAPI(const QString newKey)
+void QRZ::saveLogbookAPI(const QString &newKey)
 {
     FCT_IDENTIFICATION;
 
@@ -465,7 +464,7 @@ void QRZ::processReply(QNetworkReply* reply) {
     reply->deleteLater();
 }
 
-QMap<QString, QString> QRZ::parseActionResponse(const QString reponseString)
+QMap<QString, QString> QRZ::parseActionResponse(const QString &reponseString)
 {
     FCT_IDENTIFICATION;
 
@@ -476,7 +475,7 @@ QMap<QString, QString> QRZ::parseActionResponse(const QString reponseString)
 
     parsedResponse << reponseString.split("&");
 
-    for (auto param : parsedResponse)
+    for (auto &param : qAsConst(parsedResponse))
     {
         QStringList parsedParams;
         parsedParams << param.split("=");

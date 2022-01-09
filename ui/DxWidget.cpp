@@ -346,7 +346,7 @@ void DxWidget::send() {
     FCT_IDENTIFICATION;
 
     QByteArray data;
-    data.append(ui->commandEdit->text());
+    data.append(ui->commandEdit->text().toLatin1());
     data.append("\r\n");
 
     socket->write(data);
@@ -395,12 +395,12 @@ void DxWidget::receive() {
             QRegExp commentRegExp(" (.*) ([0-9]{4})Z");
             index = commentRegExp.indexIn(line, index);
             QString comment = commentRegExp.cap(1).trimmed();
-            QString time = commentRegExp.cap(2);
+            //QString time = commentRegExp.cap(2);
 
             DxccEntity dxcc = Data::instance()->lookupDxcc(call);
             DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
 
-            QString country = dxcc.country;
+            //QString country = dxcc.country;
 
             DxSpot spot;
             spot.time = QDateTime::currentDateTimeUtc().time(); //QTime::currentTime();

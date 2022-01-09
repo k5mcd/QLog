@@ -18,7 +18,7 @@ CredentialStore* CredentialStore::instance()
     return &instance;
 }
 
-int CredentialStore::savePassword(QString storage_key, QString user, QString pass)
+int CredentialStore::savePassword(const QString &storage_key, QString user, const QString &pass)
 {
     FCT_IDENTIFICATION;
 
@@ -59,7 +59,7 @@ int CredentialStore::savePassword(QString storage_key, QString user, QString pas
     return 0;
 }
 
-QString CredentialStore::getPassword(QString storage_key, QString user)
+QString CredentialStore::getPassword(const QString &storage_key, QString user)
 {
     FCT_IDENTIFICATION;
 
@@ -101,7 +101,7 @@ QString CredentialStore::getPassword(QString storage_key, QString user)
     return pass;
 }
 
-void CredentialStore::deletePassword(QString storage_key, QString user)
+void CredentialStore::deletePassword(const QString &storage_key, QString user)
 {
     FCT_IDENTIFICATION;
 

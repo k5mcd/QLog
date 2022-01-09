@@ -12,7 +12,7 @@ class Sat : public QObject {
     Q_OBJECT
 
 public:
-    Sat();
+    Sat(QObject *parent = nullptr);
     ~Sat();
 
     static int MAX_ENTITIES;

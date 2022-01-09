@@ -18,20 +18,21 @@ public slots:
     void open();
     void close();
 
-    void setFrequency(double freq);
-    void setMode(QString mod, QString submode);
-    void setPower(double power);
+    void setFrequency(double);
+    void setMode(const QString &, const QString &);
+    void setPower(double);
 
 signals:
-    void frequencyChanged(double freq);
-    void modeChanged(QString mode, QString submode);
-    void powerChanged(double power);
+    void frequencyChanged(double);
+    void modeChanged(QString, QString);
+    void powerChanged(double);
     void rigErrorPresent(QString);
 
 private:
-    Rig() { }
+    Rig(QObject *parent = nullptr);
 
     Rig(Rig const&);
+    ~Rig();
     void operator=(Rig const&);
 
     void __closeRig();
@@ -40,6 +41,7 @@ private:
     rmode_t modeId;
     unsigned int power;
     QMutex rigLock;
+    QTimer* timer;
 };
 
 #endif // RIG_H

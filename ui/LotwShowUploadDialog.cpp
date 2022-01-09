@@ -2,7 +2,7 @@
 #include "ui_LotwShowUploadDialog.h"
 #include <QPushButton>
 
-LotwShowUploadDialog::LotwShowUploadDialog(QString qsoList, QWidget *parent) :
+LotwShowUploadDialog::LotwShowUploadDialog(const QString &qsoList, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LotwShowUploadDialog)
 {

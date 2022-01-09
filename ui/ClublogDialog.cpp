@@ -115,7 +115,7 @@ void ClublogDialog::upload()
 
             ClubLog *clublog = new ClubLog(dialog);
 
-            connect(clublog, &ClubLog::uploadOK, [this, dialog, query_where, count](QString msg)
+            connect(clublog, &ClubLog::uploadOK, this, [this, dialog, query_where, count](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "Clublog Upload OK: " << msg;
@@ -130,7 +130,7 @@ void ClublogDialog::upload()
                 query_update.exec();
             });
 
-            connect(clublog, &ClubLog::uploadError, [this, dialog](QString msg)
+            connect(clublog, &ClubLog::uploadError, this, [this, dialog](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "Clublog Upload Error: " << msg;
@@ -139,7 +139,7 @@ void ClublogDialog::upload()
 
             QNetworkReply *reply = clublog->uploadAdif(data);
 
-            connect(dialog, &QProgressDialog::canceled, [reply]()
+            connect(dialog, &QProgressDialog::canceled, this, [reply]()
             {
                 qCDebug(runtime)<< "Operation canceled";
                 if ( reply )
@@ -159,7 +159,7 @@ void ClublogDialog::upload()
 
 
 
-void ClublogDialog::uploadCallsignChanged(QString my_callsign)
+void ClublogDialog::uploadCallsignChanged(const QString &my_callsign)
 {
     FCT_IDENTIFICATION;
 

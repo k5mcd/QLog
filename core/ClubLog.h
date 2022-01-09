@@ -17,8 +17,8 @@ public:
     static const QString getRegisteredCallsign();
     static const QString getPassword();
 
-    static void saveRegistredCallsign(const QString);
-    static void saveUsernamePassword(const QString, const QString);
+    static void saveRegistredCallsign(const QString &);
+    static void saveUsernamePassword(const QString &, const QString &);
 
 signals:
     void uploadOK(QString);
