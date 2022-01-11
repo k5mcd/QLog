@@ -32,6 +32,8 @@ private:
 private:
     void loadFilter(QString filterName);
     bool filterExists(QString filterName);
+    bool isDateField(int index);
+    bool isDateTimeField(int index);
 };
 
 #endif // QSOFILTERDETAIL_H

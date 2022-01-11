@@ -3,6 +3,8 @@
 #include <QSqlRecord>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QDateTimeEdit>
+#include <QStackedWidget>
 #include "QSOFilterDetail.h"
 #include "ui_QSOFilterDetail.h"
 #include "core/debug.h"
@@ -118,14 +120,87 @@ void QSOFilterDetail::addCondition(int fieldIdx, int operatorId, QString value)
     /**************/
     /* Value Edit */
     /**************/
-    QLineEdit* valueEdit = new QLineEdit();
-    valueEdit->setObjectName(QString::fromUtf8("valueEdit%1").arg(condCount));
 
-    if ( ! value.isEmpty() )
+    // Preparing Line Edit
+    QLineEdit* valueEdit = new QLineEdit();
+    valueEdit->setObjectName(QString::fromUtf8("valueLineEdit%1").arg(condCount));
+
+    // Preparing Date Edit
+    QDateEdit* valueDate = new QDateEdit();
+    valueDate->setObjectName(QString::fromUtf8("valueDateEdit%1").arg(condCount));
+    valueDate->setFocusPolicy(Qt::ClickFocus);
+    valueDate->setCalendarPopup(true);
+    valueDate->setTimeSpec(Qt::UTC);
+
+    // Preparing DateTime Edit
+    QDateTimeEdit* valueDateTime = new QDateTimeEdit();
+    valueDateTime->setObjectName(QString::fromUtf8("valueDateTimeEdit%1").arg(condCount));
+    valueDateTime->setFocusPolicy(Qt::ClickFocus);
+    valueDateTime->setCalendarPopup(true);
+    valueDateTime->setTimeSpec(Qt::UTC);
+
+    // use stack to change Line and Date Edit - it will depend on column from combo selection
+    QStackedWidget* stacked = new QStackedWidget();
+    stacked->setObjectName(QString::fromUtf8("stackedValueEdit%1").arg(condCount));
+    stacked->setMaximumSize(QSize(16777215, 30));
+    stacked->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+
+    stacked->addWidget(valueEdit);
+    stacked->addWidget(valueDate);
+    stacked->addWidget(valueDateTime);
+
+    QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    sizePolicy.setHorizontalStretch(0);
+    sizePolicy.setVerticalStretch(0);
+
+    stacked->setSizePolicy(sizePolicy);
+    valueEdit->setSizePolicy(sizePolicy);
+    valueDate->setSizePolicy(sizePolicy);
+    valueDateTime->setSizePolicy(sizePolicy);
+
+    conditionLayout->addWidget(stacked);
+
+    if ( !value.isEmpty() )
     {
-        valueEdit->setText(value);
+        if ( isDateField(fieldIdx) )
+        {
+            valueDate->setDate(QDate::fromString(value, "yyyy-MM-dd"));
+            stacked->setCurrentIndex(1); //Date Edit
+
+        }
+        else if ( isDateTimeField(fieldIdx) )
+        {
+            valueDateTime->setDateTime(QDateTime::fromString(value, "yyyy-MM-ddTHH:mm"));
+            stacked->setCurrentIndex(2); //DateTime Edit
+        }
+        else
+        {
+            valueEdit->setText(value);
+            stacked->setCurrentIndex(0); //Date Edit
+        }
     }
-    conditionLayout->addWidget(valueEdit);
+
+
+    // connect field combo and stacked widged to switch correct Edit Widget
+    connect(fieldNameCombo, QOverload<int>::of(&QComboBox::activated),
+            this, [this, stacked, value](int index)
+    {
+        /* Index is mapped the same way as LogbookModel columns
+           Therefore, we can use Column aliases here
+         */
+        if ( this->isDateField(index) )
+        {
+            stacked->setCurrentIndex(1); //Date Edit
+        }
+        else if ( this->isDateTimeField(index) )
+        {
+            stacked->setCurrentIndex(2); //DateTime edit
+        }
+        else
+        {
+            stacked->setCurrentIndex(0); //Date Edit
+        }
+    });
 
     /*****************/
     /* Remove Button */
@@ -197,6 +272,34 @@ bool QSOFilterDetail::filterExists(QString filterName)
     qCDebug(function_parameters) << filterName;
 
     return filterNamesList.contains(filterName);
+}
+
+bool QSOFilterDetail::isDateField(int index)
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = (    index == LogbookModel::COLUMN_QSL_RCVD_DATE
+                 || index == LogbookModel::COLUMN_QSL_SENT_DATE
+                 || index == LogbookModel::COLUMN_LOTW_RCVD_DATE
+                 || index == LogbookModel::COLUMN_LOTW_SENT_DATE
+                 || index == LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_DATE
+                 || index == LogbookModel::COLUMN_EQSL_QSLRDATE
+                 || index == LogbookModel::COLUMN_EQSL_QSLSDATE
+                 || index == LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_DATE );
+
+    qCDebug(function_parameters) << index << " return " << ret;
+    return ret;
+}
+
+bool QSOFilterDetail::isDateTimeField(int index)
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = (    index == LogbookModel::COLUMN_TIME_ON
+                 || index == LogbookModel::COLUMN_TIME_OFF );
+
+    qCDebug(function_parameters) << index << " return " << ret;
+    return ret;
 }
 
 void QSOFilterDetail::save()
@@ -271,14 +374,40 @@ void QSOFilterDetail::save()
                         conditionIdx = dynamic_cast<QComboBox*>(condition->itemAt(i)->widget())->currentIndex();
                     }
 
-                    if ( objectName.contains("valueEdit") )
+                    if ( objectName.contains("stackedValueEdit") )
                     {
-                        QLineEdit* editLine = dynamic_cast<QLineEdit*>(condition->itemAt(i)->widget());
-                        valueString = editLine->text();
-                        if ( valueString.isEmpty() )
+                        QStackedWidget* editStack = dynamic_cast<QStackedWidget*>(condition->itemAt(i)->widget());
+
+                        QWidget* stackedEdit = editStack->currentWidget();
+
+                        if ( stackedEdit )
                         {
-                            editLine->setPlaceholderText(tr("Must not be empty"));
-                            return;
+                            QString stacketEditObjName = stackedEdit->objectName();
+
+                            if ( stacketEditObjName.contains("valueLineEdit") )
+                            {
+                                QLineEdit* editLine = dynamic_cast<QLineEdit*>(stackedEdit);
+                                valueString = editLine->text();
+                                if ( valueString.isEmpty() )
+                                {
+                                    editLine->setPlaceholderText(tr("Must not be empty"));
+                                    return;
+                                }
+                            }
+                            else if ( stacketEditObjName.contains("valueDateEdit") )
+                            {
+                                QDateEdit* dateTimeEdit = dynamic_cast<QDateEdit*>(stackedEdit);
+                                valueString = dateTimeEdit->date().toString(Qt::ISODate);
+                            }
+                            else if ( stacketEditObjName.contains("valueDateTimeEdit") )
+                            {
+                                QDateTimeEdit* dateEdit = dynamic_cast<QDateTimeEdit*>(stackedEdit);
+                                valueString = dateEdit->dateTime().toString("yyyy-MM-ddTHH:mm");
+                            }
+                        }
+                        else
+                        {
+                            qCCritical(runtime) << "Unexpected empty Stack - null pointer";
                         }
                     }
                 }
