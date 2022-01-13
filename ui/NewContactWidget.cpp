@@ -55,6 +55,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     QSqlTableModel* modeModel = new QSqlTableModel();
     modeModel->setTable("modes");
     modeModel->setFilter("enabled = true");
+    modeModel->setSort(modeModel->fieldIndex("name"), Qt::AscendingOrder);
     ui->modeEdit->setModel(modeModel);
     ui->modeEdit->setModelColumn(modeModel->fieldIndex("name"));
     modeModel->select();
