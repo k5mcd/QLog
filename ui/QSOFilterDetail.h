@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include <QHBoxLayout>
+#include <QComboBox>
+#include <QDateEdit>
+#include <QDateTimeEdit>
 #include "models/LogbookModel.h"
 
 namespace Ui {
@@ -34,6 +37,18 @@ private:
     bool filterExists(QString filterName);
     bool isDateField(int index);
     bool isDateTimeField(int index);
+    bool isQSLSentField(int index);
+    bool isQSLSentViaField(int index);
+    bool isQSLRcvdField(int index);
+    bool isUploadStatusField(int index);
+    bool isAntPathField(int index);
+    bool isBoolField(int index);
+    bool isQSOCompleteField(int index);
+    QComboBox* createComboBox(const QMap<QString, QString>&, const QString&,
+                              const int identifier, const QSizePolicy&);
+    QDateEdit* createDateEdit(const QString&, const int, const QSizePolicy&);
+    QDateTimeEdit* createDateTimeEdit(const QString&, const int, const QSizePolicy&);
+    QLineEdit* createLineEdit(const QString&, const int, const QSizePolicy&);
 };
 
 #endif // QSOFILTERDETAIL_H

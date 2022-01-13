@@ -47,49 +47,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
             this, &LogbookWidget::showTableHeaderContextMenu);
     connect(ui->contactTable, &QTableQSOView::dataCommitted, this, &LogbookWidget::updateTable);
 
-    QMap<QString, QString> qslSentEnum;
-    qslSentEnum["Y"] = tr("Yes");
-    qslSentEnum["N"] = tr("No");
-    qslSentEnum["R"] = tr("Requested");
-    qslSentEnum["Q"] = tr("Queued");
-    qslSentEnum["I"] = tr("Invalid");
-
-    QMap<QString, QString> qslSentViaEnum;
-    qslSentViaEnum["B"] = tr("Bureau");
-    qslSentViaEnum["D"] = tr("Direct");
-    qslSentViaEnum["E"] = tr("Electronic");
-    qslSentViaEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> qslRcvdEnum;
-    qslRcvdEnum["Y"] = tr("Yes");
-    qslRcvdEnum["N"] = tr("No");
-    qslRcvdEnum["R"] = tr("Requested");
-    qslRcvdEnum["I"] = tr("Invalid");
-
-    QMap<QString, QString> uploadStatusEnum;
-    uploadStatusEnum["Y"] = tr("Yes");
-    uploadStatusEnum["N"] = tr("No");
-    uploadStatusEnum["M"] = tr("Modified");
-    uploadStatusEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> antPathEnum;
-    antPathEnum["G"] = tr("Grayline");
-    antPathEnum["O"] = tr("Other");
-    antPathEnum["S"] = tr("Short Path");
-    antPathEnum["L"] = tr("Long Path");
-    antPathEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> boolEnum;
-    boolEnum["Y"] = tr("Yes");
-    boolEnum["N"] = tr("No");
-    boolEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> qsoCompleteEnum;
-    qsoCompleteEnum["Y"] = tr("Yes");
-    qsoCompleteEnum["N"] = tr("No");
-    qsoCompleteEnum["Nil"] = tr("Not Heard");
-    qsoCompleteEnum["?"] = tr("uncertain");
-    qsoCompleteEnum[" "] = tr("No Value");
+    DEFINE_CONTACT_FIELDS_ENUMS;
 
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_ON, new TimestampFormatDelegate(ui->contactTable));
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_OFF, new TimestampFormatDelegate(ui->contactTable));
@@ -400,7 +358,7 @@ void LogbookWidget::updateTable()
     {
         QSqlQuery userFilterQuery;
         if ( ! userFilterQuery.prepare("SELECT "
-                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || o.sql_operator || ' (' || quote(case o.sql_operator when 'like' THEN '%' || r.value || '%' WHEN 'not like' THEN '%' || r.value || '%' ELSE r.value END)  || ') ', m.sql_operator) || ')' "
+                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || case when r.value is NULL and o.sql_operator IN ('=', 'like') THEN 'IS' when r.value is NULL and r.operator_id NOT IN ('=', 'like') THEN 'IS NOT' ELSE o.sql_operator END || ' (' || quote(case o.sql_operator when 'like' THEN '%' || r.value || '%' WHEN 'not like' THEN '%' || r.value || '%' ELSE r.value END)  || ') ', m.sql_operator) || ')' "
                                 "FROM qso_filters f, qso_filter_rules r, "
                                 "qso_filter_operators o, qso_filter_matching_types m, "
                                 "PRAGMA_TABLE_INFO('contacts') c "
