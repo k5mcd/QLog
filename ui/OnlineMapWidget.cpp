@@ -25,6 +25,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
     connect(this, &OnlineMapWidget::loadFinished, this, &OnlineMapWidget::finishLoading);
 
     setFocusPolicy(Qt::ClickFocus);
+    setContextMenuPolicy(Qt::NoContextMenu);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)

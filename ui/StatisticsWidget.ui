@@ -367,7 +367,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="graphPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -380,6 +380,9 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QWebEngineView" name="mapView">
+         <property name="contextMenuPolicy">
+          <enum>Qt::NoContextMenu</enum>
+         </property>
          <property name="url">
           <url>
            <string>about:blank</string>
