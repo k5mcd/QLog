@@ -94,6 +94,27 @@ void LogFormat::setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord
     duplicateQSOFunc = func;
 }
 
+QString LogFormat::removeAccents(const QString &input)
+{
+    FCT_IDENTIFICATION;
+    /* http://archives.miloush.net/michkap/archive/2007/05/14/2629747.html */
+    /* https://www.medo64.com/2020/10/stripping-diacritics-in-qt/ */
+    /* More about normalization https://unicode.org/reports/tr15/ */
+
+    QString formD = input.normalized(QString::NormalizationForm_D);
+
+    QString filtered;
+    for (int i = 0; i < formD.length(); i++)
+    {
+        if (formD.at(i).category() != QChar::Mark_NonSpacing)
+        {
+            filtered.append(formD.at(i));
+        }
+    }
+
+    return filtered.normalized(QString::NormalizationForm_C);
+}
+
 void LogFormat::runImport() {
     FCT_IDENTIFICATION;
 

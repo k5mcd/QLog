@@ -205,11 +205,18 @@ void AdiFormat::writeField(const QString &name, const QString &value, const QStr
 
     qCDebug(function_parameters)<<name<< " " << value << " " << type;
 
-    if (value.isEmpty()) return;
-    stream << "<" << name << ":" << value.size();
+    /* ADIF does not support UTF-8 characterset therefore the Accents are remove */
+    QString accentless(removeAccents(value));
+
+    qCDebug(runtime) << "Accentless: " << accentless;
+
+    if ( value.isEmpty() || accentless.isEmpty() ) return;
+
+    stream << "<" << name << ":" << accentless.size();
+
     if (!type.isEmpty()) stream << ":" << type;
-    stream << ">" << value << '\n';
-    // TODO: handle unicode values
+
+    stream << ">" << accentless << '\n';
 }
 
 void AdiFormat::readField(QString& field, QString& value) {
