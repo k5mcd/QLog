@@ -6,6 +6,7 @@
 #include "core/Cty.h"
 #include "core/Sat.h"
 #include "debug.h"
+#include "data/Data.h"
 
 MODULE_IDENTIFICATION("qlog.core.migration");
 
@@ -121,6 +122,8 @@ bool Migration::migrate(int toVersion) {
     QString migration_file = QString(":/res/sql/migration_%1.sql").arg(toVersion, 3, 10, QChar('0'));
     bool result = runSqlFile(migration_file);
 
+    result = result && functionMigration(toVersion);
+
     if (result && setVersion(toVersion) && db.commit()) {
         return true;
     }
@@ -160,6 +163,23 @@ bool Migration::runSqlFile(QString filename) {
     }
 
     return true;
+}
+
+bool Migration::functionMigration(int version)
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = false;
+    switch ( version )
+    {
+    case 4:
+        ret = fixIntlFields();
+        break;
+    default:
+        ret = true;
+    }
+
+    return ret;
 }
 
 int Migration::tableRows(QString name) {
@@ -238,4 +258,98 @@ bool Migration::updateExternalResource() {
         }
     }
     return true;
+}
+
+/* Fixing error when QLog stored UTF characters to non-Intl field of ADIF (contact) table */
+/* The fix has two steps
+ * 1) Update contact to move all non-intl to intl fields
+ * 2) transform intl field to non-intl field by calloni removeAccents
+ */
+bool Migration::fixIntlFields()
+{
+    FCT_IDENTIFICATION;
+
+    QSqlQuery query;
+    QSqlQuery update;
+
+    if ( !query.prepare( "SELECT id, name, name_intl, "
+                         "           qth, qth_intl, "
+                         "           comment, comment_intl, "
+                         "           my_antenna, my_antenna_intl,"
+                         "           my_city, my_city_intl,"
+                         "           my_rig, my_rig_intl,"
+                         "           my_sig, my_sig_intl,"
+                         "           my_sig_info, my_sig_info_intl,"
+                         "           sig, sig_intl,"
+                         "           sig_info, sig_info_intl "
+                         " FROM contacts" ) )
+    {
+        qWarning()<< " Cannot prepare a migration script - fixIntlField 1";
+        return false;
+    }
+
+    if( !query.exec() )
+    {
+        qWarning()<< "Cannot exec a migration script - fixIntlFields 1";
+        return false;
+    }
+
+    if ( !update.prepare("UPDATE contacts SET name    = :name,"
+                         "                    qth     = :qth, "
+                         "                    comment = :comment,"
+                         "                    my_antenna = :my_antenna,"
+                         "                    my_city = :my_city,"
+                         "                    my_rig = :my_rig,"
+                         "                    my_sig = :my_sig,"
+                         "                    my_sig_info = :my_sig_info,"
+                         "                    sig = :sig,"
+                         "                    sig_info = :sig_info "
+                         "WHERE id = :id") )
+    {
+        qWarning()<< " Cannot prepare a migration script - fixIntlField 2";
+        return false;
+    }
+
+    while( query.next() )
+    {
+        update.bindValue(":id", query.value("id").toInt());
+        update.bindValue(":name",       fixIntlField(query, "name", "name_intl"));
+        update.bindValue(":qth",        fixIntlField(query, "qth", "qth_intl"));
+        update.bindValue(":comment",    fixIntlField(query, "comment", "comment_intl"));
+        update.bindValue(":my_antenna", fixIntlField(query, "my_antenna", "my_antenna_intl"));
+        update.bindValue(":my_city",    fixIntlField(query, "my_city", "my_city_intl"));
+        update.bindValue(":my_rig",     fixIntlField(query, "my_rig", "my_rig_intl"));
+        update.bindValue(":my_sig",     fixIntlField(query, "my_sig", "my_sig_intl"));
+        update.bindValue(":my_sig_info",fixIntlField(query, "my_sig_info", "my_sig_info_intl"));
+        update.bindValue(":sig",        fixIntlField(query, "sig", "sig_intl"));
+        update.bindValue(":sig_info",   fixIntlField(query, "sig_info", "sig_info_intl"));
+
+        if ( !update.exec())
+        {
+            qWarning() << "Cannot exec a migration script - fixIntlFields 2";
+            return false;
+        }
+    }
+
+    return true;
+}
+
+QString Migration::fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl)
+{
+    FCT_IDENTIFICATION;
+
+    QString retValue;
+
+    QString fieldValue = query.value(columName).toString();
+
+    if ( !fieldValue.isEmpty() )
+    {
+        retValue = Data::removeAccents(fieldValue);
+    }
+    else
+    {
+        retValue = Data::removeAccents(query.value(columnNameIntl).toString());
+    }
+
+    return retValue;
 }

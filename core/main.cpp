@@ -153,6 +153,7 @@ static bool migrateDatabase() {
 
     Migration m;
     return m.run();
+
 }
 
 static void startRigThread() {

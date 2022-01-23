@@ -213,7 +213,8 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     if ( !log.name.isEmpty() )
     {
-        record.setValue("name", log.name);
+        record.setValue("name", Data::removeAccents(log.name));
+        record.setValue("name_intl", log.name);
     }
 
     if ( !log.dx_grid.isEmpty() )
@@ -238,7 +239,8 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     if ( !log.comments.isEmpty() )
     {
-        record.setValue("comment", log.comments);
+        record.setValue("comment", Data::removeAccents(log.comments));
+        record.setValue("comment_intl", log.comments);
     }
 
     if ( !log.exch_sent.isEmpty() )
@@ -263,7 +265,7 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     if ( !log.op_call.isEmpty() )
     {
-        record.setValue("operator", log.op_call);
+        record.setValue("operator", Data::removeAccents(log.op_call));
     }
 
     if ( !log.my_grid.isEmpty() )

@@ -22,11 +22,11 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_BAND, Qt::Horizontal, tr("Band"));
     setHeaderData(COLUMN_MODE, Qt::Horizontal, tr("Mode"));
     setHeaderData(COLUMN_SUBMODE, Qt::Horizontal, tr("Submode"));
-    setHeaderData(COLUMN_NAME, Qt::Horizontal, tr("Name"));
-    setHeaderData(COLUMN_QTH, Qt::Horizontal, tr("QTH"));
+    setHeaderData(COLUMN_NAME, Qt::Horizontal, tr("Name (ASCII)"));
+    setHeaderData(COLUMN_QTH, Qt::Horizontal, tr("QTH (ASCII)"));
     setHeaderData(COLUMN_GRID, Qt::Horizontal, tr("Gridsquare"));
     setHeaderData(COLUMN_DXCC, Qt::Horizontal, tr("DXCC"));
-    setHeaderData(COLUMN_COUNTRY, Qt::Horizontal, tr("Country"));
+    setHeaderData(COLUMN_COUNTRY, Qt::Horizontal, tr("Country (ASCII)"));
     setHeaderData(COLUMN_CONTINENT, Qt::Horizontal, tr("Continent"));
     setHeaderData(COLUMN_CQZ, Qt::Horizontal, tr("CQZ"));
     setHeaderData(COLUMN_ITUZ, Qt::Horizontal, tr("ITU"));
@@ -59,11 +59,11 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_CLASS, Qt::Horizontal, tr("Class"));
     setHeaderData(COLUMN_CLUBLOG_QSO_UPLOAD_DATE, Qt::Horizontal, tr("ClubLog Upload Date"));
     setHeaderData(COLUMN_CLUBLOG_QSO_UPLOAD_STATUS, Qt::Horizontal, tr("ClubLog Upload State"));
-    setHeaderData(COLUMN_COMMENT, Qt::Horizontal, tr("Comment"));
-    setHeaderData(COLUMN_COMMENT_INTL, Qt::Horizontal, tr("Comment(Int)"));
+    setHeaderData(COLUMN_COMMENT, Qt::Horizontal, tr("Comment (ASCII)"));
+    setHeaderData(COLUMN_COMMENT_INTL, Qt::Horizontal, tr("Comment"));
     setHeaderData(COLUMN_CONTACTED_OP, Qt::Horizontal, tr("Contacted Operator"));
     setHeaderData(COLUMN_CONTEST_ID, Qt::Horizontal, tr("Contest ID"));
-    setHeaderData(COLUMN_COUNTRY_INTL, Qt::Horizontal, tr("Country(Int)"));
+    setHeaderData(COLUMN_COUNTRY_INTL, Qt::Horizontal, tr("Country"));
     setHeaderData(COLUMN_CREDIT_SUBMITTED, Qt::Horizontal, tr("Credit Submitted"));
     setHeaderData(COLUMN_CREDIT_GRANTED, Qt::Horizontal, tr("Credit Granted"));
     setHeaderData(COLUMN_DARC_DOK, Qt::Horizontal, tr("DARC DOK"));
@@ -87,13 +87,13 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_LON, Qt::Horizontal, tr("Longitude"));
     setHeaderData(COLUMN_MAX_BURSTS, Qt::Horizontal, tr("Max Bursts"));
     setHeaderData(COLUMN_MS_SHOWER, Qt::Horizontal, tr("MS Shower Name"));
-    setHeaderData(COLUMN_MY_ANTENNA, Qt::Horizontal, tr("My Antenna"));
-    setHeaderData(COLUMN_MY_ANTENNA_INTL, Qt::Horizontal, tr("My Antenna(Int)"));
-    setHeaderData(COLUMN_MY_CITY, Qt::Horizontal, tr("My City"));
-    setHeaderData(COLUMN_MY_CITY_INTL, Qt::Horizontal, tr("My City(Int)"));
+    setHeaderData(COLUMN_MY_ANTENNA, Qt::Horizontal, tr("My Antenna (ASCII)"));
+    setHeaderData(COLUMN_MY_ANTENNA_INTL, Qt::Horizontal, tr("My Antenna"));
+    setHeaderData(COLUMN_MY_CITY, Qt::Horizontal, tr("My City (ASCII)"));
+    setHeaderData(COLUMN_MY_CITY_INTL, Qt::Horizontal, tr("My City"));
     setHeaderData(COLUMN_MY_CNTY, Qt::Horizontal, tr("My County"));
-    setHeaderData(COLUMN_MY_COUNTRY, Qt::Horizontal, tr("My Country"));
-    setHeaderData(COLUMN_MY_COUNTRY_INTL, Qt::Horizontal, tr("My Country(Int)"));
+    setHeaderData(COLUMN_MY_COUNTRY, Qt::Horizontal, tr("My Country (ASCII)"));
+    setHeaderData(COLUMN_MY_COUNTRY_INTL, Qt::Horizontal, tr("My Country"));
     setHeaderData(COLUMN_MY_CQ_ZONE, Qt::Horizontal, tr("My CQZ"));
     setHeaderData(COLUMN_MY_DXCC, Qt::Horizontal, tr("My DXCC"));
     setHeaderData(COLUMN_MY_FISTS, Qt::Horizontal, tr("My FISTS"));
@@ -103,25 +103,25 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_MY_ITU_ZONE, Qt::Horizontal, tr("My ITU"));
     setHeaderData(COLUMN_MY_LAT, Qt::Horizontal, tr("My Latitude"));
     setHeaderData(COLUMN_MY_LON, Qt::Horizontal, tr("My Longitude"));
-    setHeaderData(COLUMN_MY_NAME, Qt::Horizontal, tr("My Name"));
-    setHeaderData(COLUMN_MY_NAME_INTL, Qt::Horizontal, tr("My Name(Int)"));
-    setHeaderData(COLUMN_MY_POSTAL_CODE, Qt::Horizontal, tr("My Postal Code"));
-    setHeaderData(COLUMN_MY_POSTAL_CODE_INTL, Qt::Horizontal, tr("My Postal Code(Int)"));
-    setHeaderData(COLUMN_MY_RIG, Qt::Horizontal, tr("My Rig"));
-    setHeaderData(COLUMN_MY_RIG_INTL, Qt::Horizontal, tr("My Rig(Int)"));
-    setHeaderData(COLUMN_MY_SIG, Qt::Horizontal, tr("My Special Interest Activity"));
-    setHeaderData(COLUMN_MY_SIG_INTL, Qt::Horizontal, tr("My Special Interest Activity(Int)"));
-    setHeaderData(COLUMN_MY_SIG_INFO, Qt::Horizontal, tr("My Spec. Interes Activity Info"));
-    setHeaderData(COLUMN_MY_SIG_INFO_INTL, Qt::Horizontal, tr("My Spec. Interest Activity Info(Int)"));
+    setHeaderData(COLUMN_MY_NAME, Qt::Horizontal, tr("My Name (ASCII)"));
+    setHeaderData(COLUMN_MY_NAME_INTL, Qt::Horizontal, tr("My Name"));
+    setHeaderData(COLUMN_MY_POSTAL_CODE, Qt::Horizontal, tr("My Postal Code (ASCII)"));
+    setHeaderData(COLUMN_MY_POSTAL_CODE_INTL, Qt::Horizontal, tr("My Postal Code"));
+    setHeaderData(COLUMN_MY_RIG, Qt::Horizontal, tr("My Rig (ASCII)"));
+    setHeaderData(COLUMN_MY_RIG_INTL, Qt::Horizontal, tr("My Rig"));
+    setHeaderData(COLUMN_MY_SIG, Qt::Horizontal, tr("My Special Interest Activity (ASCII)"));
+    setHeaderData(COLUMN_MY_SIG_INTL, Qt::Horizontal, tr("My Special Interest Activity"));
+    setHeaderData(COLUMN_MY_SIG_INFO, Qt::Horizontal, tr("My Spec. Interes Activity Info (ASCII)"));
+    setHeaderData(COLUMN_MY_SIG_INFO_INTL, Qt::Horizontal, tr("My Spec. Interest Activity Info"));
     setHeaderData(COLUMN_MY_SOTA_REF, Qt::Horizontal, tr("My SOTA"));
     setHeaderData(COLUMN_MY_STATE, Qt::Horizontal, tr("My State"));
     setHeaderData(COLUMN_MY_STREET, Qt::Horizontal, tr("My Street"));
-    setHeaderData(COLUMN_MY_STREET_INTL, Qt::Horizontal, tr("My Street(Int)"));
+    setHeaderData(COLUMN_MY_STREET_INTL, Qt::Horizontal, tr("My Street"));
     setHeaderData(COLUMN_MY_USACA_COUNTIES, Qt::Horizontal, tr("My USA-CA Counties"));
     setHeaderData(COLUMN_MY_VUCC_GRIDS, Qt::Horizontal, tr("My VUCC Grids"));
-    setHeaderData(COLUMN_NAME_INTL, Qt::Horizontal, tr("Operator Name"));
-    setHeaderData(COLUMN_NOTES, Qt::Horizontal, tr("Notes"));
-    setHeaderData(COLUMN_NOTES_INTL, Qt::Horizontal, tr("Notes(Int)"));
+    setHeaderData(COLUMN_NAME_INTL, Qt::Horizontal, tr("Name"));
+    setHeaderData(COLUMN_NOTES, Qt::Horizontal, tr("Notes (ASCII)"));
+    setHeaderData(COLUMN_NOTES_INTL, Qt::Horizontal, tr("Notes"));
     setHeaderData(COLUMN_NR_BURSTS, Qt::Horizontal, tr("#MS Bursts"));
     setHeaderData(COLUMN_NR_PINGS, Qt::Horizontal, tr("#MS Pings"));
     setHeaderData(COLUMN_OPERATOR, Qt::Horizontal, tr("Logging Operator"));
@@ -131,25 +131,25 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_PUBLIC_KEY, Qt::Horizontal, tr("Public Encryption Key"));
     setHeaderData(COLUMN_QRZCOM_QSO_UPLOAD_DATE, Qt::Horizontal, tr("QRZ Upload Date"));
     setHeaderData(COLUMN_QRZCOM_QSO_UPLOAD_STATUS, Qt::Horizontal, tr("QRZ Upload Status"));
-    setHeaderData(COLUMN_QSLMSG, Qt::Horizontal, tr("QSL Message"));
-    setHeaderData(COLUMN_QSLMSG_INTL, Qt::Horizontal, tr("QSL Message(Int)"));
+    setHeaderData(COLUMN_QSLMSG, Qt::Horizontal, tr("QSL Message (ASCII)"));
+    setHeaderData(COLUMN_QSLMSG_INTL, Qt::Horizontal, tr("QSL Message"));
     setHeaderData(COLUMN_QSL_RCVD_VIA, Qt::Horizontal, tr("QSL Rcvd Via"));
     setHeaderData(COLUMN_QSL_SENT_VIA, Qt::Horizontal, tr("QSL Sent Via"));
     setHeaderData(COLUMN_QSL_VIA, Qt::Horizontal, tr("QSL Via"));
     setHeaderData(COLUMN_QSO_COMPLETE, Qt::Horizontal, tr("QSO Completed"));
     setHeaderData(COLUMN_QSO_RANDOM, Qt::Horizontal, tr("QSO Random"));
-    setHeaderData(COLUMN_QTH_INTL, Qt::Horizontal, tr("QTH(Int)"));
-    setHeaderData(COLUMN_REGION, Qt::Horizontal, tr("Regio"));
-    setHeaderData(COLUMN_RIG, Qt::Horizontal, tr("Rig"));
-    setHeaderData(COLUMN_RIG_INTL, Qt::Horizontal, tr("Rig(Int)"));
+    setHeaderData(COLUMN_QTH_INTL, Qt::Horizontal, tr("QTH"));
+    setHeaderData(COLUMN_REGION, Qt::Horizontal, tr("Region"));
+    setHeaderData(COLUMN_RIG, Qt::Horizontal, tr("Rig (ASCII)"));
+    setHeaderData(COLUMN_RIG_INTL, Qt::Horizontal, tr("Rig"));
     setHeaderData(COLUMN_RX_PWR, Qt::Horizontal, tr("Contact PWR"));
     setHeaderData(COLUMN_SAT_MODE, Qt::Horizontal, tr("SAT Mode"));
     setHeaderData(COLUMN_SAT_NAME, Qt::Horizontal, tr("SAT Name"));
     setHeaderData(COLUMN_SFI, Qt::Horizontal, tr("Solar Flux"));
-    setHeaderData(COLUMN_SIG, Qt::Horizontal, tr("Special Activity Group"));
-    setHeaderData(COLUMN_SIG_INTL, Qt::Horizontal, tr("Special Activity Group(Int)"));
-    setHeaderData(COLUMN_SIG_INFO, Qt::Horizontal, tr("Special Activity Group Info"));
-    setHeaderData(COLUMN_SIG_INFO_INTL, Qt::Horizontal, tr("Special Activity Group Info(Int)"));
+    setHeaderData(COLUMN_SIG, Qt::Horizontal, tr("Special Activity Group (ASCII)"));
+    setHeaderData(COLUMN_SIG_INTL, Qt::Horizontal, tr("Special Activity Group"));
+    setHeaderData(COLUMN_SIG_INFO, Qt::Horizontal, tr("Special Activity Group Info (ASCII)"));
+    setHeaderData(COLUMN_SIG_INFO_INTL, Qt::Horizontal, tr("Special Activity Group Info"));
     setHeaderData(COLUMN_SILENT_KEY, Qt::Horizontal, tr("Silent Key"));
     setHeaderData(COLUMN_SKCC, Qt::Horizontal, tr("SKCC Member"));
     setHeaderData(COLUMN_SOTA_REF, Qt::Horizontal, tr("SOTA"));
@@ -384,12 +384,34 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_MY_GRIDSQUARE:
         case COLUMN_CALL:
         case COLUMN_GRID:
-            main_update_result = QSqlTableModel::setData(index, QVariant(value.toString().toUpper()), role);
+            main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
             break;
-        default:
-            main_update_result = QSqlTableModel::setData(index, value, role);
-        }
 
+        case COLUMN_ADDRESS_INTL:
+        case COLUMN_COMMENT_INTL:
+        case COLUMN_COUNTRY_INTL:
+        case COLUMN_MY_ANTENNA_INTL:
+        case COLUMN_MY_CITY_INTL:
+        case COLUMN_MY_COUNTRY_INTL:
+        case COLUMN_MY_NAME_INTL:
+        case COLUMN_MY_POSTAL_CODE_INTL:
+        case COLUMN_MY_RIG_INTL:
+        case COLUMN_MY_SIG_INTL:
+        case COLUMN_MY_SIG_INFO_INTL:
+        case COLUMN_MY_STREET_INTL:
+        case COLUMN_NAME_INTL:
+        case COLUMN_NOTES_INTL:
+        case COLUMN_QSLMSG_INTL:
+        case COLUMN_QTH_INTL:
+        case COLUMN_RIG_INTL:
+        case COLUMN_SIG_INTL:
+        case COLUMN_SIG_INFO_INTL:
+            main_update_result = QSqlTableModel::setData(index, value.toString(), role);
+            break;
+
+        default:
+            main_update_result = QSqlTableModel::setData(index, Data::removeAccents(value.toString()), role);
+        }
     }
 
     return main_update_result && depend_update_result;

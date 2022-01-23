@@ -187,7 +187,7 @@ void AdiFormat::writeField(const QString &name, const QString &value, const QStr
     qCDebug(function_parameters)<<name<< " " << value << " " << type;
 
     /* ADIF does not support UTF-8 characterset therefore the Accents are remove */
-    QString accentless(removeAccents(value));
+    QString accentless(Data::removeAccents(value));
 
     qCDebug(runtime) << "Accentless: " << accentless;
 

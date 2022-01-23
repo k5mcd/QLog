@@ -55,7 +55,6 @@ public:
     void setDateRange(QDate start, QDate end);
     void setUpdateDxcc(bool updateDxcc);
     void setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord *, QSqlRecord *));
-    QString removeAccents(const QString &input);
 
     virtual void importStart() {}
     virtual void importEnd() {}

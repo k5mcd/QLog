@@ -300,6 +300,35 @@ QString Data::callsignRegExString()
     return QString("^([A-Z0-9]+[\\/])?([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)([\\/][A-Z0-9]+)?");
 }
 
+QString Data::removeAccents(const QString &input)
+{
+    FCT_IDENTIFICATION;
+    /* http://archives.miloush.net/michkap/archive/2007/05/14/2629747.html */
+    /* https://www.medo64.com/2020/10/stripping-diacritics-in-qt/ */
+    /* More about normalization https://unicode.org/reports/tr15/ */
+
+    QString formD = input.normalized(QString::NormalizationForm_D);
+
+    QString filtered;
+    for (int i = 0; i < formD.length(); i++)
+    {
+        if (formD.at(i).category() != QChar::Mark_NonSpacing)
+        {
+            filtered.append(formD.at(i));
+        }
+    }
+
+    QString ret = filtered.normalized(QString::NormalizationForm_C).toLatin1().replace('?',"");
+
+    /* If stripped string is empty then QString to store NULL value do DB */
+    if ( ret.length() == 0 )
+    {
+        ret = QString();
+    }
+    return ret;
+
+}
+
 QColor Data::statusToInverseColor(const DxccStatus &status, const QColor &defaultColor) {
     FCT_IDENTIFICATION;
 

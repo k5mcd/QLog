@@ -717,19 +717,37 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("my_rig").toString().isEmpty()
          && !ui->rigEdit->currentText().isEmpty() )
     {
-       record.setValue("my_rig", ui->rigEdit->currentText());
+       record.setValue("my_rig", Data::removeAccents(ui->rigEdit->currentText()));
+    }
+
+    if ( record.value("my_rig_intl").toString().isEmpty()
+         && !ui->rigEdit->currentText().isEmpty() )
+    {
+       record.setValue("my_rig_intl", ui->rigEdit->currentText());
     }
 
     if ( record.value("my_antenna").toString().isEmpty()
          && !ui->antennaEdit->currentText().isEmpty())
     {
-       record.setValue("my_antenna", ui->antennaEdit->currentText());
+       record.setValue("my_antenna", Data::removeAccents(ui->antennaEdit->currentText()));
+    }
+
+    if ( record.value("my_antenna_intl").toString().isEmpty()
+         && !ui->antennaEdit->currentText().isEmpty())
+    {
+       record.setValue("my_antenna_intl", ui->antennaEdit->currentText());
     }
 
     if ( record.value("my_city").toString().isEmpty()
          && !profile.qthName.isEmpty())
     {
-       record.setValue("my_city", profile.qthName.toUpper());
+       record.setValue("my_city", Data::removeAccents(profile.qthName.toUpper()));
+    }
+
+    if ( record.value("my_city_intl").toString().isEmpty()
+         && !profile.qthName.isEmpty())
+    {
+       record.setValue("my_city_intl", profile.qthName.toUpper());
     }
 
     if ( record.value("station_callsign").toString().isEmpty()
@@ -741,7 +759,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("operator").toString().isEmpty()
          && !profile.operatorName.isEmpty() )
     {
-       record.setValue("operator", profile.operatorName.toUpper());
+       record.setValue("operator", Data::removeAccents(profile.operatorName.toUpper()));
     }
 
     if ( record.value("my_iota").toString().isEmpty()
@@ -759,13 +777,25 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("my_sig").toString().isEmpty()
          && !profile.sig.isEmpty())
     {
-       record.setValue("my_sig", profile.sig.toUpper());
+       record.setValue("my_sig", Data::removeAccents(profile.sig.toUpper()));
+    }
+
+    if ( record.value("my_sig_intl").toString().isEmpty()
+         && !profile.sig.isEmpty())
+    {
+       record.setValue("my_sig_intl", profile.sig.toUpper());
     }
 
     if ( record.value("my_sig_info").toString().isEmpty()
          && !profile.sigInfo.isEmpty())
     {
-       record.setValue("my_sig_info", profile.sigInfo.toUpper());
+       record.setValue("my_sig_info", Data::removeAccents(profile.sigInfo.toUpper()));
+    }
+
+    if ( record.value("my_sig_info_intl").toString().isEmpty()
+         && !profile.sigInfo.isEmpty())
+    {
+       record.setValue("my_sig_info_intl", profile.sigInfo.toUpper());
     }
 
     if ( record.value("my_vucc_grids").toString().isEmpty()
@@ -847,12 +877,14 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->nameEdit->text().isEmpty() )
     {
-        record.setValue("name", ui->nameEdit->text());
+        record.setValue("name_intl", ui->nameEdit->text());
+        record.setValue("name", Data::removeAccents(ui->nameEdit->text()));
     }
 
     if ( ! ui->qthEdit->text().isEmpty() )
     {
-        record.setValue("qth", ui->qthEdit->text());
+        record.setValue("qth_intl", ui->qthEdit->text());
+        record.setValue("qth", Data::removeAccents(ui->qthEdit->text()));
     }
 
     if ( ! ui->gridEdit->text().isEmpty() )
@@ -903,7 +935,7 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->stateEdit->text().isEmpty() )
     {
-        record.setValue("state", ui->stateEdit->text());
+        record.setValue("state", Data::removeAccents(ui->stateEdit->text()));
     }
 
     if ( ! ui->iotaEdit->text().isEmpty() )
@@ -913,12 +945,14 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->sigEdit->text().isEmpty() )
     {
-        record.setValue("sig", ui->sigEdit->text().toUpper());
+        record.setValue("sig", Data::removeAccents(ui->sigEdit->text().toUpper()));
+        record.setValue("sig_intl", ui->sigEdit->text().toUpper());
     }
 
     if ( ! ui->sigInfoEdit->text().isEmpty() )
     {
-        record.setValue("sig_info", ui->sigInfoEdit->text().toUpper());
+        record.setValue("sig_info", Data::removeAccents(ui->sigInfoEdit->text().toUpper()));
+        record.setValue("sig_info_intl", ui->sigInfoEdit->text().toUpper());
     }
 
     record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
@@ -949,15 +983,18 @@ void NewContactWidget::saveContact()
     }
 
     if (!ui->commentEdit->text().isEmpty()) {
-        record.setValue("comment", ui->commentEdit->text());
+        record.setValue("comment_intl", ui->commentEdit->text());
+        record.setValue("comment", Data::removeAccents(ui->commentEdit->text()));
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {
         record.setValue("qsl_via", ui->qslViaEdit->text().toUpper());
     }
 
-    if (!ui->ageEdit->text().isEmpty()) {
-        record.setValue("age", ui->ageEdit->text());
+    if (!ui->ageEdit->text().isEmpty()
+        && ui->ageEdit->text().toInt() > 0 )
+    {
+        record.setValue("age", ui->ageEdit->text().toInt());
     }
 
     if (!ui->emailEdit->text().isEmpty()) {

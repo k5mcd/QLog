@@ -74,6 +74,7 @@ public:
     static QString statusToText(const DxccStatus &status);
     static QRegularExpression callsignRegEx();
     static QString callsignRegExString();
+    static QString removeAccents(const QString &input);
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
     QStringList propagationModesIDList() { return propagationModes.keys(); }
