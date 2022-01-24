@@ -1,7 +1,9 @@
 #include <QSqlRecord>
 #include <QtXml>
 #include "logformat/AdxFormat.h"
+#include "logformat/AdiFormat.h"
 #include "core/debug.h"
+#include "data/Data.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.adxformat");
 
@@ -31,6 +33,267 @@ void AdxFormat::exportEnd() {
 
     writer->writeEndDocument();
     delete writer;
+}
+
+void AdxFormat::importStart()
+{
+    FCT_IDENTIFICATION;
+
+    reader = new QXmlStreamReader(stream.device());
+
+    while ( reader->readNextStartElement() )
+    {
+        qCDebug(runtime)<<reader->name();
+        if ( reader->name() == "ADX" )
+        {
+            while ( reader->readNextStartElement() )
+            {
+                qCDebug(runtime)<<reader->name();
+                if ( reader->name() == "HEADER" )
+                {
+                    reader->skipCurrentElement();
+                }
+                else if ( reader->name() == "RECORDS" )
+                {
+                    qCDebug(runtime)<<"records found";
+                    /* header is loaded, QLog is currently in Records sections
+                       which is loaded by importNext procedure */
+                    return;
+                }
+            }
+        }
+        else
+        {
+            reader->skipCurrentElement();
+        }
+    }
+}
+
+void AdxFormat::importEnd()
+{
+    FCT_IDENTIFICATION;
+
+    delete reader;
+}
+
+bool AdxFormat::importNext(QSqlRecord &record)
+{
+    FCT_IDENTIFICATION;
+
+    /* currently we should be in Records section */
+
+    QMap<QString, QVariant> contact;
+
+    if (!readContact(contact))
+    {
+        return false;
+    }
+
+    /* Set default values if not present */
+    if (defaults) {
+        auto keys = defaults->keys();
+        for (auto &key : qAsConst(keys))
+        {
+            if (contact.value(key).isNull()) {
+                contact.insert(key, defaults->value(key));
+            }
+        }
+    }
+    record.setValue("callsign", contact.take("call"));
+    record.setValue("rst_rcvd", contact.take("rst_rcvd"));
+    record.setValue("rst_sent", contact.take("rst_sent"));
+    record.setValue("name", contact.take("name"));
+    record.setValue("qth", contact.take("qth"));
+    record.setValue("gridsquare", contact.take("gridsquare").toString().toUpper());
+    record.setValue("cqz", contact.take("cqz"));
+    record.setValue("ituz", contact.take("ituz"));
+    record.setValue("freq", contact.take("freq"));
+    record.setValue("band", contact.take("band").toString().toLower());
+    record.setValue("cont", contact.take("cont").toString().toUpper());
+    record.setValue("dxcc", contact.take("dxcc"));
+    record.setValue("country", contact.take("country"));
+    record.setValue("pfx", contact.take("pfx").toString().toUpper());
+    record.setValue("state", contact.take("state").toString().toUpper());
+    record.setValue("cnty", contact.take("cnty"));
+    record.setValue("iota", contact.take("iota").toString().toUpper());
+    record.setValue("qsl_rcvd", AdiFormat::parseQslRcvd(contact.take("qsl_rcvd").toString()));
+    record.setValue("qsl_rdate", AdiFormat::parseDate(contact.take("qslrdate").toString()));
+    record.setValue("qsl_sent", AdiFormat::parseQslSent(contact.take("qsl_sent").toString()));
+    record.setValue("qsl_sdate", AdiFormat::parseDate(contact.take("qslsdate").toString()));
+    record.setValue("lotw_qsl_rcvd", AdiFormat::parseQslRcvd(contact.take("lotw_qsl_rcvd").toString()));
+    record.setValue("lotw_qslrdate", AdiFormat::parseDate(contact.take("lotw_qslrdate").toString()));
+    record.setValue("lotw_qsl_sent", AdiFormat::parseQslSent(contact.take("lotw_qsl_sent").toString()));
+    record.setValue("lotw_qslsdate", AdiFormat::parseDate(contact.take("lotw_qslsdate").toString()));
+    record.setValue("tx_pwr", contact.take("tx_pwr").toDouble());
+    record.setValue("address", contact.take("address"));
+    record.setValue("address_intl", contact.take("address_intl"));
+    record.setValue("age", contact.take("age"));
+    record.setValue("a_index", contact.take("a_index"));
+    record.setValue("ant_az", contact.take("ant_az"));
+    record.setValue("ant_el", contact.take("ant_el"));
+    record.setValue("ant_path", contact.take("ant_path"));
+    record.setValue("arrl_sect", contact.take("arrl_sect"));
+    record.setValue("award_submitted",contact.take("award_submitted"));
+    record.setValue("award_granted",contact.take("award_granted"));
+    record.setValue("band_rx",contact.take("band_rx").toString().toLower());
+    record.setValue("check",contact.take("check"));
+    record.setValue("class",contact.take("class"));
+    record.setValue("clublog_qso_upload_date",AdiFormat::parseDate(contact.take("clublog_qso_upload_date").toString()));
+    record.setValue("clublog_qso_upload_status",contact.take("clublog_qso_upload_status"));
+    record.setValue("comment",contact.take("comment"));
+    record.setValue("comment_intl",contact.take("comment_intl"));
+    record.setValue("contacted_op",contact.take("contacted_op"));
+    record.setValue("contest_id",contact.take("contest_id"));
+    record.setValue("country_intl",contact.take("country_intl"));
+    record.setValue("credit_submitted",contact.take("credit_submitted"));
+    record.setValue("credit_granted",contact.take("credit_granted"));
+    record.setValue("darc_dok",contact.take("darc_dok"));
+    record.setValue("distance",contact.take("distance"));
+    record.setValue("email",contact.take("email"));
+    record.setValue("eq_call",contact.take("eq_call"));
+    record.setValue("eqsl_qslrdate",AdiFormat::parseDate(contact.take("eqsl_qslrdate").toString()));
+    record.setValue("eqsl_qslsdate",AdiFormat::parseDate(contact.take("eqsl_qslsdate").toString()));
+    record.setValue("eqsl_qsl_rcvd",contact.take("eqsl_qsl_rcvd"));
+    record.setValue("eqsl_qsl_sent",contact.take("eqsl_qsl_sent"));
+    record.setValue("fists",contact.take("fists"));
+    record.setValue("fists_cc",contact.take("fists_cc"));
+    record.setValue("force_init",contact.take("force_init").toString().toUpper());
+    record.setValue("freq_rx",contact.take("freq_rx"));
+    record.setValue("guest_op",contact.take("guest_op"));
+    record.setValue("hrdlog_qso_upload_date",AdiFormat::parseDate(contact.take("hrdlog_qso_upload_date").toString()));
+    record.setValue("hrdlog_qso_upload_status",contact.take("hrdlog_qso_upload_status"));
+    record.setValue("iota_island_id",contact.take("iota_island_id").toString().toUpper());
+    record.setValue("k_index",contact.take("k_index"));
+    record.setValue("lat",contact.take("lat"));
+    record.setValue("lon",contact.take("lon"));
+    record.setValue("max_bursts",contact.take("max_bursts"));
+    record.setValue("ms_shower",contact.take("ms_shower"));
+    record.setValue("my_antenna",contact.take("my_antenna"));
+    record.setValue("my_antenna_intl",contact.take("my_antenna_intl"));
+    record.setValue("my_city",contact.take("my_city"));
+    record.setValue("my_city_intl",contact.take("my_city_intl"));
+    record.setValue("my_cnty",contact.take("my_cnty"));
+    record.setValue("my_country",contact.take("my_country"));
+    record.setValue("my_country_intl",contact.take("my_country_intl"));
+    record.setValue("my_cq_zone",contact.take("my_cq_zone"));
+    record.setValue("my_dxcc",contact.take("my_dxcc"));
+    record.setValue("my_fists",contact.take("my_fists"));
+    record.setValue("my_gridsquare",contact.take("my_gridsquare").toString().toUpper());
+    record.setValue("my_iota",contact.take("my_iota"));
+    record.setValue("my_iota_island_id",contact.take("my_iota_island_id"));
+    record.setValue("my_itu_zone",contact.take("my_itu_zone"));
+    record.setValue("my_lat",contact.take("my_lat"));
+    record.setValue("my_lon",contact.take("my_lon"));
+    record.setValue("my_name",contact.take("my_name"));
+    record.setValue("my_name_intl",contact.take("my_name_intl"));
+    record.setValue("my_postal_code",contact.take("my_postal_code"));
+    record.setValue("my_postal_code_intl",contact.take("my_postal_code_intl"));
+    record.setValue("my_rig",contact.take("my_rig"));
+    record.setValue("my_rig_intl",contact.take("my_rig_intl"));
+    record.setValue("my_sig",contact.take("my_sig"));
+    record.setValue("my_sig_intl",contact.take("my_sig_intl"));
+    record.setValue("my_sig_info",contact.take("my_sig_info"));
+    record.setValue("my_sig_info_intl",contact.take("my_sig_info_intl"));
+    record.setValue("my_sota_ref",contact.take("my_sota_ref"));
+    record.setValue("my_state",contact.take("my_state"));
+    record.setValue("my_street",contact.take("my_street"));
+    record.setValue("my_street_intl",contact.take("my_street_intl"));
+    record.setValue("my_usaca_counties",contact.take("my_usaca_counties"));
+    record.setValue("my_vucc_grids",contact.take("my_vucc_grids").toString().toUpper());
+    record.setValue("name_intl",contact.take("name_intl"));
+    record.setValue("notes",contact.take("notes"));
+    record.setValue("notes_intl",contact.take("notes_intl"));
+    record.setValue("nr_bursts",contact.take("nr_bursts"));
+    record.setValue("nr_pings",contact.take("nr_pings"));
+    record.setValue("operator",contact.take("operator"));
+    record.setValue("owner_callsign",contact.take("owner_callsign"));
+    record.setValue("precedence",contact.take("precedence"));
+    record.setValue("prop_mode",contact.take("prop_mode"));
+    record.setValue("public_key",contact.take("public_key"));
+    record.setValue("qrzcom_qso_upload_date",AdiFormat::parseDate(contact.take("qrzcom_qso_upload_date").toString()));
+    record.setValue("qrzcom_qso_upload_status",contact.take("qrzcom_qso_upload_status"));
+    record.setValue("qslmsg",contact.take("qslmsg"));
+    record.setValue("qslmsg_intl",contact.take("qslmsg_intl"));
+    record.setValue("qsl_rcvd_via",contact.take("qsl_rcvd_via"));
+    record.setValue("qsl_sent_via",contact.take("qsl_sent_via"));
+    record.setValue("qsl_via",contact.take("qsl_via"));
+    record.setValue("qso_complete",contact.take("qso_complete"));
+    record.setValue("qso_random",contact.take("qso_random").toString().toUpper());
+    record.setValue("qth_intl",contact.take("qth_intl"));
+    record.setValue("region",contact.take("region"));
+    record.setValue("rig",contact.take("rig"));
+    record.setValue("rig_intl",contact.take("rig_intl"));
+    record.setValue("rx_pwr",contact.take("rx_pwr"));
+    record.setValue("sat_mode",contact.take("sat_mode"));
+    record.setValue("sat_name",contact.take("sat_name"));
+    record.setValue("sfi",contact.take("sfi"));
+    record.setValue("sig",contact.take("sig"));
+    record.setValue("sig_intl",contact.take("sig_intl"));
+    record.setValue("sig_info",contact.take("sig_info"));
+    record.setValue("sig_info_intl",contact.take("sig_info_intl"));
+    record.setValue("silent_key",contact.take("silent_key").toString().toUtf8());
+    record.setValue("skcc",contact.take("skcc"));
+    record.setValue("sota_ref",contact.take("sota_ref"));
+    record.setValue("srx",contact.take("srx"));
+    record.setValue("srx_string",contact.take("srx_string"));
+    record.setValue("station_callsign",contact.take("station_callsign").toString().toUpper());
+    record.setValue("stx",contact.take("stx"));
+    record.setValue("stx_string",contact.take("stx_string"));
+    record.setValue("swl",contact.take("swl").toString().toUpper());
+    record.setValue("ten_ten",contact.take("ten_ten"));
+    record.setValue("uksmg",contact.take("uksmg"));
+    record.setValue("usaca_counties",contact.take("usaca_counties"));
+    record.setValue("ve_prov",contact.take("ve_prov"));
+    record.setValue("vucc_grids",contact.take("vucc_grids").toString().toUpper());
+    record.setValue("web",contact.take("web"));
+
+    QString mode = contact.take("mode").toString().toUpper();
+    QString submode = contact.take("submode").toString().toUpper();
+
+    QPair<QString, QString> legacy = Data::instance()->legacyMode(mode);
+    if (!legacy.first.isEmpty()) {
+        mode = legacy.first;
+        submode = legacy.second;
+    }
+
+    record.setValue("mode", mode);
+    record.setValue("submode", submode);
+
+    QDate date_on = AdiFormat::parseDate(contact.take("qso_date").toString());
+    QDate date_off = AdiFormat::parseDate(contact.take("qso_date_off").toString());
+
+    if (date_off.isNull() || !date_off.isValid()) {
+        date_off = date_on;
+    }
+
+    QTime time_on = AdiFormat::parseTime(contact.take("time_on").toString());
+    QTime time_off = AdiFormat::parseTime(contact.take("time_off").toString());
+
+    if (time_on.isValid() && time_off.isNull()) {
+        time_off = time_on;
+    }
+    if (time_off.isValid() && time_on.isNull()) {
+        time_on = time_off;
+    }
+
+    QDateTime start_time(date_on, time_on, Qt::UTC);
+    QDateTime end_time(date_off, time_off, Qt::UTC);
+
+    if (end_time < start_time) {
+        qCDebug(runtime) << "End time before start time!" << record;
+    }
+
+    record.setValue("start_time", start_time);
+    record.setValue("end_time", end_time);
+
+    /* If we have something unparsed then stored it as JSON to Field column */
+    if ( contact.count() > 0 )
+    {
+        QJsonDocument doc = QJsonDocument::fromVariant(QVariant(contact));
+        record.setValue("fields", QString(doc.toJson()));
+    }
+
+    return true;
 }
 
 void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *applTags) {
@@ -225,4 +488,36 @@ void AdxFormat::writeField(QString name, QString value) {
 
     if (value.isEmpty()) return;
     writer->writeTextElement(name.toUpper(), value);
+}
+
+bool AdxFormat::readContact(QVariantMap & contact)
+{
+    FCT_IDENTIFICATION;
+
+    while ( !reader->atEnd() )
+    {
+        reader->readNextStartElement();
+
+        qCDebug(runtime)<<reader->name();
+
+        if ( reader->name() == "RECORDS" && reader->isEndElement() )
+        {
+            qCDebug(runtime)<<"End Records Element";
+            return false;
+        }
+        if ( reader->name() == "RECORD" )
+        {
+            while (reader->readNextStartElement() )
+            {
+                qCDebug(runtime)<<"adding element " << reader->name();
+                contact[reader->name().toLatin1().toLower()] = QVariant(reader->readElementText());
+            }
+            return true;
+        }
+        else
+        {
+            reader->skipCurrentElement();
+        }
+    }
+    return false;
 }

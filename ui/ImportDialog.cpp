@@ -42,7 +42,7 @@ ImportDialog::ImportDialog(QWidget *parent) :
 void ImportDialog::browse() {
     FCT_IDENTIFICATION;
 
-    QString filename = QFileDialog::getOpenFileName(this, "ADIF File", "", "*.adi");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select File"), "", "*." + ui->typeSelect->currentText().toLower());
     ui->fileEdit->setText(filename);
 }
 

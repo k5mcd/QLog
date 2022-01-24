@@ -42,6 +42,11 @@
           <string notr="true">ADI</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>ADX</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="0" column="0">

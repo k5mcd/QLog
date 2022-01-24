@@ -15,6 +15,8 @@ public:
 
     static QDate parseDate(const QString &date);
     static QTime parseTime(const QString &time);
+    static QString parseQslRcvd(const QString &value);
+    static QString parseQslSent(const QString &value);
 private:
     enum ParserState {
         START,
@@ -27,8 +29,7 @@ private:
 
     void writeField(const QString &name, const QString &value, const QString &type="");
     void readField(QString& field,QString& value);
-    QString parseQslRcvd(const QString &value);
-    QString parseQslSent(const QString &value);
+
 
     ParserState state = START;
     bool inHeader = false;
