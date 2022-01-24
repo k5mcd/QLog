@@ -129,9 +129,9 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
         ui->contactTable->showColumn(LogbookModel::COLUMN_RST_SENT);
         ui->contactTable->showColumn(LogbookModel::COLUMN_FREQUENCY);
         ui->contactTable->showColumn(LogbookModel::COLUMN_MODE);
-        ui->contactTable->showColumn(LogbookModel::COLUMN_NAME);
-        ui->contactTable->showColumn(LogbookModel::COLUMN_QTH);
-        ui->contactTable->showColumn(LogbookModel::COLUMN_COMMENT);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_NAME_INTL);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_QTH_INTL);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_COMMENT_INTL);
     }
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
