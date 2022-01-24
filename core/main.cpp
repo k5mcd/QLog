@@ -18,7 +18,7 @@
 #include "Rig.h"
 #include "Rotator.h"
 #include "AppGuard.h"
-#include "logformat/AdiFormat.h"
+#include "logformat/AdxFormat.h"
 #include "ui/SettingsDialog.h"
 #include "data/StationProfile.h"
 
@@ -98,8 +98,8 @@ static bool backupDatabase()
     const int min_backout_count = 5;
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
-    QString path = dir.filePath("qlog_backup_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".adi");
-    QString filter("qlog_backup_%1%1%1%1%1%1%1%1%1%1%1%1%1%1.adi");
+    QString path = dir.filePath("qlog_backup_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".adx");
+    QString filter("qlog_backup_%1%1%1%1%1%1%1%1%1%1%1%1%1%1.adx");
     filter = filter.arg("[0123456789]");
 
     QFileInfoList file_list = QDir(dir).entryInfoList(QStringList(filter), QDir::Files, QDir::Name);
@@ -139,9 +139,9 @@ static bool backupDatabase()
     qCDebug(runtime)<<"Exporting a Database backup to " << path;
 
     QTextStream stream(&backup_file);
-    AdiFormat adi(stream);
+    AdxFormat adx(stream);
 
-    adi.runExport();
+    adx.runExport();
     stream.flush();
     backup_file.close();
 
