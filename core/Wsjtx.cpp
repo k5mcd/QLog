@@ -12,13 +12,33 @@
 MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
 Wsjtx::Wsjtx(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    socket(nullptr)
 {
     FCT_IDENTIFICATION;
     socket = new QUdpSocket(this);
-    socket->bind(QHostAddress::Any, 2237);
-
+    openPort();
     connect(socket, &QUdpSocket::readyRead, this, &Wsjtx::readPendingDatagrams);
+}
+
+void Wsjtx::openPort()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    if ( ! socket )
+    {
+        return;
+    }
+
+    socket->close();
+
+    int newPort = settings.value(Wsjtx::CONFIG_PORT,Wsjtx::DEFAULT_PORT).toInt();
+
+    qCDebug(runtime) << "New port "<< newPort;
+
+    socket->bind(QHostAddress::Any, newPort);
 }
 
 float Wsjtx::modePeriodLenght(const QString &mode)
@@ -304,3 +324,12 @@ void Wsjtx::startReply(WsjtxDecode decode)
 
     socket->writeDatagram(data, wsjtxAddress, wsjtxPort);
 }
+
+void Wsjtx::reloadSetting()
+{
+    FCT_IDENTIFICATION;
+    openPort();
+}
+
+QString Wsjtx::CONFIG_PORT = "network/wsjtx_port";
+int     Wsjtx::DEFAULT_PORT = 2237;

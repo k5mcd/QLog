@@ -79,6 +79,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(wsjtx, &Wsjtx::decodeReceived, ui->wsjtxWidget, &WsjtxWidget::decodeReceived);
     connect(wsjtx, &Wsjtx::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
     connect(ui->wsjtxWidget, &WsjtxWidget::reply, wsjtx, &Wsjtx::startReply);
+    connect(this, &MainWindow::settingsChanged, wsjtx, &Wsjtx::reloadSetting);
 
     //ClubLog* clublog = new ClubLog(this);
 
@@ -198,7 +199,8 @@ void MainWindow::showSettings() {
         rigConnect();
         rotConnect();
         stationProfileChanged();
-        emit settingsChanged();
+        //Do not call settingsChange because stationProfileChanged does it
+        //emit settingsChanged();
     }
 }
 

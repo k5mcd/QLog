@@ -125,6 +125,9 @@ public:
     explicit Wsjtx(QObject *parent = nullptr);
     static float modePeriodLenght(const QString &);
 
+    static QString CONFIG_PORT;
+    static int DEFAULT_PORT;
+
 signals:
     void statusReceived(WsjtxStatus);
     void decodeReceived(WsjtxDecode);
@@ -132,6 +135,7 @@ signals:
 
 public slots:
     void startReply(WsjtxDecode);
+    void reloadSetting();
 
 private slots:
     void readPendingDatagrams();
@@ -141,6 +145,8 @@ private:
     QUdpSocket* socket;
     QHostAddress wsjtxAddress;
     quint16 wsjtxPort;
+
+    void openPort();
 };
 
 #endif // WSJTX_H
