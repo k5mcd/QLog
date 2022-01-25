@@ -12,6 +12,7 @@
 #include <QComboBox>
 #include <QAbstractItemModel>
 #include <QDebug>
+#include <QTextEdit>
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -291,19 +292,6 @@ class CheckBoxDelegate: public QItemDelegate
 public:
     CheckBoxDelegate(QObject *parent = 0 ) :QItemDelegate(parent){};
 
-    void paint( QPainter *painter,
-                const QStyleOptionViewItem &option,
-                const QModelIndex &index ) const
-    {
-        bool is_enabled = index.model()->data(index, Qt::DisplayRole).toBool();
-        if ( !is_enabled) painter->fillRect(option.rect, option.palette.dark());
-        drawDisplay(painter,option,option.rect,is_enabled? QString("     ").append(tr("Enabled"))
-                                                         : QString("     ").append(tr("Disabled")));
-        drawFocus(painter,option,option.rect);
-
-    };
-
-
     QWidget *createEditor( QWidget *parent,
                         const QStyleOptionViewItem &option,
                         const QModelIndex &index ) const
@@ -351,5 +339,54 @@ private slots:
         emit commitData(theCheckBox);
     }
 };
+
+class TextBoxDelegate: public QItemDelegate
+{
+    Q_OBJECT
+public:
+    TextBoxDelegate(QObject *parent = 0 ) :QItemDelegate(parent), theText(nullptr){};
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QTextEdit* theText = new QTextEdit(parent);
+
+        return theText;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QString value = index.model()->data(index, Qt::EditRole).toString();
+        QTextEdit* textEditor = static_cast<QTextEdit*>(editor);
+        textEditor->setText(value);
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+        QTextEdit* textEditor = static_cast<QTextEdit*>(editor);
+        QString value = textEditor->toPlainText();
+        model->setData(index,value, Qt::EditRole);
+    }
+
+    mutable QTextEdit *theText;
+
+private slots:
+
+    void setData(bool val)
+    {
+        (void)val;
+        emit commitData(theText);
+    }
+};
+
 
 #endif // STYLEITEMDELEGATE_H
