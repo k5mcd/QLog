@@ -197,6 +197,11 @@ QVariant LogbookModel::data(const QModelIndex &index, int role) const
 //        }
     }
 
+    if (role == Qt::ToolTipRole )
+    {
+        return QSqlTableModel::data(index, Qt::DisplayRole);
+    }
+
     return QSqlTableModel::data(index, role);
 }
 

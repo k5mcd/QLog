@@ -350,7 +350,7 @@ public:
                           const QStyleOptionViewItem&,
                           const QModelIndex&) const
     {
-        QTextEdit* theText = new QTextEdit(parent);
+        theText = new QTextEdit(parent);
 
         return theText;
     }
@@ -359,14 +359,14 @@ public:
                               const QStyleOptionViewItem& option,
                               const QModelIndex&) const
     {
-        editor->setGeometry(option.rect);
+        editor->setGeometry(option.rect.x(),option.rect.y(),editor->sizeHint().width(),editor->sizeHint().height());
     }
 
     void setEditorData(QWidget* editor, const QModelIndex& index) const
     {
         QString value = index.model()->data(index, Qt::EditRole).toString();
         QTextEdit* textEditor = static_cast<QTextEdit*>(editor);
-        textEditor->setText(value);
+        textEditor->setPlainText(value);
     }
 
     void setModelData(QWidget* editor, QAbstractItemModel* model,
