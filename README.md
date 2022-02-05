@@ -51,7 +51,7 @@ Installaction packages are available for [Windows 64bit](https://github.com/fold
 
 Prerequisites
 
-- Visual Studio 2015
+- Visual Studio 2017
 - Installed Qt 5.12 for Windows
 - Installed [qtkeychain-devel](https://github.com/frankosterfeld/qtkeychain) library and headers
 - Installed [OpenSSL-devel](https://wiki.openssl.org/index.php/Binaries) libraries and headers
