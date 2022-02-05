@@ -273,7 +273,9 @@ QVariant LogbookModel::data(const QModelIndex &index, int role) const
                 "  </tr> " +
                "</table>";
     }
-    else if ( role == Qt::ToolTipRole )
+    else if ( role == Qt::ToolTipRole && (index.column() == COLUMN_FIELDS
+                                          || index.column() == COLUMN_NOTES
+                                          || index.column() == COLUMN_NOTES_INTL) )
     {
         return QSqlTableModel::data(index, Qt::DisplayRole);
     }
