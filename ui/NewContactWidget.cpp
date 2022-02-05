@@ -594,6 +594,7 @@ void NewContactWidget::resetContact() {
     ui->qthEdit->clear();
     ui->gridEdit->clear();
     ui->commentEdit->clear();
+    ui->noteEdit->clear();
     ui->dxccInfo->clear();
     ui->distanceInfo->clear();
     ui->bearingInfo->clear();
@@ -985,6 +986,11 @@ void NewContactWidget::saveContact()
     if (!ui->commentEdit->text().isEmpty()) {
         record.setValue("comment_intl", ui->commentEdit->text());
         record.setValue("comment", Data::removeAccents(ui->commentEdit->text()));
+    }
+
+    if (!ui->noteEdit->toPlainText().isEmpty())
+    {
+        record.setValue("notes_intl", ui->noteEdit->toPlainText());
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {

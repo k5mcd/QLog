@@ -186,7 +186,8 @@ QVariant LogbookModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == Qt::DecorationRole && (index.column() == COLUMN_QSL_RCVD || index.column() == COLUMN_QSL_SENT ||
-                                       index.column() == COLUMN_LOTW_RCVD || index.column() == COLUMN_LOTW_SENT))
+                                       index.column() == COLUMN_LOTW_RCVD || index.column() == COLUMN_LOTW_SENT ||
+                                       index.column() == COLUMN_EQSL_QSL_RCVD || index.column() == COLUMN_EQSL_QSL_SENT))
     {
         QVariant value = QSqlTableModel::data(index, Qt::DisplayRole);
         if (value.toString() == "Y") {
@@ -195,6 +196,86 @@ QVariant LogbookModel::data(const QModelIndex &index, int role) const
 //        else {
 //            return QIcon(":/icons/close-24px.svg");
 //        }
+    }
+
+    if ( role == Qt::ToolTipRole && index.column() == COLUMN_CALL )
+    {
+        QString flag = Data::instance()->dxccFlag(QSqlTableModel::data(this->index(index.row(), COLUMN_DXCC), Qt::DisplayRole).toInt());
+
+        return QString("<img src=':/flags/64/%1.png'>").arg(flag) +
+               "<h2>" + QSqlTableModel::data(index, Qt::DisplayRole).toString() + "</h2>   " +
+               "<table>" +
+                " <tr>" +
+                "   <td><b>" + tr("Country") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_COUNTRY), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+               " <tr>" +
+               "   <td><b>" + tr("Band") + ": </b></td>" +
+               "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_BAND), Qt::DisplayRole).toString() + "</td>" +
+               " </tr>" +
+               " <tr>" +
+                "   <td><b>" + tr("Mode") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_MODE), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+                " <tr>" +
+                "   <td><b>" + tr("RST Sent") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_RST_SENT), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+                " <tr>" +
+                "   <td><b>" + tr("RST Rcvd") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_RST_RCVD), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+                " <tr>" +
+                "   <td><b>" + tr("Gridsquare") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_GRID), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+                " <tr>" +
+                "   <td><b>" + tr("QSL Message") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_QSLMSG), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+                " <tr>" +
+                "   <td><b>" + tr("Comment") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_COMMENT_INTL), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+                " <tr>" +
+                "   <td><b>" + tr("Notes") + ": </b></td>" +
+                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_NOTES_INTL), Qt::DisplayRole).toString() + "</td>" +
+                " </tr>" +
+               "</table>" +
+               "<br>" +
+               "<table>" +
+               "  <tr> " +
+               "  <th></th><th>" + tr("Paper") + "</th><th>" + tr("LoTW") +"</th><th>" + tr("eQSL") +"</th>" +
+               "  </tr>" +
+               "  <tr> " +
+               "  <td><b>" + tr("QSL Received") + "</b></td>" +
+               QString("  <td><img src=':/icons/%1-24px.svg'></td>").arg((QSqlTableModel::data(this->index(index.row(),
+                                                                                                           COLUMN_QSL_RCVD),
+                                                                                               Qt::DisplayRole).toString() == "Y") ? "done" : "close") +
+               QString("  <td><img src=':/icons/%1-24px.svg'></td>").arg((QSqlTableModel::data(this->index(index.row(),
+                                                                                                           COLUMN_LOTW_RCVD),
+                                                                                               Qt::DisplayRole).toString() == "Y") ? "done" : "close") +
+               QString("  <td><img src=':/icons/%1-24px.svg'></td>").arg((QSqlTableModel::data(this->index(index.row(),
+                                                                                                           COLUMN_EQSL_QSL_RCVD),
+                                                                                               Qt::DisplayRole).toString() == "Y") ? "done" : "close") +
+                "  </tr> " +
+                "  <tr> " +
+                "  <td><b>" + tr("QSL Sent") + "</b></td>" +
+                QString("  <td><img src=':/icons/%1-24px.svg'></td>").arg((QSqlTableModel::data(this->index(index.row(),
+                                                                                                            COLUMN_QSL_SENT),
+                                                                                                Qt::DisplayRole).toString() == "Y") ? "done" : "close") +
+                QString("  <td><img src=':/icons/%1-24px.svg'></td>").arg((QSqlTableModel::data(this->index(index.row(),
+                                                                                                            COLUMN_LOTW_SENT),
+                                                                                                Qt::DisplayRole).toString() == "Y") ? "done" : "close") +
+                QString("  <td><img src=':/icons/%1-24px.svg'></td>").arg((QSqlTableModel::data(this->index(index.row(),
+                                                                                                            COLUMN_EQSL_QSL_SENT),
+                                                                                                Qt::DisplayRole).toString() == "Y") ? "done" : "close") +
+                "  </tr> " +
+               "</table>";
+    }
+    else if ( role == Qt::ToolTipRole )
+    {
+        return QSqlTableModel::data(index, Qt::DisplayRole);
     }
 
     return QSqlTableModel::data(index, role);
