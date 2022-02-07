@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ui/StatisticsWidget.h"
+#include "core/SwitchButton.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +29,7 @@ public slots:
     void rotErrorHandler(const QString &error);
     void stationProfileChanged();
 
+
 private slots:
     void rigConnect();
     void rotConnect();
@@ -43,6 +45,7 @@ private slots:
     void showAbout();
     void conditionsUpdated();
     void QSOFilterSetting();
+    void darkModeToggle(int);
 
 private:
     Ui::MainWindow* ui;
@@ -51,7 +54,13 @@ private:
     QLabel* callsignLabel;
     QLabel* locatorLabel;
     QLabel* operatorLabel;
+    SwitchButton* darkLightModeSwith;
+    QLabel* darkIconLabel;
     StatisticsWidget* stats;
+
+
+    void setDarkMode();
+    void setLightMode();
 };
 
 #endif // MAINWINDOW_H

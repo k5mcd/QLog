@@ -17,5 +17,6 @@
         <file>cancel-24px.svg</file>
         <file>info-24px.svg</file>
         <file>close-24px.svg</file>
+        <file>light-dark-24px.svg</file>
     </qresource>
 </RCC>

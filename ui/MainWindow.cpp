@@ -3,6 +3,7 @@
 #include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QLabel>
+#include <QColor>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "ui/SettingsDialog.h"
@@ -51,13 +52,20 @@ MainWindow::MainWindow(QWidget* parent) :
     callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
     locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);
     operatorLabel = new QLabel(profile.operatorName, ui->statusBar);
+    darkLightModeSwith = new SwitchButton("", ui->statusBar);
+    darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
 
     ui->toolBar->hide();
     ui->statusBar->addWidget(callsignLabel);
     ui->statusBar->addWidget(locatorLabel);
     ui->statusBar->addWidget(operatorLabel);
     ui->statusBar->addWidget(conditionsLabel);
+    ui->statusBar->addPermanentWidget(darkIconLabel);
+    ui->statusBar->addPermanentWidget(darkLightModeSwith);
 
+    connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
+
+    darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
 /*
     QMenu* trayIconMenu = new QMenu(this);
     trayIconMenu->addAction(ui->actionQuit);
@@ -67,6 +75,7 @@ MainWindow::MainWindow(QWidget* parent) :
     trayIcon->show();
     trayIcon->showMessage("Hello", "This is a test", QIcon());
 */
+
 
     connect(Rig::instance(), SIGNAL(rigErrorPresent(QString)), this, SLOT(rigErrorHandler(QString)));
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString)), this, SLOT(rotErrorHandler(QString)));
@@ -175,6 +184,65 @@ void MainWindow::stationProfileChanged()
     operatorLabel->setText(profile.operatorName);
 
     emit settingsChanged();
+}
+
+void MainWindow::darkModeToggle(int mode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode;
+
+    QSettings settings;
+    settings.setValue("darkmode", (mode == Qt::Checked) ? true: false);
+
+    if ( mode == Qt::Checked)
+    {
+        setDarkMode();
+    }
+    else
+    {
+        setLightMode();
+    }
+}
+
+void MainWindow::setDarkMode()
+{
+    FCT_IDENTIFICATION;
+
+    qApp->setStyle(QStyleFactory::create("Fusion"));
+    QPalette darkPalette;
+    QColor darkColor = QColor(45,45,45);
+    QColor disabledColor = QColor(127,127,127);
+    darkPalette.setColor(QPalette::Window, darkColor);
+    darkPalette.setColor(QPalette::WindowText, Qt::white);
+    darkPalette.setColor(QPalette::Base, QColor(18,18,18));
+    darkPalette.setColor(QPalette::AlternateBase, darkColor);
+    darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
+    darkPalette.setColor(QPalette::ToolTipText, Qt::white);
+    darkPalette.setColor(QPalette::Text, Qt::white);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Text, disabledColor);
+    darkPalette.setColor(QPalette::Button, darkColor);
+    darkPalette.setColor(QPalette::ButtonText, Qt::white);
+    darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, disabledColor);
+    darkPalette.setColor(QPalette::BrightText, Qt::red);
+    darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+    darkPalette.setColor(QPalette::Disabled, QPalette::HighlightedText, disabledColor);
+
+    qApp->setPalette(darkPalette);
+    qApp->setStyleSheet("QToolTip {color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+    //qApp->setStyleSheet("QToolTip {color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+    //qApp->setStyleSheet("QToolTip {font-size:9pt;color:white; padding:2px;border-width:2px;border-style:solid;border-radius:20px;background-color: blue;border: 1px solid white;}");
+}
+
+void MainWindow::setLightMode()
+{
+    FCT_IDENTIFICATION;
+
+    qApp->setPalette(this->style()->standardPalette());
+    qApp->setStyle(QStyleFactory::create("Fusion"));
+    qApp->setStyleSheet("QToolTip {color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 }
 
 void MainWindow::rotConnect() {

@@ -44,6 +44,7 @@ SOURCES += \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/Sat.cpp \
+        core/SwitchButton.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
@@ -91,6 +92,7 @@ SOURCES += \
 
 HEADERS += \
         core/AppGuard.h \
+        core/ButtonStyle.h \
         core/ClubLog.h \
         core/Conditions.h \
         core/CredentialStore.h \
@@ -107,6 +109,7 @@ HEADERS += \
         core/Rotator.h \
         core/Sat.h \
         core/StyleItemDelegate.h \
+        core/SwitchButton.h \
         core/Wsjtx.h \
         core/debug.h \
         data/Band.h \
