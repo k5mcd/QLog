@@ -23,6 +23,7 @@ public:
 
 signals:
     void settingsChanged();
+    void themeChanged(int);
 
 public slots:
     void rigErrorHandler(const QString &error);

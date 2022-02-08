@@ -72,7 +72,7 @@ void BandmapWidget::update() {
     ui->graphicsView->setFixedSize(480, steps*10 + 30);
 
     for (int i = 0; i <= steps; i++) {
-        bandmapScene->addLine(0, i*10, (i % 5 == 0) ? 15 : 10, i*10);
+        bandmapScene->addLine(0, i*10, (i % 5 == 0) ? 15 : 10, i*10, QPen(QColor(192,192,192)));
 
         if (i % 5 == 0) {
             QGraphicsTextItem* text = bandmapScene->addText(QString::number(band.start + step*i, 'f', digits));
@@ -83,7 +83,7 @@ void BandmapWidget::update() {
     double y = ((rx_freq - band.start) / step) * 10;
     QPolygonF poly;
     poly << QPointF(-1, y) << QPointF(-7, y-5) << QPointF(-7, y+5);
-    bandmapScene->addPolygon(poly, QPen(Qt::NoPen), QBrush(QColor(0, 255, 0), Qt::SolidPattern));
+    bandmapScene->addPolygon(poly, QPen(Qt::NoPen), QBrush(QColor(30, 180, 30), Qt::SolidPattern));
 
     QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(band.start);
     QMap<double, DxSpot>::const_iterator upper = spots.upperBound(band.end);

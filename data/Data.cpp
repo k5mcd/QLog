@@ -251,13 +251,13 @@ QColor Data::statusToColor(const DxccStatus &status, const QColor &defaultColor)
 
     switch (status) {
         case DxccStatus::NewEntity:
-            return QColor(229, 57, 53);
+            return QColor(255, 58, 9);
         case DxccStatus::NewBand:
         case DxccStatus::NewMode:
         case DxccStatus::NewBandMode:
-            return QColor(76, 175, 80);
+            return QColor(76, 200, 80);
         case DxccStatus::NewSlot:
-            return QColor(30, 136, 229);
+            return QColor(30, 180, 230);
         default:
             return defaultColor;
     }

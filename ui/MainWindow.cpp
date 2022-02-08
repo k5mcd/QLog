@@ -65,6 +65,8 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
 
+    connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
+
     darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
 /*
     QMenu* trayIconMenu = new QMenu(this);
@@ -193,7 +195,8 @@ void MainWindow::darkModeToggle(int mode)
     qCDebug(function_parameters) << mode;
 
     QSettings settings;
-    settings.setValue("darkmode", (mode == Qt::Checked) ? true: false);
+    bool darkMode = (mode == Qt::Checked) ? true: false;
+    settings.setValue("darkmode", darkMode);
 
     if ( mode == Qt::Checked)
     {
@@ -203,6 +206,9 @@ void MainWindow::darkModeToggle(int mode)
     {
         setLightMode();
     }
+
+    emit themeChanged(darkMode);
+
 }
 
 void MainWindow::setDarkMode()

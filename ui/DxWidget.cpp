@@ -51,16 +51,16 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const {
     }
     else if (index.column() == 1 && role == Qt::BackgroundRole) {
         DxSpot spot = dxData.at(index.row());
-        return Data::statusToColor(spot.status, QColor(Qt::white));
+        return Data::statusToColor(spot.status, QColor(Qt::transparent));
     }
     else if (index.column() == 1 && role == Qt::ToolTipRole) {
         DxSpot spot = dxData.at(index.row());
         return spot.dxcc.country + " [" + Data::statusToText(spot.status) + "]";
     }
-    else if (index.column() == 1 && role == Qt::TextColorRole) {
+    /*else if (index.column() == 1 && role == Qt::TextColorRole) {
         DxSpot spot = dxData.at(index.row());
         return Data::statusToInverseColor(spot.status, QColor(Qt::black));
-    }
+    }*/
 
     return QVariant();
 }
