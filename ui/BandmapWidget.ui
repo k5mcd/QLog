@@ -42,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>433</width>
-        <height>577</height>
+        <width>415</width>
+        <height>501</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -118,8 +118,7 @@
         <string>Zoom In</string>
        </property>
        <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/zoom_in-24px.svg</normaloff>:/icons/zoom_in-24px.svg</iconset>
+        <iconset theme="zoom-in"/>
        </property>
       </widget>
      </item>
@@ -132,8 +131,7 @@
         <string>Zoom Out</string>
        </property>
        <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/zoom_out-24px.svg</normaloff>:/icons/zoom_out-24px.svg</iconset>
+        <iconset theme="zoom-out"/>
        </property>
       </widget>
      </item>
@@ -168,9 +166,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../res/icons/icons.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>clearButton</sender>
