@@ -290,7 +290,19 @@ class CheckBoxDelegate: public QItemDelegate
 {
     Q_OBJECT
 public:
-    CheckBoxDelegate(QObject *parent = 0 ) :QItemDelegate(parent){};
+    CheckBoxDelegate(QObject *parent = nullptr ) : QItemDelegate(parent), theCheckBox(nullptr) {};
+
+    void paint( QPainter *painter,
+                const QStyleOptionViewItem &option,
+                const QModelIndex &index ) const
+    {
+        bool is_enabled = index.model()->data(index, Qt::DisplayRole).toBool();
+        if ( !is_enabled) painter->fillRect(option.rect, option.palette.dark());
+        drawDisplay(painter,option,option.rect,is_enabled? QString("     ").append(tr("Enabled"))
+                                                         : QString("     ").append(tr("Disabled")));
+        drawFocus(painter,option,option.rect);
+
+    };
 
     QWidget *createEditor( QWidget *parent,
                         const QStyleOptionViewItem &option,
