@@ -18,6 +18,7 @@ public:
 
 public slots:
     void setTarget(double lat, double lon);
+    void changeTheme(int);
 
 protected slots:
     void finishLoading(bool);
@@ -26,6 +27,7 @@ private:
 
     QWebEnginePage *main_page;
     bool isMainPageLoaded;
+    QString postponedScripts;
 
     QString computePath(double lat1, double lon1, double lat2, double lon2);
 };

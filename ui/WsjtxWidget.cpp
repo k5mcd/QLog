@@ -64,19 +64,19 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
     }
     else if (index.column() == 0 && role == Qt::BackgroundRole)
     {
-        return Data::statusToColor(entry.status, QColor(Qt::white));
+        return Data::statusToColor(entry.status, QColor(Qt::transparent));
     }
     else if (index.column() > 0 && role == Qt::BackgroundRole)
     {
         if ( entry.receivedTime.secsTo(QDateTime::currentDateTimeUtc()) >= spotPeriod * 0.8)
             /* -20% time of period because WSTX sends messages in waves and not exactly in time period */
         {
-            return QColor(Qt::lightGray);
+            return QColor(Qt::darkGray);
         }
     }
     else if (index.column() == 0 && role == Qt::TextColorRole)
     {
-        return Data::statusToInverseColor(entry.status, QColor(Qt::black));
+        //return Data::statusToInverseColor(entry.status, QColor(Qt::black));
     }
     else if (index.column() == 0 && role == Qt::ToolTipRole)
     {

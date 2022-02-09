@@ -66,6 +66,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
 
     connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
+    connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
+    connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
 
     darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
 /*

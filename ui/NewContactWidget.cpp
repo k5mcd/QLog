@@ -1191,7 +1191,7 @@ void NewContactWidget::updateDxccStatus() {
     }
 
     QPalette palette;
-    palette.setColor(QPalette::Text, Data::statusToColor(status, QColor(Qt::black)));
+    palette.setColor(QPalette::Text, Data::statusToColor(status, palette.color(QPalette::Text)));
     ui->callsignEdit->setPalette(palette);
 }
 
