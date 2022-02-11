@@ -136,7 +136,7 @@ void BandmapWidget::bandmapAging()
     {
         spotIterator.next();
         //clear spots automatically
-        if ( spotIterator.value().time.addSecs(clear_interval_sec) <= QDateTime::currentDateTimeUtc().time() )
+        if ( spotIterator.value().time.addSecs(clear_interval_sec) <= QDateTime::currentDateTimeUtc() )
         {
             spotIterator.remove();
         }

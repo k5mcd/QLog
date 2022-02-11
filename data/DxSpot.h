@@ -6,7 +6,7 @@
 
 class DxSpot {
 public:
-    QTime time;
+    QDateTime time;
     QString callsign;
     double freq;
     QString band;

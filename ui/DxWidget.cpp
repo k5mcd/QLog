@@ -23,12 +23,15 @@ int DxTableModel::columnCount(const QModelIndex&) const {
     return 9;
 }
 
-QVariant DxTableModel::data(const QModelIndex& index, int role) const {
+QVariant DxTableModel::data(const QModelIndex& index, int role) const
+{
+    QLocale locale;
+
     if (role == Qt::DisplayRole) {
         DxSpot spot = dxData.at(index.row());
         switch (index.column()) {
         case 0:
-            return spot.time.toString();
+            return spot.time.toString(locale.timeFormat(QLocale::LongFormat));
         case 1:
             return spot.callsign;
         case 2:
@@ -403,7 +406,7 @@ void DxWidget::receive() {
             //QString country = dxcc.country;
 
             DxSpot spot;
-            spot.time = QDateTime::currentDateTimeUtc().time(); //QTime::currentTime();
+            spot.time =  QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
             spot.callsign = call;
             spot.freq = freq.toDouble() / 1000;
             spot.band = Data::band(spot.freq).name;

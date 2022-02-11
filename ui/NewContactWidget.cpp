@@ -26,6 +26,10 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
+    QLocale locale;
+    ui->timeOnEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat));
+    ui->timeOffEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat));
+
     ui->qslSentBox->addItem(tr("No"), QVariant("N"));
     ui->qslSentBox->addItem(tr("Yes"), QVariant("Y"));
     ui->qslSentBox->addItem(tr("Requested"), QVariant("R"));
@@ -1099,7 +1103,7 @@ void NewContactWidget::markContact()
     {
         DxSpot spot;
 
-        spot.time = QDateTime::currentDateTimeUtc().time(); //QTime::currentTime();
+        spot.time = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
         spot.freq = ui->frequencyEdit->value();
         spot.band = Data::band(spot.freq).name;
         spot.callsign = ui->callsignEdit->text().toUpper();
