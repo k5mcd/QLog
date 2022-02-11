@@ -100,13 +100,15 @@ void BandmapWidget::update() {
 //        text->setPos(100, text_y - (text->boundingRect().height() / 2));
 
 //    }
+    QLocale locale;
+
     for (; lower != upper; lower++)
     {
         double freq_y = ((lower.key() - band.start) / step) * 10;
         double text_y = std::max(min_y, freq_y);
         bandmapScene->addLine(17, freq_y, 100, text_y,QPen(QColor(192,192,192)));
 
-        QGraphicsTextItem* text = bandmapScene->addText(lower.value().callsign + " [" + lower.value().time.toString("HH:mm")+"]");
+        QGraphicsTextItem* text = bandmapScene->addText(lower.value().callsign + " [" + lower.value().time.toString(locale.timeFormat(QLocale::ShortFormat))+"]");
         text->setPos(100, text_y - (text->boundingRect().height() / 2));
         text->setFlags(QGraphicsItem::ItemIsFocusable |
                        QGraphicsItem::ItemIsSelectable |
