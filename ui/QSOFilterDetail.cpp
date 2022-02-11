@@ -442,7 +442,7 @@ QDateTimeEdit *QSOFilterDetail::createDateTimeEdit(const QString &value, const i
     valueDateTime->setCalendarPopup(true);
     valueDateTime->setTimeSpec(Qt::UTC);
     valueDateTime->setDisplayFormat(locale.dateFormat(QLocale::ShortFormat )
-                                    + " " + locale.timeFormat(QLocale::ShortFormat) + ":ss");
+                                    + " " + locale.timeFormat(QLocale::LongFormat));
     valueDateTime->setSizePolicy(sizepolicy);
     valueDateTime->setDateTime(QDateTime::fromString(value, "yyyy-MM-ddTHH:mm:ss"));
     return valueDateTime;

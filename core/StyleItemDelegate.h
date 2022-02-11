@@ -73,7 +73,7 @@ public:
         QStyledItemDelegate(parent) { }
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
-        return value.toTime().toString(locale.timeFormat(QLocale::ShortFormat) + ":ss");
+        return value.toTime().toString(locale.timeFormat(QLocale::LongFormat));
     }
 };
 
@@ -84,7 +84,7 @@ public:
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
         //return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat));
-        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateFormat( QLocale::ShortFormat ) + " " + locale.timeFormat( QLocale::ShortFormat )+ ":ss") ;
+        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateFormat( QLocale::ShortFormat ) + " " + locale.timeFormat( QLocale::LongFormat )) ;
     }
 
     QWidget* createEditor(QWidget* parent,
