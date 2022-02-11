@@ -39,8 +39,9 @@ ClockWidget::ClockWidget(QWidget *parent) :
 void ClockWidget::updateClock() {
     FCT_IDENTIFICATION;
 
+    QLocale locale;
     QDateTime now = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
-    ui->clockLabel->setText(now.toString("HH:mm:ss") + " UTC");
+    ui->clockLabel->setText(now.toString(locale.timeFormat(QLocale::LongFormat)));
 
     if (now.time().second() == 0)
     {
@@ -77,8 +78,9 @@ void ClockWidget::updateSun() {
         sunrise = QTime::fromMSecsSinceStartOfDay(static_cast<int>(fmod(Jrise, 1.0) * MSECS_PER_DAY));
         sunset = QTime::fromMSecsSinceStartOfDay(static_cast<int>(fmod(Jset, 1.0) * MSECS_PER_DAY));
 
-        ui->sunRiseLabel->setText(sunrise.toString() + " UTC");
-        ui->sunSetLabel->setText(sunset.toString() + " UTC");
+        QLocale locale;
+        ui->sunRiseLabel->setText(sunrise.toString(locale.timeFormat(QLocale::ShortFormat)) + " UTC");
+        ui->sunSetLabel->setText(sunset.toString(locale.timeFormat(QLocale::ShortFormat)) + " UTC");
     }
     else
     {
