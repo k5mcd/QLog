@@ -26,15 +26,6 @@ MODULE_IDENTIFICATION("qlog.core.main");
 
 QMutex debug_mutex;
 
-static void loadStylesheet(QApplication* app) {
-    FCT_IDENTIFICATION;
-
-    QFile style(":/res/stylesheet.css");
-    style.open(QFile::ReadOnly | QIODevice::Text);
-    app->setStyleSheet(style.readAll());
-    style.close();
-}
-
 static void setupTranslator(QApplication* app) {
     FCT_IDENTIFICATION;
 
@@ -241,6 +232,7 @@ int main(int argc, char* argv[])
     app.setApplicationVersion(VERSION);
     app.setOrganizationName("hamradio");
     app.setApplicationName("QLog");
+    app.setStyle(QStyleFactory::create("Fusion"));
 
     qInstallMessageHandler(debugMessageOutput);
     qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
@@ -248,7 +240,6 @@ int main(int argc, char* argv[])
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)
 
-    loadStylesheet(&app);
     setupTranslator(&app);
 
     /* Application Singleton

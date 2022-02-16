@@ -209,6 +209,11 @@ void MainWindow::darkModeToggle(int mode)
         setLightMode();
     }
 
+    QFile style(":/res/stylesheet.css");
+    style.open(QFile::ReadOnly | QIODevice::Text);
+    qApp->setStyleSheet(style.readAll());
+    style.close();
+
     emit themeChanged(darkMode);
 
 }
@@ -217,7 +222,6 @@ void MainWindow::setDarkMode()
 {
     FCT_IDENTIFICATION;
 
-    qApp->setStyle(QStyleFactory::create("Fusion"));
     QPalette darkPalette;
     QColor darkColor = QColor(45,45,45);
     QColor disabledColor = QColor(127,127,127);
@@ -225,8 +229,6 @@ void MainWindow::setDarkMode()
     darkPalette.setColor(QPalette::WindowText, Qt::white);
     darkPalette.setColor(QPalette::Base, QColor(18,18,18));
     darkPalette.setColor(QPalette::AlternateBase, darkColor);
-    darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
-    darkPalette.setColor(QPalette::ToolTipText, Qt::white);
     darkPalette.setColor(QPalette::Text, Qt::white);
     darkPalette.setColor(QPalette::Disabled, QPalette::Text, disabledColor);
     darkPalette.setColor(QPalette::Button, darkColor);
@@ -239,9 +241,6 @@ void MainWindow::setDarkMode()
     darkPalette.setColor(QPalette::Disabled, QPalette::HighlightedText, disabledColor);
 
     qApp->setPalette(darkPalette);
-    qApp->setStyleSheet("QToolTip {color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
-    //qApp->setStyleSheet("QToolTip {color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
-    //qApp->setStyleSheet("QToolTip {font-size:9pt;color:white; padding:2px;border-width:2px;border-style:solid;border-radius:20px;background-color: blue;border: 1px solid white;}");
 }
 
 void MainWindow::setLightMode()
@@ -249,8 +248,6 @@ void MainWindow::setLightMode()
     FCT_IDENTIFICATION;
 
     qApp->setPalette(this->style()->standardPalette());
-    qApp->setStyle(QStyleFactory::create("Fusion"));
-    qApp->setStyleSheet("QToolTip {color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 }
 
 void MainWindow::rotConnect() {
