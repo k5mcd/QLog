@@ -56,7 +56,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
                   "        AND band = :band ORDER BY start_time ASC LIMIT 1) as slot;") )
     {
         qWarning() << "Cannot prepare Select statement";
-        return DxccStatus::Unknown;
+        return DxccStatus::UnknownStatus;
     }
 
     query.bindValue(":dxcc", dxcc);
@@ -66,7 +66,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
     if ( ! query.exec() )
     {
         qWarning() << "Cannot execute Select statement" << query.lastError();
-        return DxccStatus::Unknown;
+        return DxccStatus::UnknownStatus;
     }
 
     if (query.next()) {
@@ -92,7 +92,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
         }
     }
     else {
-        return DxccStatus::Unknown;
+        return DxccStatus::UnknownStatus;
     }
 }
 
