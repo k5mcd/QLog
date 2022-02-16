@@ -187,7 +187,8 @@
   </action>
   <action name="actionLookup">
    <property name="icon">
-    <iconset theme="edit-find"/>
+    <iconset resource="../res/icons/icons.qrc">
+     <normaloff>:/icons/baseline-search-24px.svg</normaloff>:/icons/baseline-search-24px.svg</iconset>
    </property>
    <property name="text">
     <string>Lookup on QRZ</string>
@@ -220,7 +221,8 @@
   </action>
   <action name="actionExportAs">
    <property name="icon">
-    <iconset theme="document-export"/>
+    <iconset theme="document-export">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Export Selected</string>
