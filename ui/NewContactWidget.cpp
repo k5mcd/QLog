@@ -897,8 +897,6 @@ void NewContactWidget::saveContact()
         record.setValue("gridsquare", ui->gridEdit->text().toUpper());
     }
 
-    qInfo()<<""<<ui->frequencyEdit->value();
-
     record.setValue("freq", ui->frequencyEdit->value());
     record.setValue("band", ui->bandText->text());
 
