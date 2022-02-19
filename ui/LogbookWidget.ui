@@ -147,6 +147,9 @@
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
+       <property name="verticalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
        <property name="horizontalScrollMode">
         <enum>QAbstractItemView::ScrollPerPixel</enum>
        </property>
@@ -217,6 +220,10 @@
    </property>
   </action>
   <action name="actionExportAs">
+   <property name="icon">
+    <iconset theme="document-export">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>Export Selected</string>
    </property>

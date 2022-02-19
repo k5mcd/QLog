@@ -1,3 +1,20 @@
+2022/02/19 - 0.5.0
+- DB: Added submodes used by FLDigi and added their mapping to LoTW, Clublog etc.
+- DB: Added all ADIF-defined modes/submodes
+- DB: Remapped QSO fields to International field - NAME_INTL etc.
+      - DB is converted to a new schema to use *_INTL columns
+      - non-INTL columns are recalculated from _INTL columns - accents removal function
+- GUI: Added Dark mode
+- GUI: Time/date format is controlled by Locale (except WSJTX, FLDigi inputs)
+- Import/Export: ADI do not export UTF-8 characters and *_INTL fields
+- Import/Export: ADX exports UTF-8 characters and *_INTL fields
+- Import/Export: Added Import of ADX file format
+- Logbook: Shows QSO summary as a Callsign's tooltip
+- Logbook: QSO time is shown with seconds; added timezone
+- New QSO: Added My notes - free text for your personal notes
+- Backup: Change backup format form ADI to ADX (ADX supports UTF-8)
+- Settings: WSJTX Port is changable
+
 2022/01/09 - 0.4.0
 - Stats: Added Show on Map - QSOs and Worked&Confirmed Grids
 - Stats: Stats are refreshed after every QSO

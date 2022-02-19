@@ -21,6 +21,7 @@ public slots:
     void refreshGraph();
     void dateRangeCheckBoxChanged(int);
     void mapLoaded(bool);
+    void changeTheme(int);
 
 
 public:
@@ -38,6 +39,7 @@ private:
     Ui::StatisticsWidget *ui;
     QWebEnginePage *main_page;
     bool isMainPageLoaded;
+    QString postponedScripts;
 };
 
 #endif // STATISTICSWIDGET_H

@@ -425,6 +425,34 @@ void StatisticsWidget::mapLoaded(bool)
     FCT_IDENTIFICATION;
 
     isMainPageLoaded = true;
+    main_page->runJavaScript(postponedScripts);
+}
+
+void StatisticsWidget::changeTheme(int theme)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << theme;
+
+    QString themeJavaScript;
+
+    if ( theme == 1 ) /* dark mode */
+    {
+        themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"hue-rotate(180deg) invert(100%)\";";
+    }
+    else
+    {
+        themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"\";";
+    }
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(themeJavaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(themeJavaScript);
+    }
 }
 
 StatisticsWidget::StatisticsWidget(QWidget *parent) :
@@ -535,10 +563,6 @@ void StatisticsWidget::drawMyLocationsOnMap(QSqlQuery &query)
 {
     FCT_IDENTIFICATION;
 
-    if ( !isMainPageLoaded )
-    {
-        return;
-    }
 
     if ( query.lastQuery().isEmpty() ) return;
 
@@ -569,17 +593,20 @@ void StatisticsWidget::drawMyLocationsOnMap(QSqlQuery &query)
 
     qCDebug(runtime) << javaScript;
 
-    main_page->runJavaScript(javaScript);
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(javaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(javaScript);
+    }
 }
 
 void StatisticsWidget::drawPointsOnMap(QSqlQuery &query)
 {
     FCT_IDENTIFICATION;
 
-    if ( !isMainPageLoaded )
-    {
-        return;
-    }
 
     if ( query.lastQuery().isEmpty() ) return;
 
@@ -609,17 +636,20 @@ void StatisticsWidget::drawPointsOnMap(QSqlQuery &query)
 
     qCDebug(runtime) << javaScript;
 
-    main_page->runJavaScript(javaScript);
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(javaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(javaScript);
+    }
 }
 
 void StatisticsWidget::drawFilledGridsOnMap(QSqlQuery &query)
 {
     FCT_IDENTIFICATION;
 
-    if ( !isMainPageLoaded )
-    {
-        return;
-    }
 
     if ( query.lastQuery().isEmpty() ) return;
 
@@ -647,6 +677,12 @@ void StatisticsWidget::drawFilledGridsOnMap(QSqlQuery &query)
 
     qCDebug(runtime) << javaScript;
 
-    main_page->runJavaScript(javaScript);
-
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(javaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(javaScript);
+    }
 }

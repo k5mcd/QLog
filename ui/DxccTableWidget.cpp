@@ -7,7 +7,7 @@
 #include "DxccTableWidget.h"
 #include "core/debug.h"
 
-MODULE_IDENTIFICATION("qlog.ui.clockwidget");
+MODULE_IDENTIFICATION("qlog.ui.dxcctablewidget");
 
 DxccTableWidget::DxccTableWidget(QWidget *parent) : QTableView(parent) {
     FCT_IDENTIFICATION;

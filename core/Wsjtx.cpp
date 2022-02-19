@@ -12,13 +12,33 @@
 MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
 Wsjtx::Wsjtx(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    socket(nullptr)
 {
     FCT_IDENTIFICATION;
     socket = new QUdpSocket(this);
-    socket->bind(QHostAddress::Any, 2237);
-
+    openPort();
     connect(socket, &QUdpSocket::readyRead, this, &Wsjtx::readPendingDatagrams);
+}
+
+void Wsjtx::openPort()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    if ( ! socket )
+    {
+        return;
+    }
+
+    socket->close();
+
+    int newPort = settings.value(Wsjtx::CONFIG_PORT,Wsjtx::DEFAULT_PORT).toInt();
+
+    qCDebug(runtime) << "New port "<< newPort;
+
+    socket->bind(QHostAddress::Any, newPort);
 }
 
 float Wsjtx::modePeriodLenght(const QString &mode)
@@ -213,7 +233,8 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     if ( !log.name.isEmpty() )
     {
-        record.setValue("name", log.name);
+        record.setValue("name", Data::removeAccents(log.name));
+        record.setValue("name_intl", log.name);
     }
 
     if ( !log.dx_grid.isEmpty() )
@@ -238,7 +259,8 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     if ( !log.comments.isEmpty() )
     {
-        record.setValue("comment", log.comments);
+        record.setValue("comment", Data::removeAccents(log.comments));
+        record.setValue("comment_intl", log.comments);
     }
 
     if ( !log.exch_sent.isEmpty() )
@@ -263,7 +285,7 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     if ( !log.op_call.isEmpty() )
     {
-        record.setValue("operator", log.op_call);
+        record.setValue("operator", Data::removeAccents(log.op_call));
     }
 
     if ( !log.my_grid.isEmpty() )
@@ -302,3 +324,12 @@ void Wsjtx::startReply(WsjtxDecode decode)
 
     socket->writeDatagram(data, wsjtxAddress, wsjtxPort);
 }
+
+void Wsjtx::reloadSetting()
+{
+    FCT_IDENTIFICATION;
+    openPort();
+}
+
+QString Wsjtx::CONFIG_PORT = "network/wsjtx_port";
+int     Wsjtx::DEFAULT_PORT = 2237;

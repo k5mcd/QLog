@@ -1,4 +1,21 @@
-qlog (0.4.0-1) UNRELEASED; urgency=low
+qlog (0.5.0-1) UNRELEASED; urgency=low
+
+  * DB: Started to use *_INTL fields
+  * DB: Added all ADIF-supported modes/submodes
+  * GUI: Dark Mode
+  * GUI: TIme format controlled by Locale
+  * Import/Export: ADI do not export UTF-8 characters and *_INTL fields
+  * Import/Export: ADX exports UTF-8 characters and *_INTL fields
+  * Import/Export: Added Import of ADX file format
+  * Logbook: Shows QSO summary as a Callsign's tooltip
+  * Logbook: QSO time is shown with seconds; added timezone
+  * New QSO: Added My notes - free text for your personal notes
+  * Backup: Change backup format form ADI to ADX (ADX supports UTF-8)
+  * Settings: WSJTX Port is changable
+
+ -- foldynl <foldyna@gmail.com>  Sat, 19 Feb 2022 12:00:00 +0200
+
+log (0.4.0-1) UNRELEASED; urgency=low
 
   * Stats: Added Show on Map - QSOs and Worked&Confirmed Grids
   * Stats: Stats are refreshed after every QSO

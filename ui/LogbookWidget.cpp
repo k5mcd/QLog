@@ -47,49 +47,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
             this, &LogbookWidget::showTableHeaderContextMenu);
     connect(ui->contactTable, &QTableQSOView::dataCommitted, this, &LogbookWidget::updateTable);
 
-    QMap<QString, QString> qslSentEnum;
-    qslSentEnum["Y"] = tr("Yes");
-    qslSentEnum["N"] = tr("No");
-    qslSentEnum["R"] = tr("Requested");
-    qslSentEnum["Q"] = tr("Queued");
-    qslSentEnum["I"] = tr("Invalid");
-
-    QMap<QString, QString> qslSentViaEnum;
-    qslSentViaEnum["B"] = tr("Bureau");
-    qslSentViaEnum["D"] = tr("Direct");
-    qslSentViaEnum["E"] = tr("Electronic");
-    qslSentViaEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> qslRcvdEnum;
-    qslRcvdEnum["Y"] = tr("Yes");
-    qslRcvdEnum["N"] = tr("No");
-    qslRcvdEnum["R"] = tr("Requested");
-    qslRcvdEnum["I"] = tr("Invalid");
-
-    QMap<QString, QString> uploadStatusEnum;
-    uploadStatusEnum["Y"] = tr("Yes");
-    uploadStatusEnum["N"] = tr("No");
-    uploadStatusEnum["M"] = tr("Modified");
-    uploadStatusEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> antPathEnum;
-    antPathEnum["G"] = tr("Grayline");
-    antPathEnum["O"] = tr("Other");
-    antPathEnum["S"] = tr("Short Path");
-    antPathEnum["L"] = tr("Long Path");
-    antPathEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> boolEnum;
-    boolEnum["Y"] = tr("Yes");
-    boolEnum["N"] = tr("No");
-    boolEnum[" "] = tr("No Value");
-
-    QMap<QString, QString> qsoCompleteEnum;
-    qsoCompleteEnum["Y"] = tr("Yes");
-    qsoCompleteEnum["N"] = tr("No");
-    qsoCompleteEnum["Nil"] = tr("Not Heard");
-    qsoCompleteEnum["?"] = tr("uncertain");
-    qsoCompleteEnum[" "] = tr("No Value");
+    DEFINE_CONTACT_FIELDS_ENUMS;
 
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_ON, new TimestampFormatDelegate(ui->contactTable));
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_TIME_OFF, new TimestampFormatDelegate(ui->contactTable));
@@ -136,6 +94,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_MY_ITU_ZONE, new UnitFormatDelegate("", 0, 1, ui->contactTable));
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_NR_BURSTS, new UnitFormatDelegate("", 0, 1, ui->contactTable));
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_NR_PINGS, new UnitFormatDelegate("", 0, 1, ui->contactTable));
+    ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_NOTES_INTL, new TextBoxDelegate(this));
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_PROP_MODE, new ComboFormatDelegate(QStringList()<<" "<< Data::instance()->propagationModesIDList(), ui->contactTable));
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_DATE, new DateFormatDelegate());
     ui->contactTable->setItemDelegateForColumn(LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_STATUS, new ComboFormatDelegate(uploadStatusEnum, ui->contactTable));
@@ -171,13 +130,13 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
         ui->contactTable->showColumn(LogbookModel::COLUMN_RST_SENT);
         ui->contactTable->showColumn(LogbookModel::COLUMN_FREQUENCY);
         ui->contactTable->showColumn(LogbookModel::COLUMN_MODE);
-        ui->contactTable->showColumn(LogbookModel::COLUMN_NAME);
-        ui->contactTable->showColumn(LogbookModel::COLUMN_QTH);
-        ui->contactTable->showColumn(LogbookModel::COLUMN_COMMENT);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_NAME_INTL);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_QTH_INTL);
+        ui->contactTable->showColumn(LogbookModel::COLUMN_COMMENT_INTL);
     }
 
     ui->contactTable->horizontalHeader()->setSectionsMovable(true);
-    ui->contactTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    ui->contactTable->setStyle(new ProxyStyle(ui->contactTable->style()));
 
     ui->bandFilter->blockSignals(true);
     ui->bandFilter->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", tr("Band"), this));
@@ -400,7 +359,7 @@ void LogbookWidget::updateTable()
     {
         QSqlQuery userFilterQuery;
         if ( ! userFilterQuery.prepare("SELECT "
-                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || o.sql_operator || ' (' || quote(case o.sql_operator when 'like' THEN '%' || r.value || '%' WHEN 'not like' THEN '%' || r.value || '%' ELSE r.value END)  || ') ', m.sql_operator) || ')' "
+                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || case when r.value is NULL and o.sql_operator IN ('=', 'like') THEN 'IS' when r.value is NULL and r.operator_id NOT IN ('=', 'like') THEN 'IS NOT' ELSE o.sql_operator END || ' (' || quote(case o.sql_operator when 'like' THEN '%' || r.value || '%' WHEN 'not like' THEN '%' || r.value || '%' ELSE r.value END)  || ') ', m.sql_operator) || ')' "
                                 "FROM qso_filters f, qso_filter_rules r, "
                                 "qso_filter_operators o, qso_filter_matching_types m, "
                                 "PRAGMA_TABLE_INFO('contacts') c "

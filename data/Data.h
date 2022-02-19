@@ -6,6 +6,51 @@
 #include "Dxcc.h"
 #include "Band.h"
 
+#define DEFINE_CONTACT_FIELDS_ENUMS \
+    QMap<QString, QString> qslSentEnum; \
+    qslSentEnum["Y"] = tr("Yes"); \
+    qslSentEnum["N"] = tr("No"); \
+    qslSentEnum["R"] = tr("Requested"); \
+    qslSentEnum["Q"] = tr("Queued"); \
+    qslSentEnum["I"] = tr("Invalid");\
+\
+    QMap<QString, QString> qslSentViaEnum; \
+    qslSentViaEnum["B"] = tr("Bureau"); \
+    qslSentViaEnum["D"] = tr("Direct"); \
+    qslSentViaEnum["E"] = tr("Electronic"); \
+    qslSentViaEnum[" "] = tr("No Value"); \
+\
+    QMap<QString, QString> qslRcvdEnum; \
+    qslRcvdEnum["Y"] = tr("Yes"); \
+    qslRcvdEnum["N"] = tr("No"); \
+    qslRcvdEnum["R"] = tr("Requested"); \
+    qslRcvdEnum["I"] = tr("Invalid"); \
+\
+    QMap<QString, QString> uploadStatusEnum; \
+    uploadStatusEnum["Y"] = tr("Yes"); \
+    uploadStatusEnum["N"] = tr("No"); \
+    uploadStatusEnum["M"] = tr("Modified"); \
+    uploadStatusEnum[" "] = tr("No Value"); \
+\
+    QMap<QString, QString> antPathEnum; \
+    antPathEnum["G"] = tr("Grayline"); \
+    antPathEnum["O"] = tr("Other"); \
+    antPathEnum["S"] = tr("Short Path"); \
+    antPathEnum["L"] = tr("Long Path"); \
+    antPathEnum[" "] = tr("No Value"); \
+\
+    QMap<QString, QString> boolEnum; \
+    boolEnum["Y"] = tr("Yes"); \
+    boolEnum["N"] = tr("No"); \
+    boolEnum[" "] = tr("No Value"); \
+\
+    QMap<QString, QString> qsoCompleteEnum; \
+    qsoCompleteEnum["Y"] = tr("Yes"); \
+    qsoCompleteEnum["N"] = tr("No"); \
+    qsoCompleteEnum["Nil"] = tr("Not Heard"); \
+    qsoCompleteEnum["?"] = tr("uncertain"); \
+    qsoCompleteEnum[" "] = tr("No Value")
+
 class Data : public QObject
 {
     Q_OBJECT
@@ -29,6 +74,7 @@ public:
     static QString statusToText(const DxccStatus &status);
     static QRegularExpression callsignRegEx();
     static QString callsignRegExString();
+    static QString removeAccents(const QString &input);
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
     QStringList propagationModesIDList() { return propagationModes.keys(); }

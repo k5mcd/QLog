@@ -18,22 +18,13 @@
 #include "Rig.h"
 #include "Rotator.h"
 #include "AppGuard.h"
-#include "logformat/AdiFormat.h"
+#include "logformat/AdxFormat.h"
 #include "ui/SettingsDialog.h"
 #include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
 QMutex debug_mutex;
-
-static void loadStylesheet(QApplication* app) {
-    FCT_IDENTIFICATION;
-
-    QFile style(":/res/stylesheet.css");
-    style.open(QFile::ReadOnly | QIODevice::Text);
-    app->setStyleSheet(style.readAll());
-    style.close();
-}
 
 static void setupTranslator(QApplication* app) {
     FCT_IDENTIFICATION;
@@ -98,8 +89,8 @@ static bool backupDatabase()
     const int min_backout_count = 5;
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
-    QString path = dir.filePath("qlog_backup_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".adi");
-    QString filter("qlog_backup_%1%1%1%1%1%1%1%1%1%1%1%1%1%1.adi");
+    QString path = dir.filePath("qlog_backup_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".adx");
+    QString filter("qlog_backup_%1%1%1%1%1%1%1%1%1%1%1%1%1%1.adx");
     filter = filter.arg("[0123456789]");
 
     QFileInfoList file_list = QDir(dir).entryInfoList(QStringList(filter), QDir::Files, QDir::Name);
@@ -139,9 +130,9 @@ static bool backupDatabase()
     qCDebug(runtime)<<"Exporting a Database backup to " << path;
 
     QTextStream stream(&backup_file);
-    AdiFormat adi(stream);
+    AdxFormat adx(stream);
 
-    adi.runExport();
+    adx.runExport();
     stream.flush();
     backup_file.close();
 
@@ -153,6 +144,7 @@ static bool migrateDatabase() {
 
     Migration m;
     return m.run();
+
 }
 
 static void startRigThread() {
@@ -240,6 +232,7 @@ int main(int argc, char* argv[])
     app.setApplicationVersion(VERSION);
     app.setOrganizationName("hamradio");
     app.setApplicationName("QLog");
+    app.setStyle(QStyleFactory::create("Fusion"));
 
     qInstallMessageHandler(debugMessageOutput);
     qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
@@ -247,7 +240,6 @@ int main(int argc, char* argv[])
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)
 
-    loadStylesheet(&app);
     setupTranslator(&app);
 
     /* Application Singleton

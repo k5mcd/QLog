@@ -3,6 +3,7 @@
 #include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QLabel>
+#include <QColor>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "ui/SettingsDialog.h"
@@ -51,13 +52,24 @@ MainWindow::MainWindow(QWidget* parent) :
     callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
     locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);
     operatorLabel = new QLabel(profile.operatorName, ui->statusBar);
+    darkLightModeSwith = new SwitchButton("", ui->statusBar);
+    darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
 
     ui->toolBar->hide();
     ui->statusBar->addWidget(callsignLabel);
     ui->statusBar->addWidget(locatorLabel);
     ui->statusBar->addWidget(operatorLabel);
     ui->statusBar->addWidget(conditionsLabel);
+    ui->statusBar->addPermanentWidget(darkIconLabel);
+    ui->statusBar->addPermanentWidget(darkLightModeSwith);
 
+    connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
+
+    connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
+    connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
+    connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
+
+    darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
 /*
     QMenu* trayIconMenu = new QMenu(this);
     trayIconMenu->addAction(ui->actionQuit);
@@ -67,6 +79,7 @@ MainWindow::MainWindow(QWidget* parent) :
     trayIcon->show();
     trayIcon->showMessage("Hello", "This is a test", QIcon());
 */
+
 
     connect(Rig::instance(), SIGNAL(rigErrorPresent(QString)), this, SLOT(rigErrorHandler(QString)));
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString)), this, SLOT(rotErrorHandler(QString)));
@@ -79,6 +92,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(wsjtx, &Wsjtx::decodeReceived, ui->wsjtxWidget, &WsjtxWidget::decodeReceived);
     connect(wsjtx, &Wsjtx::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
     connect(ui->wsjtxWidget, &WsjtxWidget::reply, wsjtx, &Wsjtx::startReply);
+    connect(this, &MainWindow::settingsChanged, wsjtx, &Wsjtx::reloadSetting);
 
     //ClubLog* clublog = new ClubLog(this);
 
@@ -176,6 +190,66 @@ void MainWindow::stationProfileChanged()
     emit settingsChanged();
 }
 
+void MainWindow::darkModeToggle(int mode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode;
+
+    QSettings settings;
+    bool darkMode = (mode == Qt::Checked) ? true: false;
+    settings.setValue("darkmode", darkMode);
+
+    if ( mode == Qt::Checked)
+    {
+        setDarkMode();
+    }
+    else
+    {
+        setLightMode();
+    }
+
+    QFile style(":/res/stylesheet.css");
+    style.open(QFile::ReadOnly | QIODevice::Text);
+    qApp->setStyleSheet(style.readAll());
+    style.close();
+
+    emit themeChanged(darkMode);
+
+}
+
+void MainWindow::setDarkMode()
+{
+    FCT_IDENTIFICATION;
+
+    QPalette darkPalette;
+    QColor darkColor = QColor(45,45,45);
+    QColor disabledColor = QColor(127,127,127);
+    darkPalette.setColor(QPalette::Window, darkColor);
+    darkPalette.setColor(QPalette::WindowText, Qt::white);
+    darkPalette.setColor(QPalette::Base, QColor(18,18,18));
+    darkPalette.setColor(QPalette::AlternateBase, darkColor);
+    darkPalette.setColor(QPalette::Text, Qt::white);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Text, disabledColor);
+    darkPalette.setColor(QPalette::Button, darkColor);
+    darkPalette.setColor(QPalette::ButtonText, Qt::white);
+    darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, disabledColor);
+    darkPalette.setColor(QPalette::BrightText, Qt::red);
+    darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+    darkPalette.setColor(QPalette::Disabled, QPalette::HighlightedText, disabledColor);
+
+    qApp->setPalette(darkPalette);
+}
+
+void MainWindow::setLightMode()
+{
+    FCT_IDENTIFICATION;
+
+    qApp->setPalette(this->style()->standardPalette());
+}
+
 void MainWindow::rotConnect() {
     FCT_IDENTIFICATION;
 
@@ -198,7 +272,8 @@ void MainWindow::showSettings() {
         rigConnect();
         rotConnect();
         stationProfileChanged();
-        emit settingsChanged();
+        //Do not call settingsChange because stationProfileChanged does it
+        //emit settingsChanged();
     }
 }
 

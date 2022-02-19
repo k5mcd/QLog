@@ -22,6 +22,7 @@
 #include "data/StationProfile.h"
 #include "data/Data.h"
 #include "core/Gridsquare.h"
+#include "core/Wsjtx.h"
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
@@ -568,6 +569,14 @@ void SettingsDialog::readSettings() {
     ui->eqslPasswordEdit->setText(EQSL::getPassword());
     ui->eqslFolderPathEdit->setText(EQSL::getQSLImageFolder());
 
+    /***********/
+    /* QRZ.COM */
+    /***********/
+    ui->qrzApiKeyEdit->setText(QRZ::getLogbookAPIKey());
+
+    /********/
+    /* DXCC */
+    /********/
     if (!settings.value("dxcc/start").isNull()) {
        ui->dxccStartDateCheckBox->setCheckState(Qt::Checked);
        ui->dxccStartDate->setDate(settings.value("dxcc/start").toDate());
@@ -577,15 +586,21 @@ void SettingsDialog::readSettings() {
         ui->dxccStartDate->setDate(QDate::currentDate());
     }
 
+    /***********/
+    /* NETWORK */
+    /***********/
+
+    ui->wsjtPortSpin->setValue(settings.value(Wsjtx::CONFIG_PORT, Wsjtx::DEFAULT_PORT).toInt());
+
+    /******************/
+    /* END OF Reading */
+    /******************/
+
     //hamlib has hardcoded port number. Therefore we disable the SpinBox
     //until hamlib guyes fix it.
     ui->rigNetPortSpin->setDisabled(true);
     ui->rotNetPortSpin->setDisabled(true);
 
-    /***********/
-    /* QRZ.COM */
-    /***********/
-    ui->qrzApiKeyEdit->setText(QRZ::getLogbookAPIKey());
 
 }
 
@@ -676,6 +691,11 @@ void SettingsDialog::writeSettings() {
     /* QRZ.COM */
     /***********/
     QRZ::saveLogbookAPI(ui->qrzApiKeyEdit->text());
+
+    /***********/
+    /* NETWORK */
+    /***********/
+    settings.setValue(Wsjtx::CONFIG_PORT, ui->wsjtPortSpin->value());
 }
 
 SettingsDialog::~SettingsDialog() {

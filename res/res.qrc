@@ -19,5 +19,6 @@
         <file>qlog_screen.png</file>
         <file>map/onlinemap.html</file>
         <file>sql/migration_003.sql</file>
+        <file>sql/migration_004.sql</file>
     </qresource>
 </RCC>

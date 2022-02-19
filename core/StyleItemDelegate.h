@@ -12,6 +12,7 @@
 #include <QComboBox>
 #include <QAbstractItemModel>
 #include <QDebug>
+#include <QTextEdit>
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -72,7 +73,7 @@ public:
         QStyledItemDelegate(parent) { }
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
-        return value.toTime().toString(locale.timeFormat(QLocale::ShortFormat));
+        return value.toTime().toString(locale.timeFormat(QLocale::LongFormat));
     }
 };
 
@@ -82,7 +83,8 @@ public:
         QStyledItemDelegate(parent) { }
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
-        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat));
+        //return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat));
+        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateFormat( QLocale::ShortFormat ) + " " + locale.timeFormat( QLocale::LongFormat )) ;
     }
 
     QWidget* createEditor(QWidget* parent,
@@ -288,7 +290,7 @@ class CheckBoxDelegate: public QItemDelegate
 {
     Q_OBJECT
 public:
-    CheckBoxDelegate(QObject *parent = 0 ) :QItemDelegate(parent){};
+    CheckBoxDelegate(QObject *parent = nullptr ) : QItemDelegate(parent), theCheckBox(nullptr) {};
 
     void paint( QPainter *painter,
                 const QStyleOptionViewItem &option,
@@ -301,7 +303,6 @@ public:
         drawFocus(painter,option,option.rect);
 
     };
-
 
     QWidget *createEditor( QWidget *parent,
                         const QStyleOptionViewItem &option,
@@ -350,5 +351,54 @@ private slots:
         emit commitData(theCheckBox);
     }
 };
+
+class TextBoxDelegate: public QItemDelegate
+{
+    Q_OBJECT
+public:
+    TextBoxDelegate(QObject *parent = 0 ) :QItemDelegate(parent), theText(nullptr){};
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        theText = new QTextEdit(parent);
+
+        return theText;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect.x(),option.rect.y(),editor->sizeHint().width(),editor->sizeHint().height());
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        QString value = index.model()->data(index, Qt::EditRole).toString();
+        QTextEdit* textEditor = static_cast<QTextEdit*>(editor);
+        textEditor->setPlainText(value);
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+        QTextEdit* textEditor = static_cast<QTextEdit*>(editor);
+        QString value = textEditor->toPlainText();
+        model->setData(index,value, Qt::EditRole);
+    }
+
+    mutable QTextEdit *theText;
+
+private slots:
+
+    void setData(bool val)
+    {
+        (void)val;
+        emit commitData(theText);
+    }
+};
+
 
 #endif // STYLEITEMDELEGATE_H

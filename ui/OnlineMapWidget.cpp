@@ -25,6 +25,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
     connect(this, &OnlineMapWidget::loadFinished, this, &OnlineMapWidget::finishLoading);
 
     setFocusPolicy(Qt::ClickFocus);
+    setContextMenuPolicy(Qt::NoContextMenu);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
@@ -32,11 +33,6 @@ void OnlineMapWidget::setTarget(double lat, double lon)
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << lat << " " << lon;
-
-    if ( !isMainPageLoaded )
-    {
-        return;
-    }
 
     QString targetJavaScript;
 
@@ -63,14 +59,49 @@ void OnlineMapWidget::setTarget(double lat, double lon)
 
         targetJavaScript = QString("if ( typeof firstpolyline !== 'undefined' ) { map.removeLayer(firstpolyline)}; var pointList = [ " + path + " ]; "
                             " var firstpolyline = new L.Polyline(pointList, { "
-                            " color: 'red', weight: 3, opacity: 0.5, smoothFactor: 1 }); "
+                            " color: 'Fuchsia', weight: 3, opacity: 0.7, smoothFactor: 1 }); "
                             "  firstpolyline.addTo(map);"
                             " var bounds = firstpolyline.getBounds(); "
                             "map.fitBounds(bounds); "
                             "var center = bounds.getCenter(); "
                             "map.panTo(center);");
     }
-    main_page->runJavaScript(targetJavaScript);
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(targetJavaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(targetJavaScript);
+    }
+}
+
+void OnlineMapWidget::changeTheme(int theme)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << theme;
+
+    QString themeJavaScript;
+
+    if ( theme == 1 ) /* dark mode */
+    {
+        themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"hue-rotate(180deg) invert(100%)\";";
+    }
+    else
+    {
+        themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"\";";
+    }
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(themeJavaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(themeJavaScript);
+    }
 }
 
 QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, double lon2)
@@ -106,6 +137,7 @@ void OnlineMapWidget::finishLoading(bool)
     FCT_IDENTIFICATION;
 
     isMainPageLoaded = true;
+    main_page->runJavaScript(postponedScripts);
 }
 
 OnlineMapWidget::~OnlineMapWidget()

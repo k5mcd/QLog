@@ -56,7 +56,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
                   "        AND band = :band ORDER BY start_time ASC LIMIT 1) as slot;") )
     {
         qWarning() << "Cannot prepare Select statement";
-        return DxccStatus::Unknown;
+        return DxccStatus::UnknownStatus;
     }
 
     query.bindValue(":dxcc", dxcc);
@@ -66,7 +66,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
     if ( ! query.exec() )
     {
         qWarning() << "Cannot execute Select statement" << query.lastError();
-        return DxccStatus::Unknown;
+        return DxccStatus::UnknownStatus;
     }
 
     if (query.next()) {
@@ -92,7 +92,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
         }
     }
     else {
-        return DxccStatus::Unknown;
+        return DxccStatus::UnknownStatus;
     }
 }
 
@@ -251,13 +251,13 @@ QColor Data::statusToColor(const DxccStatus &status, const QColor &defaultColor)
 
     switch (status) {
         case DxccStatus::NewEntity:
-            return QColor(229, 57, 53);
+            return QColor(255, 58, 9);
         case DxccStatus::NewBand:
         case DxccStatus::NewMode:
         case DxccStatus::NewBandMode:
-            return QColor(76, 175, 80);
+            return QColor(76, 200, 80);
         case DxccStatus::NewSlot:
-            return QColor(30, 136, 229);
+            return QColor(30, 180, 230);
         default:
             return defaultColor;
     }
@@ -298,6 +298,35 @@ QString Data::callsignRegExString()
     FCT_IDENTIFICATION;
 
     return QString("^([A-Z0-9]+[\\/])?([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)([\\/][A-Z0-9]+)?");
+}
+
+QString Data::removeAccents(const QString &input)
+{
+    FCT_IDENTIFICATION;
+    /* http://archives.miloush.net/michkap/archive/2007/05/14/2629747.html */
+    /* https://www.medo64.com/2020/10/stripping-diacritics-in-qt/ */
+    /* More about normalization https://unicode.org/reports/tr15/ */
+
+    QString formD = input.normalized(QString::NormalizationForm_D);
+
+    QString filtered;
+    for (int i = 0; i < formD.length(); i++)
+    {
+        if (formD.at(i).category() != QChar::Mark_NonSpacing)
+        {
+            filtered.append(formD.at(i));
+        }
+    }
+
+    QString ret = filtered.normalized(QString::NormalizationForm_C).toLatin1().replace('?',"");
+
+    /* If stripped string is empty then QString to store NULL value do DB */
+    if ( ret.length() == 0 )
+    {
+        ret = QString();
+    }
+    return ret;
+
 }
 
 QColor Data::statusToInverseColor(const DxccStatus &status, const QColor &defaultColor) {

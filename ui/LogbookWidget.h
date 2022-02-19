@@ -2,6 +2,7 @@
 #define LOOKBOOKWIDGET_H
 
 #include <QWidget>
+#include <QProxyStyle>
 #include "models/SqlListModel.h"
 
 namespace Ui {
@@ -47,6 +48,20 @@ private:
     Ui::LogbookWidget *ui;
     SqlListModel* countryModel;
     SqlListModel* userFilterModel;
+};
+
+/* https://forum.qt.io/topic/90403/show-tooltip-immediatly/7/ */
+class ProxyStyle : public QProxyStyle
+{
+public:
+    using QProxyStyle::QProxyStyle;
+    int styleHint(StyleHint hint, const QStyleOption* option = nullptr,
+                  const QWidget* widget = nullptr, QStyleHintReturn* returnData = nullptr) const override
+    {
+        if (hint == QStyle::SH_ToolTip_WakeUpDelay)
+            return 0;  // show tooltip immediately
+        return QProxyStyle::styleHint(hint, option, widget, returnData);
+    }
 };
 
 #endif // LOGBOOKWIDGET_H
