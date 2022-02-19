@@ -42,7 +42,21 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
-* Sun Jan 9 2021 Ladislav Foldyna - 0.4.0-1
+* Sat Feb 19 2022 Ladislav Foldyna - 0.5.0-1
+- DB: Started to use *_INTL fields
+- DB: Added all ADIF-supported modes/submodes
+- GUI: Dark Mode
+- GUI: TIme format controlled by Locale
+- Import/Export: ADI do not export UTF-8 characters and *_INTL fields
+- Import/Export: ADX exports UTF-8 characters and *_INTL fields
+- Import/Export: Added Import of ADX file format
+- Logbook: Shows QSO summary as a Callsign's tooltip
+- Logbook: QSO time is shown with seconds; added timezone
+- New QSO: Added My notes - free text for your personal notes
+- Backup: Change backup format form ADI to ADX (ADX supports UTF-8)
+- Settings: WSJTX Port is changable
+
+* Sun Jan 9 2022 Ladislav Foldyna - 0.4.0-1
 - Stats: Added Show on Map - QSOs and Worked&Confirmed Grids
 - Stats: Stats are refreshed after every QSO
 - WSJTX: Remove TRX/Monitoring Status

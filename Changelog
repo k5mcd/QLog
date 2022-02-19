@@ -1,4 +1,4 @@
-TDB - 0.5.0
+2022/02/19 - 0.5.0
 - DB: Added submodes used by FLDigi and added their mapping to LoTW, Clublog etc.
 - DB: Added all ADIF-defined modes/submodes
 - DB: Remapped QSO fields to International field - NAME_INTL etc.
