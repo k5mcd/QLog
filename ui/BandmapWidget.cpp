@@ -29,7 +29,6 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     zoom = ZOOM_1KHZ;
 
     bandmapScene = new QGraphicsScene(this);
-    bandmapScene->setSceneRect(0, -10, 300, 1000);
     connect(bandmapScene, &QGraphicsScene::focusItemChanged, this, &BandmapWidget::spotClicked);
 
     ui->graphicsView->setScene(bandmapScene);
@@ -39,9 +38,11 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 
     Rig* rig = Rig::instance();
     connect(rig, &Rig::frequencyChanged, this, &BandmapWidget::updateRxFrequency);
+
     update_timer = new QTimer;
     connect(update_timer, SIGNAL(timeout()), this, SLOT(update()));
     update_timer->start(BANDMAP_AGING_TIME);
+
     updateRxFrequency(freq);
     update();
 }
@@ -87,8 +88,8 @@ void BandmapWidget::update() {
     }
 
     int steps = static_cast<int>(round((band.end - band.start) / step));
-    bandmapScene->setSceneRect(0, -10, 300, steps*10 + 20);
-    ui->graphicsView->setFixedSize(480, steps*10 + 30);
+
+    ui->graphicsView->setFixedSize(330, steps*10 + 30);
 
     for (int i = 0; i <= steps; i++) {
         bandmapScene->addLine(0, i*10, (i % 5 == 0) ? 15 : 10, i*10, QPen(QColor(192,192,192)));
@@ -98,6 +99,9 @@ void BandmapWidget::update() {
             text->setPos(- (text->boundingRect().width()) - 10, i*10 - (text->boundingRect().height() / 2));
         }
     }
+
+    QString endFreqDigits= QString::number(band.end + step*steps, 'f', digits);
+    bandmapScene->setSceneRect(160 - (endFreqDigits.size()*10), 0, 0, steps*10 + 20);
 
     double y = ((rx_freq - band.start) / step) * 10;
     QPolygonF poly;
@@ -125,10 +129,10 @@ void BandmapWidget::update() {
     {
         double freq_y = ((lower.key() - band.start) / step) * 10;
         double text_y = std::max(min_y, freq_y);
-        bandmapScene->addLine(17, freq_y, 100, text_y,QPen(QColor(192,192,192)));
+        bandmapScene->addLine(17, freq_y, 50, text_y,QPen(QColor(192,192,192)));
 
         QGraphicsTextItem* text = bandmapScene->addText(lower.value().callsign + " [" + lower.value().time.toString(locale.timeFormat(QLocale::ShortFormat))+"]");
-        text->setPos(100, text_y - (text->boundingRect().height() / 2));
+        text->setPos(50, text_y - (text->boundingRect().height() / 2));
         text->setFlags(QGraphicsItem::ItemIsFocusable |
                        QGraphicsItem::ItemIsSelectable |
                        text->flags());
