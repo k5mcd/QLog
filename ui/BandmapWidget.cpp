@@ -67,6 +67,25 @@ void BandmapWidget::update() {
     case ZOOM_10KHZ: step = 0.01; digits = 2; break;
     }
 
+    /* bands below are too wide for BandMap, therefore it is needed to short them */
+    if ( band.start >= 28.0 and band.start < 420.0 )
+    {
+        step = step * 10;
+    }
+    if ( ( band.start >= 420.0 and band.start < 2300.0 )
+         || band.start == 119980 )
+    {
+        step = step * 100;
+    }
+    else if ( band.start >= 2300.0 and band.start < 75500.0 )
+    {
+        step = step * 1000;
+    }
+    else if (band.start == 75500.0 || band.start >= 142000.0)
+    {
+        step = step * 10000;
+    }
+
     int steps = static_cast<int>(round((band.end - band.start) / step));
     bandmapScene->setSceneRect(0, -10, 300, steps*10 + 20);
     ui->graphicsView->setFixedSize(480, steps*10 + 30);
