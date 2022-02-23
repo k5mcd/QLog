@@ -105,7 +105,7 @@ void BandmapWidget::update() {
 
     double y = ((rx_freq - band.start) / step) * 10;
     QPolygonF poly;
-    poly << QPointF(-1, y) << QPointF(-7, y-5) << QPointF(-7, y+5);
+    poly << QPointF(-1, y) << QPointF(-7, y-7) << QPointF(-7, y+7);
     bandmapScene->addPolygon(poly, QPen(Qt::NoPen), QBrush(QColor(30, 180, 30), Qt::SolidPattern));
 
     QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(band.start);
