@@ -140,7 +140,7 @@ void BandmapWidget::update() {
 
         min_y = text_y + text->boundingRect().height() / 2;
 
-        QColor textColor = Data::statusToColor(lower.value().status, QColor(Qt::black));
+        QColor textColor = Data::statusToColor(lower.value().status, qApp->palette().color(QPalette::Text));
         text->setDefaultTextColor(textColor);
     }
 }
