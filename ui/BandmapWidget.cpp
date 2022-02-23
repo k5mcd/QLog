@@ -129,10 +129,10 @@ void BandmapWidget::update() {
     {
         double freq_y = ((lower.key() - band.start) / step) * 10;
         double text_y = std::max(min_y, freq_y);
-        bandmapScene->addLine(17, freq_y, 50, text_y,QPen(QColor(192,192,192)));
+        bandmapScene->addLine(17, freq_y, 40, text_y,QPen(QColor(192,192,192)));
 
         QGraphicsTextItem* text = bandmapScene->addText(lower.value().callsign + " [" + lower.value().time.toString(locale.timeFormat(QLocale::ShortFormat))+"]");
-        text->setPos(50, text_y - (text->boundingRect().height() / 2));
+        text->setPos(40, text_y - (text->boundingRect().height() / 2));
         text->setFlags(QGraphicsItem::ItemIsFocusable |
                        QGraphicsItem::ItemIsSelectable |
                        text->flags());
