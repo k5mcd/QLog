@@ -191,7 +191,7 @@
          <item row="0" column="2">
           <widget class="QLabel" name="rstRcvdLabel">
            <property name="text">
-            <string>RST RX</string>
+            <string>RSTr</string>
            </property>
           </widget>
          </item>
@@ -308,7 +308,7 @@
          <item row="0" column="1">
           <widget class="QLabel" name="rstSentLabel">
            <property name="text">
-            <string>RST TX</string>
+            <string>RSTs</string>
            </property>
           </widget>
          </item>
