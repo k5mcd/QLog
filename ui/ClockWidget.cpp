@@ -41,7 +41,7 @@ void ClockWidget::updateClock() {
 
     QLocale locale;
     QDateTime now = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
-    ui->clockLabel->setText(now.toString(locale.timeFormat(QLocale::LongFormat)));
+    ui->clockLabel->setText(now.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC")); //hack: remove timezone from LongFormat
 
     if (now.time().second() == 0)
     {
@@ -79,8 +79,8 @@ void ClockWidget::updateSun() {
         sunset = QTime::fromMSecsSinceStartOfDay(static_cast<int>(fmod(Jset, 1.0) * MSECS_PER_DAY));
 
         QLocale locale;
-        ui->sunRiseLabel->setText(sunrise.toString(locale.timeFormat(QLocale::ShortFormat)) + " UTC");
-        ui->sunSetLabel->setText(sunset.toString(locale.timeFormat(QLocale::ShortFormat)) + " UTC");
+        ui->sunRiseLabel->setText(sunrise.toString(locale.timeFormat(QLocale::ShortFormat)));
+        ui->sunSetLabel->setText(sunset.toString(locale.timeFormat(QLocale::ShortFormat)));
     }
     else
     {

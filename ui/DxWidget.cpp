@@ -31,7 +31,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
         DxSpot spot = dxData.at(index.row());
         switch (index.column()) {
         case 0:
-            return spot.time.toString(locale.timeFormat(QLocale::LongFormat));
+            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
         case 1:
             return spot.callsign;
         case 2:

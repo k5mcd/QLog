@@ -73,7 +73,7 @@ public:
         QStyledItemDelegate(parent) { }
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
-        return value.toTime().toString(locale.timeFormat(QLocale::LongFormat));
+        return value.toTime().toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC"); //hack: remove timezone from LongFormat
     }
 };
 
@@ -84,7 +84,7 @@ public:
 
     QString displayText(const QVariant& value, const QLocale& locale) const {
         //return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat));
-        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateFormat( QLocale::ShortFormat ) + " " + locale.timeFormat( QLocale::LongFormat )) ;
+        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateFormat(QLocale::ShortFormat) + " " + locale.timeFormat(QLocale::LongFormat)).remove("UTC"); //hack: remove timezone from LongFormat
     }
 
     QWidget* createEditor(QWidget* parent,
@@ -127,7 +127,7 @@ public:
 
     void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) const {
         QStyledItemDelegate::initStyleOption(option, index);
-        option->displayAlignment = Qt::AlignVCenter | Qt::AlignRight;
+        option->displayAlignment = Qt::AlignVCenter | Qt::AlignLeft;
     }
 
     QString displayText(const QVariant& value, const QLocale&) const {
