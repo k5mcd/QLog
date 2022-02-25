@@ -16,7 +16,7 @@
 #include "models/SqlListModel.h"
 #include "ui/ColumnSettingDialog.h"
 #include "data/Data.h"
-#include "core/Eqsl.h"
+#include "core/QslManager.h"
 #include "ui/ExportDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
@@ -28,6 +28,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    qslManager = new QSLManager(this);
 
     model = new LogbookModel(this);
     ui->contactTable->setModel(model);
@@ -432,41 +434,13 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
 {
     FCT_IDENTIFICATION;
 
-    if ( modelIndex.column() == LogbookModel::COLUMN_EQSL_QSL_RCVD
-         && modelIndex.data().toString() == 'Y')
+    if ( ( modelIndex.column() == LogbookModel::COLUMN_EQSL_QSL_RCVD
+           || modelIndex.column() == LogbookModel::COLUMN_QSL_RCVD )
+         && modelIndex.data().toString() == 'Y' )
     {
-        QProgressDialog* dialog = new QProgressDialog(tr("Downloading eQSL Image"), tr("Cancel"), 0, 0, this);
-        dialog->setWindowModality(Qt::WindowModal);
-        dialog->setRange(0, 0);
-        dialog->setAutoClose(true);
-        dialog->show();
-
-        EQSL *eQSL = new EQSL(dialog);
-
-        connect(eQSL, &EQSL::QSLImageFound, this, [dialog](QString imgFile)
-        {
-            dialog->done(0);
-            QDesktopServices::openUrl(imgFile);
-
-        });
-
-        connect(eQSL, &EQSL::QSLImageError, this, [this, dialog](QString error)
-        {
-            dialog->done(1);
-            QMessageBox::critical(this, tr("QLog Error"), tr("eQSL Download Image failed: ") + error);
-        });
-
-        QNetworkReply* reply = eQSL->getQSLImage(model->record(modelIndex.row()));
-
-        connect(dialog, &QProgressDialog::canceled, this, [reply]()
-        {
-            qCDebug(runtime)<< "Operation canceled";
-            if ( reply )
-            {
-               reply->abort();
-               reply->deleteLater();
-            }
-        });
+        qslManager->showQSLImage(model->record(modelIndex.row()),
+                                 (modelIndex.column() == LogbookModel::COLUMN_EQSL_QSL_RCVD) ? qslManager->EQSL_QSL
+                                                                                             : qslManager->PAPER_QSL);
     }
 }
 
@@ -474,5 +448,6 @@ LogbookWidget::~LogbookWidget() {
     FCT_IDENTIFICATION;
 
     saveTableHeaderState();
+    delete qslManager;
     delete ui;
 }

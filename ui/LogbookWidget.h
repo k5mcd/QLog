@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QProxyStyle>
 #include "models/SqlListModel.h"
+#include "core/QslManager.h"
 
 namespace Ui {
 class LogbookWidget;
@@ -46,6 +47,7 @@ private:
     ClubLog* clublog;
     LogbookModel* model;
     Ui::LogbookWidget *ui;
+    QSLManager *qslManager;
     SqlListModel* countryModel;
     SqlListModel* userFilterModel;
 };

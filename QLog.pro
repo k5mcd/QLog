@@ -41,6 +41,7 @@ SOURCES += \
         core/Lotw.cpp \
         core/Migration.cpp \
         core/QRZ.cpp \
+        core/QslManager.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/Sat.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
         core/Lotw.h \
         core/Migration.h \
         core/QRZ.h \
+        core/QslManager.h \
         core/Rig.h \
         core/Rotator.h \
         core/Sat.h \
