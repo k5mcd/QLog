@@ -51,8 +51,8 @@ Installaction packages are available for [Windows 64bit](https://github.com/fold
 
 Prerequisites
 
-- Visual Studio 2017
-- Installed Qt 5.12 for Windows
+- Visual Studio 2019
+- Installed Qt 5.15 for Windows
 - Installed [qtkeychain-devel](https://github.com/frankosterfeld/qtkeychain) library and headers
 - Installed [OpenSSL-devel](https://wiki.openssl.org/index.php/Binaries) libraries and headers
 - Installed [HamLib-devel](https://github.com/Hamlib/Hamlib/releases/latest) libraries and headers
@@ -84,7 +84,7 @@ Prerequisites:
 
 for Debian:
 
-`sudo apt-get -y install qtbase5-dev libsqlite3-dev libhamlib++-dev libqt5charts5-dev qt5-default qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev `
+`sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev `
 
 for Fedora:
 
