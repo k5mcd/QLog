@@ -60,7 +60,7 @@ void LotwDialog::download() {
         dialog->setRange(0, 100);
     });
 
-    connect(lotw, &Lotw::updateComplete, this, [dialog, qsl](QSLMergeStat stats) {
+    connect(lotw, &Lotw::updateComplete, this, [dialog, qsl, lotw](QSLMergeStat stats) {
         if (qsl) {
             QSettings settings;
             settings.setValue("lotw/last_update", QDateTime::currentDateTimeUtc().date());
@@ -69,26 +69,25 @@ void LotwDialog::download() {
 
         QSLImportStatDialog statDialog(stats);
         statDialog.exec();
+        lotw->deleteLater();
     });
 
-    connect(lotw, &Lotw::updateFailed, this, [this, dialog](QString error) {
+    connect(lotw, &Lotw::updateFailed, this, [this, dialog, lotw](QString error) {
         dialog->done(QDialog::Accepted);
         QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
+        lotw->deleteLater();
+    });
+
+    connect(dialog, &QProgressDialog::canceled, this, [lotw]()
+    {
+        qCDebug(runtime)<< "Operation canceled";
+        lotw->abortRequest();
+        lotw->deleteLater();
     });
 
     saveDialogState();
 
-    QNetworkReply *reply = lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
-
-    connect(dialog, &QProgressDialog::canceled, this, [reply]()
-    {
-        qCDebug(runtime)<< "Operation canceled";
-        if ( reply )
-        {
-            reply->abort();
-            reply->deleteLater();
-        }
-    });
+    lotw->update(ui->dateEdit->date(), ui->qsoRadioButton->isChecked(), ui->stationCombo->currentText().toUpper());
 }
 
 void LotwDialog::upload() {

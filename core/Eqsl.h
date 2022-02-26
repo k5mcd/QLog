@@ -12,10 +12,11 @@ class EQSL : public QObject
     Q_OBJECT
 public:
     explicit EQSL(QObject *parent = nullptr);
+    ~EQSL();
 
-    QNetworkReply* update(QDate, QString);
-    QNetworkReply* uploadAdif(QByteArray &);
-    QNetworkReply* getQSLImage(QSqlRecord);
+    void update(QDate, QString);
+    void uploadAdif(QByteArray &);
+    void getQSLImage(QSqlRecord);
 
     static const QString getUsername();
     static const QString getPassword();
@@ -36,15 +37,17 @@ signals:
 
 public slots:
     void processReply(QNetworkReply*);
+    void abortRequest();
 
 private:
     QNetworkAccessManager* nam;
 
-    QNetworkReply* get(QList<QPair<QString, QString>>);
+    void get(QList<QPair<QString, QString>>);
     void downloadADIF(const QString &);
     void downloadImage(const QString &, const QString &);
     QString QSLImageFilename(const QSqlRecord);
     bool isQSLImageInCache(QSqlRecord, QString &);
+    QNetworkReply *currentReply;
 
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;

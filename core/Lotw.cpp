@@ -18,7 +18,8 @@
 MODULE_IDENTIFICATION("qlog.core.lotw");
 
 Lotw::Lotw(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    currentReply(nullptr)
 {
     FCT_IDENTIFICATION;
 
@@ -27,7 +28,20 @@ Lotw::Lotw(QObject *parent) :
             this, &Lotw::processReply);
 }
 
-QNetworkReply* Lotw::update(const QDate &start_date, bool qso_since, const QString &station_callsign)
+Lotw::~Lotw()
+{
+    FCT_IDENTIFICATION;
+
+    nam->deleteLater();
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        currentReply->deleteLater();
+    }
+}
+
+void Lotw::update(const QDate &start_date, bool qso_since, const QString &station_callsign)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << start_date << " " << qso_since;
@@ -47,7 +61,7 @@ QNetworkReply* Lotw::update(const QDate &start_date, bool qso_since, const QStri
         params.append(qMakePair(QString("qso_qslsince"), start));
     }
 
-    return get(params);
+    get(params);
 }
 
 int Lotw::uploadAdif(const QByteArray &data, QString &ErrorString)
@@ -186,7 +200,7 @@ void Lotw::saveTQSLPath(const QString &newPath)
 
 }
 
-QNetworkReply* Lotw::get(QList<QPair<QString, QString>> params)
+void Lotw::get(QList<QPair<QString, QString>> params)
 {
     FCT_IDENTIFICATION;
 
@@ -203,12 +217,20 @@ QNetworkReply* Lotw::get(QList<QPair<QString, QString>> params)
 
     qCDebug(runtime) << url.toString();
 
-    return nam->get(QNetworkRequest(url));
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
+
+    currentReply = nam->get(QNetworkRequest(url));
 }
 
 void Lotw::processReply(QNetworkReply* reply)
 {
     FCT_IDENTIFICATION;
+
+    /* always process one requests per class */
+    currentReply = nullptr;
 
     if (reply->error() != QNetworkReply::NoError)
     {
@@ -278,6 +300,18 @@ void Lotw::processReply(QNetworkReply* reply)
     tempFile.close();
 
     reply->deleteLater();
+}
+
+void Lotw::abortRequest()
+{
+    FCT_IDENTIFICATION;
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        //currentReply->deleteLater(); // pointer is deleted later in processReply
+        currentReply = nullptr;
+    }
 }
 
 const QString Lotw::SECURE_STORAGE_KEY = "QLog:LoTW";

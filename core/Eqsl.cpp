@@ -22,7 +22,8 @@
 MODULE_IDENTIFICATION("qlog.core.eqsl");
 
 EQSL::EQSL( QObject *parent ):
-   QObject(parent)
+   QObject(parent),
+   currentReply(nullptr)
 {
     FCT_IDENTIFICATION;
 
@@ -31,7 +32,20 @@ EQSL::EQSL( QObject *parent ):
             this, &EQSL::processReply);
 }
 
-QNetworkReply* EQSL::update(QDate start_date, QString qthNick)
+EQSL::~EQSL()
+{
+    FCT_IDENTIFICATION;
+
+    nam->deleteLater();
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        currentReply->deleteLater();
+    }
+}
+
+void EQSL::update(QDate start_date, QString qthNick)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << start_date << " " << qthNick;
@@ -48,10 +62,10 @@ QNetworkReply* EQSL::update(QDate start_date, QString qthNick)
         params.append(qMakePair(QString("RcvdSince"), start));
     }
 
-    return get(params);
+    get(params);
 }
 
-QNetworkReply* EQSL::uploadAdif(QByteArray &data)
+void EQSL::uploadAdif(QByteArray &data)
 {
     FCT_IDENTIFICATION;
 
@@ -93,13 +107,16 @@ QNetworkReply* EQSL::uploadAdif(QByteArray &data)
 
     QNetworkRequest request(QUrl(UPLOAD_ADIF_PAGE));
 
-    QNetworkReply* reply = nam->post(request, multiPart);
-    reply->setProperty("messageType", QVariant("uploadADIFFile"));
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
 
-    return reply;
+    currentReply = nam->post(request, multiPart);
+    currentReply->setProperty("messageType", QVariant("uploadADIFFile"));
 }
 
-QNetworkReply* EQSL::getQSLImage(QSqlRecord qso)
+void EQSL::getQSLImage(QSqlRecord qso)
 {
     FCT_IDENTIFICATION;
 
@@ -108,7 +125,7 @@ QNetworkReply* EQSL::getQSLImage(QSqlRecord qso)
     if ( isQSLImageInCache(qso, inCacheFilename) )
     {
         emit QSLImageFound(inCacheFilename);
-        return nullptr;
+        return;
     }
 
     /* QSL image is not in Cache */
@@ -139,10 +156,15 @@ QNetworkReply* EQSL::getQSLImage(QSqlRecord qso)
 
     qCDebug(runtime) << url.toString();
 
-    QNetworkReply* reply = nam->get(QNetworkRequest(url));
-    reply->setProperty("messageType", QVariant("getQSLImageFileName"));
-    reply->setProperty("onDiskFilename", QVariant(inCacheFilename));
-    return reply;
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
+
+    currentReply = nam->get(QNetworkRequest(url));
+    currentReply->setProperty("messageType", QVariant("getQSLImageFileName"));
+    currentReply->setProperty("onDiskFilename", QVariant(inCacheFilename));
+
 }
 
 const QString EQSL::getUsername()
@@ -201,7 +223,7 @@ void EQSL::saveQSLImageFolder(const QString &path)
 }
 
 
-QNetworkReply* EQSL::get(QList<QPair<QString, QString>> params)
+void EQSL::get(QList<QPair<QString, QString>> params)
 {
     FCT_IDENTIFICATION;
 
@@ -219,9 +241,13 @@ QNetworkReply* EQSL::get(QList<QPair<QString, QString>> params)
 
     qCDebug(runtime) << url.toString();
 
-    QNetworkReply* reply = nam->get(QNetworkRequest(url));
-    reply->setProperty("messageType", QVariant("getADIFFileName"));
-    return reply;
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
+
+    currentReply = nam->get(QNetworkRequest(url));
+    currentReply->setProperty("messageType", QVariant("getADIFFileName"));
 }
 
 void EQSL::downloadADIF(const QString &filename)
@@ -236,8 +262,13 @@ void EQSL::downloadADIF(const QString &filename)
 
     qCDebug(runtime) << url.toString();
 
-    QNetworkReply* reply = nam->get(QNetworkRequest(url));
-    reply->setProperty("messageType", QVariant("getADIF"));
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
+
+    currentReply = nam->get(QNetworkRequest(url));
+    currentReply->setProperty("messageType", QVariant("getADIF"));
 }
 
 void EQSL::downloadImage(const QString &URLFilename, const QString &onDiskFilename)
@@ -252,9 +283,9 @@ void EQSL::downloadImage(const QString &URLFilename, const QString &onDiskFilena
 
     qCDebug(runtime) << url.toString();
 
-    QNetworkReply* reply = nam->get(QNetworkRequest(url));
-    reply->setProperty("messageType", QVariant("downloadQSLImage"));
-    reply->setProperty("onDiskFilename", QVariant(onDiskFilename));
+    currentReply = nam->get(QNetworkRequest(url));
+    currentReply->setProperty("messageType", QVariant("downloadQSLImage"));
+    currentReply->setProperty("onDiskFilename", QVariant(onDiskFilename));
 }
 
 QString EQSL::QSLImageFilename(const QSqlRecord qso)
@@ -289,6 +320,9 @@ bool EQSL::isQSLImageInCache(QSqlRecord qso, QString &fullPath)
 void EQSL::processReply(QNetworkReply* reply)
 {
     FCT_IDENTIFICATION;
+
+    /* always process one requests per class */
+    currentReply = nullptr;
 
     if ( reply->error() != QNetworkReply::NoError )
     {
@@ -522,6 +556,18 @@ void EQSL::processReply(QNetworkReply* reply)
     }
 
     reply->deleteLater();
+}
+
+void EQSL::abortRequest()
+{
+    FCT_IDENTIFICATION;
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        //currentReply->deleteLater(); // pointer is deleted later in processReply
+        currentReply = nullptr;
+    }
 }
 
 const QString EQSL::SECURE_STORAGE_KEY = "QLog:eQSL";

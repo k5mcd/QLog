@@ -55,21 +55,24 @@ void QSLManager::showQSLImage(const QSqlRecord &qso, QSLType type)
             eQSL->deleteLater();
         });
 
-        QNetworkReply* reply = eQSL->getQSLImage(qso);
-
-        connect(dialog, &QProgressDialog::canceled, this, [reply, eQSL]()
+        connect(dialog, &QProgressDialog::canceled, this, [eQSL]()
         {
             qCDebug(runtime)<< "Operation canceled";
-            if ( reply )
-            {
-               reply->abort();
-               reply->deleteLater();
-            }
+            eQSL->abortRequest();
             eQSL->deleteLater();
         });
+
+        eQSL->getQSLImage(qso);
     }
     break;
+    /*******************/
+    /* Show EQSL Image */
+    /*******************/
+    case PAPER_QSL:
+    {
 
+    }
+    break;
     /****************/
     /* Unknown type */
     /****************/

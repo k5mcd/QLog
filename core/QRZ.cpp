@@ -22,7 +22,7 @@ QRZ::QRZ(QObject* parent) :
     incorrectLogin(false),
     lastSeenPassword(QString()),
     cancelUpload(false),
-    lastUploadReply(nullptr)
+    currentReply(nullptr)
 {
     FCT_IDENTIFICATION;
 
@@ -34,6 +34,12 @@ QRZ::QRZ(QObject* parent) :
 QRZ::~QRZ()
 {
     nam->deleteLater();
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        currentReply->deleteLater();
+    }
 }
 
 void QRZ::queryCallsign(QString callsign)
@@ -57,25 +63,31 @@ void QRZ::queryCallsign(QString callsign)
     QUrl url(API_URL);
     url.setQuery(query);
 
-    QNetworkReply *reply = nam->get(QNetworkRequest(url));
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
 
-    reply->setProperty("queryCallsign", QVariant(callsign));
-    reply->setProperty("messageType", QVariant("callsignInfoQuery"));
+    currentReply = nam->get(QNetworkRequest(url));
+    currentReply->setProperty("queryCallsign", QVariant(callsign));
+    currentReply->setProperty("messageType", QVariant("callsignInfoQuery"));
 }
 
-void QRZ::cancelUploadContacts()
+void QRZ::abortRequest()
 {
     FCT_IDENTIFICATION;
 
     cancelUpload = true;
-    if ( lastUploadReply )
+    if ( currentReply )
     {
-        lastUploadReply->abort();
+        currentReply->abort();
+        //currentReply->deleteLater(); // pointer is deleted later in processReply
+        currentReply = nullptr;
     }
 }
 
 
-QNetworkReply *QRZ::uploadContact(const QSqlRecord &record)
+void QRZ::uploadContact(const QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
 
@@ -89,13 +101,11 @@ QNetworkReply *QRZ::uploadContact(const QSqlRecord &record)
     stream.flush();
 
     cancelUpload = false;
-    QNetworkReply *reply = actionInsert(data, "REPLACE");
-    reply->setProperty("contactID", record.value("id"));
-
-    return reply;
+    actionInsert(data, "REPLACE");
+    currentReply->setProperty("contactID", record.value("id"));
 }
 
-QNetworkReply *QRZ::actionInsert(QByteArray& data, const QString &insertPolicy)
+void QRZ::actionInsert(QByteArray& data, const QString &insertPolicy)
 {
     FCT_IDENTIFICATION;
 
@@ -115,11 +125,14 @@ QNetworkReply *QRZ::actionInsert(QByteArray& data, const QString &insertPolicy)
 
     qCDebug(runtime) << url;
 
-    QNetworkReply *reply = nam->post(request, params.query(QUrl::FullyEncoded).toUtf8());
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
 
-    reply->setProperty("messageType", QVariant("actionsInsert"));
+    currentReply = nam->post(request, params.query(QUrl::FullyEncoded).toUtf8());
 
-    return reply;
+    currentReply->setProperty("messageType", QVariant("actionsInsert"));
 }
 
 
@@ -139,7 +152,7 @@ void QRZ::uploadContacts(const QList<QSqlRecord> &qsos)
     cancelUpload = false;
     queuedContacts4Upload = qsos;
 
-    lastUploadReply = uploadContact(queuedContacts4Upload.first());
+    uploadContact(queuedContacts4Upload.first());
     queuedContacts4Upload.removeFirst();
 }
 
@@ -234,8 +247,13 @@ void QRZ::authenticate()
         QUrl url(API_URL);
         url.setQuery(query);
 
-        QNetworkReply *reply = nam->get(QNetworkRequest(url));
-        reply->setProperty("messageType", QVariant("authenticate"));
+        if ( currentReply )
+        {
+            qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+        }
+
+        currentReply = nam->get(QNetworkRequest(url));
+        currentReply->setProperty("messageType", QVariant("authenticate"));
         lastSeenPassword = password;
     }
     else
@@ -246,6 +264,9 @@ void QRZ::authenticate()
 
 void QRZ::processReply(QNetworkReply* reply) {
     FCT_IDENTIFICATION;
+
+    /* always process one requests per class */
+    currentReply = nullptr;
 
     if ( reply->error() != QNetworkReply::NoError )
     {
@@ -259,7 +280,6 @@ void QRZ::processReply(QNetworkReply* reply) {
             reply->deleteLater();
         }
 
-        lastUploadReply = nullptr;
         cancelUpload = true;
         return;
     }
@@ -436,7 +456,6 @@ void QRZ::processReply(QNetworkReply* reply) {
 
              if ( queuedContacts4Upload.isEmpty() )
              {
-                 lastUploadReply = nullptr;
                  cancelUpload = false;
                  emit uploadFinished(true);
              }
@@ -444,19 +463,14 @@ void QRZ::processReply(QNetworkReply* reply) {
              {
                  if ( ! cancelUpload )
                  {
-                     lastUploadReply = uploadContact(queuedContacts4Upload.first());
+                     uploadContact(queuedContacts4Upload.first());
                      queuedContacts4Upload.removeFirst();
-                 }
-                 else
-                 {
-                     lastUploadReply = nullptr;
                  }
              }
          }
          else
          {
              emit uploadError(data.value("REASON", tr("General Error")));
-             lastUploadReply = nullptr;
              cancelUpload = false;
          }
     }

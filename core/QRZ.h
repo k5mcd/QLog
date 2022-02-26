@@ -17,7 +17,7 @@ public:
     explicit QRZ(QObject *parent = nullptr);
     ~QRZ();
 
-    QNetworkReply* uploadContact(const QSqlRecord &record);
+    void uploadContact(const QSqlRecord &record);
     void uploadContacts(const QList<QSqlRecord>&);
 
     static const QString getUsername();
@@ -36,7 +36,7 @@ signals:
 
 public slots:
     void queryCallsign(QString callsign) override;
-    void cancelUploadContacts();
+    void abortRequest();
 
 private slots:
     void processReply(QNetworkReply* reply);
@@ -49,10 +49,10 @@ private:
     QString lastSeenPassword;
     QList<QSqlRecord> queuedContacts4Upload;
     bool cancelUpload;
-    QNetworkReply *lastUploadReply;
+    QNetworkReply *currentReply;
 
     void authenticate();
-    QNetworkReply *actionInsert(QByteArray& data, const QString &insertPolicy);
+    void actionInsert(QByteArray& data, const QString &insertPolicy);
     QMap<QString, QString> parseActionResponse(const QString&);
 
     const static QString SECURE_STORAGE_KEY;
