@@ -23,6 +23,7 @@
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "core/Wsjtx.h"
+#include "core/PaperQSL.h"
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
@@ -430,6 +431,24 @@ void SettingsDialog::eqslDirBrowse()
     }
 }
 
+void SettingsDialog::paperDirBrowse()
+{
+    FCT_IDENTIFICATION;
+
+    QString dir = QFileDialog::getExistingDirectory(this,
+                                                    tr("Select Directory"),
+#if defined (Q_OS_WIN)
+                                                    "C:\\",
+#else
+                                                    "~",
+#endif
+                                                    QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if ( !dir.isEmpty() )
+    {
+        ui->paperFolderPathEdit->setText(dir);
+    }
+}
+
 void SettingsDialog::cancelled()
 {
     FCT_IDENTIFICATION;
@@ -574,6 +593,11 @@ void SettingsDialog::readSettings() {
     /***********/
     ui->qrzApiKeyEdit->setText(QRZ::getLogbookAPIKey());
 
+    /*************/
+    /* Paper QSL */
+    /*************/
+    ui->paperFolderPathEdit->setText(PaperQSL::getQSLImageFolder());
+
     /********/
     /* DXCC */
     /********/
@@ -686,6 +710,11 @@ void SettingsDialog::writeSettings() {
     else {
         settings.setValue("dxcc/start", QVariant());
     }
+
+    /*************/
+    /* Paper QSL */
+    /*************/
+    PaperQSL::saveQSLImageFolder(ui->paperFolderPathEdit->text());
 
     /***********/
     /* QRZ.COM */

@@ -40,8 +40,8 @@ SOURCES += \
         core/HamQTH.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
+        core/PaperQSL.cpp \
         core/QRZ.cpp \
-        core/QslManager.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/Sat.cpp \
@@ -80,6 +80,7 @@ SOURCES += \
         ui/MapWidget.cpp \
         ui/NewContactWidget.cpp \
         ui/OnlineMapWidget.cpp \
+        ui/PaperQSLDialog.cpp \
         ui/QSLImportStatDialog.cpp \
         ui/QSOFilterDetail.cpp \
         ui/QSOFilterDialog.cpp \
@@ -105,8 +106,8 @@ HEADERS += \
         core/HamQTH.h \
         core/Lotw.h \
         core/Migration.h \
+        core/PaperQSL.h \
         core/QRZ.h \
-        core/QslManager.h \
         core/Rig.h \
         core/Rotator.h \
         core/Sat.h \
@@ -147,6 +148,7 @@ HEADERS += \
         ui/MapWidget.h \
         ui/NewContactWidget.h \
         ui/OnlineMapWidget.h \
+        ui/PaperQSLDialog.h \
         ui/QSLImportStatDialog.h \
         ui/QSOFilterDetail.h \
         ui/QSOFilterDialog.h \
@@ -174,6 +176,7 @@ FORMS += \
         ui/LotwShowUploadDialog.ui \
         ui/MainWindow.ui \
         ui/NewContactWidget.ui \
+        ui/PaperQSLDialog.ui \
         ui/QSLImportStatDialog.ui \
         ui/QSOFilterDetail.ui \
         ui/QSOFilterDialog.ui \
