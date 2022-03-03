@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QHostAddress>
 #include <QSqlRecord>
+#include <QNetworkDatagram>
 
 class Data;
 class QUdpSocket;
@@ -125,8 +126,10 @@ public:
     explicit Wsjtx(QObject *parent = nullptr);
     static float modePeriodLenght(const QString &);
 
-    static QString CONFIG_PORT;
-    static int DEFAULT_PORT;
+    static quint16 getConfigPort();
+    static void saveConfigPort(quint16);
+    static QString getConfigForwardAddresses();
+    static void saveConfigForwardAddresses(const QString &);
 
 signals:
     void statusReceived(WsjtxStatus);
@@ -146,7 +149,12 @@ private:
     QHostAddress wsjtxAddress;
     quint16 wsjtxPort;
 
+    static QString CONFIG_PORT;
+    static int DEFAULT_PORT;
+    static QString CONFIG_FORWARD_ADDRESSES;
+
     void openPort();
+    void forwardDatagram(const QNetworkDatagram &);
 };
 
 #endif // WSJTX_H

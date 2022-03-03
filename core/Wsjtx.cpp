@@ -5,6 +5,8 @@
 #include <QSqlRecord>
 #include <QSqlError>
 #include <QDateTime>
+#include <QHostAddress>
+
 #include "Wsjtx.h"
 #include "data/Data.h"
 #include "debug.h"
@@ -39,6 +41,49 @@ void Wsjtx::openPort()
     qCDebug(runtime) << "New port "<< newPort;
 
     socket->bind(QHostAddress::Any, newPort);
+}
+
+void Wsjtx::forwardDatagram(const QNetworkDatagram &datagram)
+{
+    FCT_IDENTIFICATION;
+
+    QString forwardAddresses = getConfigForwardAddresses();
+
+    if ( forwardAddresses.isEmpty() )
+    {
+        qCDebug(runtime) << "Wsjtx forward list is empty";
+        return;
+    }
+
+    QStringList addresses = forwardAddresses.split(" ");
+
+    for ( const QString &address : qAsConst(addresses) )
+    {
+        qCDebug(runtime) << "Forwarding to address " << address;
+
+        QStringList addressPort = address.split(":");
+
+        if ( addressPort.size() == 2 )
+        {
+            bool isPortOK = false;
+            uint port = addressPort.at(1).toUInt(&isPortOK);
+
+            if ( isPortOK and port < 65536 )
+            {
+                QUdpSocket udpSocket(this);
+                qCDebug(runtime) << "Sending to " << address;
+                udpSocket.writeDatagram(datagram.data(), QHostAddress(addressPort.at(0)), port);
+            }
+            else
+            {
+                qCInfo(runtime) << "Malformed WSJTX Forward port " << addressPort.at(1);
+            }
+        }
+        else
+        {
+            qCInfo(runtime) << "Malformed WSJTX Forward address " << address;
+        }
+    }
 }
 
 float Wsjtx::modePeriodLenght(const QString &mode)
@@ -78,6 +123,42 @@ float Wsjtx::modePeriodLenght(const QString &mode)
     return ret;
 }
 
+quint16 Wsjtx::getConfigPort()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(Wsjtx::CONFIG_PORT, Wsjtx::DEFAULT_PORT).toInt();
+}
+
+void Wsjtx::saveConfigPort(quint16 port)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(Wsjtx::CONFIG_PORT, port);
+}
+
+QString Wsjtx::getConfigForwardAddresses()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(Wsjtx::CONFIG_FORWARD_ADDRESSES).toString();
+}
+
+void Wsjtx::saveConfigForwardAddresses(const QString &addresses)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(Wsjtx::CONFIG_FORWARD_ADDRESSES, addresses);
+}
+
 void Wsjtx::readPendingDatagrams()
 {
     FCT_IDENTIFICATION;
@@ -101,6 +182,8 @@ void Wsjtx::readPendingDatagrams()
         }
 
         qCDebug(runtime) << "WSJT mtype << "<< mtype << " schema " << schema;
+
+        forwardDatagram(datagram);
 
         switch (mtype) {
         /* WSJTX Status message */
@@ -333,3 +416,4 @@ void Wsjtx::reloadSetting()
 
 QString Wsjtx::CONFIG_PORT = "network/wsjtx_port";
 int     Wsjtx::DEFAULT_PORT = 2237;
+QString Wsjtx::CONFIG_FORWARD_ADDRESSES = "networt/wsjtx_forward";
