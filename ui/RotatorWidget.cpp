@@ -101,7 +101,7 @@ void RotatorWidget::redrawMap()
                 x3 = x3 < 0 ? x3 + source.width() : x3;
 
                 int y3 = static_cast<int>(t * static_cast<double>(source.height())) % source.height();
-                y3 = y3 < 0 ? y3 + source.width() : y3;
+                y3 = y3 < 0 ? y3 + source.height() : y3;
 
                 map.setPixelColor(x, y, source.pixelColor(x3, y3));
             }
