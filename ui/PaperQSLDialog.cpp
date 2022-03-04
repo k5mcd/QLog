@@ -83,46 +83,6 @@ void PaperQSLDialog::addFileToDialog(const QFileInfo &file)
     QHBoxLayout* fileLayout = new QHBoxLayout();
     fileLayout->setObjectName(QString::fromUtf8("fileLayout%1").arg(fileCount));
 
-    /***************/
-    /* File label  */
-    /***************/
-
-    QLabel *fileLabel = new QLabel(qsl->stripBaseFileName(file.fileName()).left(80), this);
-    fileLabel->setObjectName(QString::fromUtf8("fileLabel%1").arg(fileCount));
-    fileLabel->setMaximumWidth(300);
-    fileLabel->setMinimumWidth(300);
-    QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    QMimeDatabase mimeDatabase;
-    QMimeType mimeType;
-
-    mimeType = mimeDatabase.mimeTypeForFile(file);
-
-    if ( mimeType.name().contains("image", Qt::CaseInsensitive))
-    {
-       fileLabel->setToolTip(QString("<img src='file:///%1'>").arg(file.absoluteFilePath()));
-    }
-
-    sizePolicy1.setHorizontalStretch(0);
-    sizePolicy1.setVerticalStretch(0);
-    sizePolicy1.setHeightForWidth(fileLabel->sizePolicy().hasHeightForWidth());
-    fileLabel->setSizePolicy(sizePolicy1);
-
-    fileLayout->addWidget(fileLabel);
-
-    /*****************/
-    /* Open Button */
-    /*****************/
-    QPushButton* openButton = new QPushButton(tr("Open"), this);
-    openButton->setObjectName(QString::fromUtf8("openButton%1").arg(fileCount));
-
-    fileLayout->addWidget(openButton);
-
-    connect(openButton, &QPushButton::clicked, this, [file]()
-    {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(file.absoluteFilePath()));
-    });
-
     /*****************/
     /* Remove Button */
     /*****************/
@@ -152,6 +112,45 @@ void PaperQSLDialog::addFileToDialog(const QFileInfo &file)
             fileLayout->deleteLater();
         }
     });
+
+    /*****************/
+    /* Open Button */
+    /*****************/
+    QPushButton* openButton = new QPushButton(tr("Open"), this);
+    openButton->setObjectName(QString::fromUtf8("openButton%1").arg(fileCount));
+
+    fileLayout->addWidget(openButton);
+
+    connect(openButton, &QPushButton::clicked, this, [file]()
+    {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(file.absoluteFilePath()));
+    });
+
+    /***************/
+    /* File label  */
+    /***************/
+
+    QLabel *fileLabel = new QLabel(qsl->stripBaseFileName(file.fileName()).left(80), this);
+    fileLabel->setObjectName(QString::fromUtf8("fileLabel%1").arg(fileCount));
+    fileLabel->setMaximumWidth(200);
+    fileLabel->setMinimumWidth(200);
+    QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    sizePolicy1.setHorizontalStretch(0);
+    sizePolicy1.setVerticalStretch(0);
+    sizePolicy1.setHeightForWidth(fileLabel->sizePolicy().hasHeightForWidth());
+    fileLabel->setSizePolicy(sizePolicy1);
+
+    QMimeDatabase mimeDatabase;
+    QMimeType mimeType;
+
+    mimeType = mimeDatabase.mimeTypeForFile(file);
+
+    if ( mimeType.name().contains("image", Qt::CaseInsensitive))
+    {
+       fileLabel->setToolTip(QString("<img src='file:///%1'>").arg(file.absoluteFilePath()));
+    }
+
+    fileLayout->addWidget(fileLabel);
 
     ui->filesListLayout->addLayout(fileLayout);
 
