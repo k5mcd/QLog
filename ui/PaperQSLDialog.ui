@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>247</height>
+    <width>366</width>
+    <height>134</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Paper QSLs</string>
+   <string>QSL FIles</string>
   </property>
   <property name="modal">
    <bool>true</bool>
