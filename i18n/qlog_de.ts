@@ -2292,13 +2292,23 @@
         <translation>Logbuch</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="250"/>
+        <location filename="../ui/MainWindow.ui" line="75"/>
+        <source>Equipment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="101"/>
+        <source>Service</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="252"/>
         <source>New Contact</source>
         <translation>Neuer Kontakt</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="203"/>
-        <location filename="../ui/MainWindow.ui" line="363"/>
+        <location filename="../ui/MainWindow.ui" line="365"/>
         <source>Rig</source>
         <translation>Rig</translation>
     </message>
@@ -2313,13 +2323,8 @@
         <translation>Ansicht</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="101"/>
-        <source>Services</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../ui/MainWindow.ui" line="158"/>
-        <location filename="../ui/MainWindow.ui" line="321"/>
+        <location filename="../ui/MainWindow.ui" line="323"/>
         <source>Map</source>
         <translation>Karte</translation>
     </message>
@@ -2329,9 +2334,8 @@
         <translation>Werkzeugleiste</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="75"/>
         <source>Station</source>
-        <translation>Station</translation>
+        <translation type="vanished">Station</translation>
     </message>
     <message>
         <source>QSL</source>
@@ -2339,7 +2343,7 @@
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="149"/>
-        <location filename="../ui/MainWindow.ui" line="368"/>
+        <location filename="../ui/MainWindow.ui" line="370"/>
         <source>Clock</source>
         <translation>Uhr</translation>
     </message>
@@ -2350,39 +2354,39 @@
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="185"/>
-        <location filename="../ui/MainWindow.ui" line="353"/>
+        <location filename="../ui/MainWindow.ui" line="355"/>
         <source>Rotator</source>
         <translation>Rotor</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="194"/>
-        <location filename="../ui/MainWindow.ui" line="358"/>
+        <location filename="../ui/MainWindow.ui" line="360"/>
         <source>Bandmap</source>
         <translation>Bandkarte</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="212"/>
-        <location filename="../ui/MainWindow.ui" line="387"/>
+        <location filename="../ui/MainWindow.ui" line="389"/>
         <source>Online Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="224"/>
+        <location filename="../ui/MainWindow.ui" line="225"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="227"/>
+        <location filename="../ui/MainWindow.ui" line="228"/>
         <source>Ctrl+Q</source>
         <translation>Strg+Q</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="253"/>
+        <location filename="../ui/MainWindow.ui" line="255"/>
         <source>Ctrl+N</source>
         <translation>Strg+N</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="262"/>
+        <location filename="../ui/MainWindow.ui" line="264"/>
         <source>Import</source>
         <translation>Importieren</translation>
     </message>
@@ -2391,57 +2395,57 @@
         <translation type="vanished">Exportieren</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="271"/>
+        <location filename="../ui/MainWindow.ui" line="273"/>
         <source>Export All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="279"/>
+        <location filename="../ui/MainWindow.ui" line="281"/>
         <source>Connect Rig</source>
         <translation>Rig verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="330"/>
+        <location filename="../ui/MainWindow.ui" line="332"/>
         <source>Statistics</source>
         <translation>Statistik</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="335"/>
+        <location filename="../ui/MainWindow.ui" line="337"/>
         <source>Wsjtx</source>
         <translation>WSJTX</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="340"/>
+        <location filename="../ui/MainWindow.ui" line="342"/>
         <source>LotW</source>
         <translation>LotW</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="348"/>
+        <location filename="../ui/MainWindow.ui" line="350"/>
         <source>Connect Rotator</source>
         <translation>Rotor verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="377"/>
+        <location filename="../ui/MainWindow.ui" line="379"/>
         <source>QSO Filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="382"/>
+        <location filename="../ui/MainWindow.ui" line="384"/>
         <source>eQSL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="396"/>
+        <location filename="../ui/MainWindow.ui" line="398"/>
         <source>Awards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="401"/>
+        <location filename="../ui/MainWindow.ui" line="403"/>
         <source>Clublog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="406"/>
+        <location filename="../ui/MainWindow.ui" line="408"/>
         <source>QRZ.com</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2458,18 +2462,18 @@
         <translation type="vanished">Verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="288"/>
+        <location filename="../ui/MainWindow.ui" line="290"/>
         <location filename="../ui/MainWindow.cpp" line="390"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="300"/>
+        <location filename="../ui/MainWindow.ui" line="302"/>
         <source>Save Contact</source>
         <translation>Kontakt speichern</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="303"/>
+        <location filename="../ui/MainWindow.ui" line="305"/>
         <source>Ctrl+S</source>
         <translation>Strg+S</translation>
     </message>
@@ -2495,7 +2499,7 @@
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="167"/>
-        <location filename="../ui/MainWindow.ui" line="312"/>
+        <location filename="../ui/MainWindow.ui" line="314"/>
         <source>DX Cluster</source>
         <translation>DX Cluster</translation>
     </message>
@@ -2509,7 +2513,7 @@
         <translation type="obsolete">Beenden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="238"/>
+        <location filename="../ui/MainWindow.ui" line="240"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>

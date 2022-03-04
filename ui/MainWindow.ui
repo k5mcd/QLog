@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>913</width>
-     <height>39</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -72,7 +72,7 @@
    </widget>
    <widget class="QMenu" name="menuRig">
     <property name="title">
-     <string>Station</string>
+     <string>Equipment</string>
     </property>
     <addaction name="actionConnectRig"/>
     <addaction name="actionConnectRotator"/>
@@ -98,7 +98,7 @@
    </widget>
    <widget class="QMenu" name="menuServices">
     <property name="title">
-     <string>Services</string>
+     <string>Service</string>
     </property>
     <addaction name="actionClublog"/>
     <addaction name="actioneQSL"/>
@@ -218,7 +218,8 @@
   </widget>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit"/>
+    <iconset theme="application-exit">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -232,7 +233,8 @@
   </action>
   <action name="actionSettings">
    <property name="icon">
-    <iconset theme="document-properties"/>
+    <iconset theme="document-properties">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Settings</string>
