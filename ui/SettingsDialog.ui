@@ -1331,6 +1331,9 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Port where QLog listen an incoming traffic from WSJT-XX</string>
+            </property>
             <property name="minimum">
              <number>1025</number>
             </property>
@@ -1339,6 +1342,23 @@
             </property>
             <property name="value">
              <number>2237</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="wsjtForwardLabel">
+            <property name="text">
+             <string>UDP Forward</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="wsjtForwardEdit">
+            <property name="toolTip">
+             <string>List of addresses to which QLog will forward raw UDP WSJTX packets. The addresses are separated by a space and have the form ADDRESS:PORT </string>
+            </property>
+            <property name="placeholderText">
+             <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
             </property>
            </widget>
           </item>

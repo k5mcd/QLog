@@ -614,7 +614,8 @@ void SettingsDialog::readSettings() {
     /* NETWORK */
     /***********/
 
-    ui->wsjtPortSpin->setValue(settings.value(Wsjtx::CONFIG_PORT, Wsjtx::DEFAULT_PORT).toInt());
+    ui->wsjtPortSpin->setValue(Wsjtx::getConfigPort());
+    ui->wsjtForwardEdit->setText(Wsjtx::getConfigForwardAddresses());
 
     /******************/
     /* END OF Reading */
@@ -704,6 +705,15 @@ void SettingsDialog::writeSettings() {
                                ui->eqslPasswordEdit->text());
     EQSL::saveQSLImageFolder(ui->eqslFolderPathEdit->text());
 
+    /***********/
+    /* QRZ.COM */
+    /***********/
+    QRZ::saveLogbookAPI(ui->qrzApiKeyEdit->text());
+
+
+    /*********/
+    /* DXCC  */
+    /*********/
     if (ui->dxccStartDateCheckBox->isChecked()) {
         settings.setValue("dxcc/start", ui->dxccStartDate->date());
     }
@@ -717,14 +727,10 @@ void SettingsDialog::writeSettings() {
     PaperQSL::saveQSLImageFolder(ui->paperFolderPathEdit->text());
 
     /***********/
-    /* QRZ.COM */
-    /***********/
-    QRZ::saveLogbookAPI(ui->qrzApiKeyEdit->text());
-
-    /***********/
     /* NETWORK */
     /***********/
-    settings.setValue(Wsjtx::CONFIG_PORT, ui->wsjtPortSpin->value());
+    Wsjtx::saveConfigPort(ui->wsjtPortSpin->value());
+    Wsjtx::saveConfigForwardAddresses(ui->wsjtForwardEdit->text());
 }
 
 SettingsDialog::~SettingsDialog() {
