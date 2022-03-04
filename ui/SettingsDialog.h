@@ -38,6 +38,7 @@ public slots:
     void adjustLocatorTextColor();
     void adjustVUCCLocatorTextColor();
     void eqslDirBrowse();
+    void paperDirBrowse();
     void cancelled();
     void sotaChanged(QString);
     void primaryCallbookChanged(int);

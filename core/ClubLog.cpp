@@ -16,12 +16,28 @@
 
 MODULE_IDENTIFICATION("qlog.core.clublog");
 
-ClubLog::ClubLog(QObject *parent) : QObject(parent) {
+ClubLog::ClubLog(QObject *parent) :
+    QObject(parent),
+    currentReply(nullptr)
+{
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
     connect(nam, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(processReply(QNetworkReply*)));
+}
+
+ClubLog::~ClubLog()
+{
+    FCT_IDENTIFICATION;
+
+    nam->deleteLater();
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        currentReply->deleteLater();
+    }
 }
 
 const QString ClubLog::getEmail()
@@ -82,6 +98,8 @@ void ClubLog::saveUsernamePassword(const QString &newEmail, const QString &newPa
 
 }
 
+/* Currently not used */
+#if 0
 void ClubLog::uploadContact(QSqlRecord record) {
     FCT_IDENTIFICATION;
 
@@ -118,10 +136,11 @@ void ClubLog::uploadContact(QSqlRecord record) {
 
     qCDebug(runtime) << query.query();
 
-    nam->post(request, query.query().toUtf8());
+    currentReply = nam->post(request, query.query().toUtf8());
 }
+#endif
 
-QNetworkReply* ClubLog::uploadAdif(QByteArray& data)
+void ClubLog::uploadAdif(QByteArray& data)
 {
     FCT_IDENTIFICATION;
 
@@ -170,16 +189,23 @@ QNetworkReply* ClubLog::uploadAdif(QByteArray& data)
     qCDebug(runtime) << multipart->boundary();
 
     QNetworkRequest request(url);
-    QNetworkReply* reply = nam->post(request, multipart);
-    reply->setProperty("messageType", QVariant("uploadADIFFile"));
-    multipart->setParent(reply);
 
-    return reply;
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
+
+    currentReply = nam->post(request, multipart);
+    currentReply->setProperty("messageType", QVariant("uploadADIFFile"));
+    multipart->setParent(currentReply);
 }
 
 void ClubLog::processReply(QNetworkReply* reply)
 {
     FCT_IDENTIFICATION;
+
+    /* always process one requests per class */
+    currentReply = nullptr;
 
     if ( reply->error() != QNetworkReply::NoError )
     {
@@ -205,7 +231,19 @@ void ClubLog::processReply(QNetworkReply* reply)
         emit uploadOK("OK");
     }
 
-    reply->deleteLater();
+    reply->deleteLater(); 
+}
+
+void ClubLog::abortRequest()
+{
+    FCT_IDENTIFICATION;
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        //currentReply->deleteLater(); // pointer is deleted later in processReply
+        currentReply = nullptr;
+    }
 }
 
 const QString ClubLog::SECURE_STORAGE_KEY = "QLog:Clublog";

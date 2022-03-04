@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>597</width>
+    <width>646</width>
     <height>699</height>
    </rect>
   </property>
@@ -1000,9 +1000,75 @@
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>Sync</string>
+       <string>Sync &amp;&amp; QSL</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
+       <item row="3" column="0">
+        <widget class="QGroupBox" name="groupBox_14">
+         <property name="title">
+          <string>QRZ.com</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_13">
+          <item row="0" column="0">
+           <widget class="QLabel" name="qrzApiKeyLabel">
+            <property name="text">
+             <string>Log API Key  </string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="qrzApiKeyEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>ClubLog</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_5">
+          <item row="1" column="0">
+           <widget class="QLabel" name="clublogEmailLabel">
+            <property name="text">
+             <string>E-Mail</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="clublogEmailEdit"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="clublogCallsignEdit"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="clublogCallsignLabel">
+            <property name="text">
+             <string>Callsign</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="clublogPasswordLabel">
+            <property name="text">
+             <string>Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="clublogPasswordEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox_9">
          <property name="title">
@@ -1064,62 +1130,6 @@
           </item>
          </layout>
         </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>ClubLog</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_5">
-          <item row="1" column="0">
-           <widget class="QLabel" name="clublogEmailLabel">
-            <property name="text">
-             <string>E-Mail</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="clublogEmailEdit"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="clublogCallsignEdit"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="clublogCallsignLabel">
-            <property name="text">
-             <string>Callsign</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="clublogPasswordLabel">
-            <property name="text">
-             <string>Password</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="clublogPasswordEdit">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_4">
@@ -1186,25 +1196,52 @@
          </layout>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QGroupBox" name="groupBox_14">
-         <property name="title">
-          <string>QRZ.com</string>
+       <item row="5" column="0">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-         <layout class="QFormLayout" name="formLayout_13">
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <widget class="QGroupBox" name="groupBox_16">
+         <property name="title">
+          <string>Paper QSL</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_15">
           <item row="0" column="0">
-           <widget class="QLabel" name="qrzApiKeyLabel">
+           <widget class="QLabel" name="paperImageFolderLabel">
             <property name="text">
-             <string>Log API Key  </string>
+             <string>Save QSLs to</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="qrzApiKeyEdit">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLineEdit" name="paperFolderPathEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="paperFolderPathButton">
+              <property name="text">
+               <string>Browse</string>
+              </property>
+              <property name="icon">
+               <iconset theme="folder-open"/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -1688,6 +1725,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>paperFolderPathButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>paperDirBrowse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>523</x>
+     <y>588</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>298</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -1709,5 +1762,6 @@
   <slot>sotaChanged(QString)</slot>
   <slot>primaryCallbookChanged(int)</slot>
   <slot>secondaryCallbookChanged(int)</slot>
+  <slot>paperDirBrowse()</slot>
  </slots>
 </ui>

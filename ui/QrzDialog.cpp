@@ -122,29 +122,32 @@ void QRZDialog::upload()
                 if ( ! query_update.exec() )
                 {
                     qInfo() << "Cannot Update QRZCOM status for QSO number " << qsoID << " " << query_update.lastError().text();
-                    qrz->cancelUploadContacts();
+                    qrz->abortRequest();
+                    qrz->deleteLater();
                 }
                 dialog->setValue(dialog->value() + 1);
             });
 
-            connect(qrz, &QRZ::uploadFinished, this, [this, dialog, query_where, count](bool)
+            connect(qrz, &QRZ::uploadFinished, this, [this, qrz, dialog, count](bool)
             {
                 dialog->done(QDialog::Accepted);
                 QMessageBox::information(this, tr("QLog Information"),
                                          tr("%n QSO(s) uploaded.", "", count));
+                qrz->deleteLater();
             });
 
-            connect(qrz, &QRZ::uploadError, this, [this, dialog](QString msg)
+            connect(qrz, &QRZ::uploadError, this, [this, qrz, dialog](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "QRZ.com Upload Error: " << msg;
                 QMessageBox::warning(this, tr("QLog Warning"),
                                      tr("Cannot upload the QSO(s): ") + msg);
+                qrz->deleteLater();
             });
 
-            qrz->uploadContacts(qsos);
+            connect(dialog, &QProgressDialog::canceled, qrz, &QRZ::abortRequest);
 
-            connect(dialog, &QProgressDialog::canceled, qrz, &QRZ::cancelUploadContacts);
+            qrz->uploadContacts(qsos);
         }
     }
     else

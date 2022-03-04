@@ -13,8 +13,9 @@ class Lotw : public QObject
     Q_OBJECT
 public:
     explicit Lotw(QObject *parent = nullptr);
+    ~Lotw();
 
-    QNetworkReply* update(const QDate &, bool, const QString &);
+    void update(const QDate &, bool, const QString &);
     int uploadAdif(const QByteArray &, QString &);
 
     static const QString getUsername();
@@ -32,13 +33,16 @@ signals:
 
 public slots:
     void processReply(QNetworkReply* reply);
+    void abortRequest();
 
 private:
     QNetworkAccessManager* nam;
+    QNetworkReply *currentReply;
+
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;
 
-    QNetworkReply* get(QList<QPair<QString, QString>> params);
+    void get(QList<QPair<QString, QString>> params);
 };
 
 #endif // LOTW_H

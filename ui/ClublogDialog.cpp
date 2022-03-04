@@ -115,7 +115,7 @@ void ClublogDialog::upload()
 
             ClubLog *clublog = new ClubLog(dialog);
 
-            connect(clublog, &ClubLog::uploadOK, this, [this, dialog, query_where, count](QString msg)
+            connect(clublog, &ClubLog::uploadOK, this, [this, dialog, query_where, count, clublog](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "Clublog Upload OK: " << msg;
@@ -128,27 +128,25 @@ void ClublogDialog::upload()
 
                 QSqlQuery query_update(query_string);
                 query_update.exec();
+                clublog->deleteLater();
             });
 
-            connect(clublog, &ClubLog::uploadError, this, [this, dialog](QString msg)
+            connect(clublog, &ClubLog::uploadError, this, [this, dialog, clublog](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "Clublog Upload Error: " << msg;
                 QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO(s): ") + msg);
+                clublog->deleteLater();
             });
 
-            QNetworkReply *reply = clublog->uploadAdif(data);
-
-            connect(dialog, &QProgressDialog::canceled, this, [reply]()
+            connect(dialog, &QProgressDialog::canceled, this, [clublog]()
             {
                 qCDebug(runtime)<< "Operation canceled";
-                if ( reply )
-                {
-                    reply->abort();
-                    reply->deleteLater();
-                }
+                clublog->abortRequest();
+                clublog->deleteLater();
             });
 
+            clublog->uploadAdif(data);
         }
     }
     else

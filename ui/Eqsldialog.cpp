@@ -50,12 +50,14 @@ void EqslDialog::download()
 
     connect(eQSL, &EQSL::updateProgress, dialog, &QProgressDialog::setValue);
 
-    connect(eQSL, &EQSL::updateStarted, this, [dialog] {
+    connect(eQSL, &EQSL::updateStarted, this, [dialog]
+    {
         dialog->setLabelText(tr("Processing eQSL QSLs"));
         dialog->setRange(0, 100);
     });
 
-    connect(eQSL, &EQSL::updateComplete, this, [dialog](QSLMergeStat stats) {
+    connect(eQSL, &EQSL::updateComplete, this, [eQSL, dialog](QSLMergeStat stats)
+    {
         QSettings settings;
         settings.setValue("eqsl/last_update", QDateTime::currentDateTimeUtc().date());
 
@@ -66,32 +68,30 @@ void EqslDialog::download()
 
         qCDebug(runtime) << "New QSLs: " << stats.newQSLs;
         qCDebug(runtime) << "Unmatched QSLs: " << stats.unmatchedQSLs;
+        eQSL->deleteLater();
     });
 
-    connect(eQSL, &EQSL::updateFailed, this, [this, dialog](QString error) {
+    connect(eQSL, &EQSL::updateFailed, this, [this, eQSL, dialog](QString error)
+    {
         dialog->done(1);
         QMessageBox::critical(this, tr("QLog Error"), tr("eQSL update failed: ") + error);
+        eQSL->deleteLater();
     });
 
+    connect(dialog, &QProgressDialog::canceled, this, [eQSL]()
+    {
+        qCDebug(runtime)<< "Operation canceled";
+
+        eQSL->abortRequest();
+        eQSL->deleteLater();
+    });
 
     /* do not call saveDialogState() here */
     /* we want to save only profile from download part */
     QSettings settings;
     settings.setValue("eqsl/last_QTHProfile", ui->qthProfileEdit->text());
 
-
-    QNetworkReply* reply = eQSL->update(QDate(), ui->qthProfileEdit->text());
-
-    connect(dialog, &QProgressDialog::canceled, this, [reply]()
-    {
-        qCDebug(runtime)<< "Operation canceled";
-
-        if ( reply )
-        {
-            reply->abort();
-            reply->deleteLater();
-        }
-    });
+    eQSL->update(QDate(), ui->qthProfileEdit->text());
 }
 
 void EqslDialog::upload()
@@ -182,7 +182,7 @@ void EqslDialog::upload()
 
             EQSL *eQSL = new EQSL(dialog);
 
-            connect(eQSL, &EQSL::uploadOK, this, [this, dialog, query_where, count](QString msg)
+            connect(eQSL, &EQSL::uploadOK, this, [this, eQSL, dialog, query_where, count](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "eQSL Upload OK: " << msg;
@@ -195,26 +195,25 @@ void EqslDialog::upload()
 
                 QSqlQuery query_update(query_string);
                 query_update.exec();
+                eQSL->deleteLater();
             });
 
-            connect(eQSL, &EQSL::uploadError, this, [this, dialog](QString msg)
+            connect(eQSL, &EQSL::uploadError, this, [this, eQSL, dialog](QString msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "eQSL Upload Error: " << msg;
                 QMessageBox::warning(this, tr("QLog Warning"), tr("Cannot upload the QSO(s): ") + msg);
+                eQSL->deleteLater();
             });
 
-            QNetworkReply *reply = eQSL->uploadAdif(data);
-
-            connect(dialog, &QProgressDialog::canceled, this, [reply]()
+            connect(dialog, &QProgressDialog::canceled, this, [eQSL]()
             {
                 qCDebug(runtime)<< "Operation canceled";
-                if ( reply )
-                {
-                    reply->abort();
-                    reply->deleteLater();
-                }
+                eQSL->abortRequest();
+                eQSL->deleteLater();
             });
+
+            eQSL->uploadAdif(data);
         }
     }
     else
