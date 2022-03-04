@@ -1,3 +1,15 @@
+TDB - 0.6.0
+- [NEW] QSL - added import a file with QSL - with QSLr column
+- Fixed QLog start when Band is 3cm (too long start time due to the Bandmap drawing) (issue #6)
+- Fixed Rotator Widget Warning - map transformation issue (issue #8)
+- Changed Bandmap window narrow size (issue #3)
+- Changed User Filter Widget size
+- Removed Units from Logbook widget
+- Removed UTC string
+- Renamed RSTs, RSTr etc. (issue #4)
+- Renamed Main Menu Services->Service and Station->Equipment
+- Internal - reworked Service networking signal handling
+
 2022/02/19 - 0.5.0
 - DB: Added submodes used by FLDigi and added their mapping to LoTW, Clublog etc.
 - DB: Added all ADIF-defined modes/submodes
