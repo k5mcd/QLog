@@ -1,3 +1,17 @@
+qlog (0.6.0-1) UNRELEASED; urgency=low
+  * [NEW] QSL - added import a file with QSL - QSLr column
+  * Fixed QLog start when Band is 3cm (too long start time due to the Bandmap drawing) (issue #6)
+  * Fixed Rotator Widget Warning - map transformation issue (issue #8)
+  * Changed Bandmap window narrow size (issue #3)
+  * Changed User Filter Widget size
+  * Removed Units from Logbook widget
+  * Removed UTC string
+  * Renamed RSTs, RSTr etc. (issue #4)
+  * Renamed Main Menu Services->Service and Station->Equipment
+  * Internal - reworked Service networking signal handling
+
+ -- foldynl <foldyna@gmail.com>  Sun, 5 Mar 2022 08:00:00 +0200
+
 qlog (0.5.0-1) UNRELEASED; urgency=low
 
   * DB: Started to use *_INTL fields

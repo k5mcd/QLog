@@ -42,6 +42,18 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Mar 6 2022 Ladislav Foldyna - 0.6.0-1
+- [NEW] QSL - added import a file with QSL - QSLr column
+- Fixed QLog start when Band is 3cm (too long start time due to the Bandmap drawing) (issue #6)
+- Fixed Rotator Widget Warning - map transformation issue (issue #8)
+- Changed Bandmap window narrow size (issue #3)
+- Changed User Filter Widget size
+- Removed Units from Logbook widget
+- Removed UTC string
+- Renamed RSTs, RSTr etc. (issue #4)
+- Renamed Main Menu Services->Service and Station->Equipment
+- Internal - reworked Service networking signal handling
+
 * Sat Feb 19 2022 Ladislav Foldyna - 0.5.0-1
 - DB: Started to use *_INTL fields
 - DB: Added all ADIF-supported modes/submodes

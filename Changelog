@@ -1,4 +1,4 @@
-TDB - 0.6.0
+2022/03/06 - 0.6.0
 - [NEW] QSL - added import a file with QSL - with QSLr column
 - Fixed QLog start when Band is 3cm (too long start time due to the Bandmap drawing) (issue #6)
 - Fixed Rotator Widget Warning - map transformation issue (issue #8)
