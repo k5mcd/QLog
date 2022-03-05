@@ -68,7 +68,7 @@ void Wsjtx::forwardDatagram(const QNetworkDatagram &datagram)
             bool isPortOK = false;
             uint port = addressPort.at(1).toUInt(&isPortOK);
 
-            if ( isPortOK and port < 65536 )
+            if ( isPortOK && port < 65536 )
             {
                 QUdpSocket udpSocket(this);
                 qCDebug(runtime) << "Sending to " << address;

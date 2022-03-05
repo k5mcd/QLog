@@ -2991,7 +2991,7 @@
         <location filename="../ui/PaperQSLDialog.ui" line="37"/>
         <location filename="../ui/PaperQSLDialog.cpp" line="42"/>
         <source>Add File</source>
-        <translation>Pridat</translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../ui/PaperQSLDialog.cpp" line="89"/>
