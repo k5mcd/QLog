@@ -77,14 +77,18 @@ void ImportDialog::adjustLocatorTextColor()
 {
     FCT_IDENTIFICATION;
 
+    QPalette p;
+
     if ( ! ui->gridEdit->hasAcceptableInput() )
     {
-        ui->gridEdit->setStyleSheet("QLineEdit { color: red;}");
+        p.setColor(QPalette::Text,Qt::red);
     }
     else
     {
-        ui->gridEdit->setStyleSheet("QLineEdit { color: black;}");
+        p.setColor(QPalette::Text,qApp->palette().text().color());
     }
+
+    ui->gridEdit->setPalette(p);
 }
 
 void ImportDialog::progress(qint64 value) {

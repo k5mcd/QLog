@@ -622,13 +622,16 @@ void QSOFilterDetail::filterNameChanged(const QString &newFilterName)
 {
     FCT_IDENTIFICATION;
 
+    QPalette p;
+
     if ( filterExists(newFilterName) )
     {
-        ui->filterLineEdit->setStyleSheet("QLineEdit { color: red;}");
+        p.setColor(QPalette::Text,Qt::red);
     }
     else
     {
-        ui->filterLineEdit->setStyleSheet("QLineEdit { color: black;}");
+        p.setColor(QPalette::Text,qApp->palette().text().color());
     }
 
+    ui->filterLineEdit->setPalette(p);
 }

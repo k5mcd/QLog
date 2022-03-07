@@ -373,14 +373,17 @@ void SettingsDialog::adjustCallsignTextColor()
 {
     FCT_IDENTIFICATION;
 
+    QPalette p;
+
     if ( ! ui->callsignEdit->hasAcceptableInput() )
     {
-        ui->callsignEdit->setStyleSheet("QLineEdit { color: red;}");
+        p.setColor(QPalette::Text,Qt::red);
     }
     else
     {
-        ui->callsignEdit->setStyleSheet("QLineEdit { color: black;}");
+        p.setColor(QPalette::Text,qApp->palette().text().color());
     }
+    ui->callsignEdit->setPalette(p);
 
 }
 
@@ -388,14 +391,18 @@ void SettingsDialog::adjustLocatorTextColor()
 {
     FCT_IDENTIFICATION;
 
+    QPalette p;
+
     if ( ! ui->locatorEdit->hasAcceptableInput() )
     {
-        ui->locatorEdit->setStyleSheet("QLineEdit { color: red;}");
+        p.setColor(QPalette::Text,Qt::red);
     }
     else
     {
-        ui->locatorEdit->setStyleSheet("QLineEdit { color: black;}");
+        p.setColor(QPalette::Text,qApp->palette().text().color());
     }
+
+    ui->locatorEdit->setPalette(p);
 
 }
 
@@ -403,14 +410,18 @@ void SettingsDialog::adjustVUCCLocatorTextColor()
 {
     FCT_IDENTIFICATION;
 
+    QPalette p;
+
     if ( ! ui->vuccEdit->hasAcceptableInput() )
     {
-        ui->vuccEdit->setStyleSheet("QLineEdit { color: red;}");
+        p.setColor(QPalette::Text,Qt::red);
     }
     else
     {
-        ui->vuccEdit->setStyleSheet("QLineEdit { color: black;}");
+        p.setColor(QPalette::Text,qApp->palette().text().color());
     }
+
+    ui->vuccEdit->setPalette(p);
 }
 
 void SettingsDialog::eqslDirBrowse()
