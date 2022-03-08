@@ -35,6 +35,9 @@
         <height>0</height>
        </size>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::ClickFocus</enum>
+      </property>
      </widget>
     </item>
    </layout>
@@ -160,7 +163,11 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="MapWidget" name="mapWidget"/>
+   <widget class="MapWidget" name="mapWidget">
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="dxDockWidget">
    <property name="windowTitle">
