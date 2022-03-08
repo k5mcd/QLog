@@ -3,6 +3,7 @@
 #include <QSettings>
 #include <QRegExpValidator>
 #include <QMessageBox>
+#include <QFontMetrics>
 
 #include "DxWidget.h"
 #include "ui_DxWidget.h"
@@ -165,12 +166,13 @@ bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *ob
     if ( event->type() == QEvent::KeyPress )
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-        if (keyEvent->key() == Qt::Key::Key_Delete /*&& keyEvent->modifiers() == Qt::ShiftModifier*/)
+        if (keyEvent->key() == Qt::Key::Key_Delete && keyEvent->modifiers() == Qt::ControlModifier)
         {
             auto combobox = dynamic_cast<QComboBox *>(obj);
             if ( combobox )
             {
                 combobox->removeItem(combobox->currentIndex());
+                combobox->setMinimumWidth(0);
                 return true;
             }
         }
@@ -503,6 +505,37 @@ void DxWidget::actionFilter()
       proxyDXC->setSpotterContFilterRegExp(spotterContFilterRegExp());
       proxyDXC->setBandFilterRegExp(bandFilterRegExp());
   }
+}
+
+void DxWidget::adjusteServerSelectSize(QString input)
+{
+    FCT_IDENTIFICATION;
+
+    qDebug(function_parameters)<< input << input.length();
+
+    QFont f;
+    QFontMetrics met(f);
+
+    ui->serverSelect->setMinimumWidth(met.boundingRect(input).width() + 30);
+    ui->serverSelect->update();
+    ui->serverSelect->repaint();
+}
+
+void DxWidget::serverSelectChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    qDebug(function_parameters) << index;
+
+    if ( socket && socket->isOpen() )
+    {
+        /* reconnect DXC Server */
+        if ( index >= 0 )
+        {
+            disconnectCluster();
+            connectCluster();
+        }
+    }
 }
 
 QStringList DxWidget::getDXCServerList()

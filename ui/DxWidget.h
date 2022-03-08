@@ -77,6 +77,8 @@ public slots:
     void rawModeChanged();
     void entryDoubleClicked(QModelIndex);
     void actionFilter();
+    void adjusteServerSelectSize(QString);
+    void serverSelectChanged(int);
 
 signals:
     void tuneDx(QString, double);
