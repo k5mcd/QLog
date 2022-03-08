@@ -49,12 +49,13 @@ void ClockWidget::updateClock() {
         updateSunGraph();
     }
 
-    QWidget * fw = qApp->focusWidget();
+    /* Use only in case when you want to debug which widget is focussed*/
+//    QWidget * fw = qApp->focusWidget();
 
-    if ( fw )
-    {
-        qInfo() << fw->objectName();
-    }
+//    if ( fw )
+//    {
+//        qInfo() << fw->objectName();
+//    }
 }
 
 void ClockWidget::updateSun() {
