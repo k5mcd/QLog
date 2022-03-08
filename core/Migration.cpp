@@ -46,16 +46,6 @@ bool Migration::run() {
 
     progress.close();
 
-    if (!tableRows("bands")) {
-        qCDebug(runtime) << "Updating band table";
-        updateBands();
-    }
-
-    if (!tableRows("modes")) {
-        qCDebug(runtime) << "Updating mode table";
-        updateModes();
-    }
-
     updateExternalResource();
 
     qCDebug(runtime) << "Database migration successful";
@@ -189,16 +179,6 @@ int Migration::tableRows(QString name) {
     i = query.first() ? query.value(0).toInt() : 0;
     qCDebug(runtime) << i;
     return i;
-}
-
-bool Migration::updateBands() {
-    FCT_IDENTIFICATION;
-    return runSqlFile(":/res/sql/bands.sql");
-}
-
-bool Migration::updateModes() {
-    FCT_IDENTIFICATION;
-    return runSqlFile(":/res/sql/modes.sql");
 }
 
 bool Migration::updateExternalResource() {
