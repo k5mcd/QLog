@@ -150,7 +150,7 @@
         <enum>Qt::ClickFocus</enum>
        </property>
        <property name="toolTip">
-        <string>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;DEL&lt;/b&gt; to delete a highlighted DXC server.</string>
+        <string>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;CTRL + DEL&lt;/b&gt; to delete a highlighted DXC server.</string>
        </property>
        <property name="inputMethodHints">
         <set>Qt::ImhNone</set>
@@ -328,6 +328,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>serverSelect</sender>
+   <signal>editTextChanged(QString)</signal>
+   <receiver>DxWidget</receiver>
+   <slot>adjusteServerSelectSize(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>497</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>serverSelect</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>DxWidget</receiver>
+   <slot>serverSelectChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>497</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>send()</slot>
@@ -338,5 +370,7 @@
   <slot>actionPhoneFilter()</slot>
   <slot>actionFT8Filter()</slot>
   <slot>actionPhoneFilter(bool)</slot>
+  <slot>adjusteServerSelectSize(QString)</slot>
+  <slot>serverSelectChanged(int)</slot>
  </slots>
 </ui>
