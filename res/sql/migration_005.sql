@@ -73,4 +73,5 @@ INSERT INTO modes (name, rprt, dxcc, enabled, submodes) VALUES
 ('DSTAR', '59', 'PHONE', true, NULL),
 ('PKT', NULL, 'DIGITAL', true, NULL),
 ('ATV', NULL, 'DIGITAL', true, NULL),
-('SSTV', NULL, 'DIGITAL', true, NULL);
+('SSTV', NULL, 'DIGITAL', true, NULL)
+ON CONFLICT DO NOTHING;

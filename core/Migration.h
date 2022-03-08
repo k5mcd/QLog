@@ -21,13 +21,11 @@ private:
 
     int tableRows(QString name);
 
-    bool updateBands();
-    bool updateModes();
     bool updateExternalResource();
     bool fixIntlFields();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
-    static const int latestVersion = 4;
+    static const int latestVersion = 5;
 };
 
 #endif // MIGRATION_H
