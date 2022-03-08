@@ -118,6 +118,7 @@ void SelectionControl::nextCheckState() {
 void SwitchButton::init() {
     setFont(style.font);
     setObjectName("Switch");
+    setFocusPolicy(Qt::ClickFocus);
     /* setup animations */
     thumbBrushAnimation = new Animator{ this, this };
     trackBrushAnimation = new Animator{ this, this };
@@ -148,7 +149,8 @@ QRect SwitchButton::textRect() {
     return ltr(this) ? rect().marginsRemoved(QMargins(w, 0, 0, 0)) : rect().marginsRemoved(QMargins(0, 0, w, 0));
 }
 
-SwitchButton::SwitchButton(QWidget* parent) : SelectionControl(parent) {
+SwitchButton::SwitchButton(QWidget* parent) : SelectionControl(parent)
+{
     init();
 }
 

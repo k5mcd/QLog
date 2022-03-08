@@ -150,6 +150,9 @@
      </item>
      <item>
       <widget class="QSpinBox" name="clearSpotOlderSpin">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="toolTip">
         <string/>
        </property>
@@ -179,8 +182,8 @@
    <slot>clearSpots()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>155</x>
-     <y>546</y>
+     <x>149</x>
+     <y>617</y>
     </hint>
     <hint type="destinationlabel">
      <x>155</x>
@@ -195,8 +198,8 @@
    <slot>zoomIn()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>153</x>
-     <y>539</y>
+     <x>294</x>
+     <y>617</y>
     </hint>
     <hint type="destinationlabel">
      <x>155</x>
@@ -211,8 +214,8 @@
    <slot>zoomOut()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>255</x>
-     <y>539</y>
+     <x>440</x>
+     <y>617</y>
     </hint>
     <hint type="destinationlabel">
      <x>155</x>

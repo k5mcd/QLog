@@ -48,6 +48,13 @@ void ClockWidget::updateClock() {
         updateSun();
         updateSunGraph();
     }
+
+    QWidget * fw = qApp->focusWidget();
+
+    if ( fw )
+    {
+        qInfo() << fw->objectName();
+    }
 }
 
 void ClockWidget::updateSun() {
