@@ -516,7 +516,7 @@ void DxWidget::adjusteServerSelectSize(QString input)
     QFont f;
     QFontMetrics met(f);
 
-    ui->serverSelect->setMinimumWidth(met.boundingRect(input).width() + 30);
+    ui->serverSelect->setMinimumWidth(met.boundingRect(input).width() + 35);
     ui->serverSelect->update();
     ui->serverSelect->repaint();
 }
