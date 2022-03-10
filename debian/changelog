@@ -1,3 +1,13 @@
+qlog (0.6.5-1) UNRELEASED; urgency=low
+ 
+  * Fixed missing modes in Setting Dialog (issue #11)
+  * Fixed Station Profile text color in dark mode (issue #10)
+  * Fixed DXCluster Server Combo (issue #12)
+  * Fixed TAB focus on QSO Fields (issue #14)
+
+ -- foldynl <foldyna@gmail.com>  Thu, 10 Mar 2022 20:35:00 +0200
+
+
 qlog (0.6.0-1) UNRELEASED; urgency=low
   * [NEW] QSL - added import a file with QSL - QSLr column
   * Fixed QLog start when Band is 3cm (too long start time due to the Bandmap drawing) (issue #6)

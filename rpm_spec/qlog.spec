@@ -42,6 +42,12 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Thu Mar 10 2022 Ladislav Foldyna - 0.6.5-1
+- Fixed missing modes in Setting Dialog (issue #11)
+- Fixed Station Profile text color in dark mode (issue #10)
+- Fixed DXCluster Server Combo (issue #12)
+- Fixed TAB focus on QSO Fields (issue #14)
+
 * Sun Mar 6 2022 Ladislav Foldyna - 0.6.0-1
 - [NEW] QSL - added import a file with QSL - QSLr column
 - Fixed QLog start when Band is 3cm (too long start time due to the Bandmap drawing) (issue #6)
