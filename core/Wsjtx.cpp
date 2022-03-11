@@ -10,6 +10,7 @@
 #include "Wsjtx.h"
 #include "data/Data.h"
 #include "debug.h"
+#include "core/HostsPortString.h"
 
 MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
@@ -47,42 +48,16 @@ void Wsjtx::forwardDatagram(const QNetworkDatagram &datagram)
 {
     FCT_IDENTIFICATION;
 
-    QString forwardAddresses = getConfigForwardAddresses();
+    HostsPortString forwardAddresses(getConfigForwardAddresses());
 
-    if ( forwardAddresses.isEmpty() )
+    QList<HostPortAddress> addrList = forwardAddresses.getAddrList();
+
+    for ( const HostPortAddress &addr : qAsConst(addrList) )
     {
-        qCDebug(runtime) << "Wsjtx forward list is empty";
-        return;
-    }
+        QUdpSocket udpSocket;
 
-    QStringList addresses = forwardAddresses.split(" ");
-
-    for ( const QString &address : qAsConst(addresses) )
-    {
-        qCDebug(runtime) << "Forwarding to address " << address;
-
-        QStringList addressPort = address.split(":");
-
-        if ( addressPort.size() == 2 )
-        {
-            bool isPortOK = false;
-            uint port = addressPort.at(1).toUInt(&isPortOK);
-
-            if ( isPortOK && port < 65536 )
-            {
-                QUdpSocket udpSocket(this);
-                qCDebug(runtime) << "Sending to " << address;
-                udpSocket.writeDatagram(datagram.data(), QHostAddress(addressPort.at(0)), port);
-            }
-            else
-            {
-                qCInfo(runtime) << "Malformed WSJTX Forward port " << addressPort.at(1);
-            }
-        }
-        else
-        {
-            qCInfo(runtime) << "Malformed WSJTX Forward address " << address;
-        }
+        qCDebug(runtime) << "Sending to " << addr;
+        udpSocket.writeDatagram(datagram.data(), addr, addr.getPort());
     }
 }
 

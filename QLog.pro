@@ -38,6 +38,7 @@ SOURCES += \
         core/GenericCallbook.cpp \
         core/Gridsquare.cpp \
         core/HamQTH.cpp \
+        core/HostsPortString.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
         core/PaperQSL.cpp \
@@ -104,6 +105,7 @@ HEADERS += \
         core/GenericCallbook.h \
         core/Gridsquare.h \
         core/HamQTH.h \
+        core/HostsPortString.h \
         core/Lotw.h \
         core/Migration.h \
         core/PaperQSL.h \
