@@ -68,7 +68,7 @@ Prerequisites:
 
 - Installed Trusted QSL (Optional) - `sudo apt install trustedqsl` or from [ARRL](http://www.arrl.org/tqsl-download)
 
-**DEB packages**  are available for amd64, arm64 and armhf platforms via [Ubuntu PPA](https://launchpad.net/~foldyna/+archive/ubuntu/qlog). Ubuntu 20.04 users can use following commands:
+**DEB packages**  are available for amd64, arm64 and armhf platforms via [Ubuntu PPA](https://launchpad.net/~foldyna/+archive/ubuntu/qlog). Ubuntu 20.04, 21.10 and 22.04 (beta) users can use following commands:
 
 `sudo add-apt-repository ppa:foldyna/qlog`
 
