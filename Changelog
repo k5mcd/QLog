@@ -1,4 +1,7 @@
-TBD - 0.6.5
+TBD - 0.7.0
+
+
+2022/03/10 - 0.6.5
 - Fixed missing modes in Setting Dialog (issue #11)
 - Fixed Station Profile text color in dark mode (issue #10)
 - Fixed DXCluster Server Combo (issue #12)
