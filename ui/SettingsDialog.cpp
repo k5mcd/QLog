@@ -24,6 +24,7 @@
 #include "core/Gridsquare.h"
 #include "core/Wsjtx.h"
 #include "core/PaperQSL.h"
+#include "core/NetworkNotification.h"
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
@@ -628,6 +629,8 @@ void SettingsDialog::readSettings() {
     ui->wsjtPortSpin->setValue(Wsjtx::getConfigPort());
     ui->wsjtForwardEdit->setText(Wsjtx::getConfigForwardAddresses());
 
+    ui->notifQSOEdit->setText(NetworkNotification::getNotifQSOAdiAddrs());
+
     /******************/
     /* END OF Reading */
     /******************/
@@ -742,6 +745,8 @@ void SettingsDialog::writeSettings() {
     /***********/
     Wsjtx::saveConfigPort(ui->wsjtPortSpin->value());
     Wsjtx::saveConfigForwardAddresses(ui->wsjtForwardEdit->text());
+
+    NetworkNotification::saveNotifQSOAdiAddrs(ui->notifQSOEdit->text());
 }
 
 SettingsDialog::~SettingsDialog() {
