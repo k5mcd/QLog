@@ -31,6 +31,22 @@ void NetworkNotification::saveNotifQSOAdiAddrs(const QString &addresses)
     settings.setValue(NetworkNotification::CONFIG_NOTIF_QSO_ADI_ADDRS_KEY, addresses);
 }
 
+QString NetworkNotification::getNotifDXSpotAddrs()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(NetworkNotification::CONFIG_NOTIF_DXSPOT_ADDRS_KEY).toString();
+}
+
+void NetworkNotification::saveNotifDXSpotAddrs(const QString &addresses)
+{
+    QSettings settings;
+
+    settings.setValue(NetworkNotification::CONFIG_NOTIF_DXSPOT_ADDRS_KEY, addresses);
+}
+
 void NetworkNotification::QSOInserted(const QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
@@ -74,6 +90,21 @@ void NetworkNotification::QSODeleted(const QSqlRecord &record)
     }
 }
 
+void NetworkNotification::dxSpot(const DxSpot &spot)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << "DX Spot";
+
+    HostsPortString destList(getNotifDXSpotAddrs());
+
+    if ( destList.getAddrList().size() > 0 )
+    {
+        DXSpotNotificationMsg dxSpotMsg(spot);
+        send(dxSpotMsg.getJson(), destList);
+    }
+}
+
 void NetworkNotification::send(const QByteArray &data, const HostsPortString &dests)
 {
     FCT_IDENTIFICATION;
@@ -97,6 +128,7 @@ void NetworkNotification::send(const QByteArray &data, const HostsPortString &de
 }
 
 QString NetworkNotification::CONFIG_NOTIF_QSO_ADI_ADDRS_KEY = "network/notification/qso/adi_addrs";
+QString NetworkNotification::CONFIG_NOTIF_DXSPOT_ADDRS_KEY = "network/notification/dxspot/addrs";
 
 GenericNotificationMsg::GenericNotificationMsg(QObject *parent) :
     QObject(parent)
@@ -142,4 +174,44 @@ QSONotificationMsg::QSONotificationMsg(const QSqlRecord &record,
     msg["data"] = qsoData;
 
     delete format;
+}
+
+DXSpotNotificationMsg::DXSpotNotificationMsg(const DxSpot &spot, QObject *parent) :
+    GenericNotificationMsg(parent)
+{
+    FCT_IDENTIFICATION;
+
+    QJsonObject spotData;
+    spotData["rcvtime"] = spot.time.toString("yyyyMMdd hh:mm:ss");
+    spotData["freq"] = QString::number(spot.freq, 'f', 4);
+    spotData["band"] = spot.band;
+    spotData["mode"] = spot.mode; 
+    spotData["comment"] = spot.comment;
+    spotData["status"] = DxccStatus2String.value(spot.status, "unknown");
+
+    QJsonObject dxInfo;
+    dxInfo["call"] = spot.callsign;
+    dxInfo["country"] = spot.dxcc.country;
+    dxInfo["pfx"] = spot.dxcc.prefix;
+    dxInfo["dxcc"] = spot.dxcc.dxcc;
+    dxInfo["cont"] = spot.dxcc.cont;
+    dxInfo["cqz"] = spot.dxcc.cqz;
+    dxInfo["ituz"] = spot.dxcc.ituz;
+    dxInfo["utcoffset"] = spot.dxcc.tz;
+
+    QJsonObject spotterInfo;
+    spotterInfo["call"] = spot.spotter;
+    spotterInfo["country"] = spot.dxcc_spotter.country;
+    spotterInfo["pfx"] = spot.dxcc_spotter.prefix;
+    spotterInfo["dxcc"] = spot.dxcc_spotter.dxcc;
+    spotterInfo["cont"] = spot.dxcc_spotter.cont;
+    spotterInfo["cqz"] = spot.dxcc_spotter.cqz;
+    spotterInfo["ituz"] = spot.dxcc_spotter.ituz;
+    spotterInfo["utcoffset"] = spot.dxcc_spotter.tz;
+
+    spotData["spotter"] = spotterInfo;
+    spotData["dx"] = dxInfo;
+
+    msg["msgtype"] = "dxspot";
+    msg["data"] = spotData;
 }

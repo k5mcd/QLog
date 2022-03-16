@@ -630,6 +630,7 @@ void SettingsDialog::readSettings() {
     ui->wsjtForwardEdit->setText(Wsjtx::getConfigForwardAddresses());
 
     ui->notifQSOEdit->setText(NetworkNotification::getNotifQSOAdiAddrs());
+    ui->notifDXSpotsEdit->setText(NetworkNotification::getNotifDXSpotAddrs());
 
     /******************/
     /* END OF Reading */
@@ -747,6 +748,7 @@ void SettingsDialog::writeSettings() {
     Wsjtx::saveConfigForwardAddresses(ui->wsjtForwardEdit->text());
 
     NetworkNotification::saveNotifQSOAdiAddrs(ui->notifQSOEdit->text());
+    NetworkNotification::saveNotifDXSpotAddrs(ui->notifDXSpotsEdit->text());
 }
 
 SettingsDialog::~SettingsDialog() {

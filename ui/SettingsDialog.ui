@@ -1389,6 +1389,23 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="notifDXSpotsLabel">
+            <property name="text">
+             <string>DX Spots</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="notifDXSpotsEdit">
+            <property name="toolTip">
+             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with DX Cluster Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
+            </property>
+            <property name="placeholderText">
+             <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
