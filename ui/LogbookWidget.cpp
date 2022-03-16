@@ -20,6 +20,7 @@
 #include "ui/ExportDialog.h"
 #include "core/Eqsl.h"
 #include "ui/PaperQSLDialog.h"
+#include "core/NetworkNotification.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -32,6 +33,9 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->setupUi(this);
 
     model = new LogbookModel(this);
+    connect(model, SIGNAL(beforeUpdate(int,QSqlRecord&)), this, SLOT(handleBeforeUpdate(int,QSqlRecord&)));
+    connect(model, SIGNAL(beforeDelete(int)), this, SLOT(handleBeforeDelete(int)));
+
     ui->contactTable->setModel(model);
 
     ui->contactTable->addAction(ui->actionEditContact);
@@ -482,6 +486,22 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
         PaperQSLDialog dialog(model->record(modelIndex.row()));
         dialog.exec();
     }
+}
+
+void LogbookWidget::handleBeforeUpdate(int row, QSqlRecord &record)
+{
+    FCT_IDENTIFICATION;
+
+    Q_UNUSED(row);
+    emit contactUpdated(record);
+}
+
+void LogbookWidget::handleBeforeDelete(int row)
+{
+    FCT_IDENTIFICATION;
+
+    QSqlRecord oldRecord = model->record(row);
+    emit contactDeleted(oldRecord);
 }
 
 LogbookWidget::~LogbookWidget() {

@@ -39,8 +39,10 @@ SOURCES += \
         core/Gridsquare.cpp \
         core/HamQTH.cpp \
         core/HostsPortString.cpp \
+        core/LogParam.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
+        core/NetworkNotification.cpp \
         core/PaperQSL.cpp \
         core/QRZ.cpp \
         core/Rig.cpp \
@@ -106,8 +108,10 @@ HEADERS += \
         core/Gridsquare.h \
         core/HamQTH.h \
         core/HostsPortString.h \
+        core/LogParam.h \
         core/Lotw.h \
         core/Migration.h \
+        core/NetworkNotification.h \
         core/PaperQSL.h \
         core/QRZ.h \
         core/Rig.h \

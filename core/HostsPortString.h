@@ -21,7 +21,7 @@ class HostsPortString : public QObject
 public:
     explicit HostsPortString(const QString &, QObject *parent=nullptr);
 
-    QList<HostPortAddress> getAddrList();
+    QList<HostPortAddress> getAddrList() const;
 
 private:
 

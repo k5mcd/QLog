@@ -2,11 +2,13 @@
 #include <QMessageBox>
 #include <QtSql>
 #include <QDebug>
+#include <QUuid>
 #include "core/Migration.h"
 #include "core/Cty.h"
 #include "core/Sat.h"
 #include "debug.h"
 #include "data/Data.h"
+#include "LogParam.h"
 
 MODULE_IDENTIFICATION("qlog.core.migration");
 
@@ -165,6 +167,9 @@ bool Migration::functionMigration(int version)
     case 4:
         ret = fixIntlFields();
         break;
+    case 6:
+        ret = insertUUID();
+        break;
     default:
         ret = true;
     }
@@ -312,6 +317,13 @@ bool Migration::fixIntlFields()
     }
 
     return true;
+}
+
+bool Migration::insertUUID()
+{
+    FCT_IDENTIFICATION;
+
+    return LogParam::setParam("logid", QUuid::createUuid().toString());
 }
 
 QString Migration::fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl)

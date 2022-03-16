@@ -23,9 +23,10 @@ private:
 
     bool updateExternalResource();
     bool fixIntlFields();
+    bool insertUUID();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
-    static const int latestVersion = 5;
+    static const int latestVersion = 6;
 };
 
 #endif // MIGRATION_H

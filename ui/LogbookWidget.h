@@ -21,6 +21,8 @@ public:
 
 signals:
     void logbookUpdated();
+    void contactUpdated(QSqlRecord&);
+    void contactDeleted(QSqlRecord&);
 
 public slots:
     void filterCallsign(QString call);
@@ -40,7 +42,8 @@ public slots:
     void saveTableHeaderState();
     void showTableHeaderContextMenu(const QPoint& point);
     void doubleClickColumn(QModelIndex);
-
+    void handleBeforeUpdate(int, QSqlRecord&);
+    void handleBeforeDelete(int);
 
 private:
     ClubLog* clublog;

@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QCompleter>
 #include <QMessageBox>
+#include <QSqlField>
 #include "core/Rig.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
@@ -856,6 +857,7 @@ void NewContactWidget::saveContact()
 
     QSqlTableModel model;
     model.setTable("contacts");
+    QSqlField idField = model.record().field(model.fieldIndex("id"));
     model.removeColumn(model.fieldIndex("id"));
 
     QDateTime start = QDateTime(ui->dateEdit->date(), ui->timeOnEdit->time(), Qt::UTC);
@@ -1030,6 +1032,17 @@ void NewContactWidget::saveContact()
         return;
     }
 
+    /* at this moment, there is no reliable way to get the last ID
+     * therefore running SQL with MAX(id) does a good job */
+    QSqlQuery tmpQuery;
+    if (tmpQuery.exec("SELECT MAX(id) FROM contacts"))
+    {
+        tmpQuery.next();
+        record.insert(0,idField);
+        record.setValue("id", tmpQuery.value(0));
+        qDebug(runtime)<<"Last Inserted ID: " << tmpQuery.value(0);
+    }
+
     resetContact();
 
     emit contactAdded(record);
@@ -1044,6 +1057,7 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
     QSqlTableModel model;
 
     model.setTable("contacts");
+    QSqlField idField = model.record().field(model.fieldIndex("id"));
     model.removeColumn(model.fieldIndex("id"));
 
     DxccEntity dxcc = Data::instance()->lookupDxcc(record.value("callsign").toString());
@@ -1071,6 +1085,18 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
     {
         qCInfo(runtime) << model.lastError();
         return;
+    }
+
+
+    /* at this moment, there is no reliable way to get the last ID
+     * therefore running SQL with MAX(id) does a good job */
+    QSqlQuery tmpQuery;
+    if (tmpQuery.exec("SELECT MAX(id) FROM contacts"))
+    {
+        tmpQuery.next();
+        record.insert(0,idField);
+        record.setValue("id", tmpQuery.value(0));
+        qDebug(runtime)<<"Last Inserted ID: " << tmpQuery.value(0);
     }
 
     emit contactAdded(record);

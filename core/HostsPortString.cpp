@@ -45,7 +45,7 @@ HostsPortString::HostsPortString(const QString &addressesString, QObject *parent
     }
 }
 
-QList<HostPortAddress> HostsPortString::getAddrList()
+QList<HostPortAddress> HostsPortString::getAddrList() const
 {
     FCT_IDENTIFICATION;
 

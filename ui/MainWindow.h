@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "ui/StatisticsWidget.h"
 #include "core/SwitchButton.h"
+#include "core/NetworkNotification.h"
 
 namespace Ui {
 class MainWindow;
@@ -58,6 +59,7 @@ private:
     SwitchButton* darkLightModeSwith;
     QLabel* darkIconLabel;
     StatisticsWidget* stats;
+    NetworkNotification networknotification;
 
 
     void setDarkMode();
