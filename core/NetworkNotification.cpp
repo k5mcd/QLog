@@ -47,6 +47,24 @@ void NetworkNotification::saveNotifDXSpotAddrs(const QString &addresses)
     settings.setValue(NetworkNotification::CONFIG_NOTIF_DXSPOT_ADDRS_KEY, addresses);
 }
 
+QString NetworkNotification::getNotifWSJTXCQSpotAddrs()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(NetworkNotification::CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY).toString();
+}
+
+void NetworkNotification::saveNotifWSJTXCQSpotAddrs(const QString &addresses)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(NetworkNotification::CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY, addresses);
+}
+
 void NetworkNotification::QSOInserted(const QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
@@ -105,6 +123,21 @@ void NetworkNotification::dxSpot(const DxSpot &spot)
     }
 }
 
+void NetworkNotification::WSJTXCQSpot(const WsjtxEntry &spot)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << "WSJTX CQ Spot";
+
+    HostsPortString destList(getNotifWSJTXCQSpotAddrs());
+
+    if ( destList.getAddrList().size() > 0 )
+    {
+        WSJTXCQSpotNotificationMsg dxSpotMsg(spot);
+        send(dxSpotMsg.getJson(), destList);
+    }
+}
+
 void NetworkNotification::send(const QByteArray &data, const HostsPortString &dests)
 {
     FCT_IDENTIFICATION;
@@ -129,6 +162,7 @@ void NetworkNotification::send(const QByteArray &data, const HostsPortString &de
 
 QString NetworkNotification::CONFIG_NOTIF_QSO_ADI_ADDRS_KEY = "network/notification/qso/adi_addrs";
 QString NetworkNotification::CONFIG_NOTIF_DXSPOT_ADDRS_KEY = "network/notification/dxspot/addrs";
+QString NetworkNotification::CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY = "network/notification/wsjtx/cqspot addrs";
 
 GenericNotificationMsg::GenericNotificationMsg(QObject *parent) :
     QObject(parent)
@@ -177,7 +211,7 @@ QSONotificationMsg::QSONotificationMsg(const QSqlRecord &record,
 }
 
 DXSpotNotificationMsg::DXSpotNotificationMsg(const DxSpot &spot, QObject *parent) :
-    GenericNotificationMsg(parent)
+    GenericSpotNotificationMsg(parent)
 {
     FCT_IDENTIFICATION;
 
@@ -214,4 +248,40 @@ DXSpotNotificationMsg::DXSpotNotificationMsg(const DxSpot &spot, QObject *parent
 
     msg["msgtype"] = "dxspot";
     msg["data"] = spotData;
+}
+
+WSJTXCQSpotNotificationMsg::WSJTXCQSpotNotificationMsg(const WsjtxEntry &spot, QObject *parent) :
+    GenericSpotNotificationMsg(parent)
+{
+    FCT_IDENTIFICATION;
+
+    QJsonObject spotData;
+    spotData["rcvtime"] = spot.receivedTime.toString("yyyyMMdd hh:mm:ss");
+    spotData["freq"] = QString::number(spot.freq, 'f', 4);
+    spotData["band"] = spot.band;
+    spotData["mode"] = spot.decodedMode;
+    spotData["comment"] = spot.decode.message;
+    spotData["status"] = DxccStatus2String.value(spot.status, "unknown");
+
+    QJsonObject dxInfo;
+    dxInfo["call"] = spot.callsign;
+    dxInfo["country"] = spot.dxcc.country;
+    dxInfo["pfx"] = spot.dxcc.prefix;
+    dxInfo["dxcc"] = spot.dxcc.dxcc;
+    dxInfo["cont"] = spot.dxcc.cont;
+    dxInfo["cqz"] = spot.dxcc.cqz;
+    dxInfo["ituz"] = spot.dxcc.ituz;
+    dxInfo["utcoffset"] = spot.dxcc.tz;
+    dxInfo["grid"] = spot.grid;
+
+    spotData["dx"] = dxInfo;
+
+    msg["msgtype"] = "wsjtxcqspot";
+    msg["data"] = spotData;
+}
+
+GenericSpotNotificationMsg::GenericSpotNotificationMsg(QObject *parent)
+    : GenericNotificationMsg(parent)
+{
+    FCT_IDENTIFICATION;
 }

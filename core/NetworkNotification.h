@@ -8,6 +8,8 @@
 #include "core/HostsPortString.h"
 #include "logformat/LogFormat.h"
 #include "data/DxSpot.h"
+#include "Wsjtx.h"
+#include "data/WsjtxEntry.h"
 
 class GenericNotificationMsg : public QObject
 {
@@ -44,12 +46,13 @@ private:
     };
 };
 
-class DXSpotNotificationMsg : public GenericNotificationMsg
+class GenericSpotNotificationMsg : public GenericNotificationMsg
 {
-public:
-    explicit DXSpotNotificationMsg(const DxSpot&, QObject *parent = nullptr);
 
-private:
+public:
+    explicit GenericSpotNotificationMsg(QObject *parent = nullptr);
+
+protected:
     QMap<int, QString> DxccStatus2String = {
         {DxccStatus::NewEntity, "newentity"},
         {DxccStatus::NewBandMode, "newbandmode"},
@@ -61,6 +64,20 @@ private:
     };
 };
 
+class DXSpotNotificationMsg : public GenericSpotNotificationMsg
+{
+
+public:
+    explicit DXSpotNotificationMsg(const DxSpot&, QObject *parent = nullptr);
+};
+
+class WSJTXCQSpotNotificationMsg : public GenericSpotNotificationMsg
+{
+
+public:
+    explicit WSJTXCQSpotNotificationMsg(const WsjtxEntry&, QObject *parent = nullptr);
+
+};
 
 class NetworkNotification : public QObject
 {
@@ -72,6 +89,8 @@ public:
     static void saveNotifQSOAdiAddrs(const QString &);
     static QString getNotifDXSpotAddrs();
     static void saveNotifDXSpotAddrs(const QString &);
+    static QString getNotifWSJTXCQSpotAddrs();
+    static void saveNotifWSJTXCQSpotAddrs(const QString &);
 
 
 public slots:
@@ -79,6 +98,7 @@ public slots:
     void QSOUpdated(const QSqlRecord &);
     void QSODeleted(const QSqlRecord &);
     void dxSpot(const DxSpot&);
+    void WSJTXCQSpot(const WsjtxEntry&);
 
 private:
 
@@ -86,6 +106,7 @@ private:
 
     static QString CONFIG_NOTIF_QSO_ADI_ADDRS_KEY;
     static QString CONFIG_NOTIF_DXSPOT_ADDRS_KEY;
+    static QString CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY;
 
 };
 

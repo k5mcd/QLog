@@ -65,6 +65,7 @@ SOURCES += \
         models/RigTypeModel.cpp \
         models/RotTypeModel.cpp \
         models/SqlListModel.cpp \
+        models/WsjtxTableModel.cpp \
         ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
         ui/ClockWidget.cpp \
@@ -126,6 +127,7 @@ HEADERS += \
         data/DxSpot.h \
         data/Dxcc.h \
         data/StationProfile.h \
+        data/WsjtxEntry.h \
         logformat/AdiFormat.h \
         logformat/AdxFormat.h \
         logformat/JsonFormat.h \
@@ -136,6 +138,7 @@ HEADERS += \
         models/RigTypeModel.h \
         models/RotTypeModel.h \
         models/SqlListModel.h \
+        models/WsjtxTableModel.h \
         ui/AwardsDialog.h \
         ui/BandmapWidget.h \
         ui/ClockWidget.h \

@@ -1349,7 +1349,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="wsjtForwardLabel">
             <property name="text">
-             <string>UDP Forward</string>
+             <string>Raw UDP Forward</string>
             </property>
            </widget>
           </item>
@@ -1373,13 +1373,30 @@
          </property>
          <layout class="QFormLayout" name="formLayout_16">
           <item row="0" column="0">
+           <widget class="QLabel" name="notifDXSpotsLabel">
+            <property name="text">
+             <string>DX Spots</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="notifDXSpotsEdit">
+            <property name="toolTip">
+             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with DX Cluster Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
+            </property>
+            <property name="placeholderText">
+             <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
            <widget class="QLabel" name="notifQSOLabel">
             <property name="text">
              <string>QSO Changes </string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item row="1" column="1">
            <widget class="QLineEdit" name="notifQSOEdit">
             <property name="toolTip">
              <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about a new/updated/deleted QSO in the log.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
@@ -1389,17 +1406,17 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="notifDXSpotsLabel">
+          <item row="2" column="0">
+           <widget class="QLabel" name="notifWSJTXCQSpotsLabel">
             <property name="text">
-             <string>DX Spots</string>
+             <string>Wsjtx CQ Spots</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="notifDXSpotsEdit">
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="notifWSJTXCQSpotsEdit">
             <property name="toolTip">
-             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with DX Cluster Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
+             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with WSJTX CQ Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
             </property>
             <property name="placeholderText">
              <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
