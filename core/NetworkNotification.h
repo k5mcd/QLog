@@ -15,7 +15,7 @@ class GenericNotificationMsg : public QObject
 
 public:
     explicit GenericNotificationMsg(QObject *parent = nullptr);
-    QByteArray getJson() const  { return QJsonDocument(msg).toJson(); };
+    QByteArray getJson() const  { return QJsonDocument(msg).toJson(QJsonDocument::Compact); };
 
 protected:
     QJsonObject msg;
