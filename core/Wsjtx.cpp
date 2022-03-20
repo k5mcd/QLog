@@ -391,4 +391,4 @@ void Wsjtx::reloadSetting()
 
 QString Wsjtx::CONFIG_PORT = "network/wsjtx_port";
 int     Wsjtx::DEFAULT_PORT = 2237;
-QString Wsjtx::CONFIG_FORWARD_ADDRESSES = "networt/wsjtx_forward";
+QString Wsjtx::CONFIG_FORWARD_ADDRESSES = "network/wsjtx_forward";
