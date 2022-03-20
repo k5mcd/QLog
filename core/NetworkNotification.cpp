@@ -217,7 +217,7 @@ DXSpotNotificationMsg::DXSpotNotificationMsg(const DxSpot &spot, QObject *parent
 
     QJsonObject spotData;
     spotData["rcvtime"] = spot.time.toString("yyyyMMdd hh:mm:ss");
-    spotData["freq"] = QString::number(spot.freq, 'f', 4);
+    spotData["freq"] = qRound(spot.freq * 10000.0) / 10000.0;
     spotData["band"] = spot.band;
     spotData["mode"] = spot.mode; 
     spotData["comment"] = spot.comment;
@@ -257,7 +257,7 @@ WSJTXCQSpotNotificationMsg::WSJTXCQSpotNotificationMsg(const WsjtxEntry &spot, Q
 
     QJsonObject spotData;
     spotData["rcvtime"] = spot.receivedTime.toString("yyyyMMdd hh:mm:ss");
-    spotData["freq"] = QString::number(spot.freq, 'f', 4);
+    spotData["freq"] = qRound(spot.freq * 10000.0) / 10000.0;
     spotData["band"] = spot.band;
     spotData["mode"] = spot.decodedMode;
     spotData["comment"] = spot.decode.message;
