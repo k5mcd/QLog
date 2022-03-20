@@ -69,14 +69,14 @@ Example of the QSO Notification Message:
 {
    "appid":"QLog",
    "data":{
-      "logid":"{e1997e87-b433-4ccd-ac9a-b457cbc22ce6}",
+      "logid":"{2046e323-b340-4634-8d52-4e70a4231978}",
       "operation":"insert",
-      "rowid":350,
+      "rowid":355,
       "type":"adif",
-      "value":"<call:5>OK1II<qso_date:8:D>20220313<time_on:6:T>184838<qso_date_off:8:D>20220313<time_off:6:T>184838<rst_rcvd:3>599<rst_sent:3>599<cqz:2>15<ituz:2>28<freq:8:N>10.12649<band:3>30m<mode:2>CW<cont:2>EU<dxcc:3>503<country:14>Czech Republic<qsl_rcvd:1>N<qsl_sent:1>N<lotw_qsl_rcvd:1>N<lotw_qsl_sent:1>N<tx_pwr:1>0<age:1>0<a_index:2>56<ant_az:1>0<ant_el:1>0<band_rx:3>30m<distance:1>0<eqsl_qsl_rcvd:1>N<eqsl_qsl_sent:1>N<fists:1>0<fists_cc:1>0<freq_rx:8>10.12649<hrdlog_qso_upload_status:1>N<iota_island_id:1>0<k_index:4>5.33<max_bursts:1>0<my_city:5>PRAHA<my_cq_zone:1>0<my_dxcc:1>0<my_fists:1>0<my_gridsquare:6>JO70GD<my_iota_island_id:1>0<my_itu_zone:1>0<my_rig:9>moje_nove<nr_bursts:1>0<nr_pings:1>0<operator:5>LADAS<rx_pwr:1>0<sfi:3>125<srx:1>0<station_callsign:6>OK1MLG<stx:1>0<ten_ten:1>0<uksmg:1>0<eor>"
+      "value":"<call:7>OK1TEST<qso_date:8:D>20220320<time_on:6:T>183536<qso_date_off:8:D>20220320<time_off:6:T>183557<rst_rcvd:3>599<rst_sent:3>599<name:12>Testing Name<qth:6>Prague<gridsquare:6>JO70GB<cqz:2>15<ituz:2>28<freq:8:N>10.12649<band:3>30m<mode:2>CW<cont:2>EU<dxcc:3>503<country:14>Czech Republic<qsl_rcvd:1>N<qsl_sent:1>N<lotw_qsl_rcvd:1>N<lotw_qsl_sent:1>N<a_index:1>5<band_rx:3>30m<distance:17>9.266243887046823<eqsl_qsl_rcvd:1>N<eqsl_qsl_sent:1>N<freq_rx:8>10.12649<hrdlog_qso_upload_status:1>N<k_index:4>1.33<my_city:5>PRAHA<my_gridsquare:6>JO70GD<my_rig:9>moje_nove<operator:5>LADAS<sfi:2>94<station_callsign:6>OK1MLG<eor>"
    },
-   "msgtype":"QSO",
-   "time":1647197319251
+   "msgtype":"qso",
+   "time":1647801358067
 }
 
 DX Spot Notification

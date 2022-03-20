@@ -22,6 +22,7 @@ void AdiFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<record;
+
     QDateTime time_start = record.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
     QDateTime time_end = record.value("end_time").toDateTime().toTimeSpec(Qt::UTC);
 

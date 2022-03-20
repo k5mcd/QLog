@@ -153,7 +153,7 @@ QByteArray Fldigi::addRecord(QString data) {
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
 
-    QSqlRecord record = model.record();
+    QSqlRecord record = model.record(0);
 
     QTextStream in(&data);
     AdiFormat adif(in);
