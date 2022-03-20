@@ -1,0 +1,221 @@
+QLog Notification
+------------------
+
+QLog can notify a third-party application(s) via UDP messages. 
+Exchanged information include QSO operation (insert/update/delete), 
+DX Cluster Spots, WSJTX Spots etc.
+
+Message Format
+--------------
+The notification message is sent via UDP packets in JSON format.
+A basic message structure is shown below
+
+{
+   "appid":"QLog",
+   "msgtype":"QSO",
+   "time":1647197319251,
+   "data":{}
+}
+
+appid - string - an application ID of the sender.
+                 In this case, it is always "QLog"
+
+msgtype - string - the Message Type. 
+                   Currently, the fields can take on the values:
+                   "QSO"         - for contact (QSO) changes
+                   "dxspot"      - for DX Spot
+                   "wsjtxcqspot" - for WSJTX Spot
+
+time - number - time when the message was sent from QLog.
+                the field contains a number of milliseconds from 1.1.1970.
+
+data - JSON Object - specific data depends on the Message Type. 
+                     See chapter below for detailed description of 
+                     the field structure.
+
+QSO Notification
+-----------------
+msgtype : "QSO"
+Description: QSO Notification message is sent in following cases:
+
+   1) when a new QSO is inserted to the log
+   2) when QSO is updated by the operator
+   3) when QSO is deleted by the operator
+
+"Data" Field Structure:
+
+logid - string - UUID of the log database.
+                 The Unique number for the log file
+operation - string - QSO operation description. 
+                     The following operations are emitted:
+           "insert" - when a new QSO is inserted to the log
+           "update" - when QSO is updated by the operator
+           "delete" - when QSO is deleted by the operator
+rowid - number - a unique ID of the record in the log file
+type - string - the type of the "value" field. 
+                Currently, only "adif" type is supported.
+value - string - a contact record in the format defined by "type" format.
+   if operation = "insert" then the field contains a new record
+   if operation = "update" then the field contains an updated record. 
+   if operation = "delete" then the field contains an old(deleted) record.
+                If a contact record is updated and multiple contact fields are updated
+                then QLog generates 1 Notification message to 1 updated contact 
+                field. It means that if an operator updates 2 contact's 
+                fields (or 1 field on which another field depends) 
+                then 2 Notification messages are generated
+
+Example of the QSO Notification Message:
+
+{
+   "appid":"QLog",
+   "data":{
+      "logid":"{e1997e87-b433-4ccd-ac9a-b457cbc22ce6}",
+      "operation":"insert",
+      "rowid":350,
+      "type":"adif",
+      "value":"<call:5>OK1II<qso_date:8:D>20220313<time_on:6:T>184838<qso_date_off:8:D>20220313<time_off:6:T>184838<rst_rcvd:3>599<rst_sent:3>599<cqz:2>15<ituz:2>28<freq:8:N>10.12649<band:3>30m<mode:2>CW<cont:2>EU<dxcc:3>503<country:14>Czech Republic<qsl_rcvd:1>N<qsl_sent:1>N<lotw_qsl_rcvd:1>N<lotw_qsl_sent:1>N<tx_pwr:1>0<age:1>0<a_index:2>56<ant_az:1>0<ant_el:1>0<band_rx:3>30m<distance:1>0<eqsl_qsl_rcvd:1>N<eqsl_qsl_sent:1>N<fists:1>0<fists_cc:1>0<freq_rx:8>10.12649<hrdlog_qso_upload_status:1>N<iota_island_id:1>0<k_index:4>5.33<max_bursts:1>0<my_city:5>PRAHA<my_cq_zone:1>0<my_dxcc:1>0<my_fists:1>0<my_gridsquare:6>JO70GD<my_iota_island_id:1>0<my_itu_zone:1>0<my_rig:9>moje_nove<nr_bursts:1>0<nr_pings:1>0<operator:5>LADAS<rx_pwr:1>0<sfi:3>125<srx:1>0<station_callsign:6>OK1MLG<stx:1>0<ten_ten:1>0<uksmg:1>0<eor>"
+   },
+   "msgtype":"QSO",
+   "time":1647197319251
+}
+
+DX Spot Notification
+--------------------
+msgtype: "dxspot"
+Description: DX Spot Notification message is sent when QLog is connected
+             to DX Cluster and DX Spot is received from the server. QLog 
+             resends all received messages - user filter has no impact
+             on the notification messages.
+
+"Data" Field Structure:
+
+band - string - the band of the spot
+comment - string - the comment from the spot
+dx - JSON object contains details about the reported DX. Details below
+freq - number - the spot frequency
+mode - string - the spot modes: PHONE, DIGI, CW, FT8
+rcvtime - string - time when spot was received in format "YYYYMMDD HH:MI:SS"
+spotter JSON object contains details about the spotter - details below
+status - string - DX Spot status based on the record in the log.
+                  Following statuses can be emitted:
+      "newentity - totaly new DXCC in the log
+      "newbandmode" - DXCC worked but a totally new band and totally new mode.
+      "newband" - DXCC worked with particular mode but a new band
+      "newmode" - DXCC worked on the band but a new mode in the log
+      "newslot" - DXCC worked on the band but a new mode not the band
+      "worked"  - already worked
+      "unknown" - an internal query error
+
+DX/spotter Fields Structure:
+
+call - string - the DX/Spotter callsign
+cont - string - the DX/Spotter continent
+country - string - the DX/Spotter country
+cqz - number - the DX/Spotter CQ Zone
+dxcc - number - the DX/Spotter DXCC Entity number
+ituz - number - the DX/Spotter ITU Zone
+pfx - string - the DX/Spotter prefix
+utcoffset - number - the DX/Spotter Timezone (UTC offset)
+
+Example of the DX Spot Notification Message
+
+{
+    "appid": "QLog",
+    "data": {
+        "band": "40m",
+        "comment": "tnx qso",
+        "dx": {
+            "call": "YB0AR",
+            "cont": "OC",
+            "country": "Indonesia",
+            "cqz": 28,
+            "dxcc": 327,
+            "ituz": 54,
+            "pfx": "YB",
+            "utcoffset": -7
+        },
+        "freq": "7.1880",
+        "mode": "PHONE",
+        "rcvtime": "20220316 20:04:30",
+        "spotter": {
+            "call": "G0DEF",
+            "cont": "EU",
+            "country": "England",
+            "cqz": 14,
+            "dxcc": 223,
+            "ituz": 27,
+            "pfx": "G",
+            "utcoffset": 0
+        },
+        "status": "newentity"
+    },
+    "msgtype": "dxspot",
+    "time": 1647461070837
+}
+
+WSJTX CQ Spot Notification
+--------------------
+msgtype: "wsjtxcqspot"
+Description: WSJTX CQ Spot Notification message is sent when QLog receives
+             the CQ Spot from WSJT-X application. QLog sends only CQ Spot,
+             the rest of WSJT-X information are not resent. 
+             Please, use WSJTX Forward option to obtain a full set of raw 
+             WSJTX messages.
+
+"Data" Field Structure:
+
+band - string - the band of the spot
+comment - string - the comment from the spot
+dx - JSON object contains details about DX that's calling CQ - details below
+freq - number - the spot frequency
+mode - string - WSJTX modes
+rcvtime - string - time when spot was received in format "YYYYMMDD HH:MI:SS"
+status - string - DX Spot status based on the record in the log.
+                  Following statuses can be emitted:
+      "newentity - totaly new DXCC in the log
+      "newbandmode" - DXCC worked but a totally new band and totally new mode.
+      "newband" - DXCC worked with particular mode but a new band
+      "newmode" - DXCC worked on the band but a new mode in the log
+      "newslot" - DXCC worked on the band but a new mode not the band
+      "worked"  - already worked
+      "unknown" - an internal query error
+
+dx Fields Structure:
+
+call - string - the DX callsign
+cont - string - the DX continent
+country - string - the DX country
+cqz - number - the DX CQ Zone
+dxcc - number - the DX DXCC Entity number
+ituz - number - the DX ITU Zone
+pfx - string - the DX prefix
+utcoffset - number - the DX Timezone (UTC offset)
+
+Example of the WSJTX CQ Spot Notification Message
+
+{
+   "appid":"QLog",
+   "data":{
+      "band":"80m",
+      "comment":"CQ RZ0SW OO13",
+      "dx":{
+         "call":"RZ0SW",
+         "cont":"AS",
+         "country":"Asiatic Russia",
+         "cqz":17,
+         "dxcc":15,
+         "grid":"OO13",
+         "ituz":30,
+         "pfx":"UA9",
+         "utcoffset":-7
+      },
+      "freq":"3.5730",
+      "mode":"FT8",
+      "rcvtime":"20220318 17:04:29",
+      "status":"newband"
+   },
+   "msgtype":"wsjtxcqspot",
+   "time":1647623069705
+}
+
+
