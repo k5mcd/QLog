@@ -865,8 +865,6 @@ void NewContactWidget::saveContact()
 
     QSqlRecord record = model.record(0);
 
-    qInfo() << "ladas" << record;
-
     record.setValue("start_time", start);
     record.setValue("end_time", end);
 
