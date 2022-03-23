@@ -54,6 +54,7 @@ SOURCES += \
         core/main.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
+        data/RigProfile.cpp \
         data/StationProfile.cpp \
         logformat/AdiFormat.cpp \
         logformat/AdxFormat.cpp \
@@ -126,6 +127,8 @@ HEADERS += \
         data/Data.h \
         data/DxSpot.h \
         data/Dxcc.h \
+        data/ProfileManager.h \
+        data/RigProfile.h \
         data/StationProfile.h \
         data/WsjtxEntry.h \
         logformat/AdiFormat.h \

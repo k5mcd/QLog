@@ -1,6 +1,5 @@
-#include <QDebug>
-#include <QSettings>
 #include <cstring>
+#include <qglobal.h>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -10,6 +9,7 @@
 
 #include "Rig.h"
 #include "core/debug.h"
+#include "data/RigProfile.h"
 
 MODULE_IDENTIFICATION("qlog.core.rig");
 
@@ -224,26 +224,17 @@ void Rig::update() {
 void Rig::open() {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-    int model = settings.value("hamlib/rig/model").toInt();
-    int baudrate = settings.value("hamlib/rig/baudrate").toInt();
-    int databits = settings.value("hamlib/rig/databits").toInt();
-    float stopbits = settings.value("hamlib/rig/stopbits").toFloat();
-    QString flowControl = settings.value("hamlib/rig/stopbits").toString();
-    QString parity = settings.value("hamlib/rig/parity").toString();
-    QByteArray portStr = settings.value("hamlib/rig/port").toByteArray();
-    QString hostname = settings.value("hamlib/rig/hostname").toString();
-    int netport = settings.value("hamlib/rig/netport").toInt();
+    RigProfile rigProfile = RigProfilesManager::instance()->getCurProfile1();
 
-    const char* port = portStr.constData();
+    qCDebug(runtime) << "Opening profile name: " << rigProfile.profileName;
 
-    qCDebug(runtime) << portStr;
     rigLock.lock();
 
     // if rig is active then close it
     __closeRig();
 
-    rig = rig_init(model);
+    rig = rig_init(rigProfile.model);
+
     if (!rig)
     {
         // initialization failed
@@ -251,26 +242,25 @@ void Rig::open() {
         rigLock.unlock();
         return;
     }
+
     rig_set_debug(RIG_DEBUG_ERR);
 
     if (rig->caps->port_type == RIG_PORT_NETWORK
         || rig->caps->port_type == RIG_PORT_UDP_NETWORK )
     {
         //handling Network Radio
-        strncpy(rig->state.rigport.pathname, hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        strncpy(rig->state.rigport.pathname, rigProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
         //port is hardcoded in hamlib - not necessary to set it.
-        (void)netport;
-
     }
     else
     {
         //handling Serial Port Radio
-        strncpy(rig->state.rigport.pathname, port, HAMLIB_FILPATHLEN - 1);
-        rig->state.rigport.parm.serial.rate = baudrate;
-        rig->state.rigport.parm.serial.data_bits = databits;
-        rig->state.rigport.parm.serial.stop_bits = stopbits;
-        rig->state.rigport.parm.serial.handshake = stringToFlowControl(flowControl);
-        rig->state.rigport.parm.serial.parity = stringToParity(parity);
+        strncpy(rig->state.rigport.pathname, rigProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        rig->state.rigport.parm.serial.rate = rigProfile.baudrate;
+        rig->state.rigport.parm.serial.data_bits = rigProfile.databits;
+        rig->state.rigport.parm.serial.stop_bits = rigProfile.stopbits;
+        rig->state.rigport.parm.serial.handshake = stringToFlowControl(rigProfile.flowcontrol);
+        rig->state.rigport.parm.serial.parity = stringToParity(rigProfile.parity);
     }
 
     int status = rig_open(rig);
@@ -356,15 +346,6 @@ void Rig::setMode(const QString &newMode, const QString &newSubMode)
 #endif
     }
     rigLock.unlock();
-}
-
-void Rig::setPower(double newPower) {
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<newPower;
-
-    if (!rig) return;
-    power = (int)(newPower*1000);
 }
 
 Rig::Rig(QObject *parent) :

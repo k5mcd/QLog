@@ -20,17 +20,24 @@
 #include "core/debug.h"
 #include "core/CredentialStore.h"
 #include "data/StationProfile.h"
+#include "data/RigProfile.h"
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "core/Wsjtx.h"
 #include "core/PaperQSL.h"
 #include "core/NetworkNotification.h"
 
+#define WIDGET_INDEX_SERIAL_RIG  0
+#define STACKED_WIDGET_NETWORK_RIG 1
+
+
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
+
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
-    profileManager(StationProfilesManager::instance()),
+    stationProfManager(StationProfilesManager::instance()),
+    rigProfManager(RigProfilesManager::instance()),
     ui(new Ui::SettingsDialog)
 {
     FCT_IDENTIFICATION;
@@ -44,13 +51,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->rotModelSelect->setModel(rotTypeModel);
 
     QStringListModel* rigModel = new QStringListModel();
-    ui->rigListView->setModel(rigModel);
+    ui->rigProfilesListView->setModel(rigModel);
 
     QStringListModel* antModel = new QStringListModel();
-    ui->antListView->setModel(antModel);
+    ui->antProfilesListView->setModel(antModel);
 
     QStringListModel* profilesModes = new QStringListModel();
-    ui->profilesListView->setModel(profilesModes);
+    ui->stationProfilesListView->setModel(profilesModes);
 
     modeTableModel = new QSqlTableModel(this);
     modeTableModel->setTable("modes");
@@ -86,25 +93,27 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     bandTableModel->select();
 
-    ui->callsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
-    ui->locatorEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
-    ui->vuccEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), this));
+    ui->stationCallsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
+    ui->stationLocatorEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
+    ui->stationVUCCEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), this));
 
     iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
     iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-    ui->iotaEdit->setCompleter(iotaCompleter);
+    ui->stationIOTAEdit->setCompleter(iotaCompleter);
 
     sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
     sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     sotaCompleter->setFilterMode(Qt::MatchStartsWith);
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-    ui->sotaEdit->setCompleter(nullptr);
+    ui->stationSOTAEdit->setCompleter(nullptr);
 
     ui->primaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("HamQTH"),   QVariant(HamQTH::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
+
+    ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
 
     readSettings();
 }
@@ -112,7 +121,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 void SettingsDialog::save() {
     FCT_IDENTIFICATION;
 
-    if ( profileManager->profilesList().isEmpty() )
+    if ( stationProfManager->profileNameList().isEmpty() )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                              QMessageBox::tr("Please, define at least one Station Locations Profile"));
@@ -123,30 +132,117 @@ void SettingsDialog::save() {
     accept();
 }
 
-void SettingsDialog::addRig() {
+void SettingsDialog::addRigProfile()
+{
     FCT_IDENTIFICATION;
 
-    if (ui->rigNameEdit->text().isEmpty()) return;
+    if ( ui->rigProfileNameEdit->text().isEmpty() )
+    {
+        ui->rigProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
 
-    QStringListModel* model = (QStringListModel*)ui->rigListView->model();
-    QStringList rigs = model->stringList();
-    rigs << ui->rigNameEdit->text();
-    model->setStringList(rigs);
-    ui->rigNameEdit->clear();
+    if ( ui->rigAddProfileButton->text() == tr("Modify"))
+    {
+        ui->rigAddProfileButton->setText(tr("Add"));
+    }
+
+    RigProfile profile;
+
+
+    profile.profileName = ui->rigProfileNameEdit->text();
+
+    profile.model = ui->rigModelSelect->currentData().toInt();
+
+    profile.hostname = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                QString() :
+                ui->rigHostNameEdit->text();
+
+    profile.netport = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                0 :
+                ui->rigNetPortSpin->value();
+
+    profile.portPath = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rigPortEdit->text() :
+                QString();
+
+    profile.baudrate = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rigBaudSelect->currentText().toInt() :
+                0;
+
+    profile.databits = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rigDataBitsSelect->currentText().toInt():
+                0;
+
+    profile.stopbits = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rigStopBitsSelect->currentText().toFloat() :
+                0;
+
+    profile.flowcontrol = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rigFlowControlSelect->currentText() :
+                0;
+
+    profile.parity = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rigParitySelect->currentText():
+                QString();
+
+    rigProfManager->addProfile(profile.profileName, profile);
+
+    refreshRigProfilesView();
+
+    ui->rigProfileNameEdit->setPlaceholderText(QString());
+    ui->rigPortEdit->setPlaceholderText(QString());
+    ui->rigHostNameEdit->setPlaceholderText(QString());
+
+    ui->rigProfileNameEdit->clear();
+    ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
+    ui->rigPortEdit->clear();
+    ui->rigHostNameEdit->clear();
+    ui->rigBaudSelect->setCurrentIndex(0);
+    ui->rigDataBitsSelect->setCurrentIndex(0);
+    ui->rigStopBitsSelect->setCurrentIndex(0);
+    ui->rigFlowControlSelect->setCurrentIndex(0);
+    ui->rigParitySelect->setCurrentIndex(0);
 }
 
-void SettingsDialog::deleteRig() {
+void SettingsDialog::delRigProfile()
+{
     FCT_IDENTIFICATION;
 
-    foreach (QModelIndex index, ui->rigListView->selectionModel()->selectedRows()) {
-        ui->rigListView->model()->removeRow(index.row());
+    foreach (QModelIndex index, ui->rigProfilesListView->selectionModel()->selectedRows())
+    {
+        rigProfManager->removeProfile(ui->rigProfilesListView->model()->data(index).toString());
+        ui->rigProfilesListView->model()->removeRow(index.row());
     }
-    ui->rigListView->clearSelection();
+    ui->rigProfilesListView->clearSelection();
+}
+
+void SettingsDialog::doubleClickRigProfile(QModelIndex i)
+{
+    FCT_IDENTIFICATION;
+
+    RigProfile profile;
+
+    profile = rigProfManager->getProfile(ui->rigProfilesListView->model()->data(i).toString());
+
+    ui->rigProfileNameEdit->setText(profile.profileName);
+
+    ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(profile.model));
+    ui->rigPortEdit->setText(profile.portPath);
+    ui->rigHostNameEdit->setText(profile.hostname);
+    ui->rigNetPortSpin->setValue(profile.netport);
+    ui->rigBaudSelect->setCurrentText(QString::number(profile.baudrate));
+    ui->rigDataBitsSelect->setCurrentText(QString::number(profile.databits));
+    ui->rigStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
+    ui->rigFlowControlSelect->setCurrentText(profile.flowcontrol);
+    ui->rigParitySelect->setCurrentText(profile.parity);
+
+    ui->rigAddProfileButton->setText(tr("Modify"));
 }
 
 void SettingsDialog::addAnt() {
     FCT_IDENTIFICATION;
-
+/*
     if (ui->antennasEdit->text().isEmpty()) return;
 
     QStringListModel* model = (QStringListModel*)ui->antListView->model();
@@ -154,68 +250,84 @@ void SettingsDialog::addAnt() {
     ants << ui->antennasEdit->text();
     model->setStringList(ants);
     ui->antennasEdit->clear();
+    */
 }
 
 void SettingsDialog::deleteAnt() {
     FCT_IDENTIFICATION;
-
+/*
     foreach (QModelIndex index, ui->antListView->selectionModel()->selectedRows()) {
         ui->antListView->model()->removeRow(index.row());
     }
     ui->antListView->clearSelection();
+    */
+}
+
+void SettingsDialog::refreshRigProfilesView()
+{
+    FCT_IDENTIFICATION;
+    QStringListModel* model = (QStringListModel*)ui->rigProfilesListView->model();
+    QStringList profiles = model->stringList();
+
+    profiles.clear();
+
+    profiles << rigProfManager->profileNameList();
+
+    model->setStringList(profiles);
 }
 
 void SettingsDialog::refreshStationProfilesView()
 {
     FCT_IDENTIFICATION;
-    QStringListModel* model = (QStringListModel*)ui->profilesListView->model();
+    QStringListModel* model = (QStringListModel*)ui->stationProfilesListView->model();
     QStringList profiles = model->stringList();
 
     profiles.clear();
 
-    profiles << profileManager->profilesList();
+    profiles << stationProfManager->profileNameList();
 
     model->setStringList(profiles);
 }
+
 void SettingsDialog::addStationProfile()
 {
     FCT_IDENTIFICATION;
 
-    if ( ui->profileEdit->text().isEmpty() )
+    if ( ui->stationProfileNameEdit->text().isEmpty() )
     {
-        ui->profileEdit->setPlaceholderText(tr("Must not be empty"));
+        ui->stationProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
         return;
     }
 
-    if ( ui->callsignEdit->text().isEmpty() )
+    if ( ui->stationCallsignEdit->text().isEmpty() )
     {
-        ui->callsignEdit->setPlaceholderText(tr("Must not be empty"));
+        ui->stationCallsignEdit->setPlaceholderText(tr("Must not be empty"));
         return;
     }
 
-    if ( ui->locatorEdit->text().isEmpty() )
+    if ( ui->stationLocatorEdit->text().isEmpty() )
     {
-        ui->locatorEdit->setPlaceholderText(tr("Must not be empty"));
+        ui->stationLocatorEdit->setPlaceholderText(tr("Must not be empty"));
         return;
     }
 
-    if ( ! ui->callsignEdit->hasAcceptableInput() )
+    if ( ! ui->stationCallsignEdit->hasAcceptableInput() )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                              QMessageBox::tr("Callsign has an invalid format"));
         return;
     }
 
-    if ( ! ui->locatorEdit->hasAcceptableInput() )
+    if ( ! ui->stationLocatorEdit->hasAcceptableInput() )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                              QMessageBox::tr("Locator has an invalid format"));
         return;
     }
 
-    if ( ! ui->vuccEdit->text().isEmpty() )
+    if ( ! ui->stationVUCCEdit->text().isEmpty() )
     {
-        if ( ! ui->vuccEdit->hasAcceptableInput() )
+        if ( ! ui->stationVUCCEdit->hasAcceptableInput() )
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                                  QMessageBox::tr("VUCC Locator has an invalid format (must be 2 or 4 locators separated by ',')"));
@@ -223,51 +335,52 @@ void SettingsDialog::addStationProfile()
         }
     }
 
-    if ( ui->addProfileButton->text() == tr("Modify"))
+    if ( ui->stationAddProfileButton->text() == tr("Modify"))
     {
-        ui->addProfileButton->setText(tr("Add"));
+        ui->stationAddProfileButton->setText(tr("Add"));
     }
 
     StationProfile profile;
 
-    profile.profileName = ui->profileEdit->text();
-    profile.callsign = ui->callsignEdit->text().toUpper();
-    profile.locator = ui->locatorEdit->text().toUpper();
-    profile.operatorName = ui->operatorEdit->text();
-    profile.qthName = ui->qthEdit->text();
-    profile.iota = ui->iotaEdit->text().toUpper();
-    profile.sota = ui->sotaEdit->text().toUpper();
-    profile.sig = ui->sigEdit->text().toUpper();
-    profile.sigInfo = ui->sigInfoEdit->text();
-    profile.vucc = ui->vuccEdit->text().toUpper();
+    profile.profileName = ui->stationProfileNameEdit->text();
+    profile.callsign = ui->stationCallsignEdit->text().toUpper();
+    profile.locator = ui->stationLocatorEdit->text().toUpper();
+    profile.operatorName = ui->stationOperatorEdit->text();
+    profile.qthName = ui->stationQTHEdit->text();
+    profile.iota = ui->stationIOTAEdit->text().toUpper();
+    profile.sota = ui->stationSOTAEdit->text().toUpper();
+    profile.sig = ui->stationSIGEdit->text().toUpper();
+    profile.sigInfo = ui->stationSIGInfoEdit->text();
+    profile.vucc = ui->stationVUCCEdit->text().toUpper();
 
-    profileManager->add(profile);
+    stationProfManager->addProfile(profile.profileName, profile);
+
     refreshStationProfilesView();
 
-    ui->profileEdit->clear();
-    ui->profileEdit->setPlaceholderText(QString());
-    ui->callsignEdit->clear();
-    ui->callsignEdit->setPlaceholderText(QString());
-    ui->locatorEdit->clear();
-    ui->locatorEdit->setPlaceholderText(QString());
-    ui->operatorEdit->clear();
-    ui->qthEdit->clear();
-    ui->sotaEdit->clear();
-    ui->iotaEdit->clear();
-    ui->sigEdit->clear();
-    ui->sigInfoEdit->clear();
-    ui->vuccEdit->clear();
+    ui->stationProfileNameEdit->clear();
+    ui->stationProfileNameEdit->setPlaceholderText(QString());
+    ui->stationCallsignEdit->clear();
+    ui->stationCallsignEdit->setPlaceholderText(QString());
+    ui->stationLocatorEdit->clear();
+    ui->stationLocatorEdit->setPlaceholderText(QString());
+    ui->stationOperatorEdit->clear();
+    ui->stationQTHEdit->clear();
+    ui->stationSOTAEdit->clear();
+    ui->stationIOTAEdit->clear();
+    ui->stationSIGEdit->clear();
+    ui->stationSIGInfoEdit->clear();
+    ui->stationVUCCEdit->clear();
 }
 
 void SettingsDialog::deleteStationProfile()
 {
     FCT_IDENTIFICATION;
 
-    foreach (QModelIndex index, ui->profilesListView->selectionModel()->selectedRows()) {
-        profileManager->remove(ui->profilesListView->model()->data(index).toString());
-        ui->profilesListView->model()->removeRow(index.row());
+    foreach (QModelIndex index, ui->stationProfilesListView->selectionModel()->selectedRows()) {
+        stationProfManager->removeProfile(ui->stationProfilesListView->model()->data(index).toString());
+        ui->stationProfilesListView->model()->removeRow(index.row());
     }
-    ui->profilesListView->clearSelection();
+    ui->stationProfilesListView->clearSelection();
 }
 
 void SettingsDialog::doubleClickStationProfile(QModelIndex i)
@@ -276,20 +389,20 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
 
     StationProfile profile;
 
-    profile = profileManager->get(ui->profilesListView->model()->data(i).toString());
+    profile = stationProfManager->getProfile(ui->stationProfilesListView->model()->data(i).toString());
 
-    ui->profileEdit->setText(profile.profileName);
-    ui->callsignEdit->setText(profile.callsign);
-    ui->locatorEdit->setText(profile.locator);
-    ui->operatorEdit->setText(profile.operatorName);
-    ui->qthEdit->setText(profile.qthName);
-    ui->iotaEdit->setText(profile.iota);
-    ui->sotaEdit->setText(profile.sota);
-    ui->sigEdit->setText(profile.sig);
-    ui->sigInfoEdit->setText(profile.sigInfo);
-    ui->vuccEdit->setText(profile.vucc);
+    ui->stationProfileNameEdit->setText(profile.profileName);
+    ui->stationCallsignEdit->setText(profile.callsign);
+    ui->stationLocatorEdit->setText(profile.locator);
+    ui->stationOperatorEdit->setText(profile.operatorName);
+    ui->stationQTHEdit->setText(profile.qthName);
+    ui->stationIOTAEdit->setText(profile.iota);
+    ui->stationSOTAEdit->setText(profile.sota);
+    ui->stationSIGEdit->setText(profile.sig);
+    ui->stationSIGInfoEdit->setText(profile.sigInfo);
+    ui->stationVUCCEdit->setText(profile.vucc);
 
-    ui->addProfileButton->setText(tr("Modify"));
+    ui->stationAddProfileButton->setText(tr("Modify"));
 }
 
 void SettingsDialog::rigChanged(int index)
@@ -300,8 +413,9 @@ void SettingsDialog::rigChanged(int index)
 
     const struct rig_caps *caps;
 
-    QModelIndex rig_index = ui->rigModelSelect->model()->index(index, 0);
-    caps = rig_get_caps(rig_index.internalId());
+    int rigID = ui->rigModelSelect->currentData().toInt();
+
+    caps = rig_get_caps(rigID);
 
     if ( caps )
     {
@@ -376,7 +490,7 @@ void SettingsDialog::adjustCallsignTextColor()
 
     QPalette p;
 
-    if ( ! ui->callsignEdit->hasAcceptableInput() )
+    if ( ! ui->stationCallsignEdit->hasAcceptableInput() )
     {
         p.setColor(QPalette::Text,Qt::red);
     }
@@ -384,7 +498,7 @@ void SettingsDialog::adjustCallsignTextColor()
     {
         p.setColor(QPalette::Text,qApp->palette().text().color());
     }
-    ui->callsignEdit->setPalette(p);
+    ui->stationCallsignEdit->setPalette(p);
 
 }
 
@@ -394,7 +508,7 @@ void SettingsDialog::adjustLocatorTextColor()
 
     QPalette p;
 
-    if ( ! ui->locatorEdit->hasAcceptableInput() )
+    if ( ! ui->stationLocatorEdit->hasAcceptableInput() )
     {
         p.setColor(QPalette::Text,Qt::red);
     }
@@ -403,7 +517,7 @@ void SettingsDialog::adjustLocatorTextColor()
         p.setColor(QPalette::Text,qApp->palette().text().color());
     }
 
-    ui->locatorEdit->setPalette(p);
+    ui->stationLocatorEdit->setPalette(p);
 
 }
 
@@ -413,7 +527,7 @@ void SettingsDialog::adjustVUCCLocatorTextColor()
 
     QPalette p;
 
-    if ( ! ui->vuccEdit->hasAcceptableInput() )
+    if ( ! ui->stationVUCCEdit->hasAcceptableInput() )
     {
         p.setColor(QPalette::Text,Qt::red);
     }
@@ -422,7 +536,7 @@ void SettingsDialog::adjustVUCCLocatorTextColor()
         p.setColor(QPalette::Text,qApp->palette().text().color());
     }
 
-    ui->vuccEdit->setPalette(p);
+    ui->stationVUCCEdit->setPalette(p);
 }
 
 void SettingsDialog::eqslDirBrowse()
@@ -465,7 +579,7 @@ void SettingsDialog::cancelled()
 {
     FCT_IDENTIFICATION;
 
-    if ( profileManager->profilesList().isEmpty() )
+    if ( stationProfManager->profileNameList().isEmpty() )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                              QMessageBox::tr("Please, define at least one Station Locations Profile"));
@@ -481,11 +595,11 @@ void SettingsDialog::sotaChanged(QString newSOTA)
 
     if ( newSOTA.length() >= 3 )
     {
-        ui->sotaEdit->setCompleter(sotaCompleter);
+        ui->stationSOTAEdit->setCompleter(sotaCompleter);
     }
     else
     {
-        ui->sotaEdit->setCompleter(nullptr);
+        ui->stationSOTAEdit->setCompleter(nullptr);
     }
 }
 
@@ -530,24 +644,14 @@ void SettingsDialog::readSettings() {
 
     QSettings settings;
 
-    QStringList profiles = profileManager->profilesList();
-    ((QStringListModel*)ui->profilesListView->model())->setStringList(profiles);
+    QStringList profiles = stationProfManager->profileNameList();
+    ((QStringListModel*)ui->stationProfilesListView->model())->setStringList(profiles);
 
-    QStringList rigs = settings.value("station/rigs").toStringList();
-    ((QStringListModel*)ui->rigListView->model())->setStringList(rigs);
+    QStringList rigs = rigProfManager->profileNameList();
+    ((QStringListModel*)ui->rigProfilesListView->model())->setStringList(rigs);
 
     QStringList ants = settings.value("station/antennas").toStringList();
-    ((QStringListModel*)ui->antListView->model())->setStringList(ants);
-
-    ui->rigModelSelect->setCurrentIndex(settings.value("hamlib/rig/modelrow").toInt());
-    ui->rigPortEdit->setText(settings.value("hamlib/rig/port").toString());
-    ui->rigBaudSelect->setCurrentText(settings.value("hamlib/rig/baudrate").toString());
-    ui->rigDataBitsSelect->setCurrentText(settings.value("hamlib/rig/databits").toString());
-    ui->rigStopBitsSelect->setCurrentText(settings.value("hamlib/rig/stopbits").toString());
-    ui->rigFlowControlSelect->setCurrentText(settings.value("hamlib/rig/flowcontrol").toString());
-    ui->rigParitySelect->setCurrentText(settings.value("hamlib/rig/parity").toString());
-    ui->rigHostNameEdit->setText(settings.value("hamlib/rig/hostname").toString());
-    ui->rigNetPortSpin->setValue(settings.value("hamlib/rig/netport").toInt());
+    ((QStringListModel*)ui->antProfilesListView->model())->setStringList(ants);
 
     ui->rotModelSelect->setCurrentIndex(settings.value("hamlib/rot/modelrow").toInt());
     ui->rotPortEdit->setText(settings.value("hamlib/rot/port").toString());
@@ -650,26 +754,11 @@ void SettingsDialog::writeSettings() {
 
     QSettings settings;
 
-    profileManager->save();
+    stationProfManager->save();
+    rigProfManager->save();
 
-    QStringList rigs = ((QStringListModel*)ui->rigListView->model())->stringList();
-    settings.setValue("station/rigs", rigs);
-
-    QStringList ants = ((QStringListModel*)ui->antListView->model())->stringList();
+    QStringList ants = ((QStringListModel*)ui->antProfilesListView->model())->stringList();
     settings.setValue("station/antennas", ants);
-
-    int rig_row = ui->rigModelSelect->currentIndex();
-    QModelIndex rig_index = ui->rigModelSelect->model()->index(rig_row, 0);
-    settings.setValue("hamlib/rig/model", rig_index.internalId());
-    settings.setValue("hamlib/rig/modelrow", rig_row);
-    settings.setValue("hamlib/rig/port", ui->rigPortEdit->text());
-    settings.setValue("hamlib/rig/baudrate", ui->rigBaudSelect->currentText());
-    settings.setValue("hamlib/rig/databits", ui->rigDataBitsSelect->currentText());
-    settings.setValue("hamlib/rig/stopbits", ui->rigStopBitsSelect->currentText());
-    settings.setValue("hamlib/rig/flowcontrol", ui->rigFlowControlSelect->currentText());
-    settings.setValue("hamlib/rig/parity", ui->rigParitySelect->currentText());
-    settings.setValue("hamlib/rig/hostname", ui->rigHostNameEdit->text());
-    settings.setValue("hamlib/rig/netport", ui->rigNetPortSpin->value());
 
     int rot_row = ui->rotModelSelect->currentIndex();
     QModelIndex rot_index = ui->rotModelSelect->model()->index(rot_row, 0);

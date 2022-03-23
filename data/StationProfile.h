@@ -8,6 +8,8 @@
 #include <QVariant>
 #include <QMap>
 
+#include "data/ProfileManager.h"
+
 class StationProfile
 {
 
@@ -32,7 +34,7 @@ private:
 
 Q_DECLARE_METATYPE(StationProfile)
 
-class StationProfilesManager : QObject
+class StationProfilesManager : QObject, public ProfileManager<StationProfile>
 {
     Q_OBJECT
 
@@ -42,17 +44,7 @@ public:
     ~StationProfilesManager() {};
 
     static StationProfilesManager* instance();
-    QStringList profilesList();
     void save();
-    void add(StationProfile profile);
-    int remove(const QString &profileName);
-    StationProfile get(const QString &profileName);
-    void setCurrent(const QString &profileName);
-    StationProfile getCurrent();
-
-private:
-    QMap<QString, QVariant> stationsProfiles;
-    QString currentProfile;
 };
 
 

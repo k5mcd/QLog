@@ -13,11 +13,13 @@
 #include "data/StationProfile.h"
 #include "core/HamQTH.h"
 #include "core/QRZ.h"
+#include "data/RigProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
+    rig(Rig::instance()),
     primaryCallbook(nullptr),
     secondaryCallbook(nullptr),
     ui(new Ui::NewContactWidget),
@@ -43,10 +45,9 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     ui->qslSentViaBox->addItem(tr("Direct"), QVariant("D"));
     ui->qslSentViaBox->addItem(tr("Electronic"), QVariant("E"));
 
-    rig = Rig::instance();
-
     QStringListModel* rigModel = new QStringListModel(this);
     ui->rigEdit->setModel(rigModel);
+    refreshRigProfileCombo();
 
     QStringListModel* antModel = new QStringListModel(this);
     ui->antennaEdit->setModel(antModel);
@@ -151,10 +152,8 @@ void NewContactWidget::readSettings() {
     double realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
     double rigFreqOffset = settings.value("newcontact/freqOffset", 0.0).toDouble();
     double rigFreqRXOffset = settings.value("newcontact/freqRXOffset", 0.0).toDouble();
-    QString rig = settings.value("newcontact/rig").toString();
     QString ant = settings.value("newcontact/antenna").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
-    //QString currStationProfile = StationProfilesManager::instance()->getCurrent().profileName;
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
@@ -162,13 +161,12 @@ void NewContactWidget::readSettings() {
     ui->rigFreqRXOffsetSpin->setValue(rigFreqRXOffset);
     ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
     ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
-    ui->rigEdit->setCurrentText(rig);
+    ui->rigEdit->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
     ui->antennaEdit->setCurrentText(ant);
     ui->powerEdit->setValue(power);
-    //ui->stationProfileCombo->setCurrentText(currStationProfile);
 
     refreshStationProfileCombo();
-
+    refreshRigProfileCombo();
 }
 
 void NewContactWidget::writeSettings() {
@@ -180,7 +178,6 @@ void NewContactWidget::writeSettings() {
     settings.setValue("newcontact/frequency", realRigFreq);
     settings.setValue("newcontact/freqOffset", ui->rigFreqOffsetSpin->value());
     settings.setValue("newcontact/freqRXOffset", ui->rigFreqRXOffsetSpin->value());
-    settings.setValue("newcontact/rig", ui->rigEdit->currentText());
     settings.setValue("newcontact/antenna", ui->antennaEdit->currentText());
     settings.setValue("newcontact/power", ui->powerEdit->value());
 }
@@ -193,13 +190,13 @@ void NewContactWidget::reloadSettings() {
     QString selectedRig = ui->rigEdit->currentText();
     QString selectedAnt = ui->antennaEdit->currentText();
 
-    QStringList rigs = settings.value("station/rigs").toStringList();
+    QStringList rigs = RigProfilesManager::instance()->profileNameList();
     QStringList ants = settings.value("station/antennas").toStringList();
 
-    QStringListModel* model = dynamic_cast<QStringListModel*>(ui->rigEdit->model());
+    QStringListModel* modelRig = dynamic_cast<QStringListModel*>(ui->rigEdit->model());
     QStringListModel* modelAnt = dynamic_cast<QStringListModel*>(ui->antennaEdit->model());
 
-    model->setStringList(rigs);
+    modelRig->setStringList(rigs);
     modelAnt->setStringList(ants);
 
     if (!selectedRig.isEmpty()) {
@@ -244,6 +241,8 @@ void NewContactWidget::reloadSettings() {
 
     /* Refresh Station Profile Combobox */
     refreshStationProfileCombo();
+
+    refreshRigProfileCombo();
 }
 
 void NewContactWidget::callsignChanged() {
@@ -503,25 +502,53 @@ void NewContactWidget::refreshStationProfileCombo()
 
     ui->stationProfileCombo->blockSignals(true);
 
-    QStringList currProfiles = StationProfilesManager::instance()->profilesList();
+    QStringList currProfiles = StationProfilesManager::instance()->profileNameList();
     QStringListModel* model = dynamic_cast<QStringListModel*>(ui->stationProfileCombo->model());
 
     model->setStringList(currProfiles);
 
-    if ( StationProfilesManager::instance()->getCurrent().profileName.isEmpty()
+    if ( StationProfilesManager::instance()->getCurProfile1().profileName.isEmpty()
          && currProfiles.count() > 0 )
     {
         /* changing profile from empty to something */
         ui->stationProfileCombo->setCurrentText(currProfiles.first());
-        stationProfileChanged(currProfiles.first());
+        stationProfileComboChanged(currProfiles.first());
     }
     else
     {
         /* no profile change, just refresh the combo and preserve current profile */
-        ui->stationProfileCombo->setCurrentText(StationProfilesManager::instance()->getCurrent().profileName);
+        ui->stationProfileCombo->setCurrentText(StationProfilesManager::instance()->getCurProfile1().profileName);
     }
 
     ui->stationProfileCombo->blockSignals(false);
+}
+
+void NewContactWidget::refreshRigProfileCombo()
+{
+    FCT_IDENTIFICATION;
+
+    ui->rigEdit->blockSignals(true);
+
+    QStringList currProfiles = RigProfilesManager::instance()->profileNameList();
+    QStringListModel* model = dynamic_cast<QStringListModel*>(ui->rigEdit->model());
+
+    model->setStringList(currProfiles);
+
+    if ( RigProfilesManager::instance()->getCurProfile1().profileName.isEmpty()
+         && currProfiles.count() > 0 )
+    {
+        /* changing profile from empty to something */
+        ui->rigEdit->setCurrentText(currProfiles.first());
+        rigProfileComboChanged(currProfiles.first());
+    }
+    else
+    {
+        /* no profile change, just refresh the combo and preserve current profile */
+        ui->rigEdit->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
+    }
+
+    ui->rigEdit->blockSignals(false);
+
 }
 
 /* Mode is changed from GUI */
@@ -641,7 +668,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurrent();
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
     record.setValue("qsl_sent", "N");
     record.setValue("qsl_rcvd", "N");
@@ -846,7 +873,7 @@ void NewContactWidget::saveContact()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    StationProfile profile = StationProfilesManager::instance()->getCurrent();
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
     if ( profile.callsign.isEmpty() )
     {
@@ -1172,7 +1199,7 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
 
     if (prec < coordPrec) return;
 
-    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
     double distance;
     double bearing;
 
@@ -1384,14 +1411,24 @@ void NewContactWidget::rigFreqRXOffsetChanged(double offset)
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
 }
 
-void NewContactWidget::stationProfileChanged(QString profileName)
+void NewContactWidget::stationProfileComboChanged(QString profileName)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
 
-    StationProfilesManager::instance()->setCurrent(profileName);
+    StationProfilesManager::instance()->setCurProfile1(profileName);
 
-    emit newStationProfile();
+    emit stationProfileChanged();
+}
+
+void NewContactWidget::rigProfileComboChanged(QString profileName)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << profileName;
+
+    RigProfilesManager::instance()->setCurProfile1(profileName);
+
+    emit rigProfileChanged();
 }
 
 void NewContactWidget::sotaChanged(QString newSOTA)

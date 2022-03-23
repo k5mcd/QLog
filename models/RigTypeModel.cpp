@@ -17,6 +17,11 @@ QVariant RigTypeModel::data(const QModelIndex& index, int role) const {
     if (role == Qt::DisplayRole) {
         return rigList.value(index.row());
     }
+
+    if (role == Qt::UserRole )
+    {
+        return rigIds[rigList.value(index.row())];
+    }
     return QVariant();
 }
 

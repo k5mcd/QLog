@@ -374,7 +374,7 @@ void DxWidget::receive() {
         }
 
         if (line.startsWith("login") || line.contains(QRegExp("enter your call(sign)?:"))) {
-            QByteArray call = StationProfilesManager::instance()->getCurrent().callsign.toLocal8Bit();
+            QByteArray call = StationProfilesManager::instance()->getCurProfile1().callsign.toLocal8Bit();
             call.append("\r\n");
             socket->write(call);
         }

@@ -37,7 +37,8 @@ signals:
     void newTarget(double lat, double lon);
     void filterCallsign(QString call);
     void userFrequencyChanged(double freq);
-    void newStationProfile();
+    void stationProfileChanged();
+    void rigProfileChanged();
     void markQSO(DxSpot spot);
 
 public slots:
@@ -75,7 +76,8 @@ public slots:
     void propModeChanged(const QString&);
     void rigFreqOffsetChanged(double);
     void rigFreqRXOffsetChanged(double);
-    void stationProfileChanged(QString);
+    void stationProfileComboChanged(QString);
+    void rigProfileComboChanged(QString);
     void sotaChanged(QString);
     void callbookCallsignNotFound(QString);
 
@@ -88,6 +90,7 @@ private:
     void writeSettings();
     void __modeChanged();
     void refreshStationProfileCombo();
+    void refreshRigProfileCombo();
     void addAddlFields(QSqlRecord &record);
     GenericCallbook *createCallbook(const QString&);
 

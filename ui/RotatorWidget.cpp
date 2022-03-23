@@ -76,7 +76,7 @@ void RotatorWidget::redrawMap()
 
     QImage map(MAP_RESOLUTION, MAP_RESOLUTION, QImage::Format_ARGB32);
 
-    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
     double lat = myGrid.getLatitude();
     double lon = myGrid.getLongitude();

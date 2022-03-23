@@ -57,7 +57,7 @@ void MapWidget::clear() {
         i.remove();
     }
 
-    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
     double lat=0;
     double lon=0;
@@ -236,7 +236,7 @@ void MapWidget::setTarget(double lat, double lon) {
 
     if (lat == 0.0 && lon == 0.0) return;
 
-    Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
     QPoint point = coordToPoint(lat, lon);
     drawPoint(point);

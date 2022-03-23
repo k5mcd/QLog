@@ -44,7 +44,7 @@ void OnlineMapWidget::setTarget(double lat, double lon)
     else
     {
         /* Draw a new path */
-        Gridsquare myGrid(StationProfilesManager::instance()->getCurrent().locator);
+        Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
         double my_lat=0;
         double my_lon=0;

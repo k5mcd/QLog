@@ -7,6 +7,7 @@
 #include <QCompleter>
 
 #include "data/StationProfile.h"
+#include "data/RigProfile.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -23,14 +24,20 @@ public:
 
 public slots:
     void save();
-    void addRig();
-    void deleteRig();
+
+    void addRigProfile();
+    void delRigProfile();
+    void refreshRigProfilesView();
+    void doubleClickRigProfile(QModelIndex);
+
     void addAnt();
     void deleteAnt();
+
     void refreshStationProfilesView();
     void addStationProfile();
     void deleteStationProfile();
     void doubleClickStationProfile(QModelIndex);
+
     void rigChanged(int);
     void rotChanged(int);
     void tqslPathBrowse();
@@ -50,7 +57,8 @@ private:
 
     QSqlTableModel* modeTableModel;
     QSqlTableModel* bandTableModel;
-    StationProfilesManager *profileManager;
+    StationProfilesManager *stationProfManager;
+    RigProfilesManager *rigProfManager;
     QCompleter *sotaCompleter;
     QCompleter *iotaCompleter;
     Ui::SettingsDialog *ui;

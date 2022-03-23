@@ -20,7 +20,6 @@ public slots:
 
     void setFrequency(double);
     void setMode(const QString &, const QString &);
-    void setPower(double);
 
 signals:
     void frequencyChanged(double);

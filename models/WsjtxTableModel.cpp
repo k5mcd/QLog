@@ -31,7 +31,7 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
         case 1: return entry.grid;
         case 2:
         {
-            StationProfile profile = StationProfilesManager::instance()->getCurrent();
+            StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
             //QString ret = entry.grid;
 
             if ( !profile.locator.isEmpty() )

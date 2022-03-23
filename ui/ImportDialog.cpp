@@ -6,6 +6,7 @@
 #include "core/debug.h"
 #include "data/StationProfile.h"
 #include "core/Gridsquare.h"
+#include "data/RigProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.importdialog");
 
@@ -22,14 +23,14 @@ ImportDialog::ImportDialog(QWidget *parent) :
     ui->allCheckBox->setChecked(true);
     ui->startDateEdit->setDate(QDate::currentDate());
     ui->endDateEdit->setDate(QDate::currentDate());
-    ui->gridEdit->setText(StationProfilesManager::instance()->getCurrent().locator);
+    ui->gridEdit->setText(StationProfilesManager::instance()->getCurProfile1().locator);
     ui->gridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
     ui->progressBar->setValue(0);
     ui->progressBar->setMinimum(0);
     ui->progressBar->setMaximum(100);
     //ui->progressBar->setDisabled(true);
 
-    QStringList rigs = settings.value("station/rigs").toStringList();
+    QStringList rigs = RigProfilesManager::instance()->profileNameList();
     QStringListModel* rigModel = new QStringListModel(rigs, this);
     ui->rigSelect->setModel(rigModel);
     if (!ui->rigSelect->currentText().isEmpty()) {

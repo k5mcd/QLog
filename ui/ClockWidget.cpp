@@ -61,7 +61,7 @@ void ClockWidget::updateClock() {
 void ClockWidget::updateSun() {
     FCT_IDENTIFICATION;
 
-    Gridsquare myGrid (StationProfilesManager::instance()->getCurrent().locator);
+    Gridsquare myGrid (StationProfilesManager::instance()->getCurProfile1().locator);
 
     if ( myGrid.isValid() )
     {

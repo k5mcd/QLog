@@ -8,7 +8,6 @@
 
 MODULE_IDENTIFICATION("qlog.data.stationprofile");
 
-
 QDataStream& operator<<(QDataStream& out, const StationProfile& v)
 {
     out << v.profileName << v.callsign << v.locator
@@ -34,7 +33,7 @@ QDataStream& operator>>(QDataStream& in, StationProfile& v)
 }
 
 StationProfilesManager::StationProfilesManager(QObject *parent) :
-    QObject(parent)
+     QObject(parent),ProfileManager<StationProfile>("station")
 {
     FCT_IDENTIFICATION;
 
@@ -42,8 +41,7 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-
-    if ( ! profileQuery.prepare("SELECT * FROM station_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc FROM station_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -63,7 +61,8 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
             profileDB.sig =  profileQuery.value(7).toString();
             profileDB.sigInfo =  profileQuery.value(8).toString();
             profileDB.vucc =  profileQuery.value(9).toString();
-            add(profileDB);
+
+            addProfile(profileDB.profileName, profileDB);
         }
     }
     else
@@ -73,8 +72,7 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
 
     /* TODO: remove this line in the future */
     settings.remove("station/profiles");
-
-    currentProfile = settings.value("station/currentprofile", QString()).toString();
+    settings.remove("station/currentprofile");
 }
 
 StationProfilesManager *StationProfilesManager::instance()
@@ -83,21 +81,6 @@ StationProfilesManager *StationProfilesManager::instance()
 
     static StationProfilesManager instance;
     return &instance;
-}
-
-QStringList StationProfilesManager::profilesList()
-{
-    FCT_IDENTIFICATION;
-
-    QStringList ret;
-
-    auto keys = stationsProfiles.keys();
-    for ( auto &key : qAsConst(keys) )
-    {
-        ret << key;
-    }
-
-    return ret;
 }
 
 void StationProfilesManager::save()
@@ -123,19 +106,22 @@ void StationProfilesManager::save()
 
     if ( deleteQuery.exec() )
     {
-        auto keys = stationsProfiles.keys();
+        auto keys = profileNameList();
         for ( auto &key: qAsConst(keys) )
         {
+            StationProfile stationProfile = getProfile(key);
+
             insertQuery.bindValue(":profile_name", key);
-            insertQuery.bindValue(":callsign", stationsProfiles.value(key).value<StationProfile>().callsign);
-            insertQuery.bindValue(":locator", stationsProfiles.value(key).value<StationProfile>().locator);
-            insertQuery.bindValue(":operator_name", stationsProfiles.value(key).value<StationProfile>().operatorName);
-            insertQuery.bindValue(":qth_name", stationsProfiles.value(key).value<StationProfile>().qthName);
-            insertQuery.bindValue(":iota", stationsProfiles.value(key).value<StationProfile>().iota);
-            insertQuery.bindValue(":sota", stationsProfiles.value(key).value<StationProfile>().sota);
-            insertQuery.bindValue(":sig", stationsProfiles.value(key).value<StationProfile>().sig);
-            insertQuery.bindValue(":sig_info", stationsProfiles.value(key).value<StationProfile>().sigInfo);
-            insertQuery.bindValue(":vucc", stationsProfiles.value(key).value<StationProfile>().vucc);
+            insertQuery.bindValue(":callsign", stationProfile.callsign);
+            insertQuery.bindValue(":locator", stationProfile.locator);
+            insertQuery.bindValue(":operator_name", stationProfile.operatorName);
+            insertQuery.bindValue(":qth_name", stationProfile.qthName);
+            insertQuery.bindValue(":iota", stationProfile.iota);
+            insertQuery.bindValue(":sota", stationProfile.sota);
+            insertQuery.bindValue(":sig", stationProfile.sig);
+            insertQuery.bindValue(":sig_info", stationProfile.sigInfo);
+            insertQuery.bindValue(":vucc", stationProfile.vucc);
+
             if ( ! insertQuery.exec() )
             {
                 qInfo() << "Station Profile DB insert error " << insertQuery.lastError().text() << insertQuery.lastQuery();
@@ -147,71 +133,5 @@ void StationProfilesManager::save()
         qInfo() << "Station Profile DB delete error " << deleteQuery.lastError().text();
     }
 
-    settings.setValue("station/currentprofile", currentProfile);
-}
-
-void StationProfilesManager::add(StationProfile profile)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << profile.profileName;
-
-    stationsProfiles.insert(profile.profileName, QVariant::fromValue(profile));
-}
-
-int StationProfilesManager::remove(const QString &profileName)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << profileName;
-
-    if ( currentProfile == profileName )
-    {
-        currentProfile = QString();
-    }
-
-    return stationsProfiles.remove(profileName);
-}
-
-StationProfile StationProfilesManager::get(const QString &profileName)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << profileName;
-
-    if ( stationsProfiles.contains(profileName) )
-    {
-        return stationsProfiles.value(profileName).value<StationProfile>();
-    }
-    else
-    {
-        qCWarning(runtime) << "Profile " << profileName << " not found";
-        return StationProfile();
-    }
-}
-
-void StationProfilesManager::setCurrent(const QString &profileName)
-{
-    FCT_IDENTIFICATION;
-
-    QSettings settings;
-
-    qCDebug(function_parameters) << profileName;
-
-    currentProfile = profileName;
-    settings.setValue("station/currentprofile", profileName);
-}
-
-StationProfile StationProfilesManager::getCurrent()
-{
-    FCT_IDENTIFICATION;
-
-    if ( ! currentProfile.isEmpty() )
-    {
-        return get(currentProfile);
-    }
-    else
-    {
-        return StationProfile();
-    }
+    saveCurProfile1();
 }

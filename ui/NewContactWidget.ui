@@ -779,7 +779,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_6">
       <attribute name="title">
@@ -1451,7 +1451,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="stationProfileLabel">
            <property name="text">
-            <string>Location Profile</string>
+            <string>Location</string>
            </property>
           </widget>
          </item>
@@ -1936,7 +1936,7 @@
    <sender>stationProfileCombo</sender>
    <signal>currentIndexChanged(QString)</signal>
    <receiver>NewContactWidget</receiver>
-   <slot>stationProfileChanged(QString)</slot>
+   <slot>stationProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>215</x>
@@ -1996,6 +1996,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rigEdit</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>rigProfileComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>192</x>
+     <y>484</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>736</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -2013,9 +2029,10 @@
   <slot>propModeChanged(QString)</slot>
   <slot>editCallsignFinished()</slot>
   <slot>rigFreqOffsetChanged(double)</slot>
-  <slot>stationProfileChanged(QString)</slot>
+  <slot>stationProfileComboChanged(QString)</slot>
   <slot>sotaChanged(QString)</slot>
   <slot>rigFreqRXOffsetChanged(double)</slot>
   <slot>frequencyRXChanged()</slot>
+  <slot>rigProfileComboChanged(QString)</slot>
  </slots>
 </ui>

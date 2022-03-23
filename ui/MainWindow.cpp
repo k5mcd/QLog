@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget* parent) :
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("windowState").toByteArray());
 
-    StationProfile profile = StationProfilesManager::instance()->getCurrent();
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
     conditionsLabel = new QLabel("", ui->statusBar);
     callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
@@ -109,8 +109,8 @@ MainWindow::MainWindow(QWidget* parent) :
     //connect(ui->newContactWidget, &NewContactWidget::contactAdded, clublog, &ClubLog::uploadContact);
     connect(ui->newContactWidget, &NewContactWidget::filterCallsign, ui->logbookWidget, &LogbookWidget::filterCallsign);
     connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->bandmapWidget, &BandmapWidget::updateRxFrequency);
-    connect(ui->newContactWidget, &NewContactWidget::newStationProfile, this, &MainWindow::stationProfileChanged);
-    connect(ui->newContactWidget, &NewContactWidget::newStationProfile, ui->rotatorWidget, &RotatorWidget::redrawMap);
+    connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, this, &MainWindow::stationProfileChanged);
+    connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, ui->rotatorWidget, &RotatorWidget::redrawMap);
     connect(ui->newContactWidget, &NewContactWidget::markQSO, ui->bandmapWidget, &BandmapWidget::addSpot);
 
     connect(ui->dxWidget, &DxWidget::newSpot, ui->bandmapWidget, &BandmapWidget::addSpot);
@@ -127,7 +127,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->newContactWidget->addPropConditions(conditions);
 
-    if ( StationProfilesManager::instance()->profilesList().isEmpty() )
+    if ( StationProfilesManager::instance()->profileNameList().isEmpty() )
     {
         showSettings();
     }
@@ -185,7 +185,7 @@ void MainWindow::stationProfileChanged()
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurrent();
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
     qCDebug(runtime) << profile.callsign << " " << profile.locator << " " << profile.operatorName;
 
