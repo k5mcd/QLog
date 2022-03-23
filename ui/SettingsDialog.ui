@@ -27,7 +27,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="stationTab">
       <attribute name="title">
@@ -2049,6 +2049,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rotAddProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addRotProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>323</x>
+     <y>434</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotDelProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>delRotProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>526</x>
+     <y>434</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotProfilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickRotProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>281</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotModelSelect</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>rotChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>472</x>
+     <y>181</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -2073,5 +2137,8 @@
   <slot>paperDirBrowse()</slot>
   <slot>doubleClickRigProfile(QModelIndex)</slot>
   <slot>doubleClickAntProfile(QModelIndex)</slot>
+  <slot>addRotProfile()</slot>
+  <slot>delRotProfile()</slot>
+  <slot>doubleClickRotProfile(QModelIndex)</slot>
  </slots>
 </ui>

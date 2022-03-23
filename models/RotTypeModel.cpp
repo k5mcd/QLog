@@ -17,6 +17,11 @@ QVariant RotTypeModel::data(const QModelIndex& index, int role) const {
     if (role == Qt::DisplayRole) {
         return rotList.value(index.row());
     }
+
+    if (role == Qt::UserRole )
+    {
+        return rotIds[rotList.value(index.row())];
+    }
     return QVariant();
 }
 

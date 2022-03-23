@@ -8,6 +8,7 @@
 
 #include "data/StationProfile.h"
 #include "data/RigProfile.h"
+#include "data/RotProfile.h"
 #include "data/AntProfile.h"
 
 namespace Ui {
@@ -30,6 +31,11 @@ public slots:
     void delRigProfile();
     void refreshRigProfilesView();
     void doubleClickRigProfile(QModelIndex);
+
+    void addRotProfile();
+    void delRotProfile();
+    void refreshRotProfilesView();
+    void doubleClickRotProfile(QModelIndex);
 
     void addAntProfile();
     void delAntProfile();
@@ -62,6 +68,7 @@ private:
     QSqlTableModel* bandTableModel;
     StationProfilesManager *stationProfManager;
     RigProfilesManager *rigProfManager;
+    RotProfilesManager *rotProfManager;
     AntProfilesManager *antProfManager;
     QCompleter *sotaCompleter;
     QCompleter *iotaCompleter;

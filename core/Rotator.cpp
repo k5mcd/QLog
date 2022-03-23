@@ -1,6 +1,7 @@
 #include <hamlib/rotator.h>
 #include "Rotator.h"
 #include "core/debug.h"
+#include "data/RotProfile.h"
 
 MODULE_IDENTIFICATION("qlog.core.rotator");
 
@@ -109,27 +110,16 @@ void Rotator::update() {
 void Rotator::open() {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-    int model = settings.value("hamlib/rot/model").toInt();
-    int baudrate = settings.value("hamlib/rot/baudrate").toInt();
-    int databits = settings.value("hamlib/rot/databits").toInt();
-    float stopbits = settings.value("hamlib/rot/stopbits").toFloat();
-    QString flowControl = settings.value("hamlib/rot/stopbits").toString();
-    QString parity = settings.value("hamlib/rot/parity").toString();
-    QByteArray portStr = settings.value("hamlib/rot/port").toByteArray();
-    QString hostname = settings.value("hamlib/rot/hostname").toString();
-    int netport = settings.value("hamlib/rot/netport").toInt();
+    RotProfile rotProfile = RotProfilesManager::instance()->getCurProfile1();
 
-    const char* port = portStr.constData();
-
-    qCDebug(runtime) << portStr;
+    qCDebug(runtime) << "Opening profile name: " << rotProfile.profileName;
 
     rotLock.lock();
 
     // if rot is active then close it
     __closeRot();
 
-    rot = rot_init(model);
+    rot = rot_init(rotProfile.model);
 
     if ( !rot )
     {
@@ -142,19 +132,18 @@ void Rotator::open() {
          || rot->caps->port_type == RIG_PORT_UDP_NETWORK )
     {
         // handling network rotator
-        strncpy(rot->state.rotport.pathname, hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        strncpy(rot->state.rotport.pathname, rotProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
         //port is hardcoded in hamlib - not necessary to set it.
-        (void)netport;
     }
     else
     {
         // handling serial rotator
-        strncpy(rot->state.rotport.pathname, port, HAMLIB_FILPATHLEN - 1);
-        rot->state.rotport.parm.serial.rate = baudrate;
-        rot->state.rotport.parm.serial.data_bits = databits;
-        rot->state.rotport.parm.serial.stop_bits = stopbits;
-        rot->state.rotport.parm.serial.handshake = stringToFlowControl(flowControl);
-        rot->state.rotport.parm.serial.parity = stringToParity(parity);
+        strncpy(rot->state.rotport.pathname, rotProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        rot->state.rotport.parm.serial.rate = rotProfile.baudrate;
+        rot->state.rotport.parm.serial.data_bits = rotProfile.databits;
+        rot->state.rotport.parm.serial.stop_bits = rotProfile.stopbits;
+        rot->state.rotport.parm.serial.handshake = stringToFlowControl(rotProfile.flowcontrol);
+        rot->state.rotport.parm.serial.parity = stringToParity(rotProfile.parity);
     }
 
     int status = rot_open(rot);

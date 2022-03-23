@@ -39,6 +39,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
     stationProfManager(StationProfilesManager::instance()),
     rigProfManager(RigProfilesManager::instance()),
+    rotProfManager(RotProfilesManager::instance()),
     antProfManager(AntProfilesManager::instance()),
     ui(new Ui::SettingsDialog)
 {
@@ -54,6 +55,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     QStringListModel* rigModel = new QStringListModel();
     ui->rigProfilesListView->setModel(rigModel);
+
+    QStringListModel* rotModel = new QStringListModel();
+    ui->rotProfilesListView->setModel(rotModel);
 
     QStringListModel* antModel = new QStringListModel();
     ui->antProfilesListView->setModel(antModel);
@@ -116,6 +120,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
 
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
+    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
 
     readSettings();
 }
@@ -240,6 +245,127 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigParitySelect->setCurrentText(profile.parity);
 
     ui->rigAddProfileButton->setText(tr("Modify"));
+}
+
+void SettingsDialog::addRotProfile()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->rotProfileNameEdit->text().isEmpty() )
+    {
+        ui->rotProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
+    if ( ui->rotAddProfileButton->text() == tr("Modify"))
+    {
+        ui->rotAddProfileButton->setText(tr("Add"));
+    }
+
+    RotProfile profile;
+
+
+    profile.profileName = ui->rotProfileNameEdit->text();
+
+    profile.model = ui->rotModelSelect->currentData().toInt();
+
+    profile.hostname = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                QString() :
+                ui->rotHostNameEdit->text();
+
+    profile.netport = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                0 :
+                ui->rotNetPortSpin->value();
+
+    profile.portPath = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rotPortEdit->text() :
+                QString();
+
+    profile.baudrate = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rotBaudSelect->currentText().toInt() :
+                0;
+
+    profile.databits = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rotDataBitsSelect->currentText().toInt():
+                0;
+
+    profile.stopbits = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rotStopBitsSelect->currentText().toFloat() :
+                0;
+
+    profile.flowcontrol = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rotFlowControlSelect->currentText() :
+                0;
+
+    profile.parity = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rotParitySelect->currentText():
+                QString();
+
+    rotProfManager->addProfile(profile.profileName, profile);
+
+    refreshRotProfilesView();
+
+    ui->rotProfileNameEdit->setPlaceholderText(QString());
+    ui->rotPortEdit->setPlaceholderText(QString());
+    ui->rotHostNameEdit->setPlaceholderText(QString());
+
+    ui->rotProfileNameEdit->clear();
+    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
+    ui->rotPortEdit->clear();
+    ui->rotHostNameEdit->clear();
+    ui->rotBaudSelect->setCurrentIndex(0);
+    ui->rotDataBitsSelect->setCurrentIndex(0);
+    ui->rotStopBitsSelect->setCurrentIndex(0);
+    ui->rotFlowControlSelect->setCurrentIndex(0);
+    ui->rotParitySelect->setCurrentIndex(0);
+}
+
+void SettingsDialog::delRotProfile()
+{
+    FCT_IDENTIFICATION;
+
+    foreach (QModelIndex index, ui->rotProfilesListView->selectionModel()->selectedRows())
+    {
+        rotProfManager->removeProfile(ui->rotProfilesListView->model()->data(index).toString());
+        ui->rotProfilesListView->model()->removeRow(index.row());
+    }
+    ui->rotProfilesListView->clearSelection();
+}
+
+void SettingsDialog::refreshRotProfilesView()
+{
+    FCT_IDENTIFICATION;
+    QStringListModel* model = (QStringListModel*)ui->rotProfilesListView->model();
+    QStringList profiles = model->stringList();
+
+    profiles.clear();
+
+    profiles << rotProfManager->profileNameList();
+
+    model->setStringList(profiles);
+}
+
+void SettingsDialog::doubleClickRotProfile(QModelIndex i)
+{
+    FCT_IDENTIFICATION;
+
+    RotProfile profile;
+
+    profile = rotProfManager->getProfile(ui->rotProfilesListView->model()->data(i).toString());
+
+    ui->rotProfileNameEdit->setText(profile.profileName);
+
+    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(profile.model));
+    ui->rotPortEdit->setText(profile.portPath);
+    ui->rotHostNameEdit->setText(profile.hostname);
+    ui->rotNetPortSpin->setValue(profile.netport);
+    ui->rotBaudSelect->setCurrentText(QString::number(profile.baudrate));
+    ui->rotDataBitsSelect->setCurrentText(QString::number(profile.databits));
+    ui->rotStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
+    ui->rotFlowControlSelect->setCurrentText(profile.flowcontrol);
+    ui->rotParitySelect->setCurrentText(profile.parity);
+
+    ui->rotAddProfileButton->setText(tr("Modify"));
 }
 
 void SettingsDialog::addAntProfile()
@@ -489,7 +615,7 @@ void SettingsDialog::rotChanged(int index)
     const struct rot_caps *caps;
 
     QModelIndex rot_index = ui->rotModelSelect->model()->index(index, 0);
-    caps = rot_get_caps(rot_index.internalId());
+    caps = rot_get_caps(rot_index.internalId());    
 
     if ( caps )
     {
@@ -697,18 +823,11 @@ void SettingsDialog::readSettings() {
     QStringList rigs = rigProfManager->profileNameList();
     ((QStringListModel*)ui->rigProfilesListView->model())->setStringList(rigs);
 
+    QStringList rots = rotProfManager->profileNameList();
+    ((QStringListModel*)ui->rotProfilesListView->model())->setStringList(rots);
+
     QStringList ants = antProfManager->profileNameList();
     ((QStringListModel*)ui->antProfilesListView->model())->setStringList(ants);
-
-    ui->rotModelSelect->setCurrentIndex(settings.value("hamlib/rot/modelrow").toInt());
-    ui->rotPortEdit->setText(settings.value("hamlib/rot/port").toString());
-    ui->rotBaudSelect->setCurrentText(settings.value("hamlib/rot/baudrate").toString());
-    ui->rotDataBitsSelect->setCurrentText(settings.value("hamlib/rot/databits").toString());
-    ui->rotStopBitsSelect->setCurrentText(settings.value("hamlib/rot/stopbits").toString());
-    ui->rotFlowControlSelect->setCurrentText(settings.value("hamlib/rot/flowcontrol").toString());
-    ui->rotParitySelect->setCurrentText(settings.value("hamlib/rot/parity").toString());
-    ui->rotHostNameEdit->setText(settings.value("hamlib/rot/hostname").toString());
-    ui->rotNetPortSpin->setValue(settings.value("hamlib/rot/netport").toInt());
 
     /************/
     /* Callbook */
@@ -803,20 +922,8 @@ void SettingsDialog::writeSettings() {
 
     stationProfManager->save();
     rigProfManager->save();
+    rotProfManager->save();
     antProfManager->save();
-
-    int rot_row = ui->rotModelSelect->currentIndex();
-    QModelIndex rot_index = ui->rotModelSelect->model()->index(rot_row, 0);
-    settings.setValue("hamlib/rot/model", rot_index.internalId());
-    settings.setValue("hamlib/rot/modelrow", rot_row);
-    settings.setValue("hamlib/rot/port", ui->rotPortEdit->text());
-    settings.setValue("hamlib/rot/baudrate", ui->rotBaudSelect->currentText());
-    settings.setValue("hamlib/rot/databits", ui->rotDataBitsSelect->currentText());
-    settings.setValue("hamlib/rot/stopbits", ui->rotStopBitsSelect->currentText());
-    settings.setValue("hamlib/rot/flowcontrol", ui->rotFlowControlSelect->currentText());
-    settings.setValue("hamlib/rot/parity", ui->rotParitySelect->currentText());
-    settings.setValue("hamlib/rot/hostname", ui->rotHostNameEdit->text());
-    settings.setValue("hamlib/rot/netport", ui->rotNetPortSpin->value());
 
     /************/
     /* Callbook */

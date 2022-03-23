@@ -6,6 +6,9 @@
 
 #include "data/ProfileManager.h"
 
+
+#define DEFAULT_ROT_MODEL 1
+
 class AntProfile
 {
 public:
