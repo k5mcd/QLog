@@ -2012,6 +2012,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>antennaEdit</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>antProfileComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>143</x>
+     <y>515</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>736</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -2034,5 +2050,6 @@
   <slot>rigFreqRXOffsetChanged(double)</slot>
   <slot>frequencyRXChanged()</slot>
   <slot>rigProfileComboChanged(QString)</slot>
+  <slot>antProfileComboChanged(QString)</slot>
  </slots>
 </ui>

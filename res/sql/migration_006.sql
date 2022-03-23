@@ -15,3 +15,8 @@ CREATE TABLE IF NOT EXISTS rig_profiles (
         flowcontrol TEXT,
         parity TEXT
 );
+
+CREATE TABLE IF NOT EXISTS ant_profiles (
+        profile_name TEXT PRIMARY KEY,
+        desc TEXT
+);

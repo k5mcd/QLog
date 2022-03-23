@@ -8,6 +8,7 @@
 
 #include "data/StationProfile.h"
 #include "data/RigProfile.h"
+#include "data/AntProfile.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -30,8 +31,10 @@ public slots:
     void refreshRigProfilesView();
     void doubleClickRigProfile(QModelIndex);
 
-    void addAnt();
-    void deleteAnt();
+    void addAntProfile();
+    void delAntProfile();
+    void refreshAntProfilesView();
+    void doubleClickAntProfile(QModelIndex);
 
     void refreshStationProfilesView();
     void addStationProfile();
@@ -59,6 +62,7 @@ private:
     QSqlTableModel* bandTableModel;
     StationProfilesManager *stationProfManager;
     RigProfilesManager *rigProfManager;
+    AntProfilesManager *antProfManager;
     QCompleter *sotaCompleter;
     QCompleter *iotaCompleter;
     Ui::SettingsDialog *ui;

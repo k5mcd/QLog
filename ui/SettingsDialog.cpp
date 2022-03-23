@@ -21,6 +21,7 @@
 #include "core/CredentialStore.h"
 #include "data/StationProfile.h"
 #include "data/RigProfile.h"
+#include "data/AntProfile.h"
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "core/Wsjtx.h"
@@ -38,6 +39,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
     stationProfManager(StationProfilesManager::instance()),
     rigProfManager(RigProfilesManager::instance()),
+    antProfManager(AntProfilesManager::instance()),
     ui(new Ui::SettingsDialog)
 {
     FCT_IDENTIFICATION;
@@ -240,27 +242,72 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigAddProfileButton->setText(tr("Modify"));
 }
 
-void SettingsDialog::addAnt() {
+void SettingsDialog::addAntProfile()
+{
     FCT_IDENTIFICATION;
-/*
-    if (ui->antennasEdit->text().isEmpty()) return;
 
-    QStringListModel* model = (QStringListModel*)ui->antListView->model();
-    QStringList ants = model->stringList();
-    ants << ui->antennasEdit->text();
-    model->setStringList(ants);
-    ui->antennasEdit->clear();
-    */
+    if ( ui->antProfileNameEdit->text().isEmpty() )
+    {
+        ui->antProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
+    if ( ui->antAddProfileButton->text() == tr("Modify"))
+    {
+        ui->antAddProfileButton->setText(tr("Add"));
+    }
+
+    AntProfile profile;
+
+    profile.profileName = ui->antProfileNameEdit->text();
+    profile.description = ui->antDescEdit->toPlainText();
+
+    antProfManager->addProfile(profile.profileName, profile);
+
+    refreshAntProfilesView();
+
+    ui->antProfileNameEdit->setPlaceholderText(QString());
+
+    ui->antProfileNameEdit->clear();
+    ui->antDescEdit->clear();
 }
 
-void SettingsDialog::deleteAnt() {
+void SettingsDialog::delAntProfile()
+{
     FCT_IDENTIFICATION;
-/*
-    foreach (QModelIndex index, ui->antListView->selectionModel()->selectedRows()) {
-        ui->antListView->model()->removeRow(index.row());
+
+    foreach (QModelIndex index, ui->antProfilesListView->selectionModel()->selectedRows())
+    {
+        antProfManager->removeProfile(ui->antProfilesListView->model()->data(index).toString());
+        ui->antProfilesListView->model()->removeRow(index.row());
     }
-    ui->antListView->clearSelection();
-    */
+    ui->antProfilesListView->clearSelection();
+}
+
+void SettingsDialog::refreshAntProfilesView()
+{
+    FCT_IDENTIFICATION;
+    QStringListModel* model = (QStringListModel*)ui->antProfilesListView->model();
+    QStringList profiles = model->stringList();
+
+    profiles.clear();
+
+    profiles << antProfManager->profileNameList();
+
+    model->setStringList(profiles);
+}
+
+void SettingsDialog::doubleClickAntProfile(QModelIndex i)
+{
+    AntProfile profile;
+
+    profile = antProfManager->getProfile(ui->antProfilesListView->model()->data(i).toString());
+
+    ui->antProfileNameEdit->setText(profile.profileName);
+    ui->antDescEdit->setPlainText(profile.description);
+
+    ui->antAddProfileButton->setText(tr("Modify"));
+
 }
 
 void SettingsDialog::refreshRigProfilesView()
@@ -650,7 +697,7 @@ void SettingsDialog::readSettings() {
     QStringList rigs = rigProfManager->profileNameList();
     ((QStringListModel*)ui->rigProfilesListView->model())->setStringList(rigs);
 
-    QStringList ants = settings.value("station/antennas").toStringList();
+    QStringList ants = antProfManager->profileNameList();
     ((QStringListModel*)ui->antProfilesListView->model())->setStringList(ants);
 
     ui->rotModelSelect->setCurrentIndex(settings.value("hamlib/rot/modelrow").toInt());
@@ -756,9 +803,7 @@ void SettingsDialog::writeSettings() {
 
     stationProfManager->save();
     rigProfManager->save();
-
-    QStringList ants = ((QStringListModel*)ui->antProfilesListView->model())->stringList();
-    settings.setValue("station/antennas", ants);
+    antProfManager->save();
 
     int rot_row = ui->rotModelSelect->currentIndex();
     QModelIndex rot_index = ui->rotModelSelect->model()->index(rot_row, 0);

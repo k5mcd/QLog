@@ -254,7 +254,7 @@
        <item>
         <widget class="QTabWidget" name="AntennasTab">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_11">
           <attribute name="title">
@@ -2001,6 +2001,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>antAddProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addAntProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>323</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>antDelProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>delAntProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>526</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>antProfilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickAntProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -2008,8 +2056,8 @@
   <slot>delRigProfile()</slot>
   <slot>rigChanged(int)</slot>
   <slot>rotChanged(int)</slot>
-  <slot>addAnt()</slot>
-  <slot>deleteAnt()</slot>
+  <slot>addAntProfile()</slot>
+  <slot>delAntProfile()</slot>
   <slot>tqslPathBrowse()</slot>
   <slot>addStationProfile()</slot>
   <slot>deleteStationProfile()</slot>
@@ -2024,5 +2072,6 @@
   <slot>secondaryCallbookChanged(int)</slot>
   <slot>paperDirBrowse()</slot>
   <slot>doubleClickRigProfile(QModelIndex)</slot>
+  <slot>doubleClickAntProfile(QModelIndex)</slot>
  </slots>
 </ui>

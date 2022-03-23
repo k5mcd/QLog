@@ -14,6 +14,7 @@
 #include "core/HamQTH.h"
 #include "core/QRZ.h"
 #include "data/RigProfile.h"
+#include "data/AntProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -51,6 +52,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     QStringListModel* antModel = new QStringListModel(this);
     ui->antennaEdit->setModel(antModel);
+    refreshAntProfileCombo();
 
     QStringListModel* submodeModel = new QStringListModel(this);
     ui->submodeEdit->setModel(submodeModel);
@@ -152,7 +154,6 @@ void NewContactWidget::readSettings() {
     double realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
     double rigFreqOffset = settings.value("newcontact/freqOffset", 0.0).toDouble();
     double rigFreqRXOffset = settings.value("newcontact/freqRXOffset", 0.0).toDouble();
-    QString ant = settings.value("newcontact/antenna").toString();
     double power = settings.value("newcontact/power", 100).toDouble();
 
     ui->modeEdit->setCurrentText(mode);
@@ -162,11 +163,12 @@ void NewContactWidget::readSettings() {
     ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
     ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
     ui->rigEdit->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
-    ui->antennaEdit->setCurrentText(ant);
+    ui->antennaEdit->setCurrentText(AntProfilesManager::instance()->getCurProfile1().profileName);
     ui->powerEdit->setValue(power);
 
     refreshStationProfileCombo();
     refreshRigProfileCombo();
+    refreshAntProfileCombo();
 }
 
 void NewContactWidget::writeSettings() {
@@ -178,7 +180,6 @@ void NewContactWidget::writeSettings() {
     settings.setValue("newcontact/frequency", realRigFreq);
     settings.setValue("newcontact/freqOffset", ui->rigFreqOffsetSpin->value());
     settings.setValue("newcontact/freqRXOffset", ui->rigFreqRXOffsetSpin->value());
-    settings.setValue("newcontact/antenna", ui->antennaEdit->currentText());
     settings.setValue("newcontact/power", ui->powerEdit->value());
 }
 
@@ -191,7 +192,7 @@ void NewContactWidget::reloadSettings() {
     QString selectedAnt = ui->antennaEdit->currentText();
 
     QStringList rigs = RigProfilesManager::instance()->profileNameList();
-    QStringList ants = settings.value("station/antennas").toStringList();
+    QStringList ants = AntProfilesManager::instance()->profileNameList();
 
     QStringListModel* modelRig = dynamic_cast<QStringListModel*>(ui->rigEdit->model());
     QStringListModel* modelAnt = dynamic_cast<QStringListModel*>(ui->antennaEdit->model());
@@ -241,8 +242,8 @@ void NewContactWidget::reloadSettings() {
 
     /* Refresh Station Profile Combobox */
     refreshStationProfileCombo();
-
     refreshRigProfileCombo();
+    refreshAntProfileCombo();
 }
 
 void NewContactWidget::callsignChanged() {
@@ -548,7 +549,33 @@ void NewContactWidget::refreshRigProfileCombo()
     }
 
     ui->rigEdit->blockSignals(false);
+}
 
+void NewContactWidget::refreshAntProfileCombo()
+{
+    FCT_IDENTIFICATION;
+
+    ui->antennaEdit->blockSignals(true);
+
+    QStringList currProfiles = AntProfilesManager::instance()->profileNameList();
+    QStringListModel* model = dynamic_cast<QStringListModel*>(ui->antennaEdit->model());
+
+    model->setStringList(currProfiles);
+
+    if ( AntProfilesManager::instance()->getCurProfile1().profileName.isEmpty()
+         && currProfiles.count() > 0 )
+    {
+        /* changing profile from empty to something */
+        ui->antennaEdit->setCurrentText(currProfiles.first());
+        antProfileComboChanged(currProfiles.first());
+    }
+    else
+    {
+        /* no profile change, just refresh the combo and preserve current profile */
+        ui->antennaEdit->setCurrentText(AntProfilesManager::instance()->getCurProfile1().profileName);
+    }
+
+    ui->antennaEdit->blockSignals(false);
 }
 
 /* Mode is changed from GUI */
@@ -1429,6 +1456,16 @@ void NewContactWidget::rigProfileComboChanged(QString profileName)
     RigProfilesManager::instance()->setCurProfile1(profileName);
 
     emit rigProfileChanged();
+}
+
+void NewContactWidget::antProfileComboChanged(QString profileName)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << profileName;
+
+    AntProfilesManager::instance()->setCurProfile1(profileName);
+
+    emit antProfileChanged();
 }
 
 void NewContactWidget::sotaChanged(QString newSOTA)

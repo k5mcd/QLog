@@ -52,6 +52,7 @@ SOURCES += \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
+        data/AntProfile.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
         data/RigProfile.cpp \
@@ -123,6 +124,7 @@ HEADERS += \
         core/SwitchButton.h \
         core/Wsjtx.h \
         core/debug.h \
+        data/AntProfile.h \
         data/Band.h \
         data/Data.h \
         data/DxSpot.h \

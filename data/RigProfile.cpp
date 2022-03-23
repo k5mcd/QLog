@@ -100,7 +100,6 @@ RigProfilesManager *RigProfilesManager::instance()
 void RigProfilesManager::save()
 {
     FCT_IDENTIFICATION;
-    QSettings settings;
 
     QSqlQuery deleteQuery;
     QSqlQuery insertQuery;

@@ -39,6 +39,7 @@ signals:
     void userFrequencyChanged(double freq);
     void stationProfileChanged();
     void rigProfileChanged();
+    void antProfileChanged();
     void markQSO(DxSpot spot);
 
 public slots:
@@ -78,6 +79,7 @@ public slots:
     void rigFreqRXOffsetChanged(double);
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);
+    void antProfileComboChanged(QString);
     void sotaChanged(QString);
     void callbookCallsignNotFound(QString);
 
@@ -91,6 +93,7 @@ private:
     void __modeChanged();
     void refreshStationProfileCombo();
     void refreshRigProfileCombo();
+    void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
     GenericCallbook *createCallbook(const QString&);
 
