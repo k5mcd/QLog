@@ -27,6 +27,9 @@ public:
     QString flowcontrol;
     QString parity;
 
+    bool operator== (const RigProfile &profile);
+    bool operator!= (const RigProfile &profile);
+
 private:
     friend QDataStream& operator<<(QDataStream& out, const RigProfile& v);
     friend QDataStream& operator>>(QDataStream& in, RigProfile& v);

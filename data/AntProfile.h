@@ -16,6 +16,9 @@ public:
     QString profileName;
     QString description;
 
+    bool operator== (const AntProfile &profile);
+    bool operator!= (const AntProfile &profile);
+
 private:
     friend QDataStream& operator<<(QDataStream& out, const AntProfile& v);
     friend QDataStream& operator>>(QDataStream& in, AntProfile& v);

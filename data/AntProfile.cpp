@@ -111,3 +111,14 @@ void AntProfilesManager::save()
     saveCurProfile1();
 
 }
+
+bool AntProfile::operator==(const AntProfile &profile)
+{
+    return (profile.profileName == this->profileName
+            && profile.description == this->description);
+}
+
+bool AntProfile::operator!=(const AntProfile &profile)
+{
+   return !operator==(profile);
+}

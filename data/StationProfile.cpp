@@ -135,3 +135,22 @@ void StationProfilesManager::save()
 
     saveCurProfile1();
 }
+
+bool StationProfile::operator==(const StationProfile &profile)
+{
+    return (profile.profileName == this->profileName
+            && profile.callsign == this->callsign
+            && profile.locator == this->locator
+            && profile.operatorName == this->operatorName
+            && profile.qthName == this->qthName
+            && profile.iota == this->iota
+            && profile.sota == this->sota
+            && profile.sig == this->sig
+            && profile.sigInfo == this->sigInfo
+            && profile.vucc == this->vucc);
+}
+
+bool StationProfile::operator!=(const StationProfile &profile)
+{
+    return !operator==(profile);
+}

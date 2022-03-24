@@ -27,6 +27,9 @@ public:
     QString sigInfo;
     QString vucc;
 
+    bool operator== (const StationProfile &profile);
+    bool operator!= (const StationProfile &profile);
+
 private:
     friend QDataStream& operator<<(QDataStream& out, const StationProfile& v);
     friend QDataStream& operator>>(QDataStream& in, StationProfile& v);

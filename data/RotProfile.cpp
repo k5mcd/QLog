@@ -146,3 +146,22 @@ void RotProfilesManager::save()
     saveCurProfile1();
 }
 
+
+bool RotProfile::operator==(const RotProfile &profile)
+{
+    return (profile.profileName == this->profileName
+            && profile.model == this->model
+            && profile.portPath == this->portPath
+            && profile.hostname == this->hostname
+            && profile.netport == this->netport
+            && profile.baudrate == this->baudrate
+            && profile.databits == this->databits
+            && profile.stopbits == this->stopbits
+            && profile.flowcontrol == this->flowcontrol
+            && profile.parity == this->parity);
+}
+
+bool RotProfile::operator!=(const RotProfile &profile)
+{
+    return !operator==(profile);
+}
