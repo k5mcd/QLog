@@ -197,19 +197,8 @@ void SettingsDialog::addRigProfile()
 
     refreshRigProfilesView();
 
-    ui->rigProfileNameEdit->setPlaceholderText(QString());
-    ui->rigPortEdit->setPlaceholderText(QString());
-    ui->rigHostNameEdit->setPlaceholderText(QString());
+    clearRigProfileForm();
 
-    ui->rigProfileNameEdit->clear();
-    ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
-    ui->rigPortEdit->clear();
-    ui->rigHostNameEdit->clear();
-    ui->rigBaudSelect->setCurrentIndex(0);
-    ui->rigDataBitsSelect->setCurrentIndex(0);
-    ui->rigStopBitsSelect->setCurrentIndex(0);
-    ui->rigFlowControlSelect->setCurrentIndex(0);
-    ui->rigParitySelect->setCurrentIndex(0);
 }
 
 void SettingsDialog::delRigProfile()
@@ -222,6 +211,8 @@ void SettingsDialog::delRigProfile()
         ui->rigProfilesListView->model()->removeRow(index.row());
     }
     ui->rigProfilesListView->clearSelection();
+
+    clearRigProfileForm();
 }
 
 void SettingsDialog::doubleClickRigProfile(QModelIndex i)
@@ -245,6 +236,27 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigParitySelect->setCurrentText(profile.parity);
 
     ui->rigAddProfileButton->setText(tr("Modify"));
+}
+
+void SettingsDialog::clearRigProfileForm()
+{
+    FCT_IDENTIFICATION;
+
+    ui->rigProfileNameEdit->setPlaceholderText(QString());
+    ui->rigPortEdit->setPlaceholderText(QString());
+    ui->rigHostNameEdit->setPlaceholderText(QString());
+
+    ui->rigProfileNameEdit->clear();
+    ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
+    ui->rigPortEdit->clear();
+    ui->rigHostNameEdit->clear();
+    ui->rigBaudSelect->setCurrentIndex(0);
+    ui->rigDataBitsSelect->setCurrentIndex(0);
+    ui->rigStopBitsSelect->setCurrentIndex(0);
+    ui->rigFlowControlSelect->setCurrentIndex(0);
+    ui->rigParitySelect->setCurrentIndex(0);
+
+    ui->rigAddProfileButton->setText(tr("Add"));
 }
 
 void SettingsDialog::addRotProfile()
@@ -305,19 +317,7 @@ void SettingsDialog::addRotProfile()
 
     refreshRotProfilesView();
 
-    ui->rotProfileNameEdit->setPlaceholderText(QString());
-    ui->rotPortEdit->setPlaceholderText(QString());
-    ui->rotHostNameEdit->setPlaceholderText(QString());
-
-    ui->rotProfileNameEdit->clear();
-    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
-    ui->rotPortEdit->clear();
-    ui->rotHostNameEdit->clear();
-    ui->rotBaudSelect->setCurrentIndex(0);
-    ui->rotDataBitsSelect->setCurrentIndex(0);
-    ui->rotStopBitsSelect->setCurrentIndex(0);
-    ui->rotFlowControlSelect->setCurrentIndex(0);
-    ui->rotParitySelect->setCurrentIndex(0);
+    clearRotProfileForm();
 }
 
 void SettingsDialog::delRotProfile()
@@ -330,6 +330,8 @@ void SettingsDialog::delRotProfile()
         ui->rotProfilesListView->model()->removeRow(index.row());
     }
     ui->rotProfilesListView->clearSelection();
+
+    clearRotProfileForm();
 }
 
 void SettingsDialog::refreshRotProfilesView()
@@ -368,6 +370,27 @@ void SettingsDialog::doubleClickRotProfile(QModelIndex i)
     ui->rotAddProfileButton->setText(tr("Modify"));
 }
 
+void SettingsDialog::clearRotProfileForm()
+{
+    FCT_IDENTIFICATION;
+
+    ui->rotProfileNameEdit->setPlaceholderText(QString());
+    ui->rotPortEdit->setPlaceholderText(QString());
+    ui->rotHostNameEdit->setPlaceholderText(QString());
+
+    ui->rotProfileNameEdit->clear();
+    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
+    ui->rotPortEdit->clear();
+    ui->rotHostNameEdit->clear();
+    ui->rotBaudSelect->setCurrentIndex(0);
+    ui->rotDataBitsSelect->setCurrentIndex(0);
+    ui->rotStopBitsSelect->setCurrentIndex(0);
+    ui->rotFlowControlSelect->setCurrentIndex(0);
+    ui->rotParitySelect->setCurrentIndex(0);
+
+    ui->rotAddProfileButton->setText(tr("Add"));
+}
+
 void SettingsDialog::addAntProfile()
 {
     FCT_IDENTIFICATION;
@@ -392,10 +415,8 @@ void SettingsDialog::addAntProfile()
 
     refreshAntProfilesView();
 
-    ui->antProfileNameEdit->setPlaceholderText(QString());
+    clearAntProfileForm();
 
-    ui->antProfileNameEdit->clear();
-    ui->antDescEdit->clear();
 }
 
 void SettingsDialog::delAntProfile()
@@ -408,6 +429,8 @@ void SettingsDialog::delAntProfile()
         ui->antProfilesListView->model()->removeRow(index.row());
     }
     ui->antProfilesListView->clearSelection();
+
+    clearAntProfileForm();
 }
 
 void SettingsDialog::refreshAntProfilesView()
@@ -434,6 +457,18 @@ void SettingsDialog::doubleClickAntProfile(QModelIndex i)
 
     ui->antAddProfileButton->setText(tr("Modify"));
 
+}
+
+void SettingsDialog::clearAntProfileForm()
+{
+    FCT_IDENTIFICATION;
+
+    ui->antProfileNameEdit->setPlaceholderText(QString());
+
+    ui->antProfileNameEdit->clear();
+    ui->antDescEdit->clear();
+
+    ui->antAddProfileButton->setText(tr("Add"));
 }
 
 void SettingsDialog::refreshRigProfilesView()
@@ -530,19 +565,8 @@ void SettingsDialog::addStationProfile()
 
     refreshStationProfilesView();
 
-    ui->stationProfileNameEdit->clear();
-    ui->stationProfileNameEdit->setPlaceholderText(QString());
-    ui->stationCallsignEdit->clear();
-    ui->stationCallsignEdit->setPlaceholderText(QString());
-    ui->stationLocatorEdit->clear();
-    ui->stationLocatorEdit->setPlaceholderText(QString());
-    ui->stationOperatorEdit->clear();
-    ui->stationQTHEdit->clear();
-    ui->stationSOTAEdit->clear();
-    ui->stationIOTAEdit->clear();
-    ui->stationSIGEdit->clear();
-    ui->stationSIGInfoEdit->clear();
-    ui->stationVUCCEdit->clear();
+    clearStationProfileForm();
+
 }
 
 void SettingsDialog::deleteStationProfile()
@@ -554,6 +578,8 @@ void SettingsDialog::deleteStationProfile()
         ui->stationProfilesListView->model()->removeRow(index.row());
     }
     ui->stationProfilesListView->clearSelection();
+
+    clearStationProfileForm();
 }
 
 void SettingsDialog::doubleClickStationProfile(QModelIndex i)
@@ -576,6 +602,27 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->stationVUCCEdit->setText(profile.vucc);
 
     ui->stationAddProfileButton->setText(tr("Modify"));
+}
+
+void SettingsDialog::clearStationProfileForm()
+{
+    FCT_IDENTIFICATION;
+
+    ui->stationProfileNameEdit->clear();
+    ui->stationProfileNameEdit->setPlaceholderText(QString());
+    ui->stationCallsignEdit->clear();
+    ui->stationCallsignEdit->setPlaceholderText(QString());
+    ui->stationLocatorEdit->clear();
+    ui->stationLocatorEdit->setPlaceholderText(QString());
+    ui->stationOperatorEdit->clear();
+    ui->stationQTHEdit->clear();
+    ui->stationSOTAEdit->clear();
+    ui->stationIOTAEdit->clear();
+    ui->stationSIGEdit->clear();
+    ui->stationSIGInfoEdit->clear();
+    ui->stationVUCCEdit->clear();
+
+    ui->stationAddProfileButton->setText(tr("Add"));
 }
 
 void SettingsDialog::rigChanged(int index)

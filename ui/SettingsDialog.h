@@ -31,21 +31,25 @@ public slots:
     void delRigProfile();
     void refreshRigProfilesView();
     void doubleClickRigProfile(QModelIndex);
+    void clearRigProfileForm();
 
     void addRotProfile();
     void delRotProfile();
     void refreshRotProfilesView();
     void doubleClickRotProfile(QModelIndex);
+    void clearRotProfileForm();
 
     void addAntProfile();
     void delAntProfile();
     void refreshAntProfilesView();
     void doubleClickAntProfile(QModelIndex);
+    void clearAntProfileForm();
 
     void refreshStationProfilesView();
     void addStationProfile();
     void deleteStationProfile();
     void doubleClickStationProfile(QModelIndex);
+    void clearStationProfileForm();
 
     void rigChanged(int);
     void rotChanged(int);
