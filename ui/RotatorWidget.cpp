@@ -24,6 +24,10 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
 
     redrawMap();
 
+    QStringListModel* rotModel = new QStringListModel(this);
+    ui->rotProfileCombo->setModel(rotModel);
+    refreshRotProfileCombo();
+
     connect(Rotator::instance(), &Rotator::positionChanged, this, &RotatorWidget::positionChanged);
 }
 
@@ -56,6 +60,33 @@ void RotatorWidget::resizeEvent(QResizeEvent* event) {
 
     ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
     QWidget::resizeEvent(event);
+}
+
+void RotatorWidget::refreshRotProfileCombo()
+{
+    FCT_IDENTIFICATION;
+
+    ui->rotProfileCombo->blockSignals(true);
+
+    QStringList currProfiles = RotProfilesManager::instance()->profileNameList();
+    QStringListModel* model = dynamic_cast<QStringListModel*>(ui->rotProfileCombo->model());
+
+    model->setStringList(currProfiles);
+
+    if ( RotProfilesManager::instance()->getCurProfile1().profileName.isEmpty()
+         && currProfiles.count() > 0 )
+    {
+        /* changing profile from empty to something */
+        ui->rotProfileCombo->setCurrentText(currProfiles.first());
+        rotProfileComboChanged(currProfiles.first());
+    }
+    else
+    {
+        /* no profile change, just refresh the combo and preserve current profile */
+        ui->rotProfileCombo->setCurrentText(RotProfilesManager::instance()->getCurProfile1().profileName);
+    }
+
+    ui->rotProfileCombo->blockSignals(false);
 }
 
 void RotatorWidget::redrawMap()
@@ -130,6 +161,24 @@ void RotatorWidget::redrawMap()
     compassNeedle = compassScene->addPath(path, QPen(Qt::NoPen),
                     QBrush(QColor(255, 255, 255), Qt::SolidPattern));
     compassNeedle->setRotation(azimuth);
+}
+
+void RotatorWidget::rotProfileComboChanged(QString profileName)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << profileName;
+
+    RotProfilesManager::instance()->setCurProfile1(profileName);
+
+    emit rotProfileChanged();
+}
+
+void RotatorWidget::reloadSettings()
+{
+    FCT_IDENTIFICATION;
+
+    refreshRotProfileCombo();
 }
 
 RotatorWidget::~RotatorWidget()

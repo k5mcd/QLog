@@ -51,6 +51,9 @@
      </item>
     </layout>
    </item>
+   <item>
+    <widget class="QComboBox" name="rotProfileCombo"/>
+   </item>
   </layout>
  </widget>
  <resources/>
@@ -71,8 +74,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rotProfileCombo</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>RotatorWidget</receiver>
+   <slot>rotProfileComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>235</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>132</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>gotoPosition()</slot>
+  <slot>rotProfileComboChanged(QString)</slot>
  </slots>
 </ui>

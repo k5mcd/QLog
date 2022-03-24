@@ -19,10 +19,15 @@ public:
     explicit RotatorWidget(QWidget *parent = nullptr);
     ~RotatorWidget();
 
+signals:
+    void rotProfileChanged();
+
 public slots:
     void gotoPosition();
     void positionChanged(int, int);
     void redrawMap();
+    void rotProfileComboChanged(QString);
+    void reloadSettings();
 
 protected:
     void showEvent(QShowEvent* event);
@@ -30,6 +35,8 @@ protected:
 
 
 private:
+    void refreshRotProfileCombo();
+
     QGraphicsPathItem* compassNeedle;
     QGraphicsScene* compassScene;
     Ui::RotatorWidget *ui;
