@@ -73,7 +73,8 @@ void Rotator::start() {
     timer->start(1000);
 }
 
-void Rotator::update() {
+void Rotator::update()
+{
     FCT_IDENTIFICATION;
 
     int status = RIG_OK;
@@ -81,6 +82,20 @@ void Rotator::update() {
     if (!rot) return;
 
     if (!rotLock.tryLock(200)) return;
+
+    RotProfile currRotProfile = RotProfilesManager::instance()->getCurProfile1();
+
+    if ( currRotProfile != connectedRotProfile)
+    {
+        /* Rot Profile Changed
+         * Need to reconnect rig
+         */
+        qCDebug(runtime) << "Reconnecting to a new ROT - " << currRotProfile.profileName;
+        __openRot();
+        timer->start(1000);
+        rotLock.unlock();
+        return;
+    }
 
     azimuth_t az;
     elevation_t el;
@@ -99,51 +114,58 @@ void Rotator::update() {
     }
     else
     {
-        __closeRot();
+       __closeRot();
        emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
+       timer->start(1000);
+       rotLock.unlock();
     }
 
     timer->start(1000);
     rotLock.unlock();
 }
-
-void Rotator::open() {
+void Rotator::open()
+{
     FCT_IDENTIFICATION;
 
-    RotProfile rotProfile = RotProfilesManager::instance()->getCurProfile1();
-
-    qCDebug(runtime) << "Opening profile name: " << rotProfile.profileName;
-
     rotLock.lock();
+    __openRot();
+    rotLock.unlock();
+}
 
-    // if rot is active then close it
+void Rotator::__openRot()
+{
+    FCT_IDENTIFICATION;
+
     __closeRot();
 
-    rot = rot_init(rotProfile.model);
+    RotProfile newRotProfile = RotProfilesManager::instance()->getCurProfile1();
+
+    qCDebug(runtime) << "Opening profile name: " << newRotProfile.profileName;
+
+    rot = rot_init(newRotProfile.model);
 
     if ( !rot )
     {
         // initialization failed
         emit rotErrorPresent(QString(tr("Initialization Error")));
-        rotLock.unlock();
         return;
     }
     if ( rot->caps->port_type == RIG_PORT_NETWORK
          || rot->caps->port_type == RIG_PORT_UDP_NETWORK )
     {
         // handling network rotator
-        strncpy(rot->state.rotport.pathname, rotProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        strncpy(rot->state.rotport.pathname, newRotProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
         //port is hardcoded in hamlib - not necessary to set it.
     }
     else
     {
         // handling serial rotator
-        strncpy(rot->state.rotport.pathname, rotProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
-        rot->state.rotport.parm.serial.rate = rotProfile.baudrate;
-        rot->state.rotport.parm.serial.data_bits = rotProfile.databits;
-        rot->state.rotport.parm.serial.stop_bits = rotProfile.stopbits;
-        rot->state.rotport.parm.serial.handshake = stringToFlowControl(rotProfile.flowcontrol);
-        rot->state.rotport.parm.serial.parity = stringToParity(rotProfile.parity);
+        strncpy(rot->state.rotport.pathname, newRotProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        rot->state.rotport.parm.serial.rate = newRotProfile.baudrate;
+        rot->state.rotport.parm.serial.data_bits = newRotProfile.databits;
+        rot->state.rotport.parm.serial.stop_bits = newRotProfile.stopbits;
+        rot->state.rotport.parm.serial.handshake = stringToFlowControl(newRotProfile.flowcontrol);
+        rot->state.rotport.parm.serial.parity = stringToParity(newRotProfile.parity);
     }
 
     int status = rot_open(rot);
@@ -154,12 +176,14 @@ void Rotator::open() {
         emit rotErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
     }
 
-    rotLock.unlock();
+    connectedRotProfile = newRotProfile;
 }
 
 void Rotator::__closeRot()
 {
     FCT_IDENTIFICATION;
+
+    connectedRotProfile = RotProfile();
 
     if (rot)
     {

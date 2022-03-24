@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <hamlib/rotator.h>
+#include "data/RotProfile.h"
 
 struct rot;
 
@@ -30,11 +31,13 @@ private:
     ~Rotator();
 
     void __closeRot();
+    void __openRot();
 
     int azimuth;
     int elevation;
 
     ROT* rot;
+    RotProfile connectedRotProfile;
     QMutex rotLock;
     QTimer* timer;
 };
