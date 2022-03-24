@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <hamlib/rig.h>
+#include "data/RigProfile.h"
 
 struct rig;
 
@@ -35,7 +36,9 @@ private:
     void operator=(Rig const&);
 
     void __closeRig();
+    void __openRig();
     RIG* rig;
+    RigProfile connectedRigProfile;
     int freq_rx;
     rmode_t modeId;
     unsigned int power;

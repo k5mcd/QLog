@@ -126,7 +126,8 @@ void Rig::start() {
     timer->start(500);
 }
 
-void Rig::update() {
+void Rig::update()
+{
     FCT_IDENTIFICATION;
 
     int status = RIG_OK;
@@ -134,6 +135,20 @@ void Rig::update() {
     if (!rig) return;
 
     if (!rigLock.tryLock(200)) return;
+
+    RigProfile currRigProfile = RigProfilesManager::instance()->getCurProfile1();
+
+    if ( currRigProfile != connectedRigProfile)
+    {
+        /* Rig Profile Changed
+         * Need to reconnect rig
+         */
+        qCDebug(runtime) << "Reconnecting to a new RIG - " << currRigProfile.profileName;
+        __openRig();
+        timer->start(500);
+        rigLock.unlock();
+        return;
+    }
 
     freq_t vfo_freq;
 
@@ -224,22 +239,42 @@ void Rig::update() {
 void Rig::open() {
     FCT_IDENTIFICATION;
 
-    RigProfile rigProfile = RigProfilesManager::instance()->getCurProfile1();
-
-    qCDebug(runtime) << "Opening profile name: " << rigProfile.profileName;
-
     rigLock.lock();
+    __openRig();
+    rigLock.unlock();
+}
+
+void Rig::__closeRig()
+{
+    FCT_IDENTIFICATION;
+
+    connectedRigProfile = RigProfile();
+
+    if ( rig )
+    {
+        rig_close(rig);
+        rig_cleanup(rig);
+        rig = nullptr;
+    }
+}
+
+void Rig::__openRig()
+{
+    FCT_IDENTIFICATION;
 
     // if rig is active then close it
     __closeRig();
 
-    rig = rig_init(rigProfile.model);
+    RigProfile newRigProfile = RigProfilesManager::instance()->getCurProfile1();
+
+    qCDebug(runtime) << "Opening profile name: " << newRigProfile.profileName;
+
+    rig = rig_init(newRigProfile.model);
 
     if (!rig)
     {
         // initialization failed
         emit rigErrorPresent(QString(tr("Initialization Error")));
-        rigLock.unlock();
         return;
     }
 
@@ -249,18 +284,18 @@ void Rig::open() {
         || rig->caps->port_type == RIG_PORT_UDP_NETWORK )
     {
         //handling Network Radio
-        strncpy(rig->state.rigport.pathname, rigProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        strncpy(rig->state.rigport.pathname, newRigProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
         //port is hardcoded in hamlib - not necessary to set it.
     }
     else
     {
         //handling Serial Port Radio
-        strncpy(rig->state.rigport.pathname, rigProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
-        rig->state.rigport.parm.serial.rate = rigProfile.baudrate;
-        rig->state.rigport.parm.serial.data_bits = rigProfile.databits;
-        rig->state.rigport.parm.serial.stop_bits = rigProfile.stopbits;
-        rig->state.rigport.parm.serial.handshake = stringToFlowControl(rigProfile.flowcontrol);
-        rig->state.rigport.parm.serial.parity = stringToParity(rigProfile.parity);
+        strncpy(rig->state.rigport.pathname, newRigProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
+        rig->state.rigport.parm.serial.rate = newRigProfile.baudrate;
+        rig->state.rigport.parm.serial.data_bits = newRigProfile.databits;
+        rig->state.rigport.parm.serial.stop_bits = newRigProfile.stopbits;
+        rig->state.rigport.parm.serial.handshake = stringToFlowControl(newRigProfile.flowcontrol);
+        rig->state.rigport.parm.serial.parity = stringToParity(newRigProfile.parity);
     }
 
     int status = rig_open(rig);
@@ -271,20 +306,9 @@ void Rig::open() {
         emit rigErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
     }
 
-    rigLock.unlock();
+    connectedRigProfile = newRigProfile;
 }
 
-void Rig::__closeRig()
-{
-    FCT_IDENTIFICATION;
-
-    if ( rig )
-    {
-        rig_close(rig);
-        rig_cleanup(rig);
-        rig = nullptr;
-    }
-}
 void Rig::close()
 {
     FCT_IDENTIFICATION;
