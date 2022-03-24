@@ -44,8 +44,11 @@ void RotatorWidget::positionChanged(int in_azimuth, int in_elevation) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<in_azimuth<<" "<<in_elevation;
-    azimuth = in_elevation;
-    compassNeedle->setRotation(in_elevation);
+    azimuth = (in_azimuth < 0 ) ? 360 + in_azimuth : in_azimuth;
+    compassNeedle->setRotation(azimuth);
+    ui->gotoSpinBox->blockSignals(true);
+    ui->gotoSpinBox->setValue(azimuth);
+    ui->gotoSpinBox->blockSignals(false);
 }
 
 void RotatorWidget::showEvent(QShowEvent* event) {

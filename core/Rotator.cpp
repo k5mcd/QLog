@@ -105,7 +105,6 @@ void Rotator::update()
     {
         int newAzimuth = static_cast<int>(az);
         int newElevation = static_cast<int>(el);
-
         if (newAzimuth != this->azimuth || newElevation != this->elevation)  {
             this->azimuth = newAzimuth;
             this->elevation = newElevation;
@@ -150,6 +149,9 @@ void Rotator::__openRot()
         emit rotErrorPresent(QString(tr("Initialization Error")));
         return;
     }
+
+    rig_set_debug(RIG_DEBUG_ERR);
+
     if ( rot->caps->port_type == RIG_PORT_NETWORK
          || rot->caps->port_type == RIG_PORT_UDP_NETWORK )
     {
@@ -209,6 +211,12 @@ void Rotator::setPosition(int azimuth, int elevation) {
 
     if (!rot) return;
     rotLock.lock();
+
+    if ( azimuth > 180 )
+    {
+        azimuth = azimuth - 360;
+    }
+
     int status = rot_set_position(rot, static_cast<azimuth_t>(azimuth), static_cast<elevation_t>(elevation));
     if (status != RIG_OK)
     {
