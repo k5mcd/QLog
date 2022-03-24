@@ -13,6 +13,9 @@ class Rotator : public QObject
 
 public:
     static Rotator* instance();
+    int getAzimuth();
+    int getElevation();
+    bool isRotConnected();
 
 signals:
     void positionChanged(int azimuth, int elevation);

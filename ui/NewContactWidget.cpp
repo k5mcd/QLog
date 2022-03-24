@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QSqlField>
 #include "core/Rig.h"
+#include "core/Rotator.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
 #include "core/debug.h"
@@ -722,6 +723,12 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
         {
             record.setValue("distance", distance);
         }
+    }
+
+    if ( Rotator::instance()->isRotConnected() )
+    {
+        record.setValue("ant_az", Rotator::instance()->getAzimuth());
+        record.setValue("ant_el", Rotator::instance()->getElevation());
     }
 
     if ( prop_cond )

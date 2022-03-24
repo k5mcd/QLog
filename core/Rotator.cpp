@@ -65,6 +65,27 @@ Rotator* Rotator::instance() {
     return &instance;
 }
 
+int Rotator::getAzimuth()
+{
+    FCT_IDENTIFICATION;
+
+    return azimuth;
+}
+
+int Rotator::getElevation()
+{
+    FCT_IDENTIFICATION;
+
+    return elevation;
+}
+
+bool Rotator::isRotConnected()
+{
+    FCT_IDENTIFICATION;
+
+    return (rot) ? true : false;
+}
+
 void Rotator::start() {
     FCT_IDENTIFICATION;
 
@@ -79,7 +100,7 @@ void Rotator::update()
 
     int status = RIG_OK;
 
-    if (!rot) return;
+    if ( !isRotConnected() ) return;
 
     if (!rotLock.tryLock(200)) return;
 
@@ -143,7 +164,7 @@ void Rotator::__openRot()
 
     rot = rot_init(newRotProfile.model);
 
-    if ( !rot )
+    if ( !isRotConnected() )
     {
         // initialization failed
         emit rotErrorPresent(QString(tr("Initialization Error")));
@@ -187,7 +208,7 @@ void Rotator::__closeRot()
 
     connectedRotProfile = RotProfile();
 
-    if (rot)
+    if (isRotConnected())
     {
         rot_close(rot);
         rot_cleanup(rot);
@@ -209,7 +230,7 @@ void Rotator::setPosition(int azimuth, int elevation) {
 
     qCDebug(function_parameters)<<azimuth<< " " << elevation;
 
-    if (!rot) return;
+    if ( !isRotConnected() ) return;
     rotLock.lock();
 
     if ( azimuth > 180 )
