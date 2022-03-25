@@ -212,7 +212,7 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="RigWidget" name="dockWidgetContents"/>
+   <widget class="RigWidget" name="rigWidget"/>
   </widget>
   <widget class="QDockWidget" name="onlineMapDockWidget">
    <property name="windowTitle">

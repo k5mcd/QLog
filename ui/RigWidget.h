@@ -15,9 +15,15 @@ public:
     explicit RigWidget(QWidget *parent = nullptr);
     ~RigWidget();
 
+signals:
+    void rigProfileChanged();
+
 public slots:
     void updateFrequency(double freq);
     void updateMode(QString mode);
+    void rigProfileComboChanged(QString);
+    void refreshRigProfileCombo();
+    void reloadSettings();
 
 private:
     Ui::RigWidget *ui;

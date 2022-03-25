@@ -82,7 +82,7 @@ public slots:
     void antProfileComboChanged(QString);
     void sotaChanged(QString);
     void callbookCallsignNotFound(QString);
-
+    void refreshRigProfileCombo();
 
 private:
     void queryDatabase(QString callsign);
@@ -92,7 +92,7 @@ private:
     void writeSettings();
     void __modeChanged();
     void refreshStationProfileCombo();
-    void refreshRigProfileCombo();
+
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
     GenericCallbook *createCallbook(const QString&);

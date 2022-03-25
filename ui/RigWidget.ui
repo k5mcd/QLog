@@ -7,31 +7,21 @@
     <x>0</x>
     <y>0</y>
     <width>205</width>
-    <height>79</height>
+    <height>110</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="2">
-    <widget class="QLabel" name="vfoLabel">
-     <property name="text">
-      <string>VFO A</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="2">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
     <widget class="QLabel" name="modeLabel">
      <property name="text">
       <string>SSB</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3">
+   <item>
     <widget class="QLabel" name="freqLabel">
      <property name="font">
       <font>
@@ -42,11 +32,11 @@
       <string>0.000 MHz</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -59,8 +49,31 @@
      </property>
     </spacer>
    </item>
+   <item>
+    <widget class="QComboBox" name="rigProfilCombo"/>
+   </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>rigProfilCombo</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>RigWidget</receiver>
+   <slot>rigProfileComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>102</x>
+     <y>54</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>rigProfileComboChanged(QString)</slot>
+ </slots>
 </ui>

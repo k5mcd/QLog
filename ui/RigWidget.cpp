@@ -1,3 +1,5 @@
+#include <QStringListModel>
+
 #include "RigWidget.h"
 #include "ui_RigWidget.h"
 #include "core/Rig.h"
@@ -13,8 +15,11 @@ RigWidget::RigWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
-    Rig* rig = Rig::instance();
+    QStringListModel* rigModel = new QStringListModel(this);
+    ui->rigProfilCombo->setModel(rigModel);
+    refreshRigProfileCombo();
 
+    Rig* rig = Rig::instance();
     connect(rig, &Rig::frequencyChanged, this, &RigWidget::updateFrequency);
     connect(rig, &Rig::modeChanged, this, &RigWidget::updateMode);
 }
@@ -40,4 +45,46 @@ void RigWidget::updateMode(QString mode) {
     qCDebug(function_parameters)<<mode;
 
     ui->modeLabel->setText(mode);
+}
+
+void RigWidget::rigProfileComboChanged(QString profileName)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << profileName;
+
+    RigProfilesManager::instance()->setCurProfile1(profileName);
+    emit rigProfileChanged();
+
+}
+
+void RigWidget::refreshRigProfileCombo()
+{
+    ui->rigProfilCombo->blockSignals(true);
+
+    QStringList currProfiles = RigProfilesManager::instance()->profileNameList();
+    QStringListModel* model = dynamic_cast<QStringListModel*>(ui->rigProfilCombo->model());
+
+    model->setStringList(currProfiles);
+
+    if ( RigProfilesManager::instance()->getCurProfile1().profileName.isEmpty()
+         && currProfiles.count() > 0 )
+    {
+        /* changing profile from empty to something */
+        ui->rigProfilCombo->setCurrentText(currProfiles.first());
+        rigProfileComboChanged(currProfiles.first());
+    }
+    else
+    {
+        /* no profile change, just refresh the combo and preserve current profile */
+        ui->rigProfilCombo->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
+    }
+
+    ui->rigProfilCombo->blockSignals(false);
+}
+
+void RigWidget::reloadSettings()
+{
+    FCT_IDENTIFICATION;
+
+    refreshRigProfileCombo();
 }
