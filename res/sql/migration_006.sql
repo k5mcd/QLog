@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS rig_profiles (
         databits NUMBER,
         stopbits REAL,
         flowcontrol TEXT,
-        parity TEXT
+        parity TEXT,
+        pollinterval INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS rot_profiles (

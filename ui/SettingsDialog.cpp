@@ -193,6 +193,10 @@ void SettingsDialog::addRigProfile()
                 ui->rigParitySelect->currentText():
                 QString();
 
+    profile.pollInterval = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+                ui->rigPollIntervalSpinBox->value() :
+                500; // 500ms for Internet Rigs
+
     rigProfManager->addProfile(profile.profileName, profile);
 
     refreshRigProfilesView();
@@ -234,6 +238,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
     ui->rigFlowControlSelect->setCurrentText(profile.flowcontrol);
     ui->rigParitySelect->setCurrentText(profile.parity);
+    ui->rigPollIntervalSpinBox->setValue(profile.pollInterval);
 
     ui->rigAddProfileButton->setText(tr("Modify"));
 }

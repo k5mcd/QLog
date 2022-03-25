@@ -14,7 +14,7 @@ QDataStream& operator<<(QDataStream& out, const RigProfile& v)
     out << v.profileName << v.model << v.portPath
         << v.hostname << v.netport << v.baudrate
         << v.databits << v.stopbits << v.flowcontrol
-        << v.parity;
+        << v.parity << v.parity;
 
     return out;
 }
@@ -31,6 +31,7 @@ QDataStream& operator>>(QDataStream& in, RigProfile& v)
     in >> v.stopbits;
     in >> v.flowcontrol;
     in >> v.parity;
+    in >> v.parity;
 
     return in;
 }
@@ -45,7 +46,7 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity FROM rig_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval FROM rig_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -65,6 +66,7 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
             profileDB.stopbits =  profileQuery.value(7).toFloat();
             profileDB.flowcontrol =  profileQuery.value(8).toString();
             profileDB.parity =  profileQuery.value(9).toString();
+            profileDB.pollInterval = profileQuery.value(10).toUInt();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -110,8 +112,8 @@ void RigProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO rig_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity) "
-                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity)") )
+    if ( ! insertQuery.prepare("INSERT INTO rig_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval) "
+                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity, :pollinterval)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -134,6 +136,7 @@ void RigProfilesManager::save()
             insertQuery.bindValue(":stopbits", rigProfile.stopbits);
             insertQuery.bindValue(":flowcontrol", rigProfile.flowcontrol);
             insertQuery.bindValue(":parity", rigProfile.parity);
+            insertQuery.bindValue(":pollinterval", rigProfile.pollInterval);
 
             if ( ! insertQuery.exec() )
             {
@@ -160,7 +163,8 @@ bool RigProfile::operator==(const RigProfile &profile)
             && profile.databits == this->databits
             && profile.stopbits == this->stopbits
             && profile.flowcontrol == this->flowcontrol
-            && profile.parity == this->parity);
+            && profile.parity == this->parity
+            && profile.pollInterval == this->pollInterval);
 }
 
 bool RigProfile::operator!=(const RigProfile &profile)

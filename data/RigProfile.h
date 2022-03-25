@@ -14,7 +14,7 @@
 class RigProfile
 {
 public:
-    RigProfile() { model = 0; netport = 0; baudrate = 0; databits = 0; stopbits = 0.0;};
+    RigProfile() { model = 0; netport = 0; baudrate = 0; databits = 0; stopbits = 0.0; pollInterval = 0;};
 
     QString profileName;
     qint32 model;
@@ -26,6 +26,7 @@ public:
     float stopbits;
     QString flowcontrol;
     QString parity;
+    quint32 pollInterval;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);

@@ -17,6 +17,7 @@ MODULE_IDENTIFICATION("qlog.core.rig");
 #define HAMLIB_FILPATHLEN FILPATHLEN
 #endif
 
+#define STARTING_UPDATE_INTERVAL 500
 
 static QString modeToString(rmode_t mode, QString &submode) {
     FCT_IDENTIFICATION;
@@ -143,9 +144,9 @@ void Rig::update()
         /* Rig Profile Changed
          * Need to reconnect rig
          */
-        qCDebug(runtime) << "Reconnecting to a new RIG - " << currRigProfile.profileName;
+        qCDebug(runtime) << "Reconnecting to a new RIG - " << currRigProfile.profileName << "; Old - " << connectedRigProfile.profileName;
         __openRig();
-        timer->start(500);
+        timer->start(STARTING_UPDATE_INTERVAL);
         rigLock.unlock();
         return;
     }
@@ -167,7 +168,7 @@ void Rig::update()
     {
         __closeRig();
          emit rigErrorPresent(QString(tr("Get Frequency Error - ")) + QString(rigerror(status)));
-        timer->start(500);
+        timer->start(STARTING_UPDATE_INTERVAL);
         rigLock.unlock();
         return;
     }
@@ -193,7 +194,7 @@ void Rig::update()
     {
         __closeRig();
         emit rigErrorPresent(QString(tr("Get Mode Error - ")) + QString(rigerror(status)));
-        timer->start(500);
+        timer->start(STARTING_UPDATE_INTERVAL);
         rigLock.unlock();
         return;
     }
@@ -232,7 +233,7 @@ void Rig::update()
         emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
         */
     }
-    timer->start(500);
+    timer->start(connectedRigProfile.pollInterval);
     rigLock.unlock();
 }
 
