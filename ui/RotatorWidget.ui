@@ -37,6 +37,9 @@
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
+       <property name="suffix">
+        <string>°</string>
+       </property>
        <property name="minimum">
         <number>0</number>
        </property>
