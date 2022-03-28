@@ -131,14 +131,16 @@ void Rig::update()
 {
     FCT_IDENTIFICATION;
 
-    int status = RIG_OK;
-
     if (!rig) return;
 
     if (!rigLock.tryLock(200)) return;
 
     RigProfile currRigProfile = RigProfilesManager::instance()->getCurProfile1();
 
+    /***********************************************************/
+    /* Is Opened Profile still the globbaly used Rig Profile ? */
+    /* if NO then reconnect it                                 */
+    /***********************************************************/
     if ( currRigProfile != connectedRigProfile)
     {
         /* Rig Profile Changed
@@ -151,88 +153,149 @@ void Rig::update()
         return;
     }
 
-    freq_t vfo_freq;
-
-    status = rig_get_freq(rig, RIG_VFO_CURR, &vfo_freq);
-
-    if ( status == RIG_OK )
+    /************/
+    /* Get Freq */
+    /************/
+    if ( connectedRigProfile.getFreqInfo )
     {
-        int new_freq = static_cast<int>(vfo_freq);
+        freq_t vfo_freq;
+        int status = rig_get_freq(rig, RIG_VFO_CURR, &vfo_freq);
 
-        if (new_freq != freq_rx) {
-            freq_rx = new_freq;
-            emit frequencyChanged(freq_rx/1e6);
-        }
-    }
-    else
-    {
-        __closeRig();
-         emit rigErrorPresent(QString(tr("Get Frequency Error - ")) + QString(rigerror(status)));
-        timer->start(STARTING_UPDATE_INTERVAL);
-        rigLock.unlock();
-        return;
-    }
-
-    pbwidth_t pbwidth;
-    rmode_t curr_modeId;
-
-    status = rig_get_mode(rig, RIG_VFO_CURR, &curr_modeId, &pbwidth);
-
-    if ( status == RIG_OK )
-    {
-        if ( curr_modeId != modeId )
+        if ( status == RIG_OK )
         {
-           // mode change
-           QString mode;
-           QString submode;
-           modeId = curr_modeId;
-           mode = modeToString(curr_modeId, submode);
-           emit modeChanged(mode, submode);
-        }
-    }
-    else
-    {
-        __closeRig();
-        emit rigErrorPresent(QString(tr("Get Mode Error - ")) + QString(rigerror(status)));
-        timer->start(STARTING_UPDATE_INTERVAL);
-        rigLock.unlock();
-        return;
-    }
+            int new_freq = static_cast<int>(vfo_freq);
 
-    value_t rigPowerLevel;
-    unsigned int rigPower;
-
-    status = rig_get_level(rig, RIG_VFO_CURR, RIG_LEVEL_RFPOWER, &rigPowerLevel);
-
-    if ( status == RIG_OK )
-    {
-
-        status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
-
-        if (  status == RIG_OK )
-        {
-            if (rigPower != power) {
-                power = rigPower;
-                emit powerChanged(power/1000.0);
+            if (new_freq != freq_rx) {
+                freq_rx = new_freq;
+                emit frequencyChanged(freq_rx/1e6);
             }
-            else
-            {
-             /* Ignore error */
-            /*
+        }
+        else
+        {
             __closeRig();
-            emit rigErrorPresent(QString(tr("Get Power Error - ")) + QString(rigerror(status)));
-            */
-            }
+            emit rigErrorPresent(QString(tr("Get Frequency Error - ")) + QString(rigerror(status)));
+            timer->start(STARTING_UPDATE_INTERVAL);
+            rigLock.unlock();
+            return;
         }
     }
     else
     {
-        /* Ignore error */
-        /*
+        qCDebug(runtime) << "Get Freq is disabled";
+    }
+
+    /************/
+    /* Get Mode */
+    /************/
+    if ( connectedRigProfile.getModeInfo )
+    {
+        pbwidth_t pbwidth;
+        rmode_t curr_modeId;
+
+        int status = rig_get_mode(rig, RIG_VFO_CURR, &curr_modeId, &pbwidth);
+
+        if ( status == RIG_OK )
+        {
+            if ( curr_modeId != modeId )
+            {
+                // mode change
+                QString mode;
+                QString submode;
+                modeId = curr_modeId;
+                mode = modeToString(curr_modeId, submode);
+                emit modeChanged(mode, submode);
+            }
+        }
+        else
+        {
+            __closeRig();
+            emit rigErrorPresent(QString(tr("Get Mode Error - ")) + QString(rigerror(status)));
+            timer->start(STARTING_UPDATE_INTERVAL);
+            rigLock.unlock();
+            return;
+        }
+    }
+    else
+    {
+        qCDebug(runtime) << "Get Mode is disabled";
+    }
+
+    /************/
+    /* Get VFO  */
+    /************/
+    if ( connectedRigProfile.getVFOInfo)
+    {
+        vfo_t curr_vfo;
+
+        int status = rig_get_vfo(rig, &curr_vfo);
+
+        if ( status == RIG_OK )
+        {
+            if ( curr_vfo != vfoId )
+            {
+                vfoId = curr_vfo;
+                emit vfoChanged(vfoId);
+            }
+        }
+        else
+        {
+            /* Ignore error */
+            /*
         __closeRig();
         emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
         */
+        }
     }
+    else
+    {
+        qCDebug(runtime) << "Get VFO is disabled";
+    }
+    /************/
+    /* Get PWR  */
+    /************/
+
+    if ( connectedRigProfile.getPWRInfo )
+    {
+        value_t rigPowerLevel;
+        unsigned int rigPower;
+
+        int status = rig_get_level(rig, RIG_VFO_CURR, RIG_LEVEL_RFPOWER, &rigPowerLevel);
+
+        if ( status == RIG_OK )
+        {
+
+            status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
+
+            if (  status == RIG_OK )
+            {
+                if (rigPower != power) {
+                    power = rigPower;
+                    emit powerChanged(power/1000.0);
+                }
+                else
+                {
+                    /* Ignore error */
+                    /*
+            __closeRig();
+            emit rigErrorPresent(QString(tr("Get Power Error - ")) + QString(rigerror(status)));
+            */
+                }
+            }
+        }
+        else
+        {
+            /* Ignore error */
+            /*
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
+        */
+        }
+    }
+    else
+    {
+        qCDebug(runtime) << "Get PWR is disabled";
+    }
+
     timer->start(connectedRigProfile.pollInterval);
     rigLock.unlock();
 }

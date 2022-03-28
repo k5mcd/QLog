@@ -410,6 +410,13 @@
                  <bool>false</bool>
                 </property>
                 <layout class="QFormLayout" name="formLayout_7">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="rigProfileNameLabel">
+                   <property name="text">
+                    <string>Profile Name</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="rigProfileNameEdit">
                    <property name="toolTip">
@@ -709,10 +716,120 @@
                    </widget>
                   </widget>
                  </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="rigProfileNameLabel">
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="rigFeaturesLabel">
                    <property name="text">
-                    <string>Profile Name</string>
+                    <string>Get From Rig</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLabel" name="dummyLabel">
+                   <property name="text">
+                    <string> </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="1">
+                  <widget class="QCheckBox" name="rigGetPWRCheckBox">
+                   <property name="text">
+                    <string>Current Power</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="txRangeLabel">
+                   <property name="toolTip">
+                    <string>Minimum and maximum TX frequencies. Specific ranges are derived from allowed Band in the Setting.</string>
+                   </property>
+                   <property name="text">
+                    <string>TX Range</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <item>
+                    <widget class="QDoubleSpinBox" name="rigTXFreqMinSpinBox">
+                     <property name="toolTip">
+                      <string>Minimum and maximum TX frequencies. Specific ranges are derived from allowed Band in the Setting.</string>
+                     </property>
+                     <property name="maximum">
+                      <double>250000.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="rigTXFreqSepLabel">
+                     <property name="maximumSize">
+                      <size>
+                       <width>30</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="rigTXFreqMaxSpinBox">
+                     <property name="toolTip">
+                      <string>Minimum and maximum TX frequencies. Specific ranges are derived from allowed Band in the Setting.</string>
+                     </property>
+                     <property name="maximum">
+                      <double>250000.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="rigTXFreqUnitsLabel">
+                     <property name="maximumSize">
+                      <size>
+                       <width>35</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>MHz</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QCheckBox" name="rigGetVFOCheckBox">
+                   <property name="text">
+                    <string>Current VFO</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QCheckBox" name="rigGetFreqCheckBox">
+                   <property name="text">
+                    <string>Current Freq</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QCheckBox" name="rigGetModeCheckBox">
+                   <property name="text">
+                    <string>Current Mode</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>

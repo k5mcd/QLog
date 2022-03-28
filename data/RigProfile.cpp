@@ -10,11 +10,12 @@ MODULE_IDENTIFICATION("qlog.data.rigprofile");
 
 QDataStream& operator<<(QDataStream& out, const RigProfile& v)
 {
-
     out << v.profileName << v.model << v.portPath
         << v.hostname << v.netport << v.baudrate
         << v.databits << v.stopbits << v.flowcontrol
-        << v.parity << v.parity;
+        << v.parity << v.parity << v.txFreqStart
+        << v.txFreqEnd << v.getFreqInfo << v.getModeInfo
+        << v.getVFOInfo << v.getPWRInfo;
 
     return out;
 }
@@ -32,6 +33,12 @@ QDataStream& operator>>(QDataStream& in, RigProfile& v)
     in >> v.flowcontrol;
     in >> v.parity;
     in >> v.parity;
+    in >> v.txFreqStart;
+    in >> v.txFreqEnd;
+    in >> v.getFreqInfo;
+    in >> v.getModeInfo;
+    in >> v.getVFOInfo;
+    in >> v.getPWRInfo;
 
     return in;
 }
@@ -46,7 +53,7 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval FROM rig_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval, txfreq_start, txfreq_end, get_freq, get_mode, get_vfo, get_pwr FROM rig_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -67,6 +74,12 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
             profileDB.flowcontrol =  profileQuery.value(8).toString();
             profileDB.parity =  profileQuery.value(9).toString();
             profileDB.pollInterval = profileQuery.value(10).toUInt();
+            profileDB.txFreqStart = profileQuery.value(11).toFloat();
+            profileDB.txFreqEnd = profileQuery.value(12).toFloat();
+            profileDB.getFreqInfo = profileQuery.value(13).toBool();
+            profileDB.getModeInfo = profileQuery.value(14).toBool();
+            profileDB.getVFOInfo = profileQuery.value(15).toBool();
+            profileDB.getPWRInfo = profileQuery.value(16).toBool();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -112,8 +125,8 @@ void RigProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO rig_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval) "
-                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity, :pollinterval)") )
+    if ( ! insertQuery.prepare("INSERT INTO rig_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval, txfreq_start, txfreq_end, get_freq, get_mode, get_vfo, get_pwr ) "
+                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity, :pollinterval, :txfreq_start, :txfreq_end, :get_freq, :get_mode, :get_vfo, :get_pwr)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -137,6 +150,12 @@ void RigProfilesManager::save()
             insertQuery.bindValue(":flowcontrol", rigProfile.flowcontrol);
             insertQuery.bindValue(":parity", rigProfile.parity);
             insertQuery.bindValue(":pollinterval", rigProfile.pollInterval);
+            insertQuery.bindValue(":txfreq_start", rigProfile.txFreqStart);
+            insertQuery.bindValue(":txfreq_end", rigProfile.txFreqEnd);
+            insertQuery.bindValue(":get_freq", rigProfile.getFreqInfo);
+            insertQuery.bindValue(":get_mode", rigProfile.getModeInfo);
+            insertQuery.bindValue(":get_vfo", rigProfile.getVFOInfo);
+            insertQuery.bindValue(":get_pwr", rigProfile.getPWRInfo);
 
             if ( ! insertQuery.exec() )
             {
@@ -164,7 +183,14 @@ bool RigProfile::operator==(const RigProfile &profile)
             && profile.stopbits == this->stopbits
             && profile.flowcontrol == this->flowcontrol
             && profile.parity == this->parity
-            && profile.pollInterval == this->pollInterval);
+            && profile.pollInterval == this->pollInterval
+            && profile.txFreqStart == this->txFreqStart
+            && profile.txFreqEnd == this->txFreqEnd
+            && profile.getFreqInfo == this->getFreqInfo
+            && profile.getModeInfo == this->getModeInfo
+            && profile.getVFOInfo == this->getVFOInfo
+            && profile.getPWRInfo == this->getPWRInfo
+            );
 }
 
 bool RigProfile::operator!=(const RigProfile &profile)

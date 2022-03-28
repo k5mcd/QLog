@@ -161,6 +161,9 @@ void SettingsDialog::addRigProfile()
 
     profile.model = ui->rigModelSelect->currentData().toInt();
 
+    profile.txFreqStart = ui->rigTXFreqMinSpinBox->value();
+    profile.txFreqEnd = ui->rigTXFreqMaxSpinBox->value();
+
     profile.hostname = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
                 QString() :
                 ui->rigHostNameEdit->text();
@@ -196,6 +199,11 @@ void SettingsDialog::addRigProfile()
     profile.pollInterval = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
                 ui->rigPollIntervalSpinBox->value() :
                 500; // 500ms for Internet Rigs
+
+    profile.getFreqInfo = ui->rigGetFreqCheckBox->isChecked();
+    profile.getModeInfo = ui->rigGetModeCheckBox->isChecked();
+    profile.getVFOInfo = ui->rigGetVFOCheckBox->isChecked();
+    profile.getPWRInfo = ui->rigGetPWRCheckBox->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -239,6 +247,12 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigFlowControlSelect->setCurrentText(profile.flowcontrol);
     ui->rigParitySelect->setCurrentText(profile.parity);
     ui->rigPollIntervalSpinBox->setValue(profile.pollInterval);
+    ui->rigTXFreqMinSpinBox->setValue(profile.txFreqStart);
+    ui->rigTXFreqMaxSpinBox->setValue(profile.txFreqEnd);
+    ui->rigGetFreqCheckBox->setChecked(profile.getFreqInfo);
+    ui->rigGetModeCheckBox->setChecked(profile.getModeInfo);
+    ui->rigGetVFOCheckBox->setChecked(profile.getVFOInfo);
+    ui->rigGetPWRCheckBox->setChecked(profile.getPWRInfo);
 
     ui->rigAddProfileButton->setText(tr("Modify"));
 }
@@ -253,6 +267,8 @@ void SettingsDialog::clearRigProfileForm()
 
     ui->rigProfileNameEdit->clear();
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
+    ui->rigTXFreqMinSpinBox->setValue(0.0);
+    ui->rigTXFreqMaxSpinBox->setValue(0.0);
     ui->rigPortEdit->clear();
     ui->rigHostNameEdit->clear();
     ui->rigBaudSelect->setCurrentIndex(0);
@@ -260,6 +276,10 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigStopBitsSelect->setCurrentIndex(0);
     ui->rigFlowControlSelect->setCurrentIndex(0);
     ui->rigParitySelect->setCurrentIndex(0);
+    ui->rigGetFreqCheckBox->setChecked(true);
+    ui->rigGetModeCheckBox->setChecked(true);
+    ui->rigGetVFOCheckBox->setChecked(true);
+    ui->rigGetPWRCheckBox->setChecked(true);
 
     ui->rigAddProfileButton->setText(tr("Add"));
 }

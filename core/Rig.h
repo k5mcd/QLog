@@ -26,6 +26,7 @@ signals:
     void frequencyChanged(double);
     void modeChanged(QString, QString);
     void powerChanged(double);
+    void vfoChanged(unsigned int);
     void rigErrorPresent(QString);
 
 private:
@@ -41,6 +42,7 @@ private:
     RigProfile connectedRigProfile;
     int freq_rx;
     rmode_t modeId;
+    vfo_t vfoId;
     unsigned int power;
     QMutex rigLock;
     QTimer* timer;

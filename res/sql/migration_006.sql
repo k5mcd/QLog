@@ -14,7 +14,13 @@ CREATE TABLE IF NOT EXISTS rig_profiles (
         stopbits REAL,
         flowcontrol TEXT,
         parity TEXT,
-        pollinterval INTEGER
+        pollinterval INTEGER,
+        txfreq_start REAL,
+        txfreq_end REAL,
+        get_freq INTEGER,
+        get_mode INTEGER,
+        get_vfo  INTEGER,
+        get_pwr  INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS rot_profiles (

@@ -14,7 +14,12 @@
 class RigProfile
 {
 public:
-    RigProfile() { model = 0; netport = 0; baudrate = 0; databits = 0; stopbits = 0.0; pollInterval = 0;};
+    RigProfile() {
+                   model = 0; netport = 0; baudrate = 0;
+                   databits = 0; stopbits = 0.0; pollInterval = 0;
+                   txFreqStart = 0.0; txFreqEnd = 0.0; getFreqInfo = false;
+                   getModeInfo = false; getVFOInfo = false; getPWRInfo = false;
+                 };
 
     QString profileName;
     qint32 model;
@@ -27,6 +32,12 @@ public:
     QString flowcontrol;
     QString parity;
     quint32 pollInterval;
+    float txFreqStart;
+    float txFreqEnd;
+    bool getFreqInfo;
+    bool getModeInfo;
+    bool getVFOInfo;
+    bool getPWRInfo;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);
