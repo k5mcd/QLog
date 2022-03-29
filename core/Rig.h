@@ -21,6 +21,9 @@ public slots:
 
     void setFrequency(double);
     void setMode(const QString &, const QString &);
+    void setMode(const QString &);
+    void setMode(rmode_t);
+    QStringList getAvailableModes();
 
 signals:
     void frequencyChanged(double);

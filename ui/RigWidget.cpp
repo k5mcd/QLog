@@ -32,8 +32,12 @@ RigWidget::RigWidget(QWidget *parent) :
 
     bandComboModel->select();
 
+    QStringListModel* modesModel = new QStringListModel(this);
+    ui->modeComboBox->setModel(modesModel);
+
     refreshRigProfileCombo();
     refreshBandCombo();
+    refreshModeCombo();
 
     Rig* rig = Rig::instance();
     connect(rig, &Rig::frequencyChanged, this, &RigWidget::updateFrequency);
@@ -59,7 +63,9 @@ void RigWidget::updateFrequency(double freq) {
     ui->freqLabel->setText(QString("%1 MHz").arg(QString::number(freq, 'f', 4)));
     if ( Data::band(freq).name != ui->bandComboBox->currentText() )
     {
+        ui->bandComboBox->blockSignals(true);
         ui->bandComboBox->setCurrentText(Data::band(freq).name);
+        ui->bandComboBox->blockSignals(false);
     }
 }
 
@@ -69,6 +75,13 @@ void RigWidget::updateMode(QString mode) {
     qCDebug(function_parameters)<<mode;
 
     ui->modeLabel->setText(mode);
+
+    if ( mode != ui->modeComboBox->currentText() )
+    {
+        ui->modeComboBox->blockSignals(true);
+        ui->modeComboBox->setCurrentText(mode);
+        ui->modeComboBox->blockSignals(false);
+    }
 }
 
 void RigWidget::updatePWR(double pwr)
@@ -156,6 +169,13 @@ void RigWidget::bandComboChanged(QString newBand)
     Rig::instance()->setFrequency(newFreq);
 }
 
+void RigWidget::modeComboChanged(QString newMode)
+{
+    FCT_IDENTIFICATION;
+
+    Rig::instance()->setMode(newMode);
+}
+
 void RigWidget::rigProfileComboChanged(QString profileName)
 {
     FCT_IDENTIFICATION;
@@ -163,6 +183,7 @@ void RigWidget::rigProfileComboChanged(QString profileName)
 
     RigProfilesManager::instance()->setCurProfile1(profileName);
     refreshBandCombo();
+    refreshModeCombo();
     resetRigInfo();
     emit rigProfileChanged();
 }
@@ -210,12 +231,29 @@ void RigWidget::refreshBandCombo()
     ui->bandComboBox->blockSignals(false);
 }
 
+void RigWidget::refreshModeCombo()
+{
+    FCT_IDENTIFICATION;
+
+    QString currSelection = ui->modeComboBox->currentText();
+
+    ui->modeComboBox->blockSignals(true);
+    ui->modeComboBox->clear();
+
+    QStringListModel* model = dynamic_cast<QStringListModel*>(ui->modeComboBox->model());
+    model->setStringList(Rig::instance()->getAvailableModes());
+
+    ui->modeComboBox->setCurrentText(currSelection);
+    ui->modeComboBox->blockSignals(false);
+}
+
 void RigWidget::reloadSettings()
 {
     FCT_IDENTIFICATION;
 
     refreshRigProfileCombo();
     refreshBandCombo();
+    refreshModeCombo();
 }
 
 void RigWidget::rigConnected()

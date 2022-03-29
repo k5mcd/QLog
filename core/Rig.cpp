@@ -1,5 +1,6 @@
 #include <cstring>
 #include <qglobal.h>
+#include <hamlib/rig.h>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -131,7 +132,12 @@ void Rig::update()
 {
     FCT_IDENTIFICATION;
 
-    if (!rig) return;
+    if (!rig)
+    {
+        /* rig is not connected, slow down */
+        timer->start(2000);
+        return;
+    }
 
     if (!rigLock.tryLock(200)) return;
 
@@ -415,15 +421,30 @@ void Rig::setMode(const QString &newMode, const QString &newSubMode)
     FCT_IDENTIFICATION;
     qCDebug(function_parameters)<<newMode << " " << newSubMode;
 
+    rmode_t new_modeId = stringToMode(newMode, newSubMode);
+    setMode(new_modeId);
+}
+
+void Rig::setMode(const QString & newMode)
+{
+    FCT_IDENTIFICATION;
+
+    rmode_t newModeID = rig_parse_mode(newMode.toLatin1());
+    setMode(newModeID);
+}
+
+void Rig::setMode(rmode_t newModeID)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<newModeID;
+
     if (!rig) return;
 
-    rigLock.lock();
-
-    rmode_t new_modeId = stringToMode(newMode, newSubMode);
-
-    if ( new_modeId != RIG_MODE_NONE )
+    if ( newModeID != RIG_MODE_NONE )
     {
-        int status = rig_set_mode(rig, RIG_VFO_CURR, new_modeId, RIG_PASSBAND_NOCHANGE);
+        rigLock.lock();
+        int status = rig_set_mode(rig, RIG_VFO_CURR, newModeID, RIG_PASSBAND_NOCHANGE);
 
         if (status != RIG_OK)
         {
@@ -441,8 +462,43 @@ void Rig::setMode(const QString &newMode, const QString &newSubMode)
 #else
         usleep(100000);
 #endif
+        rigLock.unlock();
     }
-    rigLock.unlock();
+}
+
+QStringList Rig::getAvailableModes()
+{
+    FCT_IDENTIFICATION;
+
+    QStringList modes;
+
+    RigProfile newRigProfile = RigProfilesManager::instance()->getCurProfile1();
+
+    RIG *localRig = rig_init(newRigProfile.model);
+
+    if ( localRig )
+    {
+        rmode_t rigModes = localRig->state.mode_list;
+
+        if ( rigModes != RIG_MODE_NONE )
+        {
+            for (int i = 0; i < 63; i++ )  // in the future replace 63 by HAMLIB_MAX_MODES
+            {
+                const char *ms = rig_strrmode(rigModes & (1ULL << i));
+
+                if (!ms || !ms[0])
+                {
+                    continue;    /* unknown, FIXME! */
+                }
+                qCDebug(runtime) << "Supported Mode :" << ms;
+
+                modes.append(QString(ms));
+            }
+        }
+        rig_cleanup(localRig);
+    }
+
+    return modes;
 }
 
 Rig::Rig(QObject *parent) :

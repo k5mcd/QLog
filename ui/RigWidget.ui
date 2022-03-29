@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>204</width>
-    <height>143</height>
+    <height>174</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,6 +91,9 @@
    <item>
     <widget class="QComboBox" name="bandComboBox"/>
    </item>
+   <item>
+    <widget class="QComboBox" name="modeComboBox"/>
+   </item>
   </layout>
  </widget>
  <resources/>
@@ -127,9 +130,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>modeComboBox</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>RigWidget</receiver>
+   <slot>modeComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>101</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>101</x>
+     <y>86</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>rigProfileComboChanged(QString)</slot>
   <slot>bandComboChanged(QString)</slot>
+  <slot>modeComboChanged(QString)</slot>
  </slots>
 </ui>

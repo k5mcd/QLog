@@ -24,12 +24,15 @@ public slots:
     void updatePWR(double);
     void updateVFO(unsigned int);
     void bandComboChanged(QString);
+    void modeComboChanged(QString);
     void rigProfileComboChanged(QString);
     void refreshRigProfileCombo();
     void refreshBandCombo();
+    void refreshModeCombo();
     void reloadSettings();
     void rigConnected();
     void rigDisconnected();
+
 
 
 private:
