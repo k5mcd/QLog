@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>205</width>
-    <height>110</height>
+    <width>204</width>
+    <height>143</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,47 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="modeLabel">
-     <property name="text">
-      <string>SSB</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="modeLabel">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="vfoLabel">
+       <property name="maximumSize">
+        <size>
+         <width>60</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="pwrLabel">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QLabel" name="freqLabel">
@@ -29,10 +65,10 @@
       </font>
      </property>
      <property name="text">
-      <string>0.000 MHz</string>
+      <string>0.0000 MHz</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
@@ -51,6 +87,9 @@
    </item>
    <item>
     <widget class="QComboBox" name="rigProfilCombo"/>
+   </item>
+   <item>
+    <widget class="QComboBox" name="bandComboBox"/>
    </item>
   </layout>
  </widget>
@@ -72,8 +111,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>bandComboBox</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>RigWidget</receiver>
+   <slot>bandComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>250</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>209</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>rigProfileComboChanged(QString)</slot>
+  <slot>bandComboChanged(QString)</slot>
  </slots>
 </ui>

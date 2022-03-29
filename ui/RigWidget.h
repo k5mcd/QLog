@@ -21,11 +21,21 @@ signals:
 public slots:
     void updateFrequency(double freq);
     void updateMode(QString mode);
+    void updatePWR(double);
+    void updateVFO(unsigned int);
+    void bandComboChanged(QString);
     void rigProfileComboChanged(QString);
     void refreshRigProfileCombo();
+    void refreshBandCombo();
     void reloadSettings();
+    void rigConnected();
+    void rigDisconnected();
+
 
 private:
+
+    void resetRigInfo();
+
     Ui::RigWidget *ui;
 };
 

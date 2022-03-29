@@ -313,6 +313,10 @@ void Rig::__closeRig()
     FCT_IDENTIFICATION;
 
     connectedRigProfile = RigProfile();
+    freq_rx = 0;
+    modeId = 0;
+    vfoId = 0;
+    power = 0;
 
     if ( rig )
     {
@@ -320,6 +324,8 @@ void Rig::__closeRig()
         rig_cleanup(rig);
         rig = nullptr;
     }
+
+    emit rigDisconnected();
 }
 
 void Rig::__openRig()
@@ -368,9 +374,12 @@ void Rig::__openRig()
     {
         __closeRig();
         emit rigErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
+        return;
     }
 
     connectedRigProfile = newRigProfile;
+
+    emit rigConnected();
 }
 
 void Rig::close()

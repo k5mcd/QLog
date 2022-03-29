@@ -28,6 +28,8 @@ signals:
     void powerChanged(double);
     void vfoChanged(unsigned int);
     void rigErrorPresent(QString);
+    void rigDisconnected();
+    void rigConnected();
 
 private:
     Rig(QObject *parent = nullptr);
