@@ -197,7 +197,10 @@ void Rotator::__openRot()
     {
         __closeRot();
         emit rotErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
+        return;
     }
+
+    emit rotConnected();
 
     connectedRotProfile = newRotProfile;
 }
@@ -207,6 +210,8 @@ void Rotator::__closeRot()
     FCT_IDENTIFICATION;
 
     connectedRotProfile = RotProfile();
+    azimuth = 0;
+    elevation = 0;
 
     if (isRotConnected())
     {
@@ -214,6 +219,8 @@ void Rotator::__closeRot()
         rot_cleanup(rot);
         rot = nullptr;
     }
+
+    emit rotDisconnected();
 }
 
 void Rotator::close()

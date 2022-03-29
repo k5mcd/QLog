@@ -20,6 +20,8 @@ public:
 signals:
     void positionChanged(int azimuth, int elevation);
     void rotErrorPresent(QString);
+    void rotDisconnected();
+    void rotConnected();
 
 public slots:
     void start();

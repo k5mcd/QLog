@@ -26,9 +26,12 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
 
     QStringListModel* rotModel = new QStringListModel(this);
     ui->rotProfileCombo->setModel(rotModel);
+    ui->rotProfileCombo->setStyleSheet("QComboBox {color: red}");
     refreshRotProfileCombo();
 
     connect(Rotator::instance(), &Rotator::positionChanged, this, &RotatorWidget::positionChanged);
+    connect(Rotator::instance(), &Rotator::rotConnected, this, &RotatorWidget::rotConnected);
+    connect(Rotator::instance(), &Rotator::rotDisconnected, this, &RotatorWidget::rotDisconnected);
 }
 
 void RotatorWidget::gotoPosition() {
@@ -182,6 +185,20 @@ void RotatorWidget::reloadSettings()
     FCT_IDENTIFICATION;
 
     refreshRotProfileCombo();
+}
+
+void RotatorWidget::rotConnected()
+{
+    FCT_IDENTIFICATION;
+
+    ui->rotProfileCombo->setStyleSheet("QComboBox {color: green}");
+}
+
+void RotatorWidget::rotDisconnected()
+{
+    FCT_IDENTIFICATION;
+
+    ui->rotProfileCombo->setStyleSheet("QComboBox {color: red}");
 }
 
 RotatorWidget::~RotatorWidget()

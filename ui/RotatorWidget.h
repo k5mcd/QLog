@@ -28,6 +28,8 @@ public slots:
     void redrawMap();
     void rotProfileComboChanged(QString);
     void reloadSettings();
+    void rotConnected();
+    void rotDisconnected();
 
 protected:
     void showEvent(QShowEvent* event);
