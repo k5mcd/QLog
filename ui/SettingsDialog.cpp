@@ -135,6 +135,34 @@ void SettingsDialog::save() {
         return;
     }
 
+    if ( ui->stationAddProfileButton->text() == tr("Modify") )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Please, press Modify button in Station Tab to confirm the changes or cancel your changes"));
+        return;
+    }
+
+    if ( ui->rigAddProfileButton->text() == tr("Modify") )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Please, press Modify button in Rig Tab to confirm the changes or cancel your changes"));
+        return;
+    }
+
+    if ( ui->rotAddProfileButton->text() == tr("Modify") )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Please, press Modify button in Rot Tab to confirm the changes or cancel your changes"));
+        return;
+    }
+
+    if ( ui->antAddProfileButton->text() == tr("Modify") )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Please, press Modify button in Ant Tab to confirm the changes or cancel your changes"));
+        return;
+    }
+
     writeSettings();
     accept();
 }
