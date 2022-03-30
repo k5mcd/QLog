@@ -135,31 +135,36 @@ void SettingsDialog::save() {
         return;
     }
 
+    QString pleaseModifyTXT = tr("Press <b>Modify</b> to confirm the profile changes or <b>Cancel</b>.");
+
     if ( ui->stationAddProfileButton->text() == tr("Modify") )
     {
-        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("Please, press Modify button in Station Tab to confirm the changes or cancel your changes"));
-        return;
-    }
-
-    if ( ui->rigAddProfileButton->text() == tr("Modify") )
-    {
-        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("Please, press Modify button in Rig Tab to confirm the changes or cancel your changes"));
-        return;
-    }
-
-    if ( ui->rotAddProfileButton->text() == tr("Modify") )
-    {
-        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("Please, press Modify button in Rot Tab to confirm the changes or cancel your changes"));
+        ui->tabWidget->setCurrentIndex(0);
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
         return;
     }
 
     if ( ui->antAddProfileButton->text() == tr("Modify") )
     {
-        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("Please, press Modify button in Ant Tab to confirm the changes or cancel your changes"));
+        ui->tabWidget->setCurrentIndex(1);
+        ui->equipmentTabWidget->setCurrentIndex(0);
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
+        return;
+    }
+
+    if ( ui->rigAddProfileButton->text() == tr("Modify") )
+    {
+        ui->tabWidget->setCurrentIndex(1);
+        ui->equipmentTabWidget->setCurrentIndex(1);
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
+        return;
+    }
+
+    if ( ui->rotAddProfileButton->text() == tr("Modify") )
+    {
+        ui->tabWidget->setCurrentIndex(1);
+        ui->equipmentTabWidget->setCurrentIndex(2);
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
         return;
     }
 
