@@ -120,6 +120,12 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connect(rig, &Rig::powerChanged,
             this, &NewContactWidget::changePower);
 
+    connect(rig, &Rig::rigConnected,
+            this, &NewContactWidget::rigConnected);
+
+    connect(rig, &Rig::rigDisconnected,
+            this, &NewContactWidget::rigDisconnected);
+
     contactTimer = new QTimer(this);
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
 
@@ -1443,6 +1449,25 @@ void NewContactWidget::rigFreqRXOffsetChanged(double offset)
     ui->frequencyRXEdit->setValue(new_freq);
     updateRXBand(new_freq);
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
+}
+
+void NewContactWidget::rigConnected()
+{
+    FCT_IDENTIFICATION;
+
+    /* allow modify PWR only in case when Rig is not connected or user
+     * does not want to get PWR from RIG */
+    if ( RigProfilesManager::instance()->getCurProfile1().getPWRInfo )
+    {
+        ui->powerEdit->setEnabled(false);
+    }
+}
+
+void NewContactWidget::rigDisconnected()
+{
+    FCT_IDENTIFICATION;
+
+    ui->powerEdit->setEnabled(true);
 }
 
 void NewContactWidget::stationProfileComboChanged(QString profileName)

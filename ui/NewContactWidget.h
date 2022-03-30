@@ -77,6 +77,8 @@ public slots:
     void propModeChanged(const QString&);
     void rigFreqOffsetChanged(double);
     void rigFreqRXOffsetChanged(double);
+    void rigConnected();
+    void rigDisconnected();
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);
     void antProfileComboChanged(QString);
