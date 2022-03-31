@@ -60,7 +60,7 @@ void RigWidget::updateFrequency(double freq) {
 
     qCDebug(function_parameters)<<freq;
 
-    ui->freqLabel->setText(QString("%1 MHz").arg(QString::number(freq, 'f', 4)));
+    ui->freqLabel->setText(QString("%1 MHz").arg(QString::number(freq, 'f', 5)));
     if ( Data::band(freq).name != ui->bandComboBox->currentText() )
     {
         ui->bandComboBox->blockSignals(true);

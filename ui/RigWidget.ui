@@ -71,7 +71,7 @@
       </font>
      </property>
      <property name="text">
-      <string>0.0000 MHz</string>
+      <string>0.00000 MHz</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -355,7 +355,7 @@ void Rig::__openRig()
         return;
     }
 
-    rig_set_debug(RIG_DEBUG_ERR);
+    rig_set_debug(RIG_DEBUG_BUG);
 
     if (rig->caps->port_type == RIG_PORT_NETWORK
         || rig->caps->port_type == RIG_PORT_UDP_NETWORK )
@@ -404,14 +404,22 @@ void Rig::setFrequency(double newFreq) {
 
     if (!rig) return;
 
-    rigLock.lock();
-    freq_rx = static_cast<int>(newFreq*1e6);
-    int status = rig_set_freq(rig, RIG_VFO_CURR, freq_rx);
 
-    if ( status != RIG_OK )
+    rigLock.lock();
+    if (static_cast<int>(newFreq*1e6) != freq_rx )
     {
-        __closeRig();
-        emit rigErrorPresent(QString(tr("Set Frequency Error - ")) + QString(rigerror(status)));
+        freq_rx = static_cast<int>(newFreq*1e6);
+        int status = rig_set_freq(rig, RIG_VFO_CURR, freq_rx);
+
+        if ( status != RIG_OK )
+        {
+            __closeRig();
+            emit rigErrorPresent(QString(tr("Set Frequency Error - ")) + QString(rigerror(status)));
+        }
+        else
+        {
+            emit frequencyChanged(freq_rx/1e6);
+        }
     }
 
     rigLock.unlock();
