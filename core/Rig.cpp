@@ -209,7 +209,8 @@ void Rig::update()
                 QString submode;
                 modeId = curr_modeId;
                 mode = modeToString(curr_modeId, submode);
-                emit modeChanged(mode, submode);
+                const char *rawMode = rig_strrmode(curr_modeId);
+                emit modeChanged(QString(rawMode), mode, submode);
             }
         }
         else

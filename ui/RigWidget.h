@@ -20,7 +20,7 @@ signals:
 
 public slots:
     void updateFrequency(double freq);
-    void updateMode(QString mode);
+    void updateMode(QString, QString, QString);
     void updatePWR(double);
     void updateVFO(unsigned int);
     void bandComboChanged(QString);

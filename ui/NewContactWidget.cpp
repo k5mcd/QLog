@@ -1313,10 +1313,12 @@ void NewContactWidget::changeFrequency(double freq) {
 }
 
 /* mode is changed from RIG */
-void NewContactWidget::changeMode(QString mode, QString subMode) {
+void NewContactWidget::changeMode(QString rawMode, QString mode, QString subMode) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<mode<< " " << subMode;
+
+    Q_UNUSED(rawMode);
 
     ui->modeEdit->blockSignals(true);
     ui->submodeEdit->blockSignals(true);

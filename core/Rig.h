@@ -27,7 +27,7 @@ public slots:
 
 signals:
     void frequencyChanged(double);
-    void modeChanged(QString, QString);
+    void modeChanged(QString, QString, QString);
     void powerChanged(double);
     void vfoChanged(unsigned int);
     void rigErrorPresent(QString);

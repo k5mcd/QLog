@@ -69,17 +69,21 @@ void RigWidget::updateFrequency(double freq) {
     }
 }
 
-void RigWidget::updateMode(QString mode) {
+void RigWidget::updateMode(QString rawMode, QString mode, QString submode)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<mode;
 
-    ui->modeLabel->setText(mode);
+    Q_UNUSED(mode);
+    Q_UNUSED(submode);
+
+    ui->modeLabel->setText(rawMode);
 
     if ( mode != ui->modeComboBox->currentText() )
     {
         ui->modeComboBox->blockSignals(true);
-        ui->modeComboBox->setCurrentText(mode);
+        ui->modeComboBox->setCurrentText(rawMode);
         ui->modeComboBox->blockSignals(false);
     }
 }
@@ -273,7 +277,9 @@ void RigWidget::rigDisconnected()
 
 void RigWidget::resetRigInfo()
 {
-    updateMode(QString());
+    QString empty;
+
+    updateMode(empty, empty, empty);
     ui->pwrLabel->setText(QString(""));
     updateVFO(-1);
     updateFrequency(0);

@@ -67,7 +67,7 @@ public slots:
     void updateCoordinates(double lat, double lon, CoordPrecision prec);
     void updateDxccStatus();
     void changeFrequency(double freq);
-    void changeMode(QString mode, QString subMode);
+    void changeMode(QString rawMode, QString mode, QString subMode);
     void changePower(double power);
     void tuneDx(QString callsign, double frequency);
     void showDx(QString callsign, QString grid);
