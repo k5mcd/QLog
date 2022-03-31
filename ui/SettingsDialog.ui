@@ -1798,58 +1798,66 @@
   <tabstop>antDelProfileButton</tabstop>
   <tabstop>rigProfileNameEdit</tabstop>
   <tabstop>rigModelSelect</tabstop>
-  <tabstop>rigHostNameEdit</tabstop>
-  <tabstop>rigNetPortSpin</tabstop>
-  <tabstop>rigAddProfileButton</tabstop>
-  <tabstop>rigDelProfileButton</tabstop>
-  <tabstop>rotProfileNameEdit</tabstop>
-  <tabstop>rotModelSelect</tabstop>
-  <tabstop>rotHostNameEdit</tabstop>
-  <tabstop>rotNetPortSpin</tabstop>
-  <tabstop>rotAddProfileButton</tabstop>
-  <tabstop>rotDelProfileButton</tabstop>
+  <tabstop>rigTXFreqMinSpinBox</tabstop>
+  <tabstop>rigTXFreqMaxSpinBox</tabstop>
   <tabstop>rigPortEdit</tabstop>
   <tabstop>rigBaudSelect</tabstop>
   <tabstop>rigDataBitsSelect</tabstop>
   <tabstop>rigStopBitsSelect</tabstop>
   <tabstop>rigFlowControlSelect</tabstop>
   <tabstop>rigParitySelect</tabstop>
+  <tabstop>rigPollIntervalSpinBox</tabstop>
+  <tabstop>rigHostNameEdit</tabstop>
+  <tabstop>rigNetPortSpin</tabstop>
+  <tabstop>rigGetFreqCheckBox</tabstop>
+  <tabstop>rigGetModeCheckBox</tabstop>
+  <tabstop>rigGetVFOCheckBox</tabstop>
+  <tabstop>rigGetPWRCheckBox</tabstop>
+  <tabstop>rigAddProfileButton</tabstop>
+  <tabstop>rigDelProfileButton</tabstop>
+  <tabstop>rotProfileNameEdit</tabstop>
+  <tabstop>rotModelSelect</tabstop>
   <tabstop>rotPortEdit</tabstop>
   <tabstop>rotBaudSelect</tabstop>
   <tabstop>rotDataBitsSelect</tabstop>
-  <tabstop>bandTableView</tabstop>
   <tabstop>rotStopBitsSelect</tabstop>
   <tabstop>rotFlowControlSelect</tabstop>
   <tabstop>rotParitySelect</tabstop>
+  <tabstop>rotHostNameEdit</tabstop>
+  <tabstop>rotNetPortSpin</tabstop>
+  <tabstop>rotAddProfileButton</tabstop>
+  <tabstop>rotDelProfileButton</tabstop>
+  <tabstop>primaryCallbookCombo</tabstop>
+  <tabstop>secondaryCallbookCombo</tabstop>
+  <tabstop>hamQthUsernameEdit</tabstop>
+  <tabstop>hamQthPasswordEdit</tabstop>
   <tabstop>qrzUsernameEdit</tabstop>
   <tabstop>qrzPasswordEdit</tabstop>
+  <tabstop>lotwUsernameEdit</tabstop>
+  <tabstop>lotwPasswordEdit</tabstop>
+  <tabstop>tqslPathEdit</tabstop>
+  <tabstop>tqslPathButton</tabstop>
+  <tabstop>clublogEmailEdit</tabstop>
+  <tabstop>clublogCallsignEdit</tabstop>
+  <tabstop>clublogPasswordEdit</tabstop>
+  <tabstop>eqslUsernameEdit</tabstop>
+  <tabstop>eqslPasswordEdit</tabstop>
+  <tabstop>eqslFolderPathEdit</tabstop>
+  <tabstop>eqslFolderPathButton</tabstop>
   <tabstop>qrzApiKeyEdit</tabstop>
   <tabstop>paperFolderPathEdit</tabstop>
   <tabstop>paperFolderPathButton</tabstop>
+  <tabstop>bandTableView</tabstop>
+  <tabstop>modeTableView</tabstop>
+  <tabstop>dxccStartDateCheckBox</tabstop>
+  <tabstop>dxccStartDate</tabstop>
   <tabstop>wsjtPortSpin</tabstop>
   <tabstop>wsjtForwardEdit</tabstop>
   <tabstop>notifDXSpotsEdit</tabstop>
   <tabstop>notifQSOEdit</tabstop>
   <tabstop>notifWSJTXCQSpotsEdit</tabstop>
-  <tabstop>clublogEmailEdit</tabstop>
-  <tabstop>tqslPathButton</tabstop>
-  <tabstop>hamQthPasswordEdit</tabstop>
-  <tabstop>hamQthUsernameEdit</tabstop>
-  <tabstop>lotwPasswordEdit</tabstop>
-  <tabstop>dxccStartDate</tabstop>
-  <tabstop>tqslPathEdit</tabstop>
-  <tabstop>eqslFolderPathEdit</tabstop>
-  <tabstop>eqslFolderPathButton</tabstop>
-  <tabstop>clublogCallsignEdit</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>lotwUsernameEdit</tabstop>
-  <tabstop>dxccStartDateCheckBox</tabstop>
-  <tabstop>modeTableView</tabstop>
-  <tabstop>primaryCallbookCombo</tabstop>
-  <tabstop>secondaryCallbookCombo</tabstop>
-  <tabstop>eqslUsernameEdit</tabstop>
-  <tabstop>eqslPasswordEdit</tabstop>
-  <tabstop>clublogPasswordEdit</tabstop>
+  <tabstop>equipmentTabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -1892,8 +1900,8 @@
    <slot>rigChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>567</x>
-     <y>193</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1908,8 +1916,8 @@
    <slot>tqslPathBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>634</x>
-     <y>166</y>
+     <x>119</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2004,8 +2012,8 @@
    <slot>eqslDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>634</x>
-     <y>448</y>
+     <x>119</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2052,8 +2060,8 @@
    <slot>primaryCallbookChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>238</x>
-     <y>135</y>
+     <x>119</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -2068,8 +2076,8 @@
    <slot>secondaryCallbookChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>623</x>
-     <y>135</y>
+     <x>119</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -2084,8 +2092,8 @@
    <slot>paperDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>634</x>
-     <y>600</y>
+     <x>119</x>
+     <y>90</y>
     </hint>
     <hint type="destinationlabel">
      <x>298</x>
@@ -2100,8 +2108,8 @@
    <slot>addRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>360</x>
-     <y>434</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2116,8 +2124,8 @@
    <slot>delRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>538</x>
-     <y>434</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2132,8 +2140,8 @@
    <slot>doubleClickRigProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>155</x>
-     <y>281</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2148,8 +2156,8 @@
    <slot>addAntProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>323</x>
-     <y>385</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2164,8 +2172,8 @@
    <slot>delAntProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>526</x>
-     <y>385</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2180,8 +2188,8 @@
    <slot>doubleClickAntProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>130</x>
-     <y>257</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2196,8 +2204,8 @@
    <slot>addRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>323</x>
-     <y>434</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2212,8 +2220,8 @@
    <slot>delRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>526</x>
-     <y>434</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2228,8 +2236,8 @@
    <slot>doubleClickRotProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>130</x>
-     <y>281</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2244,8 +2252,8 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>472</x>
-     <y>181</y>
+     <x>128</x>
+     <y>85</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
