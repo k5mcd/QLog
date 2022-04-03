@@ -7,6 +7,7 @@
 #include "ui_WsjtxWidget.h"
 #include "data/Data.h"
 #include "core/debug.h"
+#include "core/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
@@ -92,9 +93,9 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
     FCT_IDENTIFICATION;
 
     if (this->status.dial_freq != newStatus.dial_freq) {
-        currFreq = newStatus.dial_freq/1e6;
+        currFreq = Hz2MHz(newStatus.dial_freq);
         band = Data::instance()->band(currFreq).name;
-        ui->freqLabel->setText(QString("%1 MHz").arg(currFreq));
+        ui->freqLabel->setText(QString("%1 MHz").arg(QSTRING_FREQ(currFreq)));
         wsjtxTableModel->clear();
     }
 

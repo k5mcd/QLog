@@ -429,7 +429,7 @@
     <slot>resetContact()</slot>
     <slot>saveContact()</slot>
     <slot>tuneDx(QString,double)</slot>
-    <slot>reloadSettings()</slot>
+    <slot>readGlobalSettings()</slot>
    </slots>
   </customwidget>
   <customwidget>
@@ -613,7 +613,7 @@
    <sender>MainWindow</sender>
    <signal>settingsChanged()</signal>
    <receiver>newContactWidget</receiver>
-   <slot>reloadSettings()</slot>
+   <slot>readGlobalSettings()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>404</x>

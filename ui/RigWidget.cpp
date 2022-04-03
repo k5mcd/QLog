@@ -46,6 +46,11 @@ RigWidget::RigWidget(QWidget *parent) :
     connect(rig, &Rig::powerChanged, this, &RigWidget::updatePWR);
     connect(rig, &Rig::rigConnected, this, &RigWidget::rigConnected);
     connect(rig, &Rig::rigDisconnected, this, &RigWidget::rigDisconnected);
+    connect(rig, &Rig::xitChanged, this, &RigWidget::updateXIT);
+    connect(rig, &Rig::ritChanged, this, &RigWidget::updateRIT);
+
+    resetRigInfo();
+
 }
 
 RigWidget::~RigWidget()
@@ -55,28 +60,32 @@ RigWidget::~RigWidget()
     delete ui;
 }
 
-void RigWidget::updateFrequency(double freq) {
+void RigWidget::updateFrequency(VFOID vfoid, double vfoFreq, double ritFreq, double xitFreq)
+{
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<freq;
+    Q_UNUSED(vfoid)
 
-    ui->freqLabel->setText(QString("%1 MHz").arg(QString::number(freq, 'f', 5)));
-    if ( Data::band(freq).name != ui->bandComboBox->currentText() )
+    qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
+
+    ui->freqLabel->setText(QString("%1 MHz").arg(QSTRING_FREQ(vfoFreq)));
+    if ( Data::band(vfoFreq).name != ui->bandComboBox->currentText() )
     {
         ui->bandComboBox->blockSignals(true);
-        ui->bandComboBox->setCurrentText(Data::band(freq).name);
+        ui->bandComboBox->setCurrentText(Data::band(vfoFreq).name);
         ui->bandComboBox->blockSignals(false);
     }
 }
 
-void RigWidget::updateMode(QString rawMode, QString mode, QString submode)
+void RigWidget::updateMode(VFOID vfoid, QString rawMode, QString mode, QString submode)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<mode;
 
-    Q_UNUSED(mode);
-    Q_UNUSED(submode);
+    Q_UNUSED(mode)
+    Q_UNUSED(submode)
+    Q_UNUSED(vfoid)
 
     ui->modeLabel->setText(rawMode);
 
@@ -88,73 +97,56 @@ void RigWidget::updateMode(QString rawMode, QString mode, QString submode)
     }
 }
 
-void RigWidget::updatePWR(double pwr)
+void RigWidget::updatePWR(VFOID vfoid, double pwr)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<pwr;
 
+    Q_UNUSED(vfoid)
+
     ui->pwrLabel->setText(QString(tr("PWR: %1W")).arg(pwr));
 }
 
-void RigWidget::updateVFO(unsigned int vfo)
+void RigWidget::updateVFO(VFOID vfoid, QString vfo)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<vfo;
 
-    QString vfoString = " ";
+    Q_UNUSED(vfoid)
 
-    if ( vfo == RIG_VFO_A)
-    {
-        vfoString = tr("VFO-A");
-    }
-    else if ( vfo == RIG_VFO_B)
-    {
-        vfoString = tr("VFO-B");
-    }
-    else if ( vfo == RIG_VFO_C)
-    {
-        vfoString = tr("VFO-C");
-    }
-    else if ( vfo == RIG_VFO_SUB_A)
-    {
-        vfoString = tr("VFO-SubA");
-    }
-    else if ( vfo == RIG_VFO_SUB_B)
-    {
-        vfoString = tr("VFO-SubB");
-    }
-    else if ( vfo == RIG_VFO_MAIN_A)
-    {
-        vfoString = tr("VFO-MainA");
-    }
-    else if ( vfo == RIG_VFO_MAIN_B)
-    {
-        vfoString = tr("VFO-MainB");
-    }
-    else if ( vfo == RIG_VFO_SUB)
-    {
-        vfoString = tr("VFO-Sub");
-    }
-    else if ( vfo == RIG_VFO_MAIN)
-    {
-        vfoString = tr("VFO-Main");
-    }
-    else if ( vfo == RIG_VFO_VFO)
-    {
-        vfoString = tr("VFO");
-    }
-    else if ( vfo == RIG_VFO_MEM)
-    {
-        vfoString = tr("VFO-Mem");
-    }
-    else if ( vfo == RIG_VFO_CURR)
-    {
-        vfoString = tr("VFO");
-    }
+    ui->vfoLabel->setText(vfo);
+}
 
-    ui->vfoLabel->setText(vfoString);
+void RigWidget::updateXIT(VFOID, double xit)
+{
+    FCT_IDENTIFICATION;
+
+    if ( xit != 0.0 )
+    {
+        ui->xitOffset->setVisible(true);
+        ui->xitOffset->setText(QString("XIT: %1 MHz").arg(QSTRING_FREQ(xit)));
+    }
+    else
+    {
+        ui->xitOffset->setVisible(false);
+    }
+}
+
+void RigWidget::updateRIT(VFOID, double rit)
+{
+    FCT_IDENTIFICATION;
+
+    if ( rit != 0.0 )
+    {
+        ui->ritOffset->setVisible(true);
+        ui->ritOffset->setText(QString("RIT: %1 MHz").arg(QSTRING_FREQ(rit)));
+    }
+    else
+    {
+        ui->ritOffset->setVisible(false);
+    }
 }
 
 void RigWidget::bandComboChanged(QString newBand)
@@ -170,7 +162,7 @@ void RigWidget::bandComboChanged(QString newBand)
 
     qCDebug(runtime) << "Tunning freq: " << newFreq;
 
-    Rig::instance()->setFrequency(newFreq);
+    Rig::instance()->setFrequency(MHz(newFreq));
 }
 
 void RigWidget::modeComboChanged(QString newMode)
@@ -189,6 +181,7 @@ void RigWidget::rigProfileComboChanged(QString profileName)
     refreshBandCombo();
     refreshModeCombo();
     resetRigInfo();
+
     emit rigProfileChanged();
 }
 
@@ -196,12 +189,14 @@ void RigWidget::refreshRigProfileCombo()
 {
     ui->rigProfilCombo->blockSignals(true);
 
-    QStringList currProfiles = RigProfilesManager::instance()->profileNameList();
+    RigProfilesManager *rigManager =  RigProfilesManager::instance();
+
+    QStringList currProfiles = rigManager->profileNameList();
     QStringListModel* model = dynamic_cast<QStringListModel*>(ui->rigProfilCombo->model());
 
     model->setStringList(currProfiles);
 
-    if ( RigProfilesManager::instance()->getCurProfile1().profileName.isEmpty()
+    if ( rigManager->getCurProfile1().profileName.isEmpty()
          && currProfiles.count() > 0 )
     {
         /* changing profile from empty to something */
@@ -211,8 +206,11 @@ void RigWidget::refreshRigProfileCombo()
     else
     {
         /* no profile change, just refresh the combo and preserve current profile */
-        ui->rigProfilCombo->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
+        ui->rigProfilCombo->setCurrentText(rigManager->getCurProfile1().profileName);
     }
+
+    updateRIT(VFO1, rigManager->getCurProfile1().ritOffset);
+    updateXIT(VFO1, rigManager->getCurProfile1().xitOffset);
 
     ui->rigProfilCombo->blockSignals(false);
 }
@@ -279,8 +277,10 @@ void RigWidget::resetRigInfo()
 {
     QString empty;
 
-    updateMode(empty, empty, empty);
+    updateMode(VFO1, empty, empty, empty);
     ui->pwrLabel->setText(QString(""));
-    updateVFO(-1);
-    updateFrequency(0);
+    updateVFO(VFO1, empty);
+    updateFrequency(VFO1, 0, 0, 0);
+    updateRIT(VFO1, RigProfilesManager::instance()->getCurProfile1().ritOffset);
+    updateXIT(VFO1, RigProfilesManager::instance()->getCurProfile1().xitOffset);
 }

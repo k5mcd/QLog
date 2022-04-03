@@ -20,70 +20,6 @@ MODULE_IDENTIFICATION("qlog.core.rig");
 
 #define STARTING_UPDATE_INTERVAL 500
 
-static QString modeToString(rmode_t mode, QString &submode) {
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<mode << " " << submode;
-
-    switch (mode) {
-    case RIG_MODE_AM: return "AM";
-    case RIG_MODE_CW: return "CW";
-    case RIG_MODE_USB: {submode = "USB"; return "SSB";}
-    case RIG_MODE_LSB: {submode = "LSB"; return "SSB";}
-    case RIG_MODE_RTTY: return "RTTY";
-    case RIG_MODE_FM: return "FM";
-    case RIG_MODE_WFM: return "FM";
-    case RIG_MODE_CWR: return "CW";
-    case RIG_MODE_RTTYR: return "RTTY";
-    case RIG_MODE_AMS: return "AM";
-    case RIG_MODE_PKTLSB: {submode = "LSB"; return "SSB";}
-    case RIG_MODE_PKTUSB: {submode = "USB"; return "SSB";}
-    case RIG_MODE_PKTFM: return "FM";
-    case RIG_MODE_ECSSUSB: {submode = "USB"; return "SSB";}
-    case RIG_MODE_ECSSLSB: {submode = "LSB"; return "SSB";}
-    case RIG_MODE_FAX: return "";
-    case RIG_MODE_SAM: return "";
-    case RIG_MODE_SAL: return "AM";
-    case RIG_MODE_SAH: return "AM";
-    case RIG_MODE_DSB: return "";
-    case RIG_MODE_FMN: return "FM";
-    case RIG_MODE_PKTAM: return "AM";
-    default : return "";
-    }
-}
-
-static rmode_t stringToMode(const QString &mode, const QString &submode)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<mode << " " << submode;
-
-    if ( mode == "SSB" )
-    {
-        if ( submode == "LSB" ) return RIG_MODE_LSB;
-        else return RIG_MODE_USB;
-    }
-    else if ( mode == "CW" )
-    {
-        return RIG_MODE_CW;
-    }
-    else if ( mode == "AM" )
-    {
-        return RIG_MODE_AM;
-    }
-    else if ( mode == "FM" )
-    {
-        return RIG_MODE_FM;
-    }
-    else if ( mode == "RTTY")
-    {
-        return RIG_MODE_RTTY;
-    }
-
-    return RIG_MODE_NONE;
-
-}
-
 static enum serial_handshake_e stringToFlowControl(const QString &in_flowcontrol)
 {
     FCT_IDENTIFICATION;
@@ -169,11 +105,20 @@ void Rig::update()
 
         if ( status == RIG_OK )
         {
-            int new_freq = static_cast<int>(vfo_freq);
+            qCDebug(runtime) << "Current RIG raw FREQ: "<< QSTRING_FREQ(Hz2MHz(vfo_freq));
+            qCDebug(runtime) << "Current LO raw FREQ: "<< QSTRING_FREQ(Hz2MHz(LoA.getFreq()));
 
-            if (new_freq != freq_rx) {
-                freq_rx = new_freq;
-                emit frequencyChanged(freq_rx/1e6);
+            if ( vfo_freq != LoA.getFreq() )
+            {
+                LoA.setFreq(vfo_freq);
+
+                qCDebug(runtime) << "FREQ changed - emitting: " << QSTRING_FREQ(Hz2MHz(LoA.getFreq()))
+                                                                << QSTRING_FREQ(Hz2MHz(LoA.getRITFreq()))
+                                                                << QSTRING_FREQ(Hz2MHz(LoA.getXITFreq()));
+                emit frequencyChanged(LoA.getID(),
+                                      Hz2MHz(LoA.getFreq()),
+                                      Hz2MHz(LoA.getRITFreq()),
+                                      Hz2MHz(LoA.getXITFreq()));
             }
         }
         else
@@ -202,15 +147,21 @@ void Rig::update()
 
         if ( status == RIG_OK )
         {
-            if ( curr_modeId != modeId )
+            qCDebug(runtime) << "Current RIG raw MODE: "<< curr_modeId;
+            qCDebug(runtime) << "Current LO raw MODE: "<< LoA.getMode();
+
+            if ( curr_modeId != LoA.getMode() )
             {
                 // mode change
-                QString mode;
+                LoA.setMode(curr_modeId);
+
                 QString submode;
-                modeId = curr_modeId;
-                mode = modeToString(curr_modeId, submode);
-                const char *rawMode = rig_strrmode(curr_modeId);
-                emit modeChanged(QString(rawMode), mode, submode);
+                QString mode = LoA.getModeNormalizedText(submode);
+
+                qCDebug(runtime) << "MODE changed - emitting: " << LoA.getModeText() << mode << submode;
+                emit modeChanged(LoA.getID(),
+                                 LoA.getModeText(),
+                                 mode, submode);
             }
         }
         else
@@ -238,10 +189,16 @@ void Rig::update()
 
         if ( status == RIG_OK )
         {
-            if ( curr_vfo != vfoId )
+            qCDebug(runtime) << "Current RIG raw VFO: "<< curr_vfo;
+            qCDebug(runtime) << "Current LO raw VFO: "<< LoA.getVFO();
+
+            if ( curr_vfo != LoA.getVFO() )
             {
-                vfoId = curr_vfo;
-                emit vfoChanged(vfoId);
+                LoA.setVFO(curr_vfo);
+
+                qCDebug(runtime) << "VFO changed - emitting: " << LoA.getVFOText();
+
+                emit vfoChanged(LoA.getID(), LoA.getVFOText());
             }
         }
         else
@@ -270,14 +227,20 @@ void Rig::update()
 
         if ( status == RIG_OK )
         {
-
-            status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, freq_rx, modeId);
+            status = rig_power2mW(rig, &rigPower, rigPowerLevel.f, LoA.getFreq(), LoA.getMode());
 
             if (  status == RIG_OK )
             {
-                if (rigPower != power) {
-                    power = rigPower;
-                    emit powerChanged(power/1000.0);
+                qCDebug(runtime) << "Current RIG raw PWR: "<< rigPower;
+                qCDebug(runtime) << "Current LO raw PWR: "<< LoA.getPower();
+
+                if (rigPower != LoA.getPower())
+                {
+                    LoA.setPower(rigPower);
+
+                    qCDebug(runtime) << "PWR changed - emitting: " << mW2W(LoA.getPower());
+
+                    emit powerChanged(LoA.getID(), mW2W(LoA.getPower()));
                 }
                 else
                 {
@@ -303,6 +266,78 @@ void Rig::update()
         qCDebug(runtime) << "Get PWR is disabled";
     }
 
+    /************/
+    /* Get RIT  */
+    /************/
+    if ( connectedRigProfile.getRITInfo)
+    {
+        shortfreq_t rit;
+
+        int status = rig_get_rit(rig, RIG_VFO_CURR, &rit);
+
+        if ( status == RIG_OK )
+        {
+            qCDebug(runtime) << "Current RIG raw RIT: "<< rit;
+            qCDebug(runtime) << "Current LO raw RIT: "<< LoA.getRXOffset();
+
+            if ( static_cast<double>(rit) != LoA.getRXOffset() )
+            {
+                LoA.setRXOffset(rit);
+
+                qCDebug(runtime) << "RIT changed - emitting: " << QSTRING_FREQ(Hz2MHz(LoA.getRXOffset()));
+                qCDebug(runtime) << "FREQ changed - emitting: " << QSTRING_FREQ(Hz2MHz(LoA.getFreq()))
+                                                                << QSTRING_FREQ(Hz2MHz(LoA.getRITFreq()))
+                                                                << QSTRING_FREQ(Hz2MHz(LoA.getXITFreq()));
+
+                emit ritChanged(LoA.getID(), Hz2MHz(LoA.getRXOffset()));
+                emit frequencyChanged(LoA.getID(),
+                                      Hz2MHz(LoA.getFreq()),
+                                      Hz2MHz(LoA.getRITFreq()),
+                                      Hz2MHz(LoA.getXITFreq()));
+            }
+        }
+    }
+    else
+    {
+        qCDebug(runtime) << "Get RIT is disabled";
+    }
+
+    /************/
+    /* Get XIT  */
+    /************/
+    if ( connectedRigProfile.getXITInfo)
+    {
+        shortfreq_t xit;
+
+        int status = rig_get_xit(rig, RIG_VFO_CURR, &xit);
+
+        if ( status == RIG_OK )
+        {
+            qCDebug(runtime) << "Current RIG raw XIT: "<< xit;
+            qCDebug(runtime) << "Current LO raw XIT: "<< LoA.getTXOffset();
+
+            if ( static_cast<double>(xit) != LoA.getTXOffset() )
+            {
+                LoA.setTXOffset(xit);
+
+                qCDebug(runtime) << "XIT changed - emitting: " << QSTRING_FREQ(Hz2MHz(LoA.getTXOffset()));
+                qCDebug(runtime) << "FREQ changed - emitting: " << QSTRING_FREQ(Hz2MHz(LoA.getFreq()))
+                                                                << QSTRING_FREQ(Hz2MHz(LoA.getRITFreq()))
+                                                                << QSTRING_FREQ(Hz2MHz(LoA.getXITFreq()));
+
+                emit xitChanged(LoA.getID(), Hz2MHz(LoA.getTXOffset()));
+                emit frequencyChanged(LoA.getID(),
+                                      Hz2MHz(LoA.getFreq()),
+                                      Hz2MHz(LoA.getRITFreq()),
+                                      Hz2MHz(LoA.getXITFreq()));
+            }
+        }
+    }
+    else
+    {
+        qCDebug(runtime) << "Get XIT is disabled";
+    }
+
     timer->start(connectedRigProfile.pollInterval);
     rigLock.unlock();
 }
@@ -320,10 +355,7 @@ void Rig::__closeRig()
     FCT_IDENTIFICATION;
 
     connectedRigProfile = RigProfile();
-    freq_rx = 0;
-    modeId = 0;
-    vfoId = 0;
-    power = 0;
+    LoA.clear();
 
     if ( rig )
     {
@@ -386,7 +418,40 @@ void Rig::__openRig()
 
     connectedRigProfile = newRigProfile;
 
+    LoA.setRXOffset(MHz(connectedRigProfile.ritOffset));
+    LoA.setTXOffset(MHz(connectedRigProfile.xitOffset));
+
     emit rigConnected();
+}
+
+rmode_t Rig::modeSubmodeToModeT(const QString &mode, const QString &submode)
+{
+    FCT_IDENTIFICATION;
+
+    if ( mode == "SSB" )
+    {
+        if ( submode == "LSB" ) return RIG_MODE_LSB;
+        else return RIG_MODE_USB;
+    }
+    else if ( mode == "CW" )
+    {
+        return RIG_MODE_CW;
+    }
+    else if ( mode == "AM" )
+    {
+        return RIG_MODE_AM;
+    }
+    else if ( mode == "FM" )
+    {
+        return RIG_MODE_FM;
+    }
+    else if ( mode == "RTTY")
+    {
+        return RIG_MODE_RTTY;
+    }
+
+    return RIG_MODE_NONE;
+
 }
 
 void Rig::close()
@@ -398,71 +463,27 @@ void Rig::close()
     rigLock.unlock();
 }
 
-void Rig::setFrequency(double newFreq) {
+void Rig::setFrequency(double newFreq)
+{
     FCT_IDENTIFICATION;
-    qCDebug(function_parameters)<<newFreq;
 
-    if (!rig) return;
+    qCDebug(function_parameters) << newFreq;
 
+    if (!rig || !connectedRigProfile.getFreqInfo) return;
 
     rigLock.lock();
-    if (static_cast<int>(newFreq*1e6) != freq_rx )
+
+    if ( newFreq != LoA.getFreq() )
     {
-        freq_rx = static_cast<int>(newFreq*1e6);
-        int status = rig_set_freq(rig, RIG_VFO_CURR, freq_rx);
+        int status = rig_set_freq(rig, RIG_VFO_CURR, newFreq);
 
         if ( status != RIG_OK )
         {
             __closeRig();
             emit rigErrorPresent(QString(tr("Set Frequency Error - ")) + QString(rigerror(status)));
         }
-        else
-        {
-            emit frequencyChanged(freq_rx/1e6);
-        }
-    }
 
-    rigLock.unlock();
-}
-
-void Rig::setMode(const QString &newMode, const QString &newSubMode)
-{
-    FCT_IDENTIFICATION;
-    qCDebug(function_parameters)<<newMode << " " << newSubMode;
-
-    rmode_t new_modeId = stringToMode(newMode, newSubMode);
-    setMode(new_modeId);
-}
-
-void Rig::setMode(const QString & newMode)
-{
-    FCT_IDENTIFICATION;
-
-    rmode_t newModeID = rig_parse_mode(newMode.toLatin1());
-    setMode(newModeID);
-}
-
-void Rig::setMode(rmode_t newModeID)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<newModeID;
-
-    if (!rig) return;
-
-    if ( newModeID != RIG_MODE_NONE )
-    {
-        rigLock.lock();
-        int status = rig_set_mode(rig, RIG_VFO_CURR, newModeID, RIG_PASSBAND_NOCHANGE);
-
-        if (status != RIG_OK)
-        {
-            /* Ignore Error */
-            /*
-        __closeRig();
-        emit rigErrorPresent(QString(tr("Set Mode Error - ")) + QString(rigerror(status)));
-        */
-        }
+        /* It is not needed to call VFO set freq function here because Rig's Update function do it */
 
         // wait a moment because Rigs are slow and they are not possible to set and get
         // mode so quickly (get mode is called in the main thread's update() function
@@ -471,8 +492,64 @@ void Rig::setMode(rmode_t newModeID)
 #else
         usleep(100000);
 #endif
-        rigLock.unlock();
+
     }
+    rigLock.unlock();
+}
+
+void Rig::setMode(const QString &newMode, const QString &newSubMode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<newMode << " " << newSubMode;
+
+    setMode(modeSubmodeToModeT(newMode, newSubMode));
+}
+
+void Rig::setMode(const QString & newMode)
+{
+    FCT_IDENTIFICATION;
+
+    setMode(rig_parse_mode(newMode.toLatin1()));
+}
+
+void Rig::setMode(rmode_t newModeID)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<newModeID;
+
+    if (!rig || !connectedRigProfile.getModeInfo) return;
+
+    rigLock.lock();
+
+    if ( newModeID != RIG_MODE_NONE
+         && newModeID != LoA.getMode() )
+    {
+
+        int status = rig_set_mode(rig, RIG_VFO_CURR, newModeID, RIG_PASSBAND_NOCHANGE);
+
+        if (status != RIG_OK)
+        {
+            /* Ignore Error */
+            /* not all rigs have correctly implemented Set Mode */
+        /*
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Set Mode Error - ")) + QString(rigerror(status)));
+        */
+        }
+
+        /* It is not needed to call setMode here because Update function do it */
+
+        // wait a moment because Rigs are slow and they are not possible to set and get
+        // mode so quickly (get mode is called in the main thread's update() function
+#ifdef Q_OS_WIN
+        Sleep(100);
+#else
+        usleep(100000);
+#endif
+    }
+    rigLock.unlock();
 }
 
 QStringList Rig::getAvailableModes()
@@ -512,13 +589,12 @@ QStringList Rig::getAvailableModes()
 
 Rig::Rig(QObject *parent) :
     QObject(parent),
+    LoA(VFO1, this),
     timer(nullptr)
 {
     FCT_IDENTIFICATION;
 
     rig = nullptr;
-    freq_rx = 0;
-    power = 0;
 }
 
 Rig::~Rig()
@@ -529,3 +605,151 @@ Rig::~Rig()
         timer->deleteLater();
     }
 }
+
+LocalOscilator::LocalOscilator(VFOID id, QObject *parent) :
+    QObject(parent),
+    freq(RIG_FREQ_NONE),
+    mode(RIG_MODE_NONE),
+    vfo(RIG_VFO_NONE),
+    power(0),
+    RXOffset(0.0),
+    TXOffset(0.0),
+    ID(id)
+{}
+
+freq_t LocalOscilator::getFreq() const
+{
+    return freq;
+}
+
+void LocalOscilator::setFreq(const freq_t &value)
+{
+    freq = value;
+}
+
+rmode_t LocalOscilator::getMode() const
+{
+    return mode;
+}
+
+QString LocalOscilator::getModeText() const
+{
+    const char *rawMode = rig_strrmode(getMode());
+
+    return QString(rawMode);
+}
+
+QString LocalOscilator::getModeNormalizedText(QString &submode) const
+{
+    switch (getMode())
+    {
+    case RIG_MODE_AM: return "AM";
+    case RIG_MODE_CW: return "CW";
+    case RIG_MODE_USB: {submode = "USB"; return "SSB";}
+    case RIG_MODE_LSB: {submode = "LSB"; return "SSB";}
+    case RIG_MODE_RTTY: return "RTTY";
+    case RIG_MODE_FM: return "FM";
+    case RIG_MODE_WFM: return "FM";
+    case RIG_MODE_CWR: return "CW";
+    case RIG_MODE_RTTYR: return "RTTY";
+    case RIG_MODE_AMS: return "AM";
+    case RIG_MODE_PKTLSB: {submode = "LSB"; return "SSB";}
+    case RIG_MODE_PKTUSB: {submode = "USB"; return "SSB";}
+    case RIG_MODE_PKTFM: return "FM";
+    case RIG_MODE_ECSSUSB: {submode = "USB"; return "SSB";}
+    case RIG_MODE_ECSSLSB: {submode = "LSB"; return "SSB";}
+    case RIG_MODE_FAX: return "";
+    case RIG_MODE_SAM: return "";
+    case RIG_MODE_SAL: return "AM";
+    case RIG_MODE_SAH: return "AM";
+    case RIG_MODE_DSB: return "";
+    case RIG_MODE_FMN: return "FM";
+    case RIG_MODE_PKTAM: return "AM";
+    default :
+        submode = QString();
+        return QString();
+    }
+}
+
+void LocalOscilator::setMode(const rmode_t &value)
+{
+    mode = value;
+}
+
+vfo_t LocalOscilator::getVFO() const
+{
+    return vfo;
+}
+
+void LocalOscilator::setVFO(const vfo_t &value)
+{
+    vfo = value;
+}
+
+QString LocalOscilator::getVFOText() const
+{
+    const char *rawVFO = rig_strvfo(getVFO());
+    return QString(rawVFO);
+}
+
+unsigned int LocalOscilator::getPower() const
+{
+    return power;
+}
+
+void LocalOscilator::setPower(unsigned int value)
+{
+    power = value;
+}
+
+VFOID LocalOscilator::getID() const
+{
+    return ID;
+}
+
+void LocalOscilator::setID(VFOID value)
+{
+    ID = value;
+}
+
+double LocalOscilator::getRXOffset() const
+{
+    return RXOffset;
+}
+
+void LocalOscilator::setRXOffset(double value)
+{
+    RXOffset = value;
+}
+
+double LocalOscilator::getTXOffset() const
+{
+    return TXOffset;
+}
+
+void LocalOscilator::setTXOffset(double value)
+{
+    TXOffset = value;
+}
+
+double LocalOscilator::getRITFreq() const
+{
+    return getFreq() + getRXOffset();
+}
+
+double LocalOscilator::getXITFreq() const
+{
+    return getFreq() + getTXOffset();
+}
+
+void LocalOscilator::clear()
+{
+    setFreq(RIG_FREQ_NONE),
+    setMode(RIG_MODE_NONE),
+    setVFO(RIG_VFO_NONE),
+    setVFO(0.0);
+    setRXOffset(0.0);
+    setTXOffset(0.0);
+    setPower(0.0);
+}
+

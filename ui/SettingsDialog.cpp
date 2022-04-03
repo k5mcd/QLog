@@ -233,10 +233,15 @@ void SettingsDialog::addRigProfile()
                 ui->rigPollIntervalSpinBox->value() :
                 500; // 500ms for Internet Rigs
 
+    profile.ritOffset = ui->rigRXOffsetSpinBox->value();
+    profile.xitOffset = ui->rigTXOffsetSpinBox->value();
+
     profile.getFreqInfo = ui->rigGetFreqCheckBox->isChecked();
     profile.getModeInfo = ui->rigGetModeCheckBox->isChecked();
     profile.getVFOInfo = ui->rigGetVFOCheckBox->isChecked();
     profile.getPWRInfo = ui->rigGetPWRCheckBox->isChecked();
+    profile.getRITInfo = ui->rigGetRITCheckBox->isChecked();
+    profile.getXITInfo = ui->rigGetXITCheckBox->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -286,6 +291,10 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigGetModeCheckBox->setChecked(profile.getModeInfo);
     ui->rigGetVFOCheckBox->setChecked(profile.getVFOInfo);
     ui->rigGetPWRCheckBox->setChecked(profile.getPWRInfo);
+    ui->rigGetRITCheckBox->setChecked(profile.getRITInfo);
+    ui->rigGetXITCheckBox->setChecked(profile.getXITInfo);
+    ui->rigRXOffsetSpinBox->setValue(profile.ritOffset);
+    ui->rigTXOffsetSpinBox->setValue(profile.xitOffset);
 
     ui->rigAddProfileButton->setText(tr("Modify"));
 }
@@ -313,8 +322,42 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigGetModeCheckBox->setChecked(true);
     ui->rigGetVFOCheckBox->setChecked(true);
     ui->rigGetPWRCheckBox->setChecked(true);
+    ui->rigGetRITCheckBox->setChecked(false);
+    ui->rigGetXITCheckBox->setChecked(false);
+    ui->rigRXOffsetSpinBox->setValue(0.0);
+    ui->rigTXOffsetSpinBox->setValue(0.0);
 
     ui->rigAddProfileButton->setText(tr("Add"));
+}
+
+void SettingsDialog::rigRXOffsetChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->rigGetRITCheckBox->isChecked() )
+    {
+        ui->rigRXOffsetSpinBox->setValue(0.0);
+        ui->rigRXOffsetSpinBox->setEnabled(false);
+    }
+    else
+    {
+        ui->rigRXOffsetSpinBox->setEnabled(true);
+    }
+}
+
+void SettingsDialog::rigTXOffsetChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->rigGetXITCheckBox->isChecked() )
+    {
+        ui->rigTXOffsetSpinBox->setValue(0.0);
+        ui->rigTXOffsetSpinBox->setEnabled(false);
+    }
+    else
+    {
+        ui->rigTXOffsetSpinBox->setEnabled(true);
+    }
 }
 
 void SettingsDialog::addRotProfile()

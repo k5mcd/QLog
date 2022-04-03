@@ -11,6 +11,7 @@
 #include "data/Data.h"
 #include "debug.h"
 #include "core/HostsPortString.h"
+#include "core/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
@@ -266,7 +267,7 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     QSqlRecord record = model.record();
 
-    double freq = static_cast<double>(log.tx_freq)/1e6;
+    double freq = Hz2MHz(static_cast<double>(log.tx_freq));
     QString band = Data::band(freq).name;
 
     record.setValue("freq", freq);

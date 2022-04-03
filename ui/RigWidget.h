@@ -2,6 +2,7 @@
 #define RIGWIDGET_H
 
 #include <QWidget>
+#include "core/Rig.h"
 
 namespace Ui {
 class RigWidget;
@@ -19,10 +20,12 @@ signals:
     void rigProfileChanged();
 
 public slots:
-    void updateFrequency(double freq);
-    void updateMode(QString, QString, QString);
-    void updatePWR(double);
-    void updateVFO(unsigned int);
+    void updateFrequency(VFOID, double, double, double);
+    void updateMode(VFOID, QString, QString, QString);
+    void updatePWR(VFOID, double);
+    void updateVFO(VFOID, QString);
+    void updateXIT(VFOID, double);
+    void updateRIT(VFOID, double);
     void bandComboChanged(QString);
     void modeComboChanged(QString);
     void rigProfileComboChanged(QString);

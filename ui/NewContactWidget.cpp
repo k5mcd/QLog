@@ -31,37 +31,68 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
+    /*****************************************/
+    /* Hack, remove timezone from LongFormat */
+    /*****************************************/
     QLocale locale;
+    ui->timeOnEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
+    ui->timeOffEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
 
-    ui->timeOnEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t")); //hack: remove timezone from LongFormat
-    ui->timeOffEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t")); //hack: remove timezone from LongFormat
-
+    /**************************/
+    /* QSL Send Combo Content */
+    /**************************/
+    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
+     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+     * Ordering below is optimized for a new Contact Widget only
+     */
     ui->qslSentBox->addItem(tr("No"), QVariant("N"));
     ui->qslSentBox->addItem(tr("Yes"), QVariant("Y"));
     ui->qslSentBox->addItem(tr("Requested"), QVariant("R"));
     ui->qslSentBox->addItem(tr("Queued"), QVariant("Q"));
     ui->qslSentBox->addItem(tr("Ignored"), QVariant("I"));
 
+    /*****************************/
+    /* QSL SendVia Combo Content */
+    /*****************************/
+    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
+     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+     * Ordering below is optimized for a new Contact Widget only
+     */
     ui->qslSentViaBox->addItem("", QVariant(""));
     ui->qslSentViaBox->addItem(tr("Bureau"), QVariant("B"));
     ui->qslSentViaBox->addItem(tr("Direct"), QVariant("D"));
     ui->qslSentViaBox->addItem(tr("Electronic"), QVariant("E"));
 
+    /****************/
+    /* Rig Profile  */
+    /****************/
     QStringListModel* rigModel = new QStringListModel(this);
     ui->rigEdit->setModel(rigModel);
     refreshRigProfileCombo();
 
+    /****************/
+    /* Ant Profile  */
+    /****************/
     QStringListModel* antModel = new QStringListModel(this);
     ui->antennaEdit->setModel(antModel);
     refreshAntProfileCombo();
 
-    QStringListModel* submodeModel = new QStringListModel(this);
-    ui->submodeEdit->setModel(submodeModel);
-
+    /*******************/
+    /* Station Profile */
+    /*******************/
     QStringListModel* stationProfilesModel = new QStringListModel(this);
     ui->stationProfileCombo->setModel(stationProfilesModel);
     refreshStationProfileCombo();
 
+    /******************/
+    /* Submodes Combo */
+    /******************/
+    QStringListModel* submodeModel = new QStringListModel(this);
+    ui->submodeEdit->setModel(submodeModel);
+
+    /****************/
+    /* Modes Combo  */
+    /****************/
     QSqlTableModel* modeModel = new QSqlTableModel();
     modeModel->setTable("modes");
     modeModel->setFilter("enabled = true");
@@ -70,16 +101,26 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     ui->modeEdit->setModelColumn(modeModel->fieldIndex("name"));
     modeModel->select();
 
+    /****************/
+    /* Contest Combo*/
+    /* DISABLED     */
+    /****************/
     QStringList contestList = Data::instance()->contestList();
     contestList.prepend("");
     QStringListModel* contestModel = new QStringListModel(contestList, this);
     ui->contestEdit->setModel(contestModel);
 
+    /**********************/
+    /* Propagation Combo  */
+    /**********************/
     QStringList propagationModeList = Data::instance()->propagationModesList();
     propagationModeList.prepend("");
     QStringListModel* propagationModeModel = new QStringListModel(propagationModeList, this);
     ui->propagationModeEdit->setModel(propagationModeModel);
 
+    /*******************/
+    /* SatModes Combo  */
+    /*******************/
     QStringList satModesList = Data::instance()->satModeList();
     satModesList.prepend("");
     QStringListModel* satModesModel = new QStringListModel(satModesList, this);
@@ -92,25 +133,33 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     satCompleter->setModel(satModel);
     satCompleter->setCompletionColumn(satModel->fieldIndex("name"));
     satCompleter->setCaseSensitivity(Qt::CaseInsensitive);
-    //satCompleter->setFilterMode(Qt::MatchContains);
     ui->satNameEdit->setCompleter(satCompleter);
     satModel->select();
 
     ui->satModeEdit->setEnabled(false);
     ui->satNameEdit->setEnabled(false);
 
+    /**************/
+    /* IOTA Edit  */
+    /**************/
     iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
     iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->iotaEdit->setCompleter(iotaCompleter);
 
+    /**************/
+    /* SOTA Edit  */
+    /**************/
     sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
     sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     sotaCompleter->setFilterMode(Qt::MatchStartsWith);
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
+    /**************/
+    /* CONNECTs   */
+    /**************/
     connect(rig, &Rig::frequencyChanged,
             this, &NewContactWidget::changeFrequency);
 
@@ -129,6 +178,9 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     contactTimer = new QTimer(this);
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
 
+    /**************/
+    /* SHORTCUTs  */
+    /**************/
     new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(resetContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::ALT + Qt::Key_W), this, SLOT(resetContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F10), this, SLOT(saveContact()), nullptr, Qt::ApplicationShortcut);
@@ -142,88 +194,74 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
      * */
     ui->tabWidget_2->removeTab(4);
 
-    ui->frequencyRXEdit->setVisible(false);
-    ui->bandRXText->setVisible(false);
-    ui->frequencyRXLabel->setVisible(false);
-    ui->frequencyTXLabel->setVisible(false);
+    /****************************/
+    /* Set Visiable for widgets */
+    /****************************/
+    ui->freqTXEdit->setVisible(false);
+    ui->bandTXLabel->setVisible(false);
+    ui->freqRXLabel->setVisible(false);
+    ui->freqTXLabel->setVisible(false);
 
-    reloadSettings();
-    readSettings();
+    /***********************/
+    /* Read Widget Setting */
+    /***********************/
+    readWidgetSettings();
+
+    /*************************/
+    /* Reload Global Setting */
+    /*************************/
+    readGlobalSettings();
+
+    /**********************/
+    /* Clear Contact Form */
+    /**********************/
     resetContact();
 }
 
-void NewContactWidget::readSettings() {
+void NewContactWidget::readWidgetSettings()
+{
     FCT_IDENTIFICATION;
 
     QSettings settings;
     QString mode = settings.value("newcontact/mode", "CW").toString();
     QString submode = settings.value("newcontact/submode").toString();
-    double realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
-    double rigFreqOffset = settings.value("newcontact/freqOffset", 0.0).toDouble();
-    double rigFreqRXOffset = settings.value("newcontact/freqRXOffset", 0.0).toDouble();
+    realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
     double power = settings.value("newcontact/power", 100).toDouble();
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
-    ui->rigFreqOffsetSpin->setValue(rigFreqOffset);
-    ui->rigFreqRXOffsetSpin->setValue(rigFreqRXOffset);
-    ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
-    ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
-    ui->rigEdit->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
-    ui->antennaEdit->setCurrentText(AntProfilesManager::instance()->getCurProfile1().profileName);
     ui->powerEdit->setValue(power);
-
-    refreshStationProfileCombo();
-    refreshRigProfileCombo();
-    refreshAntProfileCombo();
 }
 
-void NewContactWidget::writeSettings() {
+void NewContactWidget::writeWidgetSetting()
+{
     FCT_IDENTIFICATION;
 
     QSettings settings;
     settings.setValue("newcontact/mode", ui->modeEdit->currentText());
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
     settings.setValue("newcontact/frequency", realRigFreq);
-    settings.setValue("newcontact/freqOffset", ui->rigFreqOffsetSpin->value());
-    settings.setValue("newcontact/freqRXOffset", ui->rigFreqRXOffsetSpin->value());
     settings.setValue("newcontact/power", ui->powerEdit->value());
 }
 
-void NewContactWidget::reloadSettings() {
+/* function read global setting, called when starting or when Setting is reloaded */
+void NewContactWidget::readGlobalSettings()
+{
     FCT_IDENTIFICATION;
 
     QSettings settings;
 
-    QString selectedRig = ui->rigEdit->currentText();
-    QString selectedAnt = ui->antennaEdit->currentText();
-
-    QStringList rigs = RigProfilesManager::instance()->profileNameList();
-    QStringList ants = AntProfilesManager::instance()->profileNameList();
-
-    QStringListModel* modelRig = dynamic_cast<QStringListModel*>(ui->rigEdit->model());
-    QStringListModel* modelAnt = dynamic_cast<QStringListModel*>(ui->antennaEdit->model());
-
-    modelRig->setStringList(rigs);
-    modelAnt->setStringList(ants);
-
-    if (!selectedRig.isEmpty()) {
-        ui->rigEdit->setCurrentText(selectedRig);
-    }
-
-    if (!selectedAnt.isEmpty()) {
-        ui->antennaEdit->setCurrentText(selectedAnt);
-    }
-
-    //refresh mode combobox
+    /*************************/
+    /* Refresh mode combobox */
+    /*************************/
     QString current_mode = ui->modeEdit->currentText();
     ui->modeEdit->clear();
     dynamic_cast<QSqlTableModel*>(ui->modeEdit->model())->select();
-
-    // return selected mode.
     ui->modeEdit->setCurrentText(current_mode);
 
+    /********************/
     /* Reload Callbooks */
+    /********************/
     if ( primaryCallbook )
     {
         primaryCallbook->deleteLater();
@@ -247,46 +285,65 @@ void NewContactWidget::reloadSettings() {
         connect(primaryCallbook, &GenericCallbook::callsignNotFound, this, &NewContactWidget::callbookCallsignNotFound);
     }
 
-    /* Refresh Station Profile Combobox */
+    /***********************************/
+    /* Refresh all Profiles Comboboxes */
+    /***********************************/
     refreshStationProfileCombo();
     refreshRigProfileCombo();
     refreshAntProfileCombo();
+
+    /*****************************/
+    /* Refresh Offsets and Freqs */
+    /*****************************/
+    ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
+    ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
 }
 
-void NewContactWidget::callsignChanged() {
+/* function is called when an operator change Callsign Edit */
+void NewContactWidget::callsignChanged()
+{
     FCT_IDENTIFICATION;
 
     QString newCallsign = ui->callsignEdit->text().toUpper();
-    if (newCallsign == callsign) {
+
+    if ( newCallsign == callsign )
+    {
         return;
     }
-    else {
+    else
+    {
         callsign = newCallsign;
     }
 
     updateTime();
     clearQueryFields();
 
-    if (callsign.isEmpty()) {
+    if ( callsign.isEmpty() )
+    {
         stopContactTimer();
     }
-    else {
+    else
+    {
         startContactTimer();
         queryDxcc(callsign);
 
-        if (callsign.length() >= 3) {
+        if ( callsign.length() >= 3 )
+        {
             queryDatabase(callsign);
         }
     }
 }
 
-void NewContactWidget::queryDxcc(QString callsign) {
+void NewContactWidget::queryDxcc(QString callsign)
+{
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<callsign;
+    qCDebug(function_parameters) << callsign;
 
     dxccEntity = Data::instance()->lookupDxcc(callsign);
-    if (dxccEntity.dxcc) {
+
+    if ( dxccEntity.dxcc )
+    {
         ui->dxccInfo->setText(dxccEntity.country);
         ui->cqEdit->setText(QString::number(dxccEntity.cqz));
         ui->ituEdit->setText(QString::number(dxccEntity.ituz));
@@ -294,15 +351,18 @@ void NewContactWidget::queryDxcc(QString callsign) {
         ui->dxccTableWidget->setDxcc(dxccEntity.dxcc);
         ui->contEdit->setCurrentText(dxccEntity.cont);
         updateDxccStatus();
-        if (!dxccEntity.flag.isEmpty()) {
+        if ( !dxccEntity.flag.isEmpty() )
+        {
             QPixmap flag(QString(":/flags/64/%1.png").arg(dxccEntity.flag));
             ui->flagView->setPixmap(flag);
         }
-        else {
+        else
+        {
             ui->flagView->setPixmap(QPixmap());
         }
     }
-    else {
+    else
+    {
         ui->flagView->setPixmap(QPixmap());
         ui->dxccTableWidget->clear();
         ui->dxccStatus->clear();
@@ -312,12 +372,15 @@ void NewContactWidget::queryDxcc(QString callsign) {
         ui->cqEdit->clear();
         ui->ituEdit->clear();
         ui->contEdit->setCurrentText("");
+
         emit newTarget(0, 0);
     }
 }
 
 void NewContactWidget::clearQueryFields()
 {
+    FCT_IDENTIFICATION;
+
     ui->nameEdit->clear();
     ui->gridEdit->clear();
     ui->qthEdit->clear();
@@ -330,18 +393,23 @@ void NewContactWidget::clearQueryFields()
     ui->stateEdit->clear();
 }
 
-void NewContactWidget::queryDatabase(QString callsign) {
+void NewContactWidget::queryDatabase(QString callsign)
+{
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<callsign;
+    qCDebug(function_parameters) << callsign;
 
     QSqlQuery query;
-    if ( !query.prepare("SELECT name, qth, gridsquare FROM contacts "
-                  "WHERE callsign = :callsign ORDER BY start_time DESC LIMIT 1") )
+
+    if ( !query.prepare("SELECT name, qth, gridsquare "
+                        "FROM contacts "
+                        "WHERE callsign = :callsign "
+                        "ORDER BY start_time DESC LIMIT 1") )
     {
         qWarning() << "Cannot prepare select statement";
         return;
     }
+
     query.bindValue(":callsign", callsign);
 
     if ( !query.exec() )
@@ -349,21 +417,26 @@ void NewContactWidget::queryDatabase(QString callsign) {
         qWarning() << "Cannot execute statement" << query.lastError();
     }
 
-    if (query.next()){
+    if ( query.next() )
+    {
         ui->nameEdit->setText(query.value(0).toString());
         ui->qthEdit->setText(query.value(1).toString());
         ui->gridEdit->setText(query.value(2).toString());
         emit filterCallsign(callsign);
     }
-    else {
+    else
+    {
         emit filterCallsign(QString());
     }
 }
 
-void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
+/* function handles a response from Callbook classes */
+void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
+{
     FCT_IDENTIFICATION;
 
-    if (data.value("call") != callsign)  {
+    if ( data.value("call") != callsign )
+    {
         return;
     }
 
@@ -431,42 +504,44 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data) {
     }
 }
 
-/* call when newcontact frequency spinbox is changed */
-void NewContactWidget::frequencyChanged()
+/* the function is called when a newcontact frequency spinbox is changed */
+void NewContactWidget::frequencyTXChanged()
 {
     FCT_IDENTIFICATION;
 
-    realRigFreq = ui->frequencyEdit->value() - ui->rigFreqOffsetSpin->value();
+    double xit = ui->freqTXEdit->value();
+    realRigFreq = xit - RigProfilesManager::instance()->getCurProfile1().xitOffset;
+    double rit = realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset;
 
-    ui->frequencyRXEdit->blockSignals(true);
-    ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
-    updateRXBand(realRigFreq + ui->rigFreqRXOffsetSpin->value());
-    ui->frequencyRXEdit->blockSignals(false);
+    changeFrequency(VFO1, realRigFreq, rit, xit);
 
-    updateBand(ui->frequencyEdit->value()); // show a converted frequency
-    rig->setFrequency(realRigFreq);  // set rig frequency
+    rig->setFrequency(MHz(realRigFreq));  // set rig frequency
+
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
-    emit userFrequencyChanged(ui->frequencyEdit->value());
+
+    emit userFrequencyChanged(VFO1, realRigFreq, rit, xit);
 }
 
+/* the function is called when a newcontact RX frequecy spinbox is changed */
 void NewContactWidget::frequencyRXChanged()
 {
     FCT_IDENTIFICATION;
 
-    realRigFreq = ui->frequencyRXEdit->value() - ui->rigFreqRXOffsetSpin->value();
+    double rit = ui->freqRXEdit->value();
+    realRigFreq = rit - RigProfilesManager::instance()->getCurProfile1().ritOffset;
+    double xit = realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset;
 
-    ui->frequencyEdit->blockSignals(true);
-    ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
-    updateBand(realRigFreq + ui->rigFreqRXOffsetSpin->value());
-    ui->frequencyEdit->blockSignals(false);
+    changeFrequency(VFO1, realRigFreq, rit, xit);
 
-    updateRXBand(ui->frequencyEdit->value()); // show a converted frequency
-    rig->setFrequency(realRigFreq);  // set rig frequency
+    rig->setFrequency(MHz(realRigFreq));  // set rig frequency
+
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
-    emit userFrequencyChanged(ui->frequencyEdit->value()); // emit only TX frequency here because qlog tune based on
+
+    emit userFrequencyChanged(VFO1, realRigFreq, rit, xit);
 }
 
-void NewContactWidget::bandChanged() {
+void NewContactWidget::bandChanged()
+{
     FCT_IDENTIFICATION;
 
     updateDxccStatus();
@@ -504,6 +579,7 @@ void NewContactWidget::__modeChanged()
 
 }
 
+/* function just refresh Station Profile Combo */
 void NewContactWidget::refreshStationProfileCombo()
 {
     FCT_IDENTIFICATION;
@@ -531,6 +607,7 @@ void NewContactWidget::refreshStationProfileCombo()
     ui->stationProfileCombo->blockSignals(false);
 }
 
+/* function just refresh Rig Profile Combo */
 void NewContactWidget::refreshRigProfileCombo()
 {
     FCT_IDENTIFICATION;
@@ -604,18 +681,21 @@ void NewContactWidget::subModeChanged()
     rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
 }
 
-void NewContactWidget::updateBand(double freq) {
+void NewContactWidget::updateTXBand(double freq)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<freq;
 
     Band band = Data::band(freq);
 
-    if (band.name.isEmpty()) {
-        ui->bandText->setText("OOB!");
+    if (band.name.isEmpty())
+    {
+        ui->bandTXLabel->setText("OOB!");
     }
-    else if (band.name != ui->bandText->text()) {
-        ui->bandText->setText(band.name);
+    else if (band.name != ui->bandTXLabel->text())
+    {
+        ui->bandTXLabel->setText(band.name);
         bandChanged();
     }
 }
@@ -629,15 +709,17 @@ void NewContactWidget::updateRXBand(double freq)
     Band band = Data::band(freq);
 
     if (band.name.isEmpty()) {
-        ui->bandRXText->setText("OOB!");
+        ui->bandRXLabel->setText("OOB!");
     }
-    else if (band.name != ui->bandRXText->text()) {
-        ui->bandRXText->setText(band.name);
+    else if (band.name != ui->bandRXLabel->text())
+    {
+        ui->bandRXLabel->setText(band.name);
     }
 
 }
 
-void NewContactWidget::gridChanged() {
+void NewContactWidget::gridChanged()
+{
     FCT_IDENTIFICATION;
 
     Gridsquare newGrid(ui->gridEdit->text());
@@ -652,7 +734,8 @@ void NewContactWidget::gridChanged() {
     updateCoordinates(newGrid.getLatitude(), newGrid.getLongitude(), COORD_GRID);
 }
 
-void NewContactWidget::resetContact() {
+void NewContactWidget::resetContact()
+{
     FCT_IDENTIFICATION;
 
     updateTime();
@@ -704,7 +787,11 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
 
     StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
-    record.setValue("qsl_sent", "N");
+    if ( record.value("qsl_sent").toString().isEmpty() )
+    {
+        record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
+    }
+
     record.setValue("qsl_rcvd", "N");
     record.setValue("lotw_qsl_sent", "N");
     record.setValue("lotw_qsl_rcvd", "N");
@@ -967,19 +1054,11 @@ void NewContactWidget::saveContact()
         record.setValue("gridsquare", ui->gridEdit->text().toUpper());
     }
 
-    record.setValue("freq", ui->frequencyEdit->value());
-    record.setValue("band", ui->bandText->text());
+    record.setValue("freq", ui->freqTXEdit->value());
+    record.setValue("band", ui->bandTXLabel->text());
 
-    if ( ui->rigFreqRXOffsetSpin->value() != 0 )
-    {
-        record.setValue("freq_rx", ui->frequencyRXEdit->value());
-        record.setValue("band_rx", ui->bandRXText->text());
-    }
-    else
-    {
-        record.setValue("freq_rx", ui->frequencyEdit->value());
-        record.setValue("band_rx", ui->bandText->text());
-    }
+    record.setValue("freq_rx", ui->freqRXEdit->value());
+    record.setValue("band_rx", ui->bandRXLabel->text());
 
     if ( ! ui->modeEdit->currentText().isEmpty() )
     {
@@ -1169,7 +1248,8 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
     emit contactAdded(record);
 }
 
-void NewContactWidget::startContactTimer() {
+void NewContactWidget::startContactTimer()
+{
     FCT_IDENTIFICATION;
 
     updateTime();
@@ -1178,7 +1258,8 @@ void NewContactWidget::startContactTimer() {
     }
 }
 
-void NewContactWidget::stopContactTimer() {
+void NewContactWidget::stopContactTimer()
+{
     FCT_IDENTIFICATION;
 
     if (contactTimer->isActive()) {
@@ -1196,7 +1277,7 @@ void NewContactWidget::markContact()
         DxSpot spot;
 
         spot.time = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
-        spot.freq = ui->frequencyEdit->value();
+        spot.freq = ui->freqRXEdit->value();
         spot.band = Data::band(spot.freq).name;
         spot.callsign = ui->callsignEdit->text().toUpper();
         emit markQSO(spot);
@@ -1212,7 +1293,8 @@ void NewContactWidget::editCallsignFinished()
     }
 }
 
-void NewContactWidget::updateTime() {
+void NewContactWidget::updateTime()
+{
     FCT_IDENTIFICATION;
 
     QDateTime now = QDateTime::currentDateTimeUtc();
@@ -1221,20 +1303,23 @@ void NewContactWidget::updateTime() {
     ui->timeOffEdit->setTime(now.time());
 }
 
-void NewContactWidget::updateTimeStop() {
+void NewContactWidget::updateTimeStop()
+{
     FCT_IDENTIFICATION;
 
     updateTime();
     stopContactTimer();
 }
 
-void NewContactWidget::updateTimeOff() {
+void NewContactWidget::updateTimeOff()
+{
     FCT_IDENTIFICATION;
 
     ui->timeOffEdit->setTime(QDateTime::currentDateTimeUtc().time());
 }
 
-void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision prec) {
+void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision prec)
+{
     FCT_IDENTIFICATION;
 
     if (prec < coordPrec) return;
@@ -1256,17 +1341,21 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
 
 }
 
-void NewContactWidget::updateDxccStatus() {
+void NewContactWidget::updateDxccStatus()
+{
     FCT_IDENTIFICATION;
 
-    if (callsign.isEmpty()) {
+    if ( callsign.isEmpty() )
+    {
         ui->dxccStatus->clear();
         ui->callsignEdit->setPalette(QPalette());
         return;
     }
 
-    DxccStatus status = Data::dxccStatus(dxccEntity.dxcc, ui->bandText->text(), ui->modeEdit->currentText());
-    switch (status) {
+    DxccStatus status = Data::dxccStatus(dxccEntity.dxcc, ui->bandRXLabel->text(), ui->modeEdit->currentText());
+
+    switch (status)
+    {
     case DxccStatus::NewEntity:
         ui->dxccStatus->setText(tr("New Entity!"));
         break;
@@ -1291,34 +1380,56 @@ void NewContactWidget::updateDxccStatus() {
     ui->callsignEdit->setPalette(palette);
 }
 
-/* call when rig freq is changed */
-void NewContactWidget::changeFrequency(double freq) {
+/* the function is called when rig freq is changed */
+/* Received from RIG */
+void NewContactWidget::changeFrequency(VFOID vfoid, double vfoFreq, double ritFreq, double xitFreq)
+{
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<freq;
-    qCDebug(runtime) << "current freq offset " << ui->rigFreqOffsetSpin->value();
-    realRigFreq = freq;
+    Q_UNUSED(vfoid)
 
-    ui->frequencyEdit->blockSignals(true);
-    ui->frequencyEdit->setValue(realRigFreq + ui->rigFreqOffsetSpin->value());
-    updateBand(realRigFreq + ui->rigFreqOffsetSpin->value());
-    ui->frequencyEdit->blockSignals(false);
+    qCDebug(function_parameters) << vfoFreq << " " << ritFreq << " " << xitFreq;
 
-    ui->frequencyRXEdit->blockSignals(true);
-    ui->frequencyRXEdit->setValue(realRigFreq + ui->rigFreqRXOffsetSpin->value());
-    updateRXBand(realRigFreq + ui->rigFreqRXOffsetSpin->value());
-    ui->frequencyRXEdit->blockSignals(false);
+    realRigFreq = vfoFreq;
 
+    ui->freqTXEdit->blockSignals(true);
+    ui->freqTXEdit->setValue(xitFreq);
+    updateTXBand(xitFreq);
+    ui->freqTXEdit->blockSignals(false);
 
+    ui->freqRXEdit->blockSignals(true);
+    ui->freqRXEdit->setValue(ritFreq);
+    updateRXBand(ritFreq);
+    ui->freqRXEdit->blockSignals(false);
+
+    if ( ritFreq != xitFreq
+         || RigProfilesManager::instance()->getCurProfile1().ritOffset != 0.0
+         || RigProfilesManager::instance()->getCurProfile1().xitOffset != 0.0)
+    {
+        ui->freqTXEdit->setVisible(true);
+        ui->bandTXLabel->setVisible(true);
+        ui->freqRXLabel->setVisible(true);
+        ui->freqTXLabel->setVisible(true);
+    }
+    else
+    {
+        ui->freqTXEdit->setVisible(false);
+        ui->bandTXLabel->setVisible(false);
+        ui->freqRXLabel->setVisible(false);
+        ui->freqTXLabel->setVisible(false);
+    }
 }
 
 /* mode is changed from RIG */
-void NewContactWidget::changeMode(QString rawMode, QString mode, QString subMode) {
+/* Receveived from RIG */
+void NewContactWidget::changeMode(VFOID vfoid, QString rawMode, QString mode, QString subMode)
+{
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<mode<< " " << subMode;
+    qCDebug(function_parameters) << mode << " " << subMode;
 
-    Q_UNUSED(rawMode);
+    Q_UNUSED(rawMode)
+    Q_UNUSED(vfoid);
 
     ui->modeEdit->blockSignals(true);
     ui->submodeEdit->blockSignals(true);
@@ -1329,28 +1440,64 @@ void NewContactWidget::changeMode(QString rawMode, QString mode, QString subMode
     ui->modeEdit->blockSignals(false);
 }
 
-void NewContactWidget::changePower(double power) {
+/* Power is changed from RIG */
+/* Received from RIG */
+void NewContactWidget::changePower(VFOID vfoid, double power) {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<power;
+    qCDebug(function_parameters) << power;
+
+    Q_UNUSED(vfoid)
 
     ui->powerEdit->blockSignals(true);
     ui->powerEdit->setValue(power);
     ui->powerEdit->blockSignals(false);
 }
 
-void NewContactWidget::tuneDx(QString callsign, double frequency) {
+/* connection slot */
+/* received from RIG */
+void NewContactWidget::rigConnected()
+{
+    FCT_IDENTIFICATION;
+
+    RigProfile currProfile = RigProfilesManager::instance()->getCurProfile1();
+
+    /* allow modify PWR only in case when Rig is not connected or user
+     * does not want to get PWR from RIG */
+    if ( currProfile.getPWRInfo )
+    {
+        ui->powerEdit->setEnabled(false);
+        ui->powerEdit->setValue(0.0);
+    }
+}
+
+/* disconnection slot */
+/* received from RIG */
+void NewContactWidget::rigDisconnected()
+{
+    FCT_IDENTIFICATION;
+
+    ui->powerEdit->setEnabled(true);
+}
+
+void NewContactWidget::tuneDx(QString callsign, double frequency)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<callsign<< " " << frequency;
+
     resetContact();
+
     ui->callsignEdit->setText(callsign);
-    ui->frequencyEdit->setValue(frequency);
+    ui->freqRXEdit->setValue(frequency);
+
     callsignChanged();
+
     if ( callsign.size() >= 3 && primaryCallbook )
     {
         primaryCallbook->queryCallsign(callsign);
     }
+
     stopContactTimer();
 }
 
@@ -1413,65 +1560,6 @@ void NewContactWidget::propModeChanged(const QString &propModeText)
     }
 }
 
-/* call when freq offset is changed */
-void NewContactWidget::rigFreqOffsetChanged(double offset)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << offset;
-
-    double new_freq = realRigFreq + offset;
-    ui->frequencyEdit->setValue(new_freq);
-    updateBand(new_freq);
-    qCDebug(runtime) << "rig real freq: " << realRigFreq;
-}
-
-void NewContactWidget::rigFreqRXOffsetChanged(double offset)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << offset;
-
-    if ( offset != 0 )
-    {
-        ui->frequencyRXEdit->setVisible(true);
-        ui->bandRXText->setVisible(true);
-        ui->frequencyRXLabel->setVisible(true);
-        ui->frequencyTXLabel->setVisible(true);
-    }
-    else
-    {
-        ui->frequencyRXEdit->setVisible(false);
-        ui->bandRXText->setVisible(false);
-        ui->frequencyRXLabel->setVisible(false);
-        ui->frequencyTXLabel->setVisible(false);
-    }
-
-    double new_freq = realRigFreq + offset;
-    ui->frequencyRXEdit->setValue(new_freq);
-    updateRXBand(new_freq);
-    qCDebug(runtime) << "rig real freq: " << realRigFreq;
-}
-
-void NewContactWidget::rigConnected()
-{
-    FCT_IDENTIFICATION;
-
-    /* allow modify PWR only in case when Rig is not connected or user
-     * does not want to get PWR from RIG */
-    if ( RigProfilesManager::instance()->getCurProfile1().getPWRInfo )
-    {
-        ui->powerEdit->setEnabled(false);
-    }
-}
-
-void NewContactWidget::rigDisconnected()
-{
-    FCT_IDENTIFICATION;
-
-    ui->powerEdit->setEnabled(true);
-}
-
 void NewContactWidget::stationProfileComboChanged(QString profileName)
 {
     FCT_IDENTIFICATION;
@@ -1488,6 +1576,9 @@ void NewContactWidget::rigProfileComboChanged(QString profileName)
     qCDebug(function_parameters) << profileName;
 
     RigProfilesManager::instance()->setCurProfile1(profileName);
+
+    ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
+    ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
 
     emit rigProfileChanged();
 }
@@ -1533,7 +1624,7 @@ void NewContactWidget::callbookCallsignNotFound(QString queryCallsign)
 NewContactWidget::~NewContactWidget() {
     FCT_IDENTIFICATION;
 
-    writeSettings();
+    writeWidgetSetting();
     if ( primaryCallbook )
     {
         primaryCallbook->deleteLater();

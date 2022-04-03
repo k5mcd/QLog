@@ -32,6 +32,8 @@ public slots:
     void refreshRigProfilesView();
     void doubleClickRigProfile(QModelIndex);
     void clearRigProfileForm();
+    void rigRXOffsetChanged(int);
+    void rigTXOffsetChanged(int);
 
     void addRotProfile();
     void delRotProfile();

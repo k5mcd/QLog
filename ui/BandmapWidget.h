@@ -8,6 +8,7 @@
 
 #include "data/DxSpot.h"
 #include "data/Band.h"
+#include "core/Rig.h"
 
 namespace Ui {
 class BandmapWidget;
@@ -35,7 +36,7 @@ public:
 
 public slots:
     void update();
-    void updateRxFrequency(double freq);
+    void updateRxFrequency(VFOID, double, double, double);
     void addSpot(DxSpot spot);
     void spotAgingChanged(int);
     void clearSpots();
@@ -55,7 +56,7 @@ private:
 
 
 
-    double rx_freq, tx_freq;
+    double rx_freq;
     Band band;
     BandmapZoom zoom;
     QGraphicsScene* bandmapScene;

@@ -24,6 +24,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     ui->setupUi(this);
 
     double freq = settings.value("newcontact/frequency", 3.5).toDouble();
+    freq += RigProfilesManager::instance()->getCurProfile1().ritOffset;
 
     band = Data::band(freq);
     zoom = ZOOM_1KHZ;
@@ -43,7 +44,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     connect(update_timer, SIGNAL(timeout()), this, SLOT(update()));
     update_timer->start(BANDMAP_AGING_TIME);
 
-    updateRxFrequency(freq);
+    updateRxFrequency(VFO1, freq, freq, freq);
     update();
 }
 
@@ -253,12 +254,15 @@ void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *, Qt
     }
 }
 
-void BandmapWidget::updateRxFrequency(double freq) {
+void BandmapWidget::updateRxFrequency(VFOID vfoid, double vfoFreq, double ritFreq, double xitFreq)
+{
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters) << freq;
+    Q_UNUSED(vfoid)
 
-    rx_freq = freq;
+    qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
+
+    rx_freq = ritFreq;
 
     if (rx_freq < band.start || rx_freq > band.end) {
         Band newBand = Data::band(rx_freq);

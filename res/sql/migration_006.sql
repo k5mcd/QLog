@@ -20,7 +20,11 @@ CREATE TABLE IF NOT EXISTS rig_profiles (
         get_freq INTEGER,
         get_mode INTEGER,
         get_vfo  INTEGER,
-        get_pwr  INTEGER
+        get_pwr  INTEGER,
+        rit_offset REAL,
+        xit_offset REAL,
+        get_rit  INTEGER,
+        get_xit  INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS rot_profiles (

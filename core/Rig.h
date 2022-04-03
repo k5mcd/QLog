@@ -5,7 +5,66 @@
 #include <hamlib/rig.h>
 #include "data/RigProfile.h"
 
+
+#define QSTRING_FREQ(f) (QString::number((f), 'f', 5))
+#define Hz2MHz(f) ((double)((f)/1e6))
+#define mW2W(f) ((double)((f)/1000.0))
+
 struct rig;
+
+enum VFOID
+{
+    VFO1 = 0
+};
+
+Q_DECLARE_METATYPE(VFOID)
+
+class LocalOscilator : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit LocalOscilator(VFOID id, QObject *parent = nullptr);
+    ~LocalOscilator() {};
+
+    freq_t getFreq() const;
+    void setFreq(const freq_t &value);
+
+    rmode_t getMode() const;
+    QString getModeText() const;
+    QString getModeNormalizedText(QString &submode) const;
+    void setMode(const rmode_t &value);
+
+    vfo_t getVFO() const;
+    void setVFO(const vfo_t &value);
+    QString getVFOText() const;
+
+    unsigned int getPower() const;
+    void setPower(unsigned int value);
+
+    VFOID getID() const;
+    void setID(VFOID);
+
+    double getRXOffset() const;
+    void setRXOffset(double value);
+
+    double getTXOffset() const;
+    void setTXOffset(double value);
+
+    double getRITFreq() const;
+    double getXITFreq() const;
+
+    void clear();
+
+private:
+    freq_t freq;          //in Hz
+    rmode_t mode;
+    vfo_t vfo;
+    unsigned int power;   //in mW
+    double RXOffset;      //in Hz
+    double TXOffset;      //in Hz
+    VFOID ID;
+};
 
 class Rig : public QObject {
     Q_OBJECT
@@ -26,29 +85,32 @@ public slots:
     QStringList getAvailableModes();
 
 signals:
-    void frequencyChanged(double);
-    void modeChanged(QString, QString, QString);
-    void powerChanged(double);
-    void vfoChanged(unsigned int);
+    void frequencyChanged(VFOID, double, double, double);
+    void modeChanged(VFOID, QString, QString, QString);
+    void powerChanged(VFOID, double);
+    void vfoChanged(VFOID, QString);
+    void ritChanged(VFOID, double);
+    void xitChanged(VFOID, double);
     void rigErrorPresent(QString);
     void rigDisconnected();
     void rigConnected();
 
 private:
     Rig(QObject *parent = nullptr);
-
     Rig(Rig const&);
     ~Rig();
+
     void operator=(Rig const&);
 
     void __closeRig();
     void __openRig();
+    rmode_t modeSubmodeToModeT(const QString &mode, const QString &submode);
+
     RIG* rig;
     RigProfile connectedRigProfile;
-    int freq_rx;
-    rmode_t modeId;
-    vfo_t vfoId;
-    unsigned int power;
+
+    LocalOscilator LoA;
+
     QMutex rigLock;
     QTimer* timer;
 };

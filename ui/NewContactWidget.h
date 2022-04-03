@@ -10,13 +10,11 @@
 #include "core/Conditions.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
+#include "core/Rig.h"
 
 namespace Ui {
 class NewContactWidget;
 }
-
-class HamQTH;
-class Rig;
 
 enum CoordPrecision {
     COORD_NONE = 0,
@@ -32,29 +30,43 @@ public:
     explicit NewContactWidget(QWidget *parent = nullptr);
     ~NewContactWidget();
 
+    void addPropConditions(Conditions *);
+
 signals:
     void contactAdded(QSqlRecord record);
     void newTarget(double lat, double lon);
     void filterCallsign(QString call);
-    void userFrequencyChanged(double freq);
+    void userFrequencyChanged(VFOID, double, double, double);
+    void markQSO(DxSpot spot);
+
     void stationProfileChanged();
     void rigProfileChanged();
     void antProfileChanged();
-    void markQSO(DxSpot spot);
 
 public slots:
-    void reloadSettings();
+    void refreshRigProfileCombo();
+    void saveExternalContact(QSqlRecord record);
+    void readGlobalSettings();
+    void tuneDx(QString callsign, double frequency);
+    void showDx(QString callsign, QString grid);
+    void callbookCallsignNotFound(QString);
+    void resetContact();
+    void saveContact();
+
+    // to receive RIG instructions
+    void changeFrequency(VFOID, double, double, double);
+    void changeMode(VFOID, QString rawMode, QString mode, QString subMode);
+    void changePower(VFOID, double power);
+    void rigConnected();
+    void rigDisconnected();
+
+private slots:
     void callsignChanged();
-    void frequencyChanged();
+    void frequencyTXChanged();
     void frequencyRXChanged();
     void bandChanged();
     void modeChanged();
     void subModeChanged();
-    void updateBand(double freq);
-    void updateRXBand(double freq);
-    void resetContact();
-    void saveContact();
-    void saveExternalContact(QSqlRecord record);
     void gridChanged();
     void updateTime();
     void updateTimeOff();
@@ -64,43 +76,35 @@ public slots:
     void markContact();
     void editCallsignFinished();
     void callsignResult(const QMap<QString, QString>& data);
-    void updateCoordinates(double lat, double lon, CoordPrecision prec);
-    void updateDxccStatus();
-    void changeFrequency(double freq);
-    void changeMode(QString rawMode, QString mode, QString subMode);
-    void changePower(double power);
-    void tuneDx(QString callsign, double frequency);
-    void showDx(QString callsign, QString grid);
-    void setDefaultReport();
-    void qrz();
-    void addPropConditions(Conditions *);
     void propModeChanged(const QString&);
-    void rigFreqOffsetChanged(double);
-    void rigFreqRXOffsetChanged(double);
-    void rigConnected();
-    void rigDisconnected();
+    void sotaChanged(QString);
+
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);
     void antProfileComboChanged(QString);
-    void sotaChanged(QString);
-    void callbookCallsignNotFound(QString);
-    void refreshRigProfileCombo();
+
 
 private:
     void queryDatabase(QString callsign);
     void queryDxcc(QString callsign);
     void clearQueryFields();
-    void readSettings();
-    void writeSettings();
+    void readWidgetSettings();
+    void writeWidgetSetting();
     void __modeChanged();
     void refreshStationProfileCombo();
-
+    void updateTXBand(double freq);
+    void updateRXBand(double freq);
+    void updateCoordinates(double lat, double lon, CoordPrecision prec);
+    void updateDxccStatus();
+    void setDefaultReport();
+    void qrz();
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
     GenericCallbook *createCallbook(const QString&);
 
 private:
     Rig* rig;
+    double realRigFreq;
     QString callsign;
     DxccEntity dxccEntity;
     QString defaultReport;
@@ -113,7 +117,6 @@ private:
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
-    double realRigFreq;
 };
 
 #endif // NEWCONTACTWIDGET_H

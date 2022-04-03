@@ -236,6 +236,7 @@ int main(int argc, char* argv[])
 
     qInstallMessageHandler(debugMessageOutput);
     qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
+    qRegisterMetaType<VFOID>();
 
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)
