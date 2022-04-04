@@ -1451,7 +1451,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="stationProfileLabel">
            <property name="text">
-            <string>Location</string>
+            <string>Station</string>
            </property>
           </widget>
          </item>
