@@ -568,9 +568,9 @@ QStringList Rig::getAvailableModes()
 
         if ( rigModes != RIG_MODE_NONE )
         {
-            for (int i = 0; i < 63; i++ )  // in the future replace 63 by HAMLIB_MAX_MODES
+            for (rmode_t i = 0; i < (sizeof(rmode_t)*8)-1; i++ )  /* hamlib 3.x and 4.x is very different - workaround */
             {
-                const char *ms = rig_strrmode(rigModes & (1ULL << i));
+                const char *ms = rig_strrmode(rigModes & rig_idx2setting(i));
 
                 if (!ms || !ms[0])
                 {
