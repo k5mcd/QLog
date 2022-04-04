@@ -564,13 +564,11 @@ QStringList Rig::getAvailableModes()
 
     if ( localRig )
     {
-        rmode_t rigModes = localRig->state.mode_list;
-
-        if ( rigModes != RIG_MODE_NONE )
+        if ( localRig->state.mode_list != RIG_MODE_NONE )
         {
-            for (rmode_t i = 0; i < (sizeof(rmode_t)*8)-1; i++ )  /* hamlib 3.x and 4.x is very different - workaround */
+            for (unsigned char i = 0; i < (sizeof(rmode_t)*8)-1; i++ )  /* hamlib 3.x and 4.x are very different - workaround */
             {
-                const char *ms = rig_strrmode(rigModes & rig_idx2setting(i));
+                const char *ms = rig_strrmode(static_cast<rmode_t>(localRig->state.mode_list & rig_idx2setting(i))); /* hamlib 3.x and 4.x are very different - workaround */
 
                 if (!ms || !ms[0])
                 {
