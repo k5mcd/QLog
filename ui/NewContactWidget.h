@@ -82,7 +82,7 @@ private slots:
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);
     void antProfileComboChanged(QString);
-
+    void qrz();
 
 private:
     void queryDatabase(QString callsign);
@@ -97,7 +97,6 @@ private:
     void updateCoordinates(double lat, double lon, CoordPrecision prec);
     void updateDxccStatus();
     void setDefaultReport();
-    void qrz();
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
     GenericCallbook *createCallbook(const QString&);
