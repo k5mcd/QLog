@@ -749,11 +749,31 @@ void SettingsDialog::rigChanged(int index)
         {
             ui->rigStackedWidget->setCurrentIndex(0);
         }
+
+        ui->rigGetFreqCheckBox->setEnabled(caps->get_freq);
+        ui->rigGetFreqCheckBox->setChecked(caps->get_freq);
+
+        ui->rigGetModeCheckBox->setEnabled(caps->get_mode);
+        ui->rigGetModeCheckBox->setChecked(caps->get_mode);
+
+        ui->rigGetVFOCheckBox->setEnabled(caps->get_vfo);
+        ui->rigGetVFOCheckBox->setChecked(caps->get_vfo);
+
+        ui->rigGetPWRCheckBox->setEnabled(caps->get_level && caps->power2mW);
+        ui->rigGetPWRCheckBox->setChecked(caps->get_level && caps->power2mW);
+
+        ui->rigGetRITCheckBox->setEnabled(caps->get_rit);
+        ui->rigGetRITCheckBox->setChecked(false);
+
+        ui->rigGetXITCheckBox->setEnabled(caps->get_xit);
+        ui->rigGetXITCheckBox->setChecked(false);
+
     }
     else
     {
         ui->rigStackedWidget->setCurrentIndex(0);
     }
+
 }
 
 void SettingsDialog::rotChanged(int index)
