@@ -1,5 +1,11 @@
 TBD - 0.7.0
-
+- Settings - Ant/Rig/Rot are profiles
+   - Reworked Ant/Rig/Rot Pages
+   - Added RIG Properties (issue #18)
+- Rig Widget - added Band/Rig/Mode selection (issue #5)
+   - added VFO/XIT/RIT/PWR Indicators (issue #20 and issue #23)
+- Rot Widget - works again
+   - AZ/EL are stored to database if rot is connected (issue #22)
 
 2022/03/10 - 0.6.5
 - Fixed missing modes in Setting Dialog (issue #11)
