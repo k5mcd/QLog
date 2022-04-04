@@ -595,6 +595,7 @@ Rig::Rig(QObject *parent) :
     FCT_IDENTIFICATION;
 
     rig = nullptr;
+    rig_set_debug(RIG_DEBUG_BUG);
 }
 
 Rig::~Rig()
