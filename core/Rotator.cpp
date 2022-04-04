@@ -3,6 +3,12 @@
 #include "core/debug.h"
 #include "data/RotProfile.h"
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
 MODULE_IDENTIFICATION("qlog.core.rotator");
 
 #ifndef HAMLIB_FILPATHLEN
@@ -47,6 +53,7 @@ Rotator::Rotator(QObject *parent) :
     azimuth = 0;
     elevation = 0;
     rot = nullptr;
+    rig_set_debug(RIG_DEBUG_ERR);
 }
 
 Rotator::~Rotator()
@@ -100,24 +107,36 @@ void Rotator::update()
 
     int status = RIG_OK;
 
-    if ( !isRotConnected() ) return;
+    if ( !isRotConnected() )
+    {
+        /* rot is not connected, slow down */
+        timer->start(5000);
+        return;
+    }
 
     if (!rotLock.tryLock(200)) return;
 
     RotProfile currRotProfile = RotProfilesManager::instance()->getCurProfile1();
 
+    /***********************************************************/
+    /* Is Opened Profile still the globbaly used Rot Profile ? */
+    /* if NO then reconnect it                                 */
+    /***********************************************************/
     if ( currRotProfile != connectedRotProfile)
     {
         /* Rot Profile Changed
          * Need to reconnect rig
          */
-        qCDebug(runtime) << "Reconnecting to a new ROT - " << currRotProfile.profileName;
+        qCDebug(runtime) << "Reconnecting to a new RIG - " << currRotProfile.profileName << "; Old - " << connectedRotProfile.profileName;
         __openRot();
-        timer->start(1000);
+        timer->start(1000); // fix time is correct, it is not necessary to change.
         rotLock.unlock();
         return;
     }
 
+    /*************/
+    /* Get AZ/EL */
+    /*************/
     azimuth_t az;
     elevation_t el;
 
@@ -126,6 +145,7 @@ void Rotator::update()
     {
         int newAzimuth = static_cast<int>(az);
         int newElevation = static_cast<int>(el);
+
         if (newAzimuth != this->azimuth || newElevation != this->elevation)  {
             this->azimuth = newAzimuth;
             this->elevation = newElevation;
@@ -136,8 +156,6 @@ void Rotator::update()
     {
        __closeRot();
        emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
-       timer->start(1000);
-       rotLock.unlock();
     }
 
     timer->start(1000);
@@ -170,8 +188,6 @@ void Rotator::__openRot()
         emit rotErrorPresent(QString(tr("Initialization Error")));
         return;
     }
-
-    rig_set_debug(RIG_DEBUG_ERR);
 
     if ( rot->caps->port_type == RIG_PORT_NETWORK
          || rot->caps->port_type == RIG_PORT_UDP_NETWORK )
@@ -238,6 +254,7 @@ void Rotator::setPosition(int azimuth, int elevation) {
     qCDebug(function_parameters)<<azimuth<< " " << elevation;
 
     if ( !isRotConnected() ) return;
+
     rotLock.lock();
 
     if ( azimuth > 180 )
@@ -246,11 +263,20 @@ void Rotator::setPosition(int azimuth, int elevation) {
     }
 
     int status = rot_set_position(rot, static_cast<azimuth_t>(azimuth), static_cast<elevation_t>(elevation));
+
     if (status != RIG_OK)
     {
         __closeRot();
         emit rotErrorPresent(QString(tr("Set Possition Error - ")) + QString(rigerror(status)));
     }
+
+    // wait a moment because Rigs are slow and they are not possible to set and get
+    // mode so quickly (get mode is called in the main thread's update() function
+#ifdef Q_OS_WIN
+    Sleep(100);
+#else
+    usleep(100000);
+#endif
 
     rotLock.unlock();
 }
