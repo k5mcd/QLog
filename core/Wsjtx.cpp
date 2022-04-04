@@ -265,7 +265,7 @@ void Wsjtx::insertContact(WsjtxLog log)
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
 
-    QSqlRecord record = model.record();
+    QSqlRecord record = model.record(0);
 
     double freq = Hz2MHz(static_cast<double>(log.tx_freq));
     QString band = Data::band(freq).name;

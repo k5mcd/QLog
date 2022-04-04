@@ -1017,7 +1017,7 @@ void NewContactWidget::saveContact()
     QDateTime start = QDateTime(ui->dateEdit->date(), ui->timeOnEdit->time(), Qt::UTC);
     QDateTime end = QDateTime(ui->dateEdit->date(), ui->timeOffEdit->time(), Qt::UTC);
 
-    QSqlRecord record = model.record();
+    QSqlRecord record = model.record(0);
 
     record.setValue("start_time", start);
     record.setValue("end_time", end);

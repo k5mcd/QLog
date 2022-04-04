@@ -104,7 +104,7 @@ void LogFormat::runImport() {
     QSqlTableModel model;
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
-    QSqlRecord record = model.record();
+    QSqlRecord record = model.record(0);
     duplicateQSOBehaviour dupSetting = LogFormat::ASK_NEXT;
 
     while (true)
@@ -239,7 +239,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
     QSqlTableModel model;
     model.setTable("contacts");
     model.setEditStrategy(QSqlTableModel::OnManualSubmit);
-    QSqlRecord QSLRecord = model.record();
+    QSqlRecord QSLRecord = model.record(0);
 
     while ( true )
     {
