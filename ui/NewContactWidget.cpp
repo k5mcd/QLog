@@ -632,6 +632,9 @@ void NewContactWidget::refreshRigProfileCombo()
         ui->rigEdit->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
     }
 
+    ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
+    ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
+
     ui->rigEdit->blockSignals(false);
 }
 
