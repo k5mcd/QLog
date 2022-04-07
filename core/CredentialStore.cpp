@@ -94,7 +94,7 @@ QString CredentialStore::getPassword(const QString &storage_key, QString user)
 
     if ( job.error() )
     {
-        qWarning() << "Cannot get a password. Error " << job.errorString();
+        qCDebug(runtime) << "Cannot get a password. Error " << job.errorString();
         return QString();
     }
 
