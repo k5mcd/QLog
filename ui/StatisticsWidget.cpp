@@ -99,6 +99,12 @@ void StatisticsWidget::refreshGraph()
 
      genericFilter << " 1 = 1 "; //just initialization - use only in case of empty Options
 
+     refreshCallCombo();
+     refreshRigCombo();
+     refreshAntCombo();
+     refreshBandCombo();
+     refreshGridCombo();
+
      if ( ui->myCallCombo->currentIndex() != 0 )
      {
          genericFilter << " (station_callsign = '" + ui->myCallCombo->currentText() + "') ";
@@ -465,11 +471,20 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
-    ui->myCallCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", tr("All"), this));
-    ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts ORDER BY my_gridsquare", tr("All"), this));
-    ui->myRigCombo->setModel(new SqlListModel("SELECT DISTINCT my_rig FROM contacts ORDER BY my_gridsquare", tr("All"), this));
-    ui->myAntennaCombo->setModel(new SqlListModel("SELECT DISTINCT my_antenna FROM contacts ORDER BY my_gridsquare", tr("All"), this));
-    ui->bandCombo->setModel(new SqlListModel("SELECT name FROM bands ORDER BY start_freq", tr("All"), this));
+    ui->myCallCombo->setModel(new QStringListModel(this));
+    refreshCallCombo();
+
+    ui->myGridCombo->setModel(new QStringListModel(this));
+    refreshGridCombo();
+
+    ui->myRigCombo->setModel(new QStringListModel(this));
+    refreshRigCombo();
+
+    ui->myAntennaCombo->setModel(new QStringListModel(this));
+    refreshAntCombo();
+
+    ui->bandCombo->setModel(new QStringListModel(this));
+    refreshBandCombo();
 
     ui->graphView->setRenderHint(QPainter::Antialiasing);
     ui->graphView->setChart(new QChart());
@@ -685,4 +700,55 @@ void StatisticsWidget::drawFilledGridsOnMap(QSqlQuery &query)
     {
         main_page->runJavaScript(javaScript);
     }
+}
+
+void StatisticsWidget::refreshCallCombo()
+{
+    FCT_IDENTIFICATION;
+
+    refreshCombo(ui->myCallCombo, "SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign");
+}
+
+void StatisticsWidget::refreshRigCombo()
+{
+    FCT_IDENTIFICATION;
+
+    refreshCombo(ui->myRigCombo, "SELECT DISTINCT my_rig FROM contacts ORDER BY my_rig");
+}
+
+void StatisticsWidget::refreshAntCombo()
+{
+    FCT_IDENTIFICATION;
+
+    refreshCombo(ui->myAntennaCombo, "SELECT DISTINCT my_antenna FROM contacts ORDER BY my_antenna");
+}
+
+void StatisticsWidget::refreshBandCombo()
+{
+    FCT_IDENTIFICATION;
+
+    refreshCombo(ui->bandCombo, "SELECT DISTINCT band FROM contacts c, bands b WHERE c.band = b.name ORDER BY b.start_freq;");
+}
+
+void StatisticsWidget::refreshGridCombo()
+{
+    FCT_IDENTIFICATION;
+
+    refreshCombo(ui->myGridCombo, "SELECT DISTINCT UPPER(my_gridsquare) FROM contacts ORDER BY my_gridsquare");
+}
+
+void StatisticsWidget::refreshCombo(QComboBox * combo, QString sqlQeury)
+{
+    FCT_IDENTIFICATION;
+
+    QString currSelection = combo->currentText();
+
+    combo->blockSignals(true);
+    combo->clear();
+
+    combo->setModel(new SqlListModel(sqlQeury,tr("All"), this));
+
+    combo->setCurrentText(currSelection);
+    combo->blockSignals(false);
+
 }

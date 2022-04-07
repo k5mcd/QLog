@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 #include <QPieSeries>
 #include <QWebEngineView>
+#include <QComboBox>
 
 namespace Ui {
 class StatisticsWidget;
@@ -34,6 +35,12 @@ private:
     void drawMyLocationsOnMap(QSqlQuery &);
     void drawPointsOnMap(QSqlQuery&);
     void drawFilledGridsOnMap(QSqlQuery&);
+    void refreshCallCombo();
+    void refreshRigCombo();
+    void refreshAntCombo();
+    void refreshBandCombo();
+    void refreshGridCombo();
+    void refreshCombo(QComboBox * combo, QString sqlQeury);
 
 private:
     Ui::StatisticsWidget *ui;
