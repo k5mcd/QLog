@@ -42,6 +42,15 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Apr 8 2022 Ladislav Foldyna - 0.7.0-1
+- [NEW] Ant/Rig/Rot Profiles
+- [NEW] Rig widget shows additional information
+- [NEW] Rig widget Band/Mode/Profile Changer
+- [NEW] Rot profile Changer
+- [NEW] AZ/EL are stored when Rot is connected
+- Fixed an issue with Statistic widget (issue #25)
+- Fixed Rot AZ current value (issue #22)
+
 * Thu Mar 10 2022 Ladislav Foldyna - 0.6.5-1
 - Fixed missing modes in Setting Dialog (issue #11)
 - Fixed Station Profile text color in dark mode (issue #10)
