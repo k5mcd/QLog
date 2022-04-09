@@ -4,14 +4,15 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QTimer>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
+//#include <QJsonDocument>
+//#include <QJsonObject>
+//#include <QJsonArray>
+#include <QDomDocument>
 #include "Conditions.h"
 #include "debug.h"
 
-#define FLUX_URL "https://services.swpc.noaa.gov/products/summary/10cm-flux.json"
-#define K_INDEX_URL "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
+//#define FLUX_URL "https://services.swpc.noaa.gov/products/summary/10cm-flux.json"
+#define K_INDEX_URL "https://www.hamqsl.com/solarxml.php"
 
 MODULE_IDENTIFICATION("qlog.core.conditions");
 
@@ -31,7 +32,7 @@ Conditions::Conditions(QObject *parent) : QObject(parent)
 void Conditions::update() {
     FCT_IDENTIFICATION;
 
-    nam->get(QNetworkRequest(QUrl(FLUX_URL)));
+    //nam->get(QNetworkRequest(QUrl(FLUX_URL)));
     nam->get(QNetworkRequest(QUrl(K_INDEX_URL)));
 }
 
@@ -42,20 +43,62 @@ void Conditions::processReply(QNetworkReply* reply) {
 
     qCDebug(runtime) << data;
 
-    if (reply->isFinished() && reply->error() == QNetworkReply::NoError) {
-        QJsonDocument doc = QJsonDocument::fromJson(data);
-
-        if (reply->url() == QUrl(FLUX_URL))
+    if (reply->isFinished()
+        && reply->error() == QNetworkReply::NoError)
+    {
+       /* if (reply->url() == QUrl(FLUX_URL))
         {
+            qInfo()<<"ladas";
+            QJsonDocument doc = QJsonDocument::fromJson(data);
             QVariantMap obj = doc.object().toVariantMap();
             flux = obj.value("Flux").toInt();
             flux_last_update = QDateTime::currentDateTime();
         }
-        else if (reply->url() == QUrl(K_INDEX_URL)) {
-            k_index = doc.array().last().toArray().at(2).toString().toDouble();
-            a_index = doc.array().last().toArray().at(3).toString().toInt();
-            k_index_last_update = QDateTime::currentDateTime();
-            a_index_last_update = k_index_last_update;
+        else */
+        if (reply->url() == QUrl(K_INDEX_URL))
+        {
+            QDomDocument doc;
+
+            if ( !doc.setContent(data) )
+            {
+                qWarning() << "Cannot parse response from " << K_INDEX_URL;
+                return;
+            }
+
+            QDomNodeList solarData = doc.elementsByTagName("solardata");
+            QDomNode n = solarData.item(0);
+
+            if ( n.isNull() )
+            {
+                qWarning() << "Cannot find solardata in " << K_INDEX_URL;
+                return;
+            }
+
+            QDomElement aindex = n.firstChildElement("aindex");
+            QDomElement kindex = n.firstChildElement("kindex");
+            QDomElement solarflux = n.firstChildElement("solarflux");
+
+            if ( !aindex.isNull() )
+            {
+                a_index = aindex.text().toInt();
+                qCDebug(runtime) << "A-Index: " << a_index;
+                a_index_last_update = QDateTime::currentDateTime();
+            }
+
+            if ( !kindex.isNull() )
+            {
+                k_index = kindex.text().toDouble();
+                qCDebug(runtime) << "K-Index: " << k_index;
+                k_index_last_update = QDateTime::currentDateTime();
+            }
+
+            if ( !solarflux.isNull() )
+            {
+                flux = solarflux.text().toInt();
+                qCDebug(runtime) << "Flux: " << flux;
+                flux_last_update = QDateTime::currentDateTime();
+
+            }
         }
         reply->deleteLater();
         emit conditionsUpdated();
