@@ -87,13 +87,15 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     bandTableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
     bandTableModel->setSort(2, Qt::AscendingOrder);
     bandTableModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    bandTableModel->setHeaderData(2, Qt::Horizontal, tr("Start"));
-    bandTableModel->setHeaderData(3, Qt::Horizontal, tr("End"));
+    bandTableModel->setHeaderData(2, Qt::Horizontal, tr("Start (MHz)"));
+    bandTableModel->setHeaderData(3, Qt::Horizontal, tr("End (MHz)"));
     bandTableModel->setHeaderData(4, Qt::Horizontal, tr("State"));
     ui->bandTableView->setModel(bandTableModel);
 
     ui->bandTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->bandTableView->hideColumn(0);
+    ui->bandTableView->setItemDelegateForColumn(2, new UnitFormatDelegate("", 6, 0.001, ui->bandTableView));
+    ui->bandTableView->setItemDelegateForColumn(3, new UnitFormatDelegate("", 6, 0.001, ui->bandTableView));
     ui->bandTableView->setItemDelegateForColumn(4,new CheckBoxDelegate(ui->bandTableView));
     ui->bandTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
