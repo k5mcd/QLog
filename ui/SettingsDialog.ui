@@ -556,32 +556,7 @@
                        </property>
                        <item>
                         <property name="text">
-                         <string notr="true">1200</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>2400</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>4800</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>9600</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>19200</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>38400</string>
+                         <string notr="true">115200</string>
                         </property>
                        </item>
                        <item>
@@ -591,7 +566,32 @@
                        </item>
                        <item>
                         <property name="text">
-                         <string notr="true">115200</string>
+                         <string>38400</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>19200</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>9600</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>4800</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>2400</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">1200</string>
                         </property>
                        </item>
                       </widget>
@@ -607,12 +607,7 @@
                       <widget class="QComboBox" name="rigDataBitsSelect">
                        <item>
                         <property name="text">
-                         <string>5</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>6</string>
+                         <string>8</string>
                         </property>
                        </item>
                        <item>
@@ -622,7 +617,12 @@
                        </item>
                        <item>
                         <property name="text">
-                         <string>8</string>
+                         <string>6</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>5</string>
                         </property>
                        </item>
                       </widget>
