@@ -130,7 +130,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->rigFlowControlSelect->addItem(tr("Hardware"), Rig::SERIAL_FLOWCONTROL_HARDWARE);
     ui->rigFlowControlSelect->addItem(tr("Software"), Rig::SERIAL_FLOWCONTROL_SOFTWARE);
 
-    ui->rigParitySelect->addItem(tr("None"), Rig::SERIAL_PARITY_NONE);
+    ui->rigParitySelect->addItem(tr("No"), Rig::SERIAL_PARITY_NO);
     ui->rigParitySelect->addItem(tr("Even"), Rig::SERIAL_PARITY_EVEN);
     ui->rigParitySelect->addItem(tr("Odd"), Rig::SERIAL_PARITY_ODD);
     ui->rigParitySelect->addItem(tr("Mark"), Rig::SERIAL_PARITY_MARK);
@@ -140,7 +140,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->rotFlowControlSelect->addItem(tr("Hardware"), Rotator::SERIAL_FLOWCONTROL_HARDWARE);
     ui->rotFlowControlSelect->addItem(tr("Software"), Rotator::SERIAL_FLOWCONTROL_SOFTWARE);
 
-    ui->rotParitySelect->addItem(tr("None"), Rotator::SERIAL_PARITY_NONE);
+    ui->rotParitySelect->addItem(tr("No"), Rotator::SERIAL_PARITY_NO);
     ui->rotParitySelect->addItem(tr("Even"), Rotator::SERIAL_PARITY_EVEN);
     ui->rotParitySelect->addItem(tr("Odd"), Rotator::SERIAL_PARITY_ODD);
     ui->rotParitySelect->addItem(tr("Mark"), Rotator::SERIAL_PARITY_MARK);
@@ -306,8 +306,8 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigBaudSelect->setCurrentText(QString::number(profile.baudrate));
     ui->rigDataBitsSelect->setCurrentText(QString::number(profile.databits));
     ui->rigStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
-    ui->rigFlowControlSelect->setCurrentIndex(ui->rigFlowControlSelect->findData(profile.flowcontrol));
-    ui->rigParitySelect->setCurrentIndex(ui->rigParitySelect->findData(profile.parity));
+    ui->rigFlowControlSelect->setCurrentIndex(ui->rigFlowControlSelect->findData(profile.flowcontrol.toLower()));
+    ui->rigParitySelect->setCurrentIndex(ui->rigParitySelect->findData(profile.parity.toLower()));
     ui->rigPollIntervalSpinBox->setValue(profile.pollInterval);
     ui->rigTXFreqMinSpinBox->setValue(profile.txFreqStart);
     ui->rigTXFreqMaxSpinBox->setValue(profile.txFreqEnd);
@@ -489,8 +489,8 @@ void SettingsDialog::doubleClickRotProfile(QModelIndex i)
     ui->rotBaudSelect->setCurrentText(QString::number(profile.baudrate));
     ui->rotDataBitsSelect->setCurrentText(QString::number(profile.databits));
     ui->rotStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
-    ui->rotFlowControlSelect->setCurrentIndex(ui->rotFlowControlSelect->findData(profile.flowcontrol));
-    ui->rotParitySelect->setCurrentIndex(ui->rotParitySelect->findData(profile.parity));
+    ui->rotFlowControlSelect->setCurrentIndex(ui->rotFlowControlSelect->findData(profile.flowcontrol.toLower()));
+    ui->rotParitySelect->setCurrentIndex(ui->rotParitySelect->findData(profile.parity.toLower()));
     ui->rotAddProfileButton->setText(tr("Modify"));
 }
 
@@ -566,7 +566,6 @@ void SettingsDialog::refreshAntProfilesView()
     profiles.clear();
 
     profiles << antProfManager->profileNameList();
-
     model->setStringList(profiles);
 }
 
