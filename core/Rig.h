@@ -4,7 +4,7 @@
 #include <QtCore>
 #include <hamlib/rig.h>
 #include "data/RigProfile.h"
-
+#include "core/SerialPort.h"
 
 #define QSTRING_FREQ(f) (QString::number((f), 'f', 5))
 #define Hz2MHz(f) ((double)((f)/1e6))
@@ -66,7 +66,8 @@ private:
     VFOID ID;
 };
 
-class Rig : public QObject {
+class Rig : public SerialPort
+{
     Q_OBJECT
 
 public:

@@ -4,10 +4,11 @@
 #include <QtCore>
 #include <hamlib/rotator.h>
 #include "data/RotProfile.h"
+#include "core/SerialPort.h"
 
 struct rot;
 
-class Rotator : public QObject
+class Rotator : public SerialPort
 {
     Q_OBJECT
 

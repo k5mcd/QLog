@@ -48,6 +48,7 @@ SOURCES += \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/Sat.cpp \
+        core/SerialPort.cpp \
         core/SwitchButton.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
@@ -121,6 +122,7 @@ HEADERS += \
         core/Rig.h \
         core/Rotator.h \
         core/Sat.h \
+        core/SerialPort.h \
         core/StyleItemDelegate.h \
         core/SwitchButton.h \
         core/Wsjtx.h \

@@ -27,6 +27,8 @@
 #include "core/Wsjtx.h"
 #include "core/PaperQSL.h"
 #include "core/NetworkNotification.h"
+#include "core/Rig.h"
+#include "core/Rotator.h"
 
 #define WIDGET_INDEX_SERIAL_RIG  0
 #define STACKED_WIDGET_NETWORK_RIG 1
@@ -123,6 +125,26 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
     ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
+
+    ui->rigFlowControlSelect->addItem(tr("None"), Rig::SERIAL_FLOWCONTROL_NONE);
+    ui->rigFlowControlSelect->addItem(tr("Hardware"), Rig::SERIAL_FLOWCONTROL_HARDWARE);
+    ui->rigFlowControlSelect->addItem(tr("Software"), Rig::SERIAL_FLOWCONTROL_SOFTWARE);
+
+    ui->rigParitySelect->addItem(tr("None"), Rig::SERIAL_PARITY_NONE);
+    ui->rigParitySelect->addItem(tr("Even"), Rig::SERIAL_PARITY_EVEN);
+    ui->rigParitySelect->addItem(tr("Odd"), Rig::SERIAL_PARITY_ODD);
+    ui->rigParitySelect->addItem(tr("Mark"), Rig::SERIAL_PARITY_MARK);
+    ui->rigParitySelect->addItem(tr("Space"), Rig::SERIAL_PARITY_SPACE);
+
+    ui->rotFlowControlSelect->addItem(tr("None"), Rotator::SERIAL_FLOWCONTROL_NONE);
+    ui->rotFlowControlSelect->addItem(tr("Hardware"), Rotator::SERIAL_FLOWCONTROL_HARDWARE);
+    ui->rotFlowControlSelect->addItem(tr("Software"), Rotator::SERIAL_FLOWCONTROL_SOFTWARE);
+
+    ui->rotParitySelect->addItem(tr("None"), Rotator::SERIAL_PARITY_NONE);
+    ui->rotParitySelect->addItem(tr("Even"), Rotator::SERIAL_PARITY_EVEN);
+    ui->rotParitySelect->addItem(tr("Odd"), Rotator::SERIAL_PARITY_ODD);
+    ui->rotParitySelect->addItem(tr("Mark"), Rotator::SERIAL_PARITY_MARK);
+    ui->rotParitySelect->addItem(tr("Space"), Rotator::SERIAL_PARITY_SPACE);
 
     readSettings();
 }
@@ -224,11 +246,11 @@ void SettingsDialog::addRigProfile()
                 0;
 
     profile.flowcontrol = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
-                ui->rigFlowControlSelect->currentText() :
-                0;
+                ui->rigFlowControlSelect->currentData().toString() :
+                QString();
 
     profile.parity = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
-                ui->rigParitySelect->currentText():
+                ui->rigParitySelect->currentData().toString():
                 QString();
 
     profile.pollInterval = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
@@ -284,8 +306,8 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigBaudSelect->setCurrentText(QString::number(profile.baudrate));
     ui->rigDataBitsSelect->setCurrentText(QString::number(profile.databits));
     ui->rigStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
-    ui->rigFlowControlSelect->setCurrentText(profile.flowcontrol);
-    ui->rigParitySelect->setCurrentText(profile.parity);
+    ui->rigFlowControlSelect->setCurrentIndex(ui->rigFlowControlSelect->findData(profile.flowcontrol));
+    ui->rigParitySelect->setCurrentIndex(ui->rigParitySelect->findData(profile.parity));
     ui->rigPollIntervalSpinBox->setValue(profile.pollInterval);
     ui->rigTXFreqMinSpinBox->setValue(profile.txFreqStart);
     ui->rigTXFreqMaxSpinBox->setValue(profile.txFreqEnd);
@@ -409,11 +431,11 @@ void SettingsDialog::addRotProfile()
                 0;
 
     profile.flowcontrol = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
-                ui->rotFlowControlSelect->currentText() :
-                0;
+                ui->rotFlowControlSelect->currentData().toString() :
+                QString();
 
     profile.parity = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
-                ui->rotParitySelect->currentText():
+                ui->rotParitySelect->currentData().toString():
                 QString();
 
     rotProfManager->addProfile(profile.profileName, profile);
@@ -467,9 +489,8 @@ void SettingsDialog::doubleClickRotProfile(QModelIndex i)
     ui->rotBaudSelect->setCurrentText(QString::number(profile.baudrate));
     ui->rotDataBitsSelect->setCurrentText(QString::number(profile.databits));
     ui->rotStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
-    ui->rotFlowControlSelect->setCurrentText(profile.flowcontrol);
-    ui->rotParitySelect->setCurrentText(profile.parity);
-
+    ui->rotFlowControlSelect->setCurrentIndex(ui->rotFlowControlSelect->findData(profile.flowcontrol));
+    ui->rotParitySelect->setCurrentIndex(ui->rotParitySelect->findData(profile.parity));
     ui->rotAddProfileButton->setText(tr("Modify"));
 }
 
@@ -770,6 +791,7 @@ void SettingsDialog::rigChanged(int index)
         ui->rigGetXITCheckBox->setEnabled(caps->get_xit);
         ui->rigGetXITCheckBox->setChecked(false);
 
+        ui->rigDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
     }
     else
     {

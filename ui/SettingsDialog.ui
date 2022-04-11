@@ -656,23 +656,7 @@
                       </widget>
                      </item>
                      <item row="4" column="1">
-                      <widget class="QComboBox" name="rigFlowControlSelect">
-                       <item>
-                        <property name="text">
-                         <string>None</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Hardware</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Software</string>
-                        </property>
-                       </item>
-                      </widget>
+                      <widget class="QComboBox" name="rigFlowControlSelect"/>
                      </item>
                      <item row="5" column="0">
                       <widget class="QLabel" name="rigParityLabel">
@@ -682,33 +666,7 @@
                       </widget>
                      </item>
                      <item row="5" column="1">
-                      <widget class="QComboBox" name="rigParitySelect">
-                       <item>
-                        <property name="text">
-                         <string>No</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Even</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Odd</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Space</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Mark</string>
-                        </property>
-                       </item>
-                      </widget>
+                      <widget class="QComboBox" name="rigParitySelect"/>
                      </item>
                      <item row="6" column="0">
                       <widget class="QLabel" name="rigPollIntervalLabel">
@@ -1148,23 +1106,7 @@
                       </widget>
                      </item>
                      <item row="4" column="1">
-                      <widget class="QComboBox" name="rotFlowControlSelect">
-                       <item>
-                        <property name="text">
-                         <string>None</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Hardware</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Software</string>
-                        </property>
-                       </item>
-                      </widget>
+                      <widget class="QComboBox" name="rotFlowControlSelect"/>
                      </item>
                      <item row="5" column="0">
                       <widget class="QLabel" name="rotParityLabel">
@@ -1174,33 +1116,7 @@
                       </widget>
                      </item>
                      <item row="5" column="1">
-                      <widget class="QComboBox" name="rotParitySelect">
-                       <item>
-                        <property name="text">
-                         <string>No</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Even</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Odd</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Space</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>Mark</string>
-                        </property>
-                       </item>
-                      </widget>
+                      <widget class="QComboBox" name="rotParitySelect"/>
                      </item>
                     </layout>
                    </widget>
