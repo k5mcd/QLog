@@ -69,7 +69,8 @@ void Rig::update()
     /************/
     /* Get Freq */
     /************/
-    if ( connectedRigProfile.getFreqInfo )
+    if ( connectedRigProfile.getFreqInfo
+         && rig->caps->get_freq )
     {
         freq_t vfo_freq;
         int status = rig_get_freq(rig, RIG_VFO_CURR, &vfo_freq);
@@ -109,7 +110,8 @@ void Rig::update()
     /************/
     /* Get Mode */
     /************/
-    if ( connectedRigProfile.getModeInfo )
+    if ( connectedRigProfile.getModeInfo
+         && rig->caps->get_mode )
     {
         pbwidth_t pbwidth;
         rmode_t curr_modeId;
@@ -152,7 +154,8 @@ void Rig::update()
     /************/
     /* Get VFO  */
     /************/
-    if ( connectedRigProfile.getVFOInfo)
+    if ( connectedRigProfile.getVFOInfo
+         && rig->caps->get_vfo )
     {
         vfo_t curr_vfo;
 
@@ -189,7 +192,9 @@ void Rig::update()
     /* Get PWR  */
     /************/
 
-    if ( connectedRigProfile.getPWRInfo )
+    if ( connectedRigProfile.getPWRInfo
+         && rig->caps->get_level
+         && rig->caps->power2mW )
     {
         value_t rigPowerLevel;
         unsigned int rigPower;
@@ -240,7 +245,8 @@ void Rig::update()
     /************/
     /* Get RIT  */
     /************/
-    if ( connectedRigProfile.getRITInfo)
+    if ( connectedRigProfile.getRITInfo
+         && rig->caps->get_rit )
     {
         shortfreq_t rit;
 
@@ -276,7 +282,8 @@ void Rig::update()
     /************/
     /* Get XIT  */
     /************/
-    if ( connectedRigProfile.getXITInfo)
+    if ( connectedRigProfile.getXITInfo
+         && rig->caps->get_xit )
     {
         shortfreq_t xit;
 

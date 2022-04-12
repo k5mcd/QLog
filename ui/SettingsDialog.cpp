@@ -300,6 +300,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigProfileNameEdit->setText(profile.profileName);
 
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(profile.model));
+
     ui->rigPortEdit->setText(profile.portPath);
     ui->rigHostNameEdit->setText(profile.hostname);
     ui->rigNetPortSpin->setValue(profile.netport);
@@ -319,6 +320,8 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigGetXITCheckBox->setChecked(profile.getXITInfo);
     ui->rigRXOffsetSpinBox->setValue(profile.ritOffset);
     ui->rigTXOffsetSpinBox->setValue(profile.xitOffset);
+
+    fixRigCap(rig_get_caps(profile.model));
 
     ui->rigAddProfileButton->setText(tr("Modify"));
 }
@@ -748,6 +751,8 @@ void SettingsDialog::clearStationProfileForm()
     ui->stationAddProfileButton->setText(tr("Add"));
 }
 
+/* This function is called when an user change Rig Combobox */
+/* new rig entered */
 void SettingsDialog::rigChanged(int index)
 {
     FCT_IDENTIFICATION;
@@ -770,8 +775,11 @@ void SettingsDialog::rigChanged(int index)
         else
         {
             ui->rigStackedWidget->setCurrentIndex(0);
+            ui->rigDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
+            ui->rigStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
         }
 
+        /* Set rig Caps */
         ui->rigGetFreqCheckBox->setEnabled(caps->get_freq);
         ui->rigGetFreqCheckBox->setChecked(caps->get_freq);
 
@@ -781,8 +789,10 @@ void SettingsDialog::rigChanged(int index)
         ui->rigGetVFOCheckBox->setEnabled(caps->get_vfo);
         ui->rigGetVFOCheckBox->setChecked(caps->get_vfo);
 
-        ui->rigGetPWRCheckBox->setEnabled(caps->get_level && caps->power2mW);
-        ui->rigGetPWRCheckBox->setChecked(caps->get_level && caps->power2mW);
+        ui->rigGetPWRCheckBox->setEnabled(caps->get_level
+                                          && caps->power2mW);
+        ui->rigGetPWRCheckBox->setChecked(caps->get_level
+                                          && caps->power2mW);
 
         ui->rigGetRITCheckBox->setEnabled(caps->get_rit);
         ui->rigGetRITCheckBox->setChecked(false);
@@ -790,7 +800,7 @@ void SettingsDialog::rigChanged(int index)
         ui->rigGetXITCheckBox->setEnabled(caps->get_xit);
         ui->rigGetXITCheckBox->setChecked(false);
 
-        ui->rigDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
+        fixRigCap(caps);
     }
     else
     {
@@ -1183,6 +1193,69 @@ void SettingsDialog::writeSettings() {
     NetworkNotification::saveNotifQSOAdiAddrs(ui->notifQSOEdit->text());
     NetworkNotification::saveNotifDXSpotAddrs(ui->notifDXSpotsEdit->text());
     NetworkNotification::saveNotifWSJTXCQSpotAddrs(ui->notifWSJTXCQSpotsEdit->text());
+}
+
+/* this function is called when user modify rig progile
+ * there may be situations where hamlib change the cap
+ * for rig and it is necessary to change the settings of the rig.
+ * This feature does it */
+void SettingsDialog::fixRigCap(const struct rig_caps *caps)
+{
+    FCT_IDENTIFICATION;
+
+    if ( caps )
+    {
+        /* due to a hamlib issue #855 (https://github.com/Hamlib/Hamlib/issues/855)
+         * the PWR will be disabled for 4.3.x
+         * if someone tells me how to make a nice version identification of hamlib
+         * under Win / Lin / Mac , then I'll be happy to change it
+         */
+
+        if ( (caps->port_type == RIG_PORT_NETWORK
+               || caps->port_type == RIG_PORT_UDP_NETWORK)
+             && ( QString(hamlib_version).contains("4.2.")
+                  || QString(hamlib_version).contains("4.3.") ) )
+        {
+            ui->rigGetPWRCheckBox->setEnabled(false);
+            ui->rigGetPWRCheckBox->setChecked(false);
+        }
+
+        if ( ! caps->get_freq )
+        {
+            ui->rigGetFreqCheckBox->setEnabled(false);
+            ui->rigGetFreqCheckBox->setChecked(false);
+        }
+
+        if ( ! caps->get_mode )
+        {
+            ui->rigGetModeCheckBox->setEnabled(false);
+            ui->rigGetModeCheckBox->setChecked(false);
+        }
+
+        if ( ! caps->get_vfo )
+        {
+            ui->rigGetVFOCheckBox->setEnabled(false);
+            ui->rigGetVFOCheckBox->setChecked(false);
+        }
+
+        if ( ! caps->get_level || ! caps->power2mW )
+        {
+            ui->rigGetPWRCheckBox->setEnabled(false);
+            ui->rigGetPWRCheckBox->setChecked(false);
+        }
+
+        if ( ! caps->get_rit )
+        {
+            ui->rigGetRITCheckBox->setEnabled(false);
+            ui->rigGetRITCheckBox->setChecked(false);
+        }
+
+        if ( ! caps->get_xit )
+        {
+            ui->rigGetXITCheckBox->setEnabled(false);
+            ui->rigGetXITCheckBox->setChecked(false);
+        }
+    }
 }
 
 SettingsDialog::~SettingsDialog() {

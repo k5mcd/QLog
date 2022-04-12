@@ -111,22 +111,29 @@ void Rotator::update()
     azimuth_t az;
     elevation_t el;
 
-    status = rot_get_position(rot, &az, &el);
-    if ( status == RIG_OK )
+    if ( rot->caps->get_position )
     {
-        int newAzimuth = static_cast<int>(az);
-        int newElevation = static_cast<int>(el);
+        status = rot_get_position(rot, &az, &el);
+        if ( status == RIG_OK )
+        {
+            int newAzimuth = static_cast<int>(az);
+            int newElevation = static_cast<int>(el);
 
-        if (newAzimuth != this->azimuth || newElevation != this->elevation)  {
-            this->azimuth = newAzimuth;
-            this->elevation = newElevation;
-            emit positionChanged(azimuth, elevation);
+            if (newAzimuth != this->azimuth || newElevation != this->elevation)  {
+                this->azimuth = newAzimuth;
+                this->elevation = newElevation;
+                emit positionChanged(azimuth, elevation);
+            }
+        }
+        else
+        {
+            __closeRot();
+            emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
         }
     }
     else
     {
-       __closeRot();
-       emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
+        qCDebug(runtime) << "Get POSITION is disabled";
     }
 
     timer->start(1000);
