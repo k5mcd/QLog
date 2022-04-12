@@ -246,16 +246,32 @@ void Rig::update()
     /* Get RIT  */
     /************/
     if ( connectedRigProfile.getRITInfo
-         && rig->caps->get_rit )
+         && rig->caps->get_rit
+         && rig_has_get_func(rig, RIG_FUNC_RIT) )
     {
-        shortfreq_t rit;
+        int ritStatus;
+        shortfreq_t rit = s_Hz(0);
 
-        int status = rig_get_rit(rig, RIG_VFO_CURR, &rit);
-
-        if ( status == RIG_OK )
+        if ( rig_get_func(rig, RIG_VFO_CURR, RIG_FUNC_RIT, &ritStatus) == RIG_OK )
         {
+            if ( ritStatus )
+            {
+                /* RIT is on */
+                if ( rig_get_rit(rig, RIG_VFO_CURR, &rit) != RIG_OK )
+                {
+                    qWarning() << "Cannot get RIT";
+                    rit = s_Hz(0);
+                }
+            }
+            else
+            {
+                /* RIT is off */
+                rit = s_Hz(0);
+            }
+
             qCDebug(runtime) << "Current RIG raw RIT: "<< rit;
             qCDebug(runtime) << "Current LO raw RIT: "<< LoA.getRXOffset();
+            qCDebug(runtime) << "Current RIG RIT State: " << ritStatus;
 
             if ( static_cast<double>(rit) != LoA.getRXOffset() )
             {
@@ -273,6 +289,10 @@ void Rig::update()
                                       Hz2MHz(LoA.getXITFreq()));
             }
         }
+        else
+        {
+            qWarning() << "Cannot get RIG function RIG_FUNC_RIT";
+        }
     }
     else
     {
@@ -282,17 +302,34 @@ void Rig::update()
     /************/
     /* Get XIT  */
     /************/
+
     if ( connectedRigProfile.getXITInfo
-         && rig->caps->get_xit )
+         && rig->caps->get_xit
+         && rig_has_get_func(rig, RIG_FUNC_XIT) )
     {
-        shortfreq_t xit;
+        int xitStatus;
+        shortfreq_t xit = s_Hz(0);
 
-        int status = rig_get_xit(rig, RIG_VFO_CURR, &xit);
-
-        if ( status == RIG_OK )
+        if ( rig_get_func(rig, RIG_VFO_CURR, RIG_FUNC_XIT, &xitStatus) == RIG_OK )
         {
+            if ( xitStatus )
+            {
+                /* XIT is on */
+                if ( rig_get_xit(rig, RIG_VFO_CURR, &xit) != RIG_OK )
+                {
+                    qWarning() << "Cannot get XIT";
+                    xit = s_Hz(0);
+                }
+            }
+            else
+            {
+                /* XIT is off */
+                xit = s_Hz(0);
+            }
+
             qCDebug(runtime) << "Current RIG raw XIT: "<< xit;
             qCDebug(runtime) << "Current LO raw XIT: "<< LoA.getTXOffset();
+            qCDebug(runtime) << "Current RIG XIT State: " << xitStatus;
 
             if ( static_cast<double>(xit) != LoA.getTXOffset() )
             {
@@ -309,6 +346,10 @@ void Rig::update()
                                       Hz2MHz(LoA.getRITFreq()),
                                       Hz2MHz(LoA.getXITFreq()));
             }
+        }
+        else
+        {
+            qWarning() << "Cannot get RIG function RIG_FUNC_XIT";
         }
     }
     else
