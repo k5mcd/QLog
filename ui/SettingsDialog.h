@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include <QSqlTableModel>
 #include <QCompleter>
+#include <hamlib/rig.h>
 
 #include "data/StationProfile.h"
 #include "data/RigProfile.h"
@@ -69,6 +70,7 @@ public slots:
 private:
     void readSettings();
     void writeSettings();
+    void fixRigCap(const struct rig_caps *caps);
 
     QSqlTableModel* modeTableModel;
     QSqlTableModel* bandTableModel;
