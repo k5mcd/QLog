@@ -778,27 +778,26 @@ void SettingsDialog::rigChanged(int index)
             ui->rigStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
         }
 
-        /* Set rig Caps */
-        ui->rigGetFreqCheckBox->setEnabled(caps->get_freq);
-        ui->rigGetFreqCheckBox->setChecked(caps->get_freq);
+        /* Set default rig Caps */
+        ui->rigGetFreqCheckBox->setEnabled(true);
+        ui->rigGetFreqCheckBox->setChecked(true);
 
-        ui->rigGetModeCheckBox->setEnabled(caps->get_mode);
-        ui->rigGetModeCheckBox->setChecked(caps->get_mode);
+        ui->rigGetModeCheckBox->setEnabled(true);
+        ui->rigGetModeCheckBox->setChecked(true);
 
-        ui->rigGetVFOCheckBox->setEnabled(caps->get_vfo);
-        ui->rigGetVFOCheckBox->setChecked(caps->get_vfo);
+        ui->rigGetVFOCheckBox->setEnabled(true);
+        ui->rigGetVFOCheckBox->setChecked(true);
 
-        ui->rigGetPWRCheckBox->setEnabled(caps->get_level
-                                          && caps->power2mW);
-        ui->rigGetPWRCheckBox->setChecked(caps->get_level
-                                          && caps->power2mW);
+        ui->rigGetPWRCheckBox->setEnabled(true);
+        ui->rigGetPWRCheckBox->setChecked(true);
 
-        ui->rigGetRITCheckBox->setEnabled(caps->get_rit);
+        ui->rigGetRITCheckBox->setEnabled(true);
         ui->rigGetRITCheckBox->setChecked(false);
 
-        ui->rigGetXITCheckBox->setEnabled(caps->get_xit);
+        ui->rigGetXITCheckBox->setEnabled(true);
         ui->rigGetXITCheckBox->setChecked(false);
 
+        /* disable what is unimplemented */
         fixRigCap(caps);
     }
     else
@@ -1241,13 +1240,15 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
             ui->rigGetPWRCheckBox->setChecked(false);
         }
 
-        if ( ! caps->get_rit )
+        if ( ! caps->get_rit
+             || ! ((caps->has_get_func) & (RIG_FUNC_RIT)) )
         {
             ui->rigGetRITCheckBox->setEnabled(false);
             ui->rigGetRITCheckBox->setChecked(false);
         }
 
-        if ( ! caps->get_xit )
+        if ( ! caps->get_xit
+             || ! ((caps->has_get_func) & (RIG_FUNC_XIT)) )
         {
             ui->rigGetXITCheckBox->setEnabled(false);
             ui->rigGetXITCheckBox->setChecked(false);
