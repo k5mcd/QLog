@@ -98,6 +98,13 @@ signals:
     void rigDisconnected();
     void rigConnected();
 
+private slots:
+    void openImpl();
+    //void closeImpl; //must not be implemented because it is not blocked call
+    void setFrequencyImpl(double);
+    void setModeImpl(rmode_t);
+
+
 private:
     Rig(QObject *parent = nullptr);
     Rig(Rig const&);
@@ -117,5 +124,7 @@ private:
     QMutex rigLock;
     QTimer* timer;
 };
+
+Q_DECLARE_METATYPE(rmode_t);
 
 #endif // RIG_H

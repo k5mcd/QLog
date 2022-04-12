@@ -337,7 +337,15 @@ void Rig::update()
     rigLock.unlock();
 }
 
-void Rig::open() {
+void Rig::open()
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "openImpl", Qt::QueuedConnection);
+}
+
+void Rig::openImpl()
+{
     FCT_IDENTIFICATION;
 
     rigLock.lock();
@@ -456,8 +464,15 @@ void Rig::close()
     __closeRig();
     rigLock.unlock();
 }
-
 void Rig::setFrequency(double newFreq)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "setFrequencyImpl", Qt::QueuedConnection,
+                              Q_ARG(double,newFreq));
+}
+
+void Rig::setFrequencyImpl(double newFreq)
 {
     FCT_IDENTIFICATION;
 
@@ -495,7 +510,7 @@ void Rig::setMode(const QString &newMode, const QString &newSubMode)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<newMode << " " << newSubMode;
+    qCDebug(function_parameters) << newMode << " " << newSubMode;
 
     setMode(modeSubmodeToModeT(newMode, newSubMode));
 }
@@ -504,10 +519,20 @@ void Rig::setMode(const QString & newMode)
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(function_parameters) << newMode;
+
     setMode(rig_parse_mode(newMode.toLatin1()));
 }
 
-void Rig::setMode(rmode_t newModeID)
+void Rig::setMode(rmode_t newModeIDe)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "setModeImpl", Qt::QueuedConnection,
+                              Q_ARG(rmode_t,newModeIDe));
+}
+
+void Rig::setModeImpl(rmode_t newModeID)
 {
     FCT_IDENTIFICATION;
 
