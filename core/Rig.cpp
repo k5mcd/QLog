@@ -1,6 +1,7 @@
 #include <cstring>
 #include <qglobal.h>
 #include <hamlib/rig.h>
+#include <QApplication>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -634,6 +635,8 @@ Rig::Rig(QObject *parent) :
 
 Rig::~Rig()
 {
+    moveToThread(QApplication::instance()->thread());
+
     if ( timer )
     {
         timer->stop();

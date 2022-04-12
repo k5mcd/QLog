@@ -1,4 +1,5 @@
 #include <hamlib/rotator.h>
+#include <QApplication>
 #include "Rotator.h"
 #include "core/debug.h"
 #include "data/RotProfile.h"
@@ -29,6 +30,8 @@ Rotator::Rotator(QObject *parent) :
 
 Rotator::~Rotator()
 {
+    moveToThread(QApplication::instance()->thread());
+
     if ( timer )
     {
         timer->stop();
