@@ -64,6 +64,24 @@ bool Rotator::isRotConnected()
     return (rot) ? true : false;
 }
 
+bool Rotator::isNetworkRot(const rot_caps *caps)
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = false;
+
+    if ( caps )
+    {
+        ret = caps->port_type == RIG_PORT_NETWORK
+               || caps->port_type == RIG_PORT_UDP_NETWORK;
+    }
+
+    qCDebug(runtime) << ret;
+
+    return ret;
+
+}
+
 void Rotator::start() {
     FCT_IDENTIFICATION;
 
@@ -167,8 +185,7 @@ void Rotator::__openRot()
         return;
     }
 
-    if ( rot->caps->port_type == RIG_PORT_NETWORK
-         || rot->caps->port_type == RIG_PORT_UDP_NETWORK )
+    if ( isNetworkRot(rot->caps) )
     {
         // handling network rotator
         strncpy(rot->state.rotport.pathname, newRotProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);

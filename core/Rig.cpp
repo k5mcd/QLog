@@ -27,6 +27,23 @@ Rig* Rig::instance() {
     return &instance;
 }
 
+bool Rig::isNetworkRig(const struct rig_caps *caps)
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = false;
+
+    if ( caps )
+    {
+        ret = caps->port_type == RIG_PORT_NETWORK
+               || caps->port_type == RIG_PORT_UDP_NETWORK;
+    }
+
+    qCDebug(runtime) << ret;
+
+    return ret;
+}
+
 void Rig::start() {
     FCT_IDENTIFICATION;
 
@@ -367,8 +384,7 @@ void Rig::__openRig()
 
     rig_set_debug(RIG_DEBUG_BUG);
 
-    if (rig->caps->port_type == RIG_PORT_NETWORK
-        || rig->caps->port_type == RIG_PORT_UDP_NETWORK )
+    if ( isNetworkRig(rig->caps) )
     {
         //handling Network Radio
         strncpy(rig->state.rigport.pathname, newRigProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
@@ -534,7 +550,7 @@ QStringList Rig::getAvailableModes()
 {
     FCT_IDENTIFICATION;
 
-    QStringList modes;
+    QStringList modeList;
 
     RigProfile newRigProfile = RigProfilesManager::instance()->getCurProfile1();
 
@@ -542,25 +558,41 @@ QStringList Rig::getAvailableModes()
 
     if ( localRig )
     {
+        rmode_t localRigModes = RIG_MODE_NONE;
+
         if ( localRig->state.mode_list != RIG_MODE_NONE )
         {
-            for (unsigned char i = 0; i < (sizeof(rmode_t)*8)-1; i++ )  /* hamlib 3.x and 4.x are very different - workaround */
+            localRigModes = localRig->state.mode_list;
+        }
+        else
+        {
+            if ( isNetworkRig(localRig->caps) )
             {
-                const char *ms = rig_strrmode(static_cast<rmode_t>(localRig->state.mode_list & rig_idx2setting(i))); /* hamlib 3.x and 4.x are very different - workaround */
-
-                if (!ms || !ms[0])
-                {
-                    continue;    /* unknown, FIXME! */
-                }
-                qCDebug(runtime) << "Supported Mode :" << ms;
-
-                modes.append(QString(ms));
+                /* Network rig has no mode */
+                /* Add some modes */
+                localRigModes = (RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
             }
         }
+
+        /* hamlib 3.x and 4.x are very different - workaround */
+        for (unsigned char i = 0; i < (sizeof(rmode_t)*8)-1; i++ )
+        {
+            /* hamlib 3.x and 4.x are very different - workaround */
+            const char *ms = rig_strrmode(static_cast<rmode_t>(localRigModes & rig_idx2setting(i)));
+
+            if (!ms || !ms[0])
+            {
+                continue;
+            }
+            qCDebug(runtime) << "Supported Mode :" << ms;
+
+            modeList.append(QString(ms));
+        }
+
         rig_cleanup(localRig);
     }
 
-    return modes;
+    return modeList;
 }
 
 Rig::Rig(QObject *parent) :
@@ -572,6 +604,7 @@ Rig::Rig(QObject *parent) :
 
     rig = nullptr;
     rig_set_debug(RIG_DEBUG_BUG);
+    rig_load_all_backends();
 }
 
 Rig::~Rig()

@@ -767,8 +767,7 @@ void SettingsDialog::rigChanged(int index)
 
     if ( caps )
     {
-        if ( caps->port_type == RIG_PORT_NETWORK
-             || caps->port_type == RIG_PORT_UDP_NETWORK)
+        if ( Rig::isNetworkRig(caps) )
         {
             ui->rigStackedWidget->setCurrentIndex(1);
         }
@@ -820,8 +819,7 @@ void SettingsDialog::rotChanged(int index)
 
     if ( caps )
     {
-        if ( caps->port_type == RIG_PORT_NETWORK
-             || caps->port_type == RIG_PORT_UDP_NETWORK)
+        if ( Rotator::isNetworkRot(caps) )
         {
             ui->rotStackedWidget->setCurrentIndex(1);
         }
@@ -1211,8 +1209,7 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
          * under Win / Lin / Mac , then I'll be happy to change it
          */
 
-        if ( (caps->port_type == RIG_PORT_NETWORK
-               || caps->port_type == RIG_PORT_UDP_NETWORK)
+        if ( Rig::isNetworkRig(caps)
              && ( QString(hamlib_version).contains("4.2.")
                   || QString(hamlib_version).contains("4.3.") ) )
         {

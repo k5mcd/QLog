@@ -73,6 +73,8 @@ class Rig : public SerialPort
 public:
     static Rig* instance();
 
+    static bool isNetworkRig(const struct rig_caps *caps);
+
 public slots:
     void start();
     void update();
