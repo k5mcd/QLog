@@ -1,4 +1,5 @@
 #include <hamlib/rotator.h>
+#include <QApplication>
 #include "Rotator.h"
 #include "core/debug.h"
 #include "data/RotProfile.h"
@@ -29,6 +30,8 @@ Rotator::Rotator(QObject *parent) :
 
 Rotator::~Rotator()
 {
+    moveToThread(QApplication::instance()->thread());
+
     if ( timer )
     {
         timer->stop();
@@ -243,7 +246,7 @@ void Rotator::close()
     rotLock.unlock();
 }
 
-void Rotator::setPosition(int azimuth, int elevation) {
+void Rotator::setPositionImpl(int azimuth, int elevation) {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<azimuth<< " " << elevation;
@@ -274,4 +277,12 @@ void Rotator::setPosition(int azimuth, int elevation) {
 #endif
 
     rotLock.unlock();
+}
+
+void Rotator::setPosition(int azimuth, int elevation)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "setPositionImpl", Qt::QueuedConnection,
+                              Q_ARG(int,azimuth), Q_ARG(int,elevation));
 }
