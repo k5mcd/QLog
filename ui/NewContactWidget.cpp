@@ -406,7 +406,8 @@ void NewContactWidget::queryDatabase(QString callsign)
                         "       gridsquare, "
                         "       notes_intl, "
                         "       email, "
-                        "       web "
+                        "       web ,"
+                        "       darc_dok "
                         "FROM contacts "
                         "WHERE callsign = :callsign "
                         "ORDER BY start_time DESC LIMIT 1") )
@@ -430,6 +431,7 @@ void NewContactWidget::queryDatabase(QString callsign)
         ui->noteEdit->insertPlainText(query.value(3).toString());
         ui->emailEdit->setText(query.value(4).toString());
         ui->urlEdit->setText(query.value(5).toString());
+        ui->dokEdit->setText(query.value(6).toString());
 
         emit filterCallsign(callsign);
     }
