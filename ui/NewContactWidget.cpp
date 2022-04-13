@@ -401,7 +401,13 @@ void NewContactWidget::queryDatabase(QString callsign)
 
     QSqlQuery query;
 
-    if ( !query.prepare("SELECT name, qth, gridsquare "
+    if ( !query.prepare("SELECT name_intl, "
+                        "       qth_intl, "
+                        "       gridsquare, "
+                        "       notes_intl, "
+                        "       email, "
+                        "       web ,"
+                        "       darc_dok "
                         "FROM contacts "
                         "WHERE callsign = :callsign "
                         "ORDER BY start_time DESC LIMIT 1") )
@@ -422,6 +428,11 @@ void NewContactWidget::queryDatabase(QString callsign)
         ui->nameEdit->setText(query.value(0).toString());
         ui->qthEdit->setText(query.value(1).toString());
         ui->gridEdit->setText(query.value(2).toString());
+        ui->noteEdit->insertPlainText(query.value(3).toString());
+        ui->emailEdit->setText(query.value(4).toString());
+        ui->urlEdit->setText(query.value(5).toString());
+        ui->dokEdit->setText(query.value(6).toString());
+
         emit filterCallsign(callsign);
     }
     else
