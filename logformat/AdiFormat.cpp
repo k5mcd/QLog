@@ -319,6 +319,46 @@ void AdiFormat::readField(QString& field, QString& value) {
     }
 }
 
+void AdiFormat::importIntlField(const QString &sourceField,
+                                const QString &sourceFieldIntl,
+                                QSqlRecord& newQSORecord,
+                                QMap<QString, QVariant> &importedContact)
+{
+    FCT_IDENTIFICATION;
+
+    QVariant src = importedContact.take(sourceField);
+    QVariant srcIntl = importedContact.take(sourceFieldIntl);
+
+    /* In general, it is a hack because ADI must not contain
+     * _INTL fields. But some applications generate _INTL fields in ADI files
+     * therefore it is needed to implement a logic how to convert INTL fields
+     * to standard
+     */
+    if ( !src.isNull() && !srcIntl.isNull() )
+    {
+        /* ascii and intl are present */
+        newQSORecord.setValue(sourceField, src);
+        newQSORecord.setValue(sourceFieldIntl, srcIntl);
+    }
+    else if ( !src.isNull() && srcIntl.isNull() )
+    {
+        /* ascii is present but Intl is not present */
+        newQSORecord.setValue(sourceField, src);
+        newQSORecord.setValue(sourceFieldIntl, src);
+    }
+    else if ( src.isNull() && !srcIntl.isNull() )
+    {
+        /* ascii is empty but Intl is present */
+        newQSORecord.setValue(sourceField, Data::removeAccents(srcIntl.toString()));
+        newQSORecord.setValue(sourceFieldIntl, srcIntl);
+    }
+    else
+    {
+        /* both are empty */
+        /* do nothing */
+    }
+}
+
 bool AdiFormat::readContact(QMap<QString, QVariant>& contact)
 {
     FCT_IDENTIFICATION;
@@ -370,8 +410,6 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("callsign", contact.take("call"));
     record.setValue("rst_rcvd", contact.take("rst_rcvd"));
     record.setValue("rst_sent", contact.take("rst_sent"));
-    record.setValue("name", contact.take("name"));
-    record.setValue("qth", contact.take("qth"));
     record.setValue("gridsquare", contact.take("gridsquare").toString().toUpper());
     record.setValue("cqz", contact.take("cqz"));
     record.setValue("ituz", contact.take("ituz"));
@@ -379,7 +417,6 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("band", contact.take("band").toString().toLower());
     record.setValue("cont", contact.take("cont").toString().toUpper());
     record.setValue("dxcc", contact.take("dxcc"));
-    record.setValue("country", contact.take("country"));
     record.setValue("pfx", contact.take("pfx").toString().toUpper());
     record.setValue("state", contact.take("state").toString().toUpper());
     record.setValue("cnty", contact.take("cnty"));
@@ -393,8 +430,6 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("lotw_qsl_sent", parseQslSent(contact.take("lotw_qsl_sent").toString()));
     record.setValue("lotw_qslsdate", parseDate(contact.take("lotw_qslsdate").toString()));
     record.setValue("tx_pwr", contact.take("tx_pwr").toDouble());
-    record.setValue("address", contact.take("address"));
-    record.setValue("address_intl", contact.take("address_intl"));
     record.setValue("age", contact.take("age"));
     record.setValue("a_index", contact.take("a_index"));
     record.setValue("ant_az", contact.take("ant_az"));
@@ -408,11 +443,8 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("class",contact.take("class"));
     record.setValue("clublog_qso_upload_date",parseDate(contact.take("clublog_qso_upload_date").toString()));
     record.setValue("clublog_qso_upload_status",contact.take("clublog_qso_upload_status"));
-    record.setValue("comment",contact.take("comment"));
-    record.setValue("comment_intl",contact.take("comment_intl"));
     record.setValue("contacted_op",contact.take("contacted_op"));
     record.setValue("contest_id",contact.take("contest_id"));
-    record.setValue("country_intl",contact.take("country_intl"));
     record.setValue("credit_submitted",contact.take("credit_submitted"));
     record.setValue("credit_granted",contact.take("credit_granted"));
     record.setValue("darc_dok",contact.take("darc_dok"));
@@ -436,13 +468,7 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("lon",contact.take("lon"));
     record.setValue("max_bursts",contact.take("max_bursts"));
     record.setValue("ms_shower",contact.take("ms_shower"));
-    record.setValue("my_antenna",contact.take("my_antenna"));
-    record.setValue("my_antenna_intl",contact.take("my_antenna_intl"));
-    record.setValue("my_city",contact.take("my_city"));
-    record.setValue("my_city_intl",contact.take("my_city_intl"));
     record.setValue("my_cnty",contact.take("my_cnty"));
-    record.setValue("my_country",contact.take("my_country"));
-    record.setValue("my_country_intl",contact.take("my_country_intl"));
     record.setValue("my_cq_zone",contact.take("my_cq_zone"));
     record.setValue("my_dxcc",contact.take("my_dxcc"));
     record.setValue("my_fists",contact.take("my_fists"));
@@ -452,25 +478,10 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("my_itu_zone",contact.take("my_itu_zone"));
     record.setValue("my_lat",contact.take("my_lat"));
     record.setValue("my_lon",contact.take("my_lon"));
-    record.setValue("my_name",contact.take("my_name"));
-    record.setValue("my_name_intl",contact.take("my_name_intl"));
-    record.setValue("my_postal_code",contact.take("my_postal_code"));
-    record.setValue("my_postal_code_intl",contact.take("my_postal_code_intl"));
-    record.setValue("my_rig",contact.take("my_rig"));
-    record.setValue("my_rig_intl",contact.take("my_rig_intl"));
-    record.setValue("my_sig",contact.take("my_sig"));
-    record.setValue("my_sig_intl",contact.take("my_sig_intl"));
-    record.setValue("my_sig_info",contact.take("my_sig_info"));
-    record.setValue("my_sig_info_intl",contact.take("my_sig_info_intl"));
     record.setValue("my_sota_ref",contact.take("my_sota_ref"));
     record.setValue("my_state",contact.take("my_state"));
-    record.setValue("my_street",contact.take("my_street"));
-    record.setValue("my_street_intl",contact.take("my_street_intl"));
     record.setValue("my_usaca_counties",contact.take("my_usaca_counties"));
     record.setValue("my_vucc_grids",contact.take("my_vucc_grids").toString().toUpper());
-    record.setValue("name_intl",contact.take("name_intl"));
-    record.setValue("notes",contact.take("notes"));
-    record.setValue("notes_intl",contact.take("notes_intl"));
     record.setValue("nr_bursts",contact.take("nr_bursts"));
     record.setValue("nr_pings",contact.take("nr_pings"));
     record.setValue("operator",contact.take("operator"));
@@ -480,25 +491,16 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("public_key",contact.take("public_key"));
     record.setValue("qrzcom_qso_upload_date",parseDate(contact.take("qrzcom_qso_upload_date").toString()));
     record.setValue("qrzcom_qso_upload_status",contact.take("qrzcom_qso_upload_status"));
-    record.setValue("qslmsg",contact.take("qslmsg"));
-    record.setValue("qslmsg_intl",contact.take("qslmsg_intl"));
     record.setValue("qsl_rcvd_via",contact.take("qsl_rcvd_via"));
     record.setValue("qsl_sent_via",contact.take("qsl_sent_via"));
     record.setValue("qsl_via",contact.take("qsl_via"));
     record.setValue("qso_complete",contact.take("qso_complete"));
     record.setValue("qso_random",contact.take("qso_random").toString().toUpper());
-    record.setValue("qth_intl",contact.take("qth_intl"));
     record.setValue("region",contact.take("region"));
-    record.setValue("rig",contact.take("rig"));
-    record.setValue("rig_intl",contact.take("rig_intl"));
     record.setValue("rx_pwr",contact.take("rx_pwr"));
     record.setValue("sat_mode",contact.take("sat_mode"));
     record.setValue("sat_name",contact.take("sat_name"));
     record.setValue("sfi",contact.take("sfi"));
-    record.setValue("sig",contact.take("sig"));
-    record.setValue("sig_intl",contact.take("sig_intl"));
-    record.setValue("sig_info",contact.take("sig_info"));
-    record.setValue("sig_info_intl",contact.take("sig_info_intl"));
     record.setValue("silent_key",contact.take("silent_key").toString().toUtf8());
     record.setValue("skcc",contact.take("skcc"));
     record.setValue("sota_ref",contact.take("sota_ref"));
@@ -514,6 +516,26 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("ve_prov",contact.take("ve_prov"));
     record.setValue("vucc_grids",contact.take("vucc_grids").toString().toUpper());
     record.setValue("web",contact.take("web"));
+
+    importIntlField("name", "name_intl", record, contact);
+    importIntlField("address", "address_intl", record, contact);
+    importIntlField("comment", "comment_intl", record, contact);
+    importIntlField("country", "country_intl", record, contact);
+    importIntlField("my_antenna", "my_antenna_intl", record, contact);
+    importIntlField("my_city", "my_city_intl", record, contact);
+    importIntlField("my_country", "my_country_intl", record, contact);
+    importIntlField("my_name", "my_name_intl", record, contact);
+    importIntlField("my_postal_code", "my_postal_code_intl", record, contact);
+    importIntlField("my_rig", "my_rig_intl", record, contact);
+    importIntlField("my_sig", "my_sig_intl", record, contact);
+    importIntlField("my_sig_info", "my_sig_info_intl", record, contact);
+    importIntlField("my_street", "my_street_intl", record, contact);
+    importIntlField("notes", "notes_intl", record, contact);
+    importIntlField("qslmsg", "qslmsg_intl", record, contact);
+    importIntlField("qth", "qth_intl", record, contact);
+    importIntlField("rig", "rig_intl", record, contact);
+    importIntlField("sig", "sig_intl", record, contact);
+    importIntlField("sig_info", "sig_info_intl", record, contact);
 
     QString mode = contact.take("mode").toString().toUpper();
     QString submode = contact.take("submode").toString().toUpper();

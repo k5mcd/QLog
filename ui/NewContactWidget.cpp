@@ -1156,6 +1156,7 @@ void NewContactWidget::saveContact()
     if (!ui->noteEdit->toPlainText().isEmpty())
     {
         record.setValue("notes_intl", ui->noteEdit->toPlainText());
+        record.setValue("notes", Data::removeAccents(ui->noteEdit->toPlainText()));
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {

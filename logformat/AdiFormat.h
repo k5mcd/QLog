@@ -29,7 +29,10 @@ private:
 
     void writeField(const QString &name, const QString &value, const QString &type="");
     void readField(QString& field,QString& value);
-
+    void importIntlField(const QString &sourceField,
+                   const QString &sourceFieldIntl,
+                   QSqlRecord& newQSORecord,
+                   QMap<QString, QVariant> &importedContact);
 
     ParserState state = START;
     bool inHeader = false;

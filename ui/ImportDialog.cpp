@@ -7,6 +7,7 @@
 #include "data/StationProfile.h"
 #include "core/Gridsquare.h"
 #include "data/RigProfile.h"
+#include "data/Data.h"
 
 MODULE_IDENTIFICATION("qlog.ui.importdialog");
 
@@ -173,12 +174,16 @@ void ImportDialog::runImport() {
         defaults["my_gridsquare"] = ui->gridEdit->text();
     }
 
-    if (ui->rigCheckBox->isChecked()) {
-        defaults["my_rig"] = ui->rigSelect->currentText();
+    if (ui->rigCheckBox->isChecked())
+    {
+        defaults["my_rig"] = Data::removeAccents(ui->rigSelect->currentText());
+        defaults["my_rig_intl"] = ui->rigSelect->currentText();
     }
 
-    if (ui->commentCheckBox->isChecked()) {
-        defaults["comment"] = ui->commentEdit->text();
+    if (ui->commentCheckBox->isChecked())
+    {
+        defaults["comment"] = Data::removeAccents(ui->commentEdit->text());
+        defaults["comment_intl"] = ui->commentEdit->text();
     }
 
     LogFormat* format = LogFormat::open(ui->typeSelect->currentText(), in);
