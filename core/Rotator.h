@@ -34,6 +34,9 @@ public slots:
 
     void setPosition(int azimuth, int elevation);
 
+private slots:
+    void setPositionImpl(int azimuth, int elevation);
+
 private:
     Rotator(QObject *parent = nullptr);
     ~Rotator();
