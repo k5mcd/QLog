@@ -886,7 +886,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("sat_name").toString().isEmpty()
          && !ui->satNameEdit->text().isEmpty() )
     {
-        record.setValue("sat_name", ui->satNameEdit->text().toUpper());
+        record.setValue("sat_name", Data::removeAccents(ui->satNameEdit->text().toUpper()));
     }
 
     if ( record.value("my_rig").toString().isEmpty()
@@ -940,13 +940,13 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("my_iota").toString().isEmpty()
          && !profile.iota.isEmpty())
     {
-       record.setValue("my_iota", profile.iota.toUpper());
+       record.setValue("my_iota", Data::removeAccents(profile.iota.toUpper()));
     }
 
     if ( record.value("my_sota_ref").toString().isEmpty()
          && !profile.sota.isEmpty())
     {
-       record.setValue("my_sota_ref", profile.sota.toUpper());
+       record.setValue("my_sota_ref", Data::removeAccents(profile.sota.toUpper()));
     }
 
     if ( record.value("my_sig").toString().isEmpty()
@@ -1107,7 +1107,7 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->iotaEdit->text().isEmpty() )
     {
-        record.setValue("iota", ui->iotaEdit->text().toUpper());
+        record.setValue("iota", Data::removeAccents(ui->iotaEdit->text().toUpper()));
     }
 
     if ( ! ui->sigEdit->text().isEmpty() )
@@ -1126,7 +1126,7 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->qslSentViaBox->currentText().isEmpty() )
     {
-        record.setValue("qsl_sent_via", ui->qslSentViaBox->itemData(ui->qslSentViaBox->currentIndex()));
+        record.setValue("qsl_sent_via", Data::removeAccents(ui->qslSentViaBox->itemData(ui->qslSentViaBox->currentIndex()).toString()));
     }
 
     if ( coordPrec >= COORD_GRID)
@@ -1136,12 +1136,12 @@ void NewContactWidget::saveContact()
 
     if ( !ui->sotaEdit->text().isEmpty() )
     {
-        record.setValue("sota_ref", ui->sotaEdit->text().toUpper());
+        record.setValue("sota_ref", Data::removeAccents(ui->sotaEdit->text().toUpper()));
     }
 
     if ( !ui->dokEdit->text().isEmpty() )
     {
-        record.setValue("darc_dok", ui->dokEdit->text().toUpper());
+        record.setValue("darc_dok", Data::removeAccents(ui->dokEdit->text().toUpper()));
     }
 
     if ( !ui->vuccEdit->text().isEmpty() )
@@ -1161,7 +1161,7 @@ void NewContactWidget::saveContact()
     }
 
     if (!ui->qslViaEdit->text().isEmpty()) {
-        record.setValue("qsl_via", ui->qslViaEdit->text().toUpper());
+        record.setValue("qsl_via", Data::removeAccents(ui->qslViaEdit->text().toUpper()));
     }
 
     if (!ui->ageEdit->text().isEmpty()
@@ -1171,11 +1171,11 @@ void NewContactWidget::saveContact()
     }
 
     if (!ui->emailEdit->text().isEmpty()) {
-        record.setValue("email", ui->emailEdit->text());
+        record.setValue("email", Data::removeAccents(ui->emailEdit->text()));
     }
 
     if (!ui->urlEdit->text().isEmpty()) {
-        record.setValue("web", ui->urlEdit->text());
+        record.setValue("web", Data::removeAccents(ui->urlEdit->text()));
     }    
 
     addAddlFields(record);
