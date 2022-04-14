@@ -44,8 +44,8 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_LOTW_SENT_DATE, Qt::Horizontal, tr("LoTWs Date"));
     setHeaderData(COLUMN_TX_POWER, Qt::Horizontal, tr("TX PWR"));
     setHeaderData(COLUMN_FIELDS, Qt::Horizontal, tr("Additional Fields"));
-    setHeaderData(COLUMN_ADDRESS, Qt::Horizontal, tr("Address"));
-    setHeaderData(COLUMN_ADDRESS_INTL, Qt::Horizontal, tr("Address(Int)"));
+    setHeaderData(COLUMN_ADDRESS, Qt::Horizontal, tr("Address (ASCII)"));
+    setHeaderData(COLUMN_ADDRESS_INTL, Qt::Horizontal, tr("Address"));
     setHeaderData(COLUMN_AGE, Qt::Horizontal, tr("Age"));
     setHeaderData(COLUMN_A_INDEX, Qt::Horizontal, tr("A-Index"));
     setHeaderData(COLUMN_ANT_AZ, Qt::Horizontal, tr("Antenna Az"));
@@ -443,6 +443,120 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         {
             /* Do not allow to edit them */
             depend_update_result = false;
+            break;
+        }
+
+        case COLUMN_ADDRESS_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_ADDRESS), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_COMMENT_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COMMENT), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_COUNTRY_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_ANTENNA_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ANTENNA), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_CITY_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_CITY), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_COUNTRY_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_NAME_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_NAME), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_POSTAL_CODE_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_POSTAL_CODE), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_RIG_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_RIG), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_SIG_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_SIG), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_SIG_INFO_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_SIG_INFO), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_MY_STREET_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_STREET), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_NAME_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_NAME), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_NOTES_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_NOTES), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_QSLMSG_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_QSLMSG), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_QTH_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_QTH), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_RIG_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_RIG), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_SIG_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_SIG), Data::removeAccents(value.toString()),role);
+            break;
+        }
+
+        case COLUMN_SIG_INFO_INTL:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_SIG_INFO), Data::removeAccents(value.toString()),role);
             break;
         }
 
