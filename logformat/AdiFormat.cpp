@@ -319,38 +319,38 @@ void AdiFormat::readField(QString& field, QString& value) {
     }
 }
 
-void AdiFormat::importIntlField(const QString &sourceField,
-                                const QString &sourceFieldIntl,
+void AdiFormat::importIntlField(const QString &fieldName,
+                                const QString &fieldIntlName,
                                 QSqlRecord& newQSORecord,
                                 QMap<QString, QVariant> &importedContact)
 {
     FCT_IDENTIFICATION;
 
-    QVariant src = importedContact.take(sourceField);
-    QVariant srcIntl = importedContact.take(sourceFieldIntl);
+    QVariant fld = importedContact.take(fieldName);
+    QVariant fldIntl = importedContact.take(fieldIntlName);
 
     /* In general, it is a hack because ADI must not contain
      * _INTL fields. But some applications generate _INTL fields in ADI files
      * therefore it is needed to implement a logic how to convert INTL fields
      * to standard
      */
-    if ( !src.isNull() && !srcIntl.isNull() )
+    if ( !fld.isNull() && !fldIntl.isNull() )
     {
         /* ascii and intl are present */
-        newQSORecord.setValue(sourceField, src);
-        newQSORecord.setValue(sourceFieldIntl, srcIntl);
+        newQSORecord.setValue(fieldName, fld);
+        newQSORecord.setValue(fieldIntlName, fldIntl);
     }
-    else if ( !src.isNull() && srcIntl.isNull() )
+    else if ( !fld.isNull() && fldIntl.isNull() )
     {
         /* ascii is present but Intl is not present */
-        newQSORecord.setValue(sourceField, src);
-        newQSORecord.setValue(sourceFieldIntl, src);
+        newQSORecord.setValue(fieldName, fld);
+        newQSORecord.setValue(fieldIntlName, fld);
     }
-    else if ( src.isNull() && !srcIntl.isNull() )
+    else if ( fld.isNull() && !fldIntl.isNull() )
     {
         /* ascii is empty but Intl is present */
-        newQSORecord.setValue(sourceField, Data::removeAccents(srcIntl.toString()));
-        newQSORecord.setValue(sourceFieldIntl, srcIntl);
+        newQSORecord.setValue(fieldName, Data::removeAccents(fldIntl.toString()));
+        newQSORecord.setValue(fieldIntlName, fldIntl);
     }
     else
     {

@@ -17,6 +17,11 @@ public:
     static QTime parseTime(const QString &time);
     static QString parseQslRcvd(const QString &value);
     static QString parseQslSent(const QString &value);
+    static void importIntlField(const QString &sourceField,
+                                const QString &sourceFieldIntl,
+                                QSqlRecord& newQSORecord,
+                                QMap<QString, QVariant> &importedContact);
+
 private:
     enum ParserState {
         START,
@@ -29,10 +34,6 @@ private:
 
     void writeField(const QString &name, const QString &value, const QString &type="");
     void readField(QString& field,QString& value);
-    void importIntlField(const QString &sourceField,
-                   const QString &sourceFieldIntl,
-                   QSqlRecord& newQSORecord,
-                   QMap<QString, QVariant> &importedContact);
 
     ParserState state = START;
     bool inHeader = false;
