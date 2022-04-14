@@ -344,12 +344,6 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
-        case COLUMN_BAND:
-        {
-            depend_update_result = false;
-            break;
-        }
-
         case COLUMN_GRID:
         {
             if ( ! value.toString().isEmpty() )
@@ -418,15 +412,6 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
-        case COLUMN_ID:
-        case COLUMN_COUNTRY:
-        case COLUMN_DISTANCE:
-        {
-            /* Do not allow to edit them */
-            depend_update_result = false;
-            break;
-        }
-
         case COLUMN_SAT_MODE:
         case COLUMN_SAT_NAME:
         {
@@ -451,49 +436,59 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
-        }
-    }
-
-    updateExternalServicesUploadStatus(index, role, depend_update_result);
-
-    if ( depend_update_result )
-    {
-        switch ( index.column() )
+        case COLUMN_ID: /* it is the primary key, do not update */
+        case COLUMN_COUNTRY:  /* it is a computed value, do not update */
+        case COLUMN_DISTANCE: /* it is a computed value, do not update */
+        case COLUMN_BAND: /* it is a computed value, do not update */
         {
-        case COLUMN_SOTA_REF:
-        case COLUMN_MY_SOTA_REF:
-        case COLUMN_IOTA:
-        case COLUMN_MY_IOTA:
-        case COLUMN_MY_GRIDSQUARE:
-        case COLUMN_CALL:
-        case COLUMN_GRID:
-            main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
+            /* Do not allow to edit them */
+            depend_update_result = false;
             break;
+        }
 
-        case COLUMN_ADDRESS_INTL:
-        case COLUMN_COMMENT_INTL:
-        case COLUMN_COUNTRY_INTL:
-        case COLUMN_MY_ANTENNA_INTL:
-        case COLUMN_MY_CITY_INTL:
-        case COLUMN_MY_COUNTRY_INTL:
-        case COLUMN_MY_NAME_INTL:
-        case COLUMN_MY_POSTAL_CODE_INTL:
-        case COLUMN_MY_RIG_INTL:
-        case COLUMN_MY_SIG_INTL:
-        case COLUMN_MY_SIG_INFO_INTL:
-        case COLUMN_MY_STREET_INTL:
-        case COLUMN_NAME_INTL:
-        case COLUMN_NOTES_INTL:
-        case COLUMN_QSLMSG_INTL:
-        case COLUMN_QTH_INTL:
-        case COLUMN_RIG_INTL:
-        case COLUMN_SIG_INTL:
-        case COLUMN_SIG_INFO_INTL:
-            main_update_result = QSqlTableModel::setData(index, value.toString(), role);
-            break;
+        }
 
-        default:
-            main_update_result = QSqlTableModel::setData(index, Data::removeAccents(value.toString()), role);
+        updateExternalServicesUploadStatus(index, role, depend_update_result);
+
+        if ( depend_update_result )
+        {
+            switch ( index.column() )
+            {
+            case COLUMN_SOTA_REF:
+            case COLUMN_MY_SOTA_REF:
+            case COLUMN_IOTA:
+            case COLUMN_MY_IOTA:
+            case COLUMN_MY_GRIDSQUARE:
+            case COLUMN_CALL:
+            case COLUMN_GRID:
+                main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
+                break;
+
+            case COLUMN_ADDRESS_INTL:
+            case COLUMN_COMMENT_INTL:
+            case COLUMN_COUNTRY_INTL:
+            case COLUMN_MY_ANTENNA_INTL:
+            case COLUMN_MY_CITY_INTL:
+            case COLUMN_MY_COUNTRY_INTL:
+            case COLUMN_MY_NAME_INTL:
+            case COLUMN_MY_POSTAL_CODE_INTL:
+            case COLUMN_MY_RIG_INTL:
+            case COLUMN_MY_SIG_INTL:
+            case COLUMN_MY_SIG_INFO_INTL:
+            case COLUMN_MY_STREET_INTL:
+            case COLUMN_NAME_INTL:
+            case COLUMN_NOTES_INTL:
+            case COLUMN_QSLMSG_INTL:
+            case COLUMN_QTH_INTL:
+            case COLUMN_RIG_INTL:
+            case COLUMN_SIG_INTL:
+            case COLUMN_SIG_INFO_INTL:
+                main_update_result = QSqlTableModel::setData(index, value.toString(), role);
+                break;
+
+            default:
+                main_update_result = QSqlTableModel::setData(index, Data::removeAccents(value.toString()), role);
+            }
         }
     }
 
