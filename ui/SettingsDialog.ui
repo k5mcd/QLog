@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>696</width>
-    <height>781</height>
+    <height>861</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -500,7 +500,71 @@
                    </item>
                   </layout>
                  </item>
-                 <item row="4" column="0" colspan="2">
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="rigRXOffsetLabel">
+                   <property name="text">
+                    <string>RX Offset</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QDoubleSpinBox" name="rigRXOffsetSpinBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>Enter manually RIT Value</string>
+                   </property>
+                   <property name="suffix">
+                    <string> MHz</string>
+                   </property>
+                   <property name="decimals">
+                    <number>5</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-999999.999990000040270</double>
+                   </property>
+                   <property name="maximum">
+                    <double>999999.999990000040270</double>
+                   </property>
+                   <property name="value">
+                    <double>0.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>TX Offset</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QDoubleSpinBox" name="rigTXOffsetSpinBox">
+                   <property name="toolTip">
+                    <string>Enter manually XIT Value</string>
+                   </property>
+                   <property name="prefix">
+                    <string/>
+                   </property>
+                   <property name="suffix">
+                    <string> MHz</string>
+                   </property>
+                   <property name="decimals">
+                    <number>5</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-999999.999990000040270</double>
+                   </property>
+                   <property name="maximum">
+                    <double>999999.999990000040270</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="0" colspan="2">
                   <widget class="QStackedWidget" name="rigStackedWidget">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -732,14 +796,14 @@
                    </widget>
                   </widget>
                  </item>
-                 <item row="5" column="0">
+                 <item row="8" column="0">
                   <widget class="QLabel" name="rigFeaturesLabel">
                    <property name="text">
                     <string>Get From Rig</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="5" column="1">
+                 <item row="8" column="1">
                   <widget class="QCheckBox" name="rigGetFreqCheckBox">
                    <property name="text">
                     <string>Current Freq</string>
@@ -749,7 +813,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="6" column="1">
+                 <item row="9" column="1">
                   <widget class="QCheckBox" name="rigGetModeCheckBox">
                    <property name="text">
                     <string>Current Mode</string>
@@ -759,7 +823,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="7" column="1">
+                 <item row="10" column="1">
                   <widget class="QCheckBox" name="rigGetVFOCheckBox">
                    <property name="text">
                     <string>Current VFO</string>
@@ -769,14 +833,14 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="8" column="0">
+                 <item row="11" column="0">
                   <widget class="QLabel" name="dummyLabel">
                    <property name="text">
                     <string/>
                    </property>
                   </widget>
                  </item>
-                 <item row="8" column="1">
+                 <item row="11" column="1">
                   <widget class="QCheckBox" name="rigGetPWRCheckBox">
                    <property name="text">
                     <string>Current Power</string>
@@ -786,101 +850,39 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="9" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_6">
-                   <property name="leftMargin">
-                    <number>0</number>
+                 <item row="12" column="1">
+                  <widget class="QCheckBox" name="rigGetRITCheckBox">
+                   <property name="text">
+                    <string>RX Offset (RIT)</string>
                    </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QCheckBox" name="rigGetRITCheckBox">
-                     <property name="text">
-                      <string>RX Offset (RIT)</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="rigRXOffsetSpinBox">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="toolTip">
-                      <string>Enter manually RIT Value</string>
-                     </property>
-                     <property name="suffix">
-                      <string> MHz</string>
-                     </property>
-                     <property name="decimals">
-                      <number>5</number>
-                     </property>
-                     <property name="minimum">
-                      <double>-999999.999990000040270</double>
-                     </property>
-                     <property name="maximum">
-                      <double>999999.999990000040270</double>
-                     </property>
-                     <property name="value">
-                      <double>0.000000000000000</double>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  </widget>
                  </item>
-                 <item row="11" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_7">
-                   <property name="leftMargin">
-                    <number>0</number>
+                 <item row="13" column="1">
+                  <widget class="QCheckBox" name="rigGetXITCheckBox">
+                   <property name="text">
+                    <string>TX Offset (XIT)</string>
                    </property>
-                   <property name="topMargin">
-                    <number>0</number>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="rigPWRDefaultLabel">
+                   <property name="text">
+                    <string>Default PWR</string>
                    </property>
-                   <property name="rightMargin">
-                    <number>0</number>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QDoubleSpinBox" name="rigPWRDefaultSpinBox">
+                   <property name="suffix">
+                    <string> W</string>
                    </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
+                   <property name="maximum">
+                    <double>1000000.000000000000000</double>
                    </property>
-                   <item>
-                    <widget class="QCheckBox" name="rigGetXITCheckBox">
-                     <property name="text">
-                      <string>TX Offset (XIT)</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="rigTXOffsetSpinBox">
-                     <property name="toolTip">
-                      <string>Enter manually XIT Value</string>
-                     </property>
-                     <property name="prefix">
-                      <string/>
-                     </property>
-                     <property name="suffix">
-                      <string> MHz</string>
-                     </property>
-                     <property name="decimals">
-                      <number>5</number>
-                     </property>
-                     <property name="minimum">
-                      <double>-999999.999990000040270</double>
-                     </property>
-                     <property name="maximum">
-                      <double>999999.999990000040270</double>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                   <property name="value">
+                    <double>100.000000000000000</double>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>
@@ -1802,6 +1804,9 @@
   <tabstop>rigModelSelect</tabstop>
   <tabstop>rigTXFreqMinSpinBox</tabstop>
   <tabstop>rigTXFreqMaxSpinBox</tabstop>
+  <tabstop>rigRXOffsetSpinBox</tabstop>
+  <tabstop>rigTXOffsetSpinBox</tabstop>
+  <tabstop>rigPWRDefaultSpinBox</tabstop>
   <tabstop>rigPortEdit</tabstop>
   <tabstop>rigBaudSelect</tabstop>
   <tabstop>rigDataBitsSelect</tabstop>
@@ -1816,9 +1821,7 @@
   <tabstop>rigGetVFOCheckBox</tabstop>
   <tabstop>rigGetPWRCheckBox</tabstop>
   <tabstop>rigGetRITCheckBox</tabstop>
-  <tabstop>rigRXOffsetSpinBox</tabstop>
   <tabstop>rigGetXITCheckBox</tabstop>
-  <tabstop>rigTXOffsetSpinBox</tabstop>
   <tabstop>rigAddProfileButton</tabstop>
   <tabstop>rigDelProfileButton</tabstop>
   <tabstop>rotProfileNameEdit</tabstop>
@@ -1874,8 +1877,8 @@
    <slot>cancelled()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>317</x>
-     <y>689</y>
+     <x>326</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -1890,8 +1893,8 @@
    <slot>save()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>317</x>
-     <y>689</y>
+     <x>326</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
      <x>297</x>
@@ -1906,8 +1909,8 @@
    <slot>rigChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>451</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -1922,8 +1925,8 @@
    <slot>tqslPathBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>76</y>
+     <x>662</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2018,8 +2021,8 @@
    <slot>eqslDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>83</y>
+     <x>662</x>
+     <y>475</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2066,8 +2069,8 @@
    <slot>primaryCallbookChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>76</y>
+     <x>154</x>
+     <y>135</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -2082,8 +2085,8 @@
    <slot>secondaryCallbookChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>76</y>
+     <x>473</x>
+     <y>135</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -2098,8 +2101,8 @@
    <slot>paperDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>90</y>
+     <x>662</x>
+     <y>627</y>
     </hint>
     <hint type="destinationlabel">
      <x>298</x>
@@ -2114,8 +2117,8 @@
    <slot>addRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>343</x>
+     <y>776</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2130,8 +2133,8 @@
    <slot>delRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>556</x>
+     <y>776</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2146,8 +2149,8 @@
    <slot>doubleClickRigProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>153</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2162,8 +2165,8 @@
    <slot>addAntProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>363</x>
+     <y>426</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2178,8 +2181,8 @@
    <slot>delAntProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>566</x>
+     <y>426</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2194,8 +2197,8 @@
    <slot>doubleClickAntProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>153</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2210,8 +2213,8 @@
    <slot>addRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>79</x>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2226,8 +2229,8 @@
    <slot>delRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>100</x>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2242,8 +2245,8 @@
    <slot>doubleClickRotProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2258,8 +2261,8 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>85</y>
+     <x>283</x>
+     <y>122</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -2274,8 +2277,8 @@
    <slot>rigRXOffsetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>406</x>
-     <y>598</y>
+     <x>640</x>
+     <y>704</y>
     </hint>
     <hint type="destinationlabel">
      <x>347</x>
@@ -2290,8 +2293,8 @@
    <slot>rigTXOffsetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>406</x>
-     <y>638</y>
+     <x>640</x>
+     <y>733</y>
     </hint>
     <hint type="destinationlabel">
      <x>347</x>

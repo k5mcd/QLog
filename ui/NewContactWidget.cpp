@@ -645,6 +645,7 @@ void NewContactWidget::refreshRigProfileCombo()
 
     ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
     ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
+    ui->powerEdit->setValue(RigProfilesManager::instance()->getCurProfile1().defaultPWR);
 
     ui->rigEdit->blockSignals(false);
 }
@@ -1487,6 +1488,11 @@ void NewContactWidget::rigConnected()
         ui->powerEdit->setEnabled(false);
         ui->powerEdit->setValue(0.0);
     }
+    else
+    {
+        ui->powerEdit->setEnabled(true);
+        ui->powerEdit->setValue(currProfile.defaultPWR);
+    }
 }
 
 /* disconnection slot */
@@ -1496,6 +1502,7 @@ void NewContactWidget::rigDisconnected()
     FCT_IDENTIFICATION;
 
     ui->powerEdit->setEnabled(true);
+    ui->powerEdit->setValue(RigProfilesManager::instance()->getCurProfile1().defaultPWR);
 }
 
 void NewContactWidget::tuneDx(QString callsign, double frequency)
@@ -1597,6 +1604,7 @@ void NewContactWidget::rigProfileComboChanged(QString profileName)
 
     ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
     ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
+    ui->powerEdit->setValue(RigProfilesManager::instance()->getCurProfile1().defaultPWR);
 
     emit rigProfileChanged();
 }

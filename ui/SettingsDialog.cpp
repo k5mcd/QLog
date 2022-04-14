@@ -275,6 +275,7 @@ void SettingsDialog::addRigProfile()
 
     profile.ritOffset = ui->rigRXOffsetSpinBox->value();
     profile.xitOffset = ui->rigTXOffsetSpinBox->value();
+    profile.defaultPWR = ui->rigPWRDefaultSpinBox->value();
 
     profile.getFreqInfo = ui->rigGetFreqCheckBox->isChecked();
     profile.getModeInfo = ui->rigGetModeCheckBox->isChecked();
@@ -328,6 +329,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigPollIntervalSpinBox->setValue(profile.pollInterval);
     ui->rigTXFreqMinSpinBox->setValue(profile.txFreqStart);
     ui->rigTXFreqMaxSpinBox->setValue(profile.txFreqEnd);
+    ui->rigPWRDefaultSpinBox->setValue(profile.defaultPWR);
     ui->rigGetFreqCheckBox->setChecked(profile.getFreqInfo);
     ui->rigGetModeCheckBox->setChecked(profile.getModeInfo);
     ui->rigGetVFOCheckBox->setChecked(profile.getVFOInfo);
@@ -354,6 +356,8 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
     ui->rigTXFreqMinSpinBox->setValue(0.0);
     ui->rigTXFreqMaxSpinBox->setValue(0.0);
+    ui->rigPWRDefaultSpinBox->setValue(100.0);
+    ui->rigPollIntervalSpinBox->setValue(500.0);
     ui->rigPortEdit->clear();
     ui->rigHostNameEdit->clear();
     ui->rigBaudSelect->setCurrentIndex(0);
