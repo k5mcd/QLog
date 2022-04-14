@@ -17,6 +17,8 @@ public:
     static QTime parseTime(const QString &time);
     static QString parseQslRcvd(const QString &value);
     static QString parseQslSent(const QString &value);
+    static QString parseUploadStatus(const QString &value);
+
     static void importIntlField(const QString &sourceField,
                                 const QString &sourceFieldIntl,
                                 QSqlRecord& newQSORecord,

@@ -134,7 +134,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("check",contact.take("check"));
     record.setValue("class",contact.take("class"));
     record.setValue("clublog_qso_upload_date",AdiFormat::parseDate(contact.take("clublog_qso_upload_date").toString()));
-    record.setValue("clublog_qso_upload_status",contact.take("clublog_qso_upload_status"));
+    record.setValue("clublog_qso_upload_status",AdiFormat::parseUploadStatus(contact.take("clublog_qso_upload_status").toString()));
     record.setValue("contacted_op",contact.take("contacted_op"));
     record.setValue("contest_id",contact.take("contest_id"));
     record.setValue("credit_submitted",contact.take("credit_submitted"));
@@ -145,15 +145,15 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("eq_call",contact.take("eq_call"));
     record.setValue("eqsl_qslrdate",AdiFormat::parseDate(contact.take("eqsl_qslrdate").toString()));
     record.setValue("eqsl_qslsdate",AdiFormat::parseDate(contact.take("eqsl_qslsdate").toString()));
-    record.setValue("eqsl_qsl_rcvd",contact.take("eqsl_qsl_rcvd"));
-    record.setValue("eqsl_qsl_sent",contact.take("eqsl_qsl_sent"));
+    record.setValue("eqsl_qsl_rcvd",AdiFormat::parseQslRcvd(contact.take("eqsl_qsl_rcvd").toString()));
+    record.setValue("eqsl_qsl_sent",AdiFormat::parseQslSent(contact.take("eqsl_qsl_sent").toString()));
     record.setValue("fists",contact.take("fists"));
     record.setValue("fists_cc",contact.take("fists_cc"));
     record.setValue("force_init",contact.take("force_init").toString().toUpper());
     record.setValue("freq_rx",contact.take("freq_rx"));
     record.setValue("guest_op",contact.take("guest_op"));
     record.setValue("hrdlog_qso_upload_date",AdiFormat::parseDate(contact.take("hrdlog_qso_upload_date").toString()));
-    record.setValue("hrdlog_qso_upload_status",contact.take("hrdlog_qso_upload_status"));
+    record.setValue("hrdlog_qso_upload_status",AdiFormat::parseUploadStatus(contact.take("hrdlog_qso_upload_status").toString()));
     record.setValue("iota_island_id",contact.take("iota_island_id").toString().toUpper());
     record.setValue("k_index",contact.take("k_index"));
     record.setValue("lat",contact.take("lat"));
@@ -182,7 +182,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("prop_mode",contact.take("prop_mode"));
     record.setValue("public_key",contact.take("public_key"));
     record.setValue("qrzcom_qso_upload_date",AdiFormat::parseDate(contact.take("qrzcom_qso_upload_date").toString()));
-    record.setValue("qrzcom_qso_upload_status",contact.take("qrzcom_qso_upload_status"));
+    record.setValue("qrzcom_qso_upload_status",AdiFormat::parseUploadStatus(contact.take("qrzcom_qso_upload_status").toString()));
     record.setValue("qsl_rcvd_via",contact.take("qsl_rcvd_via"));
     record.setValue("qsl_sent_via",contact.take("qsl_sent_via"));
     record.setValue("qsl_via",contact.take("qsl_via"));

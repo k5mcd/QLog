@@ -813,6 +813,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     record.setValue("eqsl_qsl_sent", "N");
     record.setValue("hrdlog_qso_upload_status", "N");
     record.setValue("qrzcom_qsoupload_status", "N");
+    record.setValue("clublog_qso_upload_status", "N");
 
     /* isNull is not necessary to use because NULL Text fields are empty */
     if ( record.value("my_gridsquare").toString().isEmpty()
