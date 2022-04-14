@@ -1087,7 +1087,8 @@ void NewContactWidget::saveContact()
     record.setValue("cqz", ui->cqEdit->text().toInt());
     record.setValue("ituz", ui->ituEdit->text().toInt());
     record.setValue("dxcc", dxccEntity.dxcc);
-    record.setValue("country", dxccEntity.country);
+    record.setValue("country", Data::removeAccents(dxccEntity.country));
+    record.setValue("country_intl", dxccEntity.country);
 
     if ( ! ui->contEdit->currentText().isEmpty() )
     {
@@ -1096,7 +1097,7 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->countyEdit->text().isEmpty() )
     {
-        record.setValue("cnty", ui->countyEdit->text());
+        record.setValue("cnty", Data::removeAccents(ui->countyEdit->text()));
     }
 
     if ( ! ui->stateEdit->text().isEmpty() )
@@ -1225,7 +1226,8 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
 
     if ( !dxcc.country.isEmpty() )
     {
-        record.setValue("country", dxcc.country);
+        record.setValue("country", Data::removeAccents(dxcc.country));
+        record.setValue("country_intl", dxcc.country);
         record.setValue("cqz", dxcc.cqz);
         record.setValue("ituz", dxcc.ituz);
         record.setValue("cont", dxcc.cont);

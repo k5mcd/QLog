@@ -173,9 +173,11 @@ void LogFormat::runImport() {
 
         DxccEntity entity = Data::instance()->lookupDxcc(record.value("callsign").toString());
 
-        if ((record.value("dxcc").isNull() || updateDxcc) && entity.dxcc) {
+        if ((record.value("dxcc").isNull() || updateDxcc) && entity.dxcc)
+        {
             record.setValue("dxcc", entity.dxcc);
-            record.setValue("country", entity.country);
+            record.setValue("country", Data::removeAccents(entity.country));
+            record.setValue("country_intl", entity.country);
         }
 
         if (record.value("cont").isNull() && entity.dxcc) {
