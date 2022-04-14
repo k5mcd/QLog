@@ -206,6 +206,22 @@ void SettingsDialog::addRigProfile()
         return;
     }
 
+    if ( ui->rigTXFreqMaxSpinBox->value() == 0.0 )
+    {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
+                              QMessageBox::tr("<b>TX Range</b>: Max Frequency must not be 0."));
+
+        return;
+    }
+
+    if ( ui->rigTXFreqMaxSpinBox->value() <= ui->rigTXFreqMinSpinBox->value() )
+    {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
+                              QMessageBox::tr("<b>TX Range</b>: Max Frequency must not be under Min Frequency."));
+
+        return;
+    }
+
     if ( ui->rigAddProfileButton->text() == tr("Modify"))
     {
         ui->rigAddProfileButton->setText(tr("Add"));
