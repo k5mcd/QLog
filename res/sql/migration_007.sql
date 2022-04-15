@@ -21,3 +21,6 @@ UPDATE contacts SET qrzcom_qso_upload_status='N' WHERE qrzcom_qso_upload_status 
 UPDATE contacts SET hrdlog_qso_upload_status='N' WHERE hrdlog_qso_upload_status IS NULL;
 UPDATE contacts SET eqsl_qsl_rcvd='N' WHERE eqsl_qsl_rcvd IS NULL;
 UPDATE contacts SET eqsl_qsl_sent='N' WHERE eqsl_qsl_sent IS NULL;
+
+
+ALTER TABLE rig_profiles ADD default_pwr REAL DEFAULT 100.0;
