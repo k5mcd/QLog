@@ -368,7 +368,7 @@ void NewContactWidget::queryDxcc(QString callsign)
         ui->dxccStatus->clear();
         ui->distanceInfo->clear();
         ui->bearingInfo->clear();
-        ui->dxccInfo->clear();
+        ui->dxccInfo->setText(" ");
         ui->cqEdit->clear();
         ui->ituEdit->clear();
         ui->contEdit->setCurrentText("");
@@ -760,7 +760,7 @@ void NewContactWidget::resetContact()
     ui->gridEdit->clear();
     ui->commentEdit->clear();
     ui->noteEdit->clear();
-    ui->dxccInfo->clear();
+    ui->dxccInfo->setText(" ");
     ui->distanceInfo->clear();
     ui->bearingInfo->clear();
     ui->qslViaEdit->clear();
