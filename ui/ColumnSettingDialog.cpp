@@ -128,14 +128,9 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_CREDIT_SUBMITTED:
         case LogbookModel::COLUMN_CLASS:
         case LogbookModel::COLUMN_AGE:
-        case LogbookModel::COLUMN_COMMENT_INTL:
-        case LogbookModel::COLUMN_COUNTRY_INTL:
-        case LogbookModel::COLUMN_QTH_INTL:
         case LogbookModel::COLUMN_REGION:
-        case LogbookModel::COLUMN_RIG_INTL:
         case LogbookModel::COLUMN_SILENT_KEY:
         case LogbookModel::COLUMN_WEB:
-        case LogbookModel::COLUMN_ADDRESS_INTL:
         case LogbookModel::COLUMN_GUEST_OP:
         case LogbookModel::COLUMN_FORCE_INIT:
         case LogbookModel::COLUMN_MAX_BURSTS:
@@ -148,7 +143,6 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_LON:
         case LogbookModel::COLUMN_OWNER_CALLSIGN:
         case LogbookModel::COLUMN_CONTACTED_OP:
-        case LogbookModel::COLUMN_NOTES_INTL:
         case LogbookModel::COLUMN_STATION_CALLSIGN:
             otherInfoCheckboxList.append(columnCheckbox);
             break;

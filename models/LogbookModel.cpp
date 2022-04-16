@@ -99,7 +99,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_MY_FISTS, Qt::Horizontal, tr("My FISTS"));
     setHeaderData(COLUMN_MY_GRIDSQUARE, Qt::Horizontal, tr("My Gridsquare"));
     setHeaderData(COLUMN_MY_IOTA, Qt::Horizontal, tr("My IOTA"));
-    setHeaderData(COLUMN_MY_IOTA_ISLAND_ID, Qt::Horizontal, tr("IOTA Island ID"));
+    setHeaderData(COLUMN_MY_IOTA_ISLAND_ID, Qt::Horizontal, tr("My IOTA Island ID"));
     setHeaderData(COLUMN_MY_ITU_ZONE, Qt::Horizontal, tr("My ITU"));
     setHeaderData(COLUMN_MY_LAT, Qt::Horizontal, tr("My Latitude"));
     setHeaderData(COLUMN_MY_LON, Qt::Horizontal, tr("My Longitude"));
