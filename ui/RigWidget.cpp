@@ -223,12 +223,10 @@ void RigWidget::refreshBandCombo()
     RigProfile profile = RigProfilesManager::instance()->getCurProfile1();
 
     ui->bandComboBox->blockSignals(true);
-    ui->bandComboBox->clear();
-
     QSqlTableModel *bandComboModel = dynamic_cast<QSqlTableModel*>(ui->bandComboBox->model());
-    bandComboModel->setFilter(QString("enabled = 1 AND start_freq >= %1 AND end_freq <= %2").arg(profile.txFreqStart + profile.xitOffset).arg(profile.txFreqEnd + profile.xitOffset));
+    bandComboModel->setFilter(QString("enabled = 1 AND start_freq >= %1 AND end_freq <= %2").arg(profile.txFreqStart + profile.xitOffset)
+                                                                                            .arg(profile.txFreqEnd + profile.xitOffset));
     dynamic_cast<QSqlTableModel*>(ui->bandComboBox->model())->select();
-
     ui->bandComboBox->setCurrentText(currSelection);
     ui->bandComboBox->blockSignals(false);
 }
@@ -240,11 +238,8 @@ void RigWidget::refreshModeCombo()
     QString currSelection = ui->modeComboBox->currentText();
 
     ui->modeComboBox->blockSignals(true);
-    ui->modeComboBox->clear();
-
     QStringListModel* model = dynamic_cast<QStringListModel*>(ui->modeComboBox->model());
     model->setStringList(Rig::instance()->getAvailableModes());
-
     ui->modeComboBox->setCurrentText(currSelection);
     ui->modeComboBox->blockSignals(false);
 }

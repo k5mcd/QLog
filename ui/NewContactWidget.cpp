@@ -255,7 +255,6 @@ void NewContactWidget::readGlobalSettings()
     /* Refresh mode combobox */
     /*************************/
     QString current_mode = ui->modeEdit->currentText();
-    ui->modeEdit->clear();
     dynamic_cast<QSqlTableModel*>(ui->modeEdit->model())->select();
     ui->modeEdit->setCurrentText(current_mode);
 

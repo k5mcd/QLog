@@ -744,7 +744,7 @@ void StatisticsWidget::refreshCombo(QComboBox * combo, QString sqlQeury)
     QString currSelection = combo->currentText();
 
     combo->blockSignals(true);
-    combo->clear();
+    //combo->clear();
 
     combo->setModel(new SqlListModel(sqlQeury,tr("All"), this));
 
