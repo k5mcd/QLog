@@ -226,7 +226,7 @@ void RigWidget::refreshBandCombo()
     ui->bandComboBox->clear();
 
     QSqlTableModel *bandComboModel = dynamic_cast<QSqlTableModel*>(ui->bandComboBox->model());
-    bandComboModel->setFilter(QString("enabled = 1 AND start_freq >= %1 AND end_freq <= %2").arg(profile.txFreqStart).arg(profile.txFreqEnd));
+    bandComboModel->setFilter(QString("enabled = 1 AND start_freq >= %1 AND end_freq <= %2").arg(profile.txFreqStart + profile.xitOffset).arg(profile.txFreqEnd + profile.xitOffset));
     dynamic_cast<QSqlTableModel*>(ui->bandComboBox->model())->select();
 
     ui->bandComboBox->setCurrentText(currSelection);
