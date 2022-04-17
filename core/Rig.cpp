@@ -510,8 +510,11 @@ void Rig::setFrequency(double newFreq)
 {
     FCT_IDENTIFICATION;
 
-    QMetaObject::invokeMethod(this, "setFrequencyImpl", Qt::QueuedConnection,
-                              Q_ARG(double,newFreq));
+    if ( newFreq > 0.0 )
+    {
+        QMetaObject::invokeMethod(this, "setFrequencyImpl", Qt::QueuedConnection,
+                                  Q_ARG(double,newFreq));
+    }
 }
 
 void Rig::setFrequencyImpl(double newFreq)
