@@ -9,6 +9,7 @@ TBD - 0.8.0
 - Fixed issue with hamlib when get_pwr crashes for a network rig (issue #37)
 - Improved new QSO fields are filled from prev QSO (issue #40)
 - Added mode for a network Rig (issue #41)
+- Fixed warning - processing a new request but the previous one hasn't been completed (issue #42)
 - Fixed Info widget when Country name is long (issue #43)
 - Reordered column visibility Tabs (issue #46)
 - Improved Rig tunning when XIT/RIT is enabled (issue #47)
