@@ -1229,8 +1229,11 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
          */
 
         if ( Rig::isNetworkRig(caps)
+#if !defined(Q_OS_WIN)
              && ( QString(hamlib_version).contains("4.2.")
-                  || QString(hamlib_version).contains("4.3.") ) )
+                  || QString(hamlib_version).contains("4.3.") )
+#endif
+             )
         {
             ui->rigGetPWRCheckBox->setEnabled(false);
             ui->rigGetPWRCheckBox->setChecked(false);
