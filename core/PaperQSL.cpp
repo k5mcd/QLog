@@ -45,7 +45,7 @@ QString PaperQSL::stripBaseFileName(const QString &filename)
 {
     FCT_IDENTIFICATION;
 
-    QRegularExpression re("^[0-9]{8}_[0-9]+_.*_qsl_(.*)", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression re("^[0-9]{8}_[0-9]+_.*_qsl_(.*)", QRegularExpression::CaseInsensitiveOption);
 
     QRegularExpressionMatch match = re.match(filename);
 

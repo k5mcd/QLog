@@ -12,7 +12,7 @@
 
 MODULE_IDENTIFICATION("qlog.ui.qsofilterdetail");
 
-QSOFilterDetail::QSOFilterDetail(QString filterName, QWidget *parent) :
+QSOFilterDetail::QSOFilterDetail(const QString &filterName, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QSOFilterDetail),
     filterName(filterName),
@@ -226,7 +226,7 @@ void QSOFilterDetail::addCondition(int fieldIdx, int operatorId, QString value)
     condCount++;
 }
 
-void QSOFilterDetail::loadFilter(QString filterName)
+void QSOFilterDetail::loadFilter(const QString &filterName)
 {
     FCT_IDENTIFICATION;
 
@@ -262,7 +262,7 @@ void QSOFilterDetail::loadFilter(QString filterName)
     }
 }
 
-bool QSOFilterDetail::filterExists(QString filterName)
+bool QSOFilterDetail::filterExists(const QString &filterName)
 {
     FCT_IDENTIFICATION;
 

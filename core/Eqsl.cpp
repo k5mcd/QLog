@@ -362,7 +362,7 @@ void EQSL::processReply(QNetworkReply* reply)
         }
         else
         {
-            QRegularExpression re("/downloadedfiles/(.*.adi)\">.ADI file");
+            static QRegularExpression re("/downloadedfiles/(.*.adi)\">.ADI file");
             QRegularExpressionMatch match = re.match(replayString);
 
             if ( match.hasMatch() )
@@ -394,7 +394,7 @@ void EQSL::processReply(QNetworkReply* reply)
         }
         else
         {
-            QRegularExpression re("<img src=\"(.*)\" alt");
+            static QRegularExpression re("<img src=\"(.*)\" alt");
             QRegularExpressionMatch match = re.match(replayString);
 
             if ( match.hasMatch() )
@@ -406,7 +406,7 @@ void EQSL::processReply(QNetworkReply* reply)
             }
             else
             {
-                QRegularExpression rError("Error: (.*)");
+                static QRegularExpression rError("Error: (.*)");
                 QRegularExpressionMatch matchError = rError.match(replayString);
 
                 if (matchError.hasMatch() )
@@ -416,7 +416,7 @@ void EQSL::processReply(QNetworkReply* reply)
                 }
                 else
                 {
-                    QRegularExpression rWarning("Warning: (.*) --");
+                    static QRegularExpression rWarning("Warning: (.*) --");
                     QRegularExpressionMatch matchWarning = rWarning.match(replayString);
 
                     if ( matchWarning.hasMatch() )
@@ -517,13 +517,13 @@ void EQSL::processReply(QNetworkReply* reply)
         QString replayString(reply->readAll());
         qCDebug(runtime) << replayString;
 
-        QRegularExpression rOK("Result: (.*)");
+        static QRegularExpression rOK("Result: (.*)");
         QRegularExpressionMatch matchOK = rOK.match(replayString);
-        QRegularExpression rError("Error: (.*)");
+        static QRegularExpression rError("Error: (.*)");
         QRegularExpressionMatch matchError = rError.match(replayString);
-        QRegularExpression rWarning("Warning: (.*)");
+        static QRegularExpression rWarning("Warning: (.*)");
         QRegularExpressionMatch matchWarning = rWarning.match(replayString);
-        QRegularExpression rCaution("Caution: (.*)");
+        static QRegularExpression rCaution("Caution: (.*)");
         QRegularExpressionMatch matchCaution = rCaution.match(replayString);
         QString msg;
 

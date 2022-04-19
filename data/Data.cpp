@@ -554,6 +554,9 @@ DxccEntity Data::lookupDxcc(const QString &callsign) {
     }
     else {
         dxcc.dxcc = 0;
+        dxcc.ituz = 0;
+        dxcc.cqz = 0;
+        dxcc.tz = 0;
     }
     return dxcc;
 }
