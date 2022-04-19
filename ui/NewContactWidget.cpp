@@ -305,6 +305,8 @@ void NewContactWidget::callsignChanged()
 
     QString newCallsign = ui->callsignEdit->text().toUpper();
 
+    qCDebug(runtime) << "newcallsign " << newCallsign << " old callsign " << callsign;
+
     if ( newCallsign == callsign )
     {
         return;
@@ -1304,6 +1306,8 @@ void NewContactWidget::markContact()
 
 void NewContactWidget::editCallsignFinished()
 {
+    FCT_IDENTIFICATION;
+
     startContactTimer();
     if ( callsign.size() >= 3 && primaryCallbook )
     {
@@ -1511,17 +1515,10 @@ void NewContactWidget::tuneDx(QString callsign, double frequency)
     qCDebug(function_parameters)<<callsign<< " " << frequency;
 
     resetContact();
-
     ui->callsignEdit->setText(callsign);
     ui->freqRXEdit->setValue(frequency);
-
     callsignChanged();
-
-    if ( callsign.size() >= 3 && primaryCallbook )
-    {
-        primaryCallbook->queryCallsign(callsign);
-    }
-
+    ui->rstSentEdit->setFocus();
     stopContactTimer();
 }
 
@@ -1535,10 +1532,7 @@ void NewContactWidget::showDx(QString callsign, QString grid)
     ui->callsignEdit->setText(callsign.toUpper());
     ui->gridEdit->setText(grid);
     callsignChanged();
-    if ( callsign.size() >= 3  && primaryCallbook )
-    {
-        primaryCallbook->queryCallsign(callsign);
-    }
+    ui->rstSentEdit->setFocus();
     stopContactTimer();
 }
 
