@@ -479,9 +479,11 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
 
     ui->myRigCombo->setModel(new QStringListModel(this));
     refreshRigCombo();
+    ui->myRigCombo->setCurrentIndex(0);
 
     ui->myAntennaCombo->setModel(new QStringListModel(this));
     refreshAntCombo();
+    ui->myAntennaCombo->setCurrentIndex(0);
 
     ui->bandCombo->setModel(new QStringListModel(this));
     refreshBandCombo();
