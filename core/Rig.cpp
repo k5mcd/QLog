@@ -632,7 +632,7 @@ QStringList Rig::getAvailableModes()
 
         if ( localRig->state.mode_list != RIG_MODE_NONE )
         {
-            localRigModes = localRig->state.mode_list;
+            localRigModes = static_cast<rmode_t>(localRig->state.mode_list);
         }
         else
         {
@@ -640,7 +640,7 @@ QStringList Rig::getAvailableModes()
             {
                 /* Network rig has no mode */
                 /* Add some modes */
-                localRigModes = (RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
+                localRigModes = static_cast<rmode_t>(RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
             }
         }
 
