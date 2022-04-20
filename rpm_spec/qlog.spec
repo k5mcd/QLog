@@ -42,6 +42,22 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Apr 22 2022 Ladislav Foldyna - 0.8.0-1
+- RIT/XIT offset enable/disable detection (issue #26)
+- Fixed Rig Setting, Data Bits (issue #28)
+- Added default PWR for Rig profile (issue #30)
+- Fixed issue when GUI freezes during Rig connection (issue #32 & #33)
+- Fixed issue with an incorrect value of A-Index (issue #34)
+- Fixed ADI Import - incorrect _INTL fields import (issue #35)
+- Fixed isuue with an editing of bands in Setting dialog (#issue 36)
+- Fixed issue with hamlib when get_pwr crashes for a network rig (issue #37)
+- Improved new QSO fields are filled from prev QSO (issue #40)
+- Added mode for a network Rig (issue #41)
+- Fixed warning - processing a new request but the previous one hasn't been completed (issue #42)
+- Fixed Info widget when Country name is long (issue #43)
+- Reordered column visibility Tabs (issue #46)
+- Improved Rig tunning when XIT/RIT is enabled (issue #47)
+
 * Fri Apr 8 2022 Ladislav Foldyna - 0.7.0-1
 - [NEW] Ant/Rig/Rot Profiles
 - [NEW] Rig widget shows additional information
