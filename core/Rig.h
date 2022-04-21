@@ -74,6 +74,7 @@ public:
     static Rig* instance();
 
     static bool isNetworkRig(const struct rig_caps *caps);
+    void stopTimer();
 
 public slots:
     void start();
@@ -103,6 +104,7 @@ private slots:
     //void closeImpl; //must not be implemented because it is not blocked call
     void setFrequencyImpl(double);
     void setModeImpl(rmode_t);
+    void stopTimerImplt();
 
 
 private:

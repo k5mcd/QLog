@@ -29,11 +29,7 @@ Rotator::Rotator(QObject *parent) :
 
 Rotator::~Rotator()
 {
-    if ( timer )
-    {
-        timer->stop();
-        timer->deleteLater();
-    }
+    FCT_IDENTIFICATION;
 }
 
 Rotator* Rotator::instance() {
@@ -62,6 +58,13 @@ bool Rotator::isRotConnected()
     FCT_IDENTIFICATION;
 
     return (rot) ? true : false;
+}
+
+void Rotator::stopTimer()
+{
+    FCT_IDENTIFICATION;
+    bool check = QMetaObject::invokeMethod(Rotator::instance(), &Rotator::stopTimerImplt, Qt::QueuedConnection);
+    Q_ASSERT( check );
 }
 
 bool Rotator::isNetworkRot(const rot_caps *caps)
@@ -274,6 +277,18 @@ void Rotator::setPositionImpl(int azimuth, int elevation) {
 #endif
 
     rotLock.unlock();
+}
+
+void Rotator::stopTimerImplt()
+{
+    FCT_IDENTIFICATION;
+
+    if ( timer )
+    {
+        timer->stop();
+        timer->deleteLater();
+        timer = nullptr;
+    }
 }
 
 void Rotator::setPosition(int azimuth, int elevation)

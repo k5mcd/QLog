@@ -44,6 +44,13 @@ bool Rig::isNetworkRig(const struct rig_caps *caps)
     return ret;
 }
 
+void Rig::stopTimer()
+{
+    FCT_IDENTIFICATION;
+    bool check = QMetaObject::invokeMethod(Rig::instance(), &Rig::stopTimerImplt, Qt::QueuedConnection);
+    Q_ASSERT( check );
+}
+
 void Rig::start() {
     FCT_IDENTIFICATION;
 
@@ -615,6 +622,18 @@ void Rig::setModeImpl(rmode_t newModeID)
     rigLock.unlock();
 }
 
+void Rig::stopTimerImplt()
+{
+    FCT_IDENTIFICATION;
+
+    if ( timer )
+    {
+        timer->stop();
+        timer->deleteLater();
+        timer = nullptr;
+    }
+}
+
 QStringList Rig::getAvailableModes()
 {
     FCT_IDENTIFICATION;
@@ -678,11 +697,7 @@ Rig::Rig(QObject *parent) :
 
 Rig::~Rig()
 {
-    if ( timer )
-    {
-        timer->stop();
-        timer->deleteLater();
-    }
+    FCT_IDENTIFICATION;
 }
 
 LocalOscilator::LocalOscilator(VFOID id, QObject *parent) :

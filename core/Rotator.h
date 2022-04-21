@@ -17,6 +17,7 @@ public:
     int getAzimuth();
     int getElevation();
     bool isRotConnected();
+    void stopTimer();
 
     static bool isNetworkRot(const struct rot_caps *caps);
 
@@ -36,6 +37,7 @@ public slots:
 
 private slots:
     void setPositionImpl(int azimuth, int elevation);
+    void stopTimerImplt();
 
 private:
     Rotator(QObject *parent = nullptr);

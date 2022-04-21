@@ -481,6 +481,8 @@ void MainWindow::QSOFilterSetting()
 MainWindow::~MainWindow() {
     FCT_IDENTIFICATION;
 
+    Rig::instance()->stopTimer();
+    Rotator::instance()->stopTimer();
     stats->deleteLater();
     conditions->deleteLater();
     conditionsLabel->deleteLater();
