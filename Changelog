@@ -1,4 +1,4 @@
-TBD - 0.8.0
+2022/02/22 - 0.8.0
 - RIT/XIT offset enable/disable detection (issue #26)
 - Fixed Rig Setting, Data Bits (issue #28)
 - Added default PWR for Rig profile (issue #30)
