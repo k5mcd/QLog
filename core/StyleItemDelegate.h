@@ -389,6 +389,14 @@ public:
         model->setData(index,value, Qt::EditRole);
     }
 
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+    {
+        QString line = index.model()->data(index, Qt::EditRole).toString().simplified();
+
+        drawDisplay(painter,option,option.rect, line);
+        drawFocus(painter, option, option.rect);
+    }
+
     mutable QTextEdit *theText;
 
 private slots:
