@@ -120,6 +120,7 @@ void HamQTH::authenticate() {
 
         nam->get(QNetworkRequest(url));
         lastSeenPassword = password;
+        qCDebug(runtime) << "Sent Auth message";
     }
     else
     {

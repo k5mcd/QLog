@@ -398,7 +398,7 @@ void QRZ::processReply(QNetworkReply* reply) {
                 data["utc_offset"] = xml.readElementText();
             }
             else if (xml.name() == "eqsl") {
-                data["eqsl"] = xml.readElementText();
+                data["eqsl"] = ( xml.readElementText() == "1" ) ? "Y" : "N";
             }
             else if (xml.name() == "mqsl") {
                 data["pqsl"] = xml.readElementText();
@@ -413,7 +413,7 @@ void QRZ::processReply(QNetworkReply* reply) {
                 data["born"] = xml.readElementText();
             }
             else if (xml.name() == "lotw") {
-                data["lotw"] = xml.readElementText();
+                data["lotw"] =  ( xml.readElementText() == "1" ) ? "Y" : "N";
             }
             else if (xml.name() == "iota") {
                 data["iota"] = xml.readElementText();

@@ -390,6 +390,8 @@ void NewContactWidget::clearQueryFields()
     ui->emailEdit->clear();
     ui->countyEdit->clear();
     ui->qslViaEdit->clear();
+    ui->eqslLabel->setText(QString());
+    ui->lotwLabel->setText(QString());
     ui->urlEdit->clear();
     ui->stateEdit->clear();
 }
@@ -514,6 +516,17 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
     {
         ui->stateEdit->setText(data.value("us_state"));
     }
+
+    if ( data.value("eqsl") == "Y" )
+    {
+        ui->eqslLabel->setText("eQSL");
+    }
+
+    if ( data.value("lotw") == "Y" )
+    {
+        ui->lotwLabel->setText("LoTW");
+    }
+
 }
 
 /* the function is called when a newcontact frequency spinbox is changed */
