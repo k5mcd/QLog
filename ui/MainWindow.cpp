@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QColor>
+#include <QSpacerItem>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "ui/SettingsDialog.h"
@@ -49,7 +50,9 @@ MainWindow::MainWindow(QWidget* parent) :
     StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
     conditionsLabel = new QLabel("", ui->statusBar);
+    conditionsLabel->setIndent(20);
     callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
+    callsignLabel->setIndent(10);
     locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);
     operatorLabel = new QLabel(profile.operatorName, ui->statusBar);
     darkLightModeSwith = new SwitchButton("", ui->statusBar);
