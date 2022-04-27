@@ -23,7 +23,7 @@ ClockWidget::ClockWidget(QWidget *parent) :
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &ClockWidget::updateClock);
-    timer->start(1000);
+    timer->start(500);
 
     sunScene = new QGraphicsScene(this);
 

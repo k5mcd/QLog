@@ -1293,7 +1293,7 @@ void NewContactWidget::startContactTimer()
 
     updateTime();
     if (!contactTimer->isActive()) {
-        contactTimer->start(1000);
+        contactTimer->start(500);
     }
 }
 
