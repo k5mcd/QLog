@@ -394,7 +394,9 @@ void MainWindow::showAbout() {
                         "<p>&copy; 2019 Thomas Gatzweiler DL2IC<br/>"
                         "&copy; 2021-2022 Ladislav Foldyna OK1MLG</p>"
                         "<p>Icon by <a href='http://www.iconshock.com'>Icon Shock</a><br />"
-                        "Satellite images by <a href='http://www.nasa.gov'>NASA</p>");
+                        "Satellite images by <a href='http://www.nasa.gov'>NASA</a><br />"
+                        "ZoneDetect by <a href='https://github.com/BertoldVdb/ZoneDetect'>Bertold Van den Bergh</a><br />"
+                        "TimeZone Database by <a href='https://github.com/evansiroky/timezone-boundary-builder'>Evan Siroky</a>");
 
 
     QString version = QCoreApplication::applicationVersion();

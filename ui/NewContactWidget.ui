@@ -821,6 +821,21 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QLabel" name="partnerLocTimeInfo">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>

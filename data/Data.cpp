@@ -7,7 +7,10 @@
 
 MODULE_IDENTIFICATION("qlog.data.data");
 
-Data::Data(QObject *parent) : QObject(parent) {
+Data::Data(QObject *parent) :
+   QObject(parent),
+   zd(nullptr)
+{
     FCT_IDENTIFICATION;
 
     loadContests();
@@ -17,6 +20,17 @@ Data::Data(QObject *parent) : QObject(parent) {
     loadSatModes();
     loadIOTA();
     loadSOTA();
+    loadTZ();
+}
+
+Data::~Data()
+{
+    FCT_IDENTIFICATION;
+
+    if ( zd )
+    {
+        ZDCloseDatabase(zd);
+    }
 }
 
 Data* Data::instance() {
@@ -355,6 +369,25 @@ QPair<QString, QString> Data::legacyMode(const QString &mode) {
     return legacyModes.value(mode);
 }
 
+QString Data::getIANATimeZone(double lat, double lon)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << lat << lon;
+
+    QString ret;
+
+    if ( zd )
+    {
+        ret = ZDHelperSimpleLookupString(zd,
+                                         static_cast<float>(lat),
+                                         static_cast<float>(lon));
+    }
+
+    qCDebug(runtime) << ret;
+    return ret;
+}
+
 void Data::loadContests() {
     FCT_IDENTIFICATION;
 
@@ -492,6 +525,29 @@ void Data::loadSOTA()
         QString name = ""; // later - use UTF8 string
         sotaRef.insert(id, name);
     }
+}
+
+void Data::loadTZ()
+{
+    FCT_IDENTIFICATION;
+
+    QFile file (":/res/data/timezone21.bin");
+    file.open(QIODevice::ReadOnly);
+    uchar *tzMap = file.map(0, file.size());
+
+    if ( tzMap )
+    {
+        zd = ZDOpenDatabaseFromMemory(tzMap, file.size());
+        if ( !zd )
+        {
+            qWarning() << "Cannot open TZ Database";
+        }
+    }
+    else
+    {
+        qWarning() << "Cannot map TZ File to memory";
+    }
+
 }
 
 DxccEntity Data::lookupDxcc(const QString &callsign) {

@@ -53,6 +53,7 @@ SOURCES += \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
+        core/zonedetect.c \
         data/AntProfile.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
@@ -127,6 +128,7 @@ HEADERS += \
         core/SwitchButton.h \
         core/Wsjtx.h \
         core/debug.h \
+        core/zonedetect.h \
         data/AntProfile.h \
         data/Band.h \
         data/Data.h \

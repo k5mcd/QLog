@@ -116,6 +116,7 @@ private:
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
+    QTimeZone partnerTimeZone;
 };
 
 #endif // NEWCONTACTWIDGET_H

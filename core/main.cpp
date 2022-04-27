@@ -21,6 +21,7 @@
 #include "logformat/AdxFormat.h"
 #include "ui/SettingsDialog.h"
 #include "data/StationProfile.h"
+#include "core/zonedetect.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
