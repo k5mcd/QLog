@@ -5,6 +5,7 @@
 #include <QCompleter>
 #include <QMessageBox>
 #include <QSqlField>
+#include <QTimeZone>
 #include "core/Rig.h"
 #include "core/Rotator.h"
 #include "NewContactWidget.h"
@@ -16,6 +17,7 @@
 #include "core/QRZ.h"
 #include "data/RigProfile.h"
 #include "data/AntProfile.h"
+#include "data/Data.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -369,6 +371,8 @@ void NewContactWidget::queryDxcc(QString callsign)
         ui->dxccStatus->clear();
         ui->distanceInfo->clear();
         ui->bearingInfo->clear();
+        partnerTimeZone = QTimeZone();
+        ui->partnerLocTimeInfo->clear();
         ui->dxccInfo->setText(" ");
         ui->cqEdit->clear();
         ui->ituEdit->clear();
@@ -390,6 +394,8 @@ void NewContactWidget::clearQueryFields()
     ui->emailEdit->clear();
     ui->countyEdit->clear();
     ui->qslViaEdit->clear();
+    ui->eqslLabel->setText(QString());
+    ui->lotwLabel->setText(QString());
     ui->urlEdit->clear();
     ui->stateEdit->clear();
 }
@@ -514,6 +520,17 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
     {
         ui->stateEdit->setText(data.value("us_state"));
     }
+
+    if ( data.value("eqsl") == "Y" )
+    {
+        ui->eqslLabel->setText("eQSL");
+    }
+
+    if ( data.value("lotw") == "Y" )
+    {
+        ui->lotwLabel->setText("LoTW");
+    }
+
 }
 
 /* the function is called when a newcontact frequency spinbox is changed */
@@ -764,6 +781,8 @@ void NewContactWidget::resetContact()
     ui->dxccInfo->setText(" ");
     ui->distanceInfo->clear();
     ui->bearingInfo->clear();
+    ui->partnerLocTimeInfo->clear();
+    partnerTimeZone = QTimeZone();
     ui->qslViaEdit->clear();
     ui->qslSentBox->setCurrentIndex(0);
     ui->qslSentViaBox->setCurrentIndex(0);
@@ -1274,7 +1293,7 @@ void NewContactWidget::startContactTimer()
 
     updateTime();
     if (!contactTimer->isActive()) {
-        contactTimer->start(1000);
+        contactTimer->start(500);
     }
 }
 
@@ -1338,6 +1357,7 @@ void NewContactWidget::updateTimeOff()
     FCT_IDENTIFICATION;
 
     ui->timeOffEdit->setTime(QDateTime::currentDateTimeUtc().time());
+    updatePartnerLocTime();
 }
 
 void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision prec)
@@ -1356,7 +1376,20 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
         ui->distanceInfo->setText(QString::number(distance, '.', 1) + " km");
         ui->bearingInfo->setText(QString("%1°").arg(bearing));
 
+        QString partnerTimeZoneString = Data::instance()->getIANATimeZone(lat, lon);
+
+        if ( !partnerTimeZoneString.isEmpty() )
+        {
+            partnerTimeZone = QTimeZone(partnerTimeZoneString.toUtf8());
+        }
+        else
+        {
+            partnerTimeZone = QTimeZone();
+        }
+
         coordPrec = prec;
+
+        updatePartnerLocTime();
 
         emit newTarget(lat, lon);
     }
@@ -1400,6 +1433,34 @@ void NewContactWidget::updateDxccStatus()
     QPalette palette;
     palette.setColor(QPalette::Text, Data::statusToColor(status, palette.color(QPalette::Text)));
     ui->callsignEdit->setPalette(palette);
+}
+
+void NewContactWidget::updatePartnerLocTime()
+{
+    FCT_IDENTIFICATION;
+
+    QLocale locale;
+
+    if ( partnerTimeZone.isValid() )
+    {
+        QString greeting(tr("GE"));
+
+        QDateTime currPartnerTime = QDateTime::currentDateTime().toTimeZone(partnerTimeZone);
+        if ( currPartnerTime.time().hour() >= 5
+             && currPartnerTime.time().hour() < 12 )
+        {
+            greeting = tr("GM");
+
+        }
+        else if ( currPartnerTime.time().hour() >=12
+                  && currPartnerTime.time().hour() < 18 )
+        {
+            greeting = tr("GA");
+
+        }
+        ui->partnerLocTimeInfo->setText(QDateTime::currentDateTime().toTimeZone(partnerTimeZone).toString(locale.timeFormat(QLocale::LongFormat)) + " (" + greeting +")");
+    }
+
 }
 
 /* the function is called when rig freq is changed */

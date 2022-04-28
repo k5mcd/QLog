@@ -5,6 +5,7 @@
 #include <QRegularExpression>
 #include "Dxcc.h"
 #include "Band.h"
+#include "core/zonedetect.h"
 
 #define DEFINE_CONTACT_FIELDS_ENUMS \
     QMap<QString, QString> qslSentEnum; \
@@ -63,6 +64,7 @@ public:
     static const QString MODE_PHONE;
 
     explicit Data(QObject *parent = nullptr);
+    ~Data();
     static Data* instance();
 
     static DxccStatus dxccStatus(int dxcc, const QString &band, const QString &mode);
@@ -90,6 +92,7 @@ public:
     QStringList iotaIDList() { return iotaRef.keys();}
     QString iotaTextToID(const QString &iotaText) { return iotaRef.key(iotaText);}
     QStringList sotaIDList() { return sotaRef.keys();}
+    QString getIANATimeZone(double, double);
 
 signals:
 
@@ -103,6 +106,7 @@ private:
     void loadSatModes();
     void loadIOTA();
     void loadSOTA();
+    void loadTZ();
 
     QMap<int, QString> flags;
     QMap<QString, QString> contests;
@@ -111,6 +115,7 @@ private:
     QMap<QString, QString> satModes;
     QMap<QString, QString> iotaRef;
     QMap<QString, QString> sotaRef;
+    ZoneDetect * zd;
 };
 
 #endif // DATA_H
