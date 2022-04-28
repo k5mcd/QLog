@@ -96,6 +96,7 @@ private:
     void updateRXBand(double freq);
     void updateCoordinates(double lat, double lon, CoordPrecision prec);
     void updateDxccStatus();
+    void updatePartnerLocTime();
     void setDefaultReport();
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);

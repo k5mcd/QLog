@@ -1356,28 +1356,8 @@ void NewContactWidget::updateTimeOff()
 {
     FCT_IDENTIFICATION;
 
-    QLocale locale;
     ui->timeOffEdit->setTime(QDateTime::currentDateTimeUtc().time());
-
-    if ( partnerTimeZone.isValid() )
-    {
-        QString greeting(tr("GE"));
-
-        QDateTime currPartnerTime = QDateTime::currentDateTime().toTimeZone(partnerTimeZone);
-        if ( currPartnerTime.time().hour() >= 5
-             && currPartnerTime.time().hour() < 12 )
-        {
-            greeting = tr("GM");
-
-        }
-        else if ( currPartnerTime.time().hour() >=12
-                  && currPartnerTime.time().hour() < 18 )
-        {
-            greeting = tr("GA");
-
-        }
-        ui->partnerLocTimeInfo->setText(QDateTime::currentDateTime().toTimeZone(partnerTimeZone).toString(locale.timeFormat(QLocale::LongFormat)) + " (" + greeting +")");
-    }
+    updatePartnerLocTime();
 }
 
 void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision prec)
@@ -1408,6 +1388,8 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
         }
 
         coordPrec = prec;
+
+        updatePartnerLocTime();
 
         emit newTarget(lat, lon);
     }
@@ -1451,6 +1433,34 @@ void NewContactWidget::updateDxccStatus()
     QPalette palette;
     palette.setColor(QPalette::Text, Data::statusToColor(status, palette.color(QPalette::Text)));
     ui->callsignEdit->setPalette(palette);
+}
+
+void NewContactWidget::updatePartnerLocTime()
+{
+    FCT_IDENTIFICATION;
+
+    QLocale locale;
+
+    if ( partnerTimeZone.isValid() )
+    {
+        QString greeting(tr("GE"));
+
+        QDateTime currPartnerTime = QDateTime::currentDateTime().toTimeZone(partnerTimeZone);
+        if ( currPartnerTime.time().hour() >= 5
+             && currPartnerTime.time().hour() < 12 )
+        {
+            greeting = tr("GM");
+
+        }
+        else if ( currPartnerTime.time().hour() >=12
+                  && currPartnerTime.time().hour() < 18 )
+        {
+            greeting = tr("GA");
+
+        }
+        ui->partnerLocTimeInfo->setText(QDateTime::currentDateTime().toTimeZone(partnerTimeZone).toString(locale.timeFormat(QLocale::LongFormat)) + " (" + greeting +")");
+    }
+
 }
 
 /* the function is called when rig freq is changed */
