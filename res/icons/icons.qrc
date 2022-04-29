@@ -18,5 +18,6 @@
         <file>info-24px.svg</file>
         <file>close-24px.svg</file>
         <file>light-dark-24px.svg</file>
+        <file>alert.svg</file>
     </qresource>
 </RCC>

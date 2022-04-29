@@ -1,6 +1,5 @@
 #include <QSettings>
 #include <QFileDialog>
-#include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QLabel>
 #include <QColor>
@@ -34,7 +33,8 @@ MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    stats(new StatisticsWidget)
+    stats(new StatisticsWidget),
+    alertWidget(new AlertWidget)
 {
     FCT_IDENTIFICATION;
 
@@ -52,6 +52,10 @@ MainWindow::MainWindow(QWidget* parent) :
     callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
     locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);
     operatorLabel = new QLabel(profile.operatorName, ui->statusBar);
+    alertButton = new QPushButton("0", ui->statusBar);
+    alertButton->setIcon(QIcon(":/icons/alert.svg"));
+    alertButton->setFlat(true);
+    alertButton->setFocusPolicy(Qt::NoFocus);
     darkLightModeSwith = new SwitchButton("", ui->statusBar);
     darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
 
@@ -60,26 +64,19 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->statusBar->addWidget(locatorLabel);
     ui->statusBar->addWidget(operatorLabel);
     ui->statusBar->addWidget(conditionsLabel);
+
+    ui->statusBar->addPermanentWidget(alertButton);
     ui->statusBar->addPermanentWidget(darkIconLabel);
     ui->statusBar->addPermanentWidget(darkLightModeSwith);
 
     connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
+    connect(alertButton, SIGNAL(clicked()), this, SLOT(showAlerts()));
 
     connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
     connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
     connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
 
     darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
-/*
-    QMenu* trayIconMenu = new QMenu(this);
-    trayIconMenu->addAction(ui->actionQuit);
-
-    QSystemTrayIcon* trayIcon = new QSystemTrayIcon(this);
-    trayIcon->setContextMenu(trayIconMenu);
-    trayIcon->show();
-    trayIcon->showMessage("Hello", "This is a test", QIcon());
-*/
-
 
     connect(Rig::instance(), SIGNAL(rigErrorPresent(QString)), this, SLOT(rigErrorHandler(QString)));
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString)), this, SLOT(rotErrorHandler(QString)));
@@ -92,6 +89,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(wsjtx, &Wsjtx::decodeReceived, ui->wsjtxWidget, &WsjtxWidget::decodeReceived);
     connect(wsjtx, &Wsjtx::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
     connect(ui->wsjtxWidget, &WsjtxWidget::CQSpot, &networknotification, &NetworkNotification::WSJTXCQSpot);
+    connect(ui->wsjtxWidget, &WsjtxWidget::CQSpot, &alertEvaluator, &AlertEvaluator::WSJTXCQSpot);
     connect(ui->wsjtxWidget, &WsjtxWidget::reply, wsjtx, &Wsjtx::startReply);
     connect(this, &MainWindow::settingsChanged, wsjtx, &Wsjtx::reloadSetting);
     connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::reloadSettings);
@@ -117,7 +115,10 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->dxWidget, &DxWidget::newSpot, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->dxWidget, &DxWidget::newSpot, &networknotification, &NetworkNotification::dxSpot);
+    connect(ui->dxWidget, &DxWidget::newSpot, &alertEvaluator, &AlertEvaluator::dxSpot);
     connect(ui->dxWidget, &DxWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
+
+    connect(&alertEvaluator, &AlertEvaluator::alert, this, &MainWindow::processUserAlert);
 
     connect(ui->bandmapWidget, &BandmapWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
@@ -149,6 +150,11 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     if ( stats )
     {
         stats->close();
+    }
+
+    if ( alertWidget )
+    {
+        alertWidget->close();
     }
 
     QMainWindow::closeEvent(event);
@@ -226,6 +232,16 @@ void MainWindow::darkModeToggle(int mode)
 
     emit themeChanged(darkMode);
 
+}
+
+void MainWindow::processUserAlert(UserAlert alert)
+{
+    FCT_IDENTIFICATION;
+
+    alertWidget->addAlert(alert);
+    alertButton->setText(QString::number(alertWidget->alertCount()));
+    QToolTip::showText(alertButton->mapToGlobal(QPoint()),alert.test,alertButton);
+    QApplication::beep();
 }
 
 void MainWindow::setDarkMode()
@@ -400,6 +416,13 @@ void MainWindow::showAbout() {
     QMessageBox::about(this, tr("About"), aboutText);
 }
 
+void MainWindow::showAlerts()
+{
+    FCT_IDENTIFICATION;
+
+    alertWidget->show();
+}
+
 void MainWindow::conditionsUpdated() {
     FCT_IDENTIFICATION;
 
@@ -484,6 +507,7 @@ MainWindow::~MainWindow() {
     Rig::instance()->stopTimer();
     Rotator::instance()->stopTimer();
     stats->deleteLater();
+    alertWidget->deleteLater();
     conditions->deleteLater();
     conditionsLabel->deleteLater();
     callsignLabel->deleteLater();

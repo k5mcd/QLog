@@ -28,6 +28,7 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_MESSAGELOGCONTEXT
 CONFIG += c++11
 
 SOURCES += \
+        core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
         core/ClubLog.cpp \
         core/Conditions.cpp \
@@ -63,6 +64,7 @@ SOURCES += \
         logformat/AdxFormat.cpp \
         logformat/JsonFormat.cpp \
         logformat/LogFormat.cpp \
+        models/AlertTableModel.cpp \
         models/AwardsTableModel.cpp \
         models/DxccTableModel.cpp \
         models/LogbookModel.cpp \
@@ -70,6 +72,7 @@ SOURCES += \
         models/RotTypeModel.cpp \
         models/SqlListModel.cpp \
         models/WsjtxTableModel.cpp \
+        ui/AlertWidget.cpp \
         ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
         ui/ClockWidget.cpp \
@@ -101,6 +104,7 @@ SOURCES += \
         ui/WsjtxWidget.cpp
 
 HEADERS += \
+        core/AlertEvaluator.h \
         core/AppGuard.h \
         core/ButtonStyle.h \
         core/ClubLog.h \
@@ -136,11 +140,13 @@ HEADERS += \
         data/RigProfile.h \
         data/RotProfile.h \
         data/StationProfile.h \
+        data/UserAlert.h \
         data/WsjtxEntry.h \
         logformat/AdiFormat.h \
         logformat/AdxFormat.h \
         logformat/JsonFormat.h \
         logformat/LogFormat.h \
+        models/AlertTableModel.h \
         models/AwardsTableModel.h \
         models/DxccTableModel.h \
         models/LogbookModel.h \
@@ -148,6 +154,7 @@ HEADERS += \
         models/RotTypeModel.h \
         models/SqlListModel.h \
         models/WsjtxTableModel.h \
+        ui/AlertWidget.h \
         ui/AwardsDialog.h \
         ui/BandmapWidget.h \
         ui/ClockWidget.h \
@@ -179,6 +186,7 @@ HEADERS += \
         ui/WsjtxWidget.h
 
 FORMS += \
+        ui/AlertWidget.ui \
         ui/AwardsDialog.ui \
         ui/BandmapWidget.ui \
         ui/ClockWidget.ui \
