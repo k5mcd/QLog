@@ -126,6 +126,9 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->rigWidget, &RigWidget::rigProfileChanged, ui->newContactWidget, &NewContactWidget::refreshRigProfileCombo);
 
+    connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::refreshAlertButton);
+    connect(alertWidget, &AlertWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
+
     conditions = new Conditions(this);
     connect(conditions, &Conditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
     conditions->update();
@@ -239,9 +242,15 @@ void MainWindow::processUserAlert(UserAlert alert)
     FCT_IDENTIFICATION;
 
     alertWidget->addAlert(alert);
-    alertButton->setText(QString::number(alertWidget->alertCount()));
-    QToolTip::showText(alertButton->mapToGlobal(QPoint()),alert.test,alertButton);
+    refreshAlertButton();
+    QToolTip::showText(alertButton->mapToGlobal(QPoint()),alert.callsign,alertButton);
     QApplication::beep();
+}
+
+void MainWindow::refreshAlertButton()
+{
+    FCT_IDENTIFICATION;
+    alertButton->setText(QString::number(alertWidget->alertCount()));
 }
 
 void MainWindow::setDarkMode()

@@ -52,6 +52,7 @@ private slots:
     void QSOFilterSetting();
     void darkModeToggle(int);
     void processUserAlert(UserAlert alert);
+    void refreshAlertButton();
 
 private:
     Ui::MainWindow* ui;

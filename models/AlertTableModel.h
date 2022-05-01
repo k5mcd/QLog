@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include <data/UserAlert.h>
+#include <QMutex>
 
 class AlertTableModel : public QAbstractTableModel
 {
@@ -16,9 +17,12 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     void addAlert(UserAlert entry);
     void clear();
+    QString getCallsign(const QModelIndex& index);
+    double getFrequency(const QModelIndex& index);
 
 private:
     QList<UserAlert> alertList;
+    QMutex alertListMutex;
 };
 
 #endif // ALERTTABLEMODEL_H

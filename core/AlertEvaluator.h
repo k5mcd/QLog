@@ -6,8 +6,6 @@
 #include "data/WsjtxEntry.h"
 #include "data/UserAlert.h"
 
-
-
 class AlertEvaluator : public QObject
 {
     Q_OBJECT

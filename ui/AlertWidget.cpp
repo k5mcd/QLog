@@ -32,6 +32,24 @@ void AlertWidget::addAlert(const UserAlert &alert)
     ui->alertTableView->repaint();
 }
 
+void AlertWidget::clearAllAlerts()
+{
+    FCT_IDENTIFICATION;
+
+    alertTableModel->clear();
+    emit alertsCleared();
+}
+
+void AlertWidget::entryDoubleClicked(QModelIndex index)
+{
+    FCT_IDENTIFICATION;
+
+
+    QString callsign = alertTableModel->getCallsign(index);
+    double frequency = alertTableModel->getFrequency(index);
+    emit tuneDx(callsign, frequency);
+}
+
 int AlertWidget::alertCount() const
 {
     FCT_IDENTIFICATION;

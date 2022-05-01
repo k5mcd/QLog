@@ -17,9 +17,16 @@ public:
     explicit AlertWidget(QWidget *parent = nullptr);
     ~AlertWidget();
 
+   int alertCount() const;
+
 public slots:
     void addAlert(const UserAlert &alert);
-    int alertCount() const;
+    void clearAllAlerts();
+    void entryDoubleClicked(QModelIndex index);
+
+signals:
+    void alertsCleared();
+    void tuneDx(QString, double);
 
 private:
     Ui::AlertWidget *ui;
