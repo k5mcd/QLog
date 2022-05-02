@@ -8,6 +8,7 @@
 #include "data/Data.h"
 #include "core/debug.h"
 #include "core/Rig.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
@@ -35,6 +36,8 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     qCDebug(function_parameters)<<decode.message;
 
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+
     if ( decode.message.startsWith("CQ") )
     {
         QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\\/]+) ?([A-Z]{2}[0-9]{2})?.*");
@@ -51,6 +54,8 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
             entry.freq = currFreq;
             entry.band = band;
             entry.decodedMode = currMode;
+            entry.spotter = profile.callsign.toUpper();
+            entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
 
             emit CQSpot(entry);
             wsjtxTableModel->addOrReplaceEntry(entry);
@@ -74,6 +79,8 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
                 entry.freq = currFreq;
                 entry.band = band;
                 entry.decodedMode = currMode;
+                entry.spotter = profile.callsign.toUpper();
+                entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
 
                 wsjtxTableModel->addOrReplaceEntry(entry);
             }

@@ -23,7 +23,8 @@ struct UserAlert
     DxccEntity dxcc;
     DxccStatus status;
     QString comment;
-
+    QString spotter;
+    DxccEntity dxcc_spotter;
 };
 
 Q_DECLARE_METATYPE(UserAlert::ALERTSOURCETYPE);
