@@ -66,6 +66,7 @@
     <addaction name="actionNewContact"/>
     <addaction name="actionSaveContact"/>
     <addaction name="actionQSOFilters"/>
+    <addaction name="actionAlert"/>
     <addaction name="separator"/>
     <addaction name="actionImport"/>
     <addaction name="actionExport"/>
@@ -413,6 +414,11 @@
   <action name="actionQRZ_com">
    <property name="text">
     <string>QRZ.com</string>
+   </property>
+  </action>
+  <action name="actionAlert">
+   <property name="text">
+    <string>Alert Rules</string>
    </property>
   </action>
  </widget>
@@ -897,6 +903,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAlert</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>alertRuleSetting()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -915,5 +937,6 @@
   <slot>showAwards()</slot>
   <slot>showClublog()</slot>
   <slot>showQRZ()</slot>
+  <slot>alertRuleSetting()</slot>
  </slots>
 </ui>

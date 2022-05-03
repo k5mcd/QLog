@@ -26,6 +26,7 @@ public:
 
 signals:
     void settingsChanged();
+    void alertRulesChanged();
     void themeChanged(int);
 
 public slots:
@@ -50,6 +51,7 @@ private slots:
     void showAlerts();
     void conditionsUpdated();
     void QSOFilterSetting();
+    void alertRuleSetting();
     void darkModeToggle(int);
     void processUserAlert(UserAlert alert);
     void refreshAlertButton();

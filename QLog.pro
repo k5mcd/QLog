@@ -72,6 +72,8 @@ SOURCES += \
         models/RotTypeModel.cpp \
         models/SqlListModel.cpp \
         models/WsjtxTableModel.cpp \
+        ui/AlertRuleDetail.cpp \
+        ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
         ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
@@ -154,6 +156,8 @@ HEADERS += \
         models/RotTypeModel.h \
         models/SqlListModel.h \
         models/WsjtxTableModel.h \
+        ui/AlertRuleDetail.h \
+        ui/AlertSettingDialog.h \
         ui/AlertWidget.h \
         ui/AwardsDialog.h \
         ui/BandmapWidget.h \
@@ -186,6 +190,8 @@ HEADERS += \
         ui/WsjtxWidget.h
 
 FORMS += \
+        ui/AlertRuleDetail.ui \
+        ui/AlertSettingDialog.ui \
         ui/AlertWidget.ui \
         ui/AwardsDialog.ui \
         ui/BandmapWidget.ui \

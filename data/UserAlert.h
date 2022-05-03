@@ -10,8 +10,8 @@ struct UserAlert
 {
     enum ALERTSOURCETYPE
     {
-        DXSPOT = 0,
-        WSJTXCQSPOT = 1
+        DXSPOT = 0b1,
+        WSJTXCQSPOT = 0b10
     };
 
     QDateTime dateTime;

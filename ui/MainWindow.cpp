@@ -27,6 +27,7 @@
 #include "core/Eqsl.h"
 #include "core/QRZ.h"
 #include "core/CredentialStore.h"
+#include "AlertSettingDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -94,6 +95,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::settingsChanged, wsjtx, &Wsjtx::reloadSetting);
     connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::reloadSettings);
     connect(this, &MainWindow::settingsChanged, ui->rigWidget, &RigWidget::reloadSettings);
+    connect(this, &MainWindow::alertRulesChanged, &alertEvaluator, &AlertEvaluator::loadRules);
     //ClubLog* clublog = new ClubLog(this);
 
     connect(ui->logbookWidget, &LogbookWidget::logbookUpdated, stats, &StatisticsWidget::refreshGraph);
@@ -508,6 +510,15 @@ void MainWindow::QSOFilterSetting()
     QSOFilterDialog dialog(this);
     dialog.exec();
     ui->logbookWidget->updateTable();
+}
+
+void MainWindow::alertRuleSetting()
+{
+    FCT_IDENTIFICATION;
+
+    AlertSettingDialog dialog(this);
+    dialog.exec();
+    emit alertRulesChanged();
 }
 
 MainWindow::~MainWindow() {
