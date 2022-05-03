@@ -15,6 +15,7 @@ AlertWidget::AlertWidget(QWidget *parent) :
 
     ui->alertTableView->setModel(alertTableModel);
     ui->alertTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    ui->alertTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 AlertWidget::~AlertWidget()
