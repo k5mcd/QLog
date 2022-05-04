@@ -13,3 +13,7 @@ CREATE TABLE IF NOT EXISTS alert_rules
         spotter_country INTEGER,
         spotter_continent TEXT
 );
+
+CREATE INDEX "dxcc_idx" ON "contacts" (
+        "dxcc"
+);

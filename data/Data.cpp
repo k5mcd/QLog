@@ -46,14 +46,14 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
 
     QSqlQuery query;
 
-    if ( ! query.prepare("SELECT (SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc " + filter + " ORDER BY start_time ASC LIMIT 1) as entity,"
-                  "(SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc AND band = :band " + filter + " ORDER BY start_time ASC LIMIT 1) as band,"
+    if ( ! query.prepare("SELECT (SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc " + filter + " LIMIT 1) as entity,"
+                  "(SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc AND band = :band " + filter + " LIMIT 1) as band,"
                   "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
                   "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
-                  "        ORDER BY start_time ASC LIMIT 1) as mode,"
+                  "        LIMIT 1) as mode,"
                   "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
                   "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
-                  "        AND band = :band ORDER BY start_time ASC LIMIT 1) as slot;") )
+                  "        AND band = :band LIMIT 1) as slot;") )
     {
         qWarning() << "Cannot prepare Select statement";
         return DxccStatus::UnknownStatus;
