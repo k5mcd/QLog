@@ -32,28 +32,35 @@ void AlertEvaluator::dxSpot(const DxSpot & spot)
 
     qCDebug(function_parameters) << "DX Spot";
 
+    QStringList matchedRules;
+
     for ( const AlertRule *rule : qAsConst(ruleList) )
     {
         qCDebug(runtime) << "Processing " << *rule;
+
         if ( rule->match(spot) )
         {
-            UserAlert userAlert;
-
-            userAlert.dateTime = QDateTime::currentDateTimeUtc();
-            userAlert.source = UserAlert::ALERTSOURCETYPE::DXSPOT;
-            userAlert.triggerName = rule->ruleName;
-            userAlert.callsign = spot.callsign;
-            userAlert.freq = spot.freq;
-            userAlert.mode = spot.mode;
-            userAlert.dxcc = spot.dxcc;
-            userAlert.status = spot.status;
-            userAlert.comment = spot.comment;
-            userAlert.spotter = spot.spotter;
-            userAlert.dxcc_spotter = spot.dxcc_spotter;
-
-            emit alert(userAlert);
-            return;
+            matchedRules << rule->ruleName;
         }
+    }
+
+    if ( matchedRules.size() > 0 )
+    {
+        UserAlert userAlert;
+
+        userAlert.dateTime = QDateTime::currentDateTimeUtc();
+        userAlert.source = UserAlert::ALERTSOURCETYPE::DXSPOT;
+        userAlert.triggerName = matchedRules.join(", ");
+        userAlert.callsign = spot.callsign;
+        userAlert.freq = spot.freq;
+        userAlert.mode = spot.mode;
+        userAlert.dxcc = spot.dxcc;
+        userAlert.status = spot.status;
+        userAlert.comment = spot.comment;
+        userAlert.spotter = spot.spotter;
+        userAlert.dxcc_spotter = spot.dxcc_spotter;
+
+        emit alert(userAlert);
     }
 }
 
