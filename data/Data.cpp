@@ -494,71 +494,112 @@ void Data::loadSOTA()
     }
 }
 
-DxccEntity Data::lookupDxcc(const QString &callsign) {
+DxccEntity Data::lookupDxcc(const QString &callsign)
+{
     FCT_IDENTIFICATION;
+    static QCache<QString, DxccEntity> localCache(1000);
 
     qCDebug(function_parameters) << callsign;
 
-    QSqlQuery query;
-    if ( ! query.prepare(
-                "SELECT\n"
-                "    dxcc_entities.id,\n"
-                "    dxcc_entities.name,\n"
-                "    dxcc_entities.prefix,\n"
-                "    dxcc_entities.cont,\n"
-                "    CASE\n"
-                "        WHEN (dxcc_prefixes.cqz != 0)\n"
-                "        THEN dxcc_prefixes.cqz\n"
-                "        ELSE dxcc_entities.cqz\n"
-                "    END AS cqz,\n"
-                "    CASE\n"
-                "        WHEN (dxcc_prefixes.ituz != 0)\n"
-                "        THEN dxcc_prefixes.ituz\n"
-                "        ELSE dxcc_entities.ituz\n"
-                "    END AS ituz\n,"
-                "    dxcc_entities.lat,\n"
-                "    dxcc_entities.lon,\n"
-                "    dxcc_entities.tz\n"
-                "FROM dxcc_prefixes\n"
-                "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id)\n"
-                "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true)\n"
-                "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
-                "ORDER BY dxcc_prefixes.prefix\n"
-                "DESC LIMIT 1\n"
-    ) )
+    DxccEntity dxccRet;
+    DxccEntity * dxccCached = localCache.object(callsign);
+
+    if ( dxccCached )
     {
-        qWarning() << "Cannot prepare Select statement";
-        return DxccEntity();
+        dxccRet.dxcc = dxccCached->dxcc;
+        dxccRet.country = dxccCached->country;
+        dxccRet.prefix = dxccCached->prefix;
+        dxccRet.cont = dxccCached->cont;
+        dxccRet.cqz = dxccCached->cqz;
+        dxccRet.ituz = dxccCached->ituz;
+        dxccRet.latlon[0] = dxccCached->latlon[0];
+        dxccRet.latlon[1] = dxccCached->latlon[1];
+        dxccRet.tz = dxccCached->tz;
+        dxccRet.flag = dxccCached->flag;
     }
-
-    query.bindValue(":callsign", callsign);
-
-    if ( ! query.exec() )
+    else
     {
-        qWarning() << "Cannot execte Select statement" << query.lastError();
-        return DxccEntity();
+        QSqlQuery query;
+        if ( ! query.prepare(
+                 "SELECT\n"
+                 "    dxcc_entities.id,\n"
+                 "    dxcc_entities.name,\n"
+                 "    dxcc_entities.prefix,\n"
+                 "    dxcc_entities.cont,\n"
+                 "    CASE\n"
+                 "        WHEN (dxcc_prefixes.cqz != 0)\n"
+                 "        THEN dxcc_prefixes.cqz\n"
+                 "        ELSE dxcc_entities.cqz\n"
+                 "    END AS cqz,\n"
+                 "    CASE\n"
+                 "        WHEN (dxcc_prefixes.ituz != 0)\n"
+                 "        THEN dxcc_prefixes.ituz\n"
+                 "        ELSE dxcc_entities.ituz\n"
+                 "    END AS ituz\n,"
+                 "    dxcc_entities.lat,\n"
+                 "    dxcc_entities.lon,\n"
+                 "    dxcc_entities.tz\n"
+                 "FROM dxcc_prefixes\n"
+                 "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id)\n"
+                 "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true)\n"
+                 "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
+                 "ORDER BY dxcc_prefixes.prefix\n"
+                 "DESC LIMIT 1\n"
+                 ) )
+        {
+            qWarning() << "Cannot prepare Select statement";
+            return DxccEntity();
+        }
+
+        query.bindValue(":callsign", callsign);
+
+        if ( ! query.exec() )
+        {
+            qWarning() << "Cannot execte Select statement" << query.lastError();
+            return DxccEntity();
+        }
+        if (query.next())
+        {
+            dxccRet.dxcc = query.value(0).toInt();
+            dxccRet.country = query.value(1).toString();
+            dxccRet.prefix = query.value(2).toString();
+            dxccRet.cont = query.value(3).toString();
+            dxccRet.cqz = query.value(4).toInt();
+            dxccRet.ituz = query.value(5).toInt();
+            dxccRet.latlon[0] = query.value(6).toDouble();
+            dxccRet.latlon[1] = query.value(7).toDouble();
+            dxccRet.tz = query.value(8).toFloat();
+            dxccRet.flag = flags.value(dxccRet.dxcc);
+
+            dxccCached = new DxccEntity;
+
+            if ( dxccCached )
+            {
+
+                dxccCached->dxcc = dxccRet.dxcc;
+                dxccCached->country = dxccRet.country;
+                dxccCached->prefix = dxccRet.prefix;
+                dxccCached->cont = dxccRet.cont;
+                dxccCached->cqz = dxccRet.cqz;
+                dxccCached->ituz = dxccRet.ituz;
+                dxccCached->latlon[0] = dxccRet.latlon[0];
+                dxccCached->latlon[1] = dxccRet.latlon[1];
+                dxccCached->tz = dxccRet.tz;
+                dxccCached->flag = dxccRet.flag;
+
+                localCache.insert(callsign, dxccCached);
+            }
+        }
+        else
+        {
+            dxccRet.dxcc = 0;
+            dxccRet.ituz = 0;
+            dxccRet.cqz = 0;
+            dxccRet.tz = 0;
+        }
     }
 
-    DxccEntity dxcc;
-    if (query.next()) {
-        dxcc.dxcc = query.value(0).toInt();
-        dxcc.country = query.value(1).toString();
-        dxcc.prefix = query.value(2).toString();
-        dxcc.cont = query.value(3).toString();
-        dxcc.cqz = query.value(4).toInt();
-        dxcc.ituz = query.value(5).toInt();
-        dxcc.latlon[0] = query.value(6).toDouble();
-        dxcc.latlon[1] = query.value(7).toDouble();
-        dxcc.tz = query.value(8).toFloat();
-        dxcc.flag = flags.value(dxcc.dxcc);
-    }
-    else {
-        dxcc.dxcc = 0;
-        dxcc.ituz = 0;
-        dxcc.cqz = 0;
-        dxcc.tz = 0;
-    }
-    return dxcc;
+    return dxccRet;
 }
 
 QString Data::dxccFlag(int dxcc) {
