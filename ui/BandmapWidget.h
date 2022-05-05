@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QTimer>
 #include <QGraphicsItem>
+#include <QMutex>
 
 #include "data/DxSpot.h"
 #include "data/Band.h"
@@ -49,7 +50,10 @@ signals:
 
 private:
     void removeDuplicates(DxSpot &spot);
-    void bandmapAging();
+    void spotAging();
+    void updateStations();
+    void determineStepDigits(double &steps, int &digits);
+    void clearAllCallsignFromScene();
 
 private:
     Ui::BandmapWidget *ui;
@@ -62,6 +66,8 @@ private:
     QGraphicsScene* bandmapScene;
     QMap<double, DxSpot> spots;
     QTimer *update_timer;
+    QList<QGraphicsLineItem *> lineItemList;
+    QList<QGraphicsTextItem *> textItemList;
 };
 
 #endif // BANDMAPWIDGET_H
