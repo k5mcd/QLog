@@ -60,6 +60,9 @@ MainWindow::MainWindow(QWidget* parent) :
     alertButton->setIcon(QIcon(":/icons/alert.svg"));
     alertButton->setFlat(true);
     alertButton->setFocusPolicy(Qt::NoFocus);
+    alertTextButton = new QPushButton(" ", ui->statusBar);
+    alertTextButton->setFlat(true);
+    alertTextButton->setFocusPolicy(Qt::NoFocus);
     darkLightModeSwith = new SwitchButton("", ui->statusBar);
     darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
 
@@ -69,6 +72,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->statusBar->addWidget(operatorLabel);
     ui->statusBar->addWidget(conditionsLabel);
 
+    ui->statusBar->addPermanentWidget(alertTextButton);
     ui->statusBar->addPermanentWidget(alertButton);
     ui->statusBar->addPermanentWidget(darkIconLabel);
     ui->statusBar->addPermanentWidget(darkLightModeSwith);
@@ -132,7 +136,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->rigWidget, &RigWidget::rigProfileChanged, ui->newContactWidget, &NewContactWidget::refreshRigProfileCombo);
 
-    connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::refreshAlertButton);
+    connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::clearAlertButtons);
     connect(alertWidget, &AlertWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
     conditions = new Conditions(this);
@@ -249,14 +253,19 @@ void MainWindow::processSpotAlert(SpotAlert alert)
 
     alertWidget->addAlert(alert);
     refreshAlertButton();
-    QToolTip::showText(alertButton->mapToGlobal(QPoint()),alert.callsign,alertButton);
-    QApplication::beep();
+    alertTextButton->setText(alert.ruleName + ": " + alert.callsign + ", " + alert.band + ", " + alert.mode);
+    alertTextButton->disconnect();
+    connect(alertTextButton, &QPushButton::clicked, this, [this, alert]()
+    {
+        ui->newContactWidget->tuneDx(alert.callsign, alert.freq);
+    });
 }
 
-void MainWindow::refreshAlertButton()
+void MainWindow::clearAlertButtons()
 {
     FCT_IDENTIFICATION;
-    alertButton->setText(QString::number(alertWidget->alertCount()));
+    refreshAlertButton();
+    alertTextButton->setText(" ");
 }
 
 void MainWindow::setDarkMode()
@@ -289,6 +298,12 @@ void MainWindow::setLightMode()
     FCT_IDENTIFICATION;
 
     qApp->setPalette(this->style()->standardPalette());
+}
+
+void MainWindow::refreshAlertButton()
+{
+    FCT_IDENTIFICATION;
+    alertButton->setText(QString::number(alertWidget->alertCount()));
 }
 
 void MainWindow::rotConnect() {

@@ -33,7 +33,7 @@ public slots:
     void rigErrorHandler(const QString &error);
     void rotErrorHandler(const QString &error);
     void stationProfileChanged();
-
+    void clearAlertButtons();
 
 private slots:
     void rigConnect();
@@ -54,7 +54,6 @@ private slots:
     void alertRuleSetting();
     void darkModeToggle(int);
     void processSpotAlert(SpotAlert alert);
-    void refreshAlertButton();
 
 private:
     Ui::MainWindow* ui;
@@ -64,6 +63,7 @@ private:
     QLabel* locatorLabel;
     QLabel* operatorLabel;
     QPushButton* alertButton;
+    QPushButton* alertTextButton;
     SwitchButton* darkLightModeSwith;
     QLabel* darkIconLabel;
     StatisticsWidget* stats;
@@ -73,6 +73,7 @@ private:
 
     void setDarkMode();
     void setLightMode();
+    void refreshAlertButton();
 };
 
 #endif // MAINWINDOW_H
