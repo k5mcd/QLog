@@ -86,6 +86,7 @@ void AlertEvaluator::WSJTXCQSpot(const WsjtxEntry &wsjtx)
             alert.band = wsjtx.band;
             alert.mode = Data::freqToMode(wsjtx.freq);
             alert.dxcc = wsjtx.dxcc;
+            alert.comment = wsjtx.decode.message;
             alert.status = wsjtx.status;
             alert.spotter = wsjtx.spotter;
             alert.dxcc_spotter = wsjtx.dxcc_spotter;
