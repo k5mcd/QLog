@@ -42,7 +42,7 @@ QVariant AlertTableModel::headerData(int section, Qt::Orientation orientation, i
     switch (section)
     {
     case 0: return tr("Time");
-    case 1: return tr("Rule");
+    case 1: return tr("Rules");
     case 2: return tr("Callsign");
     case 3: return tr("Frequency");
     case 4: return tr("Mode");

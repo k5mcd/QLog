@@ -60,6 +60,12 @@ MainWindow::MainWindow(QWidget* parent) :
     alertButton->setIcon(QIcon(":/icons/alert.svg"));
     alertButton->setFlat(true);
     alertButton->setFocusPolicy(Qt::NoFocus);
+    QMenu *menuMode = new QMenu(this);
+    menuMode->addAction(ui->actionShowAlerts);
+    menuMode->addAction(ui->actionClearAlerts);
+    alertButton->setMenu(menuMode);
+
+
     alertTextButton = new QPushButton(" ", ui->statusBar);
     alertTextButton->setFlat(true);
     alertTextButton->setFocusPolicy(Qt::NoFocus);
@@ -78,7 +84,6 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->statusBar->addPermanentWidget(darkLightModeSwith);
 
     connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
-    connect(alertButton, SIGNAL(clicked()), this, SLOT(showAlerts()));
 
     connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
     connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
@@ -266,6 +271,7 @@ void MainWindow::clearAlertButtons()
     FCT_IDENTIFICATION;
     refreshAlertButton();
     alertTextButton->setText(" ");
+    alertTextButton->disconnect();
 }
 
 void MainWindow::setDarkMode()
@@ -453,6 +459,13 @@ void MainWindow::showAlerts()
     FCT_IDENTIFICATION;
 
     alertWidget->show();
+}
+
+void MainWindow::clearAlerts()
+{
+    FCT_IDENTIFICATION;
+
+    alertWidget->clearAllAlerts();
 }
 
 void MainWindow::conditionsUpdated() {

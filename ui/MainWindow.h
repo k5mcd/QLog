@@ -33,7 +33,6 @@ public slots:
     void rigErrorHandler(const QString &error);
     void rotErrorHandler(const QString &error);
     void stationProfileChanged();
-    void clearAlertButtons();
 
 private slots:
     void rigConnect();
@@ -49,11 +48,13 @@ private slots:
     void showAwards();
     void showAbout();
     void showAlerts();
+    void clearAlerts();
     void conditionsUpdated();
     void QSOFilterSetting();
     void alertRuleSetting();
     void darkModeToggle(int);
     void processSpotAlert(SpotAlert alert);
+    void clearAlertButtons();
 
 private:
     Ui::MainWindow* ui;

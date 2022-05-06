@@ -428,6 +428,16 @@
     <string>Alert Rules</string>
    </property>
   </action>
+  <action name="actionShowAlerts">
+   <property name="text">
+    <string>Show Alerts</string>
+   </property>
+  </action>
+  <action name="actionClearAlerts">
+   <property name="text">
+    <string>Clear Alerts</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -926,6 +936,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionShowAlerts</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showAlerts()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionClearAlerts</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clearAlerts()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -945,5 +987,7 @@
   <slot>showClublog()</slot>
   <slot>showQRZ()</slot>
   <slot>alertRuleSetting()</slot>
+  <slot>showAlerts()</slot>
+  <slot>clearAlerts()</slot>
  </slots>
 </ui>
