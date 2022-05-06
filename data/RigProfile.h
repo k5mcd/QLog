@@ -15,7 +15,7 @@ class RigProfile
 {
 public:
     RigProfile() {
-                   model = 0; netport = 0; baudrate = 0;
+                   model = DEFAULT_RIG_MODEL; netport = 0; baudrate = 0;
                    databits = 0; stopbits = 0.0; pollInterval = 0;
                    txFreqStart = 0.0; txFreqEnd = 0.0; getFreqInfo = false;
                    getModeInfo = false; getVFOInfo = false; getPWRInfo = false;

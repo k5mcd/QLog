@@ -8,10 +8,13 @@
 
 #include "data/ProfileManager.h"
 
+#define DEFAULT_ROT_MODEL 1
+
 class RotProfile
 {
 public:
-    RotProfile() { model = 0; netport = 0; baudrate = 0; databits = 0; stopbits = 0.0;};
+    RotProfile() { model = DEFAULT_ROT_MODEL; netport = 0;
+                   baudrate = 0; databits = 0; stopbits = 0.0;};
 
     QString profileName;
     qint32 model;
