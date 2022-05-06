@@ -5,6 +5,8 @@
 #include "ui/StatisticsWidget.h"
 #include "core/SwitchButton.h"
 #include "core/NetworkNotification.h"
+#include "core/AlertEvaluator.h"
+#include "ui/AlertWidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +26,7 @@ public:
 
 signals:
     void settingsChanged();
+    void alertRulesChanged();
     void themeChanged(int);
 
 public slots:
@@ -45,9 +48,13 @@ private slots:
     void showQRZ();
     void showAwards();
     void showAbout();
+    void showAlerts();
     void conditionsUpdated();
     void QSOFilterSetting();
+    void alertRuleSetting();
     void darkModeToggle(int);
+    void processSpotAlert(SpotAlert alert);
+    void refreshAlertButton();
 
 private:
     Ui::MainWindow* ui;
@@ -56,11 +63,13 @@ private:
     QLabel* callsignLabel;
     QLabel* locatorLabel;
     QLabel* operatorLabel;
+    QPushButton* alertButton;
     SwitchButton* darkLightModeSwith;
     QLabel* darkIconLabel;
     StatisticsWidget* stats;
+    AlertWidget* alertWidget;
     NetworkNotification networknotification;
-
+    AlertEvaluator alertEvaluator;
 
     void setDarkMode();
     void setLightMode();

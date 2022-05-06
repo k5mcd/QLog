@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AlertRuleDetail</class>
+ <widget class="QDialog" name="AlertRuleDetail">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>357</width>
+    <height>620</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Alert Rule Detail</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="ruleNameLabel">
+         <property name="text">
+          <string>Rule Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="ruleNameEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="ruleEnabledLabel">
+         <property name="text">
+          <string>Enabled</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="ruleEnabledCheckBox">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="sourceLabel">
+         <property name="text">
+          <string>Sources</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QCheckBox" name="dxcCheckBox">
+           <property name="text">
+            <string>DX Cluster</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="wsjtxCheckBox">
+           <property name="text">
+            <string>WSJTX</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Preferred</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="tabsClosable">
+      <bool>false</bool>
+     </property>
+     <widget class="QWidget" name="dx">
+      <attribute name="title">
+       <string>DX</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QFormLayout" name="formLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="dxCallsignLabel">
+           <property name="text">
+            <string>DX Callsign</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="dxCallsignEdit">
+           <property name="toolTip">
+            <string>Use Regular Expression</string>
+           </property>
+           <property name="text">
+            <string>.*</string>
+           </property>
+           <property name="placeholderText">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="countryLabel">
+           <property name="text">
+            <string>Country</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="countryCombo"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="logStatusLabel">
+           <property name="text">
+            <string>Log Status</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="logStatusCombo"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="spotCommentLabel">
+           <property name="text">
+            <string>Spot Comment</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="spotCommentEdit">
+           <property name="toolTip">
+            <string>Use Regular Expression</string>
+           </property>
+           <property name="text">
+            <string>.*</string>
+           </property>
+           <property name="placeholderText">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="modes">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>701</width>
+           <height>356</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Modes</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QGridLayout" name="modes_group">
+            <property name="horizontalSpacing">
+             <number>7</number>
+            </property>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="phonecheckbox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Phone</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="cwcheckbox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>CW</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="digitalcheckbox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Digital</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QCheckBox" name="ft8checkbox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>FT8</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="bands">
+         <property name="title">
+          <string>Bands</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QGridLayout" name="band_group"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="continent">
+         <property name="title">
+          <string>Continent</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QGridLayout" name="cont_group">
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="nacheckbox">
+              <property name="text">
+               <string>North America</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="afcheckbox">
+              <property name="text">
+               <string>Africa</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="ancheckbox">
+              <property name="text">
+               <string>Antarctica</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QCheckBox" name="sacheckbox">
+              <property name="text">
+               <string>South America</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="ascheckbox">
+              <property name="text">
+               <string>Asia</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="eucheckbox">
+              <property name="text">
+               <string>Europe</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="occheckbox">
+              <property name="text">
+               <string>Oceania</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="Spotter">
+      <attribute name="title">
+       <string>Spotter</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <layout class="QFormLayout" name="formLayout_4">
+         <item row="0" column="0">
+          <widget class="QLabel" name="spotterCountry">
+           <property name="text">
+            <string>Country</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="spotterCountryCombo"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="continent_spotter">
+         <property name="title">
+          <string>Continent</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <layout class="QGridLayout" name="cont_group_spotter">
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="nacheckbox_spotter">
+              <property name="text">
+               <string>North America</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="afcheckbox_spotter">
+              <property name="text">
+               <string>Africa</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QCheckBox" name="ancheckbox_spotter">
+              <property name="text">
+               <string>Antarctica</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QCheckBox" name="sacheckbox_spotter">
+              <property name="text">
+               <string>South America</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="ascheckbox_spotter">
+              <property name="text">
+               <string>Asia</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="eucheckbox_spotter">
+              <property name="text">
+               <string>Europe</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="occheckbox_spotter">
+              <property name="text">
+               <string>Oceania</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>ruleNameEdit</tabstop>
+  <tabstop>ruleEnabledCheckBox</tabstop>
+  <tabstop>dxcCheckBox</tabstop>
+  <tabstop>wsjtxCheckBox</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>dxCallsignEdit</tabstop>
+  <tabstop>countryCombo</tabstop>
+  <tabstop>logStatusCombo</tabstop>
+  <tabstop>spotCommentEdit</tabstop>
+  <tabstop>modes</tabstop>
+  <tabstop>cwcheckbox</tabstop>
+  <tabstop>phonecheckbox</tabstop>
+  <tabstop>digitalcheckbox</tabstop>
+  <tabstop>ft8checkbox</tabstop>
+  <tabstop>bands</tabstop>
+  <tabstop>continent</tabstop>
+  <tabstop>afcheckbox</tabstop>
+  <tabstop>ascheckbox</tabstop>
+  <tabstop>nacheckbox</tabstop>
+  <tabstop>occheckbox</tabstop>
+  <tabstop>ancheckbox</tabstop>
+  <tabstop>eucheckbox</tabstop>
+  <tabstop>sacheckbox</tabstop>
+  <tabstop>spotterCountryCombo</tabstop>
+  <tabstop>continent_spotter</tabstop>
+  <tabstop>afcheckbox_spotter</tabstop>
+  <tabstop>ascheckbox_spotter</tabstop>
+  <tabstop>nacheckbox_spotter</tabstop>
+  <tabstop>occheckbox_spotter</tabstop>
+  <tabstop>ancheckbox_spotter</tabstop>
+  <tabstop>eucheckbox_spotter</tabstop>
+  <tabstop>sacheckbox_spotter</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>AlertRuleDetail</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>257</x>
+     <y>610</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>AlertRuleDetail</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>325</x>
+     <y>610</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ruleNameEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>AlertRuleDetail</receiver>
+   <slot>ruleNameChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>178</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dxCallsignEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>AlertRuleDetail</receiver>
+   <slot>callsignChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>178</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spotCommentEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>AlertRuleDetail</receiver>
+   <slot>spotCommentChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>242</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>178</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>save()</slot>
+  <slot>ruleNameChanged(QString)</slot>
+  <slot>callsignChanged(QString)</slot>
+  <slot>spotCommentChanged(QString)</slot>
+ </slots>
+</ui>

@@ -10,6 +10,7 @@
 #include "data/DxSpot.h"
 #include "Wsjtx.h"
 #include "data/WsjtxEntry.h"
+#include "data/SpotAlert.h"
 
 class GenericNotificationMsg : public QObject
 {
@@ -79,6 +80,15 @@ public:
 
 };
 
+class SpotAlertNotificationMsg : public GenericSpotNotificationMsg
+{
+
+public:
+    explicit SpotAlertNotificationMsg(const SpotAlert&, QObject *parent = nullptr);
+
+};
+
+
 class NetworkNotification : public QObject
 {
     Q_OBJECT
@@ -91,7 +101,8 @@ public:
     static void saveNotifDXSpotAddrs(const QString &);
     static QString getNotifWSJTXCQSpotAddrs();
     static void saveNotifWSJTXCQSpotAddrs(const QString &);
-
+    static QString getNotifSpotAlertAddrs();
+    static void saveNotifSpotAlertAddrs(const QString &);
 
 public slots:
     void QSOInserted(const QSqlRecord &);
@@ -99,6 +110,7 @@ public slots:
     void QSODeleted(const QSqlRecord &);
     void dxSpot(const DxSpot&);
     void WSJTXCQSpot(const WsjtxEntry&);
+    void spotAlert(const SpotAlert&);
 
 private:
 
@@ -107,6 +119,7 @@ private:
     static QString CONFIG_NOTIF_QSO_ADI_ADDRS_KEY;
     static QString CONFIG_NOTIF_DXSPOT_ADDRS_KEY;
     static QString CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY;
+    static QString CONFIG_NOTIF_SPOTALERT_ADDRS_KEY;
 
 };
 

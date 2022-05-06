@@ -1579,7 +1579,7 @@ void NewContactWidget::tuneDx(QString callsign, double frequency)
     ui->callsignEdit->setText(callsign);
     ui->freqRXEdit->setValue(frequency);
     callsignChanged();
-    ui->rstSentEdit->setFocus();
+    editCallsignFinished();
     stopContactTimer();
 }
 

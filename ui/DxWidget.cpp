@@ -362,6 +362,10 @@ void DxWidget::send() {
 void DxWidget::receive() {
     FCT_IDENTIFICATION;
 
+    static QRegularExpression dxSpotRE("^DX de ([a-zA-Z0-9\\/]+).*:\\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z)",
+                                       QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch match;
+
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
     foreach (QString line, lines)
@@ -379,52 +383,40 @@ void DxWidget::receive() {
             socket->write(call);
         }
 
-        if (line.startsWith("DX")) {
-            int index = 0;
+        if (line.startsWith("DX"))
+        {
+            match = dxSpotRE.match(line);
 
-            QRegExp spotterRegExp("DX DE (([A-Z]|[0-9]|\\/)+):?", Qt::CaseInsensitive);
-            index = spotterRegExp.indexIn(line, index);
-            QString spotter = spotterRegExp.cap(1);
-            index += spotter.size();
+            if ( match.hasMatch() )
+            {
+                QString spotter = match.captured(1);
+                QString freq =    match.captured(2);
+                QString call =    match.captured(3);
+                QString comment = match.captured(4);
 
-            QRegExp freqRegExp("([0-9]+\\.[0-9]+)");
-            index = freqRegExp.indexIn(line, index);
-            QString freq = freqRegExp.cap(1);
-            index += freq.size();
+                DxccEntity dxcc = Data::instance()->lookupDxcc(call);
+                DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
 
-            QRegExp callRegExp("(([A-Z]|[0-9]|\\/)+)");
-            index = callRegExp.indexIn(line, index);
-            QString call = callRegExp.cap(1);
-            index += call.size();
+                DxSpot spot;
 
-            QRegExp commentRegExp(" (.*) ([0-9]{4})Z");
-            index = commentRegExp.indexIn(line, index);
-            QString comment = commentRegExp.cap(1).trimmed();
-            //QString time = commentRegExp.cap(2);
+                spot.time =  QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
+                spot.callsign = call;
+                spot.freq = freq.toDouble() / 1000;
+                spot.band = Data::band(spot.freq).name;
+                spot.mode = Data::freqToMode(spot.freq);
+                spot.spotter = spotter;
+                spot.comment = comment;
+                spot.dxcc = dxcc;
+                spot.dxcc_spotter = dxcc_spotter;
+                spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToMode(spot.freq));
 
-            DxccEntity dxcc = Data::instance()->lookupDxcc(call);
-            DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
+                emit newSpot(spot);
 
-            //QString country = dxcc.country;
+                dxTableModel->addEntry(spot);
+                proxyDXC->invalidate();
 
-            DxSpot spot;
-            spot.time =  QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
-            spot.callsign = call;
-            spot.freq = freq.toDouble() / 1000;
-            spot.band = Data::band(spot.freq).name;
-            spot.mode = Data::freqToMode(spot.freq);
-            spot.spotter = spotter;
-            spot.comment = comment;
-            spot.dxcc = dxcc;
-            spot.dxcc_spotter = dxcc_spotter;
-            spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToMode(spot.freq));
-
-            emit newSpot(spot);
-
-            dxTableModel->addEntry(spot);
-            proxyDXC->invalidate();
-
-            ui->dxTable->repaint();
+                ui->dxTable->repaint();
+            }
         }
 
         ui->log->appendPlainText(line);

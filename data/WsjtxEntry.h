@@ -14,6 +14,8 @@ struct WsjtxEntry {
     double freq;
     QString band;
     QString decodedMode;
+    QString spotter;
+    DxccEntity dxcc_spotter;
 };
 
 #endif // WSJTXENTRY_H
