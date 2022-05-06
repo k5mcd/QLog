@@ -24,7 +24,7 @@ AlertWidget::~AlertWidget()
     delete ui;
 }
 
-void AlertWidget::addAlert(const UserAlert &alert)
+void AlertWidget::addAlert(const SpotAlert &alert)
 {
     FCT_IDENTIFICATION;
 

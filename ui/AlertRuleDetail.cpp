@@ -9,7 +9,7 @@
 #include "core/debug.h"
 #include "../models/SqlListModel.h"
 #include "data/Data.h"
-#include "data/UserAlert.h"
+#include "data/SpotAlert.h"
 #include "core/AlertEvaluator.h"
 
 MODULE_IDENTIFICATION("qlog.ui.alerruledetail");
@@ -177,12 +177,12 @@ void AlertRuleDetail::save()
 
     if ( ui->dxcCheckBox->isChecked() )
     {
-        finalSource |= UserAlert::DXSPOT;
+        finalSource |= SpotAlert::DXSPOT;
     }
 
     if ( ui->wsjtxCheckBox->isChecked() )
     {
-        finalSource |= UserAlert::WSJTXCQSPOT;
+        finalSource |= SpotAlert::WSJTXCQSPOT;
     }
 
     rule.sourceMap = finalSource;
@@ -427,8 +427,8 @@ void AlertRuleDetail::loadRule(const QString &ruleName)
         /**********
          * Source *
          **********/
-        ui->dxcCheckBox->setChecked((rule.sourceMap & UserAlert::DXSPOT));
-        ui->wsjtxCheckBox->setChecked((rule.sourceMap & UserAlert::WSJTXCQSPOT));
+        ui->dxcCheckBox->setChecked((rule.sourceMap & SpotAlert::DXSPOT));
+        ui->wsjtxCheckBox->setChecked((rule.sourceMap & SpotAlert::WSJTXCQSPOT));
 
         /***************
          * DX Callsign *

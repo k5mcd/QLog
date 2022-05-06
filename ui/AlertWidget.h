@@ -2,7 +2,7 @@
 #define ALERTWIDGET_H
 
 #include <QWidget>
-#include "data/UserAlert.h"
+#include "data/SpotAlert.h"
 #include "models/AlertTableModel.h"
 
 namespace Ui {
@@ -20,7 +20,7 @@ public:
    int alertCount() const;
 
 public slots:
-    void addAlert(const UserAlert &alert);
+    void addAlert(const SpotAlert &alert);
     void clearAllAlerts();
     void entryDoubleClicked(QModelIndex index);
 

@@ -65,6 +65,25 @@ void NetworkNotification::saveNotifWSJTXCQSpotAddrs(const QString &addresses)
     settings.setValue(NetworkNotification::CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY, addresses);
 }
 
+QString NetworkNotification::getNotifSpotAlertAddrs()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(NetworkNotification::CONFIG_NOTIF_SPOTALERT_ADDRS_KEY).toString();
+}
+
+void NetworkNotification::saveNotifSpotAlertAddrs(const QString &addresses)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(NetworkNotification::CONFIG_NOTIF_SPOTALERT_ADDRS_KEY, addresses);
+
+}
+
 void NetworkNotification::QSOInserted(const QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
@@ -138,6 +157,21 @@ void NetworkNotification::WSJTXCQSpot(const WsjtxEntry &spot)
     }
 }
 
+void NetworkNotification::spotAlert(const SpotAlert &spot)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << "Usert Alert";
+
+    HostsPortString destList(getNotifSpotAlertAddrs());
+
+    if ( destList.getAddrList().size() > 0 )
+    {
+        SpotAlertNotificationMsg spotAlertMsg(spot);
+        send(spotAlertMsg.getJson(), destList);
+    }
+}
+
 void NetworkNotification::send(const QByteArray &data, const HostsPortString &dests)
 {
     FCT_IDENTIFICATION;
@@ -162,7 +196,8 @@ void NetworkNotification::send(const QByteArray &data, const HostsPortString &de
 
 QString NetworkNotification::CONFIG_NOTIF_QSO_ADI_ADDRS_KEY = "network/notification/qso/adi_addrs";
 QString NetworkNotification::CONFIG_NOTIF_DXSPOT_ADDRS_KEY = "network/notification/dxspot/addrs";
-QString NetworkNotification::CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY = "network/notification/wsjtx/cqspot addrs";
+QString NetworkNotification::CONFIG_NOTIF_WSJTXCQSPOT_ADDRS_KEY = "network/notification/wsjtx/cqspot/addrs";
+QString NetworkNotification::CONFIG_NOTIF_SPOTALERT_ADDRS_KEY = "network/notification/alerts/spot/addrs";
 
 GenericNotificationMsg::GenericNotificationMsg(QObject *parent) :
     QObject(parent)
@@ -284,4 +319,46 @@ GenericSpotNotificationMsg::GenericSpotNotificationMsg(QObject *parent)
     : GenericNotificationMsg(parent)
 {
     FCT_IDENTIFICATION;
+}
+
+SpotAlertNotificationMsg::SpotAlertNotificationMsg(const SpotAlert &spot, QObject *parent) :
+    GenericSpotNotificationMsg(parent)
+{
+    FCT_IDENTIFICATION;
+
+    QJsonObject spotData;
+    spotData["rcvtime"] = spot.dateTime.toString("yyyyMMdd hh:mm:ss");
+    spotData["freq"] = qRound(spot.freq * 10000.0) / 10000.0;
+    spotData["band"] = spot.band;
+    spotData["mode"] = spot.mode;
+    spotData["comment"] = spot.comment;
+    spotData["status"] = DxccStatus2String.value(spot.status, "unknown");
+    spotData["rulename"] = spot.ruleName;
+
+    QJsonObject dxInfo;
+    dxInfo["call"] = spot.callsign;
+    dxInfo["country"] = spot.dxcc.country;
+    dxInfo["pfx"] = spot.dxcc.prefix;
+    dxInfo["dxcc"] = spot.dxcc.dxcc;
+    dxInfo["cont"] = spot.dxcc.cont;
+    dxInfo["cqz"] = spot.dxcc.cqz;
+    dxInfo["ituz"] = spot.dxcc.ituz;
+    dxInfo["utcoffset"] = spot.dxcc.tz;
+
+    QJsonObject spotterInfo;
+    spotterInfo["call"] = spot.spotter;
+    spotterInfo["country"] = spot.dxcc_spotter.country;
+    spotterInfo["pfx"] = spot.dxcc_spotter.prefix;
+    spotterInfo["dxcc"] = spot.dxcc_spotter.dxcc;
+    spotterInfo["cont"] = spot.dxcc_spotter.cont;
+    spotterInfo["cqz"] = spot.dxcc_spotter.cqz;
+    spotterInfo["ituz"] = spot.dxcc_spotter.ituz;
+    spotterInfo["utcoffset"] = spot.dxcc_spotter.tz;
+
+    spotData["spotter"] = spotterInfo;
+    spotData["dx"] = dxInfo;
+
+    msg["msgtype"] = "spotalert";
+    msg["data"] = spotData;
+
 }

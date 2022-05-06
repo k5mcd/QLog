@@ -7,7 +7,7 @@
 #include "data/DxSpot.h"
 #include "data/WsjtxEntry.h"
 #include "data/StationProfile.h"
-#include "data/UserAlert.h"
+#include "data/SpotAlert.h"
 
 MODULE_IDENTIFICATION("qlog.ui.alertevaluator");
 
@@ -46,21 +46,22 @@ void AlertEvaluator::dxSpot(const DxSpot & spot)
 
     if ( matchedRules.size() > 0 )
     {
-        UserAlert userAlert;
+        SpotAlert alert;
 
-        userAlert.dateTime = QDateTime::currentDateTimeUtc();
-        userAlert.source = UserAlert::ALERTSOURCETYPE::DXSPOT;
-        userAlert.triggerName = matchedRules.join(", ");
-        userAlert.callsign = spot.callsign;
-        userAlert.freq = spot.freq;
-        userAlert.mode = spot.mode;
-        userAlert.dxcc = spot.dxcc;
-        userAlert.status = spot.status;
-        userAlert.comment = spot.comment;
-        userAlert.spotter = spot.spotter;
-        userAlert.dxcc_spotter = spot.dxcc_spotter;
+        alert.dateTime = QDateTime::currentDateTimeUtc();
+        alert.source = SpotAlert::ALERTSOURCETYPE::DXSPOT;
+        alert.ruleName = matchedRules.join(", ");
+        alert.callsign = spot.callsign;
+        alert.freq = spot.freq;
+        alert.band = spot.band;
+        alert.mode = spot.mode;
+        alert.dxcc = spot.dxcc;
+        alert.status = spot.status;
+        alert.comment = spot.comment;
+        alert.spotter = spot.spotter;
+        alert.dxcc_spotter = spot.dxcc_spotter;
 
-        emit alert(userAlert);
+        emit spotAlert(alert);
     }
 }
 
@@ -75,20 +76,21 @@ void AlertEvaluator::WSJTXCQSpot(const WsjtxEntry &wsjtx)
         qCDebug(runtime) << "Processing " << *rule;
         if ( rule->match(wsjtx) )
         {
-            UserAlert userAlert;
+            SpotAlert alert;
 
-            userAlert.dateTime = QDateTime::currentDateTimeUtc();
-            userAlert.source = UserAlert::ALERTSOURCETYPE::WSJTXCQSPOT;
-            userAlert.triggerName = rule->ruleName;
-            userAlert.callsign = wsjtx.callsign;
-            userAlert.freq = wsjtx.freq;
-            userAlert.mode = Data::freqToMode(wsjtx.freq);
-            userAlert.dxcc = wsjtx.dxcc;
-            userAlert.status = wsjtx.status;
-            userAlert.spotter = wsjtx.spotter;
-            userAlert.dxcc_spotter = wsjtx.dxcc_spotter;
+            alert.dateTime = QDateTime::currentDateTimeUtc();
+            alert.source = SpotAlert::ALERTSOURCETYPE::WSJTXCQSPOT;
+            alert.ruleName = rule->ruleName;
+            alert.callsign = wsjtx.callsign;
+            alert.freq = wsjtx.freq;
+            alert.band = wsjtx.band;
+            alert.mode = Data::freqToMode(wsjtx.freq);
+            alert.dxcc = wsjtx.dxcc;
+            alert.status = wsjtx.status;
+            alert.spotter = wsjtx.spotter;
+            alert.dxcc_spotter = wsjtx.dxcc_spotter;
 
-            emit alert(userAlert);
+            emit spotAlert(alert);
             return;
         }
     }
@@ -267,7 +269,7 @@ bool AlertRule::match(const WsjtxEntry &wsjtx) const
     /* the first part validates a primitive types */
     if ( isValid()
          && enabled
-         && (sourceMap & UserAlert::WSJTXCQSPOT)
+         && (sourceMap & SpotAlert::WSJTXCQSPOT)
          && (dxCountry == 0 || dxCountry == wsjtx.dxcc.dxcc)
          && (wsjtx.status & dxLogStatusMap)
          && (mode == "*" || mode.contains("|" + Data::freqToMode(wsjtx.freq)))
@@ -313,7 +315,7 @@ bool AlertRule::match(const DxSpot &spot) const
     /* the first part validates a primitive types */
     if ( isValid()
          && enabled
-         && (sourceMap & UserAlert::DXSPOT)
+         && (sourceMap & SpotAlert::DXSPOT)
          && (dxCountry == 0 || dxCountry == spot.dxcc.dxcc)
          && (spot.status & dxLogStatusMap)
          && (mode == "*" || mode.contains("|" + Data::freqToMode(spot.freq)))

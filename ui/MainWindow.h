@@ -53,7 +53,7 @@ private slots:
     void QSOFilterSetting();
     void alertRuleSetting();
     void darkModeToggle(int);
-    void processUserAlert(UserAlert alert);
+    void processSpotAlert(SpotAlert alert);
     void refreshAlertButton();
 
 private:

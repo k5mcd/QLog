@@ -16,14 +16,14 @@ QVariant AlertTableModel::data(const QModelIndex& index, int role) const
 {
     QLocale locale;
 
-    UserAlert selectedAlert = alertList.at(index.row());
+    SpotAlert selectedAlert = alertList.at(index.row());
 
     if (role == Qt::DisplayRole)
     {
         switch ( index.column() )
         {
         case 0: return selectedAlert.dateTime.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");;
-        case 1: return selectedAlert.triggerName;
+        case 1: return selectedAlert.ruleName;
         case 2: return selectedAlert.callsign;
         case 3: return QString::number(selectedAlert.freq, 'f', 5);
         case 4: return selectedAlert.mode;
@@ -51,7 +51,7 @@ QVariant AlertTableModel::headerData(int section, Qt::Orientation orientation, i
     }
 }
 
-void AlertTableModel::addAlert(UserAlert entry)
+void AlertTableModel::addAlert(SpotAlert entry)
 {
     alertListMutex.lock();
     beginInsertRows(QModelIndex(), alertList.count(), alertList.count());

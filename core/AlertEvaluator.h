@@ -4,7 +4,7 @@
 #include <QObject>
 #include "data/DxSpot.h"
 #include "data/WsjtxEntry.h"
-#include "data/UserAlert.h"
+#include "data/SpotAlert.h"
 #include <QRegularExpression>
 
 class AlertRule : public QObject
@@ -55,7 +55,7 @@ public slots:
     void loadRules();
 
 signals:
-    void alert(UserAlert alert);
+    void spotAlert(SpotAlert alert);
 
 private:
     QList<AlertRule *>ruleList;

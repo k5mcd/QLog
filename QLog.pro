@@ -141,8 +141,8 @@ HEADERS += \
         data/ProfileManager.h \
         data/RigProfile.h \
         data/RotProfile.h \
+        data/SpotAlert.h \
         data/StationProfile.h \
-        data/UserAlert.h \
         data/WsjtxEntry.h \
         logformat/AdiFormat.h \
         logformat/AdxFormat.h \

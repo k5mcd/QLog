@@ -120,7 +120,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->dxWidget, &DxWidget::newSpot, &alertEvaluator, &AlertEvaluator::dxSpot);
     connect(ui->dxWidget, &DxWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
-    connect(&alertEvaluator, &AlertEvaluator::alert, this, &MainWindow::processUserAlert);
+    connect(&alertEvaluator, &AlertEvaluator::spotAlert, this, &MainWindow::processSpotAlert);
+    connect(&alertEvaluator, &AlertEvaluator::spotAlert, &networknotification, &NetworkNotification::spotAlert);
 
     connect(ui->bandmapWidget, &BandmapWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
@@ -239,7 +240,7 @@ void MainWindow::darkModeToggle(int mode)
 
 }
 
-void MainWindow::processUserAlert(UserAlert alert)
+void MainWindow::processSpotAlert(SpotAlert alert)
 {
     FCT_IDENTIFICATION;
 

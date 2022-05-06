@@ -1,12 +1,12 @@
-#ifndef USERALERT_H
-#define USERALERT_H
+#ifndef SPOTALERT_H
+#define SPOTALERT_H
 
 #include <QString>
 #include <QDateTime>
 #include <QMetaType>
 #include "Dxcc.h"
 
-struct UserAlert
+struct SpotAlert
 {
     enum ALERTSOURCETYPE
     {
@@ -16,9 +16,10 @@ struct UserAlert
 
     QDateTime dateTime;
     ALERTSOURCETYPE source;
-    QString triggerName;
+    QString ruleName;
     QString callsign;
     double freq;
+    QString band;
     QString mode;
     DxccEntity dxcc;
     DxccStatus status;
@@ -27,6 +28,6 @@ struct UserAlert
     DxccEntity dxcc_spotter;
 };
 
-Q_DECLARE_METATYPE(UserAlert::ALERTSOURCETYPE);
+Q_DECLARE_METATYPE(SpotAlert::ALERTSOURCETYPE);
 
-#endif // USERALERT_H
+#endif // SPOTALERT_H
