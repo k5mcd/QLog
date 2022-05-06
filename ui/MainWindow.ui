@@ -420,6 +420,10 @@
    </property>
   </action>
   <action name="actionAlert">
+   <property name="icon">
+    <iconset resource="../res/icons/icons.qrc">
+     <normaloff>:/icons/alert.svg</normaloff>:/icons/alert.svg</iconset>
+   </property>
    <property name="text">
     <string>Alert Rules</string>
    </property>
