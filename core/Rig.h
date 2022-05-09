@@ -74,13 +74,13 @@ public:
     static Rig* instance();
 
     static bool isNetworkRig(const struct rig_caps *caps);
-    void stopTimer();
 
 public slots:
     void start();
     void update();
     void open();
     void close();
+    void stopTimer();
 
     void setFrequency(double);
     void setMode(const QString &, const QString &);
@@ -95,7 +95,7 @@ signals:
     void vfoChanged(VFOID, QString);
     void ritChanged(VFOID, double);
     void xitChanged(VFOID, double);
-    void rigErrorPresent(QString);
+    void rigErrorPresent(QString, QString);
     void rigDisconnected();
     void rigConnected();
 
@@ -117,6 +117,7 @@ private:
     void __closeRig();
     void __openRig();
     rmode_t modeSubmodeToModeT(const QString &mode, const QString &submode);
+    QString hamlibErrorString(int);
 
     RIG* rig;
     RigProfile connectedRigProfile;

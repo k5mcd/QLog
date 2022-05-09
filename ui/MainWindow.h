@@ -30,8 +30,8 @@ signals:
     void themeChanged(int);
 
 public slots:
-    void rigErrorHandler(const QString &error);
-    void rotErrorHandler(const QString &error);
+    void rigErrorHandler(const QString &error, const QString &errorDetail);
+    void rotErrorHandler(const QString &error, const QString &errorDetail);
     void stationProfileChanged();
 
 private slots:

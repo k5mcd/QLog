@@ -149,7 +149,8 @@ void Rotator::update()
         else
         {
             __closeRot();
-            emit rotErrorPresent(QString(tr("Get Position Error - ")) + QString(rigerror(status)));
+            emit rotErrorPresent(tr("Get Position Error"),
+                                 hamlibErrorString(status));
         }
     }
     else
@@ -184,7 +185,8 @@ void Rotator::__openRot()
     if ( !isRotConnected() )
     {
         // initialization failed
-        emit rotErrorPresent(QString(tr("Initialization Error")));
+        emit rotErrorPresent(tr("Initialization Error"),
+                             QString());
         return;
     }
 
@@ -210,13 +212,33 @@ void Rotator::__openRot()
     if (status != RIG_OK)
     {
         __closeRot();
-        emit rotErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
+        emit rotErrorPresent(tr("Open Connection Error"),
+                             hamlibErrorString(status));
         return;
     }
 
     emit rotConnected();
 
     connectedRotProfile = newRotProfile;
+}
+
+QString Rotator::hamlibErrorString(int errorCode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << errorCode;
+
+    QStringList errorList = QString(rigerror(errorCode)).split(QRegExp("[\r\n]"));
+    QString ret;
+
+    if ( errorList.size() >= 1 )
+    {
+        ret = errorList.at(0);
+    }
+
+    qCDebug(runtime) << ret;
+
+    return ret;
 }
 
 void Rotator::__closeRot()
@@ -265,7 +287,8 @@ void Rotator::setPositionImpl(int azimuth, int elevation) {
     if (status != RIG_OK)
     {
         __closeRot();
-        emit rotErrorPresent(QString(tr("Set Possition Error - ")) + QString(rigerror(status)));
+        emit rotErrorPresent(tr("Set Possition Error"),
+                             hamlibErrorString(status));
     }
 
     // wait a moment because Rigs are slow and they are not possible to set and get

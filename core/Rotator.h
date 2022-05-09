@@ -23,7 +23,7 @@ public:
 
 signals:
     void positionChanged(int azimuth, int elevation);
-    void rotErrorPresent(QString);
+    void rotErrorPresent(QString, QString);
     void rotDisconnected();
     void rotConnected();
 
@@ -45,6 +45,7 @@ private:
 
     void __closeRot();
     void __openRot();
+    QString hamlibErrorString(int);
 
     int azimuth;
     int elevation;

@@ -91,8 +91,8 @@ MainWindow::MainWindow(QWidget* parent) :
 
     darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
 
-    connect(Rig::instance(), SIGNAL(rigErrorPresent(QString)), this, SLOT(rigErrorHandler(QString)));
-    connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString)), this, SLOT(rotErrorHandler(QString)));
+    connect(Rig::instance(), SIGNAL(rigErrorPresent(QString, QString)), this, SLOT(rigErrorHandler(QString, QString)));
+    connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString, QString)), this, SLOT(rotErrorHandler(QString, QString)));
 
     Fldigi* fldigi = new Fldigi(this);
     connect(fldigi, &Fldigi::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
@@ -191,21 +191,23 @@ void MainWindow::rigConnect() {
     }
 }
 
-void MainWindow::rigErrorHandler(const QString &error)
+void MainWindow::rigErrorHandler(const QString &error, const QString &errorDetail)
 {
     FCT_IDENTIFICATION;
 
     QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                          QMessageBox::tr("Rig Error: <p>") + error +"</p>");
+                         QMessageBox::tr("<b>Rig Error:</b> ") + error
+                                         + "<p>" + tr("<b>Error Detail:</b> ") + errorDetail + "</p>");
     ui->actionConnectRig->setChecked(false);
 }
 
-void MainWindow::rotErrorHandler(const QString &error)
+void MainWindow::rotErrorHandler(const QString &error, const QString &errorDetail)
 {
     FCT_IDENTIFICATION;
 
     QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                          QMessageBox::tr("Rotator Error: <p>") + error +"</p>");
+                         QMessageBox::tr("<b>Rotator Error:</b> ") + error
+                                         + "<p>" + tr("<b>Error Detail:</b> ") + errorDetail + "</p>");
     ui->actionConnectRotator->setChecked(false);
 }
 

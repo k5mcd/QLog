@@ -120,7 +120,8 @@ void Rig::update()
         else
         {
             __closeRig();
-            emit rigErrorPresent(QString(tr("Get Frequency Error - ")) + QString(rigerror(status)));
+            emit rigErrorPresent(tr("Get Frequency Error"),
+                                 hamlibErrorString(status));
             timer->start(STARTING_UPDATE_INTERVAL);
             rigLock.unlock();
             return;
@@ -164,7 +165,8 @@ void Rig::update()
         else
         {
             __closeRig();
-            emit rigErrorPresent(QString(tr("Get Mode Error - ")) + QString(rigerror(status)));
+            emit rigErrorPresent(tr("Get Mode Error"),
+                                 hamlibErrorString(status));
             timer->start(STARTING_UPDATE_INTERVAL);
             rigLock.unlock();
             return;
@@ -450,7 +452,8 @@ void Rig::__openRig()
     if (!rig)
     {
         // initialization failed
-        emit rigErrorPresent(QString(tr("Initialization Error")));
+        emit rigErrorPresent(tr("Initialization Error"),
+                             QString());
         return;
     }
 
@@ -478,7 +481,8 @@ void Rig::__openRig()
     if (status != RIG_OK)
     {
         __closeRig();
-        emit rigErrorPresent(QString(tr("Open Connection Error - ")) + QString(rigerror(status)));
+        emit rigErrorPresent(tr("Open Connection Error"),
+                             hamlibErrorString(status));
         return;
     }
 
@@ -520,6 +524,25 @@ rmode_t Rig::modeSubmodeToModeT(const QString &mode, const QString &submode)
 
 }
 
+QString Rig::hamlibErrorString(int errorCode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << errorCode;
+
+    QStringList errorList = QString(rigerror(errorCode)).split(QRegExp("[\r\n]"));
+    QString ret;
+
+    if ( errorList.size() >= 1 )
+    {
+        ret = errorList.at(0);
+    }
+
+    qCDebug(runtime) << ret;
+
+    return ret;
+}
+
 void Rig::setFrequency(double newFreq)
 {
     FCT_IDENTIFICATION;
@@ -548,7 +571,8 @@ void Rig::setFrequencyImpl(double newFreq)
         if ( status != RIG_OK )
         {
             __closeRig();
-            emit rigErrorPresent(QString(tr("Set Frequency Error - ")) + QString(rigerror(status)));
+            emit rigErrorPresent(tr("Set Frequency Error"),
+                                 hamlibErrorString(status));
         }
 
         /* It is not needed to call VFO set freq function here because Rig's Update function do it */
