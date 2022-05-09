@@ -389,7 +389,7 @@ void Rig::open()
 {
     FCT_IDENTIFICATION;
 
-    QMetaObject::invokeMethod(this, "openImpl", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, &Rig::openImpl, Qt::QueuedConnection);
 }
 
 void Rig::openImpl()
@@ -398,6 +398,22 @@ void Rig::openImpl()
 
     rigLock.lock();
     __openRig();
+    rigLock.unlock();
+}
+
+void Rig::close()
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, &Rig::closeImpl, Qt::QueuedConnection);
+}
+
+void Rig::closeImpl()
+{
+    FCT_IDENTIFICATION;
+
+    rigLock.lock();
+    __closeRig();
     rigLock.unlock();
 }
 
@@ -504,14 +520,6 @@ rmode_t Rig::modeSubmodeToModeT(const QString &mode, const QString &submode)
 
 }
 
-void Rig::close()
-{
-    FCT_IDENTIFICATION;
-
-    rigLock.lock();
-    __closeRig();
-    rigLock.unlock();
-}
 void Rig::setFrequency(double newFreq)
 {
     FCT_IDENTIFICATION;

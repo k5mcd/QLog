@@ -101,7 +101,7 @@ signals:
 
 private slots:
     void openImpl();
-    //void closeImpl; //must not be implemented because it is not blocked call
+    void closeImpl();
     void setFrequencyImpl(double);
     void setModeImpl(rmode_t);
     void stopTimerImplt();
