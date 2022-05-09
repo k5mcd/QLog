@@ -205,6 +205,7 @@ GenericNotificationMsg::GenericNotificationMsg(QObject *parent) :
     FCT_IDENTIFICATION;
 
     msg["appid"] = "QLog";
+    msg["logid"] = LogParam::getParam("logid");
     msg["time"] = QDateTime::currentMSecsSinceEpoch();
 }
 
@@ -235,7 +236,6 @@ QSONotificationMsg::QSONotificationMsg(const QSqlRecord &record,
     QJsonObject qsoData;
     qsoData["operation"] = QSOOperation2String.value(operation,"unknown");
     qsoData["type"] = "adif";
-    qsoData["logid"] = LogParam::getParam("logid");
     qsoData["rowid"] = record.value(record.indexOf("id")).toInt();
     qsoData["value"] = data.replace("\n", "");
 
