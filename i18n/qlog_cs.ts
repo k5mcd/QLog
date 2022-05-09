@@ -16,7 +16,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="34"/>
         <source>Enabled</source>
-        <translation>Zapnuto</translation>
+        <translation>Aktivní</translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="51"/>
@@ -170,7 +170,7 @@
     <message>
         <location filename="../ui/AlertSettingDialog.ui" line="14"/>
         <source>Alerts Rules</source>
-        <translation>Pravidla upozornění</translation>
+        <translation>Upozornění</translation>
     </message>
     <message>
         <location filename="../ui/AlertSettingDialog.ui" line="22"/>
@@ -213,7 +213,7 @@
     <message>
         <location filename="../models/AlertTableModel.cpp" line="45"/>
         <source>Rules</source>
-        <translation>Pravidlo</translation>
+        <translation>Pravidla</translation>
     </message>
     <message>
         <location filename="../models/AlertTableModel.cpp" line="46"/>
@@ -2677,7 +2677,7 @@
     <message>
         <location filename="../ui/MainWindow.ui" line="428"/>
         <source>Alert Rules</source>
-        <translation>Pravidla upozornění</translation>
+        <translation>Upozornění</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="433"/>
