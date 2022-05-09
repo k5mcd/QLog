@@ -1734,14 +1734,14 @@
           <string>Notifications</string>
          </property>
          <layout class="QFormLayout" name="formLayout_16">
-          <item row="0" column="0">
+          <item row="1" column="0">
            <widget class="QLabel" name="notifDXSpotsLabel">
             <property name="text">
              <string>DX Spots</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item row="1" column="1">
            <widget class="QLineEdit" name="notifDXSpotsEdit">
             <property name="toolTip">
              <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with DX Cluster Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
@@ -1751,14 +1751,14 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="3" column="0">
            <widget class="QLabel" name="notifQSOLabel">
             <property name="text">
              <string>QSO Changes </string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QLineEdit" name="notifQSOEdit">
             <property name="toolTip">
              <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about a new/updated/deleted QSO in the log.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
@@ -1768,14 +1768,14 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="4" column="0">
            <widget class="QLabel" name="notifWSJTXCQSpotsLabel">
             <property name="text">
              <string>Wsjtx CQ Spots</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="4" column="1">
            <widget class="QLineEdit" name="notifWSJTXCQSpotsEdit">
             <property name="toolTip">
              <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with WSJTX CQ Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
@@ -1785,20 +1785,43 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="notifSpotAlertLabel">
             <property name="text">
              <string>Spot Alerts</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="2" column="1">
            <widget class="QLineEdit" name="notifSpotAlertEdit">
             <property name="toolTip">
              <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about user Spot Alerts.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
             </property>
             <property name="placeholderText">
              <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="notifLogIDLabel">
+            <property name="text">
+             <string>LogID</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="notifLogIDEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>&lt;p&gt;Assigned LogID to the current log.&lt;/p&gt;The LogID is sent in the Network Nofitication messages as a unique instance identified.&lt;p&gt; The ID is generated automatically and cannot be changed&lt;/&gt;</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>false</bool>
             </property>
            </widget>
           </item>

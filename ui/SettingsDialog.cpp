@@ -29,6 +29,7 @@
 #include "core/NetworkNotification.h"
 #include "core/Rig.h"
 #include "core/Rotator.h"
+#include "core/LogParam.h"
 
 #define WIDGET_INDEX_SERIAL_RIG  0
 #define STACKED_WIDGET_NETWORK_RIG 1
@@ -1117,6 +1118,7 @@ void SettingsDialog::readSettings() {
     ui->wsjtPortSpin->setValue(Wsjtx::getConfigPort());
     ui->wsjtForwardEdit->setText(Wsjtx::getConfigForwardAddresses());
 
+    ui->notifLogIDEdit->setText(LogParam::getParam("logid"));
     ui->notifQSOEdit->setText(NetworkNotification::getNotifQSOAdiAddrs());
     ui->notifDXSpotsEdit->setText(NetworkNotification::getNotifDXSpotAddrs());
     ui->notifWSJTXCQSpotsEdit->setText(NetworkNotification::getNotifWSJTXCQSpotAddrs());

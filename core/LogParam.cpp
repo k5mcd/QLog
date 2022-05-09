@@ -1,4 +1,5 @@
 #include <QSqlQuery>
+#include <QCache>
 
 #include "LogParam.h"
 #include "debug.h"
@@ -42,28 +43,41 @@ QString LogParam::getParam(const QString &name)
 {
     FCT_IDENTIFICATION;
 
+    static QCache<QString, QString> localCache(10);
+
     qCDebug(function_parameters) << name;
 
-    QSqlQuery query;
+    QString ret;
+    QString *valueCached = localCache.object(name);
 
-    if ( ! query.prepare("SELECT value "
-                         "FROM log_param "
-                         "WHERE name = :nam") )
+    if ( valueCached )
     {
-        qWarning()<< "Cannot prepare insert parameter statement";
-        return QString();
+        ret = *valueCached;
     }
-
-    query.bindValue(":nam", name);
-
-    if ( ! query.exec() )
+    else
     {
-        qWarning() << "Cannot execute an get Parameter";
-        return QString();
-    }
 
-    query.next();
-    QString value = query.value(0).toString();
-    qDebug(runtime) << "value: " << value;
-    return value;
+        QSqlQuery query;
+
+        if ( ! query.prepare("SELECT value "
+                             "FROM log_param "
+                             "WHERE name = :nam") )
+        {
+            qWarning()<< "Cannot prepare insert parameter statement";
+            return QString();
+        }
+
+        query.bindValue(":nam", name);
+
+        if ( ! query.exec() )
+        {
+            qWarning() << "Cannot execute an get Parameter";
+            return QString();
+        }
+
+        query.next();
+        ret = query.value(0).toString();
+    }
+    qDebug(runtime) << "value: " << ret;
+    return ret;
 }
