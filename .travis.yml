@@ -2,7 +2,8 @@ language: cpp
 branches:
   only:
     - master
-    - testing
+    - /^testing.*$/
+    - /^bugfix.*$/
 matrix:
   include:
   - os: linux
