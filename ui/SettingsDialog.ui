@@ -1795,7 +1795,7 @@
           <item row="1" column="1">
            <widget class="QLineEdit" name="notifSpotAlertEdit">
             <property name="toolTip">
-             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about an user Spot Alerts.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
+             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about user Spot Alerts.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
             </property>
             <property name="placeholderText">
              <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
