@@ -333,7 +333,7 @@ SpotAlertNotificationMsg::SpotAlertNotificationMsg(const SpotAlert &spot, QObjec
     spotData["mode"] = spot.mode;
     spotData["comment"] = spot.comment;
     spotData["status"] = DxccStatus2String.value(spot.status, "unknown");
-    spotData["rulename"] = spot.ruleName;
+    spotData["rules"] = QJsonArray::fromStringList(spot.ruleName);
 
     QJsonObject dxInfo;
     dxInfo["call"] = spot.callsign;

@@ -50,7 +50,7 @@ void AlertEvaluator::dxSpot(const DxSpot & spot)
 
         alert.dateTime = QDateTime::currentDateTimeUtc();
         alert.source = SpotAlert::ALERTSOURCETYPE::DXSPOT;
-        alert.ruleName = matchedRules.join(", ");
+        alert.ruleName = matchedRules;
         alert.callsign = spot.callsign;
         alert.freq = spot.freq;
         alert.band = spot.band;
@@ -71,29 +71,36 @@ void AlertEvaluator::WSJTXCQSpot(const WsjtxEntry &wsjtx)
 
     qCDebug(function_parameters) << "WSJTX CQ Spot";
 
+    QStringList matchedRules;
+
     for ( const AlertRule *rule : qAsConst(ruleList) )
     {
         qCDebug(runtime) << "Processing " << *rule;
         if ( rule->match(wsjtx) )
         {
-            SpotAlert alert;
-
-            alert.dateTime = QDateTime::currentDateTimeUtc();
-            alert.source = SpotAlert::ALERTSOURCETYPE::WSJTXCQSPOT;
-            alert.ruleName = rule->ruleName;
-            alert.callsign = wsjtx.callsign;
-            alert.freq = wsjtx.freq;
-            alert.band = wsjtx.band;
-            alert.mode = Data::freqToMode(wsjtx.freq);
-            alert.dxcc = wsjtx.dxcc;
-            alert.comment = wsjtx.decode.message;
-            alert.status = wsjtx.status;
-            alert.spotter = wsjtx.spotter;
-            alert.dxcc_spotter = wsjtx.dxcc_spotter;
-
-            emit spotAlert(alert);
-            return;
+            matchedRules << rule->ruleName;
         }
+    }
+
+    if ( matchedRules.size() > 0 )
+    {
+        SpotAlert alert;
+
+        alert.dateTime = QDateTime::currentDateTimeUtc();
+        alert.source = SpotAlert::ALERTSOURCETYPE::WSJTXCQSPOT;
+        alert.ruleName = matchedRules;
+        alert.callsign = wsjtx.callsign;
+        alert.freq = wsjtx.freq;
+        alert.band = wsjtx.band;
+        alert.mode = Data::freqToMode(wsjtx.freq);
+        alert.dxcc = wsjtx.dxcc;
+        alert.comment = wsjtx.decode.message;
+        alert.status = wsjtx.status;
+        alert.spotter = wsjtx.spotter;
+        alert.dxcc_spotter = wsjtx.dxcc_spotter;
+
+        emit spotAlert(alert);
+        return;
     }
 }
 

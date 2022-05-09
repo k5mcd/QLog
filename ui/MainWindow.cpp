@@ -260,7 +260,7 @@ void MainWindow::processSpotAlert(SpotAlert alert)
 
     alertWidget->addAlert(alert);
     refreshAlertButton();
-    alertTextButton->setText(alert.ruleName + ": " + alert.callsign + ", " + alert.band + ", " + alert.mode);
+    alertTextButton->setText(alert.ruleName.join(", ") + ": " + alert.callsign + ", " + alert.band + ", " + alert.mode);
     alertTextButton->disconnect();
     connect(alertTextButton, &QPushButton::clicked, this, [this, alert]()
     {

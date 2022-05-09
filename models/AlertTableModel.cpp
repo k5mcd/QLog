@@ -23,7 +23,7 @@ QVariant AlertTableModel::data(const QModelIndex& index, int role) const
         switch ( index.column() )
         {
         case 0: return selectedAlert.dateTime.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");;
-        case 1: return selectedAlert.ruleName;
+        case 1: return selectedAlert.ruleName.join(", ");
         case 2: return selectedAlert.callsign;
         case 3: return QString::number(selectedAlert.freq, 'f', 5);
         case 4: return selectedAlert.mode;

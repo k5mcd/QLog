@@ -16,7 +16,7 @@ struct SpotAlert
 
     QDateTime dateTime;
     ALERTSOURCETYPE source;
-    QString ruleName;
+    QStringList ruleName;
     QString callsign;
     double freq;
     QString band;
