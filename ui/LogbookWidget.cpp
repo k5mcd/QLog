@@ -366,7 +366,14 @@ void LogbookWidget::updateTable()
     {
         QSqlQuery userFilterQuery;
         if ( ! userFilterQuery.prepare("SELECT "
-                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || case when r.value is NULL and o.sql_operator IN ('=', 'like') THEN 'IS' when r.value is NULL and r.operator_id NOT IN ('=', 'like') THEN 'IS NOT' ELSE o.sql_operator END || ' (' || quote(case o.sql_operator when 'like' THEN '%' || r.value || '%' WHEN 'not like' THEN '%' || r.value || '%' ELSE r.value END)  || ') ', m.sql_operator) || ')' "
+                                "'(' || GROUP_CONCAT( ' ' || c.name || ' ' || CASE WHEN r.value IS NULL AND o.sql_operator IN ('=', 'like') THEN 'IS' "
+                                "                                                  WHEN r.value IS NULL and r.operator_id NOT IN ('=', 'like') THEN 'IS NOT' "
+                                "                                                  WHEN o.sql_operator = ('starts with') THEN 'like' "
+                                "                                                  ELSE o.sql_operator END || "
+                                "' (' || quote(CASE o.sql_operator WHEN 'like' THEN '%' || r.value || '%' "
+                                "                                  WHEN 'not like' THEN '%' || r.value || '%' "
+                                "                                  WHEN 'starts with' THEN r.value || '%' "
+                                "                                  ELSE r.value END)  || ') ', m.sql_operator) || ')' "
                                 "FROM qso_filters f, qso_filter_rules r, "
                                 "qso_filter_operators o, qso_filter_matching_types m, "
                                 "PRAGMA_TABLE_INFO('contacts') c "

@@ -17,3 +17,5 @@ CREATE TABLE IF NOT EXISTS alert_rules
 CREATE INDEX "dxcc_idx" ON "contacts" (
         "dxcc"
 );
+
+INSERT INTO qso_filter_operators VALUES(6, "starts with");
