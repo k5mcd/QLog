@@ -8,7 +8,7 @@
 
 MODULE_IDENTIFICATION("qlog.core.gridsquare");
 
-Gridsquare::Gridsquare(QString in_grid)
+Gridsquare::Gridsquare(const QString &in_grid)
 {
     FCT_IDENTIFICATION;
     validGrid = false;

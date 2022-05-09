@@ -25,6 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* https://github.com/BertoldVdb/ZoneDetect/tree/master/library */
+
 #include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
