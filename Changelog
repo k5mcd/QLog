@@ -1,3 +1,16 @@
+TBD - 0.9.0
+- [NEW] User-defined Spot Alerts
+- [NEW] User filter contains a new operator "Starts with"
+- [NEW] a real local time is showed for the DX callsign (issue #45)
+- [NEW] Lotw/eQSL registration info is showed from callbooks
+- [CHANGED] - Network Notificaiton format
+   - logid field is included in all messages
+- Fixed issue with My Notes multiple lines edit/show mode (issue 39)
+- Fixed issue when GUI froze when Rig disconnect was called (issue #50)
+- Partially fixed a high CPU load when DXC is processed (issue #52)
+- Fixed crashes under Debian "bullseye" - 32bit (issue #55)
+- Fixed issue when it was not possible to enter RX/TX freq manually
+
 2022/02/22 - 0.8.0
 - RIT/XIT offset enable/disable detection (issue #26)
 - Fixed Rig Setting, Data Bits (issue #28)
