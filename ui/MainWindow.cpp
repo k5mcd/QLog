@@ -60,10 +60,13 @@ MainWindow::MainWindow(QWidget* parent) :
     alertButton->setIcon(QIcon(":/icons/alert.svg"));
     alertButton->setFlat(true);
     alertButton->setFocusPolicy(Qt::NoFocus);
-    QMenu *menuMode = new QMenu(this);
-    menuMode->addAction(ui->actionShowAlerts);
-    menuMode->addAction(ui->actionClearAlerts);
-    alertButton->setMenu(menuMode);
+    QMenu *menuAlert = new QMenu(this);
+    menuAlert->addAction(ui->actionShowAlerts);
+    menuAlert->addAction(ui->actionClearAlerts);
+    menuAlert->addSeparator();
+    menuAlert->addAction(ui->actionAlert);
+
+    alertButton->setMenu(menuAlert);
 
 
     alertTextButton = new QPushButton(" ", ui->statusBar);

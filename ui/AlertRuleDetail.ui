@@ -121,7 +121,7 @@
          <item row="0" column="1">
           <widget class="QLineEdit" name="dxCallsignEdit">
            <property name="toolTip">
-            <string>Use Perl-like regular expressions</string>
+            <string>Use Perl-like regular expression</string>
            </property>
            <property name="text">
             <string>.*</string>
@@ -161,7 +161,7 @@
          <item row="3" column="1">
           <widget class="QLineEdit" name="spotCommentEdit">
            <property name="toolTip">
-            <string>Use Perl-like regular expressions</string>
+            <string>Use Perl-like regular expression</string>
            </property>
            <property name="text">
             <string>.*</string>

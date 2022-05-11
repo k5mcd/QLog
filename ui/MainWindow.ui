@@ -69,7 +69,6 @@
     <addaction name="actionNewContact"/>
     <addaction name="actionSaveContact"/>
     <addaction name="actionQSOFilters"/>
-    <addaction name="actionAlert"/>
     <addaction name="separator"/>
     <addaction name="actionImport"/>
     <addaction name="actionExport"/>
@@ -420,12 +419,8 @@
    </property>
   </action>
   <action name="actionAlert">
-   <property name="icon">
-    <iconset resource="../res/icons/icons.qrc">
-     <normaloff>:/icons/alert.svg</normaloff>:/icons/alert.svg</iconset>
-   </property>
    <property name="text">
-    <string>Alert Rules</string>
+    <string>Edit Rules</string>
    </property>
   </action>
   <action name="actionShowAlerts">
