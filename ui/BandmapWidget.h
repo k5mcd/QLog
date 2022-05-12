@@ -44,6 +44,7 @@ public slots:
     void zoomIn();
     void zoomOut();
     void spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason);
+    void showContextMenu(QPoint);
 
 signals:
     void tuneDx(QString, double);

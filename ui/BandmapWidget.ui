@@ -79,6 +79,9 @@
          <property name="focusPolicy">
           <enum>Qt::ClickFocus</enum>
          </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -239,11 +242,28 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>graphicsView</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>BandmapWidget</receiver>
+   <slot>showContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>225</x>
+     <y>330</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clearSpots()</slot>
   <slot>zoomIn()</slot>
   <slot>zoomOut()</slot>
   <slot>spotAgingChanged(int)</slot>
+  <slot>showContextMenu(QPoint)</slot>
  </slots>
 </ui>

@@ -388,22 +388,22 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="118"/>
+        <location filename="../ui/BandmapWidget.ui" line="121"/>
         <source>In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="132"/>
+        <location filename="../ui/BandmapWidget.ui" line="135"/>
         <source>Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="147"/>
+        <location filename="../ui/BandmapWidget.ui" line="150"/>
         <source>Clear older than</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="160"/>
+        <location filename="../ui/BandmapWidget.ui" line="163"/>
         <source>Never</source>
         <translation type="unfinished"></translation>
     </message>
@@ -412,7 +412,7 @@
         <translation type="vanished">Leeren</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="108"/>
+        <location filename="../ui/BandmapWidget.ui" line="111"/>
         <source>Clear All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -425,8 +425,13 @@
         <translation type="vanished">Verkleinern</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="163"/>
+        <location filename="../ui/BandmapWidget.ui" line="166"/>
         <source> min(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/BandmapWidget.cpp" line="357"/>
+        <source>Show Band</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -602,32 +607,32 @@
 <context>
     <name>Data</name>
     <message>
-        <location filename="../data/Data.cpp" line="287"/>
+        <location filename="../data/Data.cpp" line="318"/>
         <source>New Entity</source>
         <translation type="unfinished">Neues DXCC</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="289"/>
+        <location filename="../data/Data.cpp" line="320"/>
         <source>New Band</source>
         <translation type="unfinished">Neues Band</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="291"/>
+        <location filename="../data/Data.cpp" line="322"/>
         <source>New Mode</source>
         <translation type="unfinished">Neuer Mode</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="293"/>
+        <location filename="../data/Data.cpp" line="324"/>
         <source>New Band&amp;Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="295"/>
+        <location filename="../data/Data.cpp" line="326"/>
         <source>New Slot</source>
         <translation type="unfinished">Neuer Slot</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="297"/>
+        <location filename="../data/Data.cpp" line="328"/>
         <source>Worked</source>
         <translation type="unfinished"></translation>
     </message>
