@@ -1104,7 +1104,6 @@
     <name>ImportDialog</name>
     <message>
         <location filename="../ui/ImportDialog.ui" line="20"/>
-        <location filename="../ui/ImportDialog.cpp" line="41"/>
         <source>Import</source>
         <translation>Importieren</translation>
     </message>
@@ -1205,6 +1204,11 @@
             <numerusform>%n Kontake importiert.</numerusform>
             <numerusform>%n Kontakte improtiert.</numerusform>
         </translation>
+    </message>
+    <message>
+        <location filename="../ui/ImportDialog.cpp" line="41"/>
+        <source>&amp;Import</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.cpp" line="47"/>
@@ -2539,19 +2543,8 @@
         <translation>QLog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="67"/>
         <source>Logbook</source>
-        <translation>Logbuch</translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="81"/>
-        <source>Equipment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="107"/>
-        <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Logbuch</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="262"/>
@@ -2565,14 +2558,12 @@
         <translation>Rig</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="88"/>
         <source>Help</source>
-        <translation>Hilfe</translation>
+        <translation type="vanished">Hilfe</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="94"/>
         <source>Window</source>
-        <translation>Ansicht</translation>
+        <translation type="vanished">Ansicht</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="164"/>
@@ -2592,6 +2583,36 @@
     <message>
         <source>QSL</source>
         <translation type="obsolete">QSL</translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="59"/>
+        <source>&amp;File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="67"/>
+        <source>&amp;Logbook</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="81"/>
+        <source>&amp;Equipment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="88"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="94"/>
+        <source>&amp;Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="107"/>
+        <source>Se&amp;rvice</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="155"/>
@@ -2633,33 +2654,90 @@
         <translation>Strg+Q</translation>
     </message>
     <message>
+        <location filename="../ui/MainWindow.ui" line="250"/>
+        <source>&amp;Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/MainWindow.ui" line="265"/>
         <source>Ctrl+N</source>
         <translation>Strg+N</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="274"/>
+        <source>&amp;Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="283"/>
+        <source>&amp;Export All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="291"/>
+        <source>Connect R&amp;ig</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="300"/>
+        <source>&amp;About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="342"/>
+        <source>S&amp;tatistics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="352"/>
+        <source>&amp;LotW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="360"/>
+        <source>Connect R&amp;otator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="389"/>
+        <source>QSO &amp;Filters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="394"/>
+        <source>&amp;eQSL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="408"/>
+        <source>&amp;Awards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="413"/>
+        <source>&amp;Clublog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="418"/>
+        <source>&amp;QRZ.com</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Import</source>
-        <translation>Importieren</translation>
+        <translation type="vanished">Importieren</translation>
     </message>
     <message>
         <source>Export</source>
         <translation type="vanished">Exportieren</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="283"/>
-        <source>Export All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="291"/>
         <source>Connect Rig</source>
-        <translation>Rig verbinden</translation>
+        <translation type="vanished">Rig verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="342"/>
         <source>Statistics</source>
-        <translation>Statistik</translation>
+        <translation type="vanished">Statistik</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="347"/>
@@ -2667,39 +2745,12 @@
         <translation>WSJTX</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="352"/>
         <source>LotW</source>
-        <translation>LotW</translation>
+        <translation type="vanished">LotW</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="360"/>
         <source>Connect Rotator</source>
-        <translation>Rotor verbinden</translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="389"/>
-        <source>QSO Filters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="394"/>
-        <source>eQSL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="408"/>
-        <source>Awards</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="413"/>
-        <source>Clublog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/MainWindow.ui" line="418"/>
-        <source>QRZ.com</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Rotor verbinden</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="423"/>
@@ -2729,7 +2780,6 @@
         <translation type="vanished">Verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="300"/>
         <location filename="../ui/MainWindow.cpp" line="459"/>
         <source>About</source>
         <translation>Über</translation>
@@ -2771,18 +2821,16 @@
         <translation>DX Cluster</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="59"/>
         <source>File</source>
-        <translation>Datei</translation>
+        <translation type="vanished">Datei</translation>
     </message>
     <message>
         <source>Quit</source>
         <translation type="obsolete">Beenden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="250"/>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation type="vanished">Einstellungen</translation>
     </message>
     <message>
         <source>Importing %1...</source>
@@ -2951,6 +2999,11 @@
         <translation type="unfinished">80m</translation>
     </message>
     <message>
+        <location filename="../ui/NewContactWidget.ui" line="899"/>
+        <source>&amp;Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/NewContactWidget.ui" line="1145"/>
         <source>SOTA</source>
         <translation type="unfinished"></translation>
@@ -3006,24 +3059,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1487"/>
-        <source>Sat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/NewContactWidget.ui" line="1544"/>
         <source>DXCC</source>
-        <translation>DXCC</translation>
+        <translation type="vanished">DXCC</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1675"/>
         <source>Station</source>
         <translation type="unfinished">Station</translation>
-    </message>
-    <message>
-        <location filename="../ui/NewContactWidget.ui" line="1825"/>
-        <source>My Notes</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contacts</source>
@@ -3064,11 +3106,6 @@
         <location filename="../ui/NewContactWidget.ui" line="139"/>
         <source>Submode</source>
         <translation>Unterart</translation>
-    </message>
-    <message>
-        <location filename="../ui/NewContactWidget.ui" line="899"/>
-        <source>Details</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="910"/>
@@ -3124,6 +3161,11 @@
         <location filename="../ui/NewContactWidget.ui" line="1119"/>
         <source>IOTA</source>
         <translation>IOTA</translation>
+    </message>
+    <message>
+        <location filename="../ui/NewContactWidget.ui" line="1825"/>
+        <source>My &amp;Notes</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contact</source>
@@ -3215,9 +3257,8 @@
         <translation>Direkt</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1576"/>
         <source>My Station</source>
-        <translation>Meine Station</translation>
+        <translation type="vanished">Meine Station</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1668"/>
@@ -3227,6 +3268,21 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="303"/>
         <source> MHz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/NewContactWidget.ui" line="1487"/>
+        <source>S&amp;at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/NewContactWidget.ui" line="1544"/>
+        <source>D&amp;XCC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/NewContactWidget.ui" line="1576"/>
+        <source>M&amp;y Station</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

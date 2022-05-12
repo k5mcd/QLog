@@ -896,7 +896,7 @@
      </property>
      <widget class="QWidget" name="tab_6">
       <attribute name="title">
-       <string>Details</string>
+       <string>&amp;Details</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -1484,7 +1484,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Sat</string>
+       <string>S&amp;at</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
@@ -1541,7 +1541,7 @@
      </widget>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>DXCC</string>
+       <string>D&amp;XCC</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -1573,7 +1573,7 @@
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
-       <string>My Station</string>
+       <string>M&amp;y Station</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
@@ -1822,7 +1822,7 @@
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>My Notes</string>
+       <string>My &amp;Notes</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
