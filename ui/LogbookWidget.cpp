@@ -5,6 +5,7 @@
 #include <QProgressDialog>
 #include <QNetworkReply>
 #include <QProgressDialog>
+#include <QShortcut>
 
 #include "logformat/AdiFormat.h"
 #include "models/LogbookModel.h"
@@ -165,6 +166,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->userFilter->blockSignals(false);
 
     clublog = new ClubLog(this);
+
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(focusSearchCallsign()), nullptr, Qt::ApplicationShortcut);
 
     updateTable();
 }
@@ -510,6 +513,13 @@ void LogbookWidget::handleBeforeDelete(int row)
 
     QSqlRecord oldRecord = model->record(row);
     emit contactDeleted(oldRecord);
+}
+
+void LogbookWidget::focusSearchCallsign()
+{
+    FCT_IDENTIFICATION;
+
+    ui->callsignFilter->setFocus();
 }
 
 LogbookWidget::~LogbookWidget() {

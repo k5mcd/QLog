@@ -44,6 +44,7 @@ public slots:
     void doubleClickColumn(QModelIndex);
     void handleBeforeUpdate(int, QSqlRecord&);
     void handleBeforeDelete(int);
+    void focusSearchCallsign();
 
 private:
     ClubLog* clublog;
