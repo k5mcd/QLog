@@ -3,6 +3,7 @@ TBD - 0.9.0
 - [NEW] User filter contains a new operator "Starts with"
 - [NEW] a real local time is showed for the DX callsign (issue #45)
 - [NEW] Lotw/eQSL registration info is showed from callbooks
+- [NEW] Added shortcuts for menu and tabs
 - [CHANGED] - Network Notificaiton format
    - logid field is included in all messages
 - Fixed issue with My Notes multiple lines edit/show mode (issue 39)
