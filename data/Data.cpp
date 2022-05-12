@@ -141,6 +141,37 @@ Band Data::band(double freq) {
     }
 }
 
+QList<Band> Data::enabledBandsList()
+{
+    FCT_IDENTIFICATION;
+
+    QSqlQuery query;
+    QList<Band> ret;
+
+    if ( ! query.prepare("SELECT name, start_freq, end_freq FROM bands WHERE enabled = 1 ORDER BY start_freq") )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return ret;
+    }
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return ret;
+    }
+
+    while ( query.next() )
+    {
+        Band band;
+        band.name = query.value(0).toString();
+        band.start = query.value(1).toDouble();
+        band.end = query.value(2).toDouble();
+        ret << band;
+    }
+
+    return ret;
+}
+
 QString Data::freqToBand(double freq)
 {
     FCT_IDENTIFICATION;

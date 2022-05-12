@@ -1,6 +1,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
 #include <QMutableMapIterator>
+#include <QMenu>
 
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
@@ -341,6 +342,34 @@ void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *, Qt
         emit tuneDx(focusedSpot->toPlainText().split(" ").first(),
                     focusedSpot->property("freq").toDouble());
     }
+}
+
+void BandmapWidget::showContextMenu(QPoint point)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->graphicsView->itemAt(point) )
+    {
+        return;
+    }
+
+    QMenu contextMenu(this);
+    QMenu bandsMenu(tr("Show Band"), this);
+
+    for (Band &enabledBand : Data::enabledBandsList())
+    {
+        QAction* action = new QAction(enabledBand.name);
+        connect(action, &QAction::triggered, this, [this, enabledBand]()
+        {
+            this->band = enabledBand;
+            this->update();
+        });
+        bandsMenu.addAction(action);
+    }
+
+    contextMenu.addMenu(&bandsMenu);
+
+    contextMenu.exec(ui->graphicsView->mapToGlobal(point));
 }
 
 void BandmapWidget::updateRxFrequency(VFOID vfoid, double vfoFreq, double ritFreq, double xitFreq)
