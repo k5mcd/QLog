@@ -21,7 +21,22 @@ public:
     double getFrequency(const QModelIndex& index);
 
 private:
-    QList<SpotAlert> alertList;
+    struct AlertTableRecord
+    {
+        QDateTime dateTime;
+        QStringList ruleName;
+        QString callsign;
+        double freq;
+        QString band;
+        QString mode;
+        QString comment;
+        long long counter;
+
+        bool operator==(const AlertTableRecord &);
+        explicit AlertTableRecord(const SpotAlert&);
+    };
+
+    QList<AlertTableRecord> alertList;
     QMutex alertListMutex;
 };
 
