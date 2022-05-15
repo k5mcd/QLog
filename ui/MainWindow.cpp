@@ -65,9 +65,9 @@ MainWindow::MainWindow(QWidget* parent) :
     menuAlert->addAction(ui->actionClearAlerts);
     menuAlert->addSeparator();
     menuAlert->addAction(ui->actionAlert);
-
+    menuAlert->addAction(ui->actionBeepSettingAlert);
+    ui->actionBeepSettingAlert->setChecked(settings.value("alertbeep", false).toBool());
     alertButton->setMenu(menuAlert);
-
 
     alertTextButton = new QPushButton(" ", ui->statusBar);
     alertTextButton->setFlat(true);
@@ -279,6 +279,20 @@ void MainWindow::clearAlertButtons()
     alertTextButton->disconnect();
 }
 
+void MainWindow::beepSettingAlerts()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue("alertbeep", ui->actionBeepSettingAlert->isChecked());
+
+    if ( ui->actionBeepSettingAlert->isChecked() )
+    {
+        QApplication::beep();
+    }
+}
+
 void MainWindow::setDarkMode()
 {
     FCT_IDENTIFICATION;
@@ -314,7 +328,18 @@ void MainWindow::setLightMode()
 void MainWindow::refreshAlertButton()
 {
     FCT_IDENTIFICATION;
-    alertButton->setText(QString::number(alertWidget->alertCount()));
+    static int prevCount = 0;
+
+    if ( prevCount != alertWidget->alertCount() )
+    {
+        alertButton->setText(QString::number(alertWidget->alertCount()));
+        if ( alertWidget->alertCount() != 0
+             && ui->actionBeepSettingAlert->isChecked() )
+        {
+            QApplication::beep();
+        }
+        prevCount = alertWidget->alertCount();
+    }
 }
 
 void MainWindow::rotConnect() {

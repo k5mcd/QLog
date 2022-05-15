@@ -433,6 +433,14 @@
     <string>Clear Alerts</string>
    </property>
   </action>
+  <action name="actionBeepSettingAlert">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Beep</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -963,6 +971,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionBeepSettingAlert</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>beepSettingAlerts()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -984,5 +1008,6 @@
   <slot>alertRuleSetting()</slot>
   <slot>showAlerts()</slot>
   <slot>clearAlerts()</slot>
+  <slot>beepSettingAlerts()</slot>
  </slots>
 </ui>

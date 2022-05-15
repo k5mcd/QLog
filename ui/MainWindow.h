@@ -55,6 +55,7 @@ private slots:
     void darkModeToggle(int);
     void processSpotAlert(SpotAlert alert);
     void clearAlertButtons();
+    void beepSettingAlerts();
 
 private:
     Ui::MainWindow* ui;
