@@ -206,14 +206,8 @@
 <context>
     <name>AlertTableModel</name>
     <message>
-        <location filename="../models/AlertTableModel.cpp" line="44"/>
         <source>Time</source>
-        <translation type="unfinished">Zeit</translation>
-    </message>
-    <message>
-        <location filename="../models/AlertTableModel.cpp" line="45"/>
-        <source>Rules</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Zeit</translation>
     </message>
     <message>
         <location filename="../models/AlertTableModel.cpp" line="46"/>
@@ -232,8 +226,22 @@
     </message>
     <message>
         <location filename="../models/AlertTableModel.cpp" line="49"/>
+        <source>Updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../models/AlertTableModel.cpp" line="50"/>
+        <source>Last Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../models/AlertTableModel.cpp" line="51"/>
+        <source>Last Comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Comment</source>
-        <translation type="unfinished">Kommentar</translation>
+        <translation type="obsolete">Kommentar</translation>
     </message>
 </context>
 <context>
@@ -430,7 +438,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="357"/>
+        <location filename="../ui/BandmapWidget.cpp" line="360"/>
         <source>Show Band</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2076,13 +2084,13 @@
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="125"/>
-        <location filename="../ui/LogbookWidget.cpp" line="163"/>
+        <location filename="../ui/LogbookWidget.cpp" line="164"/>
         <source>User Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="194"/>
-        <location filename="../ui/LogbookWidget.cpp" line="264"/>
+        <location filename="../ui/LogbookWidget.cpp" line="267"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
@@ -2174,7 +2182,7 @@
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="104"/>
-        <location filename="../ui/LogbookWidget.cpp" line="157"/>
+        <location filename="../ui/LogbookWidget.cpp" line="158"/>
         <source>Country</source>
         <translation>Land</translation>
     </message>
@@ -2213,13 +2221,13 @@
     <message>
         <location filename="../ui/LogbookWidget.ui" line="55"/>
         <location filename="../ui/LogbookWidget.ui" line="62"/>
-        <location filename="../ui/LogbookWidget.cpp" line="149"/>
+        <location filename="../ui/LogbookWidget.cpp" line="150"/>
         <source>Band</source>
         <translation>Band</translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="83"/>
-        <location filename="../ui/LogbookWidget.cpp" line="153"/>
+        <location filename="../ui/LogbookWidget.cpp" line="154"/>
         <source>Mode</source>
         <translation>Betriebsart</translation>
     </message>
@@ -2260,27 +2268,27 @@
         <translation type="obsolete">Direkt</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="264"/>
+        <location filename="../ui/LogbookWidget.cpp" line="267"/>
         <source>Delete the selected contacts?</source>
         <translation>Die ausgewählten Kontakte löschen?</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="456"/>
+        <location filename="../ui/LogbookWidget.cpp" line="459"/>
         <source>Downloading eQSL Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="456"/>
+        <location filename="../ui/LogbookWidget.cpp" line="459"/>
         <source>Cancel</source>
         <translation type="unfinished">Abbrechen</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="474"/>
+        <location filename="../ui/LogbookWidget.cpp" line="477"/>
         <source>QLog Error</source>
         <translation type="unfinished">QLog Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="474"/>
+        <location filename="../ui/LogbookWidget.cpp" line="477"/>
         <source>eQSL Download Image failed: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2729,6 +2737,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../ui/MainWindow.ui" line="441"/>
+        <source>Beep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Import</source>
         <translation type="vanished">Importieren</translation>
     </message>
@@ -2785,7 +2798,7 @@
         <translation type="vanished">Verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="459"/>
+        <location filename="../ui/MainWindow.cpp" line="484"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
@@ -2867,40 +2880,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="381"/>
-        <location filename="../ui/MainWindow.cpp" line="397"/>
-        <location filename="../ui/MainWindow.cpp" line="413"/>
-        <location filename="../ui/MainWindow.cpp" line="431"/>
+        <location filename="../ui/MainWindow.cpp" line="406"/>
+        <location filename="../ui/MainWindow.cpp" line="422"/>
+        <location filename="../ui/MainWindow.cpp" line="438"/>
+        <location filename="../ui/MainWindow.cpp" line="456"/>
         <source>QLog Warning</source>
         <translation type="unfinished">QLog Warnung</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="381"/>
+        <location filename="../ui/MainWindow.cpp" line="406"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="397"/>
+        <location filename="../ui/MainWindow.cpp" line="422"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="413"/>
+        <location filename="../ui/MainWindow.cpp" line="438"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="431"/>
+        <location filename="../ui/MainWindow.cpp" line="456"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="447"/>
+        <location filename="../ui/MainWindow.cpp" line="472"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2022 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="483"/>
+        <location filename="../ui/MainWindow.cpp" line="508"/>
         <source>N/A</source>
         <translation type="unfinished"></translation>
     </message>

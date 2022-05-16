@@ -214,14 +214,12 @@
 <context>
     <name>AlertTableModel</name>
     <message>
-        <location filename="../models/AlertTableModel.cpp" line="44"/>
         <source>Time</source>
-        <translation>Čas</translation>
+        <translation type="vanished">Čas</translation>
     </message>
     <message>
-        <location filename="../models/AlertTableModel.cpp" line="45"/>
         <source>Rules</source>
-        <translation>Pravidla</translation>
+        <translation type="vanished">Pravidla</translation>
     </message>
     <message>
         <location filename="../models/AlertTableModel.cpp" line="46"/>
@@ -240,8 +238,22 @@
     </message>
     <message>
         <location filename="../models/AlertTableModel.cpp" line="49"/>
+        <source>Updated</source>
+        <translation>Aktualizací</translation>
+    </message>
+    <message>
+        <location filename="../models/AlertTableModel.cpp" line="50"/>
+        <source>Last Update</source>
+        <translation>Poslední</translation>
+    </message>
+    <message>
+        <location filename="../models/AlertTableModel.cpp" line="51"/>
+        <source>Last Comment</source>
+        <translation>Zpráva</translation>
+    </message>
+    <message>
         <source>Comment</source>
-        <translation>Komentář</translation>
+        <translation type="vanished">Komentář</translation>
     </message>
 </context>
 <context>
@@ -446,7 +458,7 @@
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="357"/>
+        <location filename="../ui/BandmapWidget.cpp" line="360"/>
         <source>Show Band</source>
         <translation>Zobrazit pásmo</translation>
     </message>
@@ -2178,31 +2190,31 @@
     <message>
         <location filename="../ui/LogbookWidget.ui" line="55"/>
         <location filename="../ui/LogbookWidget.ui" line="62"/>
-        <location filename="../ui/LogbookWidget.cpp" line="149"/>
+        <location filename="../ui/LogbookWidget.cpp" line="150"/>
         <source>Band</source>
         <translation>Pásmo</translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="83"/>
-        <location filename="../ui/LogbookWidget.cpp" line="153"/>
+        <location filename="../ui/LogbookWidget.cpp" line="154"/>
         <source>Mode</source>
         <translation>Druh provozu</translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="104"/>
-        <location filename="../ui/LogbookWidget.cpp" line="157"/>
+        <location filename="../ui/LogbookWidget.cpp" line="158"/>
         <source>Country</source>
         <translation>Země</translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="125"/>
-        <location filename="../ui/LogbookWidget.cpp" line="163"/>
+        <location filename="../ui/LogbookWidget.cpp" line="164"/>
         <source>User Filter</source>
         <translation>Uživatelský filtr</translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="194"/>
-        <location filename="../ui/LogbookWidget.cpp" line="264"/>
+        <location filename="../ui/LogbookWidget.cpp" line="267"/>
         <source>Delete</source>
         <translation>Vymazat</translation>
     </message>
@@ -2321,27 +2333,27 @@
         <translation type="vanished">Nejistý</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="264"/>
+        <location filename="../ui/LogbookWidget.cpp" line="267"/>
         <source>Delete the selected contacts?</source>
         <translation>Vymazat vybraný kontakt?</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="456"/>
+        <location filename="../ui/LogbookWidget.cpp" line="459"/>
         <source>Downloading eQSL Image</source>
         <translation>Stahování eQSL obrázku</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="456"/>
+        <location filename="../ui/LogbookWidget.cpp" line="459"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="474"/>
+        <location filename="../ui/LogbookWidget.cpp" line="477"/>
         <source>QLog Error</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="474"/>
+        <location filename="../ui/LogbookWidget.cpp" line="477"/>
         <source>eQSL Download Image failed: </source>
         <translation>Stažení eQSL obrázku selhalo: </translation>
     </message>
@@ -2756,6 +2768,11 @@
         <translation>&amp;QRZ.com</translation>
     </message>
     <message>
+        <location filename="../ui/MainWindow.ui" line="441"/>
+        <source>Beep</source>
+        <translation>Pípnutí</translation>
+    </message>
+    <message>
         <source>Settings</source>
         <translation type="vanished">Nastavení</translation>
     </message>
@@ -2805,7 +2822,7 @@
         <translation type="vanished">Připojit Rig</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="459"/>
+        <location filename="../ui/MainWindow.cpp" line="484"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
@@ -2863,35 +2880,35 @@
         <translation>&lt;b&gt;Detail chyby:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="381"/>
-        <location filename="../ui/MainWindow.cpp" line="397"/>
-        <location filename="../ui/MainWindow.cpp" line="413"/>
-        <location filename="../ui/MainWindow.cpp" line="431"/>
+        <location filename="../ui/MainWindow.cpp" line="406"/>
+        <location filename="../ui/MainWindow.cpp" line="422"/>
+        <location filename="../ui/MainWindow.cpp" line="438"/>
+        <location filename="../ui/MainWindow.cpp" line="456"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="381"/>
+        <location filename="../ui/MainWindow.cpp" line="406"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>LoTW není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="397"/>
+        <location filename="../ui/MainWindow.cpp" line="422"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>eQSL není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="413"/>
+        <location filename="../ui/MainWindow.cpp" line="438"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>Clublog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="431"/>
+        <location filename="../ui/MainWindow.cpp" line="456"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>QRZ.com není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="447"/>
+        <location filename="../ui/MainWindow.cpp" line="472"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2022 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2022 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Databáze &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</translation>
     </message>
@@ -2904,7 +2921,7 @@
         <translation type="vanished">&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="483"/>
+        <location filename="../ui/MainWindow.cpp" line="508"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
