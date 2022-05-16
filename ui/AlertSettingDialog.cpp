@@ -2,7 +2,7 @@
 #include "ui_AlertSettingDialog.h"
 #include "core/debug.h"
 #include "ui/AlertRuleDetail.h"
-#include "core/StyleItemDelegate.h"
+#include "ui/StyleItemDelegate.h"
 
 MODULE_IDENTIFICATION("qlog.ui.alertsettingdialog");
 

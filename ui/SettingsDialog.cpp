@@ -16,7 +16,7 @@
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
 #include "../core/Eqsl.h"
-#include "../core/StyleItemDelegate.h"
+#include "../ui/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "core/CredentialStore.h"
 #include "data/StationProfile.h"

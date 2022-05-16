@@ -10,7 +10,7 @@
 #include "data/Data.h"
 #include "DxFilterDialog.h"
 #include "models/SqlListModel.h"
-#include "core/StyleItemDelegate.h"
+#include "ui/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "data/StationProfile.h"
 

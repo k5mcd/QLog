@@ -17,7 +17,7 @@
 #define SWITCHBUTTON_H
 
 #include <QtWidgets>
-#include "ButtonStyle.h"
+#include "ui/ButtonStyle.h"
 
 class Animator final : public QVariantAnimation {
     Q_OBJECT

@@ -13,7 +13,7 @@
 #include "core/ClubLog.h"
 #include "LogbookWidget.h"
 #include "ui_LogbookWidget.h"
-#include "core/StyleItemDelegate.h"
+#include "ui/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "models/SqlListModel.h"
 #include "ui/ColumnSettingDialog.h"

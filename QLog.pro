@@ -50,7 +50,6 @@ SOURCES += \
         core/Rotator.cpp \
         core/Sat.cpp \
         core/SerialPort.cpp \
-        core/SwitchButton.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
@@ -104,12 +103,12 @@ SOURCES += \
         ui/RotatorWidget.cpp \
         ui/SettingsDialog.cpp \
         ui/StatisticsWidget.cpp \
+        ui/SwitchButton.cpp \
         ui/WsjtxWidget.cpp
 
 HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
-        core/ButtonStyle.h \
         core/ClubLog.h \
         core/Conditions.h \
         core/CredentialStore.h \
@@ -130,8 +129,6 @@ HEADERS += \
         core/Rotator.h \
         core/Sat.h \
         core/SerialPort.h \
-        core/StyleItemDelegate.h \
-        core/SwitchButton.h \
         core/Wsjtx.h \
         core/debug.h \
         core/zonedetect.h \
@@ -163,6 +160,7 @@ HEADERS += \
         ui/AlertWidget.h \
         ui/AwardsDialog.h \
         ui/BandmapWidget.h \
+        ui/ButtonStyle.h \
         ui/ClockWidget.h \
         ui/ClublogDialog.h \
         ui/ColumnSettingDialog.h \
@@ -185,10 +183,12 @@ HEADERS += \
         ui/QSOFilterDialog.h \
         ui/QTableQSOView.h \
         ui/QrzDialog.h \
+        ui/StyleItemDelegate.h \
         ui/RigWidget.h \
         ui/RotatorWidget.h \
         ui/SettingsDialog.h \
         ui/StatisticsWidget.h \
+        ui/SwitchButton.h \
         ui/WsjtxWidget.h
 
 FORMS += \
