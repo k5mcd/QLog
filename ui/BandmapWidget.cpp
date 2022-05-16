@@ -2,6 +2,7 @@
 #include <QGraphicsTextItem>
 #include <QMutableMapIterator>
 #include <QMenu>
+#include <QTextDocument>
 
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
@@ -168,7 +169,7 @@ void BandmapWidget::updateStations()
     for (; lower != upper; lower++)
     {
         double freq_y = ((lower.key() - band.start) / step) * 10;
-        double text_y = std::max(min_y, freq_y);
+        double text_y = std::max(min_y + 5, freq_y);
 
         /*************************
          * Draw Line to Callsign *
@@ -182,12 +183,14 @@ void BandmapWidget::updateStations()
         QString callsignTmp = lower.value().callsign;
         QString timeTmp = lower.value().time.toString(locale.timeFormat(QLocale::ShortFormat));
 
-        QGraphicsTextItem* text = bandmapScene->addText(callsignTmp + " [" + timeTmp +"]");
+        QGraphicsTextItem* text = bandmapScene->addText(callsignTmp + " @ " + timeTmp);
+        text->document()->setDocumentMargin(0);
         text->setPos(40, text_y - (text->boundingRect().height() / 2));
         text->setFlags(QGraphicsItem::ItemIsFocusable |
                        QGraphicsItem::ItemIsSelectable |
                        text->flags());
         text->setProperty("freq", lower.key());
+
 
         min_y = text_y + text->boundingRect().height() / 2;
 
