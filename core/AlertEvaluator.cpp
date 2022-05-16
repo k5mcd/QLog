@@ -12,7 +12,7 @@
 MODULE_IDENTIFICATION("qlog.ui.alertevaluator");
 
 AlertEvaluator::AlertEvaluator(QObject *parent)
-    : QObject{parent}
+    : QObject(parent)
 {
     FCT_IDENTIFICATION;
     loadRules();

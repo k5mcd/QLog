@@ -26,17 +26,17 @@ AlertRuleDetail::AlertRuleDetail(const QString &ruleName, QWidget *parent) :
     /*************/
     /* Get Bands */
     /*************/
-    int row=0;
+    int row = 0;
     int band_index = 0;
     SqlListModel *bands = new SqlListModel("SELECT name FROM bands WHERE enabled = 1 ORDER BY start_freq", "Band");
 
-    while (band_index < bands->rowCount())
+    while ( band_index < bands->rowCount() )
     {
-        for (int i = 0; i < 6; i ++)
+        for ( int i = 0; i < 6; i++ )
         {
             band_index++;
 
-            if ( band_index >= bands->rowCount())
+            if ( band_index >= bands->rowCount() )
                 break;
 
             QCheckBox *bandcheckbox=new QCheckBox();
@@ -277,7 +277,7 @@ void AlertRuleDetail::save()
             }
             QCheckBox *bandcheckbox = qobject_cast<QCheckBox*>(item->widget());
 
-            if (bandcheckbox)
+            if ( bandcheckbox )
             {
                 if ( bandcheckbox->isChecked() )
                 {
