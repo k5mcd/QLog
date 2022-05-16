@@ -165,6 +165,13 @@ void Rotator::open()
 {
     FCT_IDENTIFICATION;
 
+    QMetaObject::invokeMethod(this, &Rotator::openImpl, Qt::QueuedConnection);
+}
+
+void Rotator::openImpl()
+{
+    FCT_IDENTIFICATION;
+
     rotLock.lock();
     __openRot();
     rotLock.unlock();
@@ -260,6 +267,13 @@ void Rotator::__closeRot()
 }
 
 void Rotator::close()
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, &Rotator::closeImpl, Qt::QueuedConnection);
+}
+
+void Rotator::closeImpl()
 {
     FCT_IDENTIFICATION;
 
