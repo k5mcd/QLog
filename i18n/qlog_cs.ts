@@ -466,12 +466,12 @@
 <context>
     <name>CheckBoxDelegate</name>
     <message>
-        <location filename="../core/StyleItemDelegate.h" line="301"/>
+        <location filename="../ui/StyleItemDelegate.h" line="301"/>
         <source>Enabled</source>
         <translation>Zapnuto</translation>
     </message>
     <message>
-        <location filename="../core/StyleItemDelegate.h" line="302"/>
+        <location filename="../ui/StyleItemDelegate.h" line="302"/>
         <source>Disabled</source>
         <translation>Vypnuto</translation>
     </message>
@@ -3341,62 +3341,62 @@
         <translation>Elektronicky</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1015"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1016"/>
         <source>HamQTH</source>
         <translation>HamQTH</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1020"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1021"/>
         <source>QRZ.com</source>
         <translation>QRZ.com</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1028"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1029"/>
         <source>QLog Error</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1028"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1029"/>
         <source>Callbook login failed</source>
         <translation>Selhalo přihlášení do Callbooku</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1415"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1416"/>
         <source>New Entity!</source>
         <translation>Nová země!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1418"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1419"/>
         <source>New Band!</source>
         <translation>Nové pásmo!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1421"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1422"/>
         <source>New Mode!</source>
         <translation>Nový druh provozu!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1424"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1425"/>
         <source>New Band &amp; Mode!</source>
         <translation>Nové pásmo &amp; druh!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1427"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1428"/>
         <source>New Slot!</source>
         <translation>Nový slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1446"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1447"/>
         <source>GE</source>
         <translation>GE</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1452"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1453"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1458"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1459"/>
         <source>GA</source>
         <translation>GA</translation>
     </message>
@@ -3478,7 +3478,7 @@
         <location filename="../core/main.cpp" line="274"/>
         <location filename="../core/main.cpp" line="279"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="334"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1043"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1044"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="592"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="603"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="612"/>
@@ -3531,7 +3531,7 @@
         <translation type="vanished">Chyba Rotátoru: &lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1044"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1045"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>Vaše značka není vyplněna. Prosím, nastavte Profil Stanice</translation>
     </message>
@@ -4002,17 +4002,17 @@ Nesprárované:
         <translation>Chyba v získání pozice</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="188"/>
+        <location filename="../core/Rotator.cpp" line="195"/>
         <source>Initialization Error</source>
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="215"/>
+        <location filename="../core/Rotator.cpp" line="222"/>
         <source>Open Connection Error</source>
         <translation>Chyba v navázání komunikace</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="290"/>
+        <location filename="../core/Rotator.cpp" line="304"/>
         <source>Set Possition Error</source>
         <translation>Chyba v nastavení pozice</translation>
     </message>
