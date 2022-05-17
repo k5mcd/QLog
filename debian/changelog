@@ -1,3 +1,21 @@
+qlog (0.9.0-1) UNRELEASED; urgency=low
+
+  * [NEW] User-defined Spot Alerts
+  * [NEW] User filter contains a new operator "Starts with"
+  * [NEW] a real local time is showed for the DX callsign (issue #45)
+  * [NEW] Lotw/eQSL registration info is showed from callbooks
+  * [NEW] Added shortcuts for menu and tabs
+  * [NEW] Bandmap - Switching a band view via Bandmap context menu (issue #57)
+  * [CHANGED] - Network Notification format
+  * Fixed issue with My Notes multiple lines edit/show mode (issue 39)
+  * Fixed issue when GUI froze when Rig disconnect was called (issue #50)
+  * Partially fixed a high CPU load when DXC is processed (issue #52)
+  * Fixed crashes under Debian "bullseye" - 32bit (issue #55)
+  * Fixed Bandmap Callsign selection margin (issue #61)
+  * Fixed issue when it was not possible to enter RX/TX freq manually
+
+ -- foldynl <foldyna@gmail.com>  Fri, 20 May 2022 08:00:00 +0200
+
 qlog (0.8.0-1) UNRELEASED; urgency=low
 
   * RIT/XIT offset enable/disable detection (issue #26)
