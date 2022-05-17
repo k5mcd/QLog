@@ -1328,10 +1328,16 @@ void NewContactWidget::editCallsignFinished()
 {
     FCT_IDENTIFICATION;
 
+    static QString prevQueryCallsign;
+
     startContactTimer();
-    if ( callsign.size() >= 3 && primaryCallbook )
+
+    if ( prevQueryCallsign != callsign
+         && callsign.size() >= 3
+         && primaryCallbook )
     {
         primaryCallbook->queryCallsign(callsign);
+        prevQueryCallsign = callsign;
     }
 }
 
