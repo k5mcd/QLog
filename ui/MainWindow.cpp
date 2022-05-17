@@ -171,6 +171,8 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     if ( stats )
     {
         stats->close();
+        stats->deleteLater();
+        stats = nullptr;
     }
 
     if ( alertWidget )
@@ -373,7 +375,10 @@ void MainWindow::showStatistics()
 {
     FCT_IDENTIFICATION;
 
-    stats->show();
+    if ( stats )
+    {
+       stats->show();
+    }
 }
 
 void MainWindow::importLog() {
@@ -590,7 +595,6 @@ MainWindow::~MainWindow() {
 
     Rig::instance()->stopTimer();
     Rotator::instance()->stopTimer();
-    stats->deleteLater();
     alertWidget->deleteLater();
     conditions->deleteLater();
     conditionsLabel->deleteLater();
