@@ -45,7 +45,7 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 * Fri May 20 2022 Ladislav Foldyna - 0.9.0-1
 - [NEW] User-defined Spot Alerts
 - [NEW] User filter contains a new operator "Starts with"
-- [NEW] a real local time is showed for the DX callsign (issue #45)
+- [NEW] a real local time is shown for the DX callsign (issue #45)
 - [NEW] Lotw/eQSL registration info is showed from callbooks
 - [NEW] Added shortcuts for menu and tabs
 - [NEW] Bandmap - Switching a band view via Bandmap context menu (issue #57)
