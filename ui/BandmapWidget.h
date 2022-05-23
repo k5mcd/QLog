@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QGraphicsItem>
 #include <QMutex>
+#include <QColor>
 
 #include "data/DxSpot.h"
 #include "data/Band.h"
@@ -37,7 +38,7 @@ public:
 
 public slots:
     void update();
-    void updateRxFrequency(VFOID, double, double, double);
+    void updateTunedFrequency(VFOID, double, double, double);
     void addSpot(DxSpot spot);
     void spotAgingChanged(int);
     void clearSpots();
@@ -55,6 +56,7 @@ private:
     void updateStations();
     void determineStepDigits(double &steps, int &digits);
     void clearAllCallsignFromScene();
+    void drawFreqMark(const double, const double, const QColor&);
 
 private:
     Ui::BandmapWidget *ui;
@@ -62,7 +64,8 @@ private:
 
 
     double rx_freq;
-    Band band;
+    double tx_freq;
+    Band currentBand;
     BandmapZoom zoom;
     QGraphicsScene* bandmapScene;
     QMap<double, DxSpot> spots;
