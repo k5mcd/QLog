@@ -4,6 +4,9 @@
 #include <QRegExpValidator>
 #include <QMessageBox>
 #include <QFontMetrics>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 
 #include "DxWidget.h"
 #include "ui_DxWidget.h"
@@ -455,8 +458,37 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
     disconnectCluster();
 }
 
-void DxWidget::connected() {
+void DxWidget::connected()
+{
     FCT_IDENTIFICATION;
+
+    int fd = socket->socketDescriptor();
+    int enableKeepAlive = 1;
+    int maxIdle = 10;
+    int count = 3;
+    int interval = 10;
+
+    if ( setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive)) !=0 )
+    {
+         qWarning() << "Cannot set keepalive for DXC";
+    }
+    else
+    {
+        if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle)) != 0 )
+        {
+            qWarning() << "Cannot set keepalive idle for DXC";
+        }
+
+        if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT, &count, sizeof(count)) != 0 )
+        {
+            qWarning() << "Cannot set keepalive counter for DXC";
+        }
+
+        if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &interval, sizeof(interval)) != 0 )
+        {
+            qWarning() << "Cannot set keepalive interval for DXC";
+        }
+    }
 
     ui->sendButton->setEnabled(true);
     ui->connectButton->setEnabled(true);
