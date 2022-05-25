@@ -284,6 +284,7 @@ void SettingsDialog::addRigProfile()
     profile.getPWRInfo = ui->rigGetPWRCheckBox->isChecked();
     profile.getRITInfo = ui->rigGetRITCheckBox->isChecked();
     profile.getXITInfo = ui->rigGetXITCheckBox->isChecked();
+    profile.getPTTInfo = ui->rigGetPTTState->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -339,6 +340,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigGetXITCheckBox->setChecked(profile.getXITInfo);
     ui->rigRXOffsetSpinBox->setValue(profile.ritOffset);
     ui->rigTXOffsetSpinBox->setValue(profile.xitOffset);
+    ui->rigGetPTTState->setChecked(profile.getPTTInfo);
 
     fixRigCap(rig_get_caps(profile.model));
 
@@ -374,6 +376,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigGetXITCheckBox->setChecked(false);
     ui->rigRXOffsetSpinBox->setValue(0.0);
     ui->rigTXOffsetSpinBox->setValue(0.0);
+    ui->rigGetPTTState->setChecked(false);
 
     ui->rigAddProfileButton->setText(tr("Add"));
 }
@@ -1279,6 +1282,14 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
         {
             ui->rigGetXITCheckBox->setEnabled(false);
             ui->rigGetXITCheckBox->setChecked(false);
+        }
+
+        if ( ! caps->get_ptt
+             || !(caps->ptt_type == RIG_PTT_RIG
+                   || caps->ptt_type == RIG_PTT_RIG_MICDATA))   //currently only CAT PTT is supported
+        {
+            ui->rigGetPTTState->setEnabled(false);
+            ui->rigGetPTTState->setChecked(false);
         }
     }
 }
