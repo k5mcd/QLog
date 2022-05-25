@@ -111,6 +111,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::reloadSettings);
     connect(this, &MainWindow::settingsChanged, ui->rigWidget, &RigWidget::reloadSettings);
     connect(this, &MainWindow::alertRulesChanged, &alertEvaluator, &AlertEvaluator::loadRules);
+    connect(this, &MainWindow::altBackslash, Rig::instance(), &Rig::setPTT);
+
     //ClubLog* clublog = new ClubLog(this);
 
     connect(ui->logbookWidget, &LogbookWidget::logbookUpdated, stats, &StatisticsWidget::refreshGraph);
@@ -157,6 +159,14 @@ MainWindow::MainWindow(QWidget* parent) :
     {
         showSettings();
     }
+    /*************/
+    /* SHORTCUTs */
+    /*************/
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Backslash),
+                                        this,
+                                        SLOT(shortcutALTBackslash()),
+                                        nullptr, Qt::ApplicationShortcut);
+    shortcut->setAutoRepeat(false);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -181,6 +191,20 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     }
 
     QMainWindow::closeEvent(event);
+}
+
+/* It has to be controlled via global scope because keyReleaseEvent handles
+ * only events from focused widget */
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    FCT_IDENTIFICATION;
+
+    if ( event->key() == Qt::Key_Backslash
+         && event->modifiers() == Qt::AltModifier
+         && ! event->isAutoRepeat() )
+    {
+        emit altBackslash(false);
+    }
 }
 
 void MainWindow::rigConnect() {
@@ -293,6 +317,13 @@ void MainWindow::beepSettingAlerts()
     {
         QApplication::beep();
     }
+}
+
+void MainWindow::shortcutALTBackslash()
+{
+    FCT_IDENTIFICATION;
+
+    emit altBackslash(true);
 }
 
 void MainWindow::setDarkMode()

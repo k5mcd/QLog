@@ -90,6 +90,7 @@ public slots:
     void setMode(const QString &, const QString &);
     void setMode(const QString &);
     void setMode(rmode_t);
+    void setPTT(bool);
     QStringList getAvailableModes();
 
 signals:
@@ -109,6 +110,7 @@ private slots:
     void closeImpl();
     void setFrequencyImpl(double);
     void setModeImpl(rmode_t);
+    void setPTTImpl(bool);
     void stopTimerImplt();
 
 

@@ -23,11 +23,13 @@ public:
     ~MainWindow();
 
     void closeEvent(QCloseEvent* event);
+    void keyReleaseEvent(QKeyEvent *event);
 
 signals:
     void settingsChanged();
     void alertRulesChanged();
     void themeChanged(int);
+    void altBackslash(bool active);
 
 public slots:
     void rigErrorHandler(const QString &error, const QString &errorDetail);
@@ -56,6 +58,7 @@ private slots:
     void processSpotAlert(SpotAlert alert);
     void clearAlertButtons();
     void beepSettingAlerts();
+    void shortcutALTBackslash();
 
 private:
     Ui::MainWindow* ui;
