@@ -90,6 +90,50 @@ void Rig::update()
         return;
     }
 
+    /***********/
+    /* Get PTT */
+    /***********/
+    if ( connectedRigProfile.getPTTInfo
+         && rig->caps->get_ptt
+         && ( rig->caps->ptt_type == RIG_PTT_RIG
+              || rig->caps->ptt_type == RIG_PTT_RIG_MICDATA)
+        )
+    {
+        ptt_t pttHamlib;
+
+        int status = rig_get_ptt(rig, RIG_VFO_CURR, &pttHamlib);
+
+        if ( status == RIG_OK )
+        {
+            bool ptt = ( pttHamlib == RIG_PTT_OFF ) ? false : true;
+
+            qCDebug(runtime) << "Current PTT state: "<< ptt;
+            qCDebug(runtime) << "Current LO PTT state: "<< LoA.getPTT();
+
+            if ( ptt != LoA.getPTT() )
+            {
+                LoA.setPTT(ptt);
+
+                qCDebug(runtime) << "PTT changed - emitting: " << LoA.getPTT();
+
+                emit pttChanged(LoA.getID(), LoA.getPTT());
+            }
+        }
+        else
+        {
+            /* Ignore error */
+            /*
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
+        */
+        }
+    }
+    else
+    {
+        qCDebug(runtime) << "Get PTT is disabled";
+    }
+
+
     /************/
     /* Get Freq */
     /************/
@@ -737,6 +781,7 @@ LocalOscilator::LocalOscilator(VFOID id, QObject *parent) :
     freq(RIG_FREQ_NONE),
     mode(RIG_MODE_NONE),
     vfo(RIG_VFO_NONE),
+    ptt(false),
     power(0),
     RXOffset(0.0),
     TXOffset(0.0),
@@ -868,6 +913,16 @@ double LocalOscilator::getXITFreq() const
     return getFreq() + getTXOffset();
 }
 
+bool LocalOscilator::getPTT() const
+{
+    return ptt;
+}
+
+void LocalOscilator::setPTT(bool newPTT)
+{
+    ptt = newPTT;
+}
+
 void LocalOscilator::clear()
 {
     setFreq(RIG_FREQ_NONE),
@@ -877,5 +932,6 @@ void LocalOscilator::clear()
     setRXOffset(0.0);
     setTXOffset(0.0);
     setPower(0.0);
+    setPTT(false);
 }
 

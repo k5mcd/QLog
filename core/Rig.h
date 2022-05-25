@@ -54,12 +54,16 @@ public:
     double getRITFreq() const;
     double getXITFreq() const;
 
+    bool getPTT() const;
+    void setPTT(bool);
+
     void clear();
 
 private:
     freq_t freq;          //in Hz
     rmode_t mode;
     vfo_t vfo;
+    bool ptt;
     unsigned int power;   //in mW
     double RXOffset;      //in Hz
     double TXOffset;      //in Hz
@@ -95,6 +99,7 @@ signals:
     void vfoChanged(VFOID, QString);
     void ritChanged(VFOID, double);
     void xitChanged(VFOID, double);
+    void pttChanged(VFOID, bool);
     void rigErrorPresent(QString, QString);
     void rigDisconnected();
     void rigConnected();
