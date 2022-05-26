@@ -704,7 +704,7 @@ void SettingsDialog::addStationProfile()
     profile.qthName = ui->stationQTHEdit->text();
     profile.iota = ui->stationIOTAEdit->text().toUpper();
     profile.sota = ui->stationSOTAEdit->text().toUpper();
-    profile.sig = ui->stationSIGEdit->text().toUpper();
+    profile.sig = ui->stationSIGEdit->text();
     profile.sigInfo = ui->stationSIGInfoEdit->text();
     profile.vucc = ui->stationVUCCEdit->text().toUpper();
 

@@ -418,7 +418,7 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("cont", contact.take("cont").toString().toUpper());
     record.setValue("dxcc", contact.take("dxcc"));
     record.setValue("pfx", contact.take("pfx").toString().toUpper());
-    record.setValue("state", contact.take("state").toString().toUpper());
+    record.setValue("state", contact.take("state").toString());
     record.setValue("cnty", contact.take("cnty"));
     record.setValue("iota", contact.take("iota").toString().toUpper());
     record.setValue("qsl_rcvd", parseQslRcvd(contact.take("qsl_rcvd").toString()));
@@ -457,7 +457,7 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("eqsl_qsl_sent",parseQslSent(contact.take("eqsl_qsl_sent").toString()));
     record.setValue("fists",contact.take("fists"));
     record.setValue("fists_cc",contact.take("fists_cc"));
-    record.setValue("force_init",contact.take("force_init").toString().toUpper());
+    record.setValue("force_init",contact.take("force_init"));
     record.setValue("freq_rx",contact.take("freq_rx"));
     record.setValue("guest_op",contact.take("guest_op"));
     record.setValue("hrdlog_qso_upload_date",parseDate(contact.take("hrdlog_qso_upload_date").toString()));
