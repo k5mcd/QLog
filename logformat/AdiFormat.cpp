@@ -495,7 +495,7 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("qsl_sent_via",contact.take("qsl_sent_via"));
     record.setValue("qsl_via",contact.take("qsl_via"));
     record.setValue("qso_complete",contact.take("qso_complete"));
-    record.setValue("qso_random",contact.take("qso_random").toString().toUpper());
+    record.setValue("qso_random",contact.take("qso_random").toString());
     record.setValue("region",contact.take("region"));
     record.setValue("rx_pwr",contact.take("rx_pwr"));
     record.setValue("sat_mode",contact.take("sat_mode"));
