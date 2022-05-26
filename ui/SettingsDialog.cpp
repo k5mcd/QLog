@@ -284,7 +284,7 @@ void SettingsDialog::addRigProfile()
     profile.getPWRInfo = ui->rigGetPWRCheckBox->isChecked();
     profile.getRITInfo = ui->rigGetRITCheckBox->isChecked();
     profile.getXITInfo = ui->rigGetXITCheckBox->isChecked();
-    profile.getPTTInfo = ui->rigGetPTTState->isChecked();
+    profile.getPTTInfo = ui->rigGetPTTStateCheckBox->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -340,7 +340,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigGetXITCheckBox->setChecked(profile.getXITInfo);
     ui->rigRXOffsetSpinBox->setValue(profile.ritOffset);
     ui->rigTXOffsetSpinBox->setValue(profile.xitOffset);
-    ui->rigGetPTTState->setChecked(profile.getPTTInfo);
+    ui->rigGetPTTStateCheckBox->setChecked(profile.getPTTInfo);
 
     fixRigCap(rig_get_caps(profile.model));
 
@@ -376,7 +376,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigGetXITCheckBox->setChecked(false);
     ui->rigRXOffsetSpinBox->setValue(0.0);
     ui->rigTXOffsetSpinBox->setValue(0.0);
-    ui->rigGetPTTState->setChecked(false);
+    ui->rigGetPTTStateCheckBox->setChecked(false);
 
     ui->rigAddProfileButton->setText(tr("Add"));
 }
@@ -820,6 +820,9 @@ void SettingsDialog::rigChanged(int index)
 
         ui->rigGetXITCheckBox->setEnabled(true);
         ui->rigGetXITCheckBox->setChecked(false);
+
+        ui->rigGetPTTStateCheckBox->setEnabled(true);
+        ui->rigGetPTTStateCheckBox->setChecked(false);
 
         /* disable what is unimplemented */
         fixRigCap(caps);
@@ -1288,8 +1291,8 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
              || !(caps->ptt_type == RIG_PTT_RIG
                    || caps->ptt_type == RIG_PTT_RIG_MICDATA))   //currently only CAT PTT is supported
         {
-            ui->rigGetPTTState->setEnabled(false);
-            ui->rigGetPTTState->setChecked(false);
+            ui->rigGetPTTStateCheckBox->setEnabled(false);
+            ui->rigGetPTTStateCheckBox->setChecked(false);
         }
     }
 }

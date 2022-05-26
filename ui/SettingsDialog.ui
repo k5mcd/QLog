@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>677</width>
-    <height>792</height>
+    <height>817</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -914,7 +914,7 @@
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QCheckBox" name="rigGetPTTState">
+                    <widget class="QCheckBox" name="rigGetPTTStateCheckBox">
                      <property name="text">
                       <string>PTT State</string>
                      </property>
