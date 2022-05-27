@@ -110,7 +110,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("cont", contact.take("cont").toString().toUpper());
     record.setValue("dxcc", contact.take("dxcc"));
     record.setValue("pfx", contact.take("pfx").toString().toUpper());
-    record.setValue("state", contact.take("state").toString().toUpper());
+    record.setValue("state", contact.take("state").toString());
     record.setValue("cnty", contact.take("cnty"));
     record.setValue("iota", contact.take("iota").toString().toUpper());
     record.setValue("qsl_rcvd", AdiFormat::parseQslRcvd(contact.take("qsl_rcvd").toString()));
@@ -149,7 +149,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("eqsl_qsl_sent",AdiFormat::parseQslSent(contact.take("eqsl_qsl_sent").toString()));
     record.setValue("fists",contact.take("fists"));
     record.setValue("fists_cc",contact.take("fists_cc"));
-    record.setValue("force_init",contact.take("force_init").toString().toUpper());
+    record.setValue("force_init",contact.take("force_init").toString());
     record.setValue("freq_rx",contact.take("freq_rx"));
     record.setValue("guest_op",contact.take("guest_op"));
     record.setValue("hrdlog_qso_upload_date",AdiFormat::parseDate(contact.take("hrdlog_qso_upload_date").toString()));
@@ -187,7 +187,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("qsl_sent_via",contact.take("qsl_sent_via"));
     record.setValue("qsl_via",contact.take("qsl_via"));
     record.setValue("qso_complete",contact.take("qso_complete"));
-    record.setValue("qso_random",contact.take("qso_random").toString().toUpper());
+    record.setValue("qso_random",contact.take("qso_random").toString());
     record.setValue("region",contact.take("region"));
     record.setValue("rx_pwr",contact.take("rx_pwr"));
     record.setValue("sat_mode",contact.take("sat_mode"));
