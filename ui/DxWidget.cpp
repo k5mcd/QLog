@@ -4,6 +4,15 @@
 #include <QRegExpValidator>
 #include <QMessageBox>
 #include <QFontMetrics>
+#ifdef Q_OS_WIN
+#include <Ws2tcpip.h>
+#include <winsock2.h>
+#include <Mstcpip.h>
+#else
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#endif
 
 #include "DxWidget.h"
 #include "ui_DxWidget.h"
@@ -455,9 +464,54 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
     disconnectCluster();
 }
 
-void DxWidget::connected() {
+void DxWidget::connected()
+{
     FCT_IDENTIFICATION;
 
+    int fd = socket->socketDescriptor();
+
+#ifdef Q_OS_WIN
+    DWORD  dwBytesRet = 0;
+
+    struct tcp_keepalive   alive;    // your options for "keepalive" mode
+    alive.onoff = TRUE;              // turn it on
+    alive.keepalivetime = 10000;     // delay (ms) between requests, here is 10s, default is 2h (7200000)
+    alive.keepaliveinterval = 5000;  // delay between "emergency" ping requests, their number (6) is not configurable
+      /* So with this config  socket will send keepalive requests every 30 seconds after last data transaction when everything is ok.
+          If there is no reply (wire plugged out) it'll send 6 requests with 5s delay  between them and then close.
+          As a result we will get disconnect after approximately 1 min timeout.
+       */
+    if (WSAIoctl(fd, SIO_KEEPALIVE_VALS, &alive, sizeof(alive), NULL, 0, &dwBytesRet, NULL, NULL) == SOCKET_ERROR) {
+           qWarning() << "WSAIotcl(SIO_KEEPALIVE_VALS) failed with err#" <<  WSAGetLastError();
+    }
+#else
+    int enableKeepAlive = 1;
+    int maxIdle = 10;
+    int count = 3;
+    int interval = 10;
+
+    if ( setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &enableKeepAlive, sizeof(enableKeepAlive)) !=0 )
+    {
+         qWarning() << "Cannot set keepalive for DXC";
+    }
+    else
+    {
+        if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle)) != 0 )
+        {
+            qWarning() << "Cannot set keepalive idle for DXC";
+        }
+
+        if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT, &count, sizeof(count)) != 0 )
+        {
+            qWarning() << "Cannot set keepalive counter for DXC";
+        }
+
+        if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &interval, sizeof(interval)) != 0 )
+        {
+            qWarning() << "Cannot set keepalive interval for DXC";
+        }
+    }
+#endif
     ui->sendButton->setEnabled(true);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Disconnect"));
