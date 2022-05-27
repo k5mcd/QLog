@@ -28,7 +28,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     double freq = settings.value("newcontact/frequency", 3.5).toDouble();
     freq += RigProfilesManager::instance()->getCurProfile1().ritOffset;
 
-    band = Data::band(freq);
+    currentBand = Data::band(freq);
     zoom = ZOOM_1KHZ;
 
     bandmapScene = new QGraphicsScene(this);
@@ -40,13 +40,13 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     ui->clearSpotOlderSpin->setValue(settings.value("bandmap/spot_aging", 0).toInt());
 
     Rig* rig = Rig::instance();
-    connect(rig, &Rig::frequencyChanged, this, &BandmapWidget::updateRxFrequency);
+    connect(rig, &Rig::frequencyChanged, this, &BandmapWidget::updateTunedFrequency);
 
     update_timer = new QTimer;
     connect(update_timer, SIGNAL(timeout()), this, SLOT(update()));
     update_timer->start(BANDMAP_AGING_TIME);
 
-    updateRxFrequency(VFO1, freq, freq, freq);
+    updateTunedFrequency(VFO1, freq, freq, freq);
     update();
 }
 
@@ -74,7 +74,7 @@ void BandmapWidget::update()
 
     determineStepDigits(step, digits);
 
-    int steps = static_cast<int>(round((band.end - band.start) / step));
+    int steps = static_cast<int>(round((currentBand.end - currentBand.start) / step));
 
     ui->graphicsView->setFixedSize(330, steps*10 + 30);
 
@@ -91,28 +91,32 @@ void BandmapWidget::update()
 
         if (i % 5 == 0)
         {
-            QGraphicsTextItem* text = bandmapScene->addText(QString::number(band.start + step*i, 'f', digits));
+            QGraphicsTextItem* text = bandmapScene->addText(QString::number(currentBand.start + step*i, 'f', digits));
             text->setPos(- (text->boundingRect().width()) - 10,
                          i*10 - (text->boundingRect().height() / 2));
         }
     }
 
-    QString endFreqDigits= QString::number(band.end + step*steps, 'f', digits);
+    QString endFreqDigits= QString::number(currentBand.end + step*steps, 'f', digits);
     bandmapScene->setSceneRect(160 - (endFreqDigits.size()*10),
                                0,
                                0,
                                steps*10 + 20);
 
-    /***********************/
-    /* Draw frequency mark */
-    /***********************/
-    double y = ((rx_freq - band.start) / step) * 10;
-    QPolygonF poly;
-    poly << QPointF(-1, y) << QPointF(-7, y-7) << QPointF(-7, y+7);
-    bandmapScene->addPolygon(poly,
-                             QPen(Qt::NoPen),
-                             QBrush(QColor(30, 180, 30),
-                             Qt::SolidPattern));
+    /**************************/
+    /* Draw RX frequency mark */
+    /**************************/
+    drawFreqMark(rx_freq, step, QColor(30, 180, 30));
+
+    /**************************/
+    /* Draw TX frequency mark */
+    /**************************/
+    if ( tx_freq >= currentBand.start
+         && tx_freq <= currentBand.end
+         && tx_freq != rx_freq )
+    {
+        drawFreqMark(tx_freq, step, QColor(255, 0, 0));
+    }
 
     /*****************
      * Draw Stations *
@@ -163,12 +167,12 @@ void BandmapWidget::updateStations()
 
     determineStepDigits(step, digits);
 
-    QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(band.start);
-    QMap<double, DxSpot>::const_iterator upper = spots.upperBound(band.end);
+    QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(currentBand.start);
+    QMap<double, DxSpot>::const_iterator upper = spots.upperBound(currentBand.end);
 
     for (; lower != upper; lower++)
     {
-        double freq_y = ((lower.key() - band.start) / step) * 10;
+        double freq_y = ((lower.key() - currentBand.start) / step) * 10;
         double text_y = std::max(min_y + 5, freq_y);
 
         /*************************
@@ -215,20 +219,20 @@ void BandmapWidget::determineStepDigits(double &step, int &digits)
     }
 
     /* bands below are too wide for BandMap, therefore it is needed to short them */
-    if ( band.start >= 28.0 && band.start < 420.0 )
+    if ( currentBand.start >= 28.0 && currentBand.start < 420.0 )
     {
         step = step * 10;
     }
-    if ( ( band.start >= 420.0 && band.start < 2300.0 )
-         || band.start == 119980 )
+    if ( ( currentBand.start >= 420.0 && currentBand.start < 2300.0 )
+         || currentBand.start == 119980 )
     {
         step = step * 100;
     }
-    else if ( band.start >= 2300.0 && band.start < 75500.0 )
+    else if ( currentBand.start >= 2300.0 && currentBand.start < 75500.0 )
     {
         step = step * 1000;
     }
-    else if (band.start == 75500.0 || band.start >= 142000.0)
+    else if (currentBand.start == 75500.0 || currentBand.start >= 142000.0)
     {
         step = step * 10000;
     }
@@ -261,6 +265,28 @@ void BandmapWidget::clearAllCallsignFromScene()
     textItemList.clear();
 }
 
+void BandmapWidget::drawFreqMark(const double freq, const double step, const QColor &color)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq << step << color;
+
+    /* do not show the freq mark if it is outside the bandmap */
+    if ( freq < currentBand.start || freq > currentBand.end )
+    {
+        return;
+    }
+
+    double y = ((freq - currentBand.start) / step) * 10;
+
+    QPolygonF poly;
+    poly << QPointF(-1, y) << QPointF(-7, y-7) << QPointF(-7, y+7);
+
+    bandmapScene->addPolygon(poly,
+                             QPen(Qt::NoPen),
+                             QBrush(color, Qt::SolidPattern));
+}
+
 void BandmapWidget::removeDuplicates(DxSpot &spot) {
     FCT_IDENTIFICATION;
 
@@ -288,7 +314,7 @@ void BandmapWidget::addSpot(DxSpot spot) {
     this->removeDuplicates(spot);
     spots.insert(spot.freq, spot);
 
-    if ( spot.band == band.name )
+    if ( spot.band == currentBand.name )
     {
         updateStations();
     }
@@ -364,7 +390,7 @@ void BandmapWidget::showContextMenu(QPoint point)
         QAction* action = new QAction(enabledBand.name);
         connect(action, &QAction::triggered, this, [this, enabledBand]()
         {
-            this->band = enabledBand;
+            this->currentBand = enabledBand;
             this->update();
         });
         bandsMenu.addAction(action);
@@ -375,7 +401,7 @@ void BandmapWidget::showContextMenu(QPoint point)
     contextMenu.exec(ui->graphicsView->mapToGlobal(point));
 }
 
-void BandmapWidget::updateRxFrequency(VFOID vfoid, double vfoFreq, double ritFreq, double xitFreq)
+void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double ritFreq, double xitFreq)
 {
     FCT_IDENTIFICATION;
 
@@ -383,16 +409,20 @@ void BandmapWidget::updateRxFrequency(VFOID vfoid, double vfoFreq, double ritFre
 
     qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
 
+    /* always show the bandmap for RIT Freq */
     rx_freq = ritFreq;
 
-    if ( rx_freq < band.start || rx_freq > band.end )
+    if ( rx_freq < currentBand.start || rx_freq > currentBand.end )
     {
+        /* Operator switched a band */
         Band newBand = Data::band(rx_freq);
         if ( !newBand.name.isEmpty() )
         {
-            band = newBand;
+            currentBand = newBand;
         }
     }
+
+    tx_freq = xitFreq;
 
     update();
 }
