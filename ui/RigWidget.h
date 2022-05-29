@@ -26,6 +26,7 @@ public slots:
     void updateVFO(VFOID, QString);
     void updateXIT(VFOID, double);
     void updateRIT(VFOID, double);
+    void updatePTT(VFOID, bool);
     void bandComboChanged(QString);
     void modeComboChanged(QString);
     void rigProfileComboChanged(QString);

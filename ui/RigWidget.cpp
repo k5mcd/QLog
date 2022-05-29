@@ -48,6 +48,7 @@ RigWidget::RigWidget(QWidget *parent) :
     connect(rig, &Rig::rigDisconnected, this, &RigWidget::rigDisconnected);
     connect(rig, &Rig::xitChanged, this, &RigWidget::updateXIT);
     connect(rig, &Rig::ritChanged, this, &RigWidget::updateRIT);
+    connect(rig, &Rig::pttChanged, this, &RigWidget::updatePTT);
 
     resetRigInfo();
 
@@ -149,6 +150,23 @@ void RigWidget::updateRIT(VFOID, double rit)
     }
 }
 
+void RigWidget::updatePTT(VFOID, bool ptt)
+{
+    FCT_IDENTIFICATION;
+
+    ui->pttLabel->setText((ptt)? "TX" : "RX");
+
+    if ( ptt )
+    {
+        ui->pttLabel->setStyleSheet("QLabel { border-radius: 16px;background-color : red; }");
+    }
+    else
+    {
+        ui->pttLabel->setStyleSheet("");
+    }
+
+}
+
 void RigWidget::bandComboChanged(QString newBand)
 {
     FCT_IDENTIFICATION;
@@ -182,6 +200,8 @@ void RigWidget::rigProfileComboChanged(QString profileName)
     refreshModeCombo();
     resetRigInfo();
 
+    ui->pttLabel->setHidden(!RigProfilesManager::instance()->getCurProfile1().getPTTInfo);
+
     emit rigProfileChanged();
 }
 
@@ -211,6 +231,8 @@ void RigWidget::refreshRigProfileCombo()
 
     updateRIT(VFO1, rigManager->getCurProfile1().ritOffset);
     updateXIT(VFO1, rigManager->getCurProfile1().xitOffset);
+
+    ui->pttLabel->setHidden(!RigProfilesManager::instance()->getCurProfile1().getPTTInfo);
 
     ui->rigProfilCombo->blockSignals(false);
 }
@@ -278,4 +300,5 @@ void RigWidget::resetRigInfo()
     updateFrequency(VFO1, 0, 0, 0);
     updateRIT(VFO1, RigProfilesManager::instance()->getCurProfile1().ritOffset);
     updateXIT(VFO1, RigProfilesManager::instance()->getCurProfile1().xitOffset);
+    updatePTT(VFO1, false);
 }

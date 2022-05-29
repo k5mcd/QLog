@@ -20,7 +20,7 @@ public:
                    txFreqStart = 0.0; txFreqEnd = 0.0; getFreqInfo = false;
                    getModeInfo = false; getVFOInfo = false; getPWRInfo = false;
                    ritOffset = 0.0; xitOffset = 0.0, getRITInfo = false;
-                   getXITInfo = true; defaultPWR = 0.0;
+                   getXITInfo = true; defaultPWR = 0.0, getPTTInfo = false;
                  };
 
     QString profileName;
@@ -45,7 +45,7 @@ public:
     bool getRITInfo;
     bool getXITInfo;
     double defaultPWR;
-
+    bool getPTTInfo;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);
