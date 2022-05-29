@@ -864,7 +864,7 @@
                    <item>
                     <widget class="QCheckBox" name="rigGetPWRCheckBox">
                      <property name="text">
-                      <string> Power</string>
+                      <string>Power</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
@@ -874,7 +874,7 @@
                    <item>
                     <widget class="QCheckBox" name="rigGetVFOCheckBox">
                      <property name="text">
-                      <string> VFO</string>
+                      <string>VFO</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
