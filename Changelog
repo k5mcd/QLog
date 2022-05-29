@@ -1,5 +1,7 @@
 TDB - 0.10.0
 - [NEW] Bandmap shows XIT/RIT Freq 
+- [NEW] Getting PTT State from RIG - only for CAT-controlled rigs
+- [NEW] PTT Shortchut - only for CAT-controlled rigs
 - Fixed Lost internet conneciton is not detected properly (issue #56)
 - Fixed Cannot manually edit QSO Date&Time (issue#66)
 - Fixed Field contents in capital letters (issue #67)
