@@ -837,7 +837,7 @@
                    <item>
                     <widget class="QCheckBox" name="rigGetModeCheckBox">
                      <property name="text">
-                      <string>Current Mode</string>
+                      <string>Mode</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
@@ -847,7 +847,7 @@
                    <item>
                     <widget class="QCheckBox" name="rigGetFreqCheckBox">
                      <property name="text">
-                      <string>Current Freq</string>
+                      <string>Freq</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
@@ -864,7 +864,7 @@
                    <item>
                     <widget class="QCheckBox" name="rigGetPWRCheckBox">
                      <property name="text">
-                      <string>Current Power</string>
+                      <string> Power</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
@@ -874,7 +874,7 @@
                    <item>
                     <widget class="QCheckBox" name="rigGetVFOCheckBox">
                      <property name="text">
-                      <string>Current VFO</string>
+                      <string> VFO</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
