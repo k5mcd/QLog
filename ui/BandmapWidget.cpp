@@ -3,6 +3,7 @@
 #include <QMutableMapIterator>
 #include <QMenu>
 #include <QTextDocument>
+#include <QScrollBar>
 
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
@@ -17,7 +18,9 @@ MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
 
 BandmapWidget::BandmapWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::BandmapWidget)
+    ui(new Ui::BandmapWidget),
+    RXPositionY(0),
+    keepRXCenter(true)
 {
     FCT_IDENTIFICATION;
 
@@ -27,6 +30,8 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 
     double freq = settings.value("newcontact/frequency", 3.5).toDouble();
     freq += RigProfilesManager::instance()->getCurProfile1().ritOffset;
+
+    keepRXCenter = settings.value("bandmap/centerrx", true).toBool();
 
     currentBand = Data::band(freq);
     zoom = ZOOM_1KHZ;
@@ -106,7 +111,7 @@ void BandmapWidget::update()
     /**************************/
     /* Draw RX frequency mark */
     /**************************/
-    drawFreqMark(rx_freq, step, QColor(30, 180, 30));
+    drawFreqMark(rx_freq, step, QColor(30, 180, 30), RXPositionY);
 
     /**************************/
     /* Draw TX frequency mark */
@@ -115,13 +120,16 @@ void BandmapWidget::update()
          && tx_freq <= currentBand.end
          && tx_freq != rx_freq )
     {
-        drawFreqMark(tx_freq, step, QColor(255, 0, 0));
+        int i;
+        drawFreqMark(tx_freq, step, QColor(255, 0, 0), i);
     }
 
     /*****************
      * Draw Stations *
      *****************/
     updateStations();
+
+    centerPosition();
 }
 
 void BandmapWidget::spotAging()
@@ -265,7 +273,7 @@ void BandmapWidget::clearAllCallsignFromScene()
     textItemList.clear();
 }
 
-void BandmapWidget::drawFreqMark(const double freq, const double step, const QColor &color)
+void BandmapWidget::drawFreqMark(const double freq, const double step, const QColor &color, int &Yposition)
 {
     FCT_IDENTIFICATION;
 
@@ -277,10 +285,12 @@ void BandmapWidget::drawFreqMark(const double freq, const double step, const QCo
         return;
     }
 
-    double y = ((freq - currentBand.start) / step) * 10;
+    Yposition = ((freq - currentBand.start) / step) * 10;
 
     QPolygonF poly;
-    poly << QPointF(-1, y) << QPointF(-7, y-7) << QPointF(-7, y+7);
+    poly << QPointF(-1, Yposition)
+         << QPointF(-7, Yposition - 7)
+         << QPointF(-7, Yposition + 7);
 
     bandmapScene->addPolygon(poly,
                              QPen(Qt::NoPen),
@@ -383,7 +393,7 @@ void BandmapWidget::showContextMenu(QPoint point)
     }
 
     QMenu contextMenu(this);
-    QMenu bandsMenu(tr("Show Band"), this);
+    QMenu bandsMenu(tr("Show Band"), &contextMenu);
 
     for (Band &enabledBand : Data::enabledBandsList())
     {
@@ -396,7 +406,13 @@ void BandmapWidget::showContextMenu(QPoint point)
         bandsMenu.addAction(action);
     }
 
+    QAction* centerRXAction = new QAction(tr("Center RX"), &contextMenu);
+    centerRXAction->setCheckable(true);
+    centerRXAction->setChecked(keepRXCenter);
+    connect(centerRXAction, &QAction::triggered, this, &BandmapWidget::centerRXActionChecked);
+
     contextMenu.addMenu(&bandsMenu);
+    contextMenu.addAction(centerRXAction);
 
     contextMenu.exec(ui->graphicsView->mapToGlobal(point));
 }
@@ -438,4 +454,35 @@ BandmapWidget::~BandmapWidget()
     }
 
     delete ui;
+}
+
+void BandmapWidget::resizeEvent(QResizeEvent *event)
+{
+    FCT_IDENTIFICATION;
+
+    QWidget::resizeEvent(event);
+
+    centerPosition();
+}
+
+void BandmapWidget::centerPosition()
+{
+    FCT_IDENTIFICATION;
+
+    if ( keepRXCenter )
+    {
+        ui->scrollArea->verticalScrollBar()->setValue(RXPositionY - (this->height()/2) + 50);
+    }
+}
+
+void BandmapWidget::centerRXActionChecked(bool state)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    keepRXCenter = state;
+    settings.setValue("bandmap/centerrx", keepRXCenter);
+
+    centerPosition();
 }
