@@ -1,5 +1,6 @@
 TDB - 0.10.0
 - [NEW] Bandmap shows XIT/RIT Freq 
+- [NEW] Bandmap RX Mark Center (issue #69)
 - [NEW] Getting PTT State from RIG - only for CAT-controlled rigs
 - [NEW] PTT Shortchut - only for CAT-controlled rigs
 - Fixed Lost internet conneciton is not detected properly (issue #56)
