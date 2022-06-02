@@ -22,6 +22,7 @@
 #include "core/Eqsl.h"
 #include "ui/PaperQSLDialog.h"
 #include "core/NetworkNotification.h"
+#include "ui/QSODetailDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -487,15 +488,20 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
 
         eQSL->getQSLImage(model->record(modelIndex.row()));
     }
-
     /**************************/
     /* show Paper QSL Manager */
     /**************************/
-    if ( modelIndex.column() == LogbookModel::COLUMN_QSL_RCVD
+    else if ( modelIndex.column() == LogbookModel::COLUMN_QSL_RCVD
          && modelIndex.data().toString() == 'Y' )
     {
         PaperQSLDialog dialog(model->record(modelIndex.row()));
         dialog.exec();
+    }
+    else
+    {
+        QSODetailDialog dialog(model->record(modelIndex.row()));
+        dialog.exec();
+        updateTable();
     }
 }
 

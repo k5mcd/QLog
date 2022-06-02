@@ -95,6 +95,7 @@ SOURCES += \
         ui/OnlineMapWidget.cpp \
         ui/PaperQSLDialog.cpp \
         ui/QSLImportStatDialog.cpp \
+        ui/QSODetailDialog.cpp \
         ui/QSOFilterDetail.cpp \
         ui/QSOFilterDialog.cpp \
         ui/QTableQSOView.cpp \
@@ -179,6 +180,7 @@ HEADERS += \
         ui/OnlineMapWidget.h \
         ui/PaperQSLDialog.h \
         ui/QSLImportStatDialog.h \
+        ui/QSODetailDialog.h \
         ui/QSOFilterDetail.h \
         ui/QSOFilterDialog.h \
         ui/QTableQSOView.h \
@@ -212,6 +214,7 @@ FORMS += \
         ui/NewContactWidget.ui \
         ui/PaperQSLDialog.ui \
         ui/QSLImportStatDialog.ui \
+        ui/QSODetailDialog.ui \
         ui/QSOFilterDetail.ui \
         ui/QSOFilterDialog.ui \
         ui/QrzDialog.ui \

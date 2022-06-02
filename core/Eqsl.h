@@ -16,7 +16,7 @@ public:
 
     void update(QDate, QString);
     void uploadAdif(QByteArray &);
-    void getQSLImage(QSqlRecord);
+    void getQSLImage(const QSqlRecord&);
 
     static const QString getUsername();
     static const QString getPassword();
@@ -45,8 +45,8 @@ private:
     void get(QList<QPair<QString, QString>>);
     void downloadADIF(const QString &);
     void downloadImage(const QString &, const QString &);
-    QString QSLImageFilename(const QSqlRecord);
-    bool isQSLImageInCache(QSqlRecord, QString &);
+    QString QSLImageFilename(const QSqlRecord &);
+    bool isQSLImageInCache(const QSqlRecord &, QString &);
     QNetworkReply *currentReply;
 
     static const QString SECURE_STORAGE_KEY;

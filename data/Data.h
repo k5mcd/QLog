@@ -78,6 +78,10 @@ public:
     static QRegularExpression callsignRegEx();
     static QString callsignRegExString();
     static QString removeAccents(const QString &input);
+    static int getITUZMin();
+    static int getITUZMax();
+    static int getCQZMin();
+    static int getCQZMax();
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
     QStringList propagationModesIDList() { return propagationModes.keys(); }
@@ -89,6 +93,7 @@ public:
     QStringList satModeList() { return satModes.values();}
     QStringList satModesIDList() { return satModes.keys(); }
     QString satModeTextToID(const QString &satModeText) { return satModes.key(satModeText);}
+    QString satModeIDToText(const QString &satModeID) { return satModes.value(satModeID);}
     QStringList iotaList() { return iotaRef.values();}
     QStringList iotaIDList() { return iotaRef.keys();}
     QString iotaTextToID(const QString &iotaText) { return iotaRef.key(iotaText);}
