@@ -458,9 +458,14 @@
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="386"/>
+        <location filename="../ui/BandmapWidget.cpp" line="396"/>
         <source>Show Band</source>
         <translation>Zobrazit pásmo</translation>
+    </message>
+    <message>
+        <location filename="../ui/BandmapWidget.cpp" line="409"/>
+        <source>Center RX</source>
+        <translation>Centrovat RX</translation>
     </message>
 </context>
 <context>
