@@ -344,6 +344,12 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
+        case COLUMN_FREQ_RX:
+        {
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND_RX), QVariant(Data::freqToBand(value.toDouble())), role );
+            break;
+        }
+
         case COLUMN_GRID:
         {
             if ( ! value.toString().isEmpty() )
@@ -440,6 +446,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_COUNTRY:  /* it is a computed value, do not update */
         case COLUMN_DISTANCE: /* it is a computed value, do not update */
         case COLUMN_BAND: /* it is a computed value, do not update */
+        case COLUMN_BAND_RX: /* it is a computed value, do not update */
         {
             /* Do not allow to edit them */
             depend_update_result = false;
