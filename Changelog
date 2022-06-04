@@ -1,4 +1,4 @@
-TDB - 0.10.0
+2022/06/05 - 0.10.0
 - [NEW] Bandmap shows XIT/RIT Freq 
 - [NEW] Bandmap RX Mark Center (issue #69)
 - [NEW] Getting PTT State from RIG - only for CAT-controlled rigs
@@ -6,6 +6,7 @@ TDB - 0.10.0
 - Fixed Lost internet conneciton is not detected properly (issue #56)
 - Fixed Cannot manually edit QSO Date&Time (issue#66)
 - Fixed Field contents in capital letters (issue #67)
+- Fixed Band RX is not updated when RX Freq is edited (issue #72)
 
 2022/05/20 - 0.9.0
 - [NEW] User-defined Spot Alerts
