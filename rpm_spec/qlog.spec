@@ -42,6 +42,16 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Jun 5 2022 Ladislav Foldyna - 0.10.0-1
+- [NEW] Bandmap shows XIT/RIT Freq
+- [NEW] Bandmap RX Mark Center (issue #69)
+- [NEW] Getting PTT State from RIG - only for CAT-controlled rigs
+- [NEW] PTT Shortchut - only for CAT-controlled rigs
+- Fixed Lost internet conneciton is not detected properly (issue #56)
+- Fixed Cannot manually edit QSO Date&Time (issue #66)
+- Fixed Field contents in capital letters (issue #67)
+- Fixed Band RX is not updated when RX Freq is edited (issue #72)
+
 * Fri May 20 2022 Ladislav Foldyna - 0.9.0-1
 - [NEW] User-defined Spot Alerts
 - [NEW] User filter contains a new operator "Starts with"
