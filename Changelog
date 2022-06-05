@@ -7,6 +7,7 @@
 - Fixed Cannot manually edit QSO Date&Time (issue#66)
 - Fixed Field contents in capital letters (issue #67)
 - Fixed Band RX is not updated when RX Freq is edited (issue #72)
+- Fixed Stat Windget does not handle a date range correctly (issue #73)
 
 2022/05/20 - 0.9.0
 - [NEW] User-defined Spot Alerts
