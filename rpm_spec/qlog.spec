@@ -51,6 +51,8 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 - Fixed Cannot manually edit QSO Date&Time (issue #66)
 - Fixed Field contents in capital letters (issue #67)
 - Fixed Band RX is not updated when RX Freq is edited (issue #72)
+- Fixed Stat Windget does not handle a date range correctly (issue #73)
+- Fixed eQSL card is incorreclty handled when a callsign contains special characters (issue #74)
 
 * Fri May 20 2022 Ladislav Foldyna - 0.9.0-1
 - [NEW] User-defined Spot Alerts

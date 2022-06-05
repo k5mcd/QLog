@@ -7,8 +7,10 @@ qlog (0.10.0-1) UNRELEASED; urgency=low
   * Fixed Cannot manually edit QSO Date&Time (issue #66)
   * Fixed Field contents in capital letters (issue #67)
   * Fixed Band RX is not updated when RX Freq is edited (issue #72)
+  * Fixed Stat Windget does not handle a date range correctly (issue #73)
+  * Fixed eQSL card is incorreclty handled when a callsign contains special characters (issue #74)
 
- -- foldynl <foldyna@gmail.com>  Sun, 5 Jun 2022 06:00:00 +0200
+ -- foldynl <foldyna@gmail.com>  Sun, 5 Jun 2022 12:00:00 +0200
 
 qlog (0.9.0-1) UNRELEASED; urgency=low
 
