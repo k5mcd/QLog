@@ -156,8 +156,8 @@ void StatisticsWidget::refreshGraph()
 
      if ( ui->useDateRangeCheckBox->isChecked() )
      {
-         genericFilter << " (start_time BETWEEN '" + ui->startDateEdit->date().toString("yyyy-MM-dd")
-                          + "' AND '" + ui->endDateEdit->date().toString("yyyy-MM-dd") + "' ) ";
+         genericFilter << " (date(start_time) BETWEEN date('" + ui->startDateEdit->date().toString("yyyy-MM-dd")
+                          + " 00:00:00') AND date('" + ui->endDateEdit->date().toString("yyyy-MM-dd") + " 23:59:59') ) ";
      }
 
      qCDebug(runtime) << "main " << ui->statTypeMainCombo->currentIndex()
