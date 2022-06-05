@@ -298,7 +298,7 @@ QString EQSL::QSLImageFilename(const QSqlRecord qso)
 
     QString ret = QString("%1_%2_%3_eqsl.jpg").arg(time_start.toString("yyyyMMdd"),
                                                    qso.value("id").toString(),
-                                                   qso.value("callsign").toString());
+                                                   qso.value("callsign").toString().replace(QRegularExpression(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"]")),"_"));
     qCDebug(runtime) << "EQSL Image Filename: " << ret;
     return ret;
 }
