@@ -24,8 +24,6 @@ MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
     rig(Rig::instance()),
-    primaryCallbook(nullptr),
-    secondaryCallbook(nullptr),
     ui(new Ui::NewContactWidget),
     prop_cond(nullptr)
 {
@@ -177,6 +175,14 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connect(rig, &Rig::rigDisconnected,
             this, &NewContactWidget::rigDisconnected);
 
+    connect(&callbookManager, &CallbookManager::callsignResult,
+            this, &NewContactWidget::callsignResult);
+
+    connect(&callbookManager, &CallbookManager::loginFailed, this, [this](QString callbookString)
+    {
+        QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+    });
+
     contactTimer = new QTimer(this);
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
 
@@ -264,28 +270,7 @@ void NewContactWidget::readGlobalSettings()
     /********************/
     /* Reload Callbooks */
     /********************/
-    if ( primaryCallbook )
-    {
-        primaryCallbook->deleteLater();
-        primaryCallbook = nullptr;
-    }
-
-    if ( secondaryCallbook )
-    {
-        secondaryCallbook->deleteLater();
-        secondaryCallbook = nullptr;
-    }
-
-    QString primaryCallbookSelection = settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY).toString();
-    QString secondaryCallbookSelection = settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY).toString();
-
-    primaryCallbook = createCallbook(primaryCallbookSelection);
-    secondaryCallbook = createCallbook(secondaryCallbookSelection);
-
-    if ( primaryCallbook && secondaryCallbook )
-    {
-        connect(primaryCallbook, &GenericCallbook::callsignNotFound, this, &NewContactWidget::callbookCallsignNotFound);
-    }
+    callbookManager.initCallbooks();
 
     /***********************************/
     /* Refresh all Profiles Comboboxes */
@@ -1003,35 +988,6 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     }
 }
 
-GenericCallbook *NewContactWidget::createCallbook(const QString &callbookID)
-{
-    FCT_IDENTIFICATION;
-
-    GenericCallbook *ret = nullptr;
-    QString callbookString;
-
-    if (callbookID == HamQTH::CALLBOOK_NAME )
-    {
-        ret = new HamQTH(this);
-        callbookString = tr("HamQTH");
-    }
-    else if ( callbookID == QRZ::CALLBOOK_NAME )
-    {
-        ret = new QRZ(this);
-        callbookString = tr("QRZ.com");
-    }
-
-    if ( ret )
-    {
-        connect(ret, &GenericCallbook::callsignResult, this, &NewContactWidget::callsignResult);
-        connect(ret, &GenericCallbook::loginFailed, this, [this, callbookString]()
-        {
-            QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
-        });
-    }
-
-    return ret;
-}
 void NewContactWidget::saveContact()
 {
     FCT_IDENTIFICATION;
@@ -1333,10 +1289,9 @@ void NewContactWidget::editCallsignFinished()
     startContactTimer();
 
     if ( prevQueryCallsign != callsign
-         && callsign.size() >= 3
-         && primaryCallbook )
+         && callsign.size() >= 3 )
     {
-        primaryCallbook->queryCallsign(callsign);
+        callbookManager.queryCallsign(callsign);
         prevQueryCallsign = callsign;
     }
 }
@@ -1694,33 +1649,10 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     }
 }
 
-void NewContactWidget::callbookCallsignNotFound(QString queryCallsign)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << queryCallsign;
-
-    if ( queryCallsign != callsign )
-        return ;
-
-    if (!secondaryCallbook) return;
-
-    secondaryCallbook->queryCallsign(queryCallsign);
-}
 
 NewContactWidget::~NewContactWidget() {
     FCT_IDENTIFICATION;
 
     writeWidgetSetting();
-    if ( primaryCallbook )
-    {
-        primaryCallbook->deleteLater();
-    }
-
-    if ( secondaryCallbook )
-    {
-        secondaryCallbook->deleteLater();
-    }
-
     delete ui;
 }

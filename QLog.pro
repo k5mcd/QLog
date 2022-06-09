@@ -30,6 +30,7 @@ CONFIG += c++11
 SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
+        core/CallbookManager.cpp \
         core/ClubLog.cpp \
         core/Conditions.cpp \
         core/CredentialStore.cpp \
@@ -110,6 +111,7 @@ SOURCES += \
 HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
+        core/CallbookManager.h \
         core/ClubLog.h \
         core/Conditions.h \
         core/CredentialStore.h \
