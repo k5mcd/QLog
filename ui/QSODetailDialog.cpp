@@ -5,6 +5,7 @@
 #include <QProgressDialog>
 #include <QDesktopServices>
 #include <QMessageBox>
+#include <QMovie>
 
 #include "QSODetailDialog.h"
 #include "ui_QSODetailDialog.h"
@@ -46,15 +47,41 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     connect(editButton, &QPushButton::clicked, this, &QSODetailDialog::editButtonPressed);
 
     resetButton = new QPushButton(tr("&Reset"));
-    resetButton->setEnabled(false);
     ui->buttonBox->addButton(resetButton, QDialogButtonBox::ActionRole);
     connect(resetButton, &QPushButton::clicked, this, &QSODetailDialog::resetButtonPressed);
+
+    lookupButton = new QPushButton(tr("&Lookup"));
+    ui->buttonBox->addButton(lookupButton, QDialogButtonBox::ActionRole);
+    connect(lookupButton, &QPushButton::clicked, this, &QSODetailDialog::lookupButtonPressed);
+    lookupButtonMovie = new QMovie(this);
+    lookupButtonMovie->setFileName(":/icons/loading.gif");
+    connect(lookupButtonMovie, &QMovie::frameChanged, [this]{
+          this->lookupButton->setIcon(this->lookupButtonMovie->currentPixmap());
+        });
+
+    lookupButtonWaitingStyle(false);
 
     mapper->setModel(model);
     QSOEditMapperDelegate *QSOitemDelegate = new QSOEditMapperDelegate;
     mapper->setItemDelegate(QSOitemDelegate);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
     connect(QSOitemDelegate, &QSOEditMapperDelegate::keyEscapePressed, this, &QSODetailDialog::resetKeyPressed);
+
+    connect(&callbookManager, &CallbookManager::callsignResult,
+            this, &QSODetailDialog::callsignFound);
+
+    connect(&callbookManager, &CallbookManager::callsignNotFound,
+            this, &QSODetailDialog::callsignNotFound);
+
+    connect(&callbookManager, &CallbookManager::loginFailed, this, [this](QString callbookString)
+    {
+        QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+    });
+
+    connect(&callbookManager, &CallbookManager::loginFailed, this, [this](QString callbookString)
+    {
+        QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+    });
 
     /*******************/
     /* Main Screen GUI */
@@ -338,6 +365,17 @@ void QSODetailDialog::resetButtonPressed()
     doValidation();
 }
 
+void QSODetailDialog::lookupButtonPressed()
+{
+    FCT_IDENTIFICATION;
+
+    lookupButton->setEnabled(false);
+    resetButton->setEnabled(false);
+    editButton->setEnabled(false);
+    lookupButtonWaitingStyle(true);
+    callbookManager.queryCallsign(ui->callsignEdit->text());
+}
+
 /* called when qdatawidgetmapper reverts a widget value by pressing ESC */
 void QSODetailDialog::resetKeyPressed(QObject *inObject)
 {
@@ -429,6 +467,7 @@ void QSODetailDialog::setReadOnlyMode(bool inReadOnly)
     ui->timeLockButton->setEnabled(!inReadOnly);
     ui->freqLockButton->setEnabled(!inReadOnly);
     resetButton->setEnabled(!inReadOnly);
+    lookupButton->setEnabled(!inReadOnly);
 
     if ( ui->qslEqslReceiveStatusLabel->property("originvalue").toString() != "Y" )
     {
@@ -742,6 +781,88 @@ void QSODetailDialog::DXGridChanged(QString newGrid)
     return;
 }
 
+void QSODetailDialog::callsignFound(const QMap<QString, QString> &data)
+{
+    FCT_IDENTIFICATION;
+
+    lookupButton->setEnabled(true);
+    resetButton->setEnabled(true);
+    editButton->setEnabled(true);
+    lookupButtonWaitingStyle(false);
+
+    /* blank or not fully filled then update it */
+    if ( ui->nameEdit->text().isEmpty() )
+    {
+        QString name = data.value("name");
+
+        if ( name.isEmpty() )
+        {
+            name = data.value("fname");
+        }
+
+        if ( ui->nameEdit->text().isEmpty() )
+        {
+            ui->nameEdit->setText(name);
+        }
+    }
+
+    if ( ui->gridEdit->text().isEmpty()
+         || data.value("gridsquare").contains(ui->gridEdit->text()) )
+    {
+        ui->gridEdit->setText(data.value("gridsquare"));
+    }
+
+    if ( ui->qthEdit->text().isEmpty() )
+    {
+        ui->qthEdit->setText(data.value("qth"));
+    }
+
+    if ( ui->dokEdit->text().isEmpty() )
+    {
+        ui->dokEdit->setText(data.value("dok"));
+    }
+
+    if ( ui->iotaEdit->text().isEmpty() )
+    {
+        ui->iotaEdit->setText(data.value("iota"));
+    }
+
+    if ( ui->emailEdit->text().isEmpty() )
+    {
+        ui->emailEdit->setText(data.value("email"));
+    }
+
+    if ( ui->countyEdit->text().isEmpty() )
+    {
+        ui->countyEdit->setText(data.value("county"));
+    }
+
+    if ( ui->qslViaEdit->text().isEmpty() )
+    {
+        ui->qslViaEdit->setText(data.value("qsl_via"));
+    }
+
+    if ( ui->urlEdit->text().isEmpty() )
+    {
+        ui->urlEdit->setText(data.value("url"));
+    }
+
+    if ( ui->stateEdit->text().isEmpty() )
+    {
+        ui->stateEdit->setText(data.value("us_state"));
+    }
+}
+
+void QSODetailDialog::callsignNotFound(QString)
+{
+    FCT_IDENTIFICATION;
+
+    lookupButton->setEnabled(true);
+    resetButton->setEnabled(true);
+    editButton->setEnabled(true);
+    lookupButtonWaitingStyle(false);
+}
+
 bool QSODetailDialog::highlightInvalid(QLabel *labelWidget, bool cond, const QString &toolTip)
 {
     FCT_IDENTIFICATION;
@@ -929,6 +1050,24 @@ void QSODetailDialog::enableWidgetChangeHandlers()
                 combo->setStyleSheet(CHANGECSS);
             });
         }
+    }
+}
+
+void QSODetailDialog::lookupButtonWaitingStyle(bool isWaiting)
+{
+    FCT_IDENTIFICATION;
+
+    if ( isWaiting )
+    {
+        lookupButtonMovie->start();
+    }
+    else
+    {
+        lookupButtonMovie->stop();
+
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/baseline-search-24px.svg"));
+        lookupButton->setIcon(icon);
     }
 }
 

@@ -10,6 +10,7 @@
 
 #include "models/LogbookModel.h"
 #include "core/Gridsquare.h"
+#include "core/CallbookManager.h"
 
 namespace Ui {
 class QSODetailDialog;
@@ -46,6 +47,7 @@ public:
 private slots:
     void editButtonPressed();
     void resetButtonPressed();
+    void lookupButtonPressed();
     void resetKeyPressed(QObject *);
     void setReadOnlyMode(bool);
     void modeChanged(QString);
@@ -64,6 +66,8 @@ private slots:
     void mapLoaded(bool);
     void myGridChanged(QString);
     void DXGridChanged(QString);
+    void callsignFound(const QMap<QString, QString>& data);
+    void callsignNotFound(QString);
 
 private:
     /* It is modified logbook model when only basic
@@ -84,6 +88,7 @@ private:
     void drawDXOnMap(const QString &label, const Gridsquare &dxGrid);
     void drawMyQTHOnMap(const QString &label, const Gridsquare &myGrid);
     void enableWidgetChangeHandlers();
+    void lookupButtonWaitingStyle(bool);
 
     Ui::QSODetailDialog *ui;
     QPointer<QDataWidgetMapper> mapper;
@@ -91,11 +96,14 @@ private:
     QSqlRecord *editedRecord;
     QPointer<QPushButton> editButton;
     QPointer<QPushButton> resetButton;
+    QPointer<QPushButton> lookupButton;
+    QPointer<QMovie> lookupButtonMovie;
     qint64 timeLockDiff;
     double freqLockDiff;
     bool isMainPageLoaded;
     QPointer<QWebEnginePage> main_page;
     QString postponedScripts;
+    CallbookManager callbookManager;
 
     static const QString SAVE_BUTTON_TEXT;
     static const QString EDIT_BUTTON_TEXT;
