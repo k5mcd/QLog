@@ -55,9 +55,10 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     connect(lookupButton, &QPushButton::clicked, this, &QSODetailDialog::lookupButtonPressed);
     lookupButtonMovie = new QMovie(this);
     lookupButtonMovie->setFileName(":/icons/loading.gif");
-    connect(lookupButtonMovie, &QMovie::frameChanged, [this]{
+    connect(lookupButtonMovie, &QMovie::frameChanged, [this]
+    {
           this->lookupButton->setIcon(this->lookupButtonMovie->currentPixmap());
-        });
+    });
 
     lookupButtonWaitingStyle(false);
 
@@ -172,6 +173,10 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 
     /* Country */
     SqlListModel* countryModel = new SqlListModel("SELECT id, name FROM dxcc_entities ORDER BY name;", "", this);
+    while ( countryModel->canFetchMore() )
+    {
+        countryModel->fetchMore();
+    }
     ui->countryCombo->setModel(countryModel);
     ui->countryCombo->setModelColumn(1);
 
@@ -1149,7 +1154,7 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
         if ( combo )
         {
             QModelIndexList countryIndex = combo->model()->match(combo->model()->index(0,0),
-                                                                 Qt::DisplayRole, index.data().toString());
+                                                                 Qt::DisplayRole, index.data());
             if ( countryIndex.size() >= 1 )
             {
                 combo->setCurrentIndex(countryIndex.at(0).row());
