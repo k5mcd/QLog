@@ -156,12 +156,20 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
 
     ui->countryFilter->blockSignals(true);
     countryModel = new SqlListModel("SELECT id, name FROM dxcc_entities WHERE id IN (SELECT DISTINCT dxcc FROM contacts) ORDER BY name;", tr("Country"), this);
+    while (countryModel->canFetchMore())
+    {
+        countryModel->fetchMore();
+    }
     ui->countryFilter->setModel(countryModel);
     ui->countryFilter->setModelColumn(1);
     ui->countryFilter->blockSignals(false);
 
     ui->userFilter->blockSignals(true);
     userFilterModel = new SqlListModel("SELECT filter_name FROM qso_filters ORDER BY filter_name", tr("User Filter"), this);
+    while (userFilterModel->canFetchMore())
+    {
+        userFilterModel->fetchMore();
+    }
     ui->userFilter->setModel(userFilterModel);
     ui->userFilter->blockSignals(false);
 

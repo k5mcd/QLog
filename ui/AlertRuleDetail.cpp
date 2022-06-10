@@ -54,6 +54,10 @@ AlertRuleDetail::AlertRuleDetail(const QString &ruleName, QWidget *parent) :
     /****************/
     SqlListModel *countryModel = new SqlListModel("SELECT id, name FROM dxcc_entities ORDER BY name;",
                                                   tr("All"), this);
+    while (countryModel->canFetchMore())
+    {
+        countryModel->fetchMore();
+    }
     ui->countryCombo->setModel(countryModel);
     ui->countryCombo->setModelColumn(1);
 
