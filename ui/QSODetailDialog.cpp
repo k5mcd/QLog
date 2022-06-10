@@ -1179,6 +1179,30 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
             return;
         }
     }
+    else if ( editor->objectName() == "freqRXEdit" )
+    {
+        QDoubleSpinBox *spin = static_cast<QDoubleSpinBox*>(editor);
+
+        if ( spin )
+        {
+            spin->setValue(index.data().toDouble());
+            return;
+        }
+    }
+    else if ( editor->objectName() == "qslPaperReceiveDateEdit"
+              || editor->objectName() == "qslPaperSentDateEdit")
+    {
+        QDateEdit *dateEdit = qobject_cast<QDateEdit*>(editor);
+
+        if ( dateEdit )
+        {
+            if ( !index.data().toDate().isValid() )
+            {
+                dateEdit->setDate(dateEdit->minimumDate());
+                return;
+            }
+        }
+    }
 
     QItemDelegate::setEditorData(editor, index);
 }
