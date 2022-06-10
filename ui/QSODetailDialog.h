@@ -63,6 +63,7 @@ private slots:
     void propagationModeChanged(const QString &);
     bool doValidation();
     void doValidationDateTime(const QDateTime&);
+    void doValidationDouble(double);
     void mapLoaded(bool);
     void myGridChanged(QString);
     void DXGridChanged(QString);

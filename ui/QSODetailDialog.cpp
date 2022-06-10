@@ -760,6 +760,11 @@ void QSODetailDialog::doValidationDateTime(const QDateTime &)
     doValidation();
 }
 
+void QSODetailDialog::doValidationDouble(double)
+{
+    doValidation();
+}
+
 void QSODetailDialog::mapLoaded(bool)
 {
     FCT_IDENTIFICATION;
@@ -1033,8 +1038,8 @@ void QSODetailDialog::enableWidgetChangeHandlers()
         }
         else if ( QDoubleSpinBox *spin = qobject_cast<QDoubleSpinBox*>(widget) )
         {
-            connect(spin, &QDoubleSpinBox::textChanged, this, &QSODetailDialog::doValidation);
-            connect(spin, &QDoubleSpinBox::textChanged, this, [spin](QString)
+            connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &QSODetailDialog::doValidationDouble);
+            connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [spin](double)
             {
                 spin->setStyleSheet(CHANGECSS);
             });
