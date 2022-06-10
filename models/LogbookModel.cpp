@@ -582,6 +582,8 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             case COLUMN_MY_GRIDSQUARE:
             case COLUMN_CALL:
             case COLUMN_GRID:
+            case COLUMN_VUCC_GRIDS:
+            case COLUMN_MY_VUCC_GRIDS:
                 main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
                 break;
 
