@@ -179,7 +179,7 @@
         </sizepolicy>
        </property>
        <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
+        <enum>Qt::WheelFocus</enum>
        </property>
       </widget>
      </item>
@@ -267,7 +267,7 @@
         </sizepolicy>
        </property>
        <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
+        <enum>Qt::WheelFocus</enum>
        </property>
       </widget>
      </item>
@@ -850,7 +850,7 @@
             </sizepolicy>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
+            <enum>Qt::WheelFocus</enum>
            </property>
            <property name="sizeAdjustPolicy">
             <enum>QComboBox::AdjustToContents</enum>
@@ -1090,7 +1090,7 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
+            <enum>Qt::WheelFocus</enum>
            </property>
           </widget>
          </item>
@@ -1142,7 +1142,7 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
+            <enum>Qt::WheelFocus</enum>
            </property>
           </widget>
          </item>
@@ -1505,7 +1505,7 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
+            <enum>Qt::WheelFocus</enum>
            </property>
           </widget>
          </item>
@@ -1581,7 +1581,7 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
+            <enum>Qt::WheelFocus</enum>
            </property>
           </widget>
          </item>
@@ -1614,7 +1614,7 @@
          <item row="0" column="2">
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string notr="true">        </string>
+            <string notr="true"/>
            </property>
           </widget>
          </item>
@@ -1877,17 +1877,22 @@
  <tabstops>
   <tabstop>dateTimeOnEdit</tabstop>
   <tabstop>dateTimeOffEdit</tabstop>
+  <tabstop>timeLockButton</tabstop>
   <tabstop>callsignEdit</tabstop>
   <tabstop>rstSentEdit</tabstop>
   <tabstop>rstRcvdEdit</tabstop>
   <tabstop>modeEdit</tabstop>
   <tabstop>submodeEdit</tabstop>
-  <tabstop>freqRXEdit</tabstop>
   <tabstop>freqTXEdit</tabstop>
+  <tabstop>freqRXEdit</tabstop>
+  <tabstop>freqLockButton</tabstop>
   <tabstop>nameEdit</tabstop>
   <tabstop>qthEdit</tabstop>
   <tabstop>gridEdit</tabstop>
   <tabstop>commentEdit</tabstop>
+  <tabstop>noteEdit</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>countryCombo</tabstop>
   <tabstop>contEdit</tabstop>
   <tabstop>ituEdit</tabstop>
   <tabstop>cqEdit</tabstop>
@@ -1903,6 +1908,33 @@
   <tabstop>emailEdit</tabstop>
   <tabstop>urlEdit</tabstop>
   <tabstop>propagationModeEdit</tabstop>
+  <tabstop>satNameEdit</tabstop>
+  <tabstop>satModeEdit</tabstop>
+  <tabstop>myCallsignEdit</tabstop>
+  <tabstop>myOperatorNameEdit</tabstop>
+  <tabstop>myGridEdit</tabstop>
+  <tabstop>myQTHEdit</tabstop>
+  <tabstop>myRigEdit</tabstop>
+  <tabstop>myAntEdit</tabstop>
+  <tabstop>powerEdit</tabstop>
+  <tabstop>myIOTAEdit</tabstop>
+  <tabstop>mySOTAEdit</tabstop>
+  <tabstop>mySIGEdit</tabstop>
+  <tabstop>mySIGInfoEdit</tabstop>
+  <tabstop>myVUCCEdit</tabstop>
+  <tabstop>qslPaperReceiveDateEdit</tabstop>
+  <tabstop>qslPaperReceiveStatusBox</tabstop>
+  <tabstop>qslPaperSentDateEdit</tabstop>
+  <tabstop>qslPaperSentStatusBox</tabstop>
+  <tabstop>qslSentViaBox</tabstop>
+  <tabstop>qslViaEdit</tabstop>
+  <tabstop>qslPaperPicButton</tabstop>
+  <tabstop>qslEqslPicButton</tabstop>
+  <tabstop>contestIDEdit</tabstop>
+  <tabstop>srxEdit</tabstop>
+  <tabstop>srxStringEdit</tabstop>
+  <tabstop>stxEdit</tabstop>
+  <tabstop>stxStringEdit</tabstop>
  </tabstops>
  <resources>
   <include location="../res/icons/icons.qrc"/>
@@ -1947,8 +1979,8 @@
    <slot>modeChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>785</x>
-     <y>58</y>
+     <x>694</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
      <x>565</x>
@@ -1963,8 +1995,8 @@
    <slot>showPaperButton()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>392</x>
-     <y>660</y>
+     <x>317</x>
+     <y>662</y>
     </hint>
     <hint type="destinationlabel">
      <x>565</x>
@@ -1979,8 +2011,8 @@
    <slot>showEQSLButton()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>871</x>
-     <y>660</y>
+     <x>661</x>
+     <y>662</y>
     </hint>
     <hint type="destinationlabel">
      <x>565</x>
