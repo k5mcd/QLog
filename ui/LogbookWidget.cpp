@@ -497,6 +497,9 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
         PaperQSLDialog dialog(model->record(modelIndex.row()));
         dialog.exec();
     }
+    /**************************************/
+    /* show generic QSO Show/Edit Dialog  */
+    /**************************************/
     else
     {
         QSODetailDialog dialog(model->record(modelIndex.row()));

@@ -34,23 +34,28 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 
     ui->setupUi(this);
 
+    /* model setting */
     model->setFilter(QString("id = '%1'").arg(qso.value("id").toString()));
     model->select();
     connect(model, &QSqlTableModel::beforeUpdate, this, &QSODetailDialog::handleBeforeUpdate);
 
+    /* mapView setting */
     ui->mapView->setPage(main_page);
     main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
     ui->mapView->setFocusPolicy(Qt::ClickFocus);
     connect(ui->mapView, &QWebEngineView::loadFinished, this, &QSODetailDialog::mapLoaded);
 
+    /* Edit Button */
     editButton = new QPushButton(EDIT_BUTTON_TEXT);
     ui->buttonBox->addButton(editButton, QDialogButtonBox::ActionRole);
     connect(editButton, &QPushButton::clicked, this, &QSODetailDialog::editButtonPressed);
 
+    /* Reset Button */
     resetButton = new QPushButton(tr("&Reset"));
     ui->buttonBox->addButton(resetButton, QDialogButtonBox::ActionRole);
     connect(resetButton, &QPushButton::clicked, this, &QSODetailDialog::resetButtonPressed);
 
+    /* Lookup Button */
     lookupButton = new QPushButton(tr("&Lookup"));
     ui->buttonBox->addButton(lookupButton, QDialogButtonBox::ActionRole);
     connect(lookupButton, &QPushButton::clicked, this, &QSODetailDialog::lookupButtonPressed);
@@ -60,15 +65,16 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     {
           this->lookupButton->setIcon(this->lookupButtonMovie->currentPixmap());
     });
-
     lookupButtonWaitingStyle(false);
 
+    /* Mapper setting */
     mapper->setModel(model);
     QSOEditMapperDelegate *QSOitemDelegate = new QSOEditMapperDelegate;
     mapper->setItemDelegate(QSOitemDelegate);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
     connect(QSOitemDelegate, &QSOEditMapperDelegate::keyEscapePressed, this, &QSODetailDialog::resetKeyPressed);
 
+    /* Callbook Signals registration */
     connect(&callbookManager, &CallbookManager::callsignResult,
             this, &QSODetailDialog::callsignFound);
 
@@ -659,11 +665,9 @@ void QSODetailDialog::freqLockToggled(bool toggled)
     }
 }
 
-void QSODetailDialog::callsignChanged(QString newCallsign)
+void QSODetailDialog::callsignChanged(QString)
 {
     FCT_IDENTIFICATION;
-
-    Q_UNUSED(newCallsign)
 
     /* In general, we assume that an operator will modify just suffix therefore QLog will not update ITU, COUNTRY, CQZ, DXCC Countitne */
     /* If an operator will need to modify ITU, so do it manually now */

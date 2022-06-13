@@ -1435,7 +1435,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Receive</string>
+            <string>Received</string>
            </property>
           </widget>
          </item>
