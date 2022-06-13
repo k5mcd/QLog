@@ -114,18 +114,32 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     modeModel->select();
 
     /* IOTA Completer */
-    QCompleter *iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
+    iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
     iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->iotaEdit->setCompleter(iotaCompleter);
 
     /* SOTA Completer */
-    QCompleter *sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
+    sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
     sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     sotaCompleter->setFilterMode(Qt::MatchStartsWith);
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
+
+    /* MyIOTA Completer */
+    myIotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
+    myIotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    myIotaCompleter->setFilterMode(Qt::MatchContains);
+    myIotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->myIOTAEdit->setCompleter(myIotaCompleter);
+
+    /* MySOTA Completer */
+    mySotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
+    mySotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    mySotaCompleter->setFilterMode(Qt::MatchStartsWith);
+    mySotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->mySOTAEdit->setCompleter(nullptr);
 
     DEFINE_CONTACT_FIELDS_ENUMS;
 
@@ -885,6 +899,34 @@ void QSODetailDialog::handleBeforeUpdate(int, QSqlRecord &record)
     FCT_IDENTIFICATION;
 
     emit contactUpdated(record);
+}
+
+void QSODetailDialog::sotaChanged(QString newSOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newSOTA.length() >= 3 )
+    {
+        ui->sotaEdit->setCompleter(sotaCompleter);
+    }
+    else
+    {
+        ui->sotaEdit->setCompleter(nullptr);
+    }
+}
+
+void QSODetailDialog::mySotaChanged(QString newSOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newSOTA.length() >= 3 )
+    {
+        ui->mySOTAEdit->setCompleter(sotaCompleter);
+    }
+    else
+    {
+        ui->mySOTAEdit->setCompleter(nullptr);
+    }
 }
 
 bool QSODetailDialog::highlightInvalid(QLabel *labelWidget, bool cond, const QString &toolTip)

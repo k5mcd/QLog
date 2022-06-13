@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QWebEnginePage>
 #include <QPointer>
+#include <QCompleter>
 
 #include "models/LogbookModel.h"
 #include "core/Gridsquare.h"
@@ -73,6 +74,8 @@ private slots:
     void callsignFound(const QMap<QString, QString>& data);
     void callsignNotFound(QString);
     void handleBeforeUpdate(int, QSqlRecord&);
+    void sotaChanged(QString);
+    void mySotaChanged(QString);
 
 private:
     /* It is modified logbook model when only basic
@@ -118,7 +121,10 @@ private:
     QPointer<QWebEnginePage> main_page;
     QString postponedScripts;
     CallbookManager callbookManager;
-
+    QCompleter *iotaCompleter;
+    QCompleter *myIotaCompleter;
+    QCompleter *sotaCompleter;
+    QCompleter *mySotaCompleter;
     static const QString SAVE_BUTTON_TEXT;
     static const QString EDIT_BUTTON_TEXT;
 };

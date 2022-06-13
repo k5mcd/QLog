@@ -2166,6 +2166,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>sotaEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>QSODetailDialog</receiver>
+   <slot>sotaChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>362</x>
+     <y>467</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mySOTAEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>QSODetailDialog</receiver>
+   <slot>mySotaChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>467</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>modeChanged(QString)</slot>
@@ -2181,5 +2213,7 @@
   <slot>freqLockToggled(bool)</slot>
   <slot>freqTXChanged(double)</slot>
   <slot>freqRXChanged(double)</slot>
+  <slot>sotaChanged(QString)</slot>
+  <slot>mySotaChanged(QString)</slot>
  </slots>
 </ui>
