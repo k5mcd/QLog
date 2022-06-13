@@ -903,7 +903,7 @@ bool QSODetailDialog::highlightInvalid(QLabel *labelWidget, bool cond, const QSt
     }
     else
     {
-        labelWidget->setStyleSheet("color: black; background: yellow;");
+        labelWidget->setStyleSheet("color: black; border-radius: 5px; background: yellow;");
     }
 
     labelWidget->setToolTip(currToolTip);
