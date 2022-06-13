@@ -289,14 +289,11 @@ void QSODetailDialog::accept()
 
     if (editButton->text() == SAVE_BUTTON_TEXT )
     {
-        if ( ! mapper->submit() )
+        QSODetailDialog::SubmitError error = submitAllChanges();
+        if ( error == QSODetailDialog::SubmitMapperError
+             || error == QSODetailDialog::SubmitModelError )
         {
-            qWarning("Mapper was not submitted");
-        }
-
-        if ( ! model->submit() )
-        {
-            qWarning("Model was not submitted");
+            QMessageBox::critical(this, tr("QLog Error"), tr("Cannot save all changes - internal error"));
         }
     }
 
@@ -330,15 +327,20 @@ void QSODetailDialog::editButtonPressed()
 
     if ( editButton->text() == SAVE_BUTTON_TEXT )
     {
-        if ( ! mapper->submit() )
+        QSODetailDialog::SubmitError error = submitAllChanges();
+        if ( error == QSODetailDialog::SubmitCancelledByUser )
         {
-            qWarning("Mapper was not submitted");
+            /* an user wants to fix invalid fields, edit mode remains active */
+            return;
+        }
+        else if ( error == QSODetailDialog::SubmitMapperError
+                  || error == QSODetailDialog::SubmitModelError )
+        {
+            QMessageBox::critical(this, tr("QLog Error"), tr("Cannot save all changes - try to reset all changes"));
+            /* edit mode remains active to fix a possible problem */
+            return;
         }
 
-        if ( ! model->submit() )
-        {
-            qWarning("Model was not submitted");
-        }
         setReadOnlyMode(true);
         editButton->setText(EDIT_BUTTON_TEXT);
         ui->timeLockButton->setChecked(true);
@@ -905,7 +907,7 @@ bool QSODetailDialog::highlightInvalid(QLabel *labelWidget, bool cond, const QSt
     }
 
     labelWidget->setToolTip(currToolTip);
-    return cond;
+    return !cond;
 }
 
 void QSODetailDialog::blockMappedWidgetSignals(bool inBlocking)
@@ -1079,6 +1081,34 @@ void QSODetailDialog::lookupButtonWaitingStyle(bool isWaiting)
         icon.addFile(QString::fromUtf8(":/icons/baseline-search-24px.svg"));
         lookupButton->setIcon(icon);
     }
+}
+
+QSODetailDialog::SubmitError QSODetailDialog::submitAllChanges()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! doValidation() )
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, tr("Validation"), tr("Yellow marked fields are invalid.<p>Nevertheless, save the changes?</p>"),
+                                      QMessageBox::Yes|QMessageBox::No);
+
+        if (reply != QMessageBox::Yes) return QSODetailDialog::SubmitCancelledByUser;
+    }
+
+    if ( ! mapper->submit() )
+    {
+        qWarning("Mapper was not submitted");
+        return QSODetailDialog::SubmitMapperError;
+    }
+
+    if ( ! model->submit() )
+    {
+        qWarning("Model was not submitted");
+        return QSODetailDialog::SubmitModelError;
+    }
+
+    return QSODetailDialog::SubmitOK;
 }
 
 void QSOEditMapperDelegate::setEditorData(QWidget *editor,

@@ -84,12 +84,21 @@ private:
         bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     };
 
+    enum SubmitError
+    {
+        SubmitOK = 0,
+        SubmitCancelledByUser = 1,
+        SubmitMapperError = 2,
+        SubmitModelError = 3
+    };
+
     bool highlightInvalid(QLabel *, bool, const QString&);
     void blockMappedWidgetSignals(bool);
     void drawDXOnMap(const QString &label, const Gridsquare &dxGrid);
     void drawMyQTHOnMap(const QString &label, const Gridsquare &myGrid);
     void enableWidgetChangeHandlers();
     void lookupButtonWaitingStyle(bool);
+    SubmitError submitAllChanges();
 
     Ui::QSODetailDialog *ui;
     QPointer<QDataWidgetMapper> mapper;
