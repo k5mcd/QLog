@@ -4,13 +4,13 @@
 #include <QWidget>
 #include <QSqlRecord>
 #include <QCompleter>
-#include "core/HamQTH.h"
 #include "core/Cty.h"
 #include "data/Data.h"
 #include "core/Conditions.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
 #include "core/Rig.h"
+#include "core/CallbookManager.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -49,7 +49,6 @@ public slots:
     void readGlobalSettings();
     void tuneDx(QString callsign, double frequency);
     void showDx(QString callsign, QString grid);
-    void callbookCallsignNotFound(QString);
     void resetContact();
     void saveContact();
 
@@ -100,7 +99,6 @@ private:
     void setDefaultReport();
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
-    GenericCallbook *createCallbook(const QString&);
 
 private:
     Rig* rig;
@@ -108,8 +106,7 @@ private:
     QString callsign;
     DxccEntity dxccEntity;
     QString defaultReport;
-    GenericCallbook *primaryCallbook;
-    GenericCallbook *secondaryCallbook;
+    CallbookManager callbookManager;
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;

@@ -30,6 +30,7 @@ CONFIG += c++11
 SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
+        core/CallbookManager.cpp \
         core/ClubLog.cpp \
         core/Conditions.cpp \
         core/CredentialStore.cpp \
@@ -95,6 +96,7 @@ SOURCES += \
         ui/OnlineMapWidget.cpp \
         ui/PaperQSLDialog.cpp \
         ui/QSLImportStatDialog.cpp \
+        ui/QSODetailDialog.cpp \
         ui/QSOFilterDetail.cpp \
         ui/QSOFilterDialog.cpp \
         ui/QTableQSOView.cpp \
@@ -109,6 +111,7 @@ SOURCES += \
 HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
+        core/CallbookManager.h \
         core/ClubLog.h \
         core/Conditions.h \
         core/CredentialStore.h \
@@ -179,6 +182,7 @@ HEADERS += \
         ui/OnlineMapWidget.h \
         ui/PaperQSLDialog.h \
         ui/QSLImportStatDialog.h \
+        ui/QSODetailDialog.h \
         ui/QSOFilterDetail.h \
         ui/QSOFilterDialog.h \
         ui/QTableQSOView.h \
@@ -212,6 +216,7 @@ FORMS += \
         ui/NewContactWidget.ui \
         ui/PaperQSLDialog.ui \
         ui/QSLImportStatDialog.ui \
+        ui/QSODetailDialog.ui \
         ui/QSOFilterDetail.ui \
         ui/QSOFilterDialog.ui \
         ui/QrzDialog.ui \

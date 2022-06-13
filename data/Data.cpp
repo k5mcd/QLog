@@ -374,6 +374,42 @@ QString Data::removeAccents(const QString &input)
 
 }
 
+int Data::getITUZMin()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << 1;
+
+    return 1;
+}
+
+int Data::getITUZMax()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << 90;
+
+    return 90;
+}
+
+int Data::getCQZMin()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << 1;
+
+    return 1;
+}
+
+int Data::getCQZMax()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << 40;
+
+    return 40;
+}
+
 QColor Data::statusToInverseColor(const DxccStatus &status, const QColor &defaultColor) {
     FCT_IDENTIFICATION;
 

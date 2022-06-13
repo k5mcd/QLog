@@ -67,13 +67,13 @@ QRegularExpression Gridsquare::gridVUCCRegEx()
     return QRegularExpression("^[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2}$|^[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2}$");
 }
 
-bool Gridsquare::isValid()
+bool Gridsquare::isValid() const
 {
     FCT_IDENTIFICATION;
     return validGrid;
 }
 
-bool Gridsquare::distanceTo(double lat, double lon, double &distance)
+bool Gridsquare::distanceTo(double lat, double lon, double &distance) const
 {
     FCT_IDENTIFICATION;
 
@@ -93,7 +93,7 @@ bool Gridsquare::distanceTo(double lat, double lon, double &distance)
     return true;
 }
 
-bool Gridsquare::distanceTo(Gridsquare in_grid, double &distance)
+bool Gridsquare::distanceTo(Gridsquare in_grid, double &distance) const
 {
     FCT_IDENTIFICATION;
 
@@ -107,7 +107,7 @@ bool Gridsquare::distanceTo(Gridsquare in_grid, double &distance)
     return distanceTo(in_grid.getLatitude(), in_grid.getLongitude(), distance);
 }
 
-bool Gridsquare::bearingTo(double lat, double lon, double &bearing)
+bool Gridsquare::bearingTo(double lat, double lon, double &bearing) const
 {
     FCT_IDENTIFICATION;
     double dLon = (lon - this->getLongitude()) * M_PI / 180;
@@ -121,7 +121,7 @@ bool Gridsquare::bearingTo(double lat, double lon, double &bearing)
     return true;
 }
 
-bool Gridsquare::bearingTo(Gridsquare in_grid, double &bearing)
+bool Gridsquare::bearingTo(Gridsquare in_grid, double &bearing) const
 {
     FCT_IDENTIFICATION;
 

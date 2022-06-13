@@ -116,7 +116,7 @@ void EQSL::uploadAdif(QByteArray &data)
     currentReply->setProperty("messageType", QVariant("uploadADIFFile"));
 }
 
-void EQSL::getQSLImage(QSqlRecord qso)
+void EQSL::getQSLImage(const QSqlRecord &qso)
 {
     FCT_IDENTIFICATION;
 
@@ -288,7 +288,7 @@ void EQSL::downloadImage(const QString &URLFilename, const QString &onDiskFilena
     currentReply->setProperty("onDiskFilename", QVariant(onDiskFilename));
 }
 
-QString EQSL::QSLImageFilename(const QSqlRecord qso)
+QString EQSL::QSLImageFilename(const QSqlRecord &qso)
 {
     FCT_IDENTIFICATION;
 
@@ -303,7 +303,7 @@ QString EQSL::QSLImageFilename(const QSqlRecord qso)
     return ret;
 }
 
-bool EQSL::isQSLImageInCache(QSqlRecord qso, QString &fullPath)
+bool EQSL::isQSLImageInCache(const QSqlRecord &qso, QString &fullPath)
 {
     FCT_IDENTIFICATION;
 
