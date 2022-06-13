@@ -55,7 +55,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     connect(lookupButton, &QPushButton::clicked, this, &QSODetailDialog::lookupButtonPressed);
     lookupButtonMovie = new QMovie(this);
     lookupButtonMovie->setFileName(":/icons/loading.gif");
-    connect(lookupButtonMovie, &QMovie::frameChanged, [this]
+    connect(lookupButtonMovie, &QMovie::frameChanged, this, [this]
     {
           this->lookupButton->setIcon(this->lookupButtonMovie->currentPixmap());
     });
