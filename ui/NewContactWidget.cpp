@@ -157,6 +157,12 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
+    /* ITU Zones Validators */
+    ui->ituEdit->setValidator(new QIntValidator(Data::getITUZMin(), Data::getITUZMax(), this));
+
+    /* CQ Zones Validators */
+    ui->ituEdit->setValidator(new QIntValidator(Data::getCQZMin(), Data::getCQZMax(), this));
+
     /**************/
     /* CONNECTs   */
     /**************/
