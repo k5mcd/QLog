@@ -1,4 +1,5 @@
 TBD - 0.11.0
+- [NEW] QSO Detail/Edit Dialog
 - Fixed vucc, myvucc must be uppercase - Edit mode (issue #76)
 - Fixed DX Country is not saved properly when name is between S-Z (issue #79)
 
