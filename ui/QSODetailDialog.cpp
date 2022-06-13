@@ -790,8 +790,18 @@ void QSODetailDialog::mapLoaded(bool)
 {
     FCT_IDENTIFICATION;
 
+    QSettings settings;
+
     isMainPageLoaded = true;
     main_page->runJavaScript(postponedScripts);
+
+    bool darkmode = settings.value("darkmode", false).toBool();
+
+    if ( darkmode )
+    {
+        QString themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.9)\";";
+        main_page->runJavaScript(themeJavaScript);
+    }
 }
 
 void QSODetailDialog::myGridChanged(QString newGrid)

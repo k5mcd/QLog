@@ -444,7 +444,7 @@ void StatisticsWidget::changeTheme(int theme)
 
     if ( theme == 1 ) /* dark mode */
     {
-        themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"hue-rotate(180deg) invert(100%)\";";
+        themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.9)\";";
     }
     else
     {
