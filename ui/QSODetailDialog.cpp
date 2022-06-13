@@ -36,6 +36,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 
     model->setFilter(QString("id = '%1'").arg(qso.value("id").toString()));
     model->select();
+    connect(model, &QSqlTableModel::beforeUpdate, this, &QSODetailDialog::handleBeforeUpdate);
 
     ui->mapView->setPage(main_page);
     main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
@@ -873,6 +874,13 @@ void QSODetailDialog::callsignNotFound(QString)
     resetButton->setEnabled(true);
     editButton->setEnabled(true);
     lookupButtonWaitingStyle(false);
+}
+
+void QSODetailDialog::handleBeforeUpdate(int, QSqlRecord &record)
+{
+    FCT_IDENTIFICATION;
+
+    emit contactUpdated(record);
 }
 
 bool QSODetailDialog::highlightInvalid(QLabel *labelWidget, bool cond, const QString &toolTip)

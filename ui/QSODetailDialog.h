@@ -44,6 +44,9 @@ public:
     void keyPressEvent(QKeyEvent *evt) override;
     ~QSODetailDialog();
 
+signals:
+    void contactUpdated(QSqlRecord&);
+
 private slots:
     void editButtonPressed();
     void resetButtonPressed();
@@ -69,6 +72,7 @@ private slots:
     void DXGridChanged(QString);
     void callsignFound(const QMap<QString, QString>& data);
     void callsignNotFound(QString);
+    void handleBeforeUpdate(int, QSqlRecord&);
 
 private:
     /* It is modified logbook model when only basic

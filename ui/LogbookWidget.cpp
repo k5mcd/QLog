@@ -500,6 +500,10 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
     else
     {
         QSODetailDialog dialog(model->record(modelIndex.row()));
+        connect(&dialog, &QSODetailDialog::contactUpdated, this, [this](QSqlRecord& record)
+        {
+            emit contactUpdated(record);
+        });
         dialog.exec();
         updateTable();
     }
