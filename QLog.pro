@@ -187,6 +187,7 @@ HEADERS += \
         ui/QSOFilterDialog.h \
         ui/QTableQSOView.h \
         ui/QrzDialog.h \
+        ui/SplashScreen.h \
         ui/StyleItemDelegate.h \
         ui/RigWidget.h \
         ui/RotatorWidget.h \

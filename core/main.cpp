@@ -22,6 +22,7 @@
 #include "ui/SettingsDialog.h"
 #include "data/StationProfile.h"
 #include "core/zonedetect.h"
+#include "ui/SplashScreen.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
@@ -257,16 +258,21 @@ int main(int argc, char* argv[])
     }
 
     QPixmap pixmap(":/res/qlog.png");
-    QSplashScreen splash(pixmap);
+    SplashScreen splash(pixmap);
     splash.show();
+    splash.ensureFirstPaint();
 
     createDataDirectory();
+
+    splash.showMessage(QObject::tr("Opening Database"), Qt::AlignBottom|Qt::AlignCenter );
 
     if (!openDatabase()) {
         QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
                               QMessageBox::tr("Could not connect to database."));
         return 1;
     }
+
+    splash.showMessage(QObject::tr("Backuping Database"), Qt::AlignBottom|Qt::AlignCenter);
 
     /* a migration can break a database therefore a backup is call before it */
     if (!backupDatabase())
@@ -275,12 +281,15 @@ int main(int argc, char* argv[])
                               QMessageBox::tr("Could not export a QLog database to ADIF as a backup.<p>Try to export your log to ADIF manually"));
     }
 
+    splash.showMessage(QObject::tr("Migrating Database"), Qt::AlignBottom|Qt::AlignCenter);
+
     if (!migrateDatabase()) {
         QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
                               QMessageBox::tr("Database migration failed."));
         return 1;
     }
 
+    splash.showMessage(QObject::tr("Starting Application"), Qt::AlignBottom|Qt::AlignCenter);
     startRigThread();
     startRotThread();
 
