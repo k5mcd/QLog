@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QTimer>
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QMutex>
 #include <QColor>
 
@@ -17,6 +18,18 @@ class BandmapWidget;
 }
 
 class QGraphicsScene;
+
+class GraphicsScene : public QGraphicsScene
+{
+    Q_OBJECT;
+
+public:
+    explicit GraphicsScene(QObject *parent = nullptr) : QGraphicsScene(parent){};
+
+protected:
+    void mousePressEvent (QGraphicsSceneMouseEvent *evt);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
+};
 
 class BandmapWidget : public QWidget
 {
@@ -70,7 +83,7 @@ private:
     double tx_freq;
     Band currentBand;
     BandmapZoom zoom;
-    QGraphicsScene* bandmapScene;
+    GraphicsScene* bandmapScene;
     QMap<double, DxSpot> spots;
     QTimer *update_timer;
     QList<QGraphicsLineItem *> lineItemList;

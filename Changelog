@@ -5,6 +5,7 @@ TBD - 0.11.0
 - Fixed vucc, myvucc must be uppercase - Edit mode (issue #76)
 - Fixed Greyline-Map is very dark (issue #78)
 - Fixed DX Country is not saved properly when name is between S-Z (issue #79)
+- Fixed Bandmap call selection - only left mouse button (issue #82)
 - Fixed My Notes Copy & Paste - Rich Text (issue #83)
 
 2022/06/05 - 0.10.0

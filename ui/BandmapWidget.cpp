@@ -4,6 +4,7 @@
 #include <QMenu>
 #include <QTextDocument>
 #include <QScrollBar>
+#include <QGraphicsSceneMouseEvent>
 
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
@@ -36,8 +37,9 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     currentBand = Data::band(freq);
     zoom = ZOOM_1KHZ;
 
-    bandmapScene = new QGraphicsScene(this);
-    connect(bandmapScene, &QGraphicsScene::focusItemChanged, this, &BandmapWidget::spotClicked);
+    bandmapScene = new GraphicsScene(this);
+    bandmapScene->setFocusOnTouch(false);
+    connect(bandmapScene, &GraphicsScene::focusItemChanged, this, &BandmapWidget::spotClicked);
 
     ui->graphicsView->setScene(bandmapScene);
     ui->graphicsView->setStyleSheet("background-color: transparent;");
@@ -485,4 +487,34 @@ void BandmapWidget::centerRXActionChecked(bool state)
     settings.setValue("bandmap/centerrx", keepRXCenter);
 
     centerPosition();
+}
+
+void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *evt)
+{
+    FCT_IDENTIFICATION;
+
+    if ( (evt->buttons() & (Qt::MiddleButton | Qt::RightButton) )
+         && items(evt->scenePos()).count())
+    {
+        evt->accept();
+    }
+    else
+    {
+        QGraphicsScene::mousePressEvent(evt);
+    }
+}
+
+void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
+{
+    FCT_IDENTIFICATION;
+
+    if ( (evt->buttons() & (Qt::MiddleButton | Qt::RightButton) )
+         && items(evt->scenePos()).count())
+    {
+        evt->accept();
+    }
+    else
+    {
+        QGraphicsScene::mouseDoubleClickEvent(evt);
+    }
 }
