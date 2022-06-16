@@ -379,6 +379,7 @@ public:
         QString value = index.model()->data(index, Qt::EditRole).toString();
         QTextEdit* textEditor = static_cast<QTextEdit*>(editor);
         textEditor->setPlainText(value);
+        textEditor->setAcceptRichText(false);
     }
 
     void setModelData(QWidget* editor, QAbstractItemModel* model,

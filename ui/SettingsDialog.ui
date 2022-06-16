@@ -301,7 +301,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QTextEdit" name="antDescEdit"/>
+                  <widget class="QTextEdit" name="antDescEdit">
+                   <property name="acceptRichText">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>

@@ -1270,6 +1270,7 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
         {
             QString value = index.data().toString();
             textEdit->setPlainText(value);
+            textEdit->setAcceptRichText(false);
             return;
         }
     }
