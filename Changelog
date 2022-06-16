@@ -7,6 +7,7 @@ TBD - 0.11.0
 - Fixed DX Country is not saved properly when name is between S-Z (issue #79)
 - Fixed Bandmap call selection - only left mouse button (issue #82)
 - Fixed My Notes Copy & Paste - Rich Text (issue #83)
+- Fixed Font appearance in the context menu (issue #84)
 
 2022/06/05 - 0.10.0
 - [NEW] Bandmap shows XIT/RIT Freq 
