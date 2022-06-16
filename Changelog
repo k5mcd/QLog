@@ -1,5 +1,6 @@
 TBD - 0.11.0
 - [NEW] QSO Detail/Edit Dialog
+- [NEW] Added mW power Support
 - Fixed CQZ, ITUZ do not validate whether their entered value is a number (issue #75)
 - Fixed vucc, myvucc must be uppercase - Edit mode (issue #76)
 - Fixed Greyline-Map is very dark (issue #78)
