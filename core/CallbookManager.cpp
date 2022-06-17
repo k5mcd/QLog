@@ -103,8 +103,8 @@ void CallbookManager::abortQuery()
 {
     FCT_IDENTIFICATION;
 
-    primaryCallbook->abortQuery();
-    secondaryCallbook->abortQuery();
+    if ( ! primaryCallbook.isNull() ) primaryCallbook->abortQuery();
+    if ( ! secondaryCallbook.isNull() ) secondaryCallbook->abortQuery();
 }
 
 void CallbookManager::primaryCallbookCallsignNotFound(QString notFoundCallsign)
