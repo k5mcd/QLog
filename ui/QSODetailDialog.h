@@ -73,6 +73,8 @@ private slots:
     void DXGridChanged(QString);
     void callsignFound(const QMap<QString, QString>& data);
     void callsignNotFound(QString);
+    void callbookLoginFailed(QString);
+    void callbookError(QString);
     void handleBeforeUpdate(int, QSqlRecord&);
     void sotaChanged(QString);
     void mySotaChanged(QString);
@@ -106,6 +108,8 @@ private:
     void enableWidgetChangeHandlers();
     void lookupButtonWaitingStyle(bool);
     SubmitError submitAllChanges();
+    void callbookLookupFinished();
+    void callbookLookupStart();
 
     Ui::QSODetailDialog *ui;
     QPointer<QDataWidgetMapper> mapper;

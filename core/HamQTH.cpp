@@ -15,7 +15,8 @@
 MODULE_IDENTIFICATION("qlog.core.hamqth");
 
 HamQTH::HamQTH(QObject* parent) :
-    GenericCallbook(parent)
+    GenericCallbook(parent),
+    currentReply(nullptr)
 {
     FCT_IDENTIFICATION;
 
@@ -29,6 +30,12 @@ HamQTH::HamQTH(QObject* parent) :
 
 HamQTH::~HamQTH()
 {
+    if ( currentReply )
+    {
+        currentReply->abort();
+        currentReply->deleteLater();
+    }
+
     nam->deleteLater();
 }
 
@@ -71,6 +78,12 @@ void HamQTH::saveUsernamePassword(const QString &newUsername, const QString &new
 
 }
 
+QString HamQTH::getDisplayName()
+{
+    FCT_IDENTIFICATION;
+    return QString(tr("HamQTH"));
+}
+
 void HamQTH::queryCallsign(QString callsign)
 {
     FCT_IDENTIFICATION;
@@ -93,7 +106,26 @@ void HamQTH::queryCallsign(QString callsign)
     QUrl url(API_URL);
     url.setQuery(query);
 
-    nam->get(QNetworkRequest(url))->setProperty("queryCallsign", callsign);
+    if ( currentReply )
+    {
+        qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+    }
+
+    currentReply = nam->get(QNetworkRequest(url));
+    currentReply->setProperty("queryCallsign", callsign);
+}
+
+void HamQTH::abortQuery()
+{
+    FCT_IDENTIFICATION;
+
+    if ( currentReply )
+    {
+        currentReply->abort();
+        //currentReply->deleteLater(); // pointer is deleted later in processReply
+        currentReply = nullptr;
+    }
+
 }
 
 void HamQTH::authenticate() {
@@ -106,6 +138,8 @@ void HamQTH::authenticate() {
 
     if ( incorrectLogin && password == lastSeenPassword)
     {
+        /* User already knows that login failed */
+        emit callsignNotFound(queuedCallsign);
         queuedCallsign = QString();
         return;
     }
@@ -118,7 +152,12 @@ void HamQTH::authenticate() {
         QUrl url(API_URL);
         url.setQuery(query);
 
-        nam->get(QNetworkRequest(url));
+        if ( currentReply )
+        {
+            qCWarning(runtime) << "processing a new request but the previous one hasn't been completed yet !!!";
+        }
+
+        currentReply = nam->get(QNetworkRequest(url));
         lastSeenPassword = password;
         qCDebug(runtime) << "Sent Auth message";
     }
@@ -130,6 +169,9 @@ void HamQTH::authenticate() {
 
 void HamQTH::processReply(QNetworkReply* reply) {
     FCT_IDENTIFICATION;
+
+    /* always process one requests per class */
+    currentReply = nullptr;
 
     if (reply->error() != QNetworkReply::NoError)
     {

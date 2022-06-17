@@ -17,9 +17,11 @@ signals:
     void loginFailed(QString);
     void callsignResult(const QMap<QString, QString>& data);
     void callsignNotFound(QString);
+    void lookupError(QString);
 
 public slots:
     void initCallbooks();
+    void abortQuery();
 
 private slots:
     void primaryCallbookCallsignNotFound(QString);

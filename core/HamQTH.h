@@ -22,8 +22,11 @@ public:
 
     static void saveUsernamePassword(const QString&, const QString&);
 
+    QString getDisplayName() override;
+
 public slots:
     void queryCallsign(QString callsign) override;
+    void abortQuery() override;
 
 private slots:
     void processReply(QNetworkReply* reply);
@@ -34,6 +37,7 @@ private:
     QString queuedCallsign;
     bool incorrectLogin;
     QString lastSeenPassword;
+    QNetworkReply *currentReply;
 
     void authenticate();
 

@@ -73,7 +73,7 @@ void QRZ::queryCallsign(QString callsign)
     currentReply->setProperty("messageType", QVariant("callsignInfoQuery"));
 }
 
-void QRZ::abortRequest()
+void QRZ::abortQuery()
 {
     FCT_IDENTIFICATION;
 
@@ -225,6 +225,13 @@ void QRZ::saveLogbookAPI(const QString &newKey)
 
 }
 
+QString QRZ::getDisplayName()
+{
+    FCT_IDENTIFICATION;
+
+    return QString(tr("QRZ.com"));
+}
+
 void QRZ::authenticate()
 {
     FCT_IDENTIFICATION;
@@ -234,6 +241,8 @@ void QRZ::authenticate()
 
     if ( incorrectLogin && password == lastSeenPassword)
     {
+        /* User already knows that login failed */
+        emit callsignNotFound(queuedCallsign);
         queuedCallsign = QString();
         return;
     }
@@ -323,6 +332,7 @@ void QRZ::processReply(QNetworkReply* reply) {
                 {
                     incorrectLogin = true;
                     emit loginFailed();
+                    emit lookupError(errorString);
                 }
                 else if ( errorString.contains("Not found:") )
                 {

@@ -27,6 +27,8 @@ public:
     static void saveUsernamePassword(const QString&, const QString&);
     static void saveLogbookAPI(const QString&);
 
+    QString getDisplayName() override;
+
     const static QString CALLBOOK_NAME;
 
 signals:
@@ -36,7 +38,7 @@ signals:
 
 public slots:
     void queryCallsign(QString callsign) override;
-    void abortRequest();
+    void abortQuery() override;
 
 private slots:
     void processReply(QNetworkReply* reply);

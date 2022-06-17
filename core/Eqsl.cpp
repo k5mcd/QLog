@@ -36,13 +36,13 @@ EQSL::~EQSL()
 {
     FCT_IDENTIFICATION;
 
-    nam->deleteLater();
-
     if ( currentReply )
     {
         currentReply->abort();
         currentReply->deleteLater();
     }
+
+    nam->deleteLater();
 }
 
 void EQSL::update(QDate start_date, QString qthNick)

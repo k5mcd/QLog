@@ -16,6 +16,8 @@ public:
     const static QString CONFIG_SECONDARY_CALLBOOK_KEY;
     const static QString CALLBOOK_NAME;
 
+    virtual QString getDisplayName() = 0;
+
 signals:
     void callsignResult(const QMap<QString, QString>& data);
     void lookupError(const QString);
@@ -24,6 +26,7 @@ signals:
 
 public slots:
     virtual void queryCallsign(QString callsign) = 0;
+    virtual void abortQuery() = 0;
 
 };
 #endif // GENERICCALLBOOK_H

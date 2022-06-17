@@ -36,27 +36,19 @@ GenericCallbook *CallbookManager::createCallbook(const QString &callbookID)
     FCT_IDENTIFICATION;
 
     GenericCallbook *ret = nullptr;
-    QString callbookString;
 
     if (callbookID == HamQTH::CALLBOOK_NAME )
     {
         ret = new HamQTH(this);
-        callbookString = tr("HamQTH");
     }
     else if ( callbookID == QRZ::CALLBOOK_NAME )
     {
         ret = new QRZ(this);
-        callbookString = tr("QRZ.com");
     }
 
     if ( ret )
     {
         connect(ret, &GenericCallbook::callsignResult, this, &CallbookManager::processCallsignResult);
-        connect(ret, &GenericCallbook::loginFailed, this, [this, callbookString]()
-        {
-            currentQueryCallsign = QString();
-            emit loginFailed(callbookString);
-        });
     }
 
     return ret;
@@ -75,12 +67,35 @@ void CallbookManager::initCallbooks()
     primaryCallbook = createCallbook(primaryCallbookSelection);
     secondaryCallbook = createCallbook(secondaryCallbookSelection);
 
-    if ( !primaryCallbook.isNull()
-         && !secondaryCallbook.isNull() )
+    if ( !primaryCallbook.isNull() )
     {
         connect(primaryCallbook, &GenericCallbook::callsignNotFound, this, &CallbookManager::primaryCallbookCallsignNotFound);
-        connect(secondaryCallbook, &GenericCallbook::callsignNotFound, this, &CallbookManager::secondaryCallbookCallsignNotFound);
+        connect(primaryCallbook, &GenericCallbook::lookupError, this, [this](QString error)
+        {
+            emit lookupError(primaryCallbook->getDisplayName()
+                             + " - " + error
+                             + ((!secondaryCallbook.isNull()) ? tr("<p>The secondary callbook will be used</p>") : ""));
+            primaryCallbookCallsignNotFound(currentQueryCallsign);
+        });
     }
+
+    if ( !secondaryCallbook.isNull() )
+    {
+        connect(secondaryCallbook, &GenericCallbook::callsignNotFound, this, &CallbookManager::secondaryCallbookCallsignNotFound);
+        connect(secondaryCallbook, &GenericCallbook::lookupError, this, [this](QString error)
+        {
+            emit lookupError(secondaryCallbook->getDisplayName() + " - " + error);
+            secondaryCallbookCallsignNotFound(currentQueryCallsign);
+        });
+    }
+}
+
+void CallbookManager::abortQuery()
+{
+    FCT_IDENTIFICATION;
+
+    primaryCallbook->abortQuery();
+    secondaryCallbook->abortQuery();
 }
 
 void CallbookManager::primaryCallbookCallsignNotFound(QString notFoundCallsign)

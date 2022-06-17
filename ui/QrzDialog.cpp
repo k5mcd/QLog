@@ -122,7 +122,7 @@ void QRZDialog::upload()
                 if ( ! query_update.exec() )
                 {
                     qInfo() << "Cannot Update QRZCOM status for QSO number " << qsoID << " " << query_update.lastError().text();
-                    qrz->abortRequest();
+                    qrz->abortQuery();
                     qrz->deleteLater();
                 }
                 dialog->setValue(dialog->value() + 1);
@@ -145,7 +145,7 @@ void QRZDialog::upload()
                 qrz->deleteLater();
             });
 
-            connect(dialog, &QProgressDialog::canceled, qrz, &QRZ::abortRequest);
+            connect(dialog, &QProgressDialog::canceled, qrz, &QRZ::abortQuery);
 
             qrz->uploadContacts(qsos);
         }

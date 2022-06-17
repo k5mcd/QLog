@@ -81,15 +81,11 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     connect(&callbookManager, &CallbookManager::callsignNotFound,
             this, &QSODetailDialog::callsignNotFound);
 
-    connect(&callbookManager, &CallbookManager::loginFailed, this, [this](QString callbookString)
-    {
-        QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
-    });
+    connect(&callbookManager, &CallbookManager::loginFailed,
+            this, &QSODetailDialog::callbookLoginFailed);
 
-    connect(&callbookManager, &CallbookManager::loginFailed, this, [this](QString callbookString)
-    {
-        QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
-    });
+    connect(&callbookManager, &CallbookManager::lookupError,
+            this, &QSODetailDialog::callbookError);
 
     /*******************/
     /* Main Screen GUI */
@@ -318,6 +314,8 @@ void QSODetailDialog::accept()
         }
     }
 
+    callbookManager.abortQuery();
+
     done(QDialog::Accepted);
 }
 
@@ -397,10 +395,7 @@ void QSODetailDialog::lookupButtonPressed()
 {
     FCT_IDENTIFICATION;
 
-    lookupButton->setEnabled(false);
-    resetButton->setEnabled(false);
-    editButton->setEnabled(false);
-    lookupButtonWaitingStyle(true);
+    callbookLookupStart();
     callbookManager.queryCallsign(ui->callsignEdit->text());
 }
 
@@ -826,10 +821,7 @@ void QSODetailDialog::callsignFound(const QMap<QString, QString> &data)
 {
     FCT_IDENTIFICATION;
 
-    lookupButton->setEnabled(true);
-    resetButton->setEnabled(true);
-    editButton->setEnabled(true);
-    lookupButtonWaitingStyle(false);
+    callbookLookupFinished();
 
     /* blank or not fully filled then update it */
     if ( ui->nameEdit->text().isEmpty() )
@@ -898,10 +890,22 @@ void QSODetailDialog::callsignNotFound(QString)
 {
     FCT_IDENTIFICATION;
 
-    lookupButton->setEnabled(true);
-    resetButton->setEnabled(true);
-    editButton->setEnabled(true);
-    lookupButtonWaitingStyle(false);
+    /* Do not show any info, not needed */
+    callbookLookupFinished();
+}
+
+void QSODetailDialog::callbookLoginFailed(QString callbookString)
+{
+    FCT_IDENTIFICATION;
+
+    QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+}
+
+void QSODetailDialog::callbookError(QString error)
+{
+    FCT_IDENTIFICATION;
+
+    QMessageBox::critical(this, tr("QLog Error"), tr("Callbook error: ") + error);
 }
 
 void QSODetailDialog::handleBeforeUpdate(int, QSqlRecord &record)
@@ -1173,6 +1177,26 @@ QSODetailDialog::SubmitError QSODetailDialog::submitAllChanges()
     }
 
     return QSODetailDialog::SubmitOK;
+}
+
+void QSODetailDialog::callbookLookupFinished()
+{
+    FCT_IDENTIFICATION;
+
+    lookupButton->setEnabled(true);
+    resetButton->setEnabled(true);
+    editButton->setEnabled(true);
+    lookupButtonWaitingStyle(false);
+}
+
+void QSODetailDialog::callbookLookupStart()
+{
+    FCT_IDENTIFICATION;
+
+    lookupButton->setEnabled(false);
+    resetButton->setEnabled(false);
+    editButton->setEnabled(false);
+    lookupButtonWaitingStyle(true);
 }
 
 void QSOEditMapperDelegate::setEditorData(QWidget *editor,
