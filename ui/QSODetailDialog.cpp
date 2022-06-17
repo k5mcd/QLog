@@ -32,6 +32,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 {
     FCT_IDENTIFICATION;
 
+    QLocale locale;
+
     ui->setupUi(this);
 
     /* model setting */
@@ -66,6 +68,10 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
           this->lookupButton->setIcon(this->lookupButtonMovie->currentPixmap());
     });
     lookupButtonWaitingStyle(false);
+
+    /* timeformat for DateTime */
+    ui->dateTimeOnEdit->setDisplayFormat(QString(locale.dateFormat(QLocale::ShortFormat) + " " + locale.timeFormat(QLocale::LongFormat)).remove(" t"));
+    ui->dateTimeOffEdit->setDisplayFormat(QString(locale.dateFormat(QLocale::ShortFormat) + " " + locale.timeFormat(QLocale::LongFormat)).remove(" t"));
 
     /* Mapper setting */
     mapper->setModel(model);
