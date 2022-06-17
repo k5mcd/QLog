@@ -25,6 +25,10 @@ void CallbookManager::queryCallsign(const QString &callsign)
         currentQueryCallsign = callsign;
         primaryCallbook->queryCallsign(currentQueryCallsign);
     }
+    else
+    {
+        emit callsignNotFound(callsign);
+    }
 }
 
 GenericCallbook *CallbookManager::createCallbook(const QString &callbookID)
