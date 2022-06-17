@@ -12,6 +12,7 @@ public:
     explicit CallbookManager(QObject *parent = nullptr);
 
     void queryCallsign(const QString &callsign);
+    bool isActive();
 
 signals:
     void loginFailed(QString);

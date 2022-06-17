@@ -503,7 +503,8 @@ void QSODetailDialog::setReadOnlyMode(bool inReadOnly)
     ui->timeLockButton->setEnabled(!inReadOnly);
     ui->freqLockButton->setEnabled(!inReadOnly);
     resetButton->setEnabled(!inReadOnly);
-    lookupButton->setEnabled(!inReadOnly);
+
+    lookupButton->setEnabled(!inReadOnly & callbookManager.isActive());
 
     if ( ui->qslEqslReceiveStatusLabel->property("originvalue").toString() != "Y" )
     {

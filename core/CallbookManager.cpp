@@ -31,6 +31,15 @@ void CallbookManager::queryCallsign(const QString &callsign)
     }
 }
 
+bool CallbookManager::isActive()
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = ! primaryCallbook.isNull() || !secondaryCallbook.isNull();
+    qCDebug(runtime) << ret;
+    return ret;
+}
+
 GenericCallbook *CallbookManager::createCallbook(const QString &callbookID)
 {
     FCT_IDENTIFICATION;
