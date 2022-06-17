@@ -79,6 +79,10 @@ void CallbookManager::initCallbooks()
     if ( !primaryCallbook.isNull() )
     {
         connect(primaryCallbook, &GenericCallbook::callsignNotFound, this, &CallbookManager::primaryCallbookCallsignNotFound);
+        connect(primaryCallbook, &GenericCallbook::loginFailed, this, [this]()
+        {
+            emit loginFailed(primaryCallbook->getDisplayName());
+        });
         connect(primaryCallbook, &GenericCallbook::lookupError, this, [this](QString error)
         {
             emit lookupError(primaryCallbook->getDisplayName()
@@ -91,6 +95,10 @@ void CallbookManager::initCallbooks()
     if ( !secondaryCallbook.isNull() )
     {
         connect(secondaryCallbook, &GenericCallbook::callsignNotFound, this, &CallbookManager::secondaryCallbookCallsignNotFound);
+        connect(secondaryCallbook, &GenericCallbook::loginFailed, this, [this]()
+        {
+            emit loginFailed(secondaryCallbook->getDisplayName());
+        });
         connect(secondaryCallbook, &GenericCallbook::lookupError, this, [this](QString error)
         {
             emit lookupError(secondaryCallbook->getDisplayName() + " - " + error);

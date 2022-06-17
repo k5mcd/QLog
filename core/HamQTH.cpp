@@ -163,6 +163,7 @@ void HamQTH::authenticate() {
     }
     else
     {
+        emit callsignNotFound(queuedCallsign);
         qCDebug(runtime) << "Empty username or password";
     }
 }

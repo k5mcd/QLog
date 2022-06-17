@@ -267,6 +267,7 @@ void QRZ::authenticate()
     }
     else
     {
+        emit callsignNotFound(queuedCallsign);
         qCDebug(runtime) << "Empty username or password";
     }
 }
@@ -333,6 +334,7 @@ void QRZ::processReply(QNetworkReply* reply) {
                     incorrectLogin = true;
                     emit loginFailed();
                     emit lookupError(errorString);
+                    return;
                 }
                 else if ( errorString.contains("Not found:") )
                 {

@@ -903,11 +903,13 @@ void QSODetailDialog::callsignNotFound(QString)
     callbookLookupFinished();
 }
 
-void QSODetailDialog::callbookLoginFailed(QString callbookString)
+void QSODetailDialog::callbookLoginFailed(QString)
 {
     FCT_IDENTIFICATION;
 
-    QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+    /* It is not needed to show an Error dialog because Login failed emits also callbookError signal */
+    /* QLog will show only callbookError */
+    //QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
 }
 
 void QSODetailDialog::callbookError(QString error)
