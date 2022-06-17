@@ -496,6 +496,8 @@ void QSODetailDialog::setReadOnlyMode(bool inReadOnly)
     {
         ui->qslEqslPicButton->setEnabled(false);
     }
+
+    setWindowTitle( (inReadOnly)? tr("QSO Detail") : tr("Edit QSO"));
 }
 
 void QSODetailDialog::modeChanged(QString)
