@@ -374,13 +374,9 @@ void QSODetailDialog::editButtonPressed()
         }
 
         setReadOnlyMode(true);
-        editButton->setText(EDIT_BUTTON_TEXT);
-        ui->timeLockButton->setChecked(true);
-        ui->freqLockButton->setChecked(true);
     }
     else
     {
-        editButton->setText(SAVE_BUTTON_TEXT);
         setReadOnlyMode(false);
         timeLockDiff = ui->dateTimeOnEdit->dateTime().msecsTo(ui->dateTimeOffEdit->dateTime());
         freqLockDiff = ui->freqTXEdit->value() -  ui->freqRXEdit->value();
@@ -391,15 +387,10 @@ void QSODetailDialog::resetButtonPressed()
 {
     FCT_IDENTIFICATION;
 
-    editButton->setText(EDIT_BUTTON_TEXT);
-
     blockMappedWidgetSignals(true);
     mapper->revert();
     blockMappedWidgetSignals(false);
 
-    resetButton->setEnabled(false);
-    ui->timeLockButton->setChecked(true);
-    ui->freqLockButton->setChecked(true);
     setReadOnlyMode(true);
     doValidation();
 }
@@ -499,6 +490,8 @@ void QSODetailDialog::setReadOnlyMode(bool inReadOnly)
             ui->satNameEdit->setEnabled(false);
         }
     }
+
+    editButton->setText((( inReadOnly) ? EDIT_BUTTON_TEXT : SAVE_BUTTON_TEXT ));
 
     ui->timeLockButton->setEnabled(!inReadOnly);
     ui->freqLockButton->setEnabled(!inReadOnly);
