@@ -312,11 +312,18 @@ void QSODetailDialog::accept()
 
     if (editButton->text() == SAVE_BUTTON_TEXT )
     {
-        QSODetailDialog::SubmitError error = submitAllChanges();
-        if ( error == QSODetailDialog::SubmitMapperError
-             || error == QSODetailDialog::SubmitModelError )
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, tr("Submit changes"), tr("Really submit all changes?"),
+                                      QMessageBox::Yes|QMessageBox::No);
+
+        if (reply == QMessageBox::Yes)
         {
-            QMessageBox::critical(this, tr("QLog Error"), tr("Cannot save all changes - internal error"));
+            QSODetailDialog::SubmitError error = submitAllChanges();
+            if ( error == QSODetailDialog::SubmitMapperError
+                 || error == QSODetailDialog::SubmitModelError )
+            {
+                QMessageBox::critical(this, tr("QLog Error"), tr("Cannot save all changes - internal error"));
+            }
         }
     }
 
