@@ -1,6 +1,7 @@
 {
   "AMTORFEC": { "mode": "TOR", "submode": "AMTORFEC" },
   "ASCI": { "mode": "RTTY", "submode": "ASCI" },
+  "C4FM": { "mode": "DIGITALVOICE", "submode": "C4FM" },
   "CHIP64": { "mode": "CHIP", "submode": "CHIP64" },
   "CHIP128": { "mode": "CHIP", "submode": "CHIP128" },
   "CONTESTI4/125": { "mode": "CONTESTI", "submode": "CT4/125" },
@@ -23,6 +24,8 @@
   "CONTESTI64/1000": { "mode": "CONTESTI", "submode": "CT64/1K" },
   "CONTESTI64/2000": { "mode": "CONTESTI", "submode": "CT64/2K" },
   "DOMINOF": { "mode": "DOMINO", "submode": "DOMINOF" },
+  "DMR": { "mode": "DIGITALVOICE", "submode": "DMR" },
+  "DSTAR": { "mode": "DIGITALVOICE", "submode": "DSTAR" },
   "FMHELL": { "mode": "HELL", "submode": "FMHELL" },
   "FSKH245": { "mode": "HELL", "submode": "FSKH245" },
   "FSKH105": { "mode": "HELL", "submode": "FSKH105" },
