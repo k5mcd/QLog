@@ -1968,8 +1968,8 @@
   <tabstop>notifSpotAlertEdit</tabstop>
   <tabstop>notifQSOEdit</tabstop>
   <tabstop>notifWSJTXCQSpotsEdit</tabstop>
-  <tabstop>equipmentTabWidget</tabstop>
   <tabstop>tabWidget</tabstop>
+  <tabstop>equipmentTabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections>
