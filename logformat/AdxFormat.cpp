@@ -160,6 +160,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("lon",contact.take("lon"));
     record.setValue("max_bursts",contact.take("max_bursts"));
     record.setValue("ms_shower",contact.take("ms_shower"));
+    record.setValue("my_arrl_sect",contact.take("my_arrl_sect"));
     record.setValue("my_cnty",contact.take("my_cnty"));
     record.setValue("my_cq_zone",contact.take("my_cq_zone"));
     record.setValue("my_dxcc",contact.take("my_dxcc"));
@@ -174,6 +175,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("my_state",contact.take("my_state"));
     record.setValue("my_usaca_counties",contact.take("my_usaca_counties"));
     record.setValue("my_vucc_grids",contact.take("my_vucc_grids").toString().toUpper());
+    record.setValue("my_wwff_ref",contact.take("my_wwff_ref").toString().toUpper());
     record.setValue("nr_bursts",contact.take("nr_bursts"));
     record.setValue("nr_pings",contact.take("nr_pings"));
     record.setValue("operator",contact.take("operator"));
@@ -208,6 +210,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("ve_prov",contact.take("ve_prov"));
     record.setValue("vucc_grids",contact.take("vucc_grids").toString().toUpper());
     record.setValue("web",contact.take("web"));
+    record.setValue("wwff_ref",contact.take("wwff_ref").toString().toUpper());
 
     AdiFormat::importIntlField("name", "name_intl", record, contact);
     AdiFormat::importIntlField("address", "address_intl", record, contact);
@@ -363,6 +366,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("lon", record.value("lon").toString());
     writeField("max_bursts", record.value("max_bursts").toString());
     writeField("ms_shower", record.value("ms_shower").toString());
+    writeField("my_arrl_sect", record.value("my_arrl_sect").toString());
     writeField("my_antenna", record.value("my_antenna").toString());
     writeField("my_antenna_intl", record.value("my_antenna_intl").toString());
     writeField("my_city", record.value("my_city").toString());
@@ -395,6 +399,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("my_street_intl", record.value("my_street_intl").toString());
     writeField("my_usaca_counties", record.value("my_usaca_counties").toString());
     writeField("my_vucc_grids", record.value("my_vucc_grids").toString());
+    writeField("my_wwff_ref", record.value("my_wwff_ref").toString());
     writeField("name_intl", record.value("name_intl").toString());
     writeField("notes", record.value("notes").toString());
     writeField("notes_intl", record.value("notes_intl").toString());
@@ -441,6 +446,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("ve_prov", record.value("ve_prov").toString());
     writeField("vucc_grids", record.value("vucc_grids").toString());
     writeField("web", record.value("web").toString());
+    writeField("wwff_ref", record.value("wwff_ref").toString());
 
     QJsonObject fields = QJsonDocument::fromJson(record.value("fields").toByteArray()).object();
 

@@ -165,6 +165,9 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_VE_PROV, Qt::Horizontal, tr("VE Prov"));
     setHeaderData(COLUMN_VUCC_GRIDS, Qt::Horizontal, tr("VUCC Grids"));
     setHeaderData(COLUMN_WEB, Qt::Horizontal, tr("Web URL"));
+    setHeaderData(COLUMN_MY_ARRL_SECT, Qt::Horizontal, tr("My ARRL Section"));
+    setHeaderData(COLUMN_MY_WWFF_REF, Qt::Horizontal, tr("My WWFF"));
+    setHeaderData(COLUMN_WWFF_REF, Qt::Horizontal, tr("WWFF"));
 }
 
 QVariant LogbookModel::data(const QModelIndex &index, int role) const
@@ -584,6 +587,9 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             case COLUMN_GRID:
             case COLUMN_VUCC_GRIDS:
             case COLUMN_MY_VUCC_GRIDS:
+            case COLUMN_MY_ARRL_SECT:
+            case COLUMN_MY_WWFF_REF:
+            case COLUMN_WWFF_REF:
                 main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
                 break;
 

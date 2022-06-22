@@ -29,6 +29,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
     QList<QCheckBox*> conditionsCheckboxList;
     QList<QCheckBox*> contestCheckboxList;
 
+    qInfo() << table->model()->columnCount();
     while ( columnIndex < table->model()->columnCount() )
     {
         QCheckBox *columnCheckbox=new QCheckBox();
@@ -43,6 +44,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
 
         switch ( columnIndex )
         {
+        case LogbookModel::COLUMN_MY_ARRL_SECT:
         case LogbookModel::COLUMN_MY_ANTENNA:
         case LogbookModel::COLUMN_MY_ANTENNA_INTL:
         case LogbookModel::COLUMN_MY_CITY:
@@ -75,6 +77,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_MY_STREET_INTL:
         case LogbookModel::COLUMN_MY_USACA_COUNTIES:
         case LogbookModel::COLUMN_MY_VUCC_GRIDS:
+        case LogbookModel::COLUMN_MY_WWFF_REF:
             myInfoCheckboxList.append(columnCheckbox);
             break;
 
@@ -114,6 +117,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_SKCC:
         case LogbookModel::COLUMN_UKSMG:
         case LogbookModel::COLUMN_DARC_DOK:
+        case LogbookModel::COLUMN_WWFF_REF:
             membersInfoCheckboxList.append(columnCheckbox);
             break;
 
