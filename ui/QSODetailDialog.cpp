@@ -743,19 +743,19 @@ bool QSODetailDialog::doValidation()
     {
         allValid &= highlightInvalid(ui->countryLabel,
                                      ui->countryCombo->currentText() != dxccEntity.country,
-                                     tr("DXCC Country based on callsign is different from entered - expecting") + "<b> " + dxccEntity.country + "</b>");
+                                     tr("Based on callsign, DXCC Country is different from the entered value - expecting ") + "<b> " + dxccEntity.country + "</b>");
 
         allValid &= highlightInvalid(ui->contLabel,
                                      ui->contEdit->currentText() != dxccEntity.cont,
-                                     tr("DXCC Continent based on callsign is different from entered") + "<b> " + dxccEntity.cont + "</b>");
+                                     tr("Based on callsign, DXCC Continent is different from the entered value - expecting ") + "<b> " + dxccEntity.cont + "</b>");
 
         allValid &= highlightInvalid(ui->ituLabel,
                                      ui->ituEdit->text() != QString::number(dxccEntity.ituz),
-                                     tr("DXCC ITU based on callsign is different from entered") + "<b> " + QString::number(dxccEntity.ituz) + "</b>");
+                                     tr("Based on callsign, DXCC ITU is different from the entered value - expecting ") + "<b> " + QString::number(dxccEntity.ituz) + "</b>");
 
         allValid &= highlightInvalid(ui->cqLabel,
                                      ui->cqEdit->text() != QString::number(dxccEntity.cqz),
-                                     tr("DXCC CQZ based on callsign is different from entered") + "<b> " + QString::number(dxccEntity.cqz) + "</b>");
+                                     tr("Based on callsign, DXCC CQZ is different from the entered value - expecting ") + "<b> " + QString::number(dxccEntity.cqz) + "</b>");
     }
 
     allValid &= highlightInvalid(ui->vuccLabel,

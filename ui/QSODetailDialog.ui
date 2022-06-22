@@ -968,7 +968,7 @@
             <enum>Qt::StrongFocus</enum>
            </property>
            <property name="toolTip">
-            <string>Example WWFF or POTA</string>
+            <string>Example POTA</string>
            </property>
           </widget>
          </item>
@@ -985,7 +985,7 @@
             <enum>Qt::StrongFocus</enum>
            </property>
            <property name="toolTip">
-            <string>Example OKFF-1097</string>
+            <string>Example DA-0165</string>
            </property>
           </widget>
          </item>
