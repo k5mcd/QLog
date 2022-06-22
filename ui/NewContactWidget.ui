@@ -1245,6 +1245,9 @@
            <property name="focusPolicy">
             <enum>Qt::ClickFocus</enum>
            </property>
+           <property name="toolTip">
+            <string>World Wide Flora &amp; Fauna</string>
+           </property>
           </widget>
          </item>
         </layout>
