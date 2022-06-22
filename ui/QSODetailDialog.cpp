@@ -241,6 +241,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mapper->addMapping(ui->sigInfoEdit, LogbookModel::COLUMN_SIG_INFO_INTL);
     mapper->addMapping(ui->dokEdit, LogbookModel::COLUMN_DARC_DOK);
     mapper->addMapping(ui->vuccEdit, LogbookModel::COLUMN_VUCC_GRIDS);
+    mapper->addMapping(ui->wwffEdit, LogbookModel::COLUMN_WWFF_REF);
     mapper->addMapping(ui->countryCombo, LogbookModel::COLUMN_DXCC);
     mapper->addMapping(ui->emailEdit, LogbookModel::COLUMN_EMAIL);
     mapper->addMapping(ui->urlEdit, LogbookModel::COLUMN_WEB);
@@ -260,6 +261,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mapper->addMapping(ui->myRigEdit, LogbookModel::COLUMN_MY_RIG_INTL);
     mapper->addMapping(ui->myAntEdit, LogbookModel::COLUMN_MY_ANTENNA_INTL);
     mapper->addMapping(ui->myVUCCEdit, LogbookModel::COLUMN_MY_VUCC_GRIDS);
+    mapper->addMapping(ui->myWWFFEdit, LogbookModel::COLUMN_MY_WWFF_REF);
     mapper->addMapping(ui->powerEdit, LogbookModel::COLUMN_TX_POWER);
 
     /* Notes */
@@ -1700,6 +1702,8 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            case COLUMN_GRID:
            case COLUMN_VUCC_GRIDS:
            case COLUMN_MY_VUCC_GRIDS:
+           case COLUMN_MY_WWFF_REF:
+           case COLUMN_WWFF_REF:
                main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
                break;
 
