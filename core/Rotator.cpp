@@ -97,8 +97,6 @@ void Rotator::update()
 {
     FCT_IDENTIFICATION;
 
-    int status = RIG_OK;
-
     if ( !isRotConnected() )
     {
         /* rot is not connected, slow down */
@@ -134,7 +132,7 @@ void Rotator::update()
 
     if ( rot->caps->get_position )
     {
-        status = rot_get_position(rot, &az, &el);
+        int status = rot_get_position(rot, &az, &el);
         if ( status == RIG_OK )
         {
             int newAzimuth = static_cast<int>(az);

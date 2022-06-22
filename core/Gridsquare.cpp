@@ -93,7 +93,7 @@ bool Gridsquare::distanceTo(double lat, double lon, double &distance) const
     return true;
 }
 
-bool Gridsquare::distanceTo(Gridsquare in_grid, double &distance) const
+bool Gridsquare::distanceTo(const Gridsquare &in_grid, double &distance) const
 {
     FCT_IDENTIFICATION;
 
@@ -121,7 +121,7 @@ bool Gridsquare::bearingTo(double lat, double lon, double &bearing) const
     return true;
 }
 
-bool Gridsquare::bearingTo(Gridsquare in_grid, double &bearing) const
+bool Gridsquare::bearingTo(const Gridsquare &in_grid, double &bearing) const
 {
     FCT_IDENTIFICATION;
 
