@@ -29,7 +29,6 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
     QList<QCheckBox*> conditionsCheckboxList;
     QList<QCheckBox*> contestCheckboxList;
 
-    qInfo() << table->model()->columnCount();
     while ( columnIndex < table->model()->columnCount() )
     {
         QCheckBox *columnCheckbox=new QCheckBox();

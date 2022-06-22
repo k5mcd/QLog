@@ -789,6 +789,7 @@ void NewContactWidget::resetContact()
     ui->sigInfoEdit->clear();
     ui->dokEdit->clear();
     ui->vuccEdit->clear();
+    ui->wwffEdit->clear();
     ui->dxccTableWidget->clear();
     ui->dxccStatus->clear();
     ui->flagView->setPixmap(QPixmap());
@@ -1132,6 +1133,11 @@ void NewContactWidget::saveContact()
     if ( !ui->vuccEdit->text().isEmpty() )
     {
         record.setValue("vucc_grids", ui->vuccEdit->text().toUpper());
+    }
+
+    if ( !ui->wwffEdit->text().isEmpty() )
+    {
+        record.setValue("wwff_ref", ui->wwffEdit->text().toUpper());
     }
 
     if (!ui->commentEdit->text().isEmpty()) {
