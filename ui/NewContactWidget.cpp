@@ -993,6 +993,12 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     {
        record.setValue("my_vucc_grids", profile.vucc.toUpper());
     }
+
+    if ( record.value("my_wwff_ref").toString().isEmpty()
+         && !profile.wwff.isEmpty())
+    {
+       record.setValue("my_wwff_ref", profile.wwff.toUpper());
+    }
 }
 
 void NewContactWidget::saveContact()

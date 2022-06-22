@@ -710,6 +710,7 @@ void SettingsDialog::addStationProfile()
     profile.sig = ui->stationSIGEdit->text();
     profile.sigInfo = ui->stationSIGInfoEdit->text();
     profile.vucc = ui->stationVUCCEdit->text().toUpper();
+    profile.wwff = ui->stationWWFFEdit->text().toUpper();
 
     stationProfManager->addProfile(profile.profileName, profile);
 
@@ -750,6 +751,7 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->stationSIGEdit->setText(profile.sig);
     ui->stationSIGInfoEdit->setText(profile.sigInfo);
     ui->stationVUCCEdit->setText(profile.vucc);
+    ui->stationWWFFEdit->setText(profile.wwff);
 
     ui->stationAddProfileButton->setText(tr("Modify"));
 }
@@ -771,6 +773,7 @@ void SettingsDialog::clearStationProfileForm()
     ui->stationSIGEdit->clear();
     ui->stationSIGInfoEdit->clear();
     ui->stationVUCCEdit->clear();
+    ui->stationWWFFEdit->clear();
 
     ui->stationAddProfileButton->setText(tr("Add"));
 }

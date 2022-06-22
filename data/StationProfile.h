@@ -26,6 +26,7 @@ public:
     QString sig;
     QString sigInfo;
     QString vucc;
+    QString wwff;
 
     bool operator== (const StationProfile &profile);
     bool operator!= (const StationProfile &profile);

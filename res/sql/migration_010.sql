@@ -10,3 +10,4 @@ ON CONFLICT DO NOTHING;
 ALTER TABLE contacts ADD my_arrl_sect TEXT;
 ALTER TABLE contacts ADD my_wwff_ref TEXT;
 ALTER TABLE contacts ADD wwff_ref TEXT;
+ALTER TABLE station_profiles ADD wwff TEXT;

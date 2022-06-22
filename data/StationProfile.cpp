@@ -12,7 +12,8 @@ QDataStream& operator<<(QDataStream& out, const StationProfile& v)
 {
     out << v.profileName << v.callsign << v.locator
         << v.operatorName << v.qthName << v.iota
-        << v.sota << v.sig << v.sigInfo << v.vucc;
+        << v.sota << v.sig << v.sigInfo << v.vucc
+        << v.wwff;
     return out;
 }
 
@@ -28,6 +29,7 @@ QDataStream& operator>>(QDataStream& in, StationProfile& v)
     in >> v.sig;
     in >> v.sigInfo;
     in >> v.vucc;
+    in >> v.wwff;
 
     return in;
 }
@@ -97,8 +99,8 @@ void StationProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc) "
-                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc)") )
+    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc, wwff) "
+                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc, :wwff)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -121,6 +123,7 @@ void StationProfilesManager::save()
             insertQuery.bindValue(":sig", stationProfile.sig);
             insertQuery.bindValue(":sig_info", stationProfile.sigInfo);
             insertQuery.bindValue(":vucc", stationProfile.vucc);
+            insertQuery.bindValue(":wwff", stationProfile.wwff);
 
             if ( ! insertQuery.exec() )
             {
@@ -147,7 +150,8 @@ bool StationProfile::operator==(const StationProfile &profile)
             && profile.sota == this->sota
             && profile.sig == this->sig
             && profile.sigInfo == this->sigInfo
-            && profile.vucc == this->vucc);
+            && profile.vucc == this->vucc
+            && profile.wwff == this->wwff);
 }
 
 bool StationProfile::operator!=(const StationProfile &profile)
