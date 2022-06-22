@@ -1581,7 +1581,7 @@ void NewContactWidget::setDefaultReport() {
     FCT_IDENTIFICATION;
 
     if (defaultReport.isEmpty()) {
-        defaultReport = "599";
+        defaultReport = "";
     }
 
     ui->rstRcvdEdit->setText(defaultReport);
