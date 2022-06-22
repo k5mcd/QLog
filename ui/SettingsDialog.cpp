@@ -82,7 +82,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->modeTableView->hideColumn(0);
     ui->modeTableView->hideColumn(2);
     ui->modeTableView->setItemDelegateForColumn(5,new CheckBoxDelegate(ui->modeTableView));
-    ui->modeTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     modeTableModel->select();
 
     bandTableModel = new QSqlTableModel(this);
@@ -96,11 +95,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->bandTableView->setModel(bandTableModel);
 
     ui->bandTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    ui->bandTableView->hideColumn(0);
+    ui->bandTableView->hideColumn(0); // primary key
+    ui->bandTableView->hideColumn(5); // last_seen_freq
     ui->bandTableView->setItemDelegateForColumn(2, new UnitFormatDelegate("", 6, 0.001, ui->bandTableView));
     ui->bandTableView->setItemDelegateForColumn(3, new UnitFormatDelegate("", 6, 0.001, ui->bandTableView));
     ui->bandTableView->setItemDelegateForColumn(4,new CheckBoxDelegate(ui->bandTableView));
-    ui->bandTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     bandTableModel->select();
 
