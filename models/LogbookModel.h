@@ -172,8 +172,8 @@ public:
         COLUMN_VUCC_GRIDS = 151,
         COLUMN_WEB = 152,
         COLUMN_MY_ARRL_SECT = 153,
-        COLUMN_WWFF_REF = 154,
-        COLUMN_MY_WWFF_REF = 155,
+        COLUMN_MY_WWFF_REF = 154,
+        COLUMN_WWFF_REF = 155,
         COLUMN_LAST_ELEMENT = 156
     };
 };
