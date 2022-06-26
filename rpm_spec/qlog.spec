@@ -42,6 +42,20 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Jun 26 2022 Ladislav Foldyna - 0.11.0-1
+- [NEW] QSO Detail/Edit Dialog
+- [NEW] Added mW power Support
+- [NEW] Implemented ADIF 3.1.3
+- [NEW] Rigwidget saves last used freq for bands
+- Fixed Rig Combo size when Rig Profile name is long (issue #31)
+- Fixed CQZ, ITUZ do not validate whether their entered value is a number (issue #75)
+- Fixed vucc, myvucc must be uppercase - Edit mode (issue #76)
+- Fixed Greyline-Map is very dark (issue #78)
+- Fixed DX Country is not saved properly when name is between S-Z (issue #79)
+- Fixed Bandmap call selection - only left mouse button (issue #82)
+- Fixed My Notes Copy & Paste - Rich Text (issue #83)
+- Fixed Font appearance in the context menu (issue #84)
+
 * Sun Jun 5 2022 Ladislav Foldyna - 0.10.0-1
 - [NEW] Bandmap shows XIT/RIT Freq
 - [NEW] Bandmap RX Mark Center (issue #69)
