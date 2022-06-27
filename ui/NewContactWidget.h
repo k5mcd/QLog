@@ -84,7 +84,7 @@ private slots:
     void qrz();
 
 private:
-    void queryDatabase(QString callsign);
+    void fillFieldsFromLastQSO(QString callsign);
     void queryDxcc(QString callsign);
     void clearQueryFields();
     void readWidgetSettings();
