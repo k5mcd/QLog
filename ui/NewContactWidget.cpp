@@ -192,6 +192,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     contactTimer = new QTimer(this);
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
 
+    ui->rstSentEdit->installEventFilter(this);
+
     /**************/
     /* SHORTCUTs  */
     /**************/
@@ -310,7 +312,6 @@ void NewContactWidget::callsignChanged()
         callsign = newCallsign;
     }
 
-    updateTime();
     clearQueryFields();
 
     if ( callsign.isEmpty() )
@@ -319,7 +320,6 @@ void NewContactWidget::callsignChanged()
     }
     else
     {
-        startContactTimer();
         queryDxcc(callsign);
 
         if ( callsign.length() >= 3 )
@@ -1001,6 +1001,20 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     }
 }
 
+bool NewContactWidget::eventFilter(QObject *object, QEvent *event)
+{
+    FCT_IDENTIFICATION;
+
+    if ( event->type() == QEvent::FocusIn
+         && object == ui->rstSentEdit
+         && callsign.size() >= 3
+         && !contactTimer->isActive() )
+    {
+        startContactTimer();
+    }
+    return false;
+}
+
 void NewContactWidget::saveContact()
 {
     FCT_IDENTIFICATION;
@@ -1304,8 +1318,6 @@ void NewContactWidget::editCallsignFinished()
 
     static QString prevQueryCallsign;
 
-    startContactTimer();
-
     if ( prevQueryCallsign != callsign
          && callsign.size() >= 3 )
     {
@@ -1322,14 +1334,6 @@ void NewContactWidget::updateTime()
     ui->dateEdit->setDate(now.date());
     ui->timeOnEdit->setTime(now.time());
     ui->timeOffEdit->setTime(now.time());
-}
-
-void NewContactWidget::updateTimeStop()
-{
-    FCT_IDENTIFICATION;
-
-    updateTime();
-    stopContactTimer();
 }
 
 void NewContactWidget::updateTimeOff()

@@ -69,7 +69,6 @@ private slots:
     void gridChanged();
     void updateTime();
     void updateTimeOff();
-    void updateTimeStop();
     void startContactTimer();
     void stopContactTimer();
     void markContact();
@@ -99,6 +98,7 @@ private:
     void setDefaultReport();
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
+    bool eventFilter(QObject *object, QEvent *event);
 
 private:
     Rig* rig;
