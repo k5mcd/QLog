@@ -332,7 +332,7 @@ void LogbookWidget::updateTable()
 
     if ( !callsignFilterValue.isEmpty() )
     {
-        filterString.append(QString("callsign LIKE '%1%'").arg(callsignFilterValue.toUpper()));
+        filterString.append(QString("callsign LIKE '%%1%'").arg(callsignFilterValue.toUpper()));
     }
 
     QString bandFilterValue = ui->bandFilter->currentText();
