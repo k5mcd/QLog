@@ -344,20 +344,6 @@ QString Data::statusToText(const DxccStatus &status) {
     }
 }
 
-QRegularExpression Data::callsignRegEx()
-{
-    FCT_IDENTIFICATION;
-
-    return QRegularExpression(callsignRegExString(), QRegularExpression::CaseInsensitiveOption);
-}
-
-QString Data::callsignRegExString()
-{
-    FCT_IDENTIFICATION;
-
-    return QString("^(([A-Z0-9]+)[\\/])?(([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+))([\\/]([A-Z0-9]+))?");
-}
-
 QString Data::removeAccents(const QString &input)
 {
     FCT_IDENTIFICATION;

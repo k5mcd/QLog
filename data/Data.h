@@ -2,7 +2,6 @@
 #define DATA_H
 
 #include <QtCore>
-#include <QRegularExpression>
 #include "Dxcc.h"
 #include "Band.h"
 #include "core/zonedetect.h"
@@ -75,8 +74,6 @@ public:
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
     static QColor statusToInverseColor(const DxccStatus &status, const QColor &defaultColor);
     static QString statusToText(const DxccStatus &status);
-    static QRegularExpression callsignRegEx();
-    static QString callsignRegExString();
     static QString removeAccents(const QString &input);
     static int getITUZMin();
     static int getITUZMax();

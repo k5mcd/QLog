@@ -30,6 +30,7 @@
 #include "core/Rig.h"
 #include "core/Rotator.h"
 #include "core/LogParam.h"
+#include "core/Callsign.h"
 
 #define WIDGET_INDEX_SERIAL_RIG  0
 #define STACKED_WIDGET_NETWORK_RIG 1
@@ -103,7 +104,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     bandTableModel->select();
 
-    ui->stationCallsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
+    ui->stationCallsignEdit->setValidator(new QRegularExpressionValidator(Callsign::callsignRegEx(), this));
     ui->stationLocatorEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
     ui->stationVUCCEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), this));
 

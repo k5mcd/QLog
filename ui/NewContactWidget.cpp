@@ -18,6 +18,7 @@
 #include "data/RigProfile.h"
 #include "data/AntProfile.h"
 #include "data/Data.h"
+#include "core/Callsign.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -398,18 +399,10 @@ void NewContactWidget::fillFieldsFromLastQSO(QString callsign)
 
     qCDebug(function_parameters) << callsign;
 
-    static QRegularExpression callsignRE = Data::callsignRegEx();
+    Callsign enteredCallsign(callsign);
 
-    QRegularExpressionMatch match = callsignRE.match(callsign);
-
-    if ( match.hasMatch() )
+    if ( enteredCallsign.isValid() )
     {
-        QString prefixCallsign = match.captured(1);
-        QString baseCallsign = match.captured(3);
-        QString suffixCallsign =  match.captured(8);
-
-        qCDebug(runtime) << prefixCallsign << baseCallsign << suffixCallsign;
-
         QSqlQuery query;
 
         if ( !query.prepare("SELECT name_intl, "
@@ -428,9 +421,11 @@ void NewContactWidget::fillFieldsFromLastQSO(QString callsign)
         }
 
         /* The first attempt, try to find full callsign */
-        qCDebug(runtime) << "Trying prefix + callsign match - " << prefixCallsign + baseCallsign;
+        qCDebug(runtime) << "Trying prefix + callsign match - " << enteredCallsign.getHostPrefixWithDelimiter()
+                                                                   + enteredCallsign.getBase();
 
-        query.bindValue(":callsign", prefixCallsign + baseCallsign);
+        query.bindValue(":callsign", enteredCallsign.getHostPrefixWithDelimiter()
+                                     + enteredCallsign.getBase());
 
         if ( !query.exec() )
         {
@@ -443,7 +438,7 @@ void NewContactWidget::fillFieldsFromLastQSO(QString callsign)
             /* If callsign has a suffix ("/p", "/mm"  etc)
                then do not reuse QTH, Grid and DOK - may vary
                otherwise reuse all captured information */
-            if ( suffixCallsign.isEmpty() )
+            if ( enteredCallsign.getSuffix().isEmpty() )
             {
                 ui->qthEdit->setText(query.value(1).toString());
                 ui->gridEdit->setText(query.value(2).toString());
@@ -454,14 +449,14 @@ void NewContactWidget::fillFieldsFromLastQSO(QString callsign)
             ui->emailEdit->setText(query.value(4).toString());
             ui->urlEdit->setText(query.value(5).toString());
 
-            emit filterCallsign(baseCallsign);
+            emit filterCallsign(enteredCallsign.getBase());
         }
         else
         {
             /* The second attempt - a callsign with its prefix not found, try only the base callsign */
-            qCDebug(runtime) << "Callsign not found - trying a base callsign match " << baseCallsign;
+            qCDebug(runtime) << "Callsign not found - trying a base callsign match " << enteredCallsign.getBase();
 
-            query.bindValue(":callsign", baseCallsign);
+            query.bindValue(":callsign", enteredCallsign.getBase());
 
             if ( ! query.exec() )
             {
@@ -478,7 +473,7 @@ void NewContactWidget::fillFieldsFromLastQSO(QString callsign)
                 ui->emailEdit->setText(query.value(4).toString());
                 ui->urlEdit->setText(query.value(5).toString());
 
-                emit filterCallsign(baseCallsign);
+                emit filterCallsign(enteredCallsign.getBase());
             }
             else
             {
