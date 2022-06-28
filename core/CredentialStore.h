@@ -11,9 +11,9 @@ public:
     explicit CredentialStore(QObject *parent = nullptr);
     static CredentialStore* instance();
 
-    int savePassword(const QString &storage_key, QString user, const QString &pass);
-    QString getPassword(const QString &storage_key, QString user);
-    void deletePassword(const QString &storage_key, QString user);
+    int savePassword(const QString &storage_key, const QString &user, const QString &pass);
+    QString getPassword(const QString &storage_key, const QString &user);
+    void deletePassword(const QString &storage_key, const QString &user);
 
 };
 

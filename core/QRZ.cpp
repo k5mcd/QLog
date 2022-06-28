@@ -519,8 +519,8 @@ QMap<QString, QString> QRZ::parseActionResponse(const QString &reponseString)
     return data;
 }
 
-const QString QRZ::SECURE_STORAGE_KEY = "QLog:QRZCOM";
-const QString QRZ::SECURE_STORAGE_API_KEY = "QLog:QRZCOMAPI";
+const QString QRZ::SECURE_STORAGE_KEY = "QRZCOM";
+const QString QRZ::SECURE_STORAGE_API_KEY = "QRZCOMAPI";
 const QString QRZ::CONFIG_USERNAME_KEY = "qrzcom/username";
 const QString QRZ::CONFIG_USERNAME_API_KEY = "qrzcom/usernameapi";
 const QString QRZ::CONFIG_USERNAME_API_CONST = "logbookapi";

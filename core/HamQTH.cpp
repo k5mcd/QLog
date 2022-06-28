@@ -323,6 +323,6 @@ void HamQTH::processReply(QNetworkReply* reply) {
     }
 }
 
-const QString HamQTH::SECURE_STORAGE_KEY = "QLog:HamQTH";
+const QString HamQTH::SECURE_STORAGE_KEY = "HamQTH";
 const QString HamQTH::CONFIG_USERNAME_KEY = "hamqth/username";
 const QString HamQTH::CALLBOOK_NAME = "hamqth";

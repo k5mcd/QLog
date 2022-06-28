@@ -570,6 +570,6 @@ void EQSL::abortRequest()
     }
 }
 
-const QString EQSL::SECURE_STORAGE_KEY = "QLog:eQSL";
+const QString EQSL::SECURE_STORAGE_KEY = "eQSL";
 const QString EQSL::CONFIG_USERNAME_KEY = "eqsl/username";
 const QString EQSL::CONFIG_QSL_FOLDER_KEY = "eqsl/qslfolder";

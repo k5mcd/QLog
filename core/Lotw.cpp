@@ -314,5 +314,5 @@ void Lotw::abortRequest()
     }
 }
 
-const QString Lotw::SECURE_STORAGE_KEY = "QLog:LoTW";
+const QString Lotw::SECURE_STORAGE_KEY = "LoTW";
 const QString Lotw::CONFIG_USERNAME_KEY = "lotw/username";
