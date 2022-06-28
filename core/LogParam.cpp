@@ -20,7 +20,7 @@ bool LogParam::setParam(const QString &name, const QString &value)
 
     QSqlQuery query;
 
-    if ( ! query.prepare("INSERT INTO log_param (name, value) "
+    if ( ! query.prepare("INSERT OR REPLACE INTO log_param (name, value) "
                          "VALUES (:nam, :val)") )
     {
         qWarning()<< "Cannot prepare insert parameter statement";
@@ -36,14 +36,14 @@ bool LogParam::setParam(const QString &name, const QString &value)
         return false;
     }
 
+    localCache.remove(name);
+
     return true;
 }
 
 QString LogParam::getParam(const QString &name)
 {
     FCT_IDENTIFICATION;
-
-    static QCache<QString, QString> localCache(10);
 
     qCDebug(function_parameters) << name;
 
@@ -56,7 +56,6 @@ QString LogParam::getParam(const QString &name)
     }
     else
     {
-
         QSqlQuery query;
 
         if ( ! query.prepare("SELECT value "
@@ -71,13 +70,16 @@ QString LogParam::getParam(const QString &name)
 
         if ( ! query.exec() )
         {
-            qWarning() << "Cannot execute an get Parameter";
+            qWarning() << "Cannot execute GetParam Select";
             return QString();
         }
 
         query.next();
         ret = query.value(0).toString();
+        localCache.insert(name, new QString(ret));
     }
     qDebug(runtime) << "value: " << ret;
     return ret;
 }
+
+QCache<QString, QString> LogParam::localCache(10);
