@@ -249,7 +249,7 @@ int main(int argc, char* argv[])
      *
      * Only one instance of QLog application is allowed
      */
-    AppGuard guard( "QLog" );
+    AppGuard guard(app.applicationName());
     if ( !guard.tryToRun() )
     {
         QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
