@@ -15,6 +15,7 @@
 #include "core/Eqsl.h"
 #include "models/SqlListModel.h"
 #include "core/Gridsquare.h"
+#include "core/Callsign.h"
 
 MODULE_IDENTIFICATION("qlog.ui.qsodetaildialog");
 
@@ -204,8 +205,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->countryCombo->setModelColumn(1);
 
     /* Assign Validators */
-    ui->callsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
-    ui->myCallsignEdit->setValidator(new QRegularExpressionValidator(Data::callsignRegEx(), this));
+    ui->callsignEdit->setValidator(new QRegularExpressionValidator(Callsign::callsignRegEx(), this));
+    ui->myCallsignEdit->setValidator(new QRegularExpressionValidator(Callsign::callsignRegEx(), this));
     ui->gridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
     ui->myGridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
     ui->vuccEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), this));

@@ -31,6 +31,7 @@ SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
         core/CallbookManager.cpp \
+        core/Callsign.cpp \
         core/ClubLog.cpp \
         core/Conditions.cpp \
         core/CredentialStore.cpp \
@@ -112,6 +113,7 @@ HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
         core/CallbookManager.h \
+        core/Callsign.h \
         core/ClubLog.h \
         core/Conditions.h \
         core/CredentialStore.h \

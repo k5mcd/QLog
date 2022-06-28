@@ -18,6 +18,7 @@
 #include "data/RigProfile.h"
 #include "data/AntProfile.h"
 #include "data/Data.h"
+#include "core/Callsign.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -324,7 +325,7 @@ void NewContactWidget::callsignChanged()
 
         if ( callsign.length() >= 3 )
         {
-            queryDatabase(callsign);
+            fillFieldsFromLastQSO(callsign);
         }
     }
 }
@@ -392,50 +393,98 @@ void NewContactWidget::clearQueryFields()
     ui->stateEdit->clear();
 }
 
-void NewContactWidget::queryDatabase(QString callsign)
+void NewContactWidget::fillFieldsFromLastQSO(QString callsign)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << callsign;
 
-    QSqlQuery query;
+    Callsign enteredCallsign(callsign);
 
-    if ( !query.prepare("SELECT name_intl, "
-                        "       qth_intl, "
-                        "       gridsquare, "
-                        "       notes_intl, "
-                        "       email, "
-                        "       web ,"
-                        "       darc_dok "
-                        "FROM contacts "
-                        "WHERE callsign = :callsign "
-                        "ORDER BY start_time DESC LIMIT 1") )
+    if ( enteredCallsign.isValid() )
     {
-        qWarning() << "Cannot prepare select statement";
-        return;
-    }
+        QSqlQuery query;
 
-    query.bindValue(":callsign", callsign);
+        if ( !query.prepare("SELECT name_intl, "
+                            "       qth_intl, "
+                            "       gridsquare, "
+                            "       notes_intl, "
+                            "       email, "
+                            "       web ,"
+                            "       darc_dok "
+                            "FROM contacts "
+                            "WHERE callsign = :callsign "
+                            "ORDER BY start_time DESC LIMIT 1") )
+        {
+            qWarning() << "Cannot prepare select statement";
+            return;
+        }
 
-    if ( !query.exec() )
-    {
-        qWarning() << "Cannot execute statement" << query.lastError();
-    }
+        /* The first attempt, try to find full callsign */
+        qCDebug(runtime) << "Trying prefix + callsign match - " << enteredCallsign.getHostPrefixWithDelimiter()
+                                                                   + enteredCallsign.getBase();
 
-    if ( query.next() )
-    {
-        ui->nameEdit->setText(query.value(0).toString());
-        ui->qthEdit->setText(query.value(1).toString());
-        ui->gridEdit->setText(query.value(2).toString());
-        ui->noteEdit->insertPlainText(query.value(3).toString());
-        ui->emailEdit->setText(query.value(4).toString());
-        ui->urlEdit->setText(query.value(5).toString());
-        ui->dokEdit->setText(query.value(6).toString());
+        query.bindValue(":callsign", enteredCallsign.getHostPrefixWithDelimiter()
+                                     + enteredCallsign.getBase());
 
-        emit filterCallsign(callsign);
+        if ( !query.exec() )
+        {
+            qWarning() << "Cannot execute statement" << query.lastError();
+            return;
+        }
+
+        if ( query.next() )
+        {
+            /* If callsign has a suffix ("/p", "/mm"  etc)
+               then do not reuse QTH, Grid and DOK - may vary
+               otherwise reuse all captured information */
+            if ( enteredCallsign.getSuffix().isEmpty() )
+            {
+                ui->qthEdit->setText(query.value(1).toString());
+                ui->gridEdit->setText(query.value(2).toString());
+                ui->dokEdit->setText(query.value(6).toString());
+            }
+            ui->nameEdit->setText(query.value(0).toString());
+            ui->noteEdit->insertPlainText(query.value(3).toString());
+            ui->emailEdit->setText(query.value(4).toString());
+            ui->urlEdit->setText(query.value(5).toString());
+
+            emit filterCallsign(enteredCallsign.getBase());
+        }
+        else
+        {
+            /* The second attempt - a callsign with its prefix not found, try only the base callsign */
+            qCDebug(runtime) << "Callsign not found - trying a base callsign match " << enteredCallsign.getBase();
+
+            query.bindValue(":callsign", enteredCallsign.getBase());
+
+            if ( ! query.exec() )
+            {
+                qWarning() << "Cannot execute statement" << query.lastError();
+                return;
+            }
+
+            if ( query.next() )
+            {
+                /* we have found a callsign but only a base callsign match, therefore do not reuse
+                   QTH, Grid and DOK - may vary */
+                ui->nameEdit->setText(query.value(0).toString());
+                ui->noteEdit->insertPlainText(query.value(3).toString());
+                ui->emailEdit->setText(query.value(4).toString());
+                ui->urlEdit->setText(query.value(5).toString());
+
+                emit filterCallsign(enteredCallsign.getBase());
+            }
+            else
+            {
+                qCDebug(runtime) << "Callsign not found";
+                emit filterCallsign(QString());
+            }
+        }
     }
     else
     {
+        qCDebug(runtime) << "Callsign does not match";
         emit filterCallsign(QString());
     }
 }
