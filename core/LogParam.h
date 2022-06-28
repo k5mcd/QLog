@@ -11,6 +11,9 @@ public:
 
     static bool setParam(const QString&, const QString&);
     static QString getParam(const QString&);
+
+private:
+    static QCache<QString, QString> localCache;
 };
 
 #endif // LOGPARAM_H
