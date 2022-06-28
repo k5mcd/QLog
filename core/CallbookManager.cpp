@@ -151,5 +151,8 @@ void CallbookManager::processCallsignResult(const QMap<QString, QString> &data)
 {
     FCT_IDENTIFICATION;
 
-    emit callsignResult(data);
+    if ( data["call"] == currentQueryCallsign )
+    {
+        emit callsignResult(data);
+    }
 }
