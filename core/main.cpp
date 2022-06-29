@@ -248,6 +248,11 @@ int main(int argc, char* argv[])
     /* Application Singleton
      *
      * Only one instance of QLog application is allowed
+     *
+     * It is always necessary to run only one QLog on the
+     * system, because the FLDigi interface has a fixed port.
+     * Therefore, in the case of two or more instances,
+     * there is a port conflict.
      */
     AppGuard guard( "QLog" );
     if ( !guard.tryToRun() )
