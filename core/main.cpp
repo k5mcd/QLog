@@ -230,10 +230,37 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
-
     app.setApplicationVersion(VERSION);
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription(QCoreApplication::tr("QLog Help"));
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    /* Undocumented param used for debugging. A developer can run QLog with
+     * a specific namespace. This helps in cases where it is possible
+     * to simultaneously run a test/develop and production versions of QLog.
+     *
+     * The parameter changes the Application name. It causes that all runtime
+     * files, settings, passwords and DB file are created in a different directory/namespace.
+     *
+     * however, it remains necessary only one instance of QLog to run at a time.
+     * More Notes below (AppGuard Comment).
+     *
+     * NOTE: This is not a preparation for the ability to run separate databases.
+     * It's just to make it easier for developers and testers.
+     */
+
+    QCommandLineOption environmentName(QStringList() << "n" << "namespace",
+                QCoreApplication::translate("main", "Run with the specific namespace."),
+                QCoreApplication::translate("main", "namespace"));
+    parser.addOption(environmentName);
+    parser.process(app);
+    QString environment = parser.value(environmentName);
+
     app.setOrganizationName("hamradio");
-    app.setApplicationName("QLog");
+    app.setApplicationName("QLog" + ((environment.isNull()) ? "" : environment.prepend("-")));
+
     app.setStyle(QStyleFactory::create("Fusion"));
 
     qInstallMessageHandler(debugMessageOutput);
