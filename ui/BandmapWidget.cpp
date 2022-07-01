@@ -20,6 +20,8 @@ MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
 BandmapWidget::BandmapWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::BandmapWidget),
+    rxMark(nullptr),
+    txMark(nullptr),
     RXPositionY(0),
     keepRXCenter(true)
 {
@@ -71,6 +73,9 @@ void BandmapWidget::update()
      *************/
     clearAllCallsignFromScene();
 
+    clearFreqMark(&rxMark);
+    clearFreqMark(&txMark);
+
     bandmapScene->clear();
 
     /*******************
@@ -110,21 +115,10 @@ void BandmapWidget::update()
                                0,
                                steps*10 + 20);
 
-    /**************************/
-    /* Draw RX frequency mark */
-    /**************************/
-    drawFreqMark(rx_freq, step, QColor(30, 180, 30), RXPositionY);
-
-    /**************************/
-    /* Draw TX frequency mark */
-    /**************************/
-    if ( tx_freq >= currentBand.start
-         && tx_freq <= currentBand.end
-         && tx_freq != rx_freq )
-    {
-        int i;
-        drawFreqMark(tx_freq, step, QColor(255, 0, 0), i);
-    }
+    /************************/
+    /* Draw TX and RX Marks */
+    /************************/
+    drawTXRXMarks(step);
 
     /*****************
      * Draw Stations *
@@ -161,7 +155,6 @@ void BandmapWidget::updateStations()
 {
     FCT_IDENTIFICATION;
 
-    QLocale locale;
     double step;
     int digits;
     double min_y = 0;
@@ -275,11 +268,29 @@ void BandmapWidget::clearAllCallsignFromScene()
     textItemList.clear();
 }
 
-void BandmapWidget::drawFreqMark(const double freq, const double step, const QColor &color, int &Yposition)
+void BandmapWidget::clearFreqMark(QGraphicsPolygonItem **currentPolygon)
+{
+    FCT_IDENTIFICATION;
+
+    if ( *currentPolygon != nullptr )
+    {
+        bandmapScene->removeItem(*currentPolygon);
+        delete *currentPolygon;
+        *currentPolygon = nullptr;
+    }
+}
+
+void BandmapWidget::drawFreqMark(const double freq,
+                                 const double step,
+                                 const QColor &color,
+                                 int &Yposition,
+                                 QGraphicsPolygonItem **currentPolygon)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << freq << step << color;
+
+    clearFreqMark(currentPolygon);
 
     /* do not show the freq mark if it is outside the bandmap */
     if ( freq < currentBand.start || freq > currentBand.end )
@@ -294,9 +305,30 @@ void BandmapWidget::drawFreqMark(const double freq, const double step, const QCo
          << QPointF(-7, Yposition - 7)
          << QPointF(-7, Yposition + 7);
 
-    bandmapScene->addPolygon(poly,
-                             QPen(Qt::NoPen),
-                             QBrush(color, Qt::SolidPattern));
+    *currentPolygon = bandmapScene->addPolygon(poly,
+                                              QPen(Qt::NoPen),
+                                              QBrush(color, Qt::SolidPattern));
+}
+
+void BandmapWidget::drawTXRXMarks(double step)
+{
+    FCT_IDENTIFICATION;
+
+    /**************************/
+    /* Draw RX frequency mark */
+    /**************************/
+    drawFreqMark(rx_freq, step, QColor(30, 180, 30), RXPositionY, &rxMark);
+
+    /**************************/
+    /* Draw TX frequency mark */
+    /**************************/
+    if ( tx_freq >= currentBand.start
+         && tx_freq <= currentBand.end
+         && tx_freq != rx_freq )
+    {
+        int i;
+        drawFreqMark(tx_freq, step, QColor(255, 0, 0), i, &txMark);
+    }
 }
 
 void BandmapWidget::removeDuplicates(DxSpot &spot) {
@@ -442,7 +474,15 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
 
     tx_freq = xitFreq;
 
-    update();
+    double step;
+    int digits;
+
+    determineStepDigits(step, digits);
+
+    /************************/
+    /* Draw TX and RX Marks */
+    /************************/
+    drawTXRXMarks(step);
 }
 
 BandmapWidget::~BandmapWidget()

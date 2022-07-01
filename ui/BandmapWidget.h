@@ -67,7 +67,9 @@ private:
     void updateStations();
     void determineStepDigits(double &steps, int &digits);
     void clearAllCallsignFromScene();
-    void drawFreqMark(const double, const double, const QColor&, int &);
+    void clearFreqMark(QGraphicsPolygonItem **);
+    void drawFreqMark(const double, const double, const QColor&, int &, QGraphicsPolygonItem **);
+    void drawTXRXMarks(double);
     void resizeEvent(QResizeEvent * event);
     void centerPosition();
 
@@ -88,8 +90,11 @@ private:
     QTimer *update_timer;
     QList<QGraphicsLineItem *> lineItemList;
     QList<QGraphicsTextItem *> textItemList;
+    QGraphicsPolygonItem* rxMark;
+    QGraphicsPolygonItem* txMark;
     int RXPositionY;
     bool keepRXCenter;
+    QLocale locale;
 };
 
 #endif // BANDMAPWIDGET_H
