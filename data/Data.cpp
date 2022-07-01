@@ -9,7 +9,8 @@ MODULE_IDENTIFICATION("qlog.data.data");
 
 Data::Data(QObject *parent) :
    QObject(parent),
-   zd(nullptr)
+   zd(nullptr),
+   isDXCCQueryValid(false)
 {
     FCT_IDENTIFICATION;
 
@@ -21,6 +22,33 @@ Data::Data(QObject *parent) :
     loadIOTA();
     loadSOTA();
     loadTZ();
+
+    isDXCCQueryValid = queryDXCC.prepare(
+                "SELECT\n"
+                "    dxcc_entities.id,\n"
+                "    dxcc_entities.name,\n"
+                "    dxcc_entities.prefix,\n"
+                "    dxcc_entities.cont,\n"
+                "    CASE\n"
+                "        WHEN (dxcc_prefixes.cqz != 0)\n"
+                "        THEN dxcc_prefixes.cqz\n"
+                "        ELSE dxcc_entities.cqz\n"
+                "    END AS cqz,\n"
+                "    CASE\n"
+                "        WHEN (dxcc_prefixes.ituz != 0)\n"
+                "        THEN dxcc_prefixes.ituz\n"
+                "        ELSE dxcc_entities.ituz\n"
+                "    END AS ituz\n,"
+                "    dxcc_entities.lat,\n"
+                "    dxcc_entities.lon,\n"
+                "    dxcc_entities.tz\n"
+                "FROM dxcc_prefixes\n"
+                "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id)\n"
+                "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true)\n"
+                "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
+                "ORDER BY dxcc_prefixes.prefix\n"
+                "DESC LIMIT 1\n"
+                );
 }
 
 Data::~Data()
@@ -641,56 +669,30 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
     }
     else
     {
-        QSqlQuery query;
-        if ( ! query.prepare(
-                 "SELECT\n"
-                 "    dxcc_entities.id,\n"
-                 "    dxcc_entities.name,\n"
-                 "    dxcc_entities.prefix,\n"
-                 "    dxcc_entities.cont,\n"
-                 "    CASE\n"
-                 "        WHEN (dxcc_prefixes.cqz != 0)\n"
-                 "        THEN dxcc_prefixes.cqz\n"
-                 "        ELSE dxcc_entities.cqz\n"
-                 "    END AS cqz,\n"
-                 "    CASE\n"
-                 "        WHEN (dxcc_prefixes.ituz != 0)\n"
-                 "        THEN dxcc_prefixes.ituz\n"
-                 "        ELSE dxcc_entities.ituz\n"
-                 "    END AS ituz\n,"
-                 "    dxcc_entities.lat,\n"
-                 "    dxcc_entities.lon,\n"
-                 "    dxcc_entities.tz\n"
-                 "FROM dxcc_prefixes\n"
-                 "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id)\n"
-                 "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true)\n"
-                 "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
-                 "ORDER BY dxcc_prefixes.prefix\n"
-                 "DESC LIMIT 1\n"
-                 ) )
+        if ( ! isDXCCQueryValid )
         {
             qWarning() << "Cannot prepare Select statement";
             return DxccEntity();
         }
 
-        query.bindValue(":callsign", callsign);
+        queryDXCC.bindValue(":callsign", callsign);
 
-        if ( ! query.exec() )
+        if ( ! queryDXCC.exec() )
         {
-            qWarning() << "Cannot execte Select statement" << query.lastError();
+            qWarning() << "Cannot execte Select statement" << queryDXCC.lastError();
             return DxccEntity();
         }
-        if (query.next())
+        if (queryDXCC.next())
         {
-            dxccRet.dxcc = query.value(0).toInt();
-            dxccRet.country = query.value(1).toString();
-            dxccRet.prefix = query.value(2).toString();
-            dxccRet.cont = query.value(3).toString();
-            dxccRet.cqz = query.value(4).toInt();
-            dxccRet.ituz = query.value(5).toInt();
-            dxccRet.latlon[0] = query.value(6).toDouble();
-            dxccRet.latlon[1] = query.value(7).toDouble();
-            dxccRet.tz = query.value(8).toFloat();
+            dxccRet.dxcc = queryDXCC.value(0).toInt();
+            dxccRet.country = queryDXCC.value(1).toString();
+            dxccRet.prefix = queryDXCC.value(2).toString();
+            dxccRet.cont = queryDXCC.value(3).toString();
+            dxccRet.cqz = queryDXCC.value(4).toInt();
+            dxccRet.ituz = queryDXCC.value(5).toInt();
+            dxccRet.latlon[0] = queryDXCC.value(6).toDouble();
+            dxccRet.latlon[1] = queryDXCC.value(7).toDouble();
+            dxccRet.tz = queryDXCC.value(8).toFloat();
             dxccRet.flag = flags.value(dxccRet.dxcc);
 
             dxccCached = new DxccEntity;

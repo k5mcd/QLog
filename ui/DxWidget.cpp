@@ -97,7 +97,8 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
 }
 
 void DxTableModel::addEntry(DxSpot entry) {
-    beginInsertRows(QModelIndex(), dxData.count(), dxData.count());
+    //beginInsertRows(QModelIndex(), dxData.count(), dxData.count());
+    beginInsertRows(QModelIndex(), 0, 0);
     //dxData.append(entry);
     dxData.prepend(entry);
     endInsertRows();
@@ -422,9 +423,9 @@ void DxWidget::receive() {
                 emit newSpot(spot);
 
                 dxTableModel->addEntry(spot);
-                proxyDXC->invalidate();
+                //proxyDXC->invalidate();
 
-                ui->dxTable->repaint();
+                //ui->dxTable->repaint();
             }
         }
 

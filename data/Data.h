@@ -2,6 +2,7 @@
 #define DATA_H
 
 #include <QtCore>
+#include <QSqlQuery>
 #include "Dxcc.h"
 #include "Band.h"
 #include "core/zonedetect.h"
@@ -119,6 +120,8 @@ private:
     QMap<QString, QString> iotaRef;
     QMap<QString, QString> sotaRef;
     ZoneDetect * zd;
+    QSqlQuery queryDXCC;
+    bool isDXCCQueryValid;
 };
 
 #endif // DATA_H
