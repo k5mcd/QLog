@@ -14,8 +14,12 @@
 
 MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
 
-//Aging interval in milliseconds
-#define BANDMAP_AGING_TIME 20000
+
+//Maximal refresh rate for bandmap is 1s
+#define BANDMAP_MAX_REFRESH_TIME 1000
+
+//Maximal Aging interval is 20s
+#define BANDMAP_AGING_CHECK_TIME 20000
 
 BandmapWidget::BandmapWidget(QWidget *parent) :
     QWidget(parent),
@@ -23,7 +27,9 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     rxMark(nullptr),
     txMark(nullptr),
     RXPositionY(0),
-    keepRXCenter(true)
+    keepRXCenter(true),
+    pendingSpots(0),
+    lastStationUpdate(0)
 {
     FCT_IDENTIFICATION;
 
@@ -52,8 +58,8 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     connect(rig, &Rig::frequencyChanged, this, &BandmapWidget::updateTunedFrequency);
 
     update_timer = new QTimer;
-    connect(update_timer, SIGNAL(timeout()), this, SLOT(update()));
-    update_timer->start(BANDMAP_AGING_TIME);
+    connect(update_timer, SIGNAL(timeout()), this, SLOT(updateStationTimer()));
+    update_timer->start(BANDMAP_MAX_REFRESH_TIME);
 
     updateTunedFrequency(VFO1, freq, freq, freq);
     update();
@@ -66,7 +72,7 @@ void BandmapWidget::update()
     /****************
      * Restart Time *
      ****************/
-    update_timer->setInterval(BANDMAP_AGING_TIME);
+    update_timer->setInterval(BANDMAP_MAX_REFRESH_TIME);
 
     /*************
      * Clear All *
@@ -162,7 +168,7 @@ void BandmapWidget::updateStations()
     /****************
      * Restart Time *
      ****************/
-    update_timer->setInterval(BANDMAP_AGING_TIME);
+    update_timer->setInterval(BANDMAP_MAX_REFRESH_TIME);
 
     clearAllCallsignFromScene();
 
@@ -205,6 +211,9 @@ void BandmapWidget::updateStations()
         text->setDefaultTextColor(textColor);
         textItemList.append(text);
     }
+
+    pendingSpots = 0;
+    lastStationUpdate = QDateTime::currentMSecsSinceEpoch();
 }
 
 void BandmapWidget::determineStepDigits(double &step, int &digits)
@@ -350,7 +359,8 @@ void BandmapWidget::removeDuplicates(DxSpot &spot) {
     }
 }
 
-void BandmapWidget::addSpot(DxSpot spot) {
+void BandmapWidget::addSpot(DxSpot spot)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << spot.freq << spot.callsign;
@@ -360,9 +370,38 @@ void BandmapWidget::addSpot(DxSpot spot) {
 
     if ( spot.band == currentBand.name )
     {
+        qint64 currTime = QDateTime::currentMSecsSinceEpoch();
+
+        /* if the spots are received slowly, this will guarantee
+         * that Spots will be displayed as soon as they are received.
+         * QLog does not have to wait for the timer to tick to update the stations.
+         */
+        if ( currTime -  BANDMAP_MAX_REFRESH_TIME >= lastStationUpdate )
+        {
+            updateStations();
+        }
+        else
+        {
+            /* If the spot are received quickly then store them and wait for QTimer tick */
+            pendingSpots++;
+        }
+    }
+}
+
+void BandmapWidget::updateStationTimer()
+{
+    FCT_IDENTIFICATION;
+
+    /* This function handle QTime tick to update Stations */
+
+    qint64 currTime = QDateTime::currentMSecsSinceEpoch();
+
+    /* If there is (are) station(s) or Time to Aging occured then update the bandmap */
+    if ( pendingSpots > 0
+         || currTime - BANDMAP_AGING_CHECK_TIME >= lastStationUpdate )
+    {
         updateStations();
     }
-
 }
 
 void BandmapWidget::spotAgingChanged(int)

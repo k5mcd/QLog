@@ -77,6 +77,7 @@ private slots:
     void centerRXActionChecked(bool);
     void spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason);
     void showContextMenu(QPoint);
+    void updateStationTimer();
 
 private:
     Ui::BandmapWidget *ui;
@@ -95,6 +96,8 @@ private:
     int RXPositionY;
     bool keepRXCenter;
     QLocale locale;
+    quint32 pendingSpots;
+    qint64 lastStationUpdate;
 };
 
 #endif // BANDMAPWIDGET_H
