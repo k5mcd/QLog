@@ -497,7 +497,6 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
     Q_UNUSED(vfoid)
 
     qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
-    qInfo() << vfoFreq << ritFreq << xitFreq;
 
     /* always show the bandmap for RIT Freq */
     rx_freq = ritFreq;
@@ -511,6 +510,9 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
         {
             currentBand = newBand;
         }
+        /**********************/
+        /* Redraw all bandmap */
+        /**********************/
         update();
     }
     else
