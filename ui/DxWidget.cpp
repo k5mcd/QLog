@@ -118,57 +118,6 @@ void DxTableModel::clear() {
     endResetModel();
 }
 
-DXSpotFilterProxyModel::DXSpotFilterProxyModel(QObject* parent):
-     QSortFilterProxyModel(parent)
-{
-    moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    spottercontregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    bandregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-}
-
-void DXSpotFilterProxyModel::setModeFilterRegExp(const QString& regExp)
-{
-    moderegexp.setPattern(regExp);
-    invalidateFilter();
-}
-
-void DXSpotFilterProxyModel::setContFilterRegExp(const QString& regExp)
-{
-    contregexp.setPattern(regExp);
-    invalidateFilter();
-}
-
-void DXSpotFilterProxyModel::setSpotterContFilterRegExp(const QString &regExp)
-{
-    spottercontregexp.setPattern(regExp);
-    invalidateFilter();
-}
-
-void DXSpotFilterProxyModel::setBandFilterRegExp(const QString &regExp)
-{
-    bandregexp.setPattern(regExp);
-    invalidateFilter();
-}
-
-bool DXSpotFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
-{
-    QModelIndex modeIndex= sourceModel()->index(sourceRow, 3, sourceParent);
-    QModelIndex contIndex = sourceModel()->index(sourceRow, 6, sourceParent);
-    QModelIndex spottercontIndex = sourceModel()->index(sourceRow, 7, sourceParent);
-    QModelIndex bandIndex= sourceModel()->index(sourceRow, 8, sourceParent);
-
-    QString mode = sourceModel()->data(modeIndex).toString();
-    QString cont = sourceModel()->data(contIndex).toString();
-    QString spottercont = sourceModel()->data(spottercontIndex).toString();
-    QString band = sourceModel()->data(bandIndex).toString();
-
-    return (mode.contains(moderegexp)
-            && cont.contains(contregexp)
-            && spottercont.contains(spottercontregexp)
-            && band.contains(bandregexp));
-}
-
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
     FCT_IDENTIFICATION;
@@ -205,21 +154,22 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->setupUi(this);
     dxTableModel = new DxTableModel(this);
 
-    proxyDXC = new DXSpotFilterProxyModel(this);
-    proxyDXC->setSourceModel(dxTableModel);
-    proxyDXC->setDynamicSortFilter(false);
-    proxyDXC->setModeFilterRegExp(modeFilterRegExp());
-    proxyDXC->setContFilterRegExp(contFilterRegExp());
-    proxyDXC->setSpotterContFilterRegExp(spotterContFilterRegExp());
-    proxyDXC->setBandFilterRegExp(bandFilterRegExp());
-
-
-    ui->dxTable->setModel(proxyDXC);
+    ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
     ui->dxTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    spottercontregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    bandregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+
+    moderegexp.setPattern(modeFilterRegExp());
+    contregexp.setPattern(contFilterRegExp());
+    spottercontregexp.setPattern(spotterContFilterRegExp());
+    bandregexp.setPattern(bandFilterRegExp());
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
@@ -422,10 +372,14 @@ void DxWidget::receive() {
 
                 emit newSpot(spot);
 
-                dxTableModel->addEntry(spot);
-                //proxyDXC->invalidate();
-
-                //ui->dxTable->repaint();
+                if ( spot.mode.contains(moderegexp)
+                     && spot.dxcc.cont.contains(contregexp)
+                     && spot.dxcc_spotter.cont.contains(spottercontregexp)
+                     && spot.band.contains(bandregexp) )
+                {
+                    emit newFilteredSpot(spot);
+                    dxTableModel->addEntry(spot);
+                }
             }
         }
 
@@ -534,9 +488,8 @@ void DxWidget::rawModeChanged() {
 void DxWidget::entryDoubleClicked(QModelIndex index) {
     FCT_IDENTIFICATION;
 
-    QModelIndex source_index = proxyDXC->mapToSource(index);
-    QString callsign = dxTableModel->getCallsign(source_index);
-    double frequency = dxTableModel->getFrequency(source_index);
+    QString callsign = dxTableModel->getCallsign(index);
+    double frequency = dxTableModel->getFrequency(index);
     emit tuneDx(callsign, frequency);
 }
 
@@ -547,10 +500,10 @@ void DxWidget::actionFilter()
 
   if (dialog.exec() == QDialog::Accepted)
   {
-      proxyDXC->setModeFilterRegExp(modeFilterRegExp());
-      proxyDXC->setContFilterRegExp(contFilterRegExp());
-      proxyDXC->setSpotterContFilterRegExp(spotterContFilterRegExp());
-      proxyDXC->setBandFilterRegExp(bandFilterRegExp());
+      moderegexp.setPattern(modeFilterRegExp());
+      contregexp.setPattern(contFilterRegExp());
+      spottercontregexp.setPattern(spotterContFilterRegExp());
+      bandregexp.setPattern(bandFilterRegExp());
   }
 }
 

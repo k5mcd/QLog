@@ -32,28 +32,6 @@ private:
     QList<DxSpot> dxData;
 };
 
-class DXSpotFilterProxyModel : public QSortFilterProxyModel
-{
-    Q_OBJECT
-
-public:
-    explicit DXSpotFilterProxyModel(QObject* parent= nullptr);
-
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const  override;
-
-public slots:
-    void setModeFilterRegExp(const QString& regExp);
-    void setContFilterRegExp(const QString& regExp);
-    void setSpotterContFilterRegExp(const QString& regExp);
-    void setBandFilterRegExp(const QString& regExp);
-
-private:
-    QRegularExpression moderegexp;
-    QRegularExpression contregexp;
-    QRegularExpression spottercontregexp;
-    QRegularExpression bandregexp;
-};
-
 class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject
 {
      Q_OBJECT
@@ -83,12 +61,16 @@ public slots:
 signals:
     void tuneDx(QString, double);
     void newSpot(DxSpot);
+    void newFilteredSpot(DxSpot);
 
 private:
     DxTableModel* dxTableModel;
-    DXSpotFilterProxyModel *proxyDXC;
     QTcpSocket* socket;
     Ui::DxWidget *ui;
+    QRegularExpression moderegexp;
+    QRegularExpression contregexp;
+    QRegularExpression spottercontregexp;
+    QRegularExpression bandregexp;
 
     void connectCluster();
     void disconnectCluster();
@@ -97,6 +79,7 @@ private:
     QString contFilterRegExp();
     QString spotterContFilterRegExp();
     QString bandFilterRegExp();
+
 
     QStringList getDXCServerList(void);
 };
