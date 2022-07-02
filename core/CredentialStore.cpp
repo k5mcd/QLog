@@ -108,7 +108,6 @@ QString CredentialStore::getPassword(const QString &storage_key, const QString &
         return QString();
     }
 
-    qInfo() << storage_key << pass;
     return pass;
 }
 
