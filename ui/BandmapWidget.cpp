@@ -130,8 +130,6 @@ void BandmapWidget::update()
      * Draw Stations *
      *****************/
     updateStations();
-
-    centerPosition();
 }
 
 void BandmapWidget::spotAging()
@@ -328,6 +326,8 @@ void BandmapWidget::drawTXRXMarks(double step)
     /**************************/
     drawFreqMark(rx_freq, step, QColor(30, 180, 30), RXPositionY, &rxMark);
 
+    centerPosition();
+
     /**************************/
     /* Draw TX frequency mark */
     /**************************/
@@ -497,9 +497,11 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
     Q_UNUSED(vfoid)
 
     qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
+    qInfo() << vfoFreq << ritFreq << xitFreq;
 
     /* always show the bandmap for RIT Freq */
     rx_freq = ritFreq;
+    tx_freq = xitFreq;
 
     if ( rx_freq < currentBand.start || rx_freq > currentBand.end )
     {
@@ -509,19 +511,21 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
         {
             currentBand = newBand;
         }
+        update();
     }
+    else
+    {
+        /* Operator does not change a band */
+        double step;
+        int digits;
 
-    tx_freq = xitFreq;
+        determineStepDigits(step, digits);
 
-    double step;
-    int digits;
-
-    determineStepDigits(step, digits);
-
-    /************************/
-    /* Draw TX and RX Marks */
-    /************************/
-    drawTXRXMarks(step);
+        /************************/
+        /* Draw TX and RX Marks */
+        /************************/
+        drawTXRXMarks(step);
+    }
 }
 
 BandmapWidget::~BandmapWidget()
