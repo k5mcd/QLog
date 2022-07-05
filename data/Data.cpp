@@ -318,7 +318,8 @@ QString Data::freqToMode(double freq)
 
     // 4m
     else if (freq >=70.000 && freq < 70.100) return Data::MODE_CW;
-    else if (freq >=70.100 && freq < 70.250) return Data::MODE_USB;
+    else if (freq == 70.100) return Data::MODE_FT8;
+    else if (freq > 70.100 && freq < 70.250) return Data::MODE_USB;
     else if (freq >=70.2500 && freq < 70.500) return Data::MODE_USB;
 
     // 2m
@@ -326,6 +327,23 @@ QString Data::freqToMode(double freq)
     else if (freq >= 144.150 && freq < 144.174) return Data::MODE_USB;
     else if (freq >= 144.174 && freq <= 144.175) return Data::MODE_FT8;
     else if (freq > 144.175 && freq < 148.000) return Data::MODE_USB;
+
+    // 1.25m
+    else if (freq >= 222.0 && freq < 222.150) return Data::MODE_CW;
+    else if (freq >= 222.150 && freq < 225.00) return Data::MODE_USB;
+
+    // 70cm
+    else if (freq >= 430.0 && freq < 432.0) return Data::MODE_USB;
+    else if (freq >= 432.0 && freq < 432.10) return Data::MODE_CW;
+    else if (freq >= 432.1 && freq < 440.0) return Data::MODE_USB;
+
+    // 33cm
+    else if (freq >= 902.0 && freq < 928.0) return Data::MODE_USB;
+
+    // 23cm
+    else if (freq >= 1240.0 && freq < 1296.15) return Data::MODE_USB;
+    else if (freq >= 1296.15 && freq < 1296.4) return Data::MODE_CW;
+    else if (freq >= 1296.4 && freq < 1300.0) return Data::MODE_PHONE;
 
     else return QString();
 }
