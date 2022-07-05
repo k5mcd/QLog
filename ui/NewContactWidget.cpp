@@ -932,7 +932,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record)
     if ( record.value("band").toString().isEmpty()
          && ! record.value("freq").isNull() )
     {
-        record.setValue("band", Data::freqToBand(record.value("freq").toDouble()));
+        record.setValue("band", Data::band(record.value("freq").toDouble()).name);
     }
 
     if ( record.value("prop_mode").toString().isEmpty()

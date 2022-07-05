@@ -71,7 +71,6 @@ public:
     static Band band(double freq);
     static QList<Band> enabledBandsList();
     static QString freqToMode(double freq);
-    static QString freqToBand(double freq);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
     static QColor statusToInverseColor(const DxccStatus &status, const QColor &defaultColor);
     static QString statusToText(const DxccStatus &status);

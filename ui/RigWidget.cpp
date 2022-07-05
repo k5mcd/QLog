@@ -327,7 +327,7 @@ void RigWidget::saveLastSeenFreq()
 
         QModelIndexList bandIndex = bandComboModel->match(bandComboModel->index(0,bandComboModel->fieldIndex("name")),
                                                           Qt::DisplayRole,
-                                                          Data::freqToBand(lastSeenFreq),1, Qt::MatchExactly);
+                                                          Data::band(lastSeenFreq).name,1, Qt::MatchExactly);
         if ( bandIndex.size() > 0 )
         {
             bandComboModel->setData(bandComboModel->index(bandIndex.at(0).row(),

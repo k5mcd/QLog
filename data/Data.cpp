@@ -200,40 +200,6 @@ QList<Band> Data::enabledBandsList()
     return ret;
 }
 
-QString Data::freqToBand(double freq)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << freq;
-
-    if (freq <= 2.0 && freq >= 1.8) return "160m";
-    else if (freq <= 3.8 && freq >= 3.5) return "80m";
-    else if (freq <= 7.5 && freq >= 7.0) return "40m";
-    else if (freq <= 10.150 && freq >= 10.1) return"30m";
-    else if (freq <= 14.350 && freq >= 14.0) return "20m";
-    else if (freq <= 18.168 && freq >= 18.068) return "17m";
-    else if (freq <= 21.450 && freq >= 21.000) return "15m";
-    else if (freq <= 24.990 && freq >= 24.890) return "12m";
-    else if (freq <= 29.700 && freq >= 28.000) return "10m";
-    else if (freq <= 52.0 && freq >= 50.0) return "6m";
-    else if (freq <= 71.0 && freq >= 70.0) return "4m";
-    else if (freq <= 148.0 && freq >= 144.0) return "2m";
-    else if (freq <= 440.0 && freq >= 430.0) return "70cm";
-    else if (freq <= 928.0 && freq >= 902.0) return "33cm";
-    else if (freq <= 1300.0 && freq >= 1240.0) return "23cm";
-    else if (freq <= 2450.0 && freq >= 2300.0) return "13cm";
-    else if (freq <= 3500.0 && freq >= 3300.0) return "9cm";
-    else if (freq <= 5925.0 && freq >= 5650.0) return "6cm";
-    else if (freq <= 10500.0 && freq >= 10000.0) return "3cm";
-    else if (freq <= 24250.0 && freq >= 24000.0) return "1.25cm";
-    else if (freq <= 47200.0 && freq >= 47000.0) return "6mm";
-    else if (freq <= 81000.0 && freq >= 75500.0) return "4mm";
-    else if (freq <= 120020.0 && freq >= 119980.0) return "2.5mm";
-    else if (freq <= 149000.0 && freq >= 142000.0) return "2mm";
-    else if (freq <= 250000.0 && freq >= 241000.0) return "1mm";
-    else return QString();
-}
-
 QString Data::freqToMode(double freq)
 {
     FCT_IDENTIFICATION;
