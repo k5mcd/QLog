@@ -586,7 +586,7 @@ void MainWindow::conditionsUpdated() {
         {
             acolor = "green";
         }
-        else if ( conditions->getFlux() < 48 )
+        else if ( conditions->getAIndex() < 48 )
         {
             acolor = "orange";
         }
