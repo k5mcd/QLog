@@ -28,6 +28,7 @@ ExportDialog::ExportDialog(const QList<QSqlRecord>& qsos, QWidget *parent) :
     ui->startDateEdit->setDate(QDate::currentDate());
     ui->endDateEdit->setDate(QDate::currentDate().addDays(1));
 
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Export"));
 }
 
 void ExportDialog::browse() {
@@ -84,7 +85,10 @@ void ExportDialog::runExport() {
 
     delete format;
 
-    ui->statusLabel->setText(tr("Exported %n contacts.", "", count));
+    QMessageBox::information(nullptr, QMessageBox::tr("QLog Information"),
+                         QMessageBox::tr("Exported %n contacts.", "", count));
+
+    accept();
 }
 
 void ExportDialog::setProgress(float progress)
