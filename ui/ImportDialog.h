@@ -24,7 +24,7 @@ public slots:
     void toggleComment();
     void adjustLocatorTextColor();
     void runImport();
-    void progress(qint64 value);
+    void computeProgress(qint64 position);
 
 private:
     Ui::ImportDialog *ui;

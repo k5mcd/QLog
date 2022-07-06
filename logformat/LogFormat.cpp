@@ -217,11 +217,13 @@ void LogFormat::runImport() {
         model.insertRecord(-1, record);
 
         if (count % 10 == 0) {
-            emit progress(stream.pos());
+            emit importPosition(stream.pos());
         }
 
         count++;
     }
+
+    emit importPosition(stream.pos());
 
     model.submitAll();
 
@@ -253,7 +255,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
         if ( stats.qsos_checked % 10 == 0 )
         {
-            emit progress(stream.pos());
+            emit importPosition(stream.pos());
         }
 
         /* checking matching fields if they are not empty */
@@ -440,12 +442,15 @@ void LogFormat::runQSLImport(QSLFrom fromService)
         }
     }
 
+    emit importPosition(stream.pos());
+
     this->importEnd();
 
     emit QSLMergeFinished(stats);
 }
 
-int LogFormat::runExport() {
+int LogFormat::runExport()
+{
     FCT_IDENTIFICATION;
 
     this->exportStart();
@@ -478,11 +483,26 @@ int LogFormat::runExport() {
     }
 
     int count = 0;
-    while (query.next()) {
+
+    /* following 3 lines are a workaround - SQLite does not
+     * return a correct value for QSqlQuery.size
+     */
+    int rows = (query.last()) ? query.at() + 1 : 0;
+    query.first();
+    query.previous();
+
+    while (query.next())
+    {
         QSqlRecord record = query.record();
         this->exportContact(record);
         count++;
+        if (count % 10 == 0)
+        {
+            emit exportProgress((int)(count * 100 / rows));
+        }
     }
+
+    emit exportProgress(100);
 
     this->exportEnd();
     return count;
@@ -499,7 +519,13 @@ int LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
     {
         this->exportContact(qso);
         count++;
+        if (count % 10 == 0)
+        {
+            emit exportProgress((int)(count * 100 / selectedQSOs.size()));
+        }
     }
+
+    emit exportProgress(100);
 
     this->exportEnd();
     return count;

@@ -93,10 +93,11 @@ void ImportDialog::adjustLocatorTextColor()
     ui->gridEdit->setPalette(p);
 }
 
-void ImportDialog::progress(qint64 value) {
+void ImportDialog::computeProgress(qint64 position)
+{
     FCT_IDENTIFICATION;
 
-    int progress = (int)(value * 100 / size);
+    int progress = (int)(position * 100 / size);
     ui->progressBar->setValue(progress);
     QCoreApplication::processEvents();
 }
@@ -202,7 +203,7 @@ void ImportDialog::runImport() {
 
     format->setDuplicateQSOCallback(showDuplicateDialog);
 
-    connect(format, &LogFormat::progress, this, &ImportDialog::progress);
+    connect(format, &LogFormat::importPosition, this, &ImportDialog::computeProgress);
 
     ui->buttonBox->setEnabled(false);
     format->runImport();

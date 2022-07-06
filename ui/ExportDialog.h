@@ -26,6 +26,7 @@ private:
     Ui::ExportDialog *ui;
 
     const QList<QSqlRecord> qsos4export;
+    void setProgress(float);
 };
 
 #endif // EXPORTDIALOG_H

@@ -281,7 +281,7 @@ void Lotw::processReply(QNetworkReply* reply)
     QTextStream stream(&tempFile);
     AdiFormat adi(stream);
 
-    connect(&adi, &AdiFormat::progress, this, [this, size](qint64 position)
+    connect(&adi, &AdiFormat::importPosition, this, [this, size](qint64 position)
     {
         if ( size > 0 )
         {

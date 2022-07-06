@@ -65,7 +65,8 @@ public:
     virtual void exportContact(const QSqlRecord&, QMap<QString, QString> * = nullptr) {}
 
 signals:
-    void progress(qint64 value);
+    void importPosition(qint64 value);
+    void exportProgress(float value);
     void finished(int count);
     void QSLMergeFinished(QSLMergeStat stats);
 

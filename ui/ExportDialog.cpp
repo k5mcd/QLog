@@ -71,6 +71,8 @@ void ExportDialog::runExport() {
 
     int count = 0;
 
+    connect(format, &LogFormat::exportProgress, this, &ExportDialog::setProgress);
+
     if ( qsos4export.size() > 0 )
     {
         count = format->runExport(qsos4export);
@@ -83,6 +85,14 @@ void ExportDialog::runExport() {
     delete format;
 
     ui->statusLabel->setText(tr("Exported %n contacts.", "", count));
+}
+
+void ExportDialog::setProgress(float progress)
+{
+    FCT_IDENTIFICATION;
+
+    ui->progressBar->setValue(progress);
+    QCoreApplication::processEvents();
 }
 
 ExportDialog::~ExportDialog() {
