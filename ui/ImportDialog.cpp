@@ -206,10 +206,23 @@ void ImportDialog::runImport() {
     connect(format, &LogFormat::importPosition, this, &ImportDialog::computeProgress);
 
     ui->buttonBox->setEnabled(false);
-    format->runImport();
-    ui->buttonBox->setEnabled(true);
+    ui->fileEdit->setEnabled(false);
+    ui->typeSelect->setEnabled(false);
+    ui->browseButton->setEnabled(false);
+    ui->startDateEdit->setEnabled(false);
+    ui->endDateEdit->setEnabled(false);
+    ui->allCheckBox->setEnabled(false);
+    ui->gridCheckBox->setEnabled(false);
+    ui->gridEdit->setEnabled(false);
+    ui->rigCheckBox->setEnabled(false);
+    ui->rigSelect->setEnabled(false);
+    ui->commentCheckBox->setEnabled(false);
+    ui->commentEdit->setEnabled(false);
+    ui->updateDxccCheckBox->setEnabled(false);
 
-    this->close();
+    format->runImport();
+
+    accept();
 }
 
 ImportDialog::~ImportDialog()

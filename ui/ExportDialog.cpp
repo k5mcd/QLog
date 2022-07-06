@@ -74,6 +74,14 @@ void ExportDialog::runExport() {
 
     connect(format, &LogFormat::exportProgress, this, &ExportDialog::setProgress);
 
+    ui->buttonBox->setEnabled(false);
+    ui->fileEdit->setEnabled(false);
+    ui->typeSelect->setEnabled(false);
+    ui->browseButton->setEnabled(false);
+    ui->startDateEdit->setEnabled(false);
+    ui->endDateEdit->setEnabled(false);
+    ui->allCheckBox->setEnabled(false);
+
     if ( qsos4export.size() > 0 )
     {
         count = format->runExport(qsos4export);
