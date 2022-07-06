@@ -1482,13 +1482,13 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
 
         case COLUMN_FREQUENCY:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND), QVariant(Data::freqToBand(value.toDouble())), role );
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND), QVariant(Data::band(value.toDouble()).name), role );
             break;
         }
 
         case COLUMN_FREQ_RX:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND_RX), QVariant(Data::freqToBand(value.toDouble())), role );
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND_RX), QVariant(Data::band(value.toDouble()).name), role );
             break;
         }
 

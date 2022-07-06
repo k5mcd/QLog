@@ -2,6 +2,7 @@
 #define DATA_H
 
 #include <QtCore>
+#include <QSqlQuery>
 #include "Dxcc.h"
 #include "Band.h"
 #include "core/zonedetect.h"
@@ -70,7 +71,6 @@ public:
     static Band band(double freq);
     static QList<Band> enabledBandsList();
     static QString freqToMode(double freq);
-    static QString freqToBand(double freq);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
     static QColor statusToInverseColor(const DxccStatus &status, const QColor &defaultColor);
     static QString statusToText(const DxccStatus &status);
@@ -119,6 +119,8 @@ private:
     QMap<QString, QString> iotaRef;
     QMap<QString, QString> sotaRef;
     ZoneDetect * zd;
+    QSqlQuery queryDXCC;
+    bool isDXCCQueryValid;
 };
 
 #endif // DATA_H

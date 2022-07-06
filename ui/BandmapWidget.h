@@ -67,7 +67,9 @@ private:
     void updateStations();
     void determineStepDigits(double &steps, int &digits);
     void clearAllCallsignFromScene();
-    void drawFreqMark(const double, const double, const QColor&, int &);
+    void clearFreqMark(QGraphicsPolygonItem **);
+    void drawFreqMark(const double, const double, const QColor&, int &, QGraphicsPolygonItem **);
+    void drawTXRXMarks(double);
     void resizeEvent(QResizeEvent * event);
     void centerPosition();
 
@@ -75,6 +77,7 @@ private slots:
     void centerRXActionChecked(bool);
     void spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason);
     void showContextMenu(QPoint);
+    void updateStationTimer();
 
 private:
     Ui::BandmapWidget *ui;
@@ -88,8 +91,13 @@ private:
     QTimer *update_timer;
     QList<QGraphicsLineItem *> lineItemList;
     QList<QGraphicsTextItem *> textItemList;
+    QGraphicsPolygonItem* rxMark;
+    QGraphicsPolygonItem* txMark;
     int RXPositionY;
     bool keepRXCenter;
+    QLocale locale;
+    quint32 pendingSpots;
+    qint64 lastStationUpdate;
 };
 
 #endif // BANDMAPWIDGET_H

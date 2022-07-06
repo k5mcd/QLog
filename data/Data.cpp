@@ -9,7 +9,8 @@ MODULE_IDENTIFICATION("qlog.data.data");
 
 Data::Data(QObject *parent) :
    QObject(parent),
-   zd(nullptr)
+   zd(nullptr),
+   isDXCCQueryValid(false)
 {
     FCT_IDENTIFICATION;
 
@@ -21,6 +22,33 @@ Data::Data(QObject *parent) :
     loadIOTA();
     loadSOTA();
     loadTZ();
+
+    isDXCCQueryValid = queryDXCC.prepare(
+                "SELECT\n"
+                "    dxcc_entities.id,\n"
+                "    dxcc_entities.name,\n"
+                "    dxcc_entities.prefix,\n"
+                "    dxcc_entities.cont,\n"
+                "    CASE\n"
+                "        WHEN (dxcc_prefixes.cqz != 0)\n"
+                "        THEN dxcc_prefixes.cqz\n"
+                "        ELSE dxcc_entities.cqz\n"
+                "    END AS cqz,\n"
+                "    CASE\n"
+                "        WHEN (dxcc_prefixes.ituz != 0)\n"
+                "        THEN dxcc_prefixes.ituz\n"
+                "        ELSE dxcc_entities.ituz\n"
+                "    END AS ituz\n,"
+                "    dxcc_entities.lat,\n"
+                "    dxcc_entities.lon,\n"
+                "    dxcc_entities.tz\n"
+                "FROM dxcc_prefixes\n"
+                "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id)\n"
+                "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true)\n"
+                "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
+                "ORDER BY dxcc_prefixes.prefix\n"
+                "DESC LIMIT 1\n"
+                );
 }
 
 Data::~Data()
@@ -172,40 +200,6 @@ QList<Band> Data::enabledBandsList()
     return ret;
 }
 
-QString Data::freqToBand(double freq)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << freq;
-
-    if (freq <= 2.0 && freq >= 1.8) return "160m";
-    else if (freq <= 3.8 && freq >= 3.5) return "80m";
-    else if (freq <= 7.5 && freq >= 7.0) return "40m";
-    else if (freq <= 10.150 && freq >= 10.1) return"30m";
-    else if (freq <= 14.350 && freq >= 14.0) return "20m";
-    else if (freq <= 18.168 && freq >= 18.068) return "17m";
-    else if (freq <= 21.450 && freq >= 21.000) return "15m";
-    else if (freq <= 24.990 && freq >= 24.890) return "12m";
-    else if (freq <= 29.700 && freq >= 28.000) return "10m";
-    else if (freq <= 52.0 && freq >= 50.0) return "6m";
-    else if (freq <= 71.0 && freq >= 70.0) return "4m";
-    else if (freq <= 148.0 && freq >= 144.0) return "2m";
-    else if (freq <= 440.0 && freq >= 430.0) return "70cm";
-    else if (freq <= 928.0 && freq >= 902.0) return "33cm";
-    else if (freq <= 1300.0 && freq >= 1240.0) return "23cm";
-    else if (freq <= 2450.0 && freq >= 2300.0) return "13cm";
-    else if (freq <= 3500.0 && freq >= 3300.0) return "9cm";
-    else if (freq <= 5925.0 && freq >= 5650.0) return "6cm";
-    else if (freq <= 10500.0 && freq >= 10000.0) return "3cm";
-    else if (freq <= 24250.0 && freq >= 24000.0) return "1.25cm";
-    else if (freq <= 47200.0 && freq >= 47000.0) return "6mm";
-    else if (freq <= 81000.0 && freq >= 75500.0) return "4mm";
-    else if (freq <= 120020.0 && freq >= 119980.0) return "2.5mm";
-    else if (freq <= 149000.0 && freq >= 142000.0) return "2mm";
-    else if (freq <= 250000.0 && freq >= 241000.0) return "1mm";
-    else return QString();
-}
-
 QString Data::freqToMode(double freq)
 {
     FCT_IDENTIFICATION;
@@ -290,7 +284,8 @@ QString Data::freqToMode(double freq)
 
     // 4m
     else if (freq >=70.000 && freq < 70.100) return Data::MODE_CW;
-    else if (freq >=70.100 && freq < 70.250) return Data::MODE_USB;
+    else if (freq == 70.100) return Data::MODE_FT8;
+    else if (freq > 70.100 && freq < 70.250) return Data::MODE_USB;
     else if (freq >=70.2500 && freq < 70.500) return Data::MODE_USB;
 
     // 2m
@@ -298,6 +293,23 @@ QString Data::freqToMode(double freq)
     else if (freq >= 144.150 && freq < 144.174) return Data::MODE_USB;
     else if (freq >= 144.174 && freq <= 144.175) return Data::MODE_FT8;
     else if (freq > 144.175 && freq < 148.000) return Data::MODE_USB;
+
+    // 1.25m
+    else if (freq >= 222.0 && freq < 222.150) return Data::MODE_CW;
+    else if (freq >= 222.150 && freq < 225.00) return Data::MODE_USB;
+
+    // 70cm
+    else if (freq >= 430.0 && freq < 432.0) return Data::MODE_USB;
+    else if (freq >= 432.0 && freq < 432.10) return Data::MODE_CW;
+    else if (freq >= 432.1 && freq < 440.0) return Data::MODE_USB;
+
+    // 33cm
+    else if (freq >= 902.0 && freq < 928.0) return Data::MODE_USB;
+
+    // 23cm
+    else if (freq >= 1240.0 && freq < 1296.15) return Data::MODE_USB;
+    else if (freq >= 1296.15 && freq < 1296.4) return Data::MODE_CW;
+    else if (freq >= 1296.4 && freq < 1300.0) return Data::MODE_PHONE;
 
     else return QString();
 }
@@ -641,56 +653,30 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
     }
     else
     {
-        QSqlQuery query;
-        if ( ! query.prepare(
-                 "SELECT\n"
-                 "    dxcc_entities.id,\n"
-                 "    dxcc_entities.name,\n"
-                 "    dxcc_entities.prefix,\n"
-                 "    dxcc_entities.cont,\n"
-                 "    CASE\n"
-                 "        WHEN (dxcc_prefixes.cqz != 0)\n"
-                 "        THEN dxcc_prefixes.cqz\n"
-                 "        ELSE dxcc_entities.cqz\n"
-                 "    END AS cqz,\n"
-                 "    CASE\n"
-                 "        WHEN (dxcc_prefixes.ituz != 0)\n"
-                 "        THEN dxcc_prefixes.ituz\n"
-                 "        ELSE dxcc_entities.ituz\n"
-                 "    END AS ituz\n,"
-                 "    dxcc_entities.lat,\n"
-                 "    dxcc_entities.lon,\n"
-                 "    dxcc_entities.tz\n"
-                 "FROM dxcc_prefixes\n"
-                 "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id)\n"
-                 "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true)\n"
-                 "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
-                 "ORDER BY dxcc_prefixes.prefix\n"
-                 "DESC LIMIT 1\n"
-                 ) )
+        if ( ! isDXCCQueryValid )
         {
             qWarning() << "Cannot prepare Select statement";
             return DxccEntity();
         }
 
-        query.bindValue(":callsign", callsign);
+        queryDXCC.bindValue(":callsign", callsign);
 
-        if ( ! query.exec() )
+        if ( ! queryDXCC.exec() )
         {
-            qWarning() << "Cannot execte Select statement" << query.lastError();
+            qWarning() << "Cannot execte Select statement" << queryDXCC.lastError();
             return DxccEntity();
         }
-        if (query.next())
+        if (queryDXCC.next())
         {
-            dxccRet.dxcc = query.value(0).toInt();
-            dxccRet.country = query.value(1).toString();
-            dxccRet.prefix = query.value(2).toString();
-            dxccRet.cont = query.value(3).toString();
-            dxccRet.cqz = query.value(4).toInt();
-            dxccRet.ituz = query.value(5).toInt();
-            dxccRet.latlon[0] = query.value(6).toDouble();
-            dxccRet.latlon[1] = query.value(7).toDouble();
-            dxccRet.tz = query.value(8).toFloat();
+            dxccRet.dxcc = queryDXCC.value(0).toInt();
+            dxccRet.country = queryDXCC.value(1).toString();
+            dxccRet.prefix = queryDXCC.value(2).toString();
+            dxccRet.cont = queryDXCC.value(3).toString();
+            dxccRet.cqz = queryDXCC.value(4).toInt();
+            dxccRet.ituz = queryDXCC.value(5).toInt();
+            dxccRet.latlon[0] = queryDXCC.value(6).toDouble();
+            dxccRet.latlon[1] = queryDXCC.value(7).toDouble();
+            dxccRet.tz = queryDXCC.value(8).toFloat();
             dxccRet.flag = flags.value(dxccRet.dxcc);
 
             dxccCached = new DxccEntity;
