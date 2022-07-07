@@ -94,12 +94,14 @@ void LogFormat::setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord
     duplicateQSOFunc = func;
 }
 
-void LogFormat::runImport() {
+int LogFormat::runImport()
+{
     FCT_IDENTIFICATION;
 
     this->importStart();
 
     int count = 0;
+    int processedRec = 0;
 
     QSqlTableModel model;
     model.setTable("contacts");
@@ -113,8 +115,17 @@ void LogFormat::runImport() {
 
         if (!this->importNext(record)) break;
 
-        if (dateRangeSet()) {
-            if (!inDateRange(record.value("start_time").toDateTime().date())) {
+        processedRec++;
+
+        if ( processedRec % 10 == 0)
+        {
+            emit importPosition(stream.pos());
+        }
+
+        if ( dateRangeSet() )
+        {
+            if (!inDateRange(record.value("start_time").toDateTime().date()))
+            {
                 continue;
             }
         }
@@ -173,26 +184,32 @@ void LogFormat::runImport() {
 
         DxccEntity entity = Data::instance()->lookupDxcc(record.value("callsign").toString());
 
-        if ((record.value("dxcc").isNull() || updateDxcc) && entity.dxcc)
+        if ( (record.value("dxcc").isNull()
+              || updateDxcc) && entity.dxcc)
         {
             record.setValue("dxcc", entity.dxcc);
             record.setValue("country", Data::removeAccents(entity.country));
             record.setValue("country_intl", entity.country);
         }
 
-        if (record.value("cont").isNull() && entity.dxcc) {
+        if ( record.value("cont").isNull() && entity.dxcc )
+        {
             record.setValue("cont", entity.cont);
         }
 
-        if (record.value("ituz").isNull() && entity.dxcc) {
+        if ( record.value("ituz").isNull() && entity.dxcc )
+        {
             record.setValue("ituz", QString::number(entity.ituz));
         }
 
-        if (record.value("cqz").isNull() && entity.dxcc) {
+        if ( record.value("cqz").isNull() && entity.dxcc )
+        {
             record.setValue("cqz", QString::number(entity.cqz));
         }
 
-        if (record.value("band").isNull() && !record.value("frequency").isNull()) {
+        if (record.value("band").isNull()
+            && !record.value("frequency").isNull() )
+        {
             double freq = record.value("frequency").toDouble();
             record.setValue("band", Data::band(freq).name);
         }
@@ -216,20 +233,17 @@ void LogFormat::runImport() {
 
         model.insertRecord(-1, record);
 
-        if (count % 10 == 0) {
-            emit importPosition(stream.pos());
-        }
-
         count++;
     }
 
     emit importPosition(stream.pos());
+    emit finished(count);
 
     model.submitAll();
 
     this->importEnd();
 
-    emit finished(count);
+    return count;
 }
 
 void LogFormat::runQSLImport(QSLFrom fromService)
@@ -526,6 +540,8 @@ int LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
     }
 
     emit exportProgress(100);
+
+    emit finished(count);
 
     this->exportEnd();
     return count;

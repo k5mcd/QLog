@@ -47,7 +47,7 @@ public:
     static LogFormat* open(QString type, QTextStream& stream);
     static LogFormat* open(Type type, QTextStream& stream);
 
-    void runImport();
+    int runImport();
     void runQSLImport(QSLFrom fromService);
     int runExport();
     int runExport(const QList<QSqlRecord>&);

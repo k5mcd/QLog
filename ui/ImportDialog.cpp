@@ -220,7 +220,11 @@ void ImportDialog::runImport() {
     ui->commentEdit->setEnabled(false);
     ui->updateDxccCheckBox->setEnabled(false);
 
-    format->runImport();
+    int count = format->runImport();
+
+    QMessageBox::information(nullptr, QMessageBox::tr("QLog Information"),
+                         QMessageBox::tr("Imported %n contacts.", "", count));
+
 
     accept();
 }
