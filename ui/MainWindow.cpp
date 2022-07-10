@@ -72,8 +72,6 @@ MainWindow::MainWindow(QWidget* parent) :
     alertTextButton = new QPushButton(" ", ui->statusBar);
     alertTextButton->setFlat(true);
     alertTextButton->setFocusPolicy(Qt::NoFocus);
-    darkLightModeSwith = new SwitchButton("", ui->statusBar);
-    darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
 
     ui->toolBar->hide();
     ui->statusBar->addWidget(callsignLabel);
@@ -83,16 +81,30 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->statusBar->addPermanentWidget(alertTextButton);
     ui->statusBar->addPermanentWidget(alertButton);
-    ui->statusBar->addPermanentWidget(darkIconLabel);
-    ui->statusBar->addPermanentWidget(darkLightModeSwith);
 
-    connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
+    /* Dark Mode is supported only in case of Fusion Style */
+    if ( QApplication::style()->objectName().compare("fusion",
+                                                     Qt::CaseSensitivity::CaseInsensitive) == 0 )
+    {
+        darkLightModeSwith = new SwitchButton("", ui->statusBar);
+        darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
+
+        ui->statusBar->addPermanentWidget(darkLightModeSwith);
+        ui->statusBar->addPermanentWidget(darkIconLabel);
+
+        connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
+        darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
+    }
+    else
+    {
+        darkLightModeSwith = nullptr;
+        darkIconLabel = nullptr;
+        darkModeToggle(Qt::Unchecked);
+    }
 
     connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
     connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
     connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
-
-    darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
 
     connect(Rig::instance(), SIGNAL(rigErrorPresent(QString, QString)), this, SLOT(rigErrorHandler(QString, QString)));
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString, QString)), this, SLOT(rotErrorHandler(QString, QString)));

@@ -261,7 +261,7 @@ int main(int argc, char* argv[])
     app.setOrganizationName("hamradio");
     app.setApplicationName("QLog" + ((environment.isNull()) ? "" : environment.prepend("-")));
 
-    app.setStyle(QStyleFactory::create("Fusion"));
+    //app.setStyle(QStyleFactory::create("Fusion"));
 
     qInstallMessageHandler(debugMessageOutput);
     qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
