@@ -3,6 +3,7 @@ TBD - 0.12.0
 - Fixed QSO fields from prev QSOs when Prefix - Callsign - Suffix (issue #90)
 - Fixed Chaotic QSO start time (issue #93)
 - Fixed incorrect A-Index colort (issue #98)
+- Fixed Stats Widget - percents - does not reflect date range (issue #99)
 - Fixed potential LogParam Cache issue
 - Import/Export polishing
 
