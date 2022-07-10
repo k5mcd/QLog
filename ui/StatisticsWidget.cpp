@@ -279,16 +279,16 @@ void StatisticsWidget::refreshGraph()
          {
 
          case 0:
-             stmt = "SELECT (1.0 * COUNT(1)/(SELECT COUNT(1) AS total_cnt FROM contacts)) * 100 FROM contacts WHERE "
+             stmt = "SELECT (1.0 * COUNT(1)/(SELECT COUNT(1) AS total_cnt FROM contacts WHERE "
+                    + genericFilter.join(" AND ") +")) * 100 FROM contacts WHERE "
                     + genericFilter.join(" AND ")
-                    + " AND eqsl_qsl_rcvd = 'Y' OR lotw_qsl_rcvd = 'Y' OR qsl_rcvd = 'Y'";
+                    + " AND (eqsl_qsl_rcvd = 'Y' OR lotw_qsl_rcvd = 'Y' OR qsl_rcvd = 'Y')";
              break;
          }
 
          QSqlQuery query(stmt);
 
          qCDebug(runtime) << stmt;
-
          QPieSeries *series = new QPieSeries();
 
          query.next();
