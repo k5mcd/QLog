@@ -1,4 +1,5 @@
 TBD - 0.12.0
+- [EXPERIMENTAL] Support for QT Styles (issue #88)
 - Next fixing of a high CPU load when DXC is processed (issue #52)
 - Fixed QSO fields from prev QSOs when Prefix - Callsign - Suffix (issue #90)
 - Fixed Chaotic QSO start time (issue #93)
