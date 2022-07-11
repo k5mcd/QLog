@@ -28,11 +28,11 @@ MapWidget::MapWidget(QWidget *parent) :
     nightOverlay = new QGraphicsPixmapItem();
     scene->addItem(nightOverlay);
 
-    sunItem = scene->addEllipse(0, 0, sunSize, sunSize,
+    /*sunItem = scene->addEllipse(0, 0, sunSize, sunSize,
                                 QPen(QColor(235, 219, 52)),
                                 QBrush(QColor(235, 219, 52),
                                         Qt::SolidPattern));
-
+*/
     terminatorItem = scene->addPath(QPainterPath(), QPen(QColor(100, 100, 100), 2),
                                     QBrush(QColor(0, 0, 0),
                                         Qt::SolidPattern));
@@ -144,7 +144,7 @@ void MapWidget::redrawNightOverlay() {
     double phi = atan(sunY/sunX);
     double sunLon = phi/M_PI * 180.0;
     double sunLat = 90 - theta / M_PI * 180.0;
-    sunItem->setPos(coordToPoint(sunLat, sunLon) - QPoint(sunSize / 2, sunSize / 2));
+    //sunItem->setPos(coordToPoint(sunLat, sunLon) - QPoint(sunSize / 2, sunSize / 2));
     // </plot sun position>
 
     int maxX = static_cast<int>(scene->width());
