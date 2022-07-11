@@ -69,6 +69,7 @@ void StatisticsWidget::mainStatChanged(int idx)
      {
          ui->statTypeSecCombo->addItem(tr("QSOs"));
          ui->statTypeSecCombo->addItem(tr("Confirmed/Worked Grids"));
+         ui->statTypeSecCombo->addItem(tr("ODX"));
      }
      break;
      }
@@ -387,15 +388,32 @@ void StatisticsWidget::refreshGraph()
 
          drawMyLocationsOnMap(myLocations);
 
-         QString stmt = "SELECT callsign, gridsquare, SUM(confirmed) FROM (SELECT callsign, gridsquare, "
+         QString stmt;
+
+         switch ( ui->statTypeSecCombo->currentIndex() )
+         {
+         case 0:
+         case 1:
+             stmt = "SELECT callsign, gridsquare, SUM(confirmed) FROM (SELECT callsign, gridsquare, "
                         + innerCase +" AS confirmed FROM contacts WHERE gridsquare is not NULL AND "
                         + genericFilter.join(" AND ") +" ) GROUP BY callsign, gridsquare";
+             break;
+         case 2:
+             stmt = "SELECT callsign || '<br>' || CAST(ROUND(distance,0) AS INT) || ' km', gridsquare, "
+                    + innerCase + " AS confirmed FROM contacts WHERE "
+                    + genericFilter.join(" AND ") + " AND distance = (SELECT MAX(distance) FROM contacts WHERE "
+                    + genericFilter.join(" AND ") + ")";
+             break;
+         }
+
+
          QSqlQuery query(stmt);
          qCDebug(runtime) << stmt;
 
          switch ( ui->statTypeSecCombo->currentIndex() )
          {
          case 0:
+         case 2:
              drawPointsOnMap(query);
              break;
 
