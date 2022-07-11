@@ -229,6 +229,16 @@ int main(int argc, char* argv[])
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+    bool stylePresent = false;
+
+    /* Style option is deleted in QApplication constructor.
+     * Therefore test for the parameter presence has to be performed here
+     */
+    for ( int i = 0; i < argc && !stylePresent; i++ )
+    {
+        stylePresent = QString(argv[i]).contains("-style");
+    }
+
     QApplication app(argc, argv);
     app.setApplicationVersion(VERSION);
 
@@ -261,7 +271,11 @@ int main(int argc, char* argv[])
     app.setOrganizationName("hamradio");
     app.setApplicationName("QLog" + ((environment.isNull()) ? "" : environment.prepend("-")));
 
-    //app.setStyle(QStyleFactory::create("Fusion"));
+    /* If the Style parameter is not present then use a default - Fusion style */
+    if ( !stylePresent )
+    {
+        app.setStyle(QStyleFactory::create("Fusion"));
+    }
 
     qInstallMessageHandler(debugMessageOutput);
     qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
