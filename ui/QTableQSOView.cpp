@@ -40,7 +40,6 @@ void QTableQSOView::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    return QTableView::keyPressEvent(event);
+    QTableView::keyPressEvent(event);
 };
-
 
