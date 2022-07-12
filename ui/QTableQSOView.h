@@ -14,6 +14,7 @@ signals:
 public:
     explicit QTableQSOView(QWidget *parent = nullptr);
     void commitData(QWidget *editor) override;
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // QTABLEQSOVIEW_H

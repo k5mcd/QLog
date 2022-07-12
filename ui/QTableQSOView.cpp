@@ -1,4 +1,5 @@
 #include <QAbstractItemModel>
+#include <QKeyEvent>
 #include "QTableQSOView.h"
 #include "models/LogbookModel.h"
 
@@ -30,6 +31,16 @@ void QTableQSOView::commitData(QWidget *editor)
     }
 
     emit dataCommitted();
+}
+
+void QTableQSOView::keyPressEvent(QKeyEvent *event)
+{
+    if ( event->key() == Qt::Key_F2 )
+    {
+        return;
+    }
+
+    return QTableView::keyPressEvent(event);
 };
 
 
