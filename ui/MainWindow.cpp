@@ -82,6 +82,10 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->statusBar->addPermanentWidget(alertTextButton);
     ui->statusBar->addPermanentWidget(alertButton);
 
+    connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
+    connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
+    connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
+
     /* Dark Mode is supported only in case of Fusion Style */
     if ( QApplication::style()->objectName().compare("fusion",
                                                      Qt::CaseSensitivity::CaseInsensitive) == 0 )
@@ -101,10 +105,6 @@ MainWindow::MainWindow(QWidget* parent) :
         darkIconLabel = nullptr;
         darkModeToggle(Qt::Unchecked);
     }
-
-    connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
-    connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
-    connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
 
     connect(Rig::instance(), SIGNAL(rigErrorPresent(QString, QString)), this, SLOT(rigErrorHandler(QString, QString)));
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString, QString)), this, SLOT(rotErrorHandler(QString, QString)));
