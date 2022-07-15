@@ -458,12 +458,12 @@
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="398"/>
+        <location filename="../ui/BandmapWidget.cpp" line="469"/>
         <source>Show Band</source>
         <translation>Zobrazit pásmo</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="411"/>
+        <location filename="../ui/BandmapWidget.cpp" line="482"/>
         <source>Center RX</source>
         <translation>Centrovat RX</translation>
     </message>
@@ -653,32 +653,32 @@
 <context>
     <name>Data</name>
     <message>
-        <location filename="../data/Data.cpp" line="331"/>
+        <location filename="../data/Data.cpp" line="343"/>
         <source>New Entity</source>
         <translation>Nová země</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="333"/>
+        <location filename="../data/Data.cpp" line="345"/>
         <source>New Band</source>
         <translation>Nové pásmo</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="335"/>
+        <location filename="../data/Data.cpp" line="347"/>
         <source>New Mode</source>
         <translation>Nový druh provozu</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="337"/>
+        <location filename="../data/Data.cpp" line="349"/>
         <source>New Band&amp;Mode</source>
         <translation>Nové pásmo&amp;druh</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="339"/>
+        <location filename="../data/Data.cpp" line="351"/>
         <source>New Slot</source>
         <translation>Nový slot</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="341"/>
+        <location filename="../data/Data.cpp" line="353"/>
         <source>Worked</source>
         <translation>Pracováno</translation>
     </message>
@@ -838,48 +838,48 @@
         <translation type="vanished">Vložte &lt;b&gt;hostname:port&lt;/b&gt; DXC Serveru. Stiskem &lt;b&gt;DEL&lt;/b&gt; je možné vymazat vybraný DXC server.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="153"/>
+        <location filename="../ui/DxWidget.ui" line="156"/>
         <source>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;CTRL + DEL&lt;/b&gt; to delete a highlighted DXC server.</source>
         <translation>Vložte &lt;b&gt;hostname:port&lt;/b&gt; DXC Serveru. Stiskem &lt;b&gt;CTRL + DEL&lt;/b&gt; je možné vymazat vybraný DXC server.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="178"/>
-        <location filename="../ui/DxWidget.cpp" line="282"/>
+        <location filename="../ui/DxWidget.ui" line="181"/>
+        <location filename="../ui/DxWidget.cpp" line="233"/>
         <source>Connect</source>
         <translation>Připojit</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="188"/>
+        <location filename="../ui/DxWidget.ui" line="191"/>
         <source>Switch between raw and beautified form of DXC view.</source>
         <translation>Přepnutí mezi nezpracovanou a zkrášlenou formou DXC zobrazení.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="191"/>
+        <location filename="../ui/DxWidget.ui" line="194"/>
         <source>Raw</source>
         <translation>Původní data</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="211"/>
+        <location filename="../ui/DxWidget.ui" line="214"/>
         <source>Send</source>
         <translation>Odeslat</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="224"/>
+        <location filename="../ui/DxWidget.ui" line="227"/>
         <source>Filter</source>
         <translation>Filtr</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="227"/>
+        <location filename="../ui/DxWidget.ui" line="230"/>
         <source>Filter DXC</source>
         <translation>Filtr DXC</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="267"/>
+        <location filename="../ui/DxWidget.cpp" line="218"/>
         <source>Connecting...</source>
         <translation>Připojování...</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="517"/>
+        <location filename="../ui/DxWidget.cpp" line="472"/>
         <source>Disconnect</source>
         <translation>Odpojit</translation>
     </message>
@@ -1074,52 +1074,51 @@
         <translation>Exportovat vybraná QSO</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="23"/>
         <source>Export</source>
-        <translation>Export</translation>
+        <translation type="vanished">Export</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="53"/>
+        <location filename="../ui/ExportDialog.ui" line="23"/>
         <source>Export only QSOs from the given period</source>
         <translation>Exportovat pouze QSO z daného období</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="56"/>
+        <location filename="../ui/ExportDialog.ui" line="26"/>
         <source>Date Range</source>
         <translation>Časové období</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="62"/>
+        <location filename="../ui/ExportDialog.ui" line="32"/>
         <source>Start</source>
         <translation>Start</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="85"/>
+        <location filename="../ui/ExportDialog.ui" line="55"/>
         <source>End</source>
         <translation>Konec</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="108"/>
+        <location filename="../ui/ExportDialog.ui" line="78"/>
         <source>All</source>
         <translation>vše</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="118"/>
+        <location filename="../ui/ExportDialog.ui" line="105"/>
         <source>File</source>
         <translation>Soubor</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="134"/>
+        <location filename="../ui/ExportDialog.ui" line="121"/>
         <source>Browse</source>
         <translation>Procházet</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="157"/>
+        <location filename="../ui/ExportDialog.ui" line="144"/>
         <source>ADX</source>
         <translation>ADX</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="162"/>
+        <location filename="../ui/ExportDialog.ui" line="149"/>
         <source>JSON</source>
         <translation>JSON</translation>
     </message>
@@ -1128,10 +1127,14 @@
         <source>Export All QSOs</source>
         <translation>Exportovat všechna QSO</translation>
     </message>
+    <message>
+        <location filename="../ui/ExportDialog.cpp" line="31"/>
+        <source>&amp;Export</source>
+        <translation>&amp;Export</translation>
+    </message>
     <message numerus="yes">
-        <location filename="../ui/ExportDialog.cpp" line="85"/>
         <source>Exported %n contacts.</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>Exportován %n kontakt.</numerusform>
             <numerusform>Exporováno %n kontaktů.</numerusform>
             <numerusform>Exporováno %n kontaktů.</numerusform>
@@ -1255,22 +1258,22 @@
         <translation>Vybrat soubor</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="114"/>
+        <location filename="../ui/ImportDialog.cpp" line="115"/>
         <source>&lt;p&gt;&lt;b&gt;In-Log QSO:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;QSO v logu:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="118"/>
+        <location filename="../ui/ImportDialog.cpp" line="119"/>
         <source>&lt;p&gt;&lt;b&gt;Importing:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Importováno:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="123"/>
+        <location filename="../ui/ImportDialog.cpp" line="124"/>
         <source>Duplicate QSO</source>
         <translation>Duplicitní QSO</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="124"/>
+        <location filename="../ui/ImportDialog.cpp" line="125"/>
         <source>&lt;p&gt;Do you want to import duplicate QSO?&lt;/p&gt;%1 %2</source>
         <translation>&lt;p&gt;Přejete si importovat toto duplicitní QSO?&lt;/p&gt;%1 %2</translation>
     </message>
@@ -2606,9 +2609,8 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.ui" line="14"/>
         <source>QLog</source>
-        <translation>QLog</translation>
+        <translation type="vanished">QLog</translation>
     </message>
     <message>
         <source>File</source>
@@ -2858,7 +2860,7 @@
         <translation type="vanished">Připojit Rig</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="520"/>
+        <location filename="../ui/MainWindow.cpp" line="532"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
@@ -2910,41 +2912,41 @@
         <translation type="vanished">QRZ.com</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="229"/>
-        <location filename="../ui/MainWindow.cpp" line="239"/>
+        <location filename="../ui/MainWindow.cpp" line="241"/>
+        <location filename="../ui/MainWindow.cpp" line="251"/>
         <source>&lt;b&gt;Error Detail:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Detail chyby:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="442"/>
-        <location filename="../ui/MainWindow.cpp" line="458"/>
-        <location filename="../ui/MainWindow.cpp" line="474"/>
-        <location filename="../ui/MainWindow.cpp" line="492"/>
+        <location filename="../ui/MainWindow.cpp" line="454"/>
+        <location filename="../ui/MainWindow.cpp" line="470"/>
+        <location filename="../ui/MainWindow.cpp" line="486"/>
+        <location filename="../ui/MainWindow.cpp" line="504"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="442"/>
+        <location filename="../ui/MainWindow.cpp" line="454"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>LoTW není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="458"/>
+        <location filename="../ui/MainWindow.cpp" line="470"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>eQSL není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="474"/>
+        <location filename="../ui/MainWindow.cpp" line="486"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>Clublog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="492"/>
+        <location filename="../ui/MainWindow.cpp" line="504"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>QRZ.com není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="508"/>
+        <location filename="../ui/MainWindow.cpp" line="520"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2022 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2022 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Databáze &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</translation>
     </message>
@@ -2957,7 +2959,7 @@
         <translation type="vanished">&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="544"/>
+        <location filename="../ui/MainWindow.cpp" line="556"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
@@ -3033,12 +3035,12 @@
         <translation>Komentář</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="590"/>
+        <location filename="../ui/NewContactWidget.ui" line="606"/>
         <source>Time Off</source>
         <translation>Čas do</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="496"/>
+        <location filename="../ui/NewContactWidget.ui" line="513"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
@@ -3048,12 +3050,12 @@
         <translation>QRZ</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="626"/>
+        <location filename="../ui/NewContactWidget.ui" line="560"/>
         <source>Reset</source>
         <translation>Vymazat</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="573"/>
+        <location filename="../ui/NewContactWidget.ui" line="496"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
@@ -3068,12 +3070,12 @@
         <translation>RSTs</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="520"/>
+        <location filename="../ui/NewContactWidget.ui" line="553"/>
         <source>Time On</source>
         <translation>Čas od</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="690"/>
+        <location filename="../ui/NewContactWidget.ui" line="691"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
@@ -3082,112 +3084,112 @@
         <translation type="vanished">Detaily</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="916"/>
+        <location filename="../ui/NewContactWidget.ui" line="917"/>
         <source>Cont</source>
         <translation>Kontinent</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="944"/>
+        <location filename="../ui/NewContactWidget.ui" line="945"/>
         <source>AF</source>
         <translation>AF</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="949"/>
+        <location filename="../ui/NewContactWidget.ui" line="950"/>
         <source>AN</source>
         <translation>AN</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="954"/>
+        <location filename="../ui/NewContactWidget.ui" line="955"/>
         <source>AS</source>
         <translation>AS</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="959"/>
+        <location filename="../ui/NewContactWidget.ui" line="960"/>
         <source>EU</source>
         <translation>EU</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="964"/>
+        <location filename="../ui/NewContactWidget.ui" line="965"/>
         <source>NA</source>
         <translation>NA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="969"/>
+        <location filename="../ui/NewContactWidget.ui" line="970"/>
         <source>OC</source>
         <translation>OC</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="974"/>
+        <location filename="../ui/NewContactWidget.ui" line="975"/>
         <source>SA</source>
         <translation>SA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="982"/>
+        <location filename="../ui/NewContactWidget.ui" line="983"/>
         <source>ITU</source>
         <translation>ITU</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1011"/>
+        <location filename="../ui/NewContactWidget.ui" line="1012"/>
         <source>CQ</source>
         <translation>CQ</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1040"/>
+        <location filename="../ui/NewContactWidget.ui" line="1041"/>
         <source>State</source>
         <translation>Stát</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1066"/>
+        <location filename="../ui/NewContactWidget.ui" line="1067"/>
         <source>County</source>
         <translation>Okres</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1125"/>
+        <location filename="../ui/NewContactWidget.ui" line="1126"/>
         <source>IOTA</source>
         <translation>IOTA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1151"/>
+        <location filename="../ui/NewContactWidget.ui" line="1152"/>
         <source>SOTA</source>
         <translation>SOTA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1171"/>
+        <location filename="../ui/NewContactWidget.ui" line="1172"/>
         <source>SIG</source>
         <translation>SIG</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1181"/>
+        <location filename="../ui/NewContactWidget.ui" line="1182"/>
         <source>Example POTA</source>
         <translation>např POTA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1188"/>
+        <location filename="../ui/NewContactWidget.ui" line="1189"/>
         <source>SIG Info</source>
         <translation>SIG Info</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1198"/>
+        <location filename="../ui/NewContactWidget.ui" line="1199"/>
         <source>Example for POTA: DA-0165</source>
         <translation>příklad pro POTA: DA-0165</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1205"/>
+        <location filename="../ui/NewContactWidget.ui" line="1206"/>
         <source>DOK</source>
         <translation>DOK</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1239"/>
+        <location filename="../ui/NewContactWidget.ui" line="1240"/>
         <source>WWFF</source>
         <translation>WWFF</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1249"/>
+        <location filename="../ui/NewContactWidget.ui" line="1250"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation>World Wide Flora &amp; Fauna</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1848"/>
+        <location filename="../ui/NewContactWidget.ui" line="1849"/>
         <source>My &amp;Notes</source>
         <translation>Mé &amp;poznámky</translation>
     </message>
@@ -3196,7 +3198,7 @@
         <translation type="vanished">např WWFF nebo POTA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="905"/>
+        <location filename="../ui/NewContactWidget.ui" line="906"/>
         <source>&amp;Details</source>
         <translation>&amp;Detaily</translation>
     </message>
@@ -3205,22 +3207,22 @@
         <translation type="vanished">např. OKFF-1097</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1510"/>
+        <location filename="../ui/NewContactWidget.ui" line="1511"/>
         <source>S&amp;at</source>
         <translation>S&amp;at</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1567"/>
+        <location filename="../ui/NewContactWidget.ui" line="1568"/>
         <source>D&amp;XCC</source>
         <translation>D&amp;XCC</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1599"/>
+        <location filename="../ui/NewContactWidget.ui" line="1600"/>
         <source>M&amp;y Station</source>
         <translation>Mo&amp;je Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1698"/>
+        <location filename="../ui/NewContactWidget.ui" line="1699"/>
         <source>Station</source>
         <translation>Stanice</translation>
     </message>
@@ -3229,52 +3231,52 @@
         <translation type="vanished">Mé poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1092"/>
+        <location filename="../ui/NewContactWidget.ui" line="1093"/>
         <source>Age</source>
         <translation>Věk</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1215"/>
+        <location filename="../ui/NewContactWidget.ui" line="1216"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>DARC DOK (kód uzemí) (např A01)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1222"/>
+        <location filename="../ui/NewContactWidget.ui" line="1223"/>
         <source>VUCC</source>
         <translation>VUCC</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1232"/>
+        <location filename="../ui/NewContactWidget.ui" line="1233"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>dva nebo čtyři sousední lokátory, každý o délce čtyř znaků (např. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1263"/>
+        <location filename="../ui/NewContactWidget.ui" line="1264"/>
         <source>QSL Sent</source>
         <translation>QSL Sent</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1289"/>
+        <location filename="../ui/NewContactWidget.ui" line="1290"/>
         <source>QSLSent via</source>
         <translation>QSL Sent Via</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1315"/>
+        <location filename="../ui/NewContactWidget.ui" line="1316"/>
         <source>QSL via</source>
         <translation>QSL Via</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1428"/>
+        <location filename="../ui/NewContactWidget.ui" line="1429"/>
         <source>E-Mail</source>
         <translation>Email</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1448"/>
+        <location filename="../ui/NewContactWidget.ui" line="1449"/>
         <source>URL</source>
         <translation>URL</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1468"/>
+        <location filename="../ui/NewContactWidget.ui" line="1469"/>
         <source>Propagation Mode</source>
         <translation>Podmínky šíření</translation>
     </message>
@@ -3283,12 +3285,12 @@
         <translation type="vanished">Sat</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1518"/>
+        <location filename="../ui/NewContactWidget.ui" line="1519"/>
         <source>Satellite Mode</source>
         <translation>Satelitní Mode</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1544"/>
+        <location filename="../ui/NewContactWidget.ui" line="1545"/>
         <source>Satellite Name</source>
         <translation>Jméno Satelitu</translation>
     </message>
@@ -3301,22 +3303,22 @@
         <translation type="vanished">Moje Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1607"/>
+        <location filename="../ui/NewContactWidget.ui" line="1608"/>
         <source>Rig</source>
         <translation>Rig</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1630"/>
+        <location filename="../ui/NewContactWidget.ui" line="1631"/>
         <source>Power</source>
         <translation>Výkon</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1646"/>
+        <location filename="../ui/NewContactWidget.ui" line="1647"/>
         <source> W</source>
         <translation> W</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1691"/>
+        <location filename="../ui/NewContactWidget.ui" line="1692"/>
         <source>Antenna</source>
         <translation>Anténa</translation>
     </message>
@@ -3334,63 +3336,63 @@
         <translation type="vanished">Offset frekvence Rig</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1751"/>
-        <location filename="../ui/NewContactWidget.ui" line="1810"/>
+        <location filename="../ui/NewContactWidget.ui" line="1752"/>
+        <location filename="../ui/NewContactWidget.ui" line="1811"/>
         <source>Contest</source>
         <translation>Závody</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1783"/>
+        <location filename="../ui/NewContactWidget.ui" line="1784"/>
         <source>Tx Serial</source>
         <translation>Tx Serial</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1790"/>
+        <location filename="../ui/NewContactWidget.ui" line="1791"/>
         <source>Rx Serial</source>
         <translation>Rx Serial</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1826"/>
+        <location filename="../ui/NewContactWidget.ui" line="1827"/>
         <source>LZ DX</source>
         <translation>LZ DX</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="48"/>
+        <location filename="../ui/NewContactWidget.cpp" line="49"/>
         <source>No</source>
         <translation>Ne</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="49"/>
+        <location filename="../ui/NewContactWidget.cpp" line="50"/>
         <source>Yes</source>
         <translation>Ano</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="50"/>
+        <location filename="../ui/NewContactWidget.cpp" line="51"/>
         <source>Requested</source>
         <translation>Vyžádáno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="51"/>
+        <location filename="../ui/NewContactWidget.cpp" line="52"/>
         <source>Queued</source>
         <translation>Ve frontě</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="52"/>
+        <location filename="../ui/NewContactWidget.cpp" line="53"/>
         <source>Ignored</source>
         <translation>Ignorovat</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="62"/>
+        <location filename="../ui/NewContactWidget.cpp" line="63"/>
         <source>Bureau</source>
         <translation>Bureau</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="63"/>
+        <location filename="../ui/NewContactWidget.cpp" line="64"/>
         <source>Direct</source>
         <translation>Direct</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="64"/>
+        <location filename="../ui/NewContactWidget.cpp" line="65"/>
         <source>Electronic</source>
         <translation>Elektronicky</translation>
     </message>
@@ -3403,52 +3405,52 @@
         <translation type="vanished">QRZ.com</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="189"/>
+        <location filename="../ui/NewContactWidget.cpp" line="190"/>
         <source>QLog Error</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="189"/>
+        <location filename="../ui/NewContactWidget.cpp" line="190"/>
         <source>Callbook login failed</source>
         <translation>Selhalo přihlášení do Callbooku</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1395"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1448"/>
         <source>New Entity!</source>
         <translation>Nová země!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1398"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1451"/>
         <source>New Band!</source>
         <translation>Nové pásmo!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1401"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1454"/>
         <source>New Mode!</source>
         <translation>Nový druh provozu!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1404"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1457"/>
         <source>New Band &amp; Mode!</source>
         <translation>Nové pásmo &amp; druh!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1407"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1460"/>
         <source>New Slot!</source>
         <translation>Nový slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1426"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1479"/>
         <source>GE</source>
         <translation>GE</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1432"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1485"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1438"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1491"/>
         <source>GA</source>
         <translation>GA</translation>
     </message>
@@ -3493,24 +3495,32 @@
     </message>
 </context>
 <context>
+    <name>QCoreApplication</name>
+    <message>
+        <location filename="../core/main.cpp" line="246"/>
+        <source>QLog Help</source>
+        <translation>QLog Help</translation>
+    </message>
+</context>
+<context>
     <name>QMessageBox</name>
     <message>
         <location filename="../core/Migration.cpp" line="217"/>
         <location filename="../core/Migration.cpp" line="240"/>
-        <location filename="../ui/ExportDialog.cpp" line="52"/>
-        <location filename="../ui/ImportDialog.cpp" line="153"/>
-        <location filename="../ui/ImportDialog.cpp" line="160"/>
-        <location filename="../ui/MainWindow.cpp" line="227"/>
-        <location filename="../ui/MainWindow.cpp" line="237"/>
-        <location filename="../ui/SettingsDialog.cpp" line="157"/>
-        <location filename="../ui/SettingsDialog.cpp" line="167"/>
-        <location filename="../ui/SettingsDialog.cpp" line="175"/>
-        <location filename="../ui/SettingsDialog.cpp" line="183"/>
-        <location filename="../ui/SettingsDialog.cpp" line="191"/>
-        <location filename="../ui/SettingsDialog.cpp" line="673"/>
-        <location filename="../ui/SettingsDialog.cpp" line="680"/>
-        <location filename="../ui/SettingsDialog.cpp" line="689"/>
-        <location filename="../ui/SettingsDialog.cpp" line="984"/>
+        <location filename="../ui/ExportDialog.cpp" line="53"/>
+        <location filename="../ui/ImportDialog.cpp" line="154"/>
+        <location filename="../ui/ImportDialog.cpp" line="161"/>
+        <location filename="../ui/MainWindow.cpp" line="239"/>
+        <location filename="../ui/MainWindow.cpp" line="249"/>
+        <location filename="../ui/SettingsDialog.cpp" line="158"/>
+        <location filename="../ui/SettingsDialog.cpp" line="168"/>
+        <location filename="../ui/SettingsDialog.cpp" line="176"/>
+        <location filename="../ui/SettingsDialog.cpp" line="184"/>
+        <location filename="../ui/SettingsDialog.cpp" line="192"/>
+        <location filename="../ui/SettingsDialog.cpp" line="674"/>
+        <location filename="../ui/SettingsDialog.cpp" line="681"/>
+        <location filename="../ui/SettingsDialog.cpp" line="690"/>
+        <location filename="../ui/SettingsDialog.cpp" line="985"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
@@ -3525,52 +3535,52 @@
         <translation>Aktualizace Sat informací selhala.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="255"/>
-        <location filename="../core/main.cpp" line="270"/>
-        <location filename="../core/main.cpp" line="280"/>
-        <location filename="../core/main.cpp" line="287"/>
+        <location filename="../core/main.cpp" line="301"/>
+        <location filename="../core/main.cpp" line="316"/>
+        <location filename="../core/main.cpp" line="326"/>
+        <location filename="../core/main.cpp" line="333"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="338"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1013"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1076"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="592"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="603"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="612"/>
-        <location filename="../ui/SettingsDialog.cpp" line="211"/>
-        <location filename="../ui/SettingsDialog.cpp" line="219"/>
+        <location filename="../ui/SettingsDialog.cpp" line="212"/>
+        <location filename="../ui/SettingsDialog.cpp" line="220"/>
         <source>QLog Error</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="256"/>
+        <location filename="../core/main.cpp" line="302"/>
         <source>QLog is already running</source>
         <translation>QLog již běží</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="271"/>
+        <location filename="../core/main.cpp" line="317"/>
         <source>Could not connect to database.</source>
         <translation>Nelze se připojit k databázi.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="281"/>
+        <location filename="../core/main.cpp" line="327"/>
         <source>Could not export a QLog database to ADIF as a backup.&lt;p&gt;Try to export your log to ADIF manually</source>
         <translation>Nelze exportovat QLog databázi do ADIF jako backup.&lt;p&gt;Pokuste se ručně exportovat log do ADIF</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="288"/>
+        <location filename="../core/main.cpp" line="334"/>
         <source>Database migration failed.</source>
         <translation>Migrace databaze selhala.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="244"/>
+        <location filename="../ui/DxWidget.cpp" line="195"/>
         <source>DXC Server Name Error</source>
         <translation>Chyba jména DXC Serveru</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="245"/>
+        <location filename="../ui/DxWidget.cpp" line="196"/>
         <source>DXC Server address must be in format&lt;p&gt;&lt;b&gt;hostname:port&lt;/b&gt; (ex. hamqth.com:7300)&lt;/p&gt;</source>
         <translation>Adresa DXC serveru musí být ve formátu&lt;p&gt;&lt;b&gt;hostname:port&lt;/b&gt; (např. hamqth.com:7300)&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="462"/>
+        <location filename="../ui/DxWidget.cpp" line="417"/>
         <source>DXC Server Connection Error</source>
         <translation>Chyba připojení k DXC serveru</translation>
     </message>
@@ -3583,7 +3593,7 @@
         <translation type="vanished">Chyba Rotátoru: &lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1014"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1077"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>Vaše značka není vyplněna. Prosím, nastavte Profil Stanice</translation>
     </message>
@@ -3636,54 +3646,78 @@
         <translation>Nepovedlo se aktualizovat QSO Filtr - </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="158"/>
-        <location filename="../ui/SettingsDialog.cpp" line="985"/>
+        <location filename="../ui/SettingsDialog.cpp" line="159"/>
+        <location filename="../ui/SettingsDialog.cpp" line="986"/>
         <source>Please, define at least one Station Locations Profile</source>
         <translation>Prosím, definujte alespoň jeden Profil Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="212"/>
+        <location filename="../ui/SettingsDialog.cpp" line="213"/>
         <source>&lt;b&gt;TX Range&lt;/b&gt;: Max Frequency must not be 0.</source>
         <translation>&lt;b&gt;Rozsah TX&lt;/b&gt;: Koncová frekvence nesmí být 0.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="220"/>
+        <location filename="../ui/SettingsDialog.cpp" line="221"/>
         <source>&lt;b&gt;TX Range&lt;/b&gt;: Max Frequency must not be under Min Frequency.</source>
         <translation>&lt;b&gt;Rozsah TX&lt;/b&gt;: Koncová frekvence nesmí být menší než počáteční.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="674"/>
+        <location filename="../ui/SettingsDialog.cpp" line="675"/>
         <source>Callsign has an invalid format</source>
         <translation>Značka má chybný formát</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="681"/>
+        <location filename="../ui/SettingsDialog.cpp" line="682"/>
         <source>Locator has an invalid format</source>
         <translation>Lokátor má chybný formát</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="690"/>
+        <location filename="../ui/SettingsDialog.cpp" line="691"/>
         <source>VUCC Locator has an invalid format (must be 2 or 4 locators separated by &apos;,&apos;)</source>
         <translation>VUCC lokátor má neplatný formát (musí být 2 nebo 4 lokátory oddělené &apos;,&apos;)</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.cpp" line="53"/>
-        <location filename="../ui/ImportDialog.cpp" line="161"/>
+        <location filename="../ui/ExportDialog.cpp" line="54"/>
+        <location filename="../ui/ImportDialog.cpp" line="162"/>
         <source>Filename is empty</source>
         <translation>Jméno souboru je zprázdné</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="154"/>
+        <location filename="../ui/ExportDialog.cpp" line="96"/>
+        <location filename="../ui/ImportDialog.cpp" line="225"/>
+        <source>QLog Information</source>
+        <translation>Informace QLog</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../ui/ExportDialog.cpp" line="97"/>
+        <source>Exported %n contacts.</source>
+        <translation>
+            <numerusform>Exportován %n kontakt.</numerusform>
+            <numerusform>Exporováno %n kontaktů.</numerusform>
+            <numerusform>Exporováno %n kontaktů.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../ui/ImportDialog.cpp" line="155"/>
         <source>Grid has an invalid format</source>
         <translation>Lokátor má chybný formát</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../ui/ImportDialog.cpp" line="226"/>
+        <source>Imported %n contacts.</source>
+        <translation>
+            <numerusform>Importován %n kontakt.</numerusform>
+            <numerusform>Imporováno %n kontaktů.</numerusform>
+            <numerusform>Imporováno %n kontaktů.</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="228"/>
+        <location filename="../ui/MainWindow.cpp" line="240"/>
         <source>&lt;b&gt;Rig Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rig:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="238"/>
+        <location filename="../ui/MainWindow.cpp" line="250"/>
         <source>&lt;b&gt;Rotator Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rotátoru:&lt;/b&gt; </translation>
     </message>
@@ -3691,52 +3725,52 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="439"/>
+        <location filename="../ui/DxWidget.cpp" line="394"/>
         <source>Cannot connect to DXC Server &lt;p&gt;Reason &lt;b&gt;: </source>
         <translation>Nelse se připojit k DXC serveru &lt;p&gt;Důvod &lt;b&gt;: </translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="443"/>
+        <location filename="../ui/DxWidget.cpp" line="398"/>
         <source>Connection Refused</source>
         <translation>Spojení odmítnuto</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="446"/>
+        <location filename="../ui/DxWidget.cpp" line="401"/>
         <source>Host closed the connection</source>
         <translation>Server uzavřel spojení</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="449"/>
+        <location filename="../ui/DxWidget.cpp" line="404"/>
         <source>Host not found</source>
         <translation>Server nenalezen</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="452"/>
+        <location filename="../ui/DxWidget.cpp" line="407"/>
         <source>Timeout</source>
         <translation>Timeout</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="455"/>
+        <location filename="../ui/DxWidget.cpp" line="410"/>
         <source>Internal Error</source>
         <translation>Interní Chyba</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="267"/>
+        <location filename="../core/main.cpp" line="313"/>
         <source>Opening Database</source>
         <translation>Načítání Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="275"/>
+        <location filename="../core/main.cpp" line="321"/>
         <source>Backuping Database</source>
         <translation>Záloha Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="284"/>
+        <location filename="../core/main.cpp" line="330"/>
         <source>Migrating Database</source>
         <translation>Migrace Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="292"/>
+        <location filename="../core/main.cpp" line="338"/>
         <source>Starting Application</source>
         <translation>Start aplikace</translation>
     </message>
@@ -4276,146 +4310,146 @@ Nesprárované:
         <translation>SendExch</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="56"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="57"/>
         <source>&amp;Reset</source>
         <translation>&amp;Reset</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="61"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="62"/>
         <source>&amp;Lookup</source>
         <translation>&amp;Vyhledat</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="153"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="154"/>
         <source>No</source>
         <translation>Ne</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="154"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="155"/>
         <source>Yes</source>
         <translation>Ano</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="155"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="156"/>
         <source>Requested</source>
         <translation>Vyžádáno</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="156"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="157"/>
         <source>Queued</source>
         <translation>Ve frontě</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="157"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="158"/>
         <source>Ignored</source>
         <translation>Ignorovat</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="172"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="173"/>
         <source>Bureau</source>
         <translation>Bureau</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="173"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="174"/>
         <source>Direct</source>
         <translation>Direct</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="174"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="175"/>
         <source>Electronic</source>
         <translation>Elektronicky</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="318"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="319"/>
         <source>Submit changes</source>
         <translation>Uložit změny</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="318"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="319"/>
         <source>Really submit all changes?</source>
         <translation>Opravdu uložit všechny změny?</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="327"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="373"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="567"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="921"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="328"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="374"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="568"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="922"/>
         <source>QLog Error</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="327"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="328"/>
         <source>Cannot save all changes - internal error</source>
         <translation>Nepovedlo se uložit všechny změny - interní chyba</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="373"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="374"/>
         <source>Cannot save all changes - try to reset all changes</source>
         <translation>Nepovedlo se uložit všechny změny - zkuste reset všech změn</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="509"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="510"/>
         <source>QSO Detail</source>
         <translation>QSO Detail</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="509"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="510"/>
         <source>Edit QSO</source>
         <translation>Úprava QSO</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="549"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="550"/>
         <source>Downloading eQSL Image</source>
         <translation>Stahování eQSL obrázku</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="549"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="550"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="567"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="568"/>
         <source>eQSL Download Image failed: </source>
         <translation>Stažení eQSL obrázku selhalo: </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="726"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="727"/>
         <source>DX Callsign must not be empty</source>
         <translation>Značka nesmí být prazdná</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="730"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="731"/>
         <source>DX callsign has an incorrect format</source>
         <translation>Značka má chybný formát</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="734"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="735"/>
         <source>TX Frequency must not be 0</source>
         <translation>TX Frekvence nesmí být 0</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="738"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="775"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="739"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="776"/>
         <source>DX Grid has an incorrect format</source>
         <translation>Lokátor má chybný formát</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="746"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="747"/>
         <source>Based on callsign, DXCC Country is different from the entered value - expecting </source>
         <translation>Na základě značky DXCC Zěme nemá správné ID - očekáváno </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="750"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="751"/>
         <source>Based on callsign, DXCC Continent is different from the entered value - expecting </source>
         <translation>Na základě značky DXCC Kontinent nemá správné ID - očekáváno </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="754"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="755"/>
         <source>Based on callsign, DXCC ITU is different from the entered value - expecting </source>
         <translation>Na základě značky ITU nemá správné ID - očekáváno </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="758"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="759"/>
         <source>Based on callsign, DXCC CQZ is different from the entered value - expecting </source>
         <translation>Na základě značky CQZ nemá správné ID - očekáváno </translation>
     </message>
@@ -4436,53 +4470,53 @@ Nesprárované:
         <translation type="vanished">Na základě značky CQZ nemá správné ID - očekáváno</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="763"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="764"/>
         <source>VUCC has an incorrect format</source>
         <translation>VUCC má chybný formát</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="767"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="768"/>
         <source>Own Callsign must not be empty</source>
         <translation>Vlastní značka nesmí být prázdná</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="771"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="772"/>
         <source>Own callsign has an incorrect format</source>
         <translation>Vlastní značka má špatný formát</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="779"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="780"/>
         <source>Own VUCC Grid has an incorrect format</source>
         <translation>Vlastní VUCC má špatný formát</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="921"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="922"/>
         <source>Callbook error: </source>
         <translation>Chyba Callbooku: </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="973"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="978"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="974"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="979"/>
         <source>&lt;b&gt;Warning: &lt;/b&gt;</source>
         <translation>&lt;b&gt;Upozornění: &lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1174"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1175"/>
         <source>Validation</source>
         <translation>Kontrola</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1174"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1175"/>
         <source>Yellow marked fields are invalid.&lt;p&gt;Nevertheless, save the changes?&lt;/p&gt;</source>
         <translation>Žlutě vyznačená pole obsahují neplatné hodnoty&lt;p&gt;I přes to uložit změny?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1741"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1742"/>
         <source>&amp;Save</source>
         <translation>&amp;Uložit</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1742"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1743"/>
         <source>&amp;Edit</source>
         <translation>U&amp;pravit</translation>
     </message>
@@ -4802,14 +4836,14 @@ Nesprárované:
         <location filename="../ui/SettingsDialog.ui" line="330"/>
         <location filename="../ui/SettingsDialog.ui" line="389"/>
         <location filename="../ui/SettingsDialog.ui" line="981"/>
-        <location filename="../ui/SettingsDialog.cpp" line="227"/>
-        <location filename="../ui/SettingsDialog.cpp" line="380"/>
-        <location filename="../ui/SettingsDialog.cpp" line="425"/>
-        <location filename="../ui/SettingsDialog.cpp" line="541"/>
-        <location filename="../ui/SettingsDialog.cpp" line="556"/>
-        <location filename="../ui/SettingsDialog.cpp" line="620"/>
-        <location filename="../ui/SettingsDialog.cpp" line="697"/>
-        <location filename="../ui/SettingsDialog.cpp" line="777"/>
+        <location filename="../ui/SettingsDialog.cpp" line="228"/>
+        <location filename="../ui/SettingsDialog.cpp" line="381"/>
+        <location filename="../ui/SettingsDialog.cpp" line="426"/>
+        <location filename="../ui/SettingsDialog.cpp" line="542"/>
+        <location filename="../ui/SettingsDialog.cpp" line="557"/>
+        <location filename="../ui/SettingsDialog.cpp" line="621"/>
+        <location filename="../ui/SettingsDialog.cpp" line="698"/>
+        <location filename="../ui/SettingsDialog.cpp" line="778"/>
         <source>Add</source>
         <translation>Přidat</translation>
     </message>
@@ -5204,20 +5238,20 @@ Nesprárované:
         <translation>Flow Control</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="129"/>
-        <location filename="../ui/SettingsDialog.cpp" line="139"/>
+        <location filename="../ui/SettingsDialog.cpp" line="130"/>
+        <location filename="../ui/SettingsDialog.cpp" line="140"/>
         <source>None</source>
         <translation>None</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="130"/>
-        <location filename="../ui/SettingsDialog.cpp" line="140"/>
+        <location filename="../ui/SettingsDialog.cpp" line="131"/>
+        <location filename="../ui/SettingsDialog.cpp" line="141"/>
         <source>Hardware</source>
         <translation>Hardware</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="131"/>
-        <location filename="../ui/SettingsDialog.cpp" line="141"/>
+        <location filename="../ui/SettingsDialog.cpp" line="132"/>
+        <location filename="../ui/SettingsDialog.cpp" line="142"/>
         <source>Software</source>
         <translation>Software</translation>
     </message>
@@ -5228,32 +5262,32 @@ Nesprárované:
         <translation>Parity</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="133"/>
-        <location filename="../ui/SettingsDialog.cpp" line="143"/>
+        <location filename="../ui/SettingsDialog.cpp" line="134"/>
+        <location filename="../ui/SettingsDialog.cpp" line="144"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="134"/>
-        <location filename="../ui/SettingsDialog.cpp" line="144"/>
+        <location filename="../ui/SettingsDialog.cpp" line="135"/>
+        <location filename="../ui/SettingsDialog.cpp" line="145"/>
         <source>Even</source>
         <translation>Even</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="135"/>
-        <location filename="../ui/SettingsDialog.cpp" line="145"/>
+        <location filename="../ui/SettingsDialog.cpp" line="136"/>
+        <location filename="../ui/SettingsDialog.cpp" line="146"/>
         <source>Odd</source>
         <translation>Odd</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="137"/>
-        <location filename="../ui/SettingsDialog.cpp" line="147"/>
+        <location filename="../ui/SettingsDialog.cpp" line="138"/>
+        <location filename="../ui/SettingsDialog.cpp" line="148"/>
         <source>Space</source>
         <translation>Space</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="136"/>
-        <location filename="../ui/SettingsDialog.cpp" line="146"/>
+        <location filename="../ui/SettingsDialog.cpp" line="137"/>
+        <location filename="../ui/SettingsDialog.cpp" line="147"/>
         <source>Mark</source>
         <translation>Mark</translation>
     </message>
@@ -5408,8 +5442,8 @@ Nesprárované:
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1306"/>
-        <location filename="../ui/SettingsDialog.cpp" line="123"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1031"/>
+        <location filename="../ui/SettingsDialog.cpp" line="124"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1032"/>
         <source>HamQTH</source>
         <translation>HamQTH</translation>
     </message>
@@ -5433,8 +5467,8 @@ Nesprárované:
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1346"/>
         <location filename="../ui/SettingsDialog.ui" line="1406"/>
-        <location filename="../ui/SettingsDialog.cpp" line="124"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1024"/>
+        <location filename="../ui/SettingsDialog.cpp" line="125"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1025"/>
         <source>QRZ.com</source>
         <translation>QRZ.com</translation>
     </message>
@@ -5564,7 +5598,7 @@ Nesprárované:
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1697"/>
-        <location filename="../ui/SettingsDialog.cpp" line="77"/>
+        <location filename="../ui/SettingsDialog.cpp" line="78"/>
         <source>DXCC</source>
         <translation>DXCC</translation>
     </message>
@@ -5574,19 +5608,19 @@ Nesprárované:
         <translation>Počáteční datum:</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="75"/>
-        <location filename="../ui/SettingsDialog.cpp" line="91"/>
+        <location filename="../ui/SettingsDialog.cpp" line="76"/>
+        <location filename="../ui/SettingsDialog.cpp" line="92"/>
         <source>Name</source>
         <translation>Jméno</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="76"/>
+        <location filename="../ui/SettingsDialog.cpp" line="77"/>
         <source>Report</source>
         <translation>Report</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="78"/>
-        <location filename="../ui/SettingsDialog.cpp" line="94"/>
+        <location filename="../ui/SettingsDialog.cpp" line="79"/>
+        <location filename="../ui/SettingsDialog.cpp" line="95"/>
         <source>State</source>
         <translation>Stav</translation>
     </message>
@@ -5599,61 +5633,61 @@ Nesprárované:
         <translation type="vanished">Konec</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="122"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1023"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1030"/>
+        <location filename="../ui/SettingsDialog.cpp" line="123"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1024"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1031"/>
         <source>Disabled</source>
         <translation>Vypnuto</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="162"/>
+        <location filename="../ui/SettingsDialog.cpp" line="163"/>
         <source>Press &lt;b&gt;Modify&lt;/b&gt; to confirm the profile changes or &lt;b&gt;Cancel&lt;/b&gt;.</source>
         <translation>Stiskněte &lt;b&gt;Upravit&lt;/b&gt; pro potvrzení změny profilu nebo &lt;b&gt;Zrušit&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="205"/>
-        <location filename="../ui/SettingsDialog.cpp" line="419"/>
-        <location filename="../ui/SettingsDialog.cpp" line="550"/>
-        <location filename="../ui/SettingsDialog.cpp" line="655"/>
-        <location filename="../ui/SettingsDialog.cpp" line="661"/>
-        <location filename="../ui/SettingsDialog.cpp" line="667"/>
+        <location filename="../ui/SettingsDialog.cpp" line="206"/>
+        <location filename="../ui/SettingsDialog.cpp" line="420"/>
+        <location filename="../ui/SettingsDialog.cpp" line="551"/>
+        <location filename="../ui/SettingsDialog.cpp" line="656"/>
+        <location filename="../ui/SettingsDialog.cpp" line="662"/>
+        <location filename="../ui/SettingsDialog.cpp" line="668"/>
         <source>Must not be empty</source>
         <translation>Nesmí být prázdné</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="164"/>
-        <location filename="../ui/SettingsDialog.cpp" line="171"/>
-        <location filename="../ui/SettingsDialog.cpp" line="179"/>
-        <location filename="../ui/SettingsDialog.cpp" line="187"/>
-        <location filename="../ui/SettingsDialog.cpp" line="225"/>
-        <location filename="../ui/SettingsDialog.cpp" line="346"/>
-        <location filename="../ui/SettingsDialog.cpp" line="423"/>
-        <location filename="../ui/SettingsDialog.cpp" line="520"/>
-        <location filename="../ui/SettingsDialog.cpp" line="554"/>
-        <location filename="../ui/SettingsDialog.cpp" line="607"/>
-        <location filename="../ui/SettingsDialog.cpp" line="695"/>
-        <location filename="../ui/SettingsDialog.cpp" line="755"/>
+        <location filename="../ui/SettingsDialog.cpp" line="165"/>
+        <location filename="../ui/SettingsDialog.cpp" line="172"/>
+        <location filename="../ui/SettingsDialog.cpp" line="180"/>
+        <location filename="../ui/SettingsDialog.cpp" line="188"/>
+        <location filename="../ui/SettingsDialog.cpp" line="226"/>
+        <location filename="../ui/SettingsDialog.cpp" line="347"/>
+        <location filename="../ui/SettingsDialog.cpp" line="424"/>
+        <location filename="../ui/SettingsDialog.cpp" line="521"/>
+        <location filename="../ui/SettingsDialog.cpp" line="555"/>
+        <location filename="../ui/SettingsDialog.cpp" line="608"/>
+        <location filename="../ui/SettingsDialog.cpp" line="696"/>
+        <location filename="../ui/SettingsDialog.cpp" line="756"/>
         <source>Modify</source>
         <translation>Upravit</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="92"/>
+        <location filename="../ui/SettingsDialog.cpp" line="93"/>
         <source>Start (MHz)</source>
         <translation>Pořátek (MHz)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="93"/>
+        <location filename="../ui/SettingsDialog.cpp" line="94"/>
         <source>End (MHz)</source>
         <translation>Konec (MHz)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="871"/>
+        <location filename="../ui/SettingsDialog.cpp" line="872"/>
         <source>Select File</source>
         <translation>Vybrat soubor</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="947"/>
-        <location filename="../ui/SettingsDialog.cpp" line="965"/>
+        <location filename="../ui/SettingsDialog.cpp" line="948"/>
+        <location filename="../ui/SettingsDialog.cpp" line="966"/>
         <source>Select Directory</source>
         <translation>Vybrat adresář</translation>
     </message>
@@ -5843,57 +5877,62 @@ Nesprárované:
         <translation>Potvrzené / Pracováno Lokátory</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="208"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="72"/>
+        <source>ODX</source>
+        <translation>ODX</translation>
+    </message>
+    <message>
+        <location filename="../ui/StatisticsWidget.cpp" line="209"/>
         <source>Sun</source>
         <translation>Ned</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="209"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="210"/>
         <source>Mon</source>
         <translation>Pon</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="210"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="211"/>
         <source>Tue</source>
         <translation>Út</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="211"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="212"/>
         <source>Wed</source>
         <translation>Stř</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="212"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="213"/>
         <source>Thu</source>
         <translation>Čtvr</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="213"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="214"/>
         <source>Fri</source>
         <translation>Pát</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="214"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="215"/>
         <source>Sat</source>
         <translation>Sob</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="260"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="261"/>
         <source>Not specified</source>
         <translation>Neurčeno</translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="299"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="300"/>
         <source>Confirmed </source>
         <translation>Potvrzeno </translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="300"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="301"/>
         <source>Not Confirmed </source>
         <translation>Nepotvrzeno </translation>
     </message>
     <message>
-        <location filename="../ui/StatisticsWidget.cpp" line="751"/>
+        <location filename="../ui/StatisticsWidget.cpp" line="769"/>
         <source>All</source>
         <translation>Vše</translation>
     </message>
@@ -5950,6 +5989,19 @@ Nesprárované:
     <message>
         <source>Transmitting</source>
         <translation type="vanished">Zaklíčováno</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <location filename="../core/main.cpp" line="265"/>
+        <source>Run with the specific namespace.</source>
+        <translation>Run with the specific namespace.</translation>
+    </message>
+    <message>
+        <location filename="../core/main.cpp" line="266"/>
+        <source>namespace</source>
+        <translation>namespace</translation>
     </message>
 </context>
 </TS>
