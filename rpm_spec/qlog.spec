@@ -42,6 +42,19 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Jul 15 2022 Ladislav Foldyna - 0.12.0-1
+- [NEW] Statistics - Show ODX on the map
+- [EXPERIMENTAL] Support for QT Styles (issue #88)
+- [CHANGED] - Removed F2 as a shortcut for QSO field editing
+- Next fixing of a high CPU load when DXC is processed (issue #52)
+- Fixed QSO fields from prev QSOs when Prefix - Callsign - Suffix (issue #90)
+- Fixed Chaotic QSO start time (issue #93)
+- Offline maps - Lighter colors, night sky removed, Sun position removed (issue #97)
+- Fixed incorrect A-Index colort (issue #98)
+- Fixed Stats Widget - percents - does not reflect date range (issue #99)
+- Fixed potential LogParam Cache issue
+- Import/Export polishing
+
 * Sun Jun 26 2022 Ladislav Foldyna - 0.11.0-1
 - [NEW] QSO Detail/Edit Dialog
 - [NEW] Added mW power Support
