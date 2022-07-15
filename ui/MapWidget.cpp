@@ -140,10 +140,10 @@ void MapWidget::redrawNightOverlay() {
     sun.normalize();
 
     // <plot sun position>
-    double theta = acos(sunZ);
-    double phi = atan(sunY/sunX);
-    double sunLon = phi/M_PI * 180.0;
-    double sunLat = 90 - theta / M_PI * 180.0;
+    //double theta = acos(sunZ);
+    //double phi = atan(sunY/sunX);
+    //double sunLon = phi/M_PI * 180.0;
+    //double sunLat = 90 - theta / M_PI * 180.0;
     //sunItem->setPos(coordToPoint(sunLat, sunLon) - QPoint(sunSize / 2, sunSize / 2));
     // </plot sun position>
 

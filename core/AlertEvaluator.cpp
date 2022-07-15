@@ -123,10 +123,9 @@ void AlertEvaluator::loadRules()
     {
         if ( ruleStmt.exec() )
         {
-            AlertRule *rule;
-
             while (ruleStmt.next())
             {
+                AlertRule *rule;
                 rule = new AlertRule();
                 if ( rule )
                 {
