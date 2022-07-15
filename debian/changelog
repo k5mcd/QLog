@@ -11,7 +11,7 @@ qlog (0.12.0-1) UNRELEASED; urgency=low
   * Fixed potential LogParam Cache issue
   * Import/Export polishing
 
- -- foldynl <foldyna@gmail.com>  Fri, 15 July 2022 18:00:00 +0200
+ -- foldynl <foldyna@gmail.com>  Fri, 15 Jul 2022 18:00:00 +0200
 
 qlog (0.11.0-1) UNRELEASED; urgency=low
   * [NEW] QSO Detail/Edit Dialog
