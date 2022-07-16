@@ -43,7 +43,7 @@ void PaperQSLDialog::addFileClick()
                                                     "",
 #if defined(Q_OS_WIN)
                                                     ""
-#elif (Q_OS_MACOS)
+#elif defined(Q_OS_MACOS)
                                                     ""
 #else
                                                     ""
