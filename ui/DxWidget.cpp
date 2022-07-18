@@ -451,7 +451,11 @@ void DxWidget::connected()
     }
     else
     {
+#ifndef Q_OS_MACOS
         if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &maxIdle, sizeof(maxIdle)) != 0 )
+#else
+        if ( setsockopt(fd, IPPROTO_TCP, TCP_KEEPALIVE, &maxIdle, sizeof(maxIdle)) != 0 )
+#endif /* Q_OS_MACOS */
         {
             qWarning() << "Cannot set keepalive idle for DXC";
         }
