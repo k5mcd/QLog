@@ -111,6 +111,8 @@ for all:
 
 ### MacOS
 
+**For developers:**
+
 In order to build QLog on MacOS, following prerequisites must be satisfied.
 1. [Xcode](#xcode) command line tools
 2. [Homebrew](https://brew.sh)
