@@ -155,7 +155,7 @@ public:
         if ( profiles.contains(profileName) )
         {
             profilesMutex.lock();
-            T ret = profiles.value(profileName).value<T>();
+            T ret = profiles.value(profileName).template value<T>();
             profilesMutex.unlock();
             return ret;
         }
