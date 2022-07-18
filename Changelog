@@ -1,4 +1,5 @@
 TBD - 0.13.0
+- Fixed templates under MacOS (PR #101) (thx gerbert)
 
 2022/07/15 - 0.12.0
 - [NEW] Statistics - Show ODX on the map
