@@ -1,5 +1,5 @@
 TBD - 0.13.0
-- Fixed Fix MacOS builds (PR #102) (thx gerbert)
+- Fixed MacOS builds (PR #102) (thx gerbert)
 - Fixed templates under MacOS (PR #101) (thx gerbert)
 
 2022/07/15 - 0.12.0
