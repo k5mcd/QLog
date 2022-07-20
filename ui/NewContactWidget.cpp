@@ -1343,6 +1343,9 @@ void NewContactWidget::startContactTimer()
     if (!contactTimer->isActive()) {
         contactTimer->start(500);
     }
+    ui->dateEdit->setReadOnly(true);
+    ui->timeOnEdit->setReadOnly(true);
+    ui->timeOffEdit->setReadOnly(true);
 }
 
 void NewContactWidget::stopContactTimer()
@@ -1353,6 +1356,9 @@ void NewContactWidget::stopContactTimer()
         contactTimer->stop();
     }
     updateTimeOff();
+    ui->dateEdit->setReadOnly(false);
+    ui->timeOnEdit->setReadOnly(false);
+    ui->timeOffEdit->setReadOnly(false);
 }
 
 void NewContactWidget::markContact()
