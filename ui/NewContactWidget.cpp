@@ -1064,6 +1064,16 @@ bool NewContactWidget::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
+bool NewContactWidget::isQSOTimeStarted()
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = contactTimer->isActive();
+
+    qCDebug(runtime) << ret;
+    return ret;
+}
+
 void NewContactWidget::saveContact()
 {
     FCT_IDENTIFICATION;
@@ -1389,7 +1399,29 @@ void NewContactWidget::updateTimeOff()
 {
     FCT_IDENTIFICATION;
 
+    static bool shouldHighlighted = true;
+
     ui->timeOffEdit->setTime(QDateTime::currentDateTimeUtc().time());
+
+    if ( shouldHighlighted && isQSOTimeStarted() )
+    {
+        //QColor(76, 200, 80)
+        ui->timeOffEdit->setStyleSheet("background-color: #4CC850 ;");
+    }
+    else
+    {
+        ui->timeOffEdit->setStyleSheet("");
+    }
+
+    if ( isQSOTimeStarted() )
+    {
+        shouldHighlighted = !shouldHighlighted;
+    }
+    else
+    {
+        shouldHighlighted = false;
+    }
+
     updatePartnerLocTime();
 }
 

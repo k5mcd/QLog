@@ -99,6 +99,7 @@ private:
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
     bool eventFilter(QObject *object, QEvent *event);
+    bool isQSOTimeStarted();
 
 private:
     Rig* rig;
