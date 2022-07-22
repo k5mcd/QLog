@@ -44,6 +44,60 @@ bool Rig::isNetworkRig(const struct rig_caps *caps)
     return ret;
 }
 
+double Rig::getNormalBandwidth(const QString &mode, const QString &subMode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode << subMode;
+
+    rmode_t hamlibMode = modeSubmodeToModeT(mode, subMode);
+
+    switch ( hamlibMode )
+    {
+    case RIG_MODE_AM:
+    case RIG_MODE_AMS:
+    case RIG_MODE_PKTAM:
+    case RIG_MODE_SAH:
+    case RIG_MODE_SAL:
+    {
+        return Hz2MHz(6000);
+    }
+
+    case RIG_MODE_CW:
+    case RIG_MODE_CWR:
+    {
+        return Hz2MHz(1000);
+    }
+
+    case RIG_MODE_USB:
+    case RIG_MODE_LSB:
+    case RIG_MODE_PKTLSB:
+    case RIG_MODE_PKTUSB:
+    case RIG_MODE_ECSSUSB:
+    case RIG_MODE_ECSSLSB:
+    {
+        return Hz2MHz(2500);
+    }
+
+    case RIG_MODE_RTTY:
+    case RIG_MODE_RTTYR:
+    {
+        return Hz2MHz(2400);
+    }
+
+    case RIG_MODE_FM:
+    case RIG_MODE_PKTFM:
+    case RIG_MODE_FMN:
+    {
+        return Hz2MHz(12500);
+    }
+
+    case RIG_MODE_WFM: return Hz2MHz(25000);
+    }
+
+    return Hz2MHz(6000);
+}
+
 void Rig::stopTimer()
 {
     FCT_IDENTIFICATION;
@@ -192,10 +246,12 @@ void Rig::update()
             qCDebug(runtime) << "Current RIG raw MODE: "<< curr_modeId;
             qCDebug(runtime) << "Current LO raw MODE: "<< LoA.getMode();
 
-            if ( curr_modeId != LoA.getMode() )
+            if ( curr_modeId != LoA.getMode()
+                 || pbwidth != LoA.getPassbandWidth() )
             {
                 // mode change
                 LoA.setMode(curr_modeId);
+                LoA.setPassbandWidth(pbwidth);
 
                 QString submode;
                 QString mode = LoA.getModeNormalizedText(submode);
@@ -203,7 +259,8 @@ void Rig::update()
                 qCDebug(runtime) << "MODE changed - emitting: " << LoA.getModeText() << mode << submode;
                 emit modeChanged(LoA.getID(),
                                  LoA.getModeText(),
-                                 mode, submode);
+                                 mode, submode,
+                                 static_cast<double>(pbwidth));
             }
         }
         else
@@ -824,7 +881,8 @@ LocalOscilator::LocalOscilator(VFOID id, QObject *parent) :
     power(0),
     RXOffset(0.0),
     TXOffset(0.0),
-    ID(id)
+    ID(id),
+    passbandWidth(RIG_PASSBAND_NORMAL)
 {}
 
 freq_t LocalOscilator::getFreq() const
@@ -962,6 +1020,16 @@ void LocalOscilator::setPTT(bool newPTT)
     ptt = newPTT;
 }
 
+pbwidth_t LocalOscilator::getPassbandWidth()
+{
+    return passbandWidth;
+}
+
+void LocalOscilator::setPassbandWidth(pbwidth_t newPassbandWidth)
+{
+    passbandWidth = newPassbandWidth;
+}
+
 void LocalOscilator::clear()
 {
     setFreq(RIG_FREQ_NONE),
@@ -972,5 +1040,6 @@ void LocalOscilator::clear()
     setTXOffset(0.0);
     setPower(0.0);
     setPTT(false);
+    setPassbandWidth(RIG_PASSBAND_NORMAL);
 }
 

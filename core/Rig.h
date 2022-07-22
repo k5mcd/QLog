@@ -57,6 +57,9 @@ public:
     bool getPTT() const;
     void setPTT(bool);
 
+    pbwidth_t getPassbandWidth();
+    void setPassbandWidth(pbwidth_t);
+
     void clear();
 
 private:
@@ -68,6 +71,7 @@ private:
     double RXOffset;      //in Hz
     double TXOffset;      //in Hz
     VFOID ID;
+    pbwidth_t passbandWidth;
 };
 
 class Rig : public SerialPort
@@ -78,6 +82,7 @@ public:
     static Rig* instance();
 
     static bool isNetworkRig(const struct rig_caps *caps);
+    static double getNormalBandwidth(const QString &, const QString &);
 
 public slots:
     void start();
@@ -95,7 +100,7 @@ public slots:
 
 signals:
     void frequencyChanged(VFOID, double, double, double);
-    void modeChanged(VFOID, QString, QString, QString);
+    void modeChanged(VFOID, QString, QString, QString, double);
     void powerChanged(VFOID, double);
     void vfoChanged(VFOID, QString);
     void ritChanged(VFOID, double);
@@ -123,7 +128,7 @@ private:
 
     void __closeRig();
     void __openRig();
-    rmode_t modeSubmodeToModeT(const QString &mode, const QString &submode);
+    static rmode_t modeSubmodeToModeT(const QString &mode, const QString &submode);
     QString hamlibErrorString(int);
 
     RIG* rig;

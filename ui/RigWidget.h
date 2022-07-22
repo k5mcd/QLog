@@ -21,7 +21,7 @@ signals:
 
 public slots:
     void updateFrequency(VFOID, double, double, double);
-    void updateMode(VFOID, QString, QString, QString);
+    void updateMode(VFOID, QString, QString, QString, double);
     void updatePWR(VFOID, double);
     void updateVFO(VFOID, QString);
     void updateXIT(VFOID, double);

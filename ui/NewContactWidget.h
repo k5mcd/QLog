@@ -54,7 +54,7 @@ public slots:
 
     // to receive RIG instructions
     void changeFrequency(VFOID, double, double, double);
-    void changeMode(VFOID, QString rawMode, QString mode, QString subMode);
+    void changeMode(VFOID, QString rawMode, QString mode, QString subMode, double width);
     void changePower(VFOID, double power);
     void rigConnected();
     void rigDisconnected();
@@ -76,6 +76,8 @@ private slots:
     void callsignResult(const QMap<QString, QString>& data);
     void propModeChanged(const QString&);
     void sotaChanged(QString);
+    void formFieldChangedString(const QString&);
+    void formFieldChanged();
 
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);
@@ -85,10 +87,10 @@ private slots:
 private:
     void fillFieldsFromLastQSO(QString callsign);
     void queryDxcc(QString callsign);
-    void clearQueryFields();
+    void clearCallbookQueryFields();
     void readWidgetSettings();
     void writeWidgetSetting();
-    void __modeChanged();
+    void __modeChanged(double);
     void refreshStationProfileCombo();
     void updateTXBand(double freq);
     void updateRXBand(double freq);
@@ -100,6 +102,8 @@ private:
     void addAddlFields(QSqlRecord &record);
     bool eventFilter(QObject *object, QEvent *event);
     bool isQSOTimeStarted();
+    void QSYResetContact(double);
+    void connectFieldChanged();
 
 private:
     Rig* rig;
@@ -116,6 +120,9 @@ private:
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
     QTimeZone partnerTimeZone;
+    double QSOFreq;
+    double bandwidthFilter;
+    bool rigOnline;
 };
 
 #endif // NEWCONTACTWIDGET_H
