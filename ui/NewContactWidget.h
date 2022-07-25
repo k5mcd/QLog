@@ -58,6 +58,7 @@ public slots:
     void changePower(VFOID, double power);
     void rigConnected();
     void rigDisconnected();
+    void nearestSpot(const DxSpot &);
 
 private slots:
     void callsignChanged();
@@ -104,6 +105,8 @@ private:
     bool isQSOTimeStarted();
     void QSYResetContact(double);
     void connectFieldChanged();
+    void changeCallsignManually(const QString &);
+    void changeCallsignManually(const QString &, double);
 
 private:
     Rig* rig;
@@ -123,6 +126,7 @@ private:
     double QSOFreq;
     double bandwidthFilter;
     bool rigOnline;
+    QMap<QString, QString> lastCallbookQueryData;
 };
 
 #endif // NEWCONTACTWIDGET_H

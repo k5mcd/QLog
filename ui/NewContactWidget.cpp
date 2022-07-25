@@ -348,6 +348,12 @@ void NewContactWidget::editCallsignFinished()
 
     static QString prevQueryCallsign;
 
+    if ( prevQueryCallsign == callsign )
+    {
+        callsignResult(lastCallbookQueryData);
+        return;
+    }
+
     if ( prevQueryCallsign != callsign
          && callsign.size() >= 3 )
     {
@@ -581,6 +587,7 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
         ui->lotwLabel->setText("LoTW");
     }
 
+    lastCallbookQueryData = QMap<QString, QString>(data);
 }
 
 void NewContactWidget::bandChanged()
@@ -1066,11 +1073,20 @@ bool NewContactWidget::eventFilter(QObject *object, QEvent *event)
     FCT_IDENTIFICATION;
 
     if ( event->type() == QEvent::FocusIn
-         && object == ui->rstSentEdit
-         && callsign.size() >= 3
-         && !contactTimer->isActive() )
+         && object == ui->rstSentEdit )
     {
-        startContactTimer();
+
+        if ( ui->callsignEdit->text().isEmpty()
+             && ! ui->nearStationLabel->text().isEmpty() )
+        {
+            changeCallsignManually(ui->nearStationLabel->text());
+        }
+
+        if ( callsign.size() >= 3
+             && !contactTimer->isActive() )
+        {
+            startContactTimer();
+        }
     }
     return false;
 }
@@ -1781,18 +1797,22 @@ void NewContactWidget::rigDisconnected()
     rigOnline = false;
 }
 
+void NewContactWidget::nearestSpot(const DxSpot &spot)
+{
+    FCT_IDENTIFICATION;
+
+    ui->nearStationLabel->setText(spot.callsign);
+}
+
 void NewContactWidget::tuneDx(QString callsign, double frequency)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<callsign<< " " << frequency;
 
-    ui->callsignEdit->setText(callsign);
-    QSOFreq = frequency; // Important !!! - to prevent QSY Contact Reset when the frequency is set
+    resetContact();
+    changeCallsignManually(callsign, frequency);
     ui->freqRXEdit->setValue(frequency);
-    callsignChanged();
-    editCallsignFinished();
-    stopContactTimer();
 }
 
 void NewContactWidget::showDx(QString callsign, QString grid)
@@ -1802,11 +1822,8 @@ void NewContactWidget::showDx(QString callsign, QString grid)
     qCDebug(function_parameters)<<callsign<< " " << grid;
 
     resetContact();
-    ui->callsignEdit->setText(callsign.toUpper());
+    changeCallsignManually(callsign);
     ui->gridEdit->setText(grid);
-    callsignChanged();
-    ui->rstSentEdit->setFocus();
-    stopContactTimer();
 }
 
 void NewContactWidget::setDefaultReport() {
@@ -1918,4 +1935,23 @@ NewContactWidget::~NewContactWidget() {
 
     writeWidgetSetting();
     delete ui;
+}
+
+void NewContactWidget::changeCallsignManually(const QString &callsign)
+{
+    FCT_IDENTIFICATION;
+
+    changeCallsignManually(callsign, ui->freqRXEdit->value());
+}
+
+
+void NewContactWidget::changeCallsignManually(const QString &callsign, double freq)
+{
+    FCT_IDENTIFICATION;
+
+    QSOFreq = freq; // Important !!! - to prevent QSY Contact Reset when the frequency is set
+    ui->callsignEdit->setText(callsign);
+    callsignChanged();
+    editCallsignFinished();
+    stopContactTimer();
 }

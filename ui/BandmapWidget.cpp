@@ -5,6 +5,7 @@
 #include <QTextDocument>
 #include <QScrollBar>
 #include <QGraphicsSceneMouseEvent>
+#include <algorithm>
 
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
@@ -404,6 +405,42 @@ void BandmapWidget::updateStationTimer()
     }
 }
 
+DxSpot BandmapWidget::nearestSpot(double freq) const
+{
+    FCT_IDENTIFICATION;
+
+    QMap<double, DxSpot>::const_iterator it = spots.constFind(freq);
+
+    if( it == spots.cend() )
+    {
+        QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(freq - Hz2MHz(kHz(1)));
+        QMap<double, DxSpot>::const_iterator upper = spots.upperBound(freq + Hz2MHz(kHz(1)));
+
+        it = std::min_element( lower, upper,
+                [freq](const DxSpot &p1,
+                       const DxSpot &p2)
+                {
+                return
+                    qAbs(p1.freq - freq) <
+                    qAbs(p2.freq - freq);
+                });
+
+        if ( it != upper )
+        {
+            /* FOUND */
+            return it.value();
+        }
+        else
+        {
+            /* Not found */
+            return DxSpot();
+        }
+    }
+
+    /* Exact Match */
+    return it.value();
+}
+
 void BandmapWidget::spotAgingChanged(int)
 {
     FCT_IDENTIFICATION;
@@ -496,6 +533,9 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
 
     Q_UNUSED(vfoid)
 
+    static DxSpot lastNearestSpot;
+    DxSpot currNearestSpot;
+
     qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
 
     /* always show the bandmap for RIT Freq */
@@ -527,6 +567,14 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
         /* Draw TX and RX Marks */
         /************************/
         drawTXRXMarks(step);
+    }
+
+    currNearestSpot = nearestSpot(ritFreq);
+
+    if ( currNearestSpot.callsign != lastNearestSpot.callsign )
+    {
+        emit nearestSpotFound(currNearestSpot);
+        lastNearestSpot = currNearestSpot;
     }
 }
 

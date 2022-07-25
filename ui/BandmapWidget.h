@@ -60,6 +60,7 @@ public slots:
 
 signals:
     void tuneDx(QString, double);
+    void nearestSpotFound(const DxSpot &);
 
 private:
     void removeDuplicates(DxSpot &spot);
@@ -78,6 +79,9 @@ private slots:
     void spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason);
     void showContextMenu(QPoint);
     void updateStationTimer();
+
+private:
+    DxSpot nearestSpot(double) const;
 
 private:
     Ui::BandmapWidget *ui;
