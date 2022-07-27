@@ -1106,17 +1106,17 @@ bool NewContactWidget::isQSOTimeStarted()
     return ret;
 }
 
-void NewContactWidget::QSYResetContact(double newFreq)
+void NewContactWidget::QSYContactWiping(double newFreq)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << newFreq;
 
-    double QSYResetWidth = bandwidthFilter;
+    double QSYWipingWidth = bandwidthFilter;
 
-    if ( QSYResetWidth == RIG_PASSBAND_NORMAL )
+    if ( QSYWipingWidth == RIG_PASSBAND_NORMAL )
     {
-        QSYResetWidth = Rig::getNormalBandwidth(ui->modeEdit->currentText(),
+        QSYWipingWidth = Rig::getNormalBandwidth(ui->modeEdit->currentText(),
                                                 ui->submodeEdit->currentText());
     }
 
@@ -1125,13 +1125,15 @@ void NewContactWidget::QSYResetContact(double newFreq)
                      << "QSO Time: " << isQSOTimeStarted() << " "
                      << "Mode/submode: " << ui->modeEdit->currentText() << ui->submodeEdit->currentText()
                      << "RIG Filter width: " << QSTRING_FREQ(bandwidthFilter)
-                     << "QSYResetWidth" << QSTRING_FREQ(QSYResetWidth);
+                     << "QSYWipingWidth: " << QSTRING_FREQ(QSYWipingWidth)
+                     << "Rig Profile QSO Wiping: " << RigProfilesManager::instance()->getCurProfile1().QSYWiping;
 
-    if ( rigOnline               // only if Rig is connected
+    if ( RigProfilesManager::instance()->getCurProfile1().QSYWiping
+         && rigOnline            // only if Rig is connected
          && QSOFreq > 0.0        // it means that Form is "dirty" and contain freq when it got dirty
          && !isQSOTimeStarted()  // operator is not in QSO
-         && QSYResetWidth != RIG_PASSBAND_NORMAL
-         && qAbs(QSOFreq - newFreq) > QSYResetWidth / 1.5 )  //1.5 is magic constats - determined experimentally
+         && QSYWipingWidth != RIG_PASSBAND_NORMAL
+         && qAbs(QSOFreq - newFreq) > QSYWipingWidth / 1.5 )  //1.5 is a magic constant - determined experimentally
     {
         resetContact();
     }
@@ -1715,7 +1717,7 @@ void NewContactWidget::changeFrequency(VFOID vfoid, double vfoFreq, double ritFr
 
     qCDebug(function_parameters) << vfoFreq << " " << ritFreq << " " << xitFreq;
 
-    QSYResetContact(ritFreq);
+    QSYContactWiping(ritFreq);
 
     realRigFreq = vfoFreq;
 

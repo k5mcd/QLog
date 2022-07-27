@@ -17,7 +17,7 @@ QDataStream& operator<<(QDataStream& out, const RigProfile& v)
         << v.txFreqEnd << v.getFreqInfo << v.getModeInfo
         << v.getVFOInfo << v.getPWRInfo << v.ritOffset
         << v.xitOffset << v.getRITInfo << v.getXITInfo
-        << v.defaultPWR << v.getPTTInfo;
+        << v.defaultPWR << v.getPTTInfo << v.QSYWiping;
 
     return out;
 }
@@ -47,6 +47,7 @@ QDataStream& operator>>(QDataStream& in, RigProfile& v)
     in >> v.getXITInfo;
     in >> v.defaultPWR;
     in >> v.getPTTInfo;
+    in >> v.QSYWiping;
 
     return in;
 }
@@ -61,7 +62,7 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval, txfreq_start, txfreq_end, get_freq, get_mode, get_vfo, get_pwr, rit_offset, xit_offset, get_rit, get_xit, default_pwr, get_ptt FROM rig_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval, txfreq_start, txfreq_end, get_freq, get_mode, get_vfo, get_pwr, rit_offset, xit_offset, get_rit, get_xit, default_pwr, get_ptt, qsy_wiping FROM rig_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -94,6 +95,7 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
             profileDB.getXITInfo = profileQuery.value(20).toBool();
             profileDB.defaultPWR = profileQuery.value(21).toDouble();
             profileDB.getPTTInfo = profileQuery.value(22).toBool();
+            profileDB.QSYWiping = profileQuery.value(23).toBool();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -141,8 +143,8 @@ void RigProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO rig_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval, txfreq_start, txfreq_end, get_freq, get_mode, get_vfo, get_pwr, rit_offset, xit_offset, get_rit, get_xit, default_pwr, get_ptt ) "
-                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity, :pollinterval, :txfreq_start, :txfreq_end, :get_freq, :get_mode, :get_vfo, :get_pwr, :rit_offset, :xit_offset, :get_rit, :get_xit, :default_pwr, :get_ptt)") )
+    if ( ! insertQuery.prepare("INSERT INTO rig_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, pollinterval, txfreq_start, txfreq_end, get_freq, get_mode, get_vfo, get_pwr, rit_offset, xit_offset, get_rit, get_xit, default_pwr, get_ptt, qsy_wiping ) "
+                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity, :pollinterval, :txfreq_start, :txfreq_end, :get_freq, :get_mode, :get_vfo, :get_pwr, :rit_offset, :xit_offset, :get_rit, :get_xit, :default_pwr, :get_ptt, :qsy_wiping)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -178,6 +180,7 @@ void RigProfilesManager::save()
             insertQuery.bindValue(":get_xit", rigProfile.getXITInfo);
             insertQuery.bindValue(":default_pwr", rigProfile.defaultPWR);
             insertQuery.bindValue(":get_ptt", rigProfile.getPTTInfo);
+            insertQuery.bindValue(":qsy_wiping", rigProfile.QSYWiping);
 
             if ( ! insertQuery.exec() )
             {
@@ -218,6 +221,7 @@ bool RigProfile::operator==(const RigProfile &profile)
             && profile.getXITInfo == this->getXITInfo
             && profile.defaultPWR == this->defaultPWR
             && profile.getPTTInfo == this->getPTTInfo
+            && profile.QSYWiping == this->QSYWiping
             );
 }
 

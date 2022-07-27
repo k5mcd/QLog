@@ -843,7 +843,7 @@
                  <item row="8" column="0">
                   <widget class="QLabel" name="rigFeaturesLabel">
                    <property name="text">
-                    <string>Get From Rig</string>
+                    <string>Rig Features</string>
                    </property>
                   </widget>
                  </item>
@@ -866,9 +866,9 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QCheckBox" name="rigGetFreqCheckBox">
+                    <widget class="QCheckBox" name="rigGetVFOCheckBox">
                      <property name="text">
-                      <string>Freq</string>
+                      <string>VFO</string>
                      </property>
                      <property name="checked">
                       <bool>true</bool>
@@ -883,6 +883,30 @@
                     <number>0</number>
                    </property>
                    <item>
+                    <widget class="QCheckBox" name="rigGetFreqCheckBox">
+                     <property name="text">
+                      <string>Freq</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="rigQSYWipingCheckBox">
+                     <property name="text">
+                      <string>QSY Wiping</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="11" column="1">
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
                     <widget class="QCheckBox" name="rigGetPWRCheckBox">
                      <property name="text">
                       <string>Power</string>
@@ -893,12 +917,9 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QCheckBox" name="rigGetVFOCheckBox">
+                    <widget class="QCheckBox" name="rigGetPTTStateCheckBox">
                      <property name="text">
-                      <string>VFO</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
+                      <string>PTT State</string>
                      </property>
                     </widget>
                    </item>
@@ -924,20 +945,6 @@
                     <widget class="QCheckBox" name="rigGetRITCheckBox">
                      <property name="text">
                       <string>RX Offset (RIT)</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="11" column="1">
-                  <layout class="QHBoxLayout" name="horizontalLayout_10">
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QCheckBox" name="rigGetPTTStateCheckBox">
-                     <property name="text">
-                      <string>PTT State</string>
                      </property>
                     </widget>
                    </item>
@@ -1929,10 +1936,6 @@
   <tabstop>rigHostNameEdit</tabstop>
   <tabstop>rigNetPortSpin</tabstop>
   <tabstop>rigGetModeCheckBox</tabstop>
-  <tabstop>rigGetFreqCheckBox</tabstop>
-  <tabstop>rigGetPWRCheckBox</tabstop>
-  <tabstop>rigGetVFOCheckBox</tabstop>
-  <tabstop>rigGetPTTStateCheckBox</tabstop>
   <tabstop>rigGetXITCheckBox</tabstop>
   <tabstop>rigGetRITCheckBox</tabstop>
   <tabstop>rigAddProfileButton</tabstop>
@@ -2417,6 +2420,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rigGetFreqCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>rigGetFreqChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>395</x>
+     <y>615</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -2446,5 +2465,6 @@
   <slot>doubleClickRotProfile(QModelIndex)</slot>
   <slot>rigRXOffsetChanged(int)</slot>
   <slot>rigTXOffsetChanged(int)</slot>
+  <slot>rigGetFreqChanged(int)</slot>
  </slots>
 </ui>

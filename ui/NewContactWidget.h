@@ -103,7 +103,7 @@ private:
     void addAddlFields(QSqlRecord &record);
     bool eventFilter(QObject *object, QEvent *event);
     bool isQSOTimeStarted();
-    void QSYResetContact(double);
+    void QSYContactWiping(double);
     void connectFieldChanged();
     void changeCallsignManually(const QString &);
     void changeCallsignManually(const QString &, double);
