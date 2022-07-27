@@ -1802,7 +1802,16 @@ void NewContactWidget::rigDisconnected()
 void NewContactWidget::nearestSpot(const DxSpot &spot)
 {
     FCT_IDENTIFICATION;
+    QPalette palette;
 
+    DxccEntity spotEntity = Data::instance()->lookupDxcc(spot.callsign);
+    DxccStatus status = Data::dxccStatus(spotEntity.dxcc,
+                                         ui->bandRXLabel->text(),
+                                         ui->modeEdit->currentText());
+    palette.setColor(QPalette::WindowText,
+                     Data::statusToColor(status,
+                                         palette.color(QPalette::Text)));
+    ui->nearStationLabel->setPalette(palette);
     ui->nearStationLabel->setText(spot.callsign);
 }
 
