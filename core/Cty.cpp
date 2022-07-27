@@ -191,8 +191,11 @@ void Cty::parseData(QTextStream& data) {
         entityRecord.setValue("tz", fields.at(8).toFloat());
         entityTableModel.insertRecord(-1, entityRecord);
 
-
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+        QStringList prefixList = fields.at(9).split(prefixSeperator, Qt::SkipEmptyParts);
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
         QStringList prefixList = fields.at(9).split(prefixSeperator, QString::SkipEmptyParts);
+#endif
         qCDebug(runtime) << prefixList;
 
         for (auto &prefix : qAsConst(prefixList)) {

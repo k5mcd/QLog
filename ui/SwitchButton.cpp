@@ -169,7 +169,11 @@ SwitchButton::~SwitchButton() {
 
 QSize SwitchButton::sizeHint() const {
     auto h = style.height;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
+    auto w = style.indicatorMargin.left() + style.height + style.indicatorMargin.right() + fontMetrics().horizontalAdvance(text());
+#else
     auto w = style.indicatorMargin.left() + style.height + style.indicatorMargin.right() + fontMetrics().width(text());
+#endif
 
     return QSize(w, h);
 }
