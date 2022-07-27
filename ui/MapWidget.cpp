@@ -98,7 +98,8 @@ void MapWidget::drawLine(const QPoint &pointA, const QPoint &pointB) {
 
     double d = 2*asin(sqrt(pow(sin(latA-latB)/2, 2) + cos(latA)* cos(latB) * pow(sin((lonA-lonB)/2), 2)));
 
-    for (double f = 0; f <= 1; f += 0.001)
+    double f = 0;
+    for (int i = 0; i < 1000; i++)
     {
         double A = sin((1-f)*d)/sin(d);
         double B = sin(f*d)/sin(d);
@@ -111,6 +112,8 @@ void MapWidget::drawLine(const QPoint &pointA, const QPoint &pointB) {
         QPoint p = radToPoint(lat, lon);
         path.lineTo(p);
         path.moveTo(p);
+
+        f += 0.001;
     }
 
     path.lineTo(pointB);

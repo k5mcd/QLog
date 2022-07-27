@@ -175,8 +175,8 @@ void BandmapWidget::updateStations()
 
     determineStepDigits(step, digits);
 
-    QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(currentBand.start);
-    QMap<double, DxSpot>::const_iterator upper = spots.upperBound(currentBand.end);
+    QMap<double, DxSpot>::iterator lower = spots.lowerBound(currentBand.start);
+    QMap<double, DxSpot>::iterator upper = spots.upperBound(currentBand.end);
 
     for (; lower != upper; lower++)
     {

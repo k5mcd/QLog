@@ -1467,7 +1467,7 @@ QSODetailDialog::LogbookModelPrivate::LogbookModelPrivate(QObject *parent, QSqlD
 
 QVariant QSODetailDialog::LogbookModelPrivate::data(const QModelIndex &index, int role) const
 {
-    return QSqlTableModel::data(index, role);
+    return QSqlTableModel::data(index, role); // clazy:exclude=skipped-base-method
 }
 
 bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -1482,13 +1482,13 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
 
         case COLUMN_FREQUENCY:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND), QVariant(Data::band(value.toDouble()).name), role );
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND), QVariant(Data::band(value.toDouble()).name), role ); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_FREQ_RX:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND_RX), QVariant(Data::band(value.toDouble()).name), role );
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND_RX), QVariant(Data::band(value.toDouble()).name), role ); // clazy:exclude=skipped-base-method
             break;
         }
 
@@ -1500,16 +1500,16 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
 
                 if ( newgrid.isValid() )
                 {
-                    Gridsquare mygrid(QSqlTableModel::data(this->index(index.row(), COLUMN_MY_GRIDSQUARE), Qt::DisplayRole).toString());
+                    Gridsquare mygrid(QSqlTableModel::data(this->index(index.row(), COLUMN_MY_GRIDSQUARE), Qt::DisplayRole).toString()); // clazy:exclude=skipped-base-method
                     double distance;
 
                     if ( mygrid.distanceTo(newgrid, distance) )
                     {
-                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role); // clazy:exclude=skipped-base-method
                     }
                     else
                     {
-                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role); // clazy:exclude=skipped-base-method
                     }
                 }
                 else
@@ -1521,7 +1521,7 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
             else
             {
                 /* empty grid is valid (when removing a value); need to remove also Distance */
-                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role); // clazy:exclude=skipped-base-method
             }
             break;
         }
@@ -1534,16 +1534,16 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
 
                 if ( mynewGrid.isValid() )
                 {
-                    Gridsquare dxgrid(QSqlTableModel::data(this->index(index.row(), COLUMN_GRID), Qt::DisplayRole).toString());
+                    Gridsquare dxgrid(QSqlTableModel::data(this->index(index.row(), COLUMN_GRID), Qt::DisplayRole).toString()); // clazy:exclude=skipped-base-method
                     double distance;
 
                     if ( mynewGrid.distanceTo(dxgrid, distance) )
                     {
-                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role);
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(distance),role); // clazy:exclude=skipped-base-method
                     }
                     else
                     {
-                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                        depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role); // clazy:exclude=skipped-base-method
                     }
                 }
                 else
@@ -1555,122 +1555,122 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
             else
             {
                 /* empty grid is valid (when removing a value); need to remove also Distance */
-                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role);
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_DISTANCE), QVariant(),role); // clazy:exclude=skipped-base-method
             }
             break;
         }
 
         case COLUMN_ADDRESS_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_ADDRESS), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_ADDRESS), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_COMMENT_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COMMENT), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COMMENT), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_COUNTRY_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_ANTENNA_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ANTENNA), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ANTENNA), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_CITY_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_CITY), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_CITY), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_COUNTRY_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_NAME_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_NAME), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_NAME), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_POSTAL_CODE_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_POSTAL_CODE), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_POSTAL_CODE), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_RIG_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_RIG), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_RIG), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_SIG_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_SIG), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_SIG), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_SIG_INFO_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_SIG_INFO), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_SIG_INFO), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_MY_STREET_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_STREET), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_STREET), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_NAME_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_NAME), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_NAME), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_NOTES_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_NOTES), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_NOTES), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_QSLMSG_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_QSLMSG), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_QSLMSG), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_QTH_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_QTH), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_QTH), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_RIG_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_RIG), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_RIG), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_SIG_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_SIG), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_SIG), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
         case COLUMN_SIG_INFO_INTL:
         {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_SIG_INFO), Data::removeAccents(value.toString()),role);
+            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_SIG_INFO), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
             break;
         }
 
@@ -1686,11 +1686,11 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
                if ( value.toDouble() == 0.0 )
                {
                    /* store NULL when 0.0MHz */
-                   main_update_result = QSqlTableModel::setData(index, QVariant(), role);
+                   main_update_result = QSqlTableModel::setData(index, QVariant(), role); // clazy:exclude=skipped-base-method
                }
                else
                {
-                   main_update_result = QSqlTableModel::setData(index, value, role);
+                   main_update_result = QSqlTableModel::setData(index, value, role); // clazy:exclude=skipped-base-method
                }
                break;
 
@@ -1705,7 +1705,7 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            case COLUMN_MY_VUCC_GRIDS:
            case COLUMN_MY_WWFF_REF:
            case COLUMN_WWFF_REF:
-               main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
+               main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role); // clazy:exclude=skipped-base-method
                break;
 
            case COLUMN_ADDRESS_INTL:
@@ -1727,11 +1727,11 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            case COLUMN_RIG_INTL:
            case COLUMN_SIG_INTL:
            case COLUMN_SIG_INFO_INTL:
-               main_update_result = QSqlTableModel::setData(index, value.toString(), role);
+               main_update_result = QSqlTableModel::setData(index, value.toString(), role); // clazy:exclude=skipped-base-method
                break;
 
            default:
-               main_update_result = QSqlTableModel::setData(index, Data::removeAccents(value.toString()), role);
+               main_update_result = QSqlTableModel::setData(index, Data::removeAccents(value.toString()), role); // clazy:exclude=skipped-base-method
            }
        }
     }
