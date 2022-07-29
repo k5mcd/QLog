@@ -68,9 +68,17 @@ public:
     static Data* instance();
 
     static DxccStatus dxccStatus(int dxcc, const QString &band, const QString &mode);
+    static DxccStatus dxccFutureStatus(const DxccStatus &oldStatus,
+                                       const qint32 oldDxcc,
+                                       const QString &oldBand,
+                                       const QString &oldMode,
+                                       const qint32 newDxcc,
+                                       const QString &newBand,
+                                       const QString &newMode);
     static Band band(double freq);
     static QList<Band> enabledBandsList();
-    static QString freqToMode(double freq);
+    static QString freqToDXCCMode(double freq);
+    QString modeToDXCCMode(const QString &mode);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
     static QColor statusToInverseColor(const DxccStatus &status, const QColor &defaultColor);
     static QString statusToText(const DxccStatus &status);
@@ -96,6 +104,7 @@ public:
     QString iotaTextToID(const QString &iotaText) { return iotaRef.key(iotaText);}
     QStringList sotaIDList() { return sotaRef.keys();}
     QString getIANATimeZone(double, double);
+
 
 signals:
 

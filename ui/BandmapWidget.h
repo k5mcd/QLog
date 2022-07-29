@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QMutex>
 #include <QColor>
+#include <QSqlRecord>
 
 #include "data/DxSpot.h"
 #include "data/Band.h"
@@ -57,6 +58,7 @@ public slots:
     void clearSpots();
     void zoomIn();
     void zoomOut();
+    void spotsDxccStatusRecal(const QSqlRecord &record);
 
 signals:
     void tuneDx(QString, double);

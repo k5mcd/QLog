@@ -138,6 +138,149 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
     }
 }
 
+#define RETURNCODE(a) \
+    qInfo() << "new DXCC Status: " << (a); \
+    return ((a))
+
+DxccStatus Data::dxccFutureStatus(const DxccStatus &oldStatus,
+                                  const qint32 oldDxcc,
+                                  const QString &oldBand,
+                                  const QString &oldMode,
+                                  const qint32 newDxcc,
+                                  const QString &newBand,
+                                  const QString &newMode)
+{
+    FCT_IDENTIFICATION;
+
+    qInfo(function_parameters) << oldStatus
+                               << oldDxcc
+                               << oldBand
+                               << oldMode
+                               << newDxcc
+                               << newBand
+                               << newMode;
+
+    if ( oldDxcc != newDxcc )
+    {
+        /* No change */
+        RETURNCODE(oldStatus);
+    }
+
+    if ( oldBand == newBand
+         && oldMode == newMode )
+    {
+        RETURNCODE(DxccStatus::Worked);
+    }
+
+    /*************/
+    /* NewEntity */
+    /*************/
+    if ( oldStatus == DxccStatus::NewEntity )
+    {
+        if ( oldBand != newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewBandMode);
+        }
+
+        if ( oldBand != newBand
+             && oldMode == newMode )
+        {
+            RETURNCODE(DxccStatus::NewBand);
+        }
+
+        if ( oldBand == newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewMode);
+        }
+    }
+
+    /***************/
+    /* NewBandMode */
+    /***************/
+    if ( oldStatus == DxccStatus::NewBandMode )
+    {
+        if ( oldBand != newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewBandMode);
+        }
+
+        if ( oldBand != newBand
+             && oldMode == newMode )
+        {
+            RETURNCODE(DxccStatus::NewBand);
+        }
+
+        if ( oldBand == newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewMode);
+        }
+    }
+
+    /*************/
+    /* NewBand   */
+    /*************/
+    if ( oldStatus == DxccStatus::NewBand )
+    {
+        if ( oldBand != newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewBand);
+        }
+
+        if ( oldBand != newBand
+             && oldMode == newMode )
+        {
+            RETURNCODE(DxccStatus::NewBand);
+        }
+
+        if ( oldBand == newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewSlot);
+        }
+    }
+
+    /*************/
+    /* NewMode   */
+    /*************/
+    if ( oldStatus == DxccStatus::NewMode )
+    {
+        if ( oldBand != newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewMode);
+        }
+
+        if ( oldBand != newBand
+             && oldMode == newMode )
+        {
+            RETURNCODE(DxccStatus::NewSlot);
+        }
+
+        if ( oldBand == newBand
+             && oldMode != newMode )
+        {
+            RETURNCODE(DxccStatus::NewMode);
+        }
+    }
+
+    /*************/
+    /* NewSlot   */
+    /*************/
+    if ( oldStatus == DxccStatus::NewSlot )
+    {
+        RETURNCODE(DxccStatus::NewSlot);
+    }
+
+    RETURNCODE(DxccStatus::UnknownStatus);
+}
+
+#undef RETURNCODE
+
 Band Data::band(double freq) {
     FCT_IDENTIFICATION;
 
@@ -200,7 +343,7 @@ QList<Band> Data::enabledBandsList()
     return ret;
 }
 
-QString Data::freqToMode(double freq)
+QString Data::freqToDXCCMode(double freq)
 {
     FCT_IDENTIFICATION;
 
@@ -312,6 +455,29 @@ QString Data::freqToMode(double freq)
     else if (freq >= 1296.4 && freq < 1300.0) return Data::MODE_PHONE;
 
     else return QString();
+}
+
+QString Data::modeToDXCCMode(const QString &mode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode;
+
+    QSqlQuery tmpQuery;
+    QString ret;
+
+    if ( tmpQuery.prepare("SELECT modes.dxcc FROM modes WHERE modes.name = :mode LIMIT 1"))
+    {
+        tmpQuery.bindValue(":mode", mode);
+
+        if (tmpQuery.exec())
+        {
+            tmpQuery.next();
+            ret = tmpQuery.value(0).toString();
+        }
+    }
+
+    return ret;
 }
 
 QColor Data::statusToColor(const DxccStatus &status, const QColor &defaultColor) {

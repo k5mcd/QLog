@@ -363,12 +363,12 @@ void DxWidget::receive() {
                 spot.callsign = call;
                 spot.freq = freq.toDouble() / 1000;
                 spot.band = Data::band(spot.freq).name;
-                spot.mode = Data::freqToMode(spot.freq);
+                spot.mode = Data::freqToDXCCMode(spot.freq);
                 spot.spotter = spotter;
                 spot.comment = comment;
                 spot.dxcc = dxcc;
                 spot.dxcc_spotter = dxcc_spotter;
-                spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToMode(spot.freq));
+                spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToDXCCMode(spot.freq));
 
                 emit newSpot(spot);
 

@@ -480,6 +480,30 @@ void BandmapWidget::zoomOut()
     update();
 }
 
+void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
+{
+    FCT_IDENTIFICATION;
+
+    qint32 dxcc = record.value("dxcc").toInt();
+    QString band = record.value("band").toString();
+    QString mode = Data::instance()->modeToDXCCMode(record.value("mode").toString());
+
+    QMutableMapIterator<double, DxSpot> spotIterator(spots);
+
+    while ( spotIterator.hasNext() )
+    {
+        spotIterator.next();
+        spotIterator.value().status = Data::dxccFutureStatus(spotIterator.value().status,
+                                                             spotIterator.value().dxcc.dxcc,
+                                                             spotIterator.value().band,
+                                                             Data::freqToDXCCMode(spotIterator.value().freq),
+                                                             dxcc,
+                                                             band,
+                                                             mode);
+    }
+    updateStations();
+}
+
 void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *, Qt::FocusReason)
 {
     FCT_IDENTIFICATION;

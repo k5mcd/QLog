@@ -59,6 +59,7 @@ public slots:
     void rigConnected();
     void rigDisconnected();
     void nearestSpot(const DxSpot &);
+    void setNearestSpotColor(const QString &call);
 
 private slots:
     void callsignChanged();

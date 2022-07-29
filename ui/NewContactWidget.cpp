@@ -791,6 +791,7 @@ void NewContactWidget::updateRXBand(double freq)
     else if (band.name != ui->bandRXLabel->text())
     {
         ui->bandRXLabel->setText(band.name);
+        updateDxccStatus();
     }
 
 }
@@ -1428,6 +1429,8 @@ void NewContactWidget::saveContact()
 
     resetContact();
 
+    setNearestSpotColor(ui->nearStationLabel->text());
+
     emit contactAdded(record);
 }
 
@@ -1482,6 +1485,8 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
         record.setValue("id", tmpQuery.value(0));
         qDebug(runtime)<<"Last Inserted ID: " << tmpQuery.value(0);
     }
+
+    setNearestSpotColor(ui->nearStationLabel->text());
 
     emit contactAdded(record);
 }
@@ -1608,6 +1613,8 @@ void NewContactWidget::updateDxccStatus()
 {
     FCT_IDENTIFICATION;
 
+    setNearestSpotColor(ui->nearStationLabel->text());
+
     if ( callsign.isEmpty() )
     {
         ui->dxccStatus->clear();
@@ -1641,6 +1648,7 @@ void NewContactWidget::updateDxccStatus()
     QPalette palette;
     palette.setColor(QPalette::Text, Data::statusToColor(status, palette.color(QPalette::Text)));
     ui->callsignEdit->setPalette(palette);
+
 }
 
 void NewContactWidget::updatePartnerLocTime()
@@ -1802,9 +1810,23 @@ void NewContactWidget::rigDisconnected()
 void NewContactWidget::nearestSpot(const DxSpot &spot)
 {
     FCT_IDENTIFICATION;
+
+    setNearestSpotColor(spot.callsign);
+}
+
+void NewContactWidget::setNearestSpotColor(const QString &call)
+{
+    FCT_IDENTIFICATION;
+
+    if ( call.isEmpty() )
+    {
+        return;
+    }
+
     QPalette palette;
 
-    DxccEntity spotEntity = Data::instance()->lookupDxcc(spot.callsign);
+
+    DxccEntity spotEntity = Data::instance()->lookupDxcc(call);
     DxccStatus status = Data::dxccStatus(spotEntity.dxcc,
                                          ui->bandRXLabel->text(),
                                          ui->modeEdit->currentText());
@@ -1812,8 +1834,9 @@ void NewContactWidget::nearestSpot(const DxSpot &spot)
                      Data::statusToColor(status,
                                          palette.color(QPalette::Text)));
     ui->nearStationLabel->setPalette(palette);
-    ui->nearStationLabel->setText(spot.callsign);
+    ui->nearStationLabel->setText(call);
 }
+
 
 void NewContactWidget::tuneDx(QString callsign, double frequency)
 {
