@@ -2,6 +2,7 @@ TBD - 0.13.0
 - [NEW] - QSY Contact Wiping (issue #100)
 - [NEW] - Timeoff is highlighted when QSO timer is running (issue #100)
 - [NEW] - Callsign whisperer
+- [NEW] - Bandmap spot's color is recalculated when QSO is saved
 - Fixed MacOS builds (PR #102) (thx gerbert)
 - Fixed templates under MacOS (PR #101) (thx gerbert)
 
