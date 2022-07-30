@@ -27,8 +27,8 @@ public:
     explicit GraphicsScene(QObject *parent = nullptr) : QGraphicsScene(parent){};
 
 protected:
-    void mousePressEvent (QGraphicsSceneMouseEvent *evt);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void mousePressEvent (QGraphicsSceneMouseEvent *evt) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 };
 
 class BandmapWidget : public QWidget
@@ -66,19 +66,23 @@ private:
     void removeDuplicates(DxSpot &spot);
     void spotAging();
     void updateStations();
-    void determineStepDigits(double &steps, int &digits);
+    void determineStepDigits(double &steps, int &digits) const;
     void clearAllCallsignFromScene();
     void clearFreqMark(QGraphicsPolygonItem **);
-    void drawFreqMark(const double, const double, const QColor&, int &, QGraphicsPolygonItem **);
+    void drawFreqMark(const double, const double, const QColor&, QGraphicsPolygonItem **);
     void drawTXRXMarks(double);
-    void resizeEvent(QResizeEvent * event);
-    void centerPosition();
+    void resizeEvent(QResizeEvent * event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
+    void centerRXFreqPosition();
+    QPointF Freq2ScenePos(double) const;
+    double ScenePos2Freq(const QPointF &point) const;
 
 private slots:
     void centerRXActionChecked(bool);
     void spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason);
     void showContextMenu(QPoint);
     void updateStationTimer();
+    void focusZoomFreq(int, int);
 
 private:
     DxSpot nearestSpot(double) const;
@@ -97,11 +101,12 @@ private:
     QList<QGraphicsTextItem *> textItemList;
     QGraphicsPolygonItem* rxMark;
     QGraphicsPolygonItem* txMark;
-    int RXPositionY;
     bool keepRXCenter;
     QLocale locale;
     quint32 pendingSpots;
     qint64 lastStationUpdate;
+    double zoomFreq;
+    int zoomWidgetYOffset;
 };
 
 #endif // BANDMAPWIDGET_H
