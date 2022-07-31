@@ -80,6 +80,7 @@ private slots:
     void sotaChanged(QString);
     void formFieldChangedString(const QString&);
     void formFieldChanged();
+    void useNearestCallsign();
 
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);

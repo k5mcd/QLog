@@ -207,6 +207,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     new QShortcut(QKeySequence(Qt::Key_F9), this, SLOT(stopContactTimer()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F8), this, SLOT(startContactTimer()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_M), this, SLOT(markContact()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Return), this, SLOT(useNearestCallsign()), nullptr, Qt::ApplicationShortcut);
 
     /*
      * qlog is not a contest log. There is missing many contest features so that it can compete at least a little
@@ -1963,6 +1964,14 @@ void NewContactWidget::formFieldChanged()
     FCT_IDENTIFICATION;
 
     formFieldChangedString(QString());
+}
+
+void NewContactWidget::useNearestCallsign()
+{
+    FCT_IDENTIFICATION;
+
+    changeCallsignManually(ui->nearStationLabel->text());
+    ui->callsignEdit->setFocus();
 }
 
 NewContactWidget::~NewContactWidget() {
