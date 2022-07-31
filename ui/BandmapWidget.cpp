@@ -59,7 +59,6 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 
     ui->graphicsView->setScene(bandmapScene);
     ui->graphicsView->installEventFilter(this);
-    ui->graphicsView->setStyleSheet("background-color: transparent;");
     //ui->scrollArea->verticalScrollBar()->setSingleStep(5);
 
     ui->clearSpotOlderSpin->setValue(settings.value("bandmap/spot_aging", 0).toInt());
@@ -213,7 +212,7 @@ void BandmapWidget::updateStations()
                        QGraphicsItem::ItemIsSelectable |
                        text->flags());
         text->setProperty("freq", lower.key());
-
+        text->setToolTip(lower.value().comment);
 
         min_y = text_y + text->boundingRect().height() / 2;
 

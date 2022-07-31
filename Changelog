@@ -5,6 +5,7 @@ TBD - 0.13.0
 - [NEW] - Bandmap - Spot's color is recalculated when QSO is saved
 - [NEW] - BandMap - CTRL + Wheel zooming
 - [NEW] - BandMap - Zooming via buttons keeps a focus on centre freq 
+- [NEW] - BandMap - DX Spot's Comment as a tooltip"
 - Fixed MacOS builds (PR #102) (thx gerbert)
 - Fixed templates under MacOS (PR #101) (thx gerbert)
 
