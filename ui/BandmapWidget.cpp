@@ -60,6 +60,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     ui->graphicsView->setScene(bandmapScene);
     ui->graphicsView->installEventFilter(this);
     ui->graphicsView->setStyleSheet("background-color: transparent;");
+    //ui->scrollArea->verticalScrollBar()->setSingleStep(5);
 
     ui->clearSpotOlderSpin->setValue(settings.value("bandmap/spot_aging", 0).toInt());
 
