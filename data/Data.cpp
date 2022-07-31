@@ -139,7 +139,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
 }
 
 #define RETURNCODE(a) \
-    qInfo() << "new DXCC Status: " << (a); \
+    qCDebug(runtime) << "new DXCC Status: " << (a); \
     return ((a))
 
 DxccStatus Data::dxccFutureStatus(const DxccStatus &oldStatus,
@@ -152,7 +152,7 @@ DxccStatus Data::dxccFutureStatus(const DxccStatus &oldStatus,
 {
     FCT_IDENTIFICATION;
 
-    qInfo(function_parameters) << oldStatus
+    qCDebug(function_parameters) << oldStatus
                                << oldDxcc
                                << oldBand
                                << oldMode
