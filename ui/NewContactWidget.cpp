@@ -1820,6 +1820,7 @@ void NewContactWidget::setNearestSpotColor(const QString &call)
 
     if ( call.isEmpty() )
     {
+        ui->nearStationLabel->setText(call);
         return;
     }
 
