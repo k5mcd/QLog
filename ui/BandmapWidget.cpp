@@ -450,6 +450,22 @@ DxSpot BandmapWidget::nearestSpot(double freq) const
     return it.value();
 }
 
+void BandmapWidget::updateNearestSpot()
+{
+    FCT_IDENTIFICATION;
+
+    static DxSpot lastNearestSpot;
+    DxSpot currNearestSpot;
+
+    currNearestSpot = nearestSpot(rx_freq);
+
+    if ( currNearestSpot.callsign != lastNearestSpot.callsign )
+    {
+        emit nearestSpotFound(currNearestSpot);
+        lastNearestSpot = currNearestSpot;
+    }
+}
+
 void BandmapWidget::spotAgingChanged(int)
 {
     FCT_IDENTIFICATION;
@@ -465,6 +481,7 @@ void BandmapWidget::clearSpots()
 
     spots.clear();
     updateStations();
+    updateNearestSpot();
 }
 
 void BandmapWidget::zoomIn()
@@ -594,9 +611,6 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
 
     Q_UNUSED(vfoid)
 
-    static DxSpot lastNearestSpot;
-    DxSpot currNearestSpot;
-
     qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
 
     /* always show the bandmap for RIT Freq */
@@ -630,13 +644,7 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
         drawTXRXMarks(step);
     }
 
-    currNearestSpot = nearestSpot(ritFreq);
-
-    if ( currNearestSpot.callsign != lastNearestSpot.callsign )
-    {
-        emit nearestSpotFound(currNearestSpot);
-        lastNearestSpot = currNearestSpot;
-    }
+    updateNearestSpot();
 }
 
 BandmapWidget::~BandmapWidget()

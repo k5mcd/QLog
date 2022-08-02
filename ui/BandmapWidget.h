@@ -78,6 +78,8 @@ private:
     void centerRXFreqPosition();
     QPointF Freq2ScenePos(double) const;
     double ScenePos2Freq(const QPointF &point) const;
+    DxSpot nearestSpot(double) const;
+    void updateNearestSpot();
 
 private slots:
     void centerRXActionChecked(bool);
@@ -85,9 +87,6 @@ private slots:
     void showContextMenu(QPoint);
     void updateStationTimer();
     void focusZoomFreq(int, int);
-
-private:
-    DxSpot nearestSpot(double) const;
 
 private:
     Ui::BandmapWidget *ui;
