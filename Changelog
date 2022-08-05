@@ -9,6 +9,7 @@ TBD - 0.13.0
 - [CHANGED] BandMap - UI Layout
 - Fixed MacOS builds (PR #102) (thx gerbert)
 - Fixed templates under MacOS (PR #101) (thx gerbert)
+- Fixed WindowsOS Installer - Unable to upgrade version
 
 2022/07/15 - 0.12.0
 - [NEW] Statistics - Show ODX on the map
