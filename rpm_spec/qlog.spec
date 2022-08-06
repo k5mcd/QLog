@@ -42,6 +42,19 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sat Aug 6 2022 Ladislav Foldyna - 0.13.0-1
+- [NEW] QSY Contact Wiping (issue #100)
+- [NEW] Timeoff is highlighted when QSO timer is running (issue #100)
+- [NEW] Callsign whisperer
+- [NEW] Bandmap - Spot's color is recalculated when QSO is saved
+- [NEW] BandMap - CTRL + Wheel zooming
+- [NEW] BandMap - Zooming via buttons keeps a focus on centre freq
+- [NEW] BandMap - DX Spot's Comment as a tooltip
+- [CHANGED] BandMap - UI Layout
+- Fixed MacOS builds (PR #102) (thx gerbert)
+- Fixed templates under MacOS (PR #101) (thx gerbert)
+- Fixed WindowsOS Installer - Unable to upgrade version
+
 * Fri Jul 15 2022 Ladislav Foldyna - 0.12.0-1
 - [NEW] Statistics - Show ODX on the map
 - [EXPERIMENTAL] Support for QT Styles (issue #88)

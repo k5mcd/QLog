@@ -119,7 +119,10 @@ QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, doub
 
     double d = 2*asin(sqrt(pow(sin(latA-latB)/2, 2) + cos(latA)* cos(latB) * pow(sin((lonA-lonB)/2), 2)));
 
-    for (double f = 0; f <= 1; f += 0.001) {
+    double f = 0;
+
+    for (int i = 0; i < 1000; i++)
+    {
         double A = sin((1-f)*d)/sin(d);
         double B = sin(f*d)/sin(d);
         double x = A*cos(latA)*cos(lonA) + B*cos(latB)*cos(lonB);
@@ -128,6 +131,8 @@ QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, doub
         double lat = atan2(z, sqrt(x*x + y*y));
         double lon = atan2(y, x);
         result.append(QString("[%1, %2]").arg(lat*(180/M_PI)).arg(lon*(180/M_PI)));
+
+        f += 0.001;
     }
     return result.join(",");
 }

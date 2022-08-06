@@ -83,7 +83,7 @@ void RigWidget::updateFrequency(VFOID vfoid, double vfoFreq, double ritFreq, dou
     lastSeenFreq = vfoFreq;
 }
 
-void RigWidget::updateMode(VFOID vfoid, QString rawMode, QString mode, QString submode)
+void RigWidget::updateMode(VFOID vfoid, QString rawMode, QString mode, QString submode, double)
 {
     FCT_IDENTIFICATION;
 
@@ -308,7 +308,7 @@ void RigWidget::resetRigInfo()
 {
     QString empty;
 
-    updateMode(VFO1, empty, empty, empty);
+    updateMode(VFO1, empty, empty, empty, RIG_PASSBAND_NORMAL);
     ui->pwrLabel->setText(QString(""));
     updateVFO(VFO1, empty);
     updateFrequency(VFO1, 0, 0, 0);

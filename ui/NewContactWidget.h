@@ -54,10 +54,12 @@ public slots:
 
     // to receive RIG instructions
     void changeFrequency(VFOID, double, double, double);
-    void changeMode(VFOID, QString rawMode, QString mode, QString subMode);
+    void changeMode(VFOID, QString rawMode, QString mode, QString subMode, double width);
     void changePower(VFOID, double power);
     void rigConnected();
     void rigDisconnected();
+    void nearestSpot(const DxSpot &);
+    void setNearestSpotColor(const QString &call);
 
 private slots:
     void callsignChanged();
@@ -76,6 +78,9 @@ private slots:
     void callsignResult(const QMap<QString, QString>& data);
     void propModeChanged(const QString&);
     void sotaChanged(QString);
+    void formFieldChangedString(const QString&);
+    void formFieldChanged();
+    void useNearestCallsign();
 
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);
@@ -85,10 +90,10 @@ private slots:
 private:
     void fillFieldsFromLastQSO(QString callsign);
     void queryDxcc(QString callsign);
-    void clearQueryFields();
+    void clearCallbookQueryFields();
     void readWidgetSettings();
     void writeWidgetSetting();
-    void __modeChanged();
+    void __modeChanged(double);
     void refreshStationProfileCombo();
     void updateTXBand(double freq);
     void updateRXBand(double freq);
@@ -99,6 +104,11 @@ private:
     void refreshAntProfileCombo();
     void addAddlFields(QSqlRecord &record);
     bool eventFilter(QObject *object, QEvent *event);
+    bool isQSOTimeStarted();
+    void QSYContactWiping(double);
+    void connectFieldChanged();
+    void changeCallsignManually(const QString &);
+    void changeCallsignManually(const QString &, double);
 
 private:
     Rig* rig;
@@ -115,6 +125,10 @@ private:
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
     QTimeZone partnerTimeZone;
+    double QSOFreq;
+    double bandwidthFilter;
+    bool rigOnline;
+    QMap<QString, QString> lastCallbookQueryData;
 };
 
 #endif // NEWCONTACTWIDGET_H

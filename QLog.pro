@@ -6,11 +6,11 @@
 
 QT       += core gui sql network xml charts webenginewidgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 TARGET = qlog
 TEMPLATE = app
-VERSION = 0.12.0
+VERSION = 0.13.0
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 

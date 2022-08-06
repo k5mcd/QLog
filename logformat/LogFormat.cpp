@@ -479,8 +479,13 @@ int LogFormat::runExport()
             qWarning() << "Cannot prepare select statement";
             return 0;
         }
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+        query.bindValue(":start_date", startDate.startOfDay());
+        query.bindValue(":end_date", endDate.endOfDay());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
         query.bindValue(":start_date", QDateTime(startDate));
         query.bindValue(":end_date", QDateTime(endDate));
+#endif
     }
     else {
         if ( ! query.prepare("SELECT * FROM contacts ORDER BY start_time ASC") )

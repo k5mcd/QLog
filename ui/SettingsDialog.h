@@ -35,6 +35,7 @@ public slots:
     void clearRigProfileForm();
     void rigRXOffsetChanged(int);
     void rigTXOffsetChanged(int);
+    void rigGetFreqChanged(int);
 
     void addRotProfile();
     void delRotProfile();

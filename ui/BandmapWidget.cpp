@@ -5,6 +5,8 @@
 #include <QTextDocument>
 #include <QScrollBar>
 #include <QGraphicsSceneMouseEvent>
+#include <algorithm>
+#include <QWheelEvent>
 
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
@@ -21,12 +23,14 @@ MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
 //Maximal Aging interval is 20s
 #define BANDMAP_AGING_CHECK_TIME 20000
 
+//Pixel between each step in BandMap
+#define PIXELSPERSTEP 10
+
 BandmapWidget::BandmapWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::BandmapWidget),
     rxMark(nullptr),
     txMark(nullptr),
-    RXPositionY(0),
     keepRXCenter(true),
     pendingSpots(0),
     lastStationUpdate(0)
@@ -47,18 +51,25 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 
     bandmapScene = new GraphicsScene(this);
     bandmapScene->setFocusOnTouch(false);
-    connect(bandmapScene, &GraphicsScene::focusItemChanged, this, &BandmapWidget::spotClicked);
+
+    connect(bandmapScene, &GraphicsScene::focusItemChanged,
+            this, &BandmapWidget::spotClicked);
+    connect(ui->scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged,
+            this, &BandmapWidget::focusZoomFreq);
 
     ui->graphicsView->setScene(bandmapScene);
-    ui->graphicsView->setStyleSheet("background-color: transparent;");
+    ui->graphicsView->installEventFilter(this);
+    //ui->scrollArea->verticalScrollBar()->setSingleStep(5);
 
     ui->clearSpotOlderSpin->setValue(settings.value("bandmap/spot_aging", 0).toInt());
 
     Rig* rig = Rig::instance();
-    connect(rig, &Rig::frequencyChanged, this, &BandmapWidget::updateTunedFrequency);
+    connect(rig, &Rig::frequencyChanged,
+            this, &BandmapWidget::updateTunedFrequency);
 
     update_timer = new QTimer;
-    connect(update_timer, SIGNAL(timeout()), this, SLOT(updateStationTimer()));
+    connect(update_timer, SIGNAL(timeout()),
+            this, SLOT(updateStationTimer()));
     update_timer->start(BANDMAP_MAX_REFRESH_TIME);
 
     updateTunedFrequency(VFO1, freq, freq, freq);
@@ -94,7 +105,7 @@ void BandmapWidget::update()
 
     int steps = static_cast<int>(round((currentBand.end - currentBand.start) / step));
 
-    ui->graphicsView->setFixedSize(330, steps*10 + 30);
+    ui->graphicsView->setFixedSize(330, steps * PIXELSPERSTEP + 30);
 
     /****************/
     /* Draw bandmap */
@@ -102,24 +113,24 @@ void BandmapWidget::update()
     for ( int i = 0; i <= steps; i++ )
     {
         bandmapScene->addLine(0,
-                              i*10,
+                              i * PIXELSPERSTEP,
                               (i % 5 == 0) ? 15 : 10,
-                              i*10,
+                              i * PIXELSPERSTEP,
                               QPen(QColor(192,192,192)));
 
         if (i % 5 == 0)
         {
             QGraphicsTextItem* text = bandmapScene->addText(QString::number(currentBand.start + step*i, 'f', digits));
             text->setPos(- (text->boundingRect().width()) - 10,
-                         i*10 - (text->boundingRect().height() / 2));
+                         i * PIXELSPERSTEP - (text->boundingRect().height() / 2));
         }
     }
 
     QString endFreqDigits= QString::number(currentBand.end + step*steps, 'f', digits);
-    bandmapScene->setSceneRect(160 - (endFreqDigits.size()*10),
+    bandmapScene->setSceneRect(160 - (endFreqDigits.size() * PIXELSPERSTEP),
                                0,
                                0,
-                               steps*10 + 20);
+                               steps * PIXELSPERSTEP + 20);
 
     /************************/
     /* Draw TX and RX Marks */
@@ -174,12 +185,12 @@ void BandmapWidget::updateStations()
 
     determineStepDigits(step, digits);
 
-    QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(currentBand.start);
-    QMap<double, DxSpot>::const_iterator upper = spots.upperBound(currentBand.end);
+    QMap<double, DxSpot>::iterator lower = spots.lowerBound(currentBand.start);
+    QMap<double, DxSpot>::iterator upper = spots.upperBound(currentBand.end);
 
     for (; lower != upper; lower++)
     {
-        double freq_y = ((lower.key() - currentBand.start) / step) * 10;
+        double freq_y = ((lower.key() - currentBand.start) / step) * PIXELSPERSTEP;
         double text_y = std::max(min_y + 5, freq_y);
 
         /*************************
@@ -201,7 +212,7 @@ void BandmapWidget::updateStations()
                        QGraphicsItem::ItemIsSelectable |
                        text->flags());
         text->setProperty("freq", lower.key());
-
+        text->setToolTip(lower.value().comment);
 
         min_y = text_y + text->boundingRect().height() / 2;
 
@@ -214,7 +225,7 @@ void BandmapWidget::updateStations()
     lastStationUpdate = QDateTime::currentMSecsSinceEpoch();
 }
 
-void BandmapWidget::determineStepDigits(double &step, int &digits)
+void BandmapWidget::determineStepDigits(double &step, int &digits) const
 {
     FCT_IDENTIFICATION;
 
@@ -290,7 +301,6 @@ void BandmapWidget::clearFreqMark(QGraphicsPolygonItem **currentPolygon)
 void BandmapWidget::drawFreqMark(const double freq,
                                  const double step,
                                  const QColor &color,
-                                 int &Yposition,
                                  QGraphicsPolygonItem **currentPolygon)
 {
     FCT_IDENTIFICATION;
@@ -305,7 +315,7 @@ void BandmapWidget::drawFreqMark(const double freq,
         return;
     }
 
-    Yposition = ((freq - currentBand.start) / step) * 10;
+    int Yposition = Freq2ScenePos(freq).y();
 
     QPolygonF poly;
     poly << QPointF(-1, Yposition)
@@ -324,9 +334,9 @@ void BandmapWidget::drawTXRXMarks(double step)
     /**************************/
     /* Draw RX frequency mark */
     /**************************/
-    drawFreqMark(rx_freq, step, QColor(30, 180, 30), RXPositionY, &rxMark);
+    drawFreqMark(rx_freq, step, QColor(30, 180, 30), &rxMark);
 
-    centerPosition();
+    centerRXFreqPosition();
 
     /**************************/
     /* Draw TX frequency mark */
@@ -335,12 +345,12 @@ void BandmapWidget::drawTXRXMarks(double step)
          && tx_freq <= currentBand.end
          && tx_freq != rx_freq )
     {
-        int i;
-        drawFreqMark(tx_freq, step, QColor(255, 0, 0), i, &txMark);
+        drawFreqMark(tx_freq, step, QColor(255, 0, 0), &txMark);
     }
 }
 
-void BandmapWidget::removeDuplicates(DxSpot &spot) {
+void BandmapWidget::removeDuplicates(DxSpot &spot)
+{
     FCT_IDENTIFICATION;
 
     QMap<double, DxSpot>::iterator lower = spots.lowerBound(spot.freq - 0.005);
@@ -404,6 +414,58 @@ void BandmapWidget::updateStationTimer()
     }
 }
 
+DxSpot BandmapWidget::nearestSpot(double freq) const
+{
+    FCT_IDENTIFICATION;
+
+    QMap<double, DxSpot>::const_iterator it = spots.constFind(freq);
+
+    if( it == spots.cend() )
+    {
+        QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(freq - Hz2MHz(kHz(1)));
+        QMap<double, DxSpot>::const_iterator upper = spots.upperBound(freq + Hz2MHz(kHz(1)));
+
+        it = std::min_element( lower, upper,
+                [freq](const DxSpot &p1,
+                       const DxSpot &p2)
+                {
+                return
+                    qAbs(p1.freq - freq) <
+                    qAbs(p2.freq - freq);
+                });
+
+        if ( it != upper )
+        {
+            /* FOUND */
+            return it.value();
+        }
+        else
+        {
+            /* Not found */
+            return DxSpot();
+        }
+    }
+
+    /* Exact Match */
+    return it.value();
+}
+
+void BandmapWidget::updateNearestSpot()
+{
+    FCT_IDENTIFICATION;
+
+    static DxSpot lastNearestSpot;
+    DxSpot currNearestSpot;
+
+    currNearestSpot = nearestSpot(rx_freq);
+
+    if ( currNearestSpot.callsign != lastNearestSpot.callsign )
+    {
+        emit nearestSpotFound(currNearestSpot);
+        lastNearestSpot = currNearestSpot;
+    }
+}
+
 void BandmapWidget::spotAgingChanged(int)
 {
     FCT_IDENTIFICATION;
@@ -419,11 +481,26 @@ void BandmapWidget::clearSpots()
 
     spots.clear();
     updateStations();
+    updateNearestSpot();
 }
 
 void BandmapWidget::zoomIn()
 {
     FCT_IDENTIFICATION;
+
+    if ( zoomFreq == 0.0 )
+    {
+        if ( keepRXCenter )
+        {
+            zoomFreq = rx_freq;
+        }
+        else
+        {
+            QPoint point(0,ui->scrollArea->verticalScrollBar()->value() + this->height()/2 - 50);
+            zoomFreq = ScenePos2Freq(ui->graphicsView->mapToScene(point));
+        }
+        zoomWidgetYOffset = this->height()/2 - 50;
+    }
 
     if ( zoom > ZOOM_100HZ )
     {
@@ -436,11 +513,62 @@ void BandmapWidget::zoomOut()
 {
     FCT_IDENTIFICATION;
 
+    if ( zoomFreq == 0.0 )
+    {
+        if ( keepRXCenter )
+        {
+            zoomFreq = rx_freq;
+        }
+        else
+        {
+            QPoint point(0,ui->scrollArea->verticalScrollBar()->value() + this->height()/2 - 50);
+            zoomFreq = ScenePos2Freq(ui->graphicsView->mapToScene(point));
+        }
+        zoomWidgetYOffset = this->height()/2 - 50;
+    }
+
     if ( zoom < ZOOM_10KHZ )
     {
         zoom = static_cast<BandmapZoom>(static_cast<int>(zoom) + 1);
     }
     update();
+}
+
+void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
+{
+    FCT_IDENTIFICATION;
+
+    qint32 dxcc = record.value("dxcc").toInt();
+    QString band = record.value("band").toString();
+    QString mode = Data::instance()->modeToDXCCMode(record.value("mode").toString());
+
+    QMutableMapIterator<double, DxSpot> spotIterator(spots);
+
+    while ( spotIterator.hasNext() )
+    {
+        spotIterator.next();
+        spotIterator.value().status = Data::dxccFutureStatus(spotIterator.value().status,
+                                                             spotIterator.value().dxcc.dxcc,
+                                                             spotIterator.value().band,
+                                                             Data::freqToDXCCMode(spotIterator.value().freq),
+                                                             dxcc,
+                                                             band,
+                                                             mode);
+    }
+    updateStations();
+}
+
+void BandmapWidget::focusZoomFreq(int, int)
+{
+    FCT_IDENTIFICATION;
+
+    if ( zoomFreq > 0.0 )
+    {
+        int newScrollValue = qMin(qMax(Freq2ScenePos(zoomFreq).y() - ( zoomWidgetYOffset ), 0.0),
+                                  (double)ui->scrollArea->verticalScrollBar()->maximum());
+        ui->scrollArea->verticalScrollBar()->setValue(newScrollValue);
+        zoomFreq = 0.0;
+    }
 }
 
 void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *, Qt::FocusReason)
@@ -528,6 +656,8 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
         /************************/
         drawTXRXMarks(step);
     }
+
+    updateNearestSpot();
 }
 
 BandmapWidget::~BandmapWidget()
@@ -549,17 +679,117 @@ void BandmapWidget::resizeEvent(QResizeEvent *event)
 
     QWidget::resizeEvent(event);
 
-    centerPosition();
+    centerRXFreqPosition();
 }
 
-void BandmapWidget::centerPosition()
+bool BandmapWidget::eventFilter(QObject *, QEvent *event)
+{
+    FCT_IDENTIFICATION;
+
+    if (event->type() == QEvent::Wheel)
+    {
+        QWheelEvent *wheelEvent = dynamic_cast<QWheelEvent*>(event);
+
+        if ( wheelEvent )
+        {
+            if ( QApplication::keyboardModifiers() == Qt::ControlModifier )
+            {
+                /*
+                 * CRTL + Mouse Wheel
+                 *
+                 * Zoom In/Out
+                 */
+
+                QPoint zoomViewPoint = ui->graphicsView->mapFromGlobal(QCursor::pos());
+                zoomWidgetYOffset = zoomViewPoint.y() - ui->scrollArea->verticalScrollBar()->value();
+                zoomFreq = ScenePos2Freq(ui->graphicsView->mapToScene(zoomViewPoint));
+
+                QPoint wheelDelta(wheelEvent->angleDelta());
+
+                if ( wheelDelta.y() > 0 )
+                {
+                    zoomIn();
+                }
+
+                if ( wheelDelta.y() < 0 )
+                {
+                    zoomOut();
+                }
+
+                /*
+                 * DO NOT focus zoomed Freq here because the scrollbar
+                 * is not resized yet and it is not possible to compute
+                 * a correct value for scrollbar value (scrollbar min/max
+                 * is recomputed later and it emits RangeChanged signal).
+                 * SO focus zoomed Freq in SLOT for RangeChanged signal.
+                 */
+                event->accept();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void BandmapWidget::centerRXFreqPosition()
 {
     FCT_IDENTIFICATION;
 
     if ( keepRXCenter )
     {
-        ui->scrollArea->verticalScrollBar()->setValue(RXPositionY - (this->height()/2) + 50);
+        ui->scrollArea->verticalScrollBar()->setValue(Freq2ScenePos(rx_freq).y() - (this->height()/2) + 50);
     }
+}
+
+QPointF BandmapWidget::Freq2ScenePos(double freq) const
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
+    if ( freq < currentBand.start || freq > currentBand.end )
+    {
+        return QPointF();
+    }
+
+    double step;
+    int digits;
+
+    determineStepDigits(step, digits);
+
+    QPointF ret(0, ((freq - currentBand.start) / step) * PIXELSPERSTEP);
+
+    qCDebug(runtime) << ret;
+
+    return ret;
+}
+
+double BandmapWidget::ScenePos2Freq(const QPointF &point) const
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << point;
+
+    double step;
+    int digits;
+
+    determineStepDigits(step, digits);
+
+    double ret = currentBand.start + (point.y() / PIXELSPERSTEP) * step;
+
+    if ( ret > currentBand.end )
+    {
+        ret = currentBand.end;
+    }
+
+    if ( ret < currentBand.start )
+    {
+        ret = currentBand.start;
+    }
+
+    qCDebug(runtime) << ret;
+
+    return ret;
 }
 
 void BandmapWidget::centerRXActionChecked(bool state)
@@ -571,7 +801,8 @@ void BandmapWidget::centerRXActionChecked(bool state)
     keepRXCenter = state;
     settings.setValue("bandmap/centerrx", keepRXCenter);
 
-    centerPosition();
+    zoomFreq = 0.0;
+    centerRXFreqPosition();
 }
 
 void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *evt)

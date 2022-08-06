@@ -285,6 +285,7 @@ void SettingsDialog::addRigProfile()
     profile.getRITInfo = ui->rigGetRITCheckBox->isChecked();
     profile.getXITInfo = ui->rigGetXITCheckBox->isChecked();
     profile.getPTTInfo = ui->rigGetPTTStateCheckBox->isChecked();
+    profile.QSYWiping = ui->rigQSYWipingCheckBox->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -341,6 +342,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigRXOffsetSpinBox->setValue(profile.ritOffset);
     ui->rigTXOffsetSpinBox->setValue(profile.xitOffset);
     ui->rigGetPTTStateCheckBox->setChecked(profile.getPTTInfo);
+    ui->rigQSYWipingCheckBox->setChecked(profile.QSYWiping);
 
     fixRigCap(rig_get_caps(profile.model));
 
@@ -377,6 +379,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigRXOffsetSpinBox->setValue(0.0);
     ui->rigTXOffsetSpinBox->setValue(0.0);
     ui->rigGetPTTStateCheckBox->setChecked(false);
+    ui->rigQSYWipingCheckBox->setChecked(true);
 
     ui->rigAddProfileButton->setText(tr("Add"));
 }
@@ -409,6 +412,14 @@ void SettingsDialog::rigTXOffsetChanged(int)
     {
         ui->rigTXOffsetSpinBox->setEnabled(true);
     }
+}
+
+void SettingsDialog::rigGetFreqChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    ui->rigQSYWipingCheckBox->setEnabled(ui->rigGetFreqCheckBox->isChecked());
+    ui->rigQSYWipingCheckBox->setChecked(ui->rigGetFreqCheckBox->isChecked());
 }
 
 void SettingsDialog::addRotProfile()
@@ -827,6 +838,9 @@ void SettingsDialog::rigChanged(int index)
         ui->rigGetPTTStateCheckBox->setEnabled(true);
         ui->rigGetPTTStateCheckBox->setChecked(false);
 
+        ui->rigQSYWipingCheckBox->setEnabled(true);
+        ui->rigQSYWipingCheckBox->setChecked(true);
+
         /* disable what is unimplemented */
         fixRigCap(caps);
     }
@@ -873,7 +887,7 @@ void SettingsDialog::tqslPathBrowse()
                                                     "",
 #if defined(Q_OS_WIN)
                                                     "TQSL (*.exe)"
-#elif (Q_OS_MACOS)
+#elif defined(Q_OS_MACOS)
                                                     "TQSL (*.app)"
 #else
                                                     "TQSL (tqsl)"
@@ -1296,6 +1310,12 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
         {
             ui->rigGetPTTStateCheckBox->setEnabled(false);
             ui->rigGetPTTStateCheckBox->setChecked(false);
+        }
+
+        if ( ! ui->rigGetFreqCheckBox->isChecked() )
+        {
+            ui->rigQSYWipingCheckBox->setEnabled(false);
+            ui->rigQSYWipingCheckBox->setChecked(false);
         }
     }
 }

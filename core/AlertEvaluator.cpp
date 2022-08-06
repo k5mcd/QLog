@@ -92,7 +92,7 @@ void AlertEvaluator::WSJTXCQSpot(const WsjtxEntry &wsjtx)
         alert.callsign = wsjtx.callsign;
         alert.freq = wsjtx.freq;
         alert.band = wsjtx.band;
-        alert.mode = Data::freqToMode(wsjtx.freq);
+        alert.mode = Data::freqToDXCCMode(wsjtx.freq);
         alert.dxcc = wsjtx.dxcc;
         alert.comment = wsjtx.decode.message;
         alert.status = wsjtx.status;
@@ -265,7 +265,7 @@ bool AlertRule::match(const WsjtxEntry &wsjtx) const
 
     qCDebug(function_parameters) << "Country: " << wsjtx.dxcc.dxcc
                                  << "Status: " << wsjtx.status
-                                 << "Mode: " << Data::freqToMode(wsjtx.freq)
+                                 << "Mode: " << Data::freqToDXCCMode(wsjtx.freq)
                                  << "Band: " << wsjtx.band
                                  << "spotter Country: " << wsjtx.dxcc_spotter.dxcc
                                  << "Continent: " << wsjtx.dxcc.cont
@@ -279,7 +279,7 @@ bool AlertRule::match(const WsjtxEntry &wsjtx) const
          && (sourceMap & SpotAlert::WSJTXCQSPOT)
          && (dxCountry == 0 || dxCountry == wsjtx.dxcc.dxcc)
          && (wsjtx.status & dxLogStatusMap)
-         && (mode == "*" || mode.contains("|" + Data::freqToMode(wsjtx.freq)))
+         && (mode == "*" || mode.contains("|" + Data::freqToDXCCMode(wsjtx.freq)))
          && (band == "*" || band.contains("|" + wsjtx.band))
          && (spotterCountry == 0 || spotterCountry == wsjtx.dxcc_spotter.dxcc )
          && (dxContinent == "*" || dxContinent.contains("|" + wsjtx.dxcc.cont))
@@ -311,7 +311,7 @@ bool AlertRule::match(const DxSpot &spot) const
 
     qCDebug(function_parameters) << "Country: " << spot.dxcc.dxcc
                                  << "Status: " << spot.status
-                                 << "Mode: " << Data::freqToMode(spot.freq)
+                                 << "Mode: " << Data::freqToDXCCMode(spot.freq)
                                  << "Band: " << spot.band
                                  << "spotter Country: " << spot.dxcc_spotter.dxcc
                                  << "Continent: " << spot.dxcc.cont
@@ -325,7 +325,7 @@ bool AlertRule::match(const DxSpot &spot) const
          && (sourceMap & SpotAlert::DXSPOT)
          && (dxCountry == 0 || dxCountry == spot.dxcc.dxcc)
          && (spot.status & dxLogStatusMap)
-         && (mode == "*" || mode.contains("|" + Data::freqToMode(spot.freq)))
+         && (mode == "*" || mode.contains("|" + Data::freqToDXCCMode(spot.freq)))
          && (band == "*" || band.contains("|" + spot.band))
          && (spotterCountry == 0 || spotterCountry == spot.dxcc_spotter.dxcc )
          && (dxContinent == "*" || dxContinent.contains("|" + spot.dxcc.cont))
