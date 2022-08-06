@@ -490,8 +490,15 @@ void BandmapWidget::zoomIn()
 
     if ( zoomFreq == 0.0 )
     {
-        QPoint point(0,ui->scrollArea->verticalScrollBar()->value() + this->height()/2 - 50);
-        zoomFreq = ScenePos2Freq(ui->graphicsView->mapToScene(point));
+        if ( keepRXCenter )
+        {
+            zoomFreq = rx_freq;
+        }
+        else
+        {
+            QPoint point(0,ui->scrollArea->verticalScrollBar()->value() + this->height()/2 - 50);
+            zoomFreq = ScenePos2Freq(ui->graphicsView->mapToScene(point));
+        }
         zoomWidgetYOffset = this->height()/2 - 50;
     }
 
@@ -508,8 +515,15 @@ void BandmapWidget::zoomOut()
 
     if ( zoomFreq == 0.0 )
     {
-        QPoint point(0,ui->scrollArea->verticalScrollBar()->value() + this->height()/2 - 50);
-        zoomFreq = ScenePos2Freq(ui->graphicsView->mapToScene(point));
+        if ( keepRXCenter )
+        {
+            zoomFreq = rx_freq;
+        }
+        else
+        {
+            QPoint point(0,ui->scrollArea->verticalScrollBar()->value() + this->height()/2 - 50);
+            zoomFreq = ScenePos2Freq(ui->graphicsView->mapToScene(point));
+        }
         zoomWidgetYOffset = this->height()/2 - 50;
     }
 
@@ -548,8 +562,7 @@ void BandmapWidget::focusZoomFreq(int, int)
 {
     FCT_IDENTIFICATION;
 
-    if ( !keepRXCenter   /* do not focus when Center is ON */
-         && zoomFreq > 0.0 )
+    if ( zoomFreq > 0.0 )
     {
         int newScrollValue = qMin(qMax(Freq2ScenePos(zoomFreq).y() - ( zoomWidgetYOffset ), 0.0),
                                   (double)ui->scrollArea->verticalScrollBar()->maximum());
@@ -718,7 +731,6 @@ bool BandmapWidget::eventFilter(QObject *, QEvent *event)
     return false;
 }
 
-
 void BandmapWidget::centerRXFreqPosition()
 {
     FCT_IDENTIFICATION;
@@ -789,6 +801,7 @@ void BandmapWidget::centerRXActionChecked(bool state)
     keepRXCenter = state;
     settings.setValue("bandmap/centerrx", keepRXCenter);
 
+    zoomFreq = 0.0;
     centerRXFreqPosition();
 }
 
