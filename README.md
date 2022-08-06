@@ -121,7 +121,7 @@ In order to build QLog on MacOS, following prerequisites must be satisfied.
 ##### Xcode  
 Xcode command line tools can be installed by issuing a command in command terminal:
 ```
-user@machine: ~ xcode-select --install
+xcode-select --install
 ```
 **N.B.:** This command doesn't install Xcode itself, however It will take some time to download and  
 install the tools anyway.
@@ -129,8 +129,8 @@ install the tools anyway.
 ##### MacOS build
 Last dependencies before building QLog are `hamlib` and `qtkeychain`:  
 ```
-user@machine: ~ brew install hamlib
-user@machine: ~ brew install --ignore-dependencies qtkeychain
+ brew install hamlib
+ brew install --ignore-dependencies qtkeychain
 ```
 
 As soon as the steps above are finished, QLog source can be opened in QtCreator, configured, built and run.  
