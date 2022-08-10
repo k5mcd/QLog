@@ -1,3 +1,5 @@
+name: CI Linux/macOS
+
 on: [push, pull_request]
 
 jobs:
