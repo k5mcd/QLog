@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>677</width>
-    <height>817</height>
+    <height>927</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="stationTab">
       <attribute name="title">
@@ -268,7 +268,7 @@
        <item>
         <widget class="QTabWidget" name="equipmentTabWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="antennasTab">
           <attribute name="title">
@@ -369,6 +369,754 @@
               </size>
              </property>
             </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="cwTab">
+          <attribute name="title">
+           <string>CW Keys</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QGroupBox" name="cwProfileGroup">
+             <property name="title">
+              <string>Key Profiles</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="0" column="0" rowspan="3">
+               <widget class="QListView" name="cwProfilesListView">
+                <property name="focusPolicy">
+                 <enum>Qt::NoFocus</enum>
+                </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="toolTip">
+                 <string>List of all available CW Keys</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="cwAddProfileButton">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QPushButton" name="cwDelProfileButton">
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="2">
+               <widget class="QGroupBox" name="cwProfileGroup_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>400</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="title">
+                 <string/>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+                <layout class="QFormLayout" name="formLayout_21">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="cwProfileNameLabel">
+                   <property name="text">
+                    <string>Profile Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="cwProfileNameEdit">
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="maxLength">
+                    <number>25</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="cwModelLabel">
+                   <property name="text">
+                    <string>Model</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="cwModelSelect"/>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_3">
+                   <property name="text">
+                    <string>Key Mode</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="cwKeyModeSelect">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>Default Speed</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QSpinBox" name="cwDefaulSpeed">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="suffix">
+                    <string> WPM</string>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>999</number>
+                   </property>
+                   <property name="value">
+                    <number>20</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0" colspan="2">
+                  <widget class="QStackedWidget" name="cwStackedWidget">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="currentIndex">
+                    <number>0</number>
+                   </property>
+                   <widget class="QWidget" name="cwSerialPage">
+                    <layout class="QFormLayout" name="formLayout_22">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="cwPortLabel">
+                       <property name="text">
+                        <string>Port</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QLineEdit" name="cwPortEdit"/>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="cwBaudLabel">
+                       <property name="text">
+                        <string>Baudrate</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QComboBox" name="cwBaudSelect">
+                       <item>
+                        <property name="text">
+                         <string>115200</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>57600</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>38400</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>19200</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>9600</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>4800</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>2400</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>1200</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="cwNetworkPage">
+                    <layout class="QFormLayout" name="formLayout_23">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="cwHostNameLabel">
+                       <property name="text">
+                        <string>Host Name</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QLineEdit" name="cwHostNameEdit"/>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="cwNetPortLabel">
+                       <property name="text">
+                        <string>Port</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QSpinBox" name="cwNetPortSpin">
+                       <property name="toolTip">
+                        <string>HamLib does not support to change a destination port.</string>
+                       </property>
+                       <property name="minimum">
+                        <number>4533</number>
+                       </property>
+                       <property name="maximum">
+                        <number>65535</number>
+                       </property>
+                       <property name="value">
+                        <number>4533</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <spacer name="verticalSpacer_9">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="cwShortcutProfileGroup">
+             <property name="title">
+              <string>CW Shortcut Profiles</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_9" rowstretch="0,0" columnstretch="0,0,0,0,0,0">
+              <item row="1" column="4">
+               <widget class="QPushButton" name="cwShortcutAddProfileButton">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="5">
+               <widget class="QPushButton" name="cwShortcutDelProfileButton">
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" rowspan="2" colspan="4">
+               <widget class="QListView" name="cwShortcutListView">
+                <property name="focusPolicy">
+                 <enum>Qt::NoFocus</enum>
+                </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="toolTip">
+                 <string>List of all available CW Key Macros</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4" colspan="2">
+               <widget class="QGroupBox" name="cwShortcutGroup">
+                <property name="minimumSize">
+                 <size>
+                  <width>400</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="title">
+                 <string/>
+                </property>
+                <layout class="QFormLayout" name="formLayout_24">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="cwShortcutProfileNameLabel">
+                   <property name="text">
+                    <string>Profile Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="cwShortcutProfileNameEdit">
+                   <property name="maxLength">
+                    <number>25</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="cwShortcutF1Label">
+                     <property name="text">
+                      <string>F1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="cwShortcutF1ShortEdit">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>60</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Short Desciption of the Button (up to 7 chars)</string>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="maxLength">
+                      <number>7</number>
+                     </property>
+                     <property name="frame">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="cwShortcutF1MacroEdit">
+                   <property name="toolTip">
+                    <string>&lt;DXCALL&gt; = DX Callsign 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Greenting GM/GA/GE 
+&lt;MYCALL&gt; = My Callsign 
+&lt;MYNAME&gt; = My Name 
+&lt;MYQTH&gt; = My QTH 
+&lt;MYLOCATOR&gt; = My Locator 
+&lt;MYSIG&gt; = My SIG 
+&lt;MYSIGINFO&gt; = My SIG Information 
+&lt;MYIOTA&gt; = My IOTA 
+&lt;MYSOTA&gt; = MY SOTA 
+&lt;MYWWFT&gt; = My WWFT 
+&lt;MYVUCC&gt; = MY VUCC 
+&lt;MYPWR&gt; = My Power in W</string>
+                   </property>
+                   <property name="inputMask">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="cwShortcutF2Label">
+                     <property name="text">
+                      <string>F2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="cwShortcutF2ShortEdit">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>60</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Short Desciption of the Button (up to 7 chars)</string>
+                     </property>
+                     <property name="maxLength">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLineEdit" name="cwShortcutF2MacroEdit">
+                   <property name="toolTip">
+                    <string>&lt;DXCALL&gt; = DX Callsign 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Greenting GM/GA/GE 
+&lt;MYCALL&gt; = My Callsign 
+&lt;MYNAME&gt; = My Name 
+&lt;MYQTH&gt; = My QTH 
+&lt;MYLOCATOR&gt; = My Locator 
+&lt;MYSIG&gt; = My SIG 
+&lt;MYSIGINFO&gt; = My SIG Information 
+&lt;MYIOTA&gt; = My IOTA 
+&lt;MYSOTA&gt; = MY SOTA 
+&lt;MYWWFT&gt; = My WWFT 
+&lt;MYVUCC&gt; = MY VUCC 
+&lt;MYPWR&gt; = My Power in W</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="cwShortcutF3MacroEdit">
+                   <property name="toolTip">
+                    <string>&lt;DXCALL&gt; = DX Callsign 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Greenting GM/GA/GE 
+&lt;MYCALL&gt; = My Callsign 
+&lt;MYNAME&gt; = My Name 
+&lt;MYQTH&gt; = My QTH 
+&lt;MYLOCATOR&gt; = My Locator 
+&lt;MYSIG&gt; = My SIG 
+&lt;MYSIGINFO&gt; = My SIG Information 
+&lt;MYIOTA&gt; = My IOTA 
+&lt;MYSOTA&gt; = MY SOTA 
+&lt;MYWWFT&gt; = My WWFT 
+&lt;MYVUCC&gt; = MY VUCC 
+&lt;MYPWR&gt; = My Power in W</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="cwShortcutF4MacroEdit">
+                   <property name="toolTip">
+                    <string>&lt;DXCALL&gt; = DX Callsign 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Greenting GM/GA/GE 
+&lt;MYCALL&gt; = My Callsign 
+&lt;MYNAME&gt; = My Name 
+&lt;MYQTH&gt; = My QTH 
+&lt;MYLOCATOR&gt; = My Locator 
+&lt;MYSIG&gt; = My SIG 
+&lt;MYSIGINFO&gt; = My SIG Information 
+&lt;MYIOTA&gt; = My IOTA 
+&lt;MYSOTA&gt; = MY SOTA 
+&lt;MYWWFT&gt; = My WWFT 
+&lt;MYVUCC&gt; = MY VUCC 
+&lt;MYPWR&gt; = My Power in W</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLineEdit" name="cwShortcutF5MacroEdit">
+                   <property name="toolTip">
+                    <string>&lt;DXCALL&gt; = DX Callsign 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Greenting GM/GA/GE 
+&lt;MYCALL&gt; = My Callsign 
+&lt;MYNAME&gt; = My Name 
+&lt;MYQTH&gt; = My QTH 
+&lt;MYLOCATOR&gt; = My Locator 
+&lt;MYSIG&gt; = My SIG 
+&lt;MYSIGINFO&gt; = My SIG Information 
+&lt;MYIOTA&gt; = My IOTA 
+&lt;MYSOTA&gt; = MY SOTA 
+&lt;MYWWFT&gt; = My WWFT 
+&lt;MYVUCC&gt; = MY VUCC 
+&lt;MYPWR&gt; = My Power in W</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QLineEdit" name="cwShortcutF6MacroEdit">
+                   <property name="toolTip">
+                    <string>&lt;DXCALL&gt; = DX Callsign 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Greenting GM/GA/GE 
+&lt;MYCALL&gt; = My Callsign 
+&lt;MYNAME&gt; = My Name 
+&lt;MYQTH&gt; = My QTH 
+&lt;MYLOCATOR&gt; = My Locator 
+&lt;MYSIG&gt; = My SIG 
+&lt;MYSIGINFO&gt; = My SIG Information 
+&lt;MYIOTA&gt; = My IOTA 
+&lt;MYSOTA&gt; = MY SOTA 
+&lt;MYWWFT&gt; = My WWFT 
+&lt;MYVUCC&gt; = MY VUCC 
+&lt;MYPWR&gt; = My Power in W</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QLineEdit" name="cwShortcutF7MacroEdit">
+                   <property name="toolTip">
+                    <string>&lt;DXCALL&gt; = DX Callsign 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Greenting GM/GA/GE 
+&lt;MYCALL&gt; = My Callsign 
+&lt;MYNAME&gt; = My Name 
+&lt;MYQTH&gt; = My QTH 
+&lt;MYLOCATOR&gt; = My Locator 
+&lt;MYSIG&gt; = My SIG 
+&lt;MYSIGINFO&gt; = My SIG Information 
+&lt;MYIOTA&gt; = My IOTA 
+&lt;MYSOTA&gt; = MY SOTA 
+&lt;MYWWFT&gt; = My WWFT 
+&lt;MYVUCC&gt; = MY VUCC 
+&lt;MYPWR&gt; = My Power in W</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_19">
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="cwShortcutF3Label">
+                     <property name="text">
+                      <string>F3</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="cwShortcutF3ShortEdit">
+                     <property name="maximumSize">
+                      <size>
+                       <width>60</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Short Desciption of the Button (up to 7 chars)</string>
+                     </property>
+                     <property name="maxLength">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="4" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_20">
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="cwShortcutF4Label">
+                     <property name="text">
+                      <string>F4</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="cwShortcutF4ShortEdit">
+                     <property name="maximumSize">
+                      <size>
+                       <width>60</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Short Desciption of the Button (up to 7 chars)</string>
+                     </property>
+                     <property name="maxLength">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="5" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_21">
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="cwShortcutF5Label">
+                     <property name="text">
+                      <string>F5</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="cwShortcutF5ShortEdit">
+                     <property name="maximumSize">
+                      <size>
+                       <width>60</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Short Desciption of the Button (up to 7 chars)</string>
+                     </property>
+                     <property name="maxLength">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="6" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_22">
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="cwShortcutF6Label">
+                     <property name="text">
+                      <string>F6</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="cwShortcutF6ShortEdit">
+                     <property name="maximumSize">
+                      <size>
+                       <width>60</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Short Desciption of the Button (up to 7 chars)</string>
+                     </property>
+                     <property name="maxLength">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="7" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_23">
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="cwShortcutF7Label">
+                     <property name="text">
+                      <string>F7</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="cwShortcutF7ShortEdit">
+                     <property name="maximumSize">
+                      <size>
+                       <width>60</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Short Desciption of the Button (up to 7 chars)</string>
+                     </property>
+                     <property name="maxLength">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -2436,6 +3184,118 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>cwProfilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickCWKeyProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>265</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwAddProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addCWKeyProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>332</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwDelProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>delCWKeyProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>535</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwShortcutListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickCWShortcutProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>695</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwShortcutAddProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addCWShortcutProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>332</x>
+     <y>840</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwShortcutDelProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>delCWShortcutProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>535</x>
+     <y>840</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwModelSelect</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>cwKeyChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>485</x>
+     <y>175</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -2466,5 +3326,12 @@
   <slot>rigRXOffsetChanged(int)</slot>
   <slot>rigTXOffsetChanged(int)</slot>
   <slot>rigGetFreqChanged(int)</slot>
+  <slot>doubleClickCWKeyProfile(QModelIndex)</slot>
+  <slot>addCWKeyProfile()</slot>
+  <slot>delCWKeyProfile()</slot>
+  <slot>doubleClickCWShortcutProfile(QModelIndex)</slot>
+  <slot>addCWShortcutProfile()</slot>
+  <slot>delCWShortcutProfile()</slot>
+  <slot>cwKeyChanged(int)</slot>
  </slots>
 </ui>

@@ -11,6 +11,8 @@
 #include "data/RigProfile.h"
 #include "data/RotProfile.h"
 #include "data/AntProfile.h"
+#include "data/CWKeyProfile.h"
+#include "data/CWShortcutProfile.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -49,6 +51,18 @@ public slots:
     void doubleClickAntProfile(QModelIndex);
     void clearAntProfileForm();
 
+    void addCWKeyProfile();
+    void delCWKeyProfile();
+    void refreshCWKeyProfilesView();
+    void doubleClickCWKeyProfile(QModelIndex);
+    void clearCWKeyProfileForm();
+
+    void addCWShortcutProfile();
+    void delCWShortcutProfile();
+    void refreshCWShortcutProfilesView();
+    void doubleClickCWShortcutProfile(QModelIndex);
+    void clearCWShortcutProfileForm();
+
     void refreshStationProfilesView();
     void addStationProfile();
     void deleteStationProfile();
@@ -57,6 +71,7 @@ public slots:
 
     void rigChanged(int);
     void rotChanged(int);
+    void cwKeyChanged(int);
     void tqslPathBrowse();
     void adjustCallsignTextColor();
     void adjustLocatorTextColor();
@@ -79,6 +94,9 @@ private:
     RigProfilesManager *rigProfManager;
     RotProfilesManager *rotProfManager;
     AntProfilesManager *antProfManager;
+    CWKeyProfilesManager *cwKeyProfManager;
+    CWShortcutProfilesManager *cwShortcutProfManager;
+
     QCompleter *sotaCompleter;
     QCompleter *iotaCompleter;
     Ui::SettingsDialog *ui;

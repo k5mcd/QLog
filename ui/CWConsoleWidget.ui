@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CWConsoleWidget</class>
+ <widget class="QWidget" name="CWConsoleWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>330</width>
+    <height>295</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QComboBox" name="cwKeyProfileCombo">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>CW Key Profile</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="cwKeySpeedSpinBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Speed</string>
+       </property>
+       <property name="keyboardTracking">
+        <bool>false</bool>
+       </property>
+       <property name="showGroupSeparator" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="suffix">
+        <string> WPM</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>99</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="handleWidth">
+      <number>4</number>
+     </property>
+     <widget class="QTextEdit" name="cwConsoleText">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="toolTip">
+       <string>Show the sent CW text</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::TextSelectableByMouse</set>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="cwEchoConsoleText">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
+      <property name="toolTip">
+       <string>Show the echoed CW text</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&amp;CW</string>
+       </property>
+       <property name="buddy">
+        <cstring>cwSendEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="cwSendEdit">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Text to send</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="macroButton1">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>F1</string>
+       </property>
+       <property name="autoRepeatDelay">
+        <number>300</number>
+       </property>
+       <property name="autoRepeatInterval">
+        <number>100</number>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="macroButton2">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>F2</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="macroButton3">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>F3</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cwShortcutProfileCombo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::DefaultContextMenu</enum>
+       </property>
+       <property name="toolTip">
+        <string>Shortcuts profile</string>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="macroButton4">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>F4</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="macroButton5">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>F5</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="macroButton6">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>F6</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="macroButton7">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>F7</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="haltButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>Immediatelly stop CW sending</string>
+       </property>
+       <property name="text">
+        <string>Hal&amp;t</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>cwKeySpeedSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeySpeedChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwKeyProfileCombo</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyProfileComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwSendEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwSendButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>macroButton1</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyMacroF1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>49</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>macroButton2</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyMacroF2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>120</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>macroButton3</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyMacroF3()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>macroButton4</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyMacroF4()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>macroButton5</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyMacroF5()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>49</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>macroButton6</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyMacroF6()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>120</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>macroButton7</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwKeyMacroF7()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>haltButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>haltButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwShortcutProfileCombo</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>CWConsoleWidget</receiver>
+   <slot>cwShortcutProfileComboChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>cwKeySpeedChanged(int)</slot>
+  <slot>cwKeyProfileComboChanged(QString)</slot>
+  <slot>cwSendButtonPressed()</slot>
+  <slot>cwKeyMacroF1()</slot>
+  <slot>cwKeyMacroF2()</slot>
+  <slot>cwKeyMacroF3()</slot>
+  <slot>cwKeyMacroF4()</slot>
+  <slot>cwKeyMacroF5()</slot>
+  <slot>cwKeyMacroF6()</slot>
+  <slot>cwKeyMacroF7()</slot>
+  <slot>haltButtonPressed()</slot>
+  <slot>cwShortcutProfileComboChanged(QString)</slot>
+  <slot>pokus(int)</slot>
+ </slots>
+</ui>

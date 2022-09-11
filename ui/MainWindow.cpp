@@ -13,6 +13,7 @@
 #include "core/Fldigi.h"
 #include "core/Rig.h"
 #include "core/Rotator.h"
+#include "core/CWKeyer.h"
 #include "core/Wsjtx.h"
 #include "core/ClubLog.h"
 #include "core/Conditions.h"
@@ -41,6 +42,8 @@ MainWindow::MainWindow(QWidget* parent) :
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    ui->cwconsoleWidget->registerContactWidget(ui->newContactWidget);
 
     QSettings settings;
 
@@ -108,6 +111,9 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(Rig::instance(), SIGNAL(rigErrorPresent(QString, QString)), this, SLOT(rigErrorHandler(QString, QString)));
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString, QString)), this, SLOT(rotErrorHandler(QString, QString)));
+    connect(CWKeyer::instance(), SIGNAL(cwKeyerError(QString, QString)), this, SLOT(cwKeyerErrorHandler(QString, QString)));
+    connect(CWKeyer::instance(), SIGNAL(cwKeyWPMChanged(qint32)), ui->cwconsoleWidget, SLOT(setWPM(qint32)));
+    connect(CWKeyer::instance(), SIGNAL(cwKeyEchoText(QString)), ui->cwconsoleWidget, SLOT(appendCWEchoText(QString)));
 
     Fldigi* fldigi = new Fldigi(this);
     connect(fldigi, &Fldigi::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
@@ -122,6 +128,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::settingsChanged, wsjtx, &Wsjtx::reloadSetting);
     connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::reloadSettings);
     connect(this, &MainWindow::settingsChanged, ui->rigWidget, &RigWidget::reloadSettings);
+    connect(this, &MainWindow::settingsChanged, ui->cwconsoleWidget, &CWConsoleWidget::reloadSettings);
     connect(this, &MainWindow::alertRulesChanged, &alertEvaluator, &AlertEvaluator::loadRules);
     connect(this, &MainWindow::altBackslash, Rig::instance(), &Rig::setPTT);
 
@@ -252,6 +259,16 @@ void MainWindow::rotErrorHandler(const QString &error, const QString &errorDetai
                          QMessageBox::tr("<b>Rotator Error:</b> ") + error
                                          + "<p>" + tr("<b>Error Detail:</b> ") + errorDetail + "</p>");
     ui->actionConnectRotator->setChecked(false);
+}
+
+void MainWindow::cwKeyerErrorHandler(const QString &error, const QString &errorDetail)
+{
+    FCT_IDENTIFICATION;
+
+    QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                         QMessageBox::tr("<b>CW Keyer Error:</b> ") + error
+                                         + "<p>" + tr("<b>Error Detail:</b> ") + errorDetail + "</p>");
+    ui->actionConnectCWKeyer->setChecked(false);
 }
 
 void MainWindow::stationProfileChanged()
@@ -401,6 +418,20 @@ void MainWindow::rotConnect() {
         Rotator::instance()->close();
     }
 
+}
+
+void MainWindow::cwKeyerConnect()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->actionConnectCWKeyer->isChecked() )
+    {
+        CWKeyer::instance()->open();
+    }
+    else
+    {
+        CWKeyer::instance()->close();
+    }
 }
 
 void MainWindow::showSettings() {
@@ -638,8 +669,13 @@ void MainWindow::alertRuleSetting()
 MainWindow::~MainWindow() {
     FCT_IDENTIFICATION;
 
+    CWKeyer::instance()->close();
+    QThread::msleep(500);
+
     Rig::instance()->stopTimer();
     Rotator::instance()->stopTimer();
+    CWKeyer::instance()->stopTimer();
+
     alertWidget->deleteLater();
     conditions->deleteLater();
     conditionsLabel->deleteLater();

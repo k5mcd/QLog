@@ -31,6 +31,7 @@
 #include "core/Rotator.h"
 #include "core/LogParam.h"
 #include "core/Callsign.h"
+#include "core/CWKeyer.h"
 
 #define WIDGET_INDEX_SERIAL_RIG  0
 #define STACKED_WIDGET_NETWORK_RIG 1
@@ -45,6 +46,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     rigProfManager(RigProfilesManager::instance()),
     rotProfManager(RotProfilesManager::instance()),
     antProfManager(AntProfilesManager::instance()),
+    cwKeyProfManager(CWKeyProfilesManager::instance()),
+    cwShortcutProfManager(CWShortcutProfilesManager::instance()),
     ui(new Ui::SettingsDialog)
 {
     FCT_IDENTIFICATION;
@@ -65,6 +68,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     QStringListModel* antModel = new QStringListModel();
     ui->antProfilesListView->setModel(antModel);
+
+    QStringListModel* cwKeyModel = new QStringListModel();
+    ui->cwProfilesListView->setModel(cwKeyModel);
+
+    QStringListModel* cwShortcutModel = new QStringListModel();
+    ui->cwShortcutListView->setModel(cwShortcutModel);
 
     QStringListModel* profilesModes = new QStringListModel();
     ui->stationProfilesListView->setModel(profilesModes);
@@ -147,6 +156,16 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->rotParitySelect->addItem(tr("Mark"), Rotator::SERIAL_PARITY_MARK);
     ui->rotParitySelect->addItem(tr("Space"), Rotator::SERIAL_PARITY_SPACE);
 
+    ui->cwModelSelect->addItem(tr("Dummy"), CWKey::DUMMY_KEYER);
+    ui->cwModelSelect->addItem(tr("WinKey v2"), CWKey::WINKEY2_KEYER);
+    ui->cwModelSelect->setCurrentIndex(ui->cwModelSelect->findData(DEFAULT_CWKEY_MODEL));
+
+    ui->cwKeyModeSelect->addItem(tr("Single Paddle"), CWKey::SINGLE_PADDLE);
+    ui->cwKeyModeSelect->addItem(tr("IAMBIC A"), CWKey::IAMBIC_A);
+    ui->cwKeyModeSelect->addItem(tr("IAMBIC B"), CWKey::IAMBIC_B);
+    ui->cwKeyModeSelect->addItem(tr("Ultimate"), CWKey::ULTIMATE);
+    ui->cwKeyModeSelect->setCurrentIndex(ui->cwKeyModeSelect->findData(CWKey::IAMBIC_B));
+
     readSettings();
 }
 
@@ -177,7 +196,7 @@ void SettingsDialog::save() {
         return;
     }
 
-    if ( ui->rigAddProfileButton->text() == tr("Modify") )
+    if ( ui->cwAddProfileButton->text() == tr("Modify") )
     {
         ui->tabWidget->setCurrentIndex(1);
         ui->equipmentTabWidget->setCurrentIndex(1);
@@ -185,10 +204,26 @@ void SettingsDialog::save() {
         return;
     }
 
-    if ( ui->rotAddProfileButton->text() == tr("Modify") )
+    if ( ui->cwShortcutAddProfileButton->text() == tr("Modify") )
+    {
+        ui->tabWidget->setCurrentIndex(1);
+        ui->equipmentTabWidget->setCurrentIndex(1);
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
+        return;
+    }
+
+    if ( ui->rigAddProfileButton->text() == tr("Modify") )
     {
         ui->tabWidget->setCurrentIndex(1);
         ui->equipmentTabWidget->setCurrentIndex(2);
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
+        return;
+    }
+
+    if ( ui->rotAddProfileButton->text() == tr("Modify") )
+    {
+        ui->tabWidget->setCurrentIndex(1);
+        ui->equipmentTabWidget->setCurrentIndex(3);
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
         return;
     }
@@ -632,6 +667,240 @@ void SettingsDialog::clearAntProfileForm()
     ui->antAddProfileButton->setText(tr("Add"));
 }
 
+void SettingsDialog::addCWKeyProfile()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->cwProfileNameEdit->text().isEmpty() )
+    {
+        ui->cwProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
+    if ( ui->cwAddProfileButton->text() == tr("Modify"))
+    {
+        ui->cwAddProfileButton->setText(tr("Add"));
+    }
+
+    CWKeyProfile profile;
+
+    profile.profileName = ui->cwProfileNameEdit->text();
+    profile.model = CWKey::intToTypeID(ui->cwModelSelect->currentData().toInt());
+    profile.defaultSpeed = ui->cwDefaulSpeed->value();
+    profile.keyMode = CWKey::intToModeID(ui->cwKeyModeSelect->currentData().toInt());
+    profile.portPath = ui->cwPortEdit->text();
+    profile.baudrate = ui->cwBaudSelect->currentText().toInt();
+
+    cwKeyProfManager->addProfile(profile.profileName, profile);
+
+    refreshCWKeyProfilesView();
+
+    clearCWKeyProfileForm();
+}
+
+void SettingsDialog::delCWKeyProfile()
+{
+    FCT_IDENTIFICATION;
+
+    foreach (QModelIndex index, ui->cwProfilesListView->selectionModel()->selectedRows())
+    {
+        cwKeyProfManager->removeProfile(ui->cwProfilesListView->model()->data(index).toString());
+        ui->cwProfilesListView->model()->removeRow(index.row());
+    }
+    ui->cwProfilesListView->clearSelection();
+
+    clearCWKeyProfileForm();
+
+}
+
+void SettingsDialog::refreshCWKeyProfilesView()
+{
+    FCT_IDENTIFICATION;
+
+    QStringListModel* model = (QStringListModel*)ui->cwProfilesListView->model();
+    QStringList profiles = model->stringList();
+
+    profiles.clear();
+
+
+    profiles << cwKeyProfManager->profileNameList();
+
+    model->setStringList(profiles);
+}
+
+void SettingsDialog::doubleClickCWKeyProfile(QModelIndex i)
+{
+    FCT_IDENTIFICATION;
+
+    CWKeyProfile profile;
+
+    profile = cwKeyProfManager->getProfile(ui->cwProfilesListView->model()->data(i).toString());
+
+    ui->cwProfileNameEdit->setText(profile.profileName);
+    ui->cwModelSelect->setCurrentIndex(ui->cwModelSelect->findData(profile.model));
+    ui->cwDefaulSpeed->setValue(profile.defaultSpeed);
+    ui->cwKeyModeSelect->setCurrentIndex(ui->cwKeyModeSelect->findData(profile.keyMode));
+    ui->cwPortEdit->setText(profile.portPath);
+    ui->cwBaudSelect->setCurrentText(QString::number(profile.baudrate));
+
+    ui->cwAddProfileButton->setText(tr("Modify"));
+}
+
+void SettingsDialog::clearCWKeyProfileForm()
+{
+    FCT_IDENTIFICATION;
+
+    ui->cwProfileNameEdit->setPlaceholderText(QString());
+    ui->cwProfileNameEdit->clear();
+    ui->cwModelSelect->setCurrentIndex(ui->cwModelSelect->findData(DEFAULT_CWKEY_MODEL));
+    ui->cwKeyModeSelect->setCurrentIndex(ui->cwKeyModeSelect->findData(CWKey::IAMBIC_B));
+    ui->cwDefaulSpeed->setValue(20);
+    ui->cwPortEdit->clear();
+    ui->cwBaudSelect->setCurrentIndex(0);
+
+    ui->cwAddProfileButton->setText(tr("Add"));
+}
+
+void SettingsDialog::addCWShortcutProfile()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->cwShortcutProfileNameEdit->text().isEmpty() )
+    {
+        ui->cwShortcutProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
+    if ( ui->cwShortcutAddProfileButton->text() == tr("Modify"))
+    {
+        ui->cwShortcutAddProfileButton->setText(tr("Add"));
+    }
+
+    CWShortcutProfile profile;
+
+    profile.profileName = ui->cwShortcutProfileNameEdit->text();
+
+    profile.shortDescs[0] = ui->cwShortcutF1ShortEdit->text();
+    profile.macros[0] = ui->cwShortcutF1MacroEdit->text();
+
+    profile.shortDescs[1] = ui->cwShortcutF2ShortEdit->text();
+    profile.macros[1] = ui->cwShortcutF2MacroEdit->text();
+
+    profile.shortDescs[2] = ui->cwShortcutF3ShortEdit->text();
+    profile.macros[2] = ui->cwShortcutF3MacroEdit->text();
+
+    profile.shortDescs[3] = ui->cwShortcutF4ShortEdit->text();
+    profile.macros[3] = ui->cwShortcutF4MacroEdit->text();
+
+    profile.shortDescs[4] = ui->cwShortcutF5ShortEdit->text();
+    profile.macros[4] = ui->cwShortcutF5MacroEdit->text();
+
+    profile.shortDescs[5] = ui->cwShortcutF6ShortEdit->text();
+    profile.macros[5] = ui->cwShortcutF6MacroEdit->text();
+
+    profile.shortDescs[6] = ui->cwShortcutF7ShortEdit->text();
+    profile.macros[6] = ui->cwShortcutF7MacroEdit->text();
+
+    cwShortcutProfManager->addProfile(profile.profileName, profile);
+
+    refreshCWShortcutProfilesView();
+
+    clearCWShortcutProfileForm();
+}
+
+void SettingsDialog::delCWShortcutProfile()
+{
+    FCT_IDENTIFICATION;
+
+    foreach (QModelIndex index, ui->cwShortcutListView->selectionModel()->selectedRows())
+    {
+        cwShortcutProfManager->removeProfile(ui->cwShortcutListView->model()->data(index).toString());
+        ui->cwShortcutListView->model()->removeRow(index.row());
+    }
+    ui->cwShortcutListView->clearSelection();
+
+    clearCWShortcutProfileForm();
+}
+
+void SettingsDialog::refreshCWShortcutProfilesView()
+{
+    FCT_IDENTIFICATION;
+
+    QStringListModel* model = (QStringListModel*)ui->cwShortcutListView->model();
+    QStringList profiles = model->stringList();
+
+    profiles.clear();
+
+    profiles << cwShortcutProfManager->profileNameList();
+
+    model->setStringList(profiles);
+}
+
+void SettingsDialog::doubleClickCWShortcutProfile(QModelIndex i)
+{
+    FCT_IDENTIFICATION;
+
+    CWShortcutProfile profile;
+
+    profile = cwShortcutProfManager->getProfile(ui->cwShortcutListView->model()->data(i).toString());
+
+    ui->cwShortcutProfileNameEdit->setText(profile.profileName);
+
+    ui->cwShortcutF1ShortEdit->setText(profile.shortDescs[0]);
+    ui->cwShortcutF1MacroEdit->setText(profile.macros[0]);
+
+    ui->cwShortcutF2ShortEdit->setText(profile.shortDescs[1]);
+    ui->cwShortcutF2MacroEdit->setText(profile.macros[1]);
+
+    ui->cwShortcutF3ShortEdit->setText(profile.shortDescs[2]);
+    ui->cwShortcutF3MacroEdit->setText(profile.macros[2]);
+
+    ui->cwShortcutF4ShortEdit->setText(profile.shortDescs[3]);
+    ui->cwShortcutF4MacroEdit->setText(profile.macros[3]);
+
+    ui->cwShortcutF5ShortEdit->setText(profile.shortDescs[4]);
+    ui->cwShortcutF5MacroEdit->setText(profile.macros[4]);
+
+    ui->cwShortcutF6ShortEdit->setText(profile.shortDescs[5]);
+    ui->cwShortcutF6MacroEdit->setText(profile.macros[5]);
+
+    ui->cwShortcutF7ShortEdit->setText(profile.shortDescs[6]);
+    ui->cwShortcutF7MacroEdit->setText(profile.macros[6]);
+
+    ui->cwShortcutAddProfileButton->setText(tr("Modify"));
+}
+
+void SettingsDialog::clearCWShortcutProfileForm()
+{
+    FCT_IDENTIFICATION;
+
+    ui->cwShortcutProfileNameEdit->setPlaceholderText(QString());
+    ui->cwShortcutProfileNameEdit->clear();
+
+    ui->cwShortcutF1ShortEdit->clear();
+    ui->cwShortcutF1MacroEdit->clear();
+
+    ui->cwShortcutF2ShortEdit->clear();
+    ui->cwShortcutF2MacroEdit->clear();
+
+    ui->cwShortcutF3ShortEdit->clear();
+    ui->cwShortcutF3MacroEdit->clear();
+
+    ui->cwShortcutF4ShortEdit->clear();
+    ui->cwShortcutF4MacroEdit->clear();
+
+    ui->cwShortcutF5ShortEdit->clear();
+    ui->cwShortcutF5MacroEdit->clear();
+
+    ui->cwShortcutF6ShortEdit->clear();
+    ui->cwShortcutF6MacroEdit->clear();
+
+    ui->cwShortcutF7ShortEdit->clear();
+    ui->cwShortcutF7MacroEdit->clear();
+
+    ui->cwShortcutAddProfileButton->setText(tr("Add"));
+}
+
 void SettingsDialog::refreshRigProfilesView()
 {
     FCT_IDENTIFICATION;
@@ -878,6 +1147,20 @@ void SettingsDialog::rotChanged(int index)
 
 }
 
+void SettingsDialog::cwKeyChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->cwModelSelect->currentData().toInt() == CWKey::WINKEY2_KEYER )
+    {
+        ui->cwBaudSelect->setCurrentText("1200");
+    }
+    else
+    {
+        ui->cwBaudSelect->setCurrentText("115200");
+    }
+}
+
 void SettingsDialog::tqslPathBrowse()
 {
     FCT_IDENTIFICATION;
@@ -1071,6 +1354,12 @@ void SettingsDialog::readSettings() {
     QStringList ants = antProfManager->profileNameList();
     ((QStringListModel*)ui->antProfilesListView->model())->setStringList(ants);
 
+    QStringList cwKeys = cwKeyProfManager->profileNameList();
+    ((QStringListModel*)ui->cwProfilesListView->model())->setStringList(cwKeys);
+
+    QStringList cwShortcut = cwShortcutProfManager->profileNameList();
+    ((QStringListModel*)ui->cwShortcutListView->model())->setStringList(cwShortcut);
+
     /************/
     /* Callbook */
     /************/
@@ -1168,6 +1457,8 @@ void SettingsDialog::writeSettings() {
     rigProfManager->save();
     rotProfManager->save();
     antProfManager->save();
+    cwKeyProfManager->save();
+    cwShortcutProfManager->save();
 
     /************/
     /* Callbook */

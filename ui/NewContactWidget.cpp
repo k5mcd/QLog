@@ -17,6 +17,7 @@
 #include "core/QRZ.h"
 #include "data/RigProfile.h"
 #include "data/AntProfile.h"
+#include "data/CWKeyProfile.h"
 #include "data/Data.h"
 #include "core/Callsign.h"
 
@@ -35,6 +36,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    CWKeyProfilesManager::instance(); //TODO remove, make it better - workaround
 
     /*****************************************/
     /* Hack, remove timezone from LongFormat */
@@ -1660,22 +1663,8 @@ void NewContactWidget::updatePartnerLocTime()
 
     if ( partnerTimeZone.isValid() )
     {
-        QString greeting(tr("GE"));
-
-        QDateTime currPartnerTime = QDateTime::currentDateTime().toTimeZone(partnerTimeZone);
-        if ( currPartnerTime.time().hour() >= 5
-             && currPartnerTime.time().hour() < 12 )
-        {
-            greeting = tr("GM");
-
-        }
-        else if ( currPartnerTime.time().hour() >=12
-                  && currPartnerTime.time().hour() < 18 )
-        {
-            greeting = tr("GA");
-
-        }
-        ui->partnerLocTimeInfo->setText(QDateTime::currentDateTime().toTimeZone(partnerTimeZone).toString(locale.timeFormat(QLocale::LongFormat)) + " (" + greeting +")");
+        ui->partnerLocTimeInfo->setText(QDateTime::currentDateTime().toTimeZone(partnerTimeZone).toString(locale.timeFormat(QLocale::LongFormat))
+                                        + " (" + getGreeting() +")");
     }
 
 }
@@ -1883,6 +1872,141 @@ void NewContactWidget::addPropConditions(Conditions *cond)
 {
     FCT_IDENTIFICATION;
     prop_cond = cond;
+}
+
+QString NewContactWidget::getCallsign() const
+{
+    FCT_IDENTIFICATION;
+
+    return ui->callsignEdit->text();
+}
+
+QString NewContactWidget::getName() const
+{
+    FCT_IDENTIFICATION;
+
+    return ui->nameEdit->text();
+}
+
+QString NewContactWidget::getRST() const
+{
+    FCT_IDENTIFICATION;
+
+    return ui->rstSentEdit->text();
+}
+
+QString NewContactWidget::getGreeting() const
+{
+    FCT_IDENTIFICATION;
+
+    QString greeting(tr("GE"));
+
+    if ( partnerTimeZone.isValid() )
+    {
+
+        QDateTime currPartnerTime = QDateTime::currentDateTime().toTimeZone(partnerTimeZone);
+
+        if ( currPartnerTime.time().hour() >= 5
+             && currPartnerTime.time().hour() < 12 )
+        {
+            greeting = tr("GM");
+
+        }
+        else if ( currPartnerTime.time().hour() >=12
+                  && currPartnerTime.time().hour() < 18 )
+        {
+            greeting = tr("GA");
+
+        }
+    }
+    return greeting;
+}
+
+QString NewContactWidget::getMyCallsign() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.callsign;
+}
+
+QString NewContactWidget::getMyName() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.operatorName;
+}
+
+QString NewContactWidget::getMyQTH() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.qthName;
+}
+
+QString NewContactWidget::getMyLocator() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.locator;
+}
+
+QString NewContactWidget::getMySIG() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.sig;
+}
+
+QString NewContactWidget::getMySIGInfo() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.sigInfo;
+}
+
+QString NewContactWidget::getMyIOTA() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.iota;
+}
+
+QString NewContactWidget::getMySOTA() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.sota;
+}
+
+QString NewContactWidget::getMyWWFT() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.wwff;
+}
+
+QString NewContactWidget::getMyVUCC() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.vucc;
+}
+
+QString NewContactWidget::getMyPWR() const
+{
+    FCT_IDENTIFICATION;
+
+    return QString::number(ui->powerEdit->value(), 'f');
 }
 
 void NewContactWidget::propModeChanged(const QString &propModeText)

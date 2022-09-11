@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network xml charts webenginewidgets
+QT       += core gui sql network xml charts webenginewidgets serialport
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
@@ -30,6 +30,10 @@ CONFIG += c++11
 SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
+        core/CWDummyKey.cpp \
+        core/CWKey.cpp \
+        core/CWKeyer.cpp \
+        core/CWWinKey.cpp \
         core/CallbookManager.cpp \
         core/Callsign.cpp \
         core/ClubLog.cpp \
@@ -57,6 +61,8 @@ SOURCES += \
         core/main.cpp \
         core/zonedetect.c \
         data/AntProfile.cpp \
+        data/CWKeyProfile.cpp \
+        data/CWShortcutProfile.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
         data/RigProfile.cpp \
@@ -79,6 +85,7 @@ SOURCES += \
         ui/AlertWidget.cpp \
         ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
+        ui/CWConsoleWidget.cpp \
         ui/ClockWidget.cpp \
         ui/ClublogDialog.cpp \
         ui/ColumnSettingDialog.cpp \
@@ -112,6 +119,10 @@ SOURCES += \
 HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
+        core/CWDummyKey.h \
+        core/CWKey.h \
+        core/CWKeyer.h \
+        core/CWWinKey.h \
         core/CallbookManager.h \
         core/Callsign.h \
         core/ClubLog.h \
@@ -139,6 +150,8 @@ HEADERS += \
         core/zonedetect.h \
         data/AntProfile.h \
         data/Band.h \
+        data/CWKeyProfile.h \
+        data/CWShortcutProfile.h \
         data/Data.h \
         data/DxSpot.h \
         data/Dxcc.h \
@@ -166,6 +179,7 @@ HEADERS += \
         ui/AwardsDialog.h \
         ui/BandmapWidget.h \
         ui/ButtonStyle.h \
+        ui/CWConsoleWidget.h \
         ui/ClockWidget.h \
         ui/ClublogDialog.h \
         ui/ColumnSettingDialog.h \
@@ -204,6 +218,7 @@ FORMS += \
         ui/AlertWidget.ui \
         ui/AwardsDialog.ui \
         ui/BandmapWidget.ui \
+        ui/CWConsoleWidget.ui \
         ui/ClockWidget.ui \
         ui/ClublogDialog.ui \
         ui/ColumnSettingDialog.ui \

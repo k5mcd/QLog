@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>913</width>
-    <height>597</height>
+    <height>625</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,6 +80,7 @@
     <property name="title">
      <string>&amp;Equipment</string>
     </property>
+    <addaction name="actionConnectCWKeyer"/>
     <addaction name="actionConnectRig"/>
     <addaction name="actionConnectRotator"/>
    </widget>
@@ -95,6 +96,7 @@
     </property>
     <addaction name="actionBandmap"/>
     <addaction name="actionClock"/>
+    <addaction name="actionCWConsole"/>
     <addaction name="actionDXClusterWindow"/>
     <addaction name="actionMapWindow"/>
     <addaction name="actionOnlineMap"/>
@@ -225,6 +227,15 @@
     <number>2</number>
    </attribute>
    <widget class="OnlineMapWidget" name="onlineMapWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="cwConsoleDockWidget">
+   <property name="windowTitle">
+    <string>CW Console</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="CWConsoleWidget" name="cwconsoleWidget"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -441,6 +452,19 @@
     <string>Beep</string>
    </property>
   </action>
+  <action name="actionConnectCWKeyer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Connect &amp;CW Keyer</string>
+   </property>
+  </action>
+  <action name="actionCWConsole">
+   <property name="text">
+    <string>CW Console</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -516,6 +540,12 @@
    <class>OnlineMapWidget</class>
    <extends>QWidget</extends>
    <header>ui/OnlineMapWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CWConsoleWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/CWConsoleWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -987,6 +1017,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionConnectCWKeyer</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cwKeyerConnect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCWConsole</sender>
+   <signal>triggered()</signal>
+   <receiver>cwConsoleDockWidget</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>835</x>
+     <y>585</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1009,5 +1071,6 @@
   <slot>showAlerts()</slot>
   <slot>clearAlerts()</slot>
   <slot>beepSettingAlerts()</slot>
+  <slot>cwKeyerConnect()</slot>
  </slots>
 </ui>

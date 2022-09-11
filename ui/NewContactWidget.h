@@ -31,6 +31,21 @@ public:
     ~NewContactWidget();
 
     void addPropConditions(Conditions *);
+    QString getCallsign() const;
+    QString getName() const;
+    QString getRST() const;
+    QString getGreeting() const;
+    QString getMyCallsign() const;
+    QString getMyName() const;
+    QString getMyQTH() const;
+    QString getMyLocator() const;
+    QString getMySIG() const;
+    QString getMySIGInfo() const;
+    QString getMyIOTA() const;
+    QString getMySOTA() const;
+    QString getMyWWFT() const;
+    QString getMyVUCC() const;
+    QString getMyPWR() const;
 
 signals:
     void contactAdded(QSqlRecord record);
