@@ -67,6 +67,12 @@ public:
     static CWKeyTypeID intToTypeID(int);
     static CWKeyModeID intToModeID(int);
 
+    friend QDataStream& operator<<(QDataStream& out, const CWKeyTypeID& v);
+    friend QDataStream& operator>>(QDataStream& in, CWKeyTypeID& v);
+
+    friend QDataStream& operator<<(QDataStream& out, const CWKeyModeID& v);
+    friend QDataStream& operator>>(QDataStream& in, CWKeyModeID& v);
+
 protected:
     CWKeyModeID keyMode;
     qint32 defaultWPMSpeed;

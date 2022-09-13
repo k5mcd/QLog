@@ -38,6 +38,34 @@ CWKey::CWKeyModeID CWKey::intToModeID(int i)
     return static_cast<CWKey::CWKeyModeID>(i);
 }
 
+QDataStream& operator>>(QDataStream &in, CWKey::CWKeyModeID &v)
+{
+    int i;
+    in >> i;
+    v = static_cast<CWKey::CWKeyModeID>(i);
+    return in;
+}
+
+QDataStream& operator<<(QDataStream &out, const CWKey::CWKeyModeID &v)
+{
+    out << static_cast<int>(v);
+    return out;
+}
+
+QDataStream& operator>>(QDataStream &in, CWKey::CWKeyTypeID &v)
+{
+    int i;
+    in >> i;
+    v = static_cast<CWKey::CWKeyTypeID>(i);
+    return in;
+}
+
+QDataStream& operator<<(QDataStream &out, const CWKey::CWKeyTypeID &v)
+{
+    out << static_cast<int>(v);
+    return out;
+}
+
 CWKeySerialInterface::CWKeySerialInterface(const QString &portName,
                                            const qint32 baudrate,
                                            const qint32 timeout) :
