@@ -6,7 +6,10 @@ MODULE_IDENTIFICATION("qlog.data.cwkey");
 CWKey::CWKey(CWKeyModeID mode, qint32 defaultWPM, QObject *parent) :
     QObject(parent),
     keyMode(mode),
-    defaultWPMSpeed(defaultWPM)
+    defaultWPMSpeed(defaultWPM),
+    stopSendingCap(false),
+    echoCharsCap(false),
+    rigMustConnectedCap(false)
 {
     FCT_IDENTIFICATION;
 }

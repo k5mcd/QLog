@@ -38,7 +38,8 @@ private slots:
     void cwKeySpeedIncrease();
     void cwKeySpeedDecrease();
     void cwSendButtonPressed();
-
+    void rigDisconnectHandler();
+    void rigConnectHandler();
 
     void cwKeyMacroF1();
     void cwKeyMacroF2();
@@ -58,6 +59,7 @@ private:
     void sendCWText(const QString &);
     void expandMacros(QString &);
     void shortcutComboMove(int);
+    void allowMorseSending(bool);
 
 };
 

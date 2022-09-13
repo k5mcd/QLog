@@ -24,12 +24,15 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_MESSAGELOGCONTEXT
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+macx:QT_CONFIG -= no-pkg-config
 
 CONFIG += c++11
+CONFIG *= link_pkgconfig
 
 SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
+        core/CWCatKey.cpp \
         core/CWDummyKey.cpp \
         core/CWKey.cpp \
         core/CWKeyer.cpp \
@@ -119,6 +122,7 @@ SOURCES += \
 HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
+        core/CWCatKey.h \
         core/CWDummyKey.h \
         core/CWKey.h \
         core/CWKeyer.h \
@@ -261,6 +265,23 @@ TRANSLATIONS = i18n/qlog_de.ts \
 RC_ICONS = res/qlog.ico
 ICON = res/qlog.icns
 
+# https://stackoverflow.com/questions/56734224/qmake-and-pkg-config?rq=1
+defineReplace(findPackage) {
+    pkg = $${1}Version
+    !defined($$pkg, var) {
+        $$pkg = $$system($$pkgConfigExecutable() --modversion $$1)
+        isEmpty($$pkg): $$pkg = 0
+        cache($$pkg, stash)
+    }
+    return($$eval($$pkg))
+}
+
+HAMLIBVERSIONSTRING =  $$findPackage(hamlib)
+HAMLIBVERSIONS = $$split(HAMLIBVERSIONSTRING, ".")
+HAMLIBVERSION_MAJOR = $$member(HAMLIBVERSIONS, 0)
+HAMLIBVERSION_MINOR = $$member(HAMLIBVERSIONS, 1)
+HAMLIBVERSION_PATCH = $$member(HAMLIBVERSIONS, 2)
+
 unix:!macx {
   isEmpty(PREFIX) {
     PREFIX = /usr/local
@@ -296,7 +317,14 @@ win32: {
     LIBS += -lws2_32
     INCLUDEPATH += "$$PWD/../hamlib/include/"
     INCLUDEPATH += "$$PWD/../qtkeychain/include"
+    HAMLIBVERSION_MAJOR=4
+    HAMLIBVERSION_MINOR=4
+    HAMLIBVERSION_PATCH=0
 }
+
+DEFINES += HAMLIBVERSION_MAJOR=$$HAMLIBVERSION_MAJOR
+DEFINES += HAMLIBVERSION_MINOR=$$HAMLIBVERSION_MINOR
+DEFINES += HAMLIBVERSION_PATCH=$$HAMLIBVERSION_PATCH
 
 DISTFILES += \
     Changelog \

@@ -31,6 +31,8 @@ CWConsoleWidget::CWConsoleWidget(QWidget *parent) :
 
     connect(CWKeyer::instance(), &CWKeyer::cwKeyConnected, this, &CWConsoleWidget::cwKeyConnected);
     connect(CWKeyer::instance(), &CWKeyer::cwKeyDisconnected, this, &CWConsoleWidget::cwKeyDisconnected);
+    connect(Rig::instance(), &Rig::rigConnected, this, &CWConsoleWidget::rigConnectHandler);
+    connect(Rig::instance(), &Rig::rigDisconnected, this, &CWConsoleWidget::rigDisconnectHandler);
 
     /**************/
     /* SHORTCUTs  */
@@ -80,7 +82,6 @@ void CWConsoleWidget::cwKeyProfileComboChanged(QString profileName)
 
     cwKeyManager->setCurProfile1(profileName);
     ui->cwKeySpeedSpinBox->setValue(cwKeyManager->getCurProfile1().defaultSpeed);
-    CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
 
     emit cwKeyProfileChanged();
 }
@@ -145,6 +146,33 @@ void CWConsoleWidget::shortcutComboMove(int step)
         nextIndex += (1 - nextIndex / count) * count;
         ui->cwShortcutProfileCombo->setCurrentIndex(nextIndex % count);
     }
+}
+
+void CWConsoleWidget::allowMorseSending(bool allow)
+{
+    FCT_IDENTIFICATION;
+
+    if ( allow )
+    {
+        ui->cwEchoConsoleText->setEnabled(CWKeyer::instance()->canEchoChar());
+        ui->haltButton->setEnabled(CWKeyer::instance()->canStopSending());
+    }
+    else
+    {
+        ui->cwEchoConsoleText->setEnabled(allow);
+        ui->haltButton->setEnabled(allow);
+    }
+    ui->cwKeySpeedSpinBox->setEnabled(allow);
+    ui->cwConsoleText->setEnabled(allow);
+    ui->cwSendEdit->setEnabled(allow);
+    ui->cwShortcutProfileCombo->setEnabled(allow);
+    ui->macroButton1->setEnabled(allow);
+    ui->macroButton2->setEnabled(allow);
+    ui->macroButton3->setEnabled(allow);
+    ui->macroButton4->setEnabled(allow);
+    ui->macroButton5->setEnabled(allow);
+    ui->macroButton6->setEnabled(allow);
+    ui->macroButton7->setEnabled(allow);
 }
 
 void CWConsoleWidget::refreshKeyProfileCombo()
@@ -219,19 +247,10 @@ void CWConsoleWidget::cwKeyConnected()
 {
     FCT_IDENTIFICATION;
     ui->cwKeyProfileCombo->setStyleSheet("QComboBox {color: green}");
-    ui->cwKeySpeedSpinBox->setEnabled(true);
-    ui->cwConsoleText->setEnabled(true);
-    ui->cwEchoConsoleText->setEnabled(true);
-    ui->cwSendEdit->setEnabled(true);
-    ui->cwShortcutProfileCombo->setEnabled(true);
-    ui->macroButton1->setEnabled(true);
-    ui->macroButton2->setEnabled(true);
-    ui->macroButton3->setEnabled(true);
-    ui->macroButton4->setEnabled(true);
-    ui->macroButton5->setEnabled(true);
-    ui->macroButton6->setEnabled(true);
-    ui->macroButton7->setEnabled(true);
-    ui->haltButton->setEnabled(true);
+
+    allowMorseSending(true);
+
+    CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
 
     cwKeyOnline = true;
 }
@@ -240,19 +259,8 @@ void CWConsoleWidget::cwKeyDisconnected()
 {
     FCT_IDENTIFICATION;
     ui->cwKeyProfileCombo->setStyleSheet("QComboBox {color: red}");
-    ui->cwKeySpeedSpinBox->setEnabled(false);
-    ui->cwConsoleText->setEnabled(false);
-    ui->cwEchoConsoleText->setEnabled(false);
-    ui->cwSendEdit->setEnabled(false);
-    ui->cwShortcutProfileCombo->setEnabled(false);
-    ui->macroButton1->setEnabled(false);
-    ui->macroButton2->setEnabled(false);
-    ui->macroButton3->setEnabled(false);
-    ui->macroButton4->setEnabled(false);
-    ui->macroButton5->setEnabled(false);
-    ui->macroButton6->setEnabled(false);
-    ui->macroButton7->setEnabled(false);
-    ui->haltButton->setEnabled(false);
+
+    allowMorseSending(false);
 
     ui->cwConsoleText->clear();
     ui->cwEchoConsoleText->clear();
@@ -294,6 +302,27 @@ void CWConsoleWidget::cwSendButtonPressed()
 
     sendCWText(ui->cwSendEdit->text());
     ui->cwSendEdit->clear();
+}
+
+void CWConsoleWidget::rigDisconnectHandler()
+{
+    FCT_IDENTIFICATION;
+
+    if ( CWKeyer::instance()->rigMustConnected() )
+    {
+        allowMorseSending(false);
+    }
+}
+
+void CWConsoleWidget::rigConnectHandler()
+{
+    FCT_IDENTIFICATION;
+
+    if ( cwKeyOnline )
+    {
+        allowMorseSending(true);
+        CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
+    }
 }
 
 void CWConsoleWidget::cwKeyMacroF1()

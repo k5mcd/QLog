@@ -16,12 +16,16 @@ CWWinKey2::CWWinKey2(const QString &portName,
       CWKeySerialInterface(portName, baudrate, 5000),
       isInHostMode(false),
       xoff(false)
+
 {
     FCT_IDENTIFICATION;
 
     minWPMRange = defaultSpeed - 15; // Winkey has 31 steps for POT, it means that 15 steps to left
                                      // and 15 steps to right
     if ( minWPMRange <= 0 ) minWPMRange = 1;
+
+    stopSendingCap = true;
+    echoCharsCap = true;
 }
 
 CWWinKey2::~CWWinKey2()
@@ -354,11 +358,8 @@ void CWWinKey2::handleError(QSerialPort::SerialPortError serialPortError)
         qWarning() << "An I/O error occurred: " << detail;
     }
 
-    /* Close the key */
-    __close();
-
     /* Emit error */
-    emit keyError("Communication Error", detail);
+    emit keyError(tr("Communication Error"), detail);
 }
 
 bool CWWinKey2::setWPM(const qint16 wpm)

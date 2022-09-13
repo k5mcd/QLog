@@ -155,8 +155,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->rotParitySelect->addItem(tr("Odd"), Rotator::SERIAL_PARITY_ODD);
     ui->rotParitySelect->addItem(tr("Mark"), Rotator::SERIAL_PARITY_MARK);
     ui->rotParitySelect->addItem(tr("Space"), Rotator::SERIAL_PARITY_SPACE);
-
+;
     ui->cwModelSelect->addItem(tr("Dummy"), CWKey::DUMMY_KEYER);
+    ui->cwModelSelect->addItem(tr("Morse Over CAT"), CWKey::MORSEOVERCAT);
     ui->cwModelSelect->addItem(tr("WinKey v2"), CWKey::WINKEY2_KEYER);
     ui->cwModelSelect->setCurrentIndex(ui->cwModelSelect->findData(DEFAULT_CWKEY_MODEL));
 
@@ -1150,6 +1151,20 @@ void SettingsDialog::rotChanged(int index)
 void SettingsDialog::cwKeyChanged(int)
 {
     FCT_IDENTIFICATION;
+
+    if ( ui->cwModelSelect->currentData().toInt() == CWKey::MORSEOVERCAT )
+    {
+        ui->cwBaudSelect->setEnabled(false);
+        ui->cwPortEdit->setEnabled(false);
+        ui->cwKeyModeSelect->setEnabled(false);
+        return;
+    }
+    else
+    {
+        ui->cwBaudSelect->setEnabled(true);
+        ui->cwPortEdit->setEnabled(true);
+        ui->cwKeyModeSelect->setEnabled(true);
+    }
 
     if ( ui->cwModelSelect->currentData().toInt() == CWKey::WINKEY2_KEYER )
     {

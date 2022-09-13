@@ -83,6 +83,8 @@ public:
 
     static bool isNetworkRig(const struct rig_caps *caps);
     static double getNormalBandwidth(const QString &, const QString &);
+    bool isRigConnected();
+    bool isMorseOverCatSupported();
 
 public slots:
     void start();
@@ -96,6 +98,9 @@ public slots:
     void setMode(const QString &);
     void setMode(rmode_t);
     void setPTT(bool);
+    void setKeySpeed(qint16 wpm);
+    void sendMorse(const QString &text);
+    void stopMorse();
     QStringList getAvailableModes();
 
 signals:
@@ -117,7 +122,9 @@ private slots:
     void setModeImpl(rmode_t);
     void setPTTImpl(bool);
     void stopTimerImplt();
-
+    void setKeySpeedImpl(qint16 wpm);
+    void sendMorseImpl(const QString &text);
+    void stopMorseImpl();
 
 private:
     Rig(QObject *parent = nullptr);

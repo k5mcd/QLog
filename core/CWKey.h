@@ -26,11 +26,13 @@ protected:
 class CWKey : public QObject
 {
     Q_OBJECT;
+
 public:
     enum CWKeyTypeID
     {
         DUMMY_KEYER = 0,
         WINKEY2_KEYER = 1,
+        MORSEOVERCAT = 2,
         LAST_MODEL = 2
     };
 
@@ -58,6 +60,9 @@ public:
     virtual bool setWPM(const qint16 wpm) = 0;
     virtual QString lastError() = 0;
     virtual bool imediatellyStop() = 0;
+    virtual bool canStopSending() { return stopSendingCap;}
+    virtual bool canEchoChar() { return echoCharsCap;}
+    virtual bool mustRigConnected() { return rigMustConnectedCap;}
 
     static CWKeyTypeID intToTypeID(int);
     static CWKeyModeID intToModeID(int);
@@ -65,6 +70,10 @@ public:
 protected:
     CWKeyModeID keyMode;
     qint32 defaultWPMSpeed;
+
+    bool stopSendingCap;
+    bool echoCharsCap;
+    bool rigMustConnectedCap;
 };
 
 #endif // CWKEY_H

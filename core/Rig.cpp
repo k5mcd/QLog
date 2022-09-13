@@ -98,6 +98,32 @@ double Rig::getNormalBandwidth(const QString &mode, const QString &subMode)
     return Hz2MHz(6000);
 }
 
+bool Rig::isRigConnected()
+{
+    FCT_IDENTIFICATION;
+
+    rigLock.lock();
+    bool ret ( rig != nullptr );
+    rigLock.unlock();
+    return ret;
+}
+
+bool Rig::isMorseOverCatSupported()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! rig )
+    {
+        return false;
+    }
+
+    rigLock.lock();
+    bool ret = (rig->caps->send_morse != nullptr);
+    rigLock.unlock();
+
+    return ret;
+}
+
 void Rig::stopTimer()
 {
     FCT_IDENTIFICATION;
@@ -724,6 +750,29 @@ void Rig::setPTT(bool active)
 
 }
 
+void Rig::setKeySpeed(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "setKeySpeedImpl", Qt::QueuedConnection,
+                              Q_ARG(qint16, wpm));
+}
+
+void Rig::sendMorse(const QString &text)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "sendMorseImpl", Qt::QueuedConnection,
+                              Q_ARG(QString, text));
+}
+
+void Rig::stopMorse()
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "stopMorseImpl", Qt::QueuedConnection);
+}
+
 void Rig::setModeImpl(rmode_t newModeID)
 {
     FCT_IDENTIFICATION;
@@ -804,6 +853,85 @@ void Rig::stopTimerImplt()
         timer->deleteLater();
         timer = nullptr;
     }
+}
+
+void Rig::setKeySpeedImpl(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << wpm;
+
+    if (!rig) return;
+
+    if ( wpm < 0 )
+    {
+        return;
+    }
+
+    rigLock.lock();
+
+    value_t hamlibWPM;
+    hamlibWPM.i = wpm;
+    int status = rig_set_level(rig, RIG_VFO_CURR, RIG_LEVEL_KEYSPD, hamlibWPM);
+
+    if ( status != RIG_OK )
+    {
+        qWarning() << "Cannot set Key Speed";
+    }
+
+    /* It is not needed to call VFO set freq function here because Rig's Update function do it */
+
+    // wait a moment because Rigs are slow and they are not possible to set and get
+    // mode so quickly (get mode is called in the main thread's update() function
+#ifdef Q_OS_WIN
+    Sleep(100);
+#else
+    usleep(100000);
+#endif
+    rigLock.unlock();
+}
+
+void Rig::sendMorseImpl(const QString &text)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << text;
+
+    if (!rig) return;
+
+    if ( text.isEmpty() )
+    {
+        return;
+    }
+
+    rigLock.lock();
+
+    int status = rig_send_morse(rig, RIG_VFO_CURR, text.toLocal8Bit().constData());
+
+    if ( status != RIG_OK )
+    {
+        qWarning() << "Cannot Send CW Text";
+    }
+    rigLock.unlock();
+}
+
+void Rig::stopMorseImpl()
+{
+    FCT_IDENTIFICATION;
+
+    if (!rig) return;
+
+    rigLock.lock();
+
+#if (HAMLIBVERSION_MAJOR >= 4)
+    int status = rig_stop_morse(rig, RIG_VFO_CURR);
+
+    if ( status != RIG_OK )
+    {
+        qWarning() << "Cannot Stop Morse Sending";
+    }
+#endif
+    rigLock.unlock();
 }
 
 QStringList Rig::getAvailableModes()

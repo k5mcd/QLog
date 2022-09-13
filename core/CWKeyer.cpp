@@ -2,8 +2,10 @@
 #include "CWKey.h"
 #include "CWDummyKey.h"
 #include "CWWinKey.h"
+#include "CWCatKey.h"
 #include "core/debug.h"
 #include "data/CWKeyProfile.h"
+#include "core/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.core.cwkeyer");
 
@@ -24,7 +26,6 @@ void CWKeyer::start()
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(TIME_PERIOD);
-
 }
 
 void CWKeyer::stopTimer()
@@ -42,7 +43,6 @@ void CWKeyer::update()
     {
         return;
     }
-
     if ( !cwKeyLock.tryLock(200) ) return;
 
     CWKeyProfile currCWProfile = CWKeyProfilesManager::instance()->getCurProfile1();
@@ -102,6 +102,11 @@ void CWKeyer::__openCWKey()
                               newProfile.defaultSpeed,
                               this);
         break;
+    case CWKey::MORSEOVERCAT:
+        cwKey = new CWCatKey(newProfile.keyMode,
+                             newProfile.defaultSpeed,
+                             this);
+        break;
     default:
         cwKey = nullptr;
         qWarning() << "Unsupported Key Model " << newProfile.model;
@@ -117,7 +122,7 @@ void CWKeyer::__openCWKey()
 
     if ( !cwKey->open() )
     {
-        emit cwKeyerError(tr("Open Connection Error"),
+        emit cwKeyerError(tr("Connection Error"),
                           cwKey->lastError());
         __closeCWKey();
         return;
@@ -136,6 +141,54 @@ void CWKeyer::close()
     FCT_IDENTIFICATION;
 
     QMetaObject::invokeMethod(this, &CWKeyer::closeImpl, Qt::QueuedConnection);
+}
+
+bool CWKeyer::canStopSending()
+{
+    FCT_IDENTIFICATION;
+
+    if ( !cwKey )
+    {
+        return false;
+    }
+
+    cwKeyLock.lock();
+    bool ret = cwKey->canStopSending();
+    cwKeyLock.unlock();
+
+    return ret;
+}
+
+bool CWKeyer::canEchoChar()
+{
+    FCT_IDENTIFICATION;
+
+    if ( !cwKey )
+    {
+        return false;
+    }
+
+    cwKeyLock.lock();
+    bool ret = cwKey->canEchoChar();
+    cwKeyLock.unlock();
+
+    return ret;
+}
+
+bool CWKeyer::rigMustConnected()
+{
+    FCT_IDENTIFICATION;
+
+    if ( !cwKey )
+    {
+        return false;
+    }
+
+    cwKeyLock.lock();
+    bool ret = cwKey->mustRigConnected();
+    cwKeyLock.unlock();
+
+    return ret;
 }
 
 void CWKeyer::closeImpl()
