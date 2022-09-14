@@ -253,6 +253,8 @@ void CWConsoleWidget::cwKeyConnected()
     CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
 
     cwKeyOnline = true;
+
+    ui->cwSendEdit->setPlaceholderText(QString());
 }
 
 void CWConsoleWidget::cwKeyDisconnected()
@@ -311,6 +313,10 @@ void CWConsoleWidget::rigDisconnectHandler()
     if ( CWKeyer::instance()->rigMustConnected() )
     {
         allowMorseSending(false);
+        if ( cwKeyOnline )
+        {
+            ui->cwSendEdit->setPlaceholderText(tr("Rig must be connected"));
+        }
     }
 }
 
@@ -322,6 +328,8 @@ void CWConsoleWidget::rigConnectHandler()
     {
         allowMorseSending(true);
         CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
+
+        ui->cwSendEdit->setPlaceholderText(QString());
     }
 }
 
