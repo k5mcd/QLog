@@ -510,6 +510,49 @@ void Rig::update()
         qCDebug(runtime) << "Get XIT is disabled";
     }
 
+    /*****************/
+    /* Get KeySpeed  */
+    /*****************/
+    if ( connectedRigProfile.getKeySpeed
+         && rig_has_get_level(rig, RIG_LEVEL_KEYSPD) )
+    {
+        value_t rigKeySpeed;
+
+        int status = rig_get_level(rig, RIG_VFO_CURR, RIG_LEVEL_KEYSPD, &rigKeySpeed);
+
+        if ( status == RIG_OK )
+        {
+            qCDebug(runtime) << "Current RIG Key Speed: "<< rigKeySpeed.i;
+            qCDebug(runtime) << "Current LO Key Speed: "<< LoA.getKeySpeed();
+
+            if (static_cast<unsigned int>(rigKeySpeed.i) != LoA.getKeySpeed())
+            {
+                LoA.setKeySpeed(static_cast<unsigned int>(rigKeySpeed.i));
+                emit keySpeedChanged(LoA.getID(), LoA.getKeySpeed());
+            }
+            else
+            {
+                /* Ignore error */
+                /*
+            __closeRig();
+            emit rigErrorPresent(QString(tr("Get Power Error - ")) + QString(rigerror(status)));
+            */
+            }
+        }
+        else
+        {
+            /* Ignore error */
+            /*
+        __closeRig();
+        emit rigErrorPresent(QString(tr("Get Level Error - ")) + QString(rigerror(status)));
+        */
+        }
+    }
+    else
+    {
+        qCDebug(runtime) << "Get KeySpeed is disabled";
+    }
+
     timer->start(connectedRigProfile.pollInterval);
     rigLock.unlock();
 }
@@ -861,7 +904,7 @@ void Rig::setKeySpeedImpl(qint16 wpm)
 
     qCDebug(function_parameters) << wpm;
 
-    if (!rig) return;
+    if ( !rig || !connectedRigProfile.getKeySpeed ) return;
 
     if ( wpm < 0 )
     {
@@ -1146,6 +1189,16 @@ bool LocalOscilator::getPTT() const
 void LocalOscilator::setPTT(bool newPTT)
 {
     ptt = newPTT;
+}
+
+unsigned int LocalOscilator::getKeySpeed() const
+{
+    return keySpeed;
+}
+
+void LocalOscilator::setKeySpeed(unsigned int value)
+{
+    keySpeed = value;
 }
 
 pbwidth_t LocalOscilator::getPassbandWidth()

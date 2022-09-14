@@ -21,7 +21,7 @@ public:
                    getModeInfo = false; getVFOInfo = false; getPWRInfo = false;
                    ritOffset = 0.0; xitOffset = 0.0, getRITInfo = false;
                    getXITInfo = true; defaultPWR = 0.0, getPTTInfo = false;
-                   QSYWiping = false;
+                   QSYWiping = false, getKeySpeed = false;
                  };
 
     QString profileName;
@@ -48,6 +48,7 @@ public:
     double defaultPWR;
     bool getPTTInfo;
     bool QSYWiping;
+    bool getKeySpeed;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);

@@ -1698,6 +1698,20 @@
                    </item>
                   </layout>
                  </item>
+                 <item row="13" column="1">
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="rigGetKeySpeedCheckBox">
+                     <property name="text">
+                      <string>Key Speed</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
                 </layout>
                </widget>
               </item>

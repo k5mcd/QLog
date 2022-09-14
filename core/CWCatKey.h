@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMutex>
 #include "CWKey.h"
+#include "Rig.h"
 
 class CWCatKey : public CWKey
 {
@@ -30,6 +31,9 @@ private:
     QString lastErrorText; //user only in open part of communication
 
     void __close();
+
+private slots:
+    void rigKeySpeedChanged(VFOID, unsigned int);
 };
 
 #endif // CWCATKEY_H

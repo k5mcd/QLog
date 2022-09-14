@@ -71,6 +71,8 @@ bool CWCatKey::open()
     isKeyConnected = true;
     lastErrorText = QString();
 
+    connect(Rig::instance(), &Rig::keySpeedChanged, this, &CWCatKey::rigKeySpeedChanged);
+
     return true;
 }
 
@@ -179,5 +181,14 @@ void CWCatKey::__close()
 {
     FCT_IDENTIFICATION;
 
+    disconnect(Rig::instance(), &Rig::keySpeedChanged, this, &CWCatKey::rigKeySpeedChanged);
+
     isKeyConnected = false;
+}
+
+void CWCatKey::rigKeySpeedChanged(VFOID, unsigned int wpm)
+{
+    FCT_IDENTIFICATION;
+
+    emit keyChangedWPMSpeed(wpm);
 }

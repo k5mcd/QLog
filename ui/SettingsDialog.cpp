@@ -322,6 +322,7 @@ void SettingsDialog::addRigProfile()
     profile.getXITInfo = ui->rigGetXITCheckBox->isChecked();
     profile.getPTTInfo = ui->rigGetPTTStateCheckBox->isChecked();
     profile.QSYWiping = ui->rigQSYWipingCheckBox->isChecked();
+    profile.getKeySpeed = ui->rigGetKeySpeedCheckBox->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -379,6 +380,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigTXOffsetSpinBox->setValue(profile.xitOffset);
     ui->rigGetPTTStateCheckBox->setChecked(profile.getPTTInfo);
     ui->rigQSYWipingCheckBox->setChecked(profile.QSYWiping);
+    ui->rigGetKeySpeedCheckBox->setChecked(profile.getKeySpeed);
 
     fixRigCap(rig_get_caps(profile.model));
 
@@ -416,7 +418,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigTXOffsetSpinBox->setValue(0.0);
     ui->rigGetPTTStateCheckBox->setChecked(false);
     ui->rigQSYWipingCheckBox->setChecked(true);
-
+    ui->rigGetKeySpeedCheckBox->setChecked(true);
     ui->rigAddProfileButton->setText(tr("Add"));
 }
 
@@ -1111,6 +1113,9 @@ void SettingsDialog::rigChanged(int index)
         ui->rigQSYWipingCheckBox->setEnabled(true);
         ui->rigQSYWipingCheckBox->setChecked(true);
 
+        ui->rigGetKeySpeedCheckBox->setEnabled(true);
+        ui->rigGetKeySpeedCheckBox->setChecked(true);
+
         /* disable what is unimplemented */
         fixRigCap(caps);
     }
@@ -1622,6 +1627,12 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
         {
             ui->rigQSYWipingCheckBox->setEnabled(false);
             ui->rigQSYWipingCheckBox->setChecked(false);
+        }
+
+        if ( ! ((caps->has_get_level) & (RIG_LEVEL_KEYSPD)) )
+        {
+            ui->rigGetKeySpeedCheckBox->setEnabled(false);
+            ui->rigGetKeySpeedCheckBox->setChecked(false);
         }
     }
 }

@@ -324,7 +324,9 @@ void CWConsoleWidget::rigConnectHandler()
 {
     FCT_IDENTIFICATION;
 
-    if ( cwKeyOnline )
+    if ( cwKeyOnline
+         && CWKeyer::instance()->rigMustConnected()
+         && Rig::instance()->isMorseOverCatSupported() )
     {
         allowMorseSending(true);
         CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());

@@ -57,6 +57,9 @@ public:
     bool getPTT() const;
     void setPTT(bool);
 
+    unsigned int getKeySpeed() const;
+    void setKeySpeed(unsigned int value);
+
     pbwidth_t getPassbandWidth();
     void setPassbandWidth(pbwidth_t);
 
@@ -72,6 +75,7 @@ private:
     double TXOffset;      //in Hz
     VFOID ID;
     pbwidth_t passbandWidth;
+    unsigned int keySpeed;
 };
 
 class Rig : public SerialPort
@@ -107,6 +111,7 @@ signals:
     void frequencyChanged(VFOID, double, double, double);
     void modeChanged(VFOID, QString, QString, QString, double);
     void powerChanged(VFOID, double);
+    void keySpeedChanged(VFOID, unsigned int);
     void vfoChanged(VFOID, QString);
     void ritChanged(VFOID, double);
     void xitChanged(VFOID, double);
