@@ -54,14 +54,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
-    RigTypeModel* rigTypeModel = new RigTypeModel(this);
-    ui->rigModelSelect->setModel(rigTypeModel);
-
     RotTypeModel* rotTypeModel = new RotTypeModel(this);
     ui->rotModelSelect->setModel(rotTypeModel);
-
-    QStringListModel* rigModel = new QStringListModel();
-    ui->rigProfilesListView->setModel(rigModel);
 
     QStringListModel* rotModel = new QStringListModel();
     ui->rotProfilesListView->setModel(rotModel);
@@ -80,6 +74,15 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     QStringListModel* cwKeysModel = new QStringListModel();
     ui->rigAssignedCWKeyCombo->setModel(cwKeysModel);
+
+    /* Rig Models must be initialized after rigAssignedCWKeyCombo model !!!! */
+    /* becase rigChanged is called and it constain uninitialized
+     * CW Model */
+    RigTypeModel* rigTypeModel = new RigTypeModel(this);
+    ui->rigModelSelect->setModel(rigTypeModel);
+
+    QStringListModel* rigModel = new QStringListModel();
+    ui->rigProfilesListView->setModel(rigModel);
 
     modeTableModel = new QSqlTableModel(this);
     modeTableModel->setTable("modes");
@@ -387,7 +390,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigQSYWipingCheckBox->setChecked(profile.QSYWiping);
     ui->rigGetKeySpeedCheckBox->setChecked(profile.getKeySpeed);
 
-    fixRigCap(rig_get_caps(profile.model));
+    setUIBasedOnRigCaps(rig_get_caps(profile.model));
 
     ui->rigAddProfileButton->setText(tr("Modify"));
 }
@@ -686,26 +689,62 @@ void SettingsDialog::addCWKeyProfile()
         return;
     }
 
+    CWKeyProfile cwKeyNewProfile;
+
+    cwKeyNewProfile.model = CWKey::intToTypeID(ui->cwModelSelect->currentData().toInt());
+    cwKeyNewProfile.profileName = ui->cwProfileNameEdit->text();
+    cwKeyNewProfile.defaultSpeed = ui->cwDefaulSpeed->value();
+    cwKeyNewProfile.keyMode = CWKey::intToModeID(ui->cwKeyModeSelect->currentData().toInt());
+    cwKeyNewProfile.portPath = ui->cwPortEdit->text();
+    cwKeyNewProfile.baudrate = ui->cwBaudSelect->currentText().toInt();
+
+    QStringList noMorseCATSupportRigs;
+
+    if ( cwKeyNewProfile.model == CWKey::MORSEOVERCAT )
+    {
+        // changing Key to Morse Over CAT model
+        // needed to verify if all rigs where the key is assigned, supports Morse over CAT
+        QStringList availableRigProfileNames = rigProfManager->profileNameList();
+
+        for ( const QString &rigProfileName : qAsConst(availableRigProfileNames) )
+        {
+            qCDebug(runtime) << "Checking Rig Profile" << rigProfileName;
+            RigProfile testedRig = rigProfManager->getProfile(rigProfileName);
+
+            if ( testedRig.assignedCWKey == cwKeyNewProfile.profileName )
+            {
+                const struct rig_caps *caps;
+                caps = rig_get_caps(testedRig.model);
+
+                if ( caps && caps->send_morse )
+                {
+                    qCDebug(runtime) << testedRig.profileName << " has morse support - OK";
+                }
+                else
+                {
+                    qCDebug(runtime) << "no morse support for " << testedRig.profileName << " - must not change";
+                    noMorseCATSupportRigs << testedRig.profileName;
+                }
+            }
+        }
+    }
+
+    if ( ! noMorseCATSupportRigs.isEmpty() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Cannot change the CW Key Model to <b>Morse over CAT</b><br>No Morse over CAT support for Rig(s) <b>%1</b>").arg(noMorseCATSupportRigs.join(", ")));
+        return;
+    }
+
     if ( ui->cwAddProfileButton->text() == tr("Modify"))
     {
         ui->cwAddProfileButton->setText(tr("Add"));
     }
 
-    CWKeyProfile profile;
-
-    profile.profileName = ui->cwProfileNameEdit->text();
-    profile.model = CWKey::intToTypeID(ui->cwModelSelect->currentData().toInt());
-    profile.defaultSpeed = ui->cwDefaulSpeed->value();
-    profile.keyMode = CWKey::intToModeID(ui->cwKeyModeSelect->currentData().toInt());
-    profile.portPath = ui->cwPortEdit->text();
-    profile.baudrate = ui->cwBaudSelect->currentText().toInt();
-
-    cwKeyProfManager->addProfile(profile.profileName, profile);
+    cwKeyProfManager->addProfile(cwKeyNewProfile.profileName, cwKeyNewProfile);
 
     refreshCWKeyProfilesView();
-
     clearCWKeyProfileForm();
-
     refreshRigAssignedCWKeyCombo();
 }
 
@@ -713,28 +752,25 @@ void SettingsDialog::delCWKeyProfile()
 {
     FCT_IDENTIFICATION;
 
-    bool canDelete = true;
 
     foreach (QModelIndex index, ui->cwProfilesListView->selectionModel()->selectedRows())
     {
-
-        QStringList  impactedRigs;
-
+        QStringList  dependentRigs;
         QString removedCWProfile = ui->cwProfilesListView->model()->data(index).toString();
+        QStringList availableRigProfileNames = rigProfManager->profileNameList();
 
-        QStringList rigProfiles = rigProfManager->profileNameList();
-        for ( const QString &rigProfileName : qAsConst(rigProfiles) )
+        /* needed to verify whether removed Key is not used in Rig Profile as an assigned Key*/
+        for ( const QString &rigProfileName : qAsConst(availableRigProfileNames) )
         {
             qCDebug(runtime) << "Checking Rig Profile" << rigProfileName;
-            RigProfile prof = rigProfManager->getProfile(rigProfileName);
-            if ( prof.assignedCWKey == removedCWProfile )
+            RigProfile testedRig = rigProfManager->getProfile(rigProfileName);
+            if ( testedRig.assignedCWKey == removedCWProfile )
             {
-                canDelete = false;
-                impactedRigs << prof.profileName;
+                dependentRigs << testedRig.profileName;
             }
         }
 
-        if ( canDelete )
+        if ( dependentRigs.isEmpty() )
         {
             cwKeyProfManager->removeProfile(removedCWProfile);
             ui->cwProfilesListView->model()->removeRow(index.row());
@@ -742,11 +778,10 @@ void SettingsDialog::delCWKeyProfile()
         else
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("Cannot delete the CW Key Profile<br>The CW Key Profile is used by Rig(s): <b>%1</b>").arg(impactedRigs.join(", ")));
+                                 QMessageBox::tr("Cannot delete the CW Key Profile<br>The CW Key Profile is used by Rig(s): <b>%1</b>").arg(dependentRigs.join(", ")));
         }
 
-        canDelete = true;
-        impactedRigs.clear();
+        dependentRigs.clear();
     }
     ui->cwProfilesListView->clearSelection();
 
@@ -1152,13 +1187,14 @@ void SettingsDialog::rigChanged(int index)
         ui->rigGetKeySpeedCheckBox->setChecked(true);
 
         /* disable what is unimplemented */
-        fixRigCap(caps);
+        setUIBasedOnRigCaps(caps);
     }
     else
     {
         ui->rigStackedWidget->setCurrentIndex(0);
     }
 
+    refreshRigAssignedCWKeyCombo();
 }
 
 void SettingsDialog::rotChanged(int index)
@@ -1589,7 +1625,7 @@ void SettingsDialog::writeSettings() {
  * there may be situations where hamlib change the cap
  * for rig and it is necessary to change the settings of the rig.
  * This feature does it */
-void SettingsDialog::fixRigCap(const struct rig_caps *caps)
+void SettingsDialog::setUIBasedOnRigCaps(const struct rig_caps *caps)
 {
     FCT_IDENTIFICATION;
 
@@ -1672,16 +1708,71 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
     }
 }
 
+/* Based on selected Rig model, it is needed to prepare AssignedCWKeyCombo
+ * content
+ * The combo has to contain only supported keyes
+ * If selected rig does not support MORSE over CAT then Combo must not contain
+ * CW Key profiles where Morse Over CAT is used.
+ */
 void SettingsDialog::refreshRigAssignedCWKeyCombo()
 {
     FCT_IDENTIFICATION;
 
     QString cwKeyName = ui->rigAssignedCWKeyCombo->currentText();
+    QStringList availableCWProfileNames = cwKeyProfManager->profileNameList();
+    QStringList approvedCWProfiles;
+    const struct rig_caps *selectedRigCaps;
+    int rigID = ui->rigModelSelect->currentData().toInt();
 
-    QStringList profiles;
-    profiles << " " << cwKeyProfManager->profileNameList();
+    selectedRigCaps = rig_get_caps(rigID);
+
+    approvedCWProfiles << " "; // add empty profile (like NONE)
+
+    if ( selectedRigCaps && selectedRigCaps->send_morse )
+    {
+        approvedCWProfiles << availableCWProfileNames;
+    }
+    else
+    {
+        // remove unsupported Morse Over CAT Profile Names
+        for (const QString &cwProfileName : qAsConst(availableCWProfileNames))
+        {
+            CWKeyProfile testedKey = cwKeyProfManager->getProfile(cwProfileName);
+            if ( testedKey.model != CWKey::MORSEOVERCAT )
+            {
+                approvedCWProfiles << cwProfileName;
+            }
+        }
+    }
+
+ /*
+    for (const QString &cwProfileName : qAsConst(availableCWProfileNames))
+    {
+        CWKeyProfile testedKey = cwKeyProfManager->getProfile(cwProfileName);
+
+        if ( testedKey.model == CWKey::MORSEOVERCAT )
+        {
+            //need to check whether selected rig support Morse over CAT
+            if ( selectedRigCaps
+                 && selectedRigCaps->send_morse )
+            {
+                // the rig has Morse Send function
+                approvedCWProfiles << cwProfileName;
+            }
+            else
+            {
+                // do not add it because we know nothing about the rig
+            }
+        }
+        else
+        {
+            // it is not Morse Over CAT key therefore add it automatically
+            approvedCWProfiles << cwProfileName;
+        }
+    }
+*/
     QStringListModel* model = static_cast<QStringListModel*>(ui->rigAssignedCWKeyCombo->model());
-    model->setStringList(profiles);
+    model->setStringList(approvedCWProfiles);
 
     ui->rigAssignedCWKeyCombo->setCurrentText(cwKeyName);
 }

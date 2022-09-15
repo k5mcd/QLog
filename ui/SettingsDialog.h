@@ -86,7 +86,7 @@ public slots:
 private:
     void readSettings();
     void writeSettings();
-    void fixRigCap(const struct rig_caps *caps);
+    void setUIBasedOnRigCaps(const struct rig_caps *caps);
     void refreshRigAssignedCWKeyCombo();
 
     QSqlTableModel* modeTableModel;
