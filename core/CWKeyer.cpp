@@ -85,12 +85,6 @@ void CWKeyer::__openCWKey()
 
     CWKeyProfile newProfile = CWKeyProfilesManager::instance()->getCurProfile1();
 
-    if ( connectedCWKeyProfile == newProfile )
-    {
-        emit cwKeyConnected(connectedCWKeyProfile.profileName);
-        return;
-    }
-
     // if cw keys is active then close it
     __closeCWKey();
 

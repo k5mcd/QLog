@@ -130,7 +130,7 @@ public:
 
         currProfMutex.lock();
 
-        if ( profiles.contains(profileName) )
+        if ( profiles.contains(profileName) || profileName.isEmpty() )
         {
             currentProfile1 = profileName;
             settings.setValue(configPrefix + "/profile1", profileName);
