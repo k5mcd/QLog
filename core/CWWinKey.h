@@ -34,6 +34,7 @@ private:
     QMutex commandMutex;
     QByteArray writeBuffer;
     qint32 minWPMRange;
+    QString lastLogicalError;
 
     void tryAsyncWrite();
     unsigned char buildWKModeByte() const;

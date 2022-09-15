@@ -113,6 +113,7 @@ bool CWWinKey2::open()
     if ( (unsigned char)cmd.at(0) != 0xF1 )
     {
         qWarning() << "Connected device is not the Winkey type";
+        lastLogicalError = tr("Connected devices is not WinKey");
         __close();
         return false;
     }
@@ -151,9 +152,12 @@ bool CWWinKey2::open()
     if ( (unsigned char)cmd.at(0) < 20 )
     {
         qWarning() << "Winkey version < 2.0 is not supported";
+        lastLogicalError = tr("Connected devices is not WinKey v2 or newer");
         __close();
         return false;
     }
+
+    lastLogicalError = QString();
 
     qCDebug(runtime) << "Host Mode has been enabled - Version " << QString::number(cmd.at(0));
 
@@ -196,6 +200,7 @@ bool CWWinKey2::open()
 
     /* Set Default value */
     __setWPM(defaultWPMSpeed);
+
 
     return true;
 }
@@ -401,7 +406,8 @@ QString CWWinKey2::lastError()
     FCT_IDENTIFICATION;
 
     qCDebug(runtime) << serial.error();
-    return serial.errorString();
+    qCDebug(runtime) << lastLogicalError;
+    return (lastLogicalError.isEmpty()) ? serial.errorString() : lastLogicalError;
 }
 
 bool CWWinKey2::imediatellyStop()
@@ -508,6 +514,7 @@ void CWWinKey2::__close()
 
     isInHostMode = false;
     xoff = false;
+    lastLogicalError = QString();
 }
 
 unsigned char CWWinKey2::buildWKModeByte() const
