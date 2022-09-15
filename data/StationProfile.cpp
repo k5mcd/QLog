@@ -35,7 +35,8 @@ QDataStream& operator>>(QDataStream& in, StationProfile& v)
 }
 
 StationProfilesManager::StationProfilesManager(QObject *parent) :
-     QObject(parent),ProfileManager<StationProfile>("station")
+    QObject(parent),
+    ProfileManager<StationProfile>("station")
 {
     FCT_IDENTIFICATION;
 

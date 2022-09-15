@@ -243,13 +243,18 @@ void CWConsoleWidget::reloadSettings()
     refreshShortcutProfileCombo();
 }
 
-void CWConsoleWidget::cwKeyConnected()
+void CWConsoleWidget::cwKeyConnected(QString profile)
 {
     FCT_IDENTIFICATION;
     ui->cwKeyProfileCombo->setStyleSheet("QComboBox {color: green}");
 
+    if ( profile != ui->cwKeyProfileCombo->currentText() )
+    {
+        ui->cwKeyProfileCombo->blockSignals(true);
+        ui->cwKeyProfileCombo->setCurrentText(profile);
+        ui->cwKeyProfileCombo->blockSignals(false);
+    }
     allowMorseSending(true);
-
     CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
 
     cwKeyOnline = true;

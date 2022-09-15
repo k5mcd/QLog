@@ -83,10 +83,16 @@ void CWKeyer::__openCWKey()
 {
     FCT_IDENTIFICATION;
 
+    CWKeyProfile newProfile = CWKeyProfilesManager::instance()->getCurProfile1();
+
+    if ( connectedCWKeyProfile == newProfile )
+    {
+        emit cwKeyConnected(connectedCWKeyProfile.profileName);
+        return;
+    }
+
     // if cw keys is active then close it
     __closeCWKey();
-
-    CWKeyProfile newProfile = CWKeyProfilesManager::instance()->getCurProfile1();
 
     qCDebug(runtime) << "Opening profile name: " << newProfile.profileName;
 
@@ -133,7 +139,7 @@ void CWKeyer::__openCWKey()
     connect(cwKey, &CWKey::keyEchoText, this, &CWKeyer::cwKeyEchoTextHandler);
     connectedCWKeyProfile = newProfile;
 
-    emit cwKeyConnected();
+    emit cwKeyConnected(connectedCWKeyProfile.profileName);
 }
 
 void CWKeyer::close()

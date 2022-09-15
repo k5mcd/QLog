@@ -110,6 +110,9 @@ MainWindow::MainWindow(QWidget* parent) :
     }
 
     connect(Rig::instance(), SIGNAL(rigErrorPresent(QString, QString)), this, SLOT(rigErrorHandler(QString, QString)));
+    connect(Rig::instance(), SIGNAL(rigCWKeyOpenRequest(QString)), this, SLOT(cwKeyerConnectProfile(QString)));
+    connect(Rig::instance(), SIGNAL(rigCWKeyCloseRequest(QString)), this, SLOT(cwKeyerDisconnectProfile(QString)));
+
     connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString, QString)), this, SLOT(rotErrorHandler(QString, QString)));
     connect(CWKeyer::instance(), SIGNAL(cwKeyerError(QString, QString)), this, SLOT(cwKeyerErrorHandler(QString, QString)));
     connect(CWKeyer::instance(), SIGNAL(cwKeyWPMChanged(qint32)), ui->cwconsoleWidget, SLOT(setWPM(qint32)));
@@ -432,6 +435,57 @@ void MainWindow::cwKeyerConnect()
     {
         CWKeyer::instance()->close();
     }
+}
+
+void MainWindow::cwKeyerConnectProfile(QString requestedProfile)
+{
+    FCT_IDENTIFICATION;
+
+    // it is a hack, maybe it will be improved in the future
+    if ( requestedProfile == EMPTY_PROFILE_NAME || requestedProfile.isEmpty() )
+    {
+        return;
+    }
+
+    CWKeyProfile testingProfile = CWKeyProfilesManager::instance()->getProfile(requestedProfile);
+
+    if ( testingProfile == CWKeyProfile() ) //if requested profile does not exists then no change
+    {
+        qWarning() << "Rig request unknown CW Key Profile";
+        return;
+    }
+    ui->actionConnectCWKeyer->setChecked(true);
+    CWKeyProfilesManager::instance()->setCurProfile1(requestedProfile);
+
+    cwKeyerConnect();
+}
+
+void MainWindow::cwKeyerDisconnectProfile(QString requestedProfile)
+{
+    FCT_IDENTIFICATION;
+
+    // it is a hack, maybe it will be improved in the future
+    if ( requestedProfile == EMPTY_PROFILE_NAME || requestedProfile.isEmpty() )
+    {
+        return;
+    }
+
+    CWKeyProfile testingProfile = CWKeyProfilesManager::instance()->getProfile(requestedProfile);
+
+    if ( testingProfile == CWKeyProfile() ) //if requested profile does not exists then no change
+    {
+        qWarning() << "Rig requests an unknown CW Key Profile";
+        return;
+    }
+
+    /* checking whether the user has changed the assigned key during the work. If so, leave it connected. */
+    if ( testingProfile !=  CWKeyProfilesManager::instance()->getCurProfile1() )
+    {
+        return;
+    }
+    ui->actionConnectCWKeyer->setChecked(false);
+
+    cwKeyerConnect();
 }
 
 void MainWindow::showSettings() {

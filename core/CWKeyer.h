@@ -16,7 +16,7 @@ public:
 
 signals:
     void cwKeyerError(QString, QString);
-    void cwKeyConnected();
+    void cwKeyConnected(QString);
     void cwKeyDisconnected();
     void cwKeyWPMChanged(qint32);
     void cwKeyEchoText(QString);

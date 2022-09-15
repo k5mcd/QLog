@@ -119,6 +119,8 @@ signals:
     void rigErrorPresent(QString, QString);
     void rigDisconnected();
     void rigConnected();
+    void rigCWKeyOpenRequest(QString);
+    void rigCWKeyCloseRequest(QString);
 
 private slots:
     void openImpl();

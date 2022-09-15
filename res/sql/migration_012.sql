@@ -44,3 +44,4 @@ VALUES (
 
 
 ALTER TABLE rig_profiles ADD get_key_speed INTEGER DEFAULT 1;
+ALTER TABLE rig_profiles ADD assigned_cw_key TEXT DEFAULT ' ';

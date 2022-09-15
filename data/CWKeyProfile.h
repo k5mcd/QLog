@@ -10,6 +10,10 @@
 
 #define DEFAULT_CWKEY_MODEL 0
 
+// this is a hack. We have non-empty text to set empty value in Setting dialog->Rig's Assigned CW Key combo
+// therefore QLog use one space as a profile that meams no CW is assigned to Rig
+#define EMPTY_PROFILE_NAME " "
+
 class CWKeyProfile
 {
 public:

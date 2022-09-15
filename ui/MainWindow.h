@@ -41,6 +41,8 @@ private slots:
     void rigConnect();
     void rotConnect();
     void cwKeyerConnect();
+    void cwKeyerConnectProfile(QString);
+    void cwKeyerDisconnectProfile(QString);
     void showSettings();
     void showStatistics();
     void importLog();

@@ -49,6 +49,7 @@ public:
     bool getPTTInfo;
     bool QSYWiping;
     bool getKeySpeed;
+    QString assignedCWKey;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);

@@ -593,6 +593,13 @@ void Rig::__closeRig()
 {
     FCT_IDENTIFICATION;
 
+    // Change Assigned CW Key
+    if ( !connectedRigProfile.assignedCWKey.isEmpty()
+         || connectedRigProfile.assignedCWKey != " ")
+    {
+        emit rigCWKeyCloseRequest(connectedRigProfile.assignedCWKey);
+    }
+
     connectedRigProfile = RigProfile();
     LoA.clear();
 
@@ -662,6 +669,13 @@ void Rig::__openRig()
     LoA.setTXOffset(MHz(connectedRigProfile.xitOffset));
 
     emit rigConnected();
+
+    // Change Assigned CW Key
+    if ( !connectedRigProfile.assignedCWKey.isEmpty()
+         || connectedRigProfile.assignedCWKey != " ")
+    {
+        emit rigCWKeyOpenRequest(connectedRigProfile.assignedCWKey);
+    }
 }
 
 rmode_t Rig::modeSubmodeToModeT(const QString &mode, const QString &submode)

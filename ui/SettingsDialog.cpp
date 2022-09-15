@@ -78,6 +78,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QStringListModel* profilesModes = new QStringListModel();
     ui->stationProfilesListView->setModel(profilesModes);
 
+    QStringListModel* cwKeysModel = new QStringListModel();
+    ui->rigAssignedCWKeyCombo->setModel(cwKeysModel);
+
     modeTableModel = new QSqlTableModel(this);
     modeTableModel->setTable("modes");
     modeTableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
@@ -313,6 +316,7 @@ void SettingsDialog::addRigProfile()
     profile.ritOffset = ui->rigRXOffsetSpinBox->value();
     profile.xitOffset = ui->rigTXOffsetSpinBox->value();
     profile.defaultPWR = ui->rigPWRDefaultSpinBox->value();
+    profile.assignedCWKey = ui->rigAssignedCWKeyCombo->currentText();
 
     profile.getFreqInfo = ui->rigGetFreqCheckBox->isChecked();
     profile.getModeInfo = ui->rigGetModeCheckBox->isChecked();
@@ -370,6 +374,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigTXFreqMinSpinBox->setValue(profile.txFreqStart);
     ui->rigTXFreqMaxSpinBox->setValue(profile.txFreqEnd);
     ui->rigPWRDefaultSpinBox->setValue(profile.defaultPWR);
+    ui->rigAssignedCWKeyCombo->setCurrentText(profile.assignedCWKey);
     ui->rigGetFreqCheckBox->setChecked(profile.getFreqInfo);
     ui->rigGetModeCheckBox->setChecked(profile.getModeInfo);
     ui->rigGetVFOCheckBox->setChecked(profile.getVFOInfo);
@@ -400,6 +405,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigTXFreqMinSpinBox->setValue(0.0);
     ui->rigTXFreqMaxSpinBox->setValue(0.0);
     ui->rigPWRDefaultSpinBox->setValue(100.0);
+    ui->rigAssignedCWKeyCombo->setCurrentIndex(0);
     ui->rigPollIntervalSpinBox->setValue(500.0);
     ui->rigPortEdit->clear();
     ui->rigHostNameEdit->clear();
@@ -699,35 +705,64 @@ void SettingsDialog::addCWKeyProfile()
     refreshCWKeyProfilesView();
 
     clearCWKeyProfileForm();
+
+    refreshRigAssignedCWKeyCombo();
 }
 
 void SettingsDialog::delCWKeyProfile()
 {
     FCT_IDENTIFICATION;
 
+    bool canDelete = true;
+
     foreach (QModelIndex index, ui->cwProfilesListView->selectionModel()->selectedRows())
     {
-        cwKeyProfManager->removeProfile(ui->cwProfilesListView->model()->data(index).toString());
-        ui->cwProfilesListView->model()->removeRow(index.row());
+
+        QStringList  impactedRigs;
+
+        QString removedCWProfile = ui->cwProfilesListView->model()->data(index).toString();
+
+        QStringList rigProfiles = rigProfManager->profileNameList();
+        for ( const QString &rigProfileName : qAsConst(rigProfiles) )
+        {
+            qCDebug(runtime) << "Checking Rig Profile" << rigProfileName;
+            RigProfile prof = rigProfManager->getProfile(rigProfileName);
+            if ( prof.assignedCWKey == removedCWProfile )
+            {
+                canDelete = false;
+                impactedRigs << prof.profileName;
+            }
+        }
+
+        if ( canDelete )
+        {
+            cwKeyProfManager->removeProfile(removedCWProfile);
+            ui->cwProfilesListView->model()->removeRow(index.row());
+        }
+        else
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("Cannot delete the CW Key Profile<br>The CW Key Profile is used by Rig(s): <b>%1</b>").arg(impactedRigs.join(", ")));
+        }
+
+        canDelete = true;
+        impactedRigs.clear();
     }
     ui->cwProfilesListView->clearSelection();
 
     clearCWKeyProfileForm();
 
+    refreshRigAssignedCWKeyCombo();
 }
 
 void SettingsDialog::refreshCWKeyProfilesView()
 {
     FCT_IDENTIFICATION;
 
-    QStringListModel* model = (QStringListModel*)ui->cwProfilesListView->model();
-    QStringList profiles = model->stringList();
-
-    profiles.clear();
-
-
+    QStringList profiles;
     profiles << cwKeyProfManager->profileNameList();
 
+    QStringListModel* model = static_cast<QStringListModel*>(ui->cwProfilesListView->model());
     model->setStringList(profiles);
 }
 
@@ -1380,6 +1415,8 @@ void SettingsDialog::readSettings() {
     QStringList cwShortcut = cwShortcutProfManager->profileNameList();
     ((QStringListModel*)ui->cwShortcutListView->model())->setStringList(cwShortcut);
 
+    refreshRigAssignedCWKeyCombo();
+
     /************/
     /* Callbook */
     /************/
@@ -1464,8 +1501,6 @@ void SettingsDialog::readSettings() {
     //until hamlib guyes fix it.
     ui->rigNetPortSpin->setDisabled(true);
     ui->rotNetPortSpin->setDisabled(true);
-
-
 }
 
 void SettingsDialog::writeSettings() {
@@ -1635,6 +1670,20 @@ void SettingsDialog::fixRigCap(const struct rig_caps *caps)
             ui->rigGetKeySpeedCheckBox->setChecked(false);
         }
     }
+}
+
+void SettingsDialog::refreshRigAssignedCWKeyCombo()
+{
+    FCT_IDENTIFICATION;
+
+    QString cwKeyName = ui->rigAssignedCWKeyCombo->currentText();
+
+    QStringList profiles;
+    profiles << " " << cwKeyProfManager->profileNameList();
+    QStringListModel* model = static_cast<QStringListModel*>(ui->rigAssignedCWKeyCombo->model());
+    model->setStringList(profiles);
+
+    ui->rigAssignedCWKeyCombo->setCurrentText(cwKeyName);
 }
 
 SettingsDialog::~SettingsDialog() {

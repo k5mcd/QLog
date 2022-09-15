@@ -32,7 +32,7 @@ private slots:
     void cwShortcutProfileDecrease();
     void refreshKeyProfileCombo();
     void refreshShortcutProfileCombo();
-    void cwKeyConnected();
+    void cwKeyConnected(QString);
     void cwKeyDisconnected();
     void cwKeySpeedChanged(int);
     void cwKeySpeedIncrease();

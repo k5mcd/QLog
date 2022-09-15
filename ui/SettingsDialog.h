@@ -87,6 +87,7 @@ private:
     void readSettings();
     void writeSettings();
     void fixRigCap(const struct rig_caps *caps);
+    void refreshRigAssignedCWKeyCombo();
 
     QSqlTableModel* modeTableModel;
     QSqlTableModel* bandTableModel;
@@ -96,7 +97,6 @@ private:
     AntProfilesManager *antProfManager;
     CWKeyProfilesManager *cwKeyProfManager;
     CWShortcutProfilesManager *cwShortcutProfManager;
-
     QCompleter *sotaCompleter;
     QCompleter *iotaCompleter;
     Ui::SettingsDialog *ui;
