@@ -78,10 +78,7 @@ void CWConsoleWidget::cwKeyProfileComboChanged(QString profileName)
 
     qCDebug(function_parameters) << profileName;
 
-    CWKeyProfilesManager *cwKeyManager =  CWKeyProfilesManager::instance();
-
-    cwKeyManager->setCurProfile1(profileName);
-    ui->cwKeySpeedSpinBox->setValue(cwKeyManager->getCurProfile1().defaultSpeed);
+    CWKeyProfilesManager::instance()->setCurProfile1(profileName);
 
     emit cwKeyProfileChanged();
 }
@@ -255,7 +252,7 @@ void CWConsoleWidget::cwKeyConnected(QString profile)
         ui->cwKeyProfileCombo->blockSignals(false);
     }
     allowMorseSending(true);
-    CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
+    CWKeyer::instance()->setSpeed(CWKeyProfilesManager::instance()->getCurProfile1().defaultSpeed);
 
     cwKeyOnline = true;
 
