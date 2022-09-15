@@ -129,8 +129,18 @@ public:
         QSettings settings;
 
         currProfMutex.lock();
-        currentProfile1 = profileName;
-        settings.setValue(configPrefix + "/profile1", profileName);
+
+        if ( profiles.contains(profileName) )
+        {
+            currentProfile1 = profileName;
+            settings.setValue(configPrefix + "/profile1", profileName);
+        }
+        else
+        {
+            qWarning() << "Cannot set Current Profile to "
+                       << profileName
+                       << "because is not not a valid profile name";
+        }
         currProfMutex.unlock();
 
     };
