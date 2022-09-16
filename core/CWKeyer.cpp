@@ -39,11 +39,19 @@ void CWKeyer::update()
 {
     FCT_IDENTIFICATION;
 
-    if ( !cwKey )
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+    if ( !cwKeyLock.tryLock(200) )
     {
+        qCDebug(runtime) << "Waited too long";
         return;
     }
-    if ( !cwKeyLock.tryLock(200) ) return;
+    qCDebug(runtime) << "Updating key state";
+
+    if ( !cwKey )
+    {
+        cwKeyLock.unlock();
+        return;
+    }
 
     CWKeyProfile currCWProfile = CWKeyProfilesManager::instance()->getCurProfile1();
     /***********************************************************/
@@ -52,7 +60,6 @@ void CWKeyer::update()
     /***********************************************************/
     if ( currCWProfile != connectedCWKeyProfile)
     {
-        qInfo() << "changing";
         /* CW Key Profile Changed
          * Need to reconnect CW Key
          */
@@ -147,14 +154,18 @@ bool CWKeyer::canStopSending()
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+
+    QMutexLocker locker(&cwKeyLock);
+
+    qCDebug(runtime) << "Using Key";
+
     if ( !cwKey )
     {
         return false;
     }
 
-    cwKeyLock.lock();
     bool ret = cwKey->canStopSending();
-    cwKeyLock.unlock();
 
     return ret;
 }
@@ -163,14 +174,18 @@ bool CWKeyer::canEchoChar()
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+
+    QMutexLocker locker(&cwKeyLock);
+
+    qCDebug(runtime) << "Using Key";
+
     if ( !cwKey )
     {
         return false;
     }
 
-    cwKeyLock.lock();
     bool ret = cwKey->canEchoChar();
-    cwKeyLock.unlock();
 
     return ret;
 }
@@ -179,14 +194,19 @@ bool CWKeyer::rigMustConnected()
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+
+    QMutexLocker locker(&cwKeyLock);
+
+    qCDebug(runtime) << "Using Key";
+
     if ( !cwKey )
     {
         return false;
     }
 
-    cwKeyLock.lock();
+
     bool ret = cwKey->mustRigConnected();
-    cwKeyLock.unlock();
 
     return ret;
 }
@@ -229,11 +249,15 @@ void CWKeyer::setSpeedImpl(const qint16 wpm)
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+
+    QMutexLocker locker(&cwKeyLock);
+
+    qCDebug(runtime) << "Using Key";
+
     if ( !cwKey ) return;
 
-    cwKeyLock.lock();
     cwKey->setWPM(wpm);
-    cwKeyLock.unlock();
 }
 
 void CWKeyer::sendText(const QString &text)
@@ -249,11 +273,15 @@ void CWKeyer::sendTextImpl(const QString &text)
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+
+    QMutexLocker locker(&cwKeyLock);
+
+    qCDebug(runtime) << "Using Key";
+
     if ( !cwKey ) return;
 
-    cwKeyLock.lock();
     cwKey->sendText(text);
-    cwKeyLock.unlock();
 }
 
 void CWKeyer::imediatellyStop()
@@ -268,11 +296,15 @@ void CWKeyer::immediatellyStopImpl()
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+
+    QMutexLocker locker(&cwKeyLock);
+
+    qCDebug(runtime) << "Using Key";
+
     if ( !cwKey ) return;
 
-    cwKeyLock.lock();
     cwKey->imediatellyStop();
-    cwKeyLock.unlock();
 }
 
 void CWKeyer::stopTimerImplt()
