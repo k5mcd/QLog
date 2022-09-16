@@ -228,6 +228,7 @@ bool CWWinKey2::sendText(const QString &text)
     if ( !isInHostMode )
     {
         qCWarning(runtime) << "Key is not in Host Mode";
+        emit keyError(tr("Cannot sent Text to Rig"), tr("Key is not connected"));
         return false;
     }
 
@@ -388,6 +389,7 @@ bool CWWinKey2::__setWPM(const qint16 wpm)
     if ( !isInHostMode )
     {
         qCWarning(runtime) << "Key is not in Host Mode";
+        emit keyError(tr("Cannot set Key Speed"), tr("Key is not connected"));
         return false;
     }
 
@@ -425,6 +427,7 @@ bool CWWinKey2::imediatellyStop()
     if ( !isInHostMode )
     {
         qCWarning(runtime) << "Key is not in Host Mode";
+        emit keyError(tr("Cannot Stop Text Sending"), tr("Key is not connected"));
         return false;
     }
 

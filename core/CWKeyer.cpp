@@ -215,7 +215,9 @@ void CWKeyer::closeImpl()
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(runtime) << "Waiting for cwkey mutex";
     cwKeyLock.lock();
+    qCDebug(runtime) << "Using Key";
     __closeCWKey();
     cwKeyLock.unlock();
 }
