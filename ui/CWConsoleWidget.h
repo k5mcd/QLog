@@ -24,6 +24,7 @@ signals:
 public slots:
     void appendCWEchoText(QString);
     void reloadSettings();
+    void clearConsoles();
 
 private slots:
     void cwKeyProfileComboChanged(QString);

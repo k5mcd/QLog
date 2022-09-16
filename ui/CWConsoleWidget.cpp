@@ -240,6 +240,15 @@ void CWConsoleWidget::reloadSettings()
     refreshShortcutProfileCombo();
 }
 
+void CWConsoleWidget::clearConsoles()
+{
+    FCT_IDENTIFICATION;
+
+    ui->cwConsoleText->clear();
+    ui->cwEchoConsoleText->clear();
+
+}
+
 void CWConsoleWidget::cwKeyConnected(QString profile)
 {
     FCT_IDENTIFICATION;
@@ -265,8 +274,7 @@ void CWConsoleWidget::cwKeyDisconnected()
 
     allowMorseSending(false);
 
-    ui->cwConsoleText->clear();
-    ui->cwEchoConsoleText->clear();
+    clearConsoles();
 
     cwKeyOnline = false;
 }
