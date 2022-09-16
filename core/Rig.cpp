@@ -936,8 +936,6 @@ void Rig::setKeySpeedImpl(qint16 wpm)
         qWarning() << "Cannot set Key Speed";
     }
 
-    /* It is not needed to call VFO set freq function here because Rig's Update function do it */
-
     // wait a moment because Rigs are slow and they are not possible to set and get
     // mode so quickly (get mode is called in the main thread's update() function
 #ifdef Q_OS_WIN

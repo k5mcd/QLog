@@ -252,8 +252,7 @@ void CWConsoleWidget::cwKeyConnected(QString profile)
         ui->cwKeyProfileCombo->blockSignals(false);
     }
     allowMorseSending(true);
-    CWKeyer::instance()->setSpeed(CWKeyProfilesManager::instance()->getCurProfile1().defaultSpeed);
-
+    ui->cwKeySpeedSpinBox->setValue(CWKeyProfilesManager::instance()->getCurProfile1().defaultSpeed);
     cwKeyOnline = true;
 
     ui->cwSendEdit->setPlaceholderText(QString());

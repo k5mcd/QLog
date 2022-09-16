@@ -373,7 +373,12 @@ bool CWWinKey2::setWPM(const qint16 wpm)
 
     qCDebug(runtime) << "Waiting for Command Mutex";
     QMutexLocker locker(&commandMutex);
-    return __setWPM(wpm);
+    bool ret = __setWPM(wpm);
+    if ( ret )
+    {
+        emit keyChangedWPMSpeed(wpm); //Winkey does not echo a new Speed
+    }
+    return ret;
 }
 
 bool CWWinKey2::__setWPM(const qint16 wpm)

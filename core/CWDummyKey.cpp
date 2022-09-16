@@ -53,6 +53,7 @@ bool CWDummyKey::setWPM(const qint16 wpm)
         qInfo() << "Setting Speed " << wpm;
     }
 
+    emit keyChangedWPMSpeed(wpm);
     return true;
 }
 
