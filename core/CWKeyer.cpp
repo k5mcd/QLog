@@ -90,10 +90,15 @@ void CWKeyer::__openCWKey()
 {
     FCT_IDENTIFICATION;
 
-    CWKeyProfile newProfile = CWKeyProfilesManager::instance()->getCurProfile1();
-
     // if cw keys is active then close it
     __closeCWKey();
+
+    CWKeyProfile newProfile = CWKeyProfilesManager::instance()->getCurProfile1();
+
+    if ( newProfile == CWKeyProfile() )
+    {
+        return;
+    }
 
     qCDebug(runtime) << "Opening profile name: " << newProfile.profileName;
 
