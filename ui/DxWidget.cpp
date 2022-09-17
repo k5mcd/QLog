@@ -176,6 +176,13 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->serverSelect->installEventFilter(new DeleteHighlightedDXServerWhenDelPressedEventFilter);
     QRegExp rx("[^\\:]+:[0-9]{1,5}");
     ui->serverSelect->setValidator(new QRegExpValidator(rx,this));
+    QString lastUsedServer = settings.value("dxc/last_server").toString();
+    int index = ui->serverSelect->findText(lastUsedServer);
+    // if last server still exists then set it otherwise use the first one
+    if ( index >= 0 )
+    {
+        ui->serverSelect->setCurrentIndex(index);
+    }
 }
 
 void DxWidget::toggleConnect() {
@@ -250,6 +257,7 @@ void DxWidget::saveDXCServers()
 
     QStringList serversItems = getDXCServerList();
     settings.setValue("dxc/servers", serversItems);
+    settings.setValue("dxc/last_server", ui->serverSelect->currentText());
 }
 
 QString DxWidget::modeFilterRegExp()
