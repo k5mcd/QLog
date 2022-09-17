@@ -228,7 +228,6 @@ void DxWidget::connectCluster() {
 void DxWidget::disconnectCluster() {
     FCT_IDENTIFICATION;
 
-    ui->sendButton->setEnabled(false);
     ui->commandEdit->setEnabled(false);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Connect"));
@@ -481,7 +480,6 @@ void DxWidget::connected()
         }
     }
 #endif
-    ui->sendButton->setEnabled(true);
     ui->commandEdit->setEnabled(true);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Disconnect"));
