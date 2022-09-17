@@ -307,7 +307,8 @@ QString DxWidget::bandFilterRegExp()
     return regexp;
 }
 
-void DxWidget::send() {
+void DxWidget::send()
+{
     FCT_IDENTIFICATION;
 
     QByteArray data;
@@ -320,6 +321,7 @@ void DxWidget::send() {
     }
 
     ui->commandEdit->clear();
+    ui->rawCheckBox->setChecked(true);
 }
 
 void DxWidget::receive() {
