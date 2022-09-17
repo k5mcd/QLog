@@ -155,6 +155,9 @@
      </property>
      <item>
       <widget class="QLineEdit" name="commandEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>

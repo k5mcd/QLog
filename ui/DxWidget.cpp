@@ -229,6 +229,7 @@ void DxWidget::disconnectCluster() {
     FCT_IDENTIFICATION;
 
     ui->sendButton->setEnabled(false);
+    ui->commandEdit->setEnabled(false);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Connect"));
 
@@ -314,7 +315,10 @@ void DxWidget::send() {
     data.append(ui->commandEdit->text().toLatin1());
     data.append("\r\n");
 
-    socket->write(data);
+    if ( socket && socket->isOpen() )
+    {
+        socket->write(data);
+    }
 
     ui->commandEdit->clear();
 }
@@ -423,6 +427,12 @@ void DxWidget::connected()
 {
     FCT_IDENTIFICATION;
 
+    if ( !socket )
+    {
+        qWarning() << "Socket is not opened";
+        return;
+    }
+
     int fd = socket->socketDescriptor();
 
 #ifdef Q_OS_WIN
@@ -472,6 +482,7 @@ void DxWidget::connected()
     }
 #endif
     ui->sendButton->setEnabled(true);
+    ui->commandEdit->setEnabled(true);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Disconnect"));
 
