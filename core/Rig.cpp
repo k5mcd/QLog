@@ -622,6 +622,13 @@ void Rig::__openRig()
 
     RigProfile newRigProfile = RigProfilesManager::instance()->getCurProfile1();
 
+    if ( newRigProfile == RigProfile() )
+    {
+        emit rigErrorPresent(tr("No Rig Profile selected"),
+                             QString());
+        return;
+    }
+
     qCDebug(runtime) << "Opening profile name: " << newRigProfile.profileName;
 
     rig = rig_init(newRigProfile.model);

@@ -97,6 +97,9 @@ void CWKeyer::__openCWKey()
 
     if ( newProfile == CWKeyProfile() )
     {
+        emit cwKeyerError(tr("No CW Key Profile selected"),
+                          QString());
+
         return;
     }
 

@@ -183,6 +183,13 @@ void Rotator::__openRot()
 
     RotProfile newRotProfile = RotProfilesManager::instance()->getCurProfile1();
 
+    if ( newRotProfile == RotProfile() )
+    {
+        emit rotErrorPresent(tr("No Rotator Profile selected"),
+                             QString());
+        return;
+    }
+
     qCDebug(runtime) << "Opening profile name: " << newRotProfile.profileName;
 
     rot = rot_init(newRotProfile.model);
