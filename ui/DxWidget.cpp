@@ -183,6 +183,10 @@ DxWidget::DxWidget(QWidget *parent) :
     {
         ui->serverSelect->setCurrentIndex(index);
     }
+
+    rawModeSwitch = new SwitchButton(tr("Raw"), this);
+    connect(rawModeSwitch, SIGNAL(stateChanged(int)), this, SLOT(rawModeChanged()));
+    ui->horizontalLayout->addWidget(rawModeSwitch);
 }
 
 void DxWidget::toggleConnect() {
@@ -329,7 +333,7 @@ void DxWidget::send()
     }
 
     ui->commandEdit->clear();
-    ui->rawCheckBox->setChecked(true);
+    rawModeSwitch->setChecked(true);
 }
 
 void DxWidget::receive() {
@@ -500,7 +504,7 @@ void DxWidget::connected()
 void DxWidget::rawModeChanged() {
     FCT_IDENTIFICATION;
 
-    if (ui->rawCheckBox->isChecked()) {
+    if (rawModeSwitch->isChecked()) {
         ui->stack->setCurrentIndex(1);
     }
     else {

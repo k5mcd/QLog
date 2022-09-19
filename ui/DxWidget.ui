@@ -211,25 +211,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QCheckBox" name="rawCheckBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::ClickFocus</enum>
-       </property>
-       <property name="toolTip">
-        <string>Switch between raw and beautified form of DXC view.</string>
-       </property>
-       <property name="text">
-        <string>Raw</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
@@ -279,22 +260,6 @@
     <hint type="destinationlabel">
      <x>367</x>
      <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rawCheckBox</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>DxWidget</receiver>
-   <slot>rawModeChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>262</x>
-     <y>507</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>456</x>
-     <y>255</y>
     </hint>
    </hints>
   </connection>

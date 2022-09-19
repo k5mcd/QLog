@@ -8,6 +8,7 @@
 
 #include "data/Data.h"
 #include "data/DxSpot.h"
+#include "ui/SwitchButton.h"
 
 namespace Ui {
 class DxWidget;
@@ -71,6 +72,7 @@ private:
     QRegularExpression contregexp;
     QRegularExpression spottercontregexp;
     QRegularExpression bandregexp;
+    SwitchButton* rawModeSwitch;
 
     void connectCluster();
     void disconnectCluster();
