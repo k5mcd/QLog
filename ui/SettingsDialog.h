@@ -6,6 +6,7 @@
 #include <QSqlTableModel>
 #include <QCompleter>
 #include <hamlib/rig.h>
+#include <QLineEdit>
 
 #include "data/StationProfile.h"
 #include "data/RigProfile.h"
@@ -72,10 +73,16 @@ public slots:
     void rigChanged(int);
     void rotChanged(int);
     void cwKeyChanged(int);
+    void rigStackWidgetChanged(int);
+    void rotStackWidgetChanged(int);
+    void cwKeyStackWidgetChanged(int);
     void tqslPathBrowse();
     void adjustCallsignTextColor();
     void adjustLocatorTextColor();
     void adjustVUCCLocatorTextColor();
+    void adjustRotCOMPortTextColor();
+    void adjustRigCOMPortTextColor();
+    void adjustCWKeyCOMPortTextColor();
     void eqslDirBrowse();
     void paperDirBrowse();
     void cancelled();
@@ -88,6 +95,7 @@ private:
     void writeSettings();
     void setUIBasedOnRigCaps(const struct rig_caps *caps);
     void refreshRigAssignedCWKeyCombo();
+    void setValidationResultColor(QLineEdit *);
 
     QSqlTableModel* modeTableModel;
     QSqlTableModel* bandTableModel;
