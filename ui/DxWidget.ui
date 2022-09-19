@@ -166,6 +166,22 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="commandButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>Commands</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -224,6 +240,34 @@
    </property>
    <property name="toolTip">
     <string>Filter DXC</string>
+   </property>
+  </action>
+  <action name="actionSpotQSO">
+   <property name="text">
+    <string>Spot Last QSO</string>
+   </property>
+   <property name="toolTip">
+    <string>Send last QSO spot</string>
+   </property>
+  </action>
+  <action name="actionShowHFStats">
+   <property name="text">
+    <string>Show HF Stats</string>
+   </property>
+  </action>
+  <action name="actionShowVHFStats">
+   <property name="text">
+    <string>Show VHF Stats</string>
+   </property>
+  </action>
+  <action name="actionShowWCY">
+   <property name="text">
+    <string>Show WCY</string>
+   </property>
+  </action>
+  <action name="actionShowWWV">
+   <property name="text">
+    <string>Show WWV</string>
    </property>
   </action>
  </widget>
@@ -327,6 +371,86 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSpotQSO</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionCommandSpotQSO()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowHFStats</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionCommandShowHFStats()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowVHFStats</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionCommandShowVHFStats()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowWCY</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionCommandShowWCY()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowWWV</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionCommandShowWWV()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>send()</slot>
@@ -339,5 +463,10 @@
   <slot>actionPhoneFilter(bool)</slot>
   <slot>adjusteServerSelectSize(QString)</slot>
   <slot>serverSelectChanged(int)</slot>
+  <slot>actionCommandSpotQSO()</slot>
+  <slot>actionCommandShowHFStats()</slot>
+  <slot>actionCommandShowVHFStats()</slot>
+  <slot>actionCommandShowWCY()</slot>
+  <slot>actionCommandShowWWV()</slot>
  </slots>
 </ui>

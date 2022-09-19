@@ -5,6 +5,7 @@
 #include <QtNetwork>
 #include <QSortFilterProxyModel>
 #include <QRegularExpression>
+#include <QSqlRecord>
 
 #include "data/Data.h"
 #include "data/DxSpot.h"
@@ -58,6 +59,13 @@ public slots:
     void actionFilter();
     void adjusteServerSelectSize(QString);
     void serverSelectChanged(int);
+    void setLastQSO(QSqlRecord);
+
+    void actionCommandSpotQSO();
+    void actionCommandShowHFStats();
+    void actionCommandShowVHFStats();
+    void actionCommandShowWCY();
+    void actionCommandShowWWV();
 
 signals:
     void tuneDx(QString, double);
@@ -73,6 +81,7 @@ private:
     QRegularExpression spottercontregexp;
     QRegularExpression bandregexp;
     SwitchButton* rawModeSwitch;
+    QSqlRecord lastQSO;
 
     void connectCluster();
     void disconnectCluster();
@@ -81,6 +90,8 @@ private:
     QString contFilterRegExp();
     QString spotterContFilterRegExp();
     QString bandFilterRegExp();
+    void sendCommand(const QString&,
+                     bool switchToConsole = false);
 
 
     QStringList getDXCServerList(void);

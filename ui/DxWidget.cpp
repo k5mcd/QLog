@@ -143,8 +143,8 @@ bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *ob
 
 DxWidget::DxWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DxWidget) {
-
+    ui(new Ui::DxWidget)
+{
     FCT_IDENTIFICATION;
 
     QSettings settings;
@@ -187,6 +187,15 @@ DxWidget::DxWidget(QWidget *parent) :
     rawModeSwitch = new SwitchButton(tr("Raw"), this);
     connect(rawModeSwitch, SIGNAL(stateChanged(int)), this, SLOT(rawModeChanged()));
     ui->horizontalLayout->addWidget(rawModeSwitch);
+
+    QMenu *commandsMenu = new QMenu(this);
+    commandsMenu->addAction(ui->actionSpotQSO);
+    commandsMenu->addSeparator();
+    commandsMenu->addAction(ui->actionShowHFStats);
+    commandsMenu->addAction(ui->actionShowVHFStats);
+    commandsMenu->addAction(ui->actionShowWCY);
+    commandsMenu->addAction(ui->actionShowWWV);
+    ui->commandButton->setMenu(commandsMenu);
 }
 
 void DxWidget::toggleConnect() {
@@ -240,6 +249,7 @@ void DxWidget::disconnectCluster() {
     FCT_IDENTIFICATION;
 
     ui->commandEdit->setEnabled(false);
+    ui->commandButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Connect"));
 
@@ -319,12 +329,13 @@ QString DxWidget::bandFilterRegExp()
     return regexp;
 }
 
-void DxWidget::send()
+void DxWidget::sendCommand(const QString & command,
+                           bool switchToConsole)
 {
     FCT_IDENTIFICATION;
 
     QByteArray data;
-    data.append(ui->commandEdit->text().toLatin1());
+    data.append(command.toLatin1());
     data.append("\r\n");
 
     if ( socket && socket->isOpen() )
@@ -332,8 +343,16 @@ void DxWidget::send()
         socket->write(data);
     }
 
+    // switch to raw mode to see a response
+    rawModeSwitch->setChecked(switchToConsole);
+}
+
+void DxWidget::send()
+{
+    FCT_IDENTIFICATION;
+
+    sendCommand(ui->commandEdit->text());
     ui->commandEdit->clear();
-    rawModeSwitch->setChecked(true);
 }
 
 void DxWidget::receive() {
@@ -358,6 +377,11 @@ void DxWidget::receive() {
             QByteArray call = StationProfilesManager::instance()->getCurProfile1().callsign.toLocal8Bit();
             call.append("\r\n");
             socket->write(call);
+        }
+
+        if ( line.contains("dxspider", Qt::CaseInsensitive) )
+        {
+            ui->commandButton->setEnabled(true);
         }
 
         if (line.startsWith("DX"))
@@ -563,6 +587,81 @@ void DxWidget::serverSelectChanged(int index)
             connectCluster();
         }
     }
+}
+
+void DxWidget::setLastQSO(QSqlRecord qsoRecord)
+{
+    FCT_IDENTIFICATION;
+
+    lastQSO = qsoRecord;
+}
+
+void DxWidget::actionCommandSpotQSO()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << "Last QSO" << lastQSO;
+
+    if ( lastQSO.contains("start_time") )
+    {
+        //lastQSO is valid record
+        if ( lastQSO.contains("freq")
+             && lastQSO.contains("callsign") )
+        {
+            bool ok;
+            QString remarks = QInputDialog::getText(this,
+                                                 tr("DX Spot"),
+                                                 tr("Callsign: ") + "<b>" + lastQSO.value("callsign").toString() + "</b>"
+                                                 + " "
+                                                 + tr("Frequency: ") + "<b>" + QString::number(lastQSO.value("freq").toDouble(), 'f', 3) + "</b>"
+                                                 + "<br>"
+                                                 + tr("Remarks:"),
+                                                 QLineEdit::Normal,
+                                                 QString(),
+                                                 &ok,
+                                                 Qt::Dialog);
+            if ( ok )
+            {
+                QString command;
+                command = "dx " + QString::number(lastQSO.value("freq").toDouble(), 'f', 3)
+                          + " "
+                          + lastQSO.value("callsign").toString()
+                          + " "
+                          + remarks;
+
+                sendCommand(command);
+                lastQSO.clear();
+            }
+        }
+    }
+}
+
+void DxWidget::actionCommandShowHFStats()
+{
+    FCT_IDENTIFICATION;
+
+    sendCommand("sh/hfstats", true);
+}
+
+void DxWidget::actionCommandShowVHFStats()
+{
+    FCT_IDENTIFICATION;
+
+    sendCommand("sh/vhfstats", true);
+}
+
+void DxWidget::actionCommandShowWCY()
+{
+    FCT_IDENTIFICATION;
+
+    sendCommand("sh/wcy", true);
+}
+
+void DxWidget::actionCommandShowWWV()
+{
+    FCT_IDENTIFICATION;
+
+    sendCommand("sh/wwv", true);
 }
 
 QStringList DxWidget::getDXCServerList()
