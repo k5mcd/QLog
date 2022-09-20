@@ -165,6 +165,7 @@ HEADERS += \
         data/SpotAlert.h \
         data/StationProfile.h \
         data/WCYSpot.h \
+        data/WWVSpot.h \
         data/WsjtxEntry.h \
         logformat/AdiFormat.h \
         logformat/AdxFormat.h \

@@ -156,6 +156,20 @@ void NetworkNotification::wcySpot(const WCYSpot &spot)
     }
 }
 
+void NetworkNotification::wwvSpot(const WWVSpot &spot)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << "WWV Spot";
+
+    HostsPortString destList(getNotifDXSpotAddrs());
+
+    if ( destList.getAddrList().size() > 0 )
+    {
+        WWVSpotNotificationMsg WWVSpotMsg(spot);
+        send(WWVSpotMsg.getJson(), destList);
+    }
+}
+
 void NetworkNotification::WSJTXCQSpot(const WsjtxEntry &spot)
 {
     FCT_IDENTIFICATION;
@@ -394,5 +408,20 @@ WCYSpotNotificationMsg::WCYSpotNotificationMsg(const WCYSpot &spot, QObject *par
     spotData["Au"] = spot.Au;
 
     msg["msgtype"] = "wcyspot";
+    msg["data"] = spotData;
+}
+
+WWVSpotNotificationMsg::WWVSpotNotificationMsg(const WWVSpot &spot, QObject *parent) :
+    GenericNotificationMsg(parent)
+{
+    QJsonObject spotData;
+    spotData["rcvtime"] = spot.time.toString("yyyyMMdd hh:mm:ss");
+    spotData["SFI"] = spot.SFI;
+    spotData["A"] = spot.AIndex;
+    spotData["K"] = spot.KIndex;
+    spotData["Info1"] = spot.info1;
+    spotData["Info2"] = spot.info2;
+
+    msg["msgtype"] = "wwvspot";
     msg["data"] = spotData;
 }

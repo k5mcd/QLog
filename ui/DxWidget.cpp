@@ -23,8 +23,9 @@
 #include "core/debug.h"
 #include "data/StationProfile.h"
 #include "data/WCYSpot.h"
+#include "data/WWVSpot.h"
 
-#define CONSOLE_VIEW 2
+#define CONSOLE_VIEW 3
 
 MODULE_IDENTIFICATION("qlog.ui.dxwidget");
 
@@ -199,6 +200,72 @@ void WCYTableModel::clear()
     endResetModel();
 }
 
+int WWVTableModel::rowCount(const QModelIndex&) const
+{
+    return wwvData.count();
+}
+
+int WWVTableModel::columnCount(const QModelIndex&) const
+{
+    return 5;
+}
+
+QVariant WWVTableModel::data(const QModelIndex& index, int role) const
+{
+    QLocale locale;
+
+    if ( role == Qt::DisplayRole )
+    {
+        WWVSpot spot = wwvData.at(index.row());
+
+        switch (index.column()) {
+        case 0:
+            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+        case 1:
+            return spot.SFI;
+        case 2:
+            return spot.AIndex;
+        case 3:
+            return spot.KIndex;
+        case 4:
+            return spot.info1 + " " + QChar(0x2192) + " " + spot.info2;
+        default:
+            return QVariant();
+        }
+    }
+    return QVariant();
+}
+
+QVariant WWVTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role != Qt::DisplayRole || orientation != Qt::Horizontal) return QVariant();
+
+    switch (section)
+    {
+    case 0: return tr("Time");
+    case 1: return tr("SFI");
+    case 2: return tr("A");
+    case 3: return tr("K");
+    case 4: return tr("Info");
+
+    default: return QVariant();
+    }
+}
+
+void WWVTableModel::addEntry(WWVSpot entry)
+{
+    beginInsertRows(QModelIndex(), 0, 0);
+    wwvData.prepend(entry);
+    endInsertRows();
+}
+
+void WWVTableModel::clear()
+{
+    beginResetModel();
+    wwvData.clear();
+    endResetModel();
+}
+
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
     FCT_IDENTIFICATION;
@@ -235,6 +302,7 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->setupUi(this);
     dxTableModel = new DxTableModel(this);
     wcyTableModel = new WCYTableModel(this);
+    wwvTableModel = new WWVTableModel(this);
 
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
@@ -244,7 +312,7 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     ui->wcyTable->setModel(wcyTableModel);
-
+    ui->wwvTable->setModel(wwvTableModel);
 
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
@@ -322,6 +390,7 @@ void DxWidget::connectCluster() {
     ui->dxTable->clearSelection();
     dxTableModel->clear();
     wcyTableModel->clear();
+    wwvTableModel->clear();
     ui->dxTable->repaint();
 
     socket->connectToHost(host, port);
@@ -451,6 +520,10 @@ void DxWidget::receive() {
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch wcySpotMatch;
 
+    static QRegularExpression wwvSpotRE("^(WWV de) +([A-Z0-9\\-#]*) +<(\\d{2})Z?> *: *SFI=(\\d{1,3}), A=(\\d{1,3}), K=(\\d{1,3}), (.*\\b) *-> *(.*\\b) *$",
+                                        QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch wwvSpotMatch;
+
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
     foreach (QString line, lines)
@@ -532,6 +605,25 @@ void DxWidget::receive() {
 
                 emit newWCYSpot(spot);
                 wcyTableModel->addEntry(spot);
+            }
+        }
+        else if ( line.startsWith("WWV de") )
+        {
+            wwvSpotMatch = wwvSpotRE.match(line);
+
+            if ( wwvSpotMatch.hasMatch() )
+            {
+                WWVSpot spot;
+
+                spot.time = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
+                spot.SFI = wwvSpotMatch.captured(4).toUInt();
+                spot.AIndex = wwvSpotMatch.captured(5).toUInt();
+                spot.KIndex = wwvSpotMatch.captured(6).toUInt();
+                spot.info1 = wwvSpotMatch.captured(7);
+                spot.info2 = wwvSpotMatch.captured(8);
+
+                emit newWWVSpot(spot);
+                wwvTableModel->addEntry(spot);
             }
         }
 
