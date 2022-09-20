@@ -22,8 +22,9 @@
 #include "ui/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "data/StationProfile.h"
+#include "data/WCYSpot.h"
 
-#define CONSOLE_VIEW 1
+#define CONSOLE_VIEW 2
 
 MODULE_IDENTIFICATION("qlog.ui.dxwidget");
 
@@ -120,6 +121,84 @@ void DxTableModel::clear() {
     endResetModel();
 }
 
+int WCYTableModel::rowCount(const QModelIndex&) const
+{
+    return wcyData.count();
+}
+
+int WCYTableModel::columnCount(const QModelIndex&) const
+{
+    return 9;
+}
+
+QVariant WCYTableModel::data(const QModelIndex& index, int role) const
+{
+    QLocale locale;
+
+    if ( role == Qt::DisplayRole )
+    {
+        WCYSpot spot = wcyData.at(index.row());
+
+        switch (index.column()) {
+        case 0:
+            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+        case 1:
+            return spot.KIndex;
+        case 2:
+            return spot.expK;
+        case 3:
+            return spot.AIndex;
+        case 4:
+            return spot.RIndex;
+        case 5:
+            return spot.SFI;
+        case 6:
+            return spot.SA;
+        case 7:
+            return spot.GMF;
+        case 8:
+            return spot.Au;
+        default:
+            return QVariant();
+        }
+    }
+    return QVariant();
+}
+
+QVariant WCYTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role != Qt::DisplayRole || orientation != Qt::Horizontal) return QVariant();
+
+    switch (section)
+    {
+    case 0: return tr("Time");
+    case 1: return tr("K");
+    case 2: return tr("expK");
+    case 3: return tr("A");
+    case 4: return tr("R");
+    case 5: return tr("SFI");
+    case 6: return tr("SA");
+    case 7: return tr("GMF");
+    case 8: return tr("Au");
+
+    default: return QVariant();
+    }
+}
+
+void WCYTableModel::addEntry(WCYSpot entry)
+{
+    beginInsertRows(QModelIndex(), 0, 0);
+    wcyData.prepend(entry);
+    endInsertRows();
+}
+
+void WCYTableModel::clear()
+{
+    beginResetModel();
+    wcyData.clear();
+    endResetModel();
+}
+
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
     FCT_IDENTIFICATION;
@@ -155,6 +234,7 @@ DxWidget::DxWidget(QWidget *parent) :
 
     ui->setupUi(this);
     dxTableModel = new DxTableModel(this);
+    wcyTableModel = new WCYTableModel(this);
 
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
@@ -162,6 +242,9 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
     ui->dxTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    ui->wcyTable->setModel(wcyTableModel);
+
 
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
@@ -238,6 +321,7 @@ void DxWidget::connectCluster() {
     ui->log->clear();
     ui->dxTable->clearSelection();
     dxTableModel->clear();
+    wcyTableModel->clear();
     ui->dxTable->repaint();
 
     socket->connectToHost(host, port);
@@ -361,7 +445,11 @@ void DxWidget::receive() {
 
     static QRegularExpression dxSpotRE("^DX de ([a-zA-Z0-9\\/]+).*:\\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z)",
                                        QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionMatch match;
+    QRegularExpressionMatch dxSpotMatch;
+
+    static QRegularExpression wcySpotRE("^(WCY de) +([A-Z0-9\\-#]*) +<(\\d{2})> *: +K=(\\d{1,3}) expK=(\\d{1,3}) A=(\\d{1,3}) R=(\\d{1,3}) SFI=(\\d{1,3}) SA=([a-zA-Z]{1,3}) GMF=([a-zA-Z]{1,3}) Au=([a-zA-Z]{2}) *$",
+                                        QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch wcySpotMatch;
 
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
@@ -385,16 +473,16 @@ void DxWidget::receive() {
             ui->commandButton->setEnabled(true);
         }
 
-        if (line.startsWith("DX"))
+        if ( line.startsWith("DX") )
         {
-            match = dxSpotRE.match(line);
+            dxSpotMatch = dxSpotRE.match(line);
 
-            if ( match.hasMatch() )
+            if ( dxSpotMatch.hasMatch() )
             {
-                QString spotter = match.captured(1);
-                QString freq =    match.captured(2);
-                QString call =    match.captured(3);
-                QString comment = match.captured(4);
+                QString spotter = dxSpotMatch.captured(1);
+                QString freq =    dxSpotMatch.captured(2);
+                QString call =    dxSpotMatch.captured(3);
+                QString comment = dxSpotMatch.captured(4);
 
                 DxccEntity dxcc = Data::instance()->lookupDxcc(call);
                 DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
@@ -422,6 +510,28 @@ void DxWidget::receive() {
                     emit newFilteredSpot(spot);
                     dxTableModel->addEntry(spot);
                 }
+            }
+        }
+        else if ( line.startsWith("WCY de") )
+        {
+            wcySpotMatch = wcySpotRE.match(line);
+
+            if ( wcySpotMatch.hasMatch() )
+            {
+                WCYSpot spot;
+
+                spot.time = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
+                spot.KIndex = wcySpotMatch.captured(4).toUInt();
+                spot.expK = wcySpotMatch.captured(5).toUInt();
+                spot.AIndex = wcySpotMatch.captured(6).toUInt();
+                spot.RIndex = wcySpotMatch.captured(7).toUInt();
+                spot.SFI = wcySpotMatch.captured(8).toUInt();
+                spot.SA = wcySpotMatch.captured(9);
+                spot.GMF = wcySpotMatch.captured(10);
+                spot.Au = wcySpotMatch.captured(11);
+
+                emit newWCYSpot(spot);
+                wcyTableModel->addEntry(spot);
             }
         }
 
