@@ -23,6 +23,8 @@
 #include "core/debug.h"
 #include "data/StationProfile.h"
 
+#define CONSOLE_VIEW 1
+
 MODULE_IDENTIFICATION("qlog.ui.dxwidget");
 
 int DxTableModel::rowCount(const QModelIndex&) const {
@@ -184,10 +186,6 @@ DxWidget::DxWidget(QWidget *parent) :
         ui->serverSelect->setCurrentIndex(index);
     }
 
-    rawModeSwitch = new SwitchButton(tr("Raw"), this);
-    connect(rawModeSwitch, SIGNAL(stateChanged(int)), this, SLOT(rawModeChanged()));
-    ui->horizontalLayout->addWidget(rawModeSwitch);
-
     QMenu *commandsMenu = new QMenu(this);
     commandsMenu->addAction(ui->actionSpotQSO);
     commandsMenu->addSeparator();
@@ -344,7 +342,10 @@ void DxWidget::sendCommand(const QString & command,
     }
 
     // switch to raw mode to see a response
-    rawModeSwitch->setChecked(switchToConsole);
+    if ( switchToConsole )
+    {
+        ui->viewModeCombo->setCurrentIndex(CONSOLE_VIEW);
+    }
 }
 
 void DxWidget::send()
@@ -525,15 +526,11 @@ void DxWidget::connected()
     saveDXCServers();
 }
 
-void DxWidget::rawModeChanged() {
+void DxWidget::viewModeChanged(int index)
+{
     FCT_IDENTIFICATION;
 
-    if (rawModeSwitch->isChecked()) {
-        ui->stack->setCurrentIndex(1);
-    }
-    else {
-        ui->stack->setCurrentIndex(0);
-    }
+    ui->stack->setCurrentIndex(index);
 }
 
 void DxWidget::entryDoubleClicked(QModelIndex index) {

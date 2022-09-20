@@ -227,6 +227,39 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QComboBox" name="viewModeCombo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <item>
+        <property name="text">
+         <string>Spots</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Console</string>
+        </property>
+       </item>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
@@ -451,11 +484,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>viewModeCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>DxWidget</receiver>
+   <slot>viewModeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>294</x>
+     <y>497</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>send()</slot>
   <slot>toggleConnect()</slot>
-  <slot>rawModeChanged()</slot>
+  <slot>viewModeChanged(int)</slot>
   <slot>entryDoubleClicked(QModelIndex)</slot>
   <slot>actionFilter()</slot>
   <slot>actionPhoneFilter()</slot>

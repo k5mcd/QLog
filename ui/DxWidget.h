@@ -54,7 +54,7 @@ public slots:
     void send();
     void connected();
     void socketError(QAbstractSocket::SocketError);
-    void rawModeChanged();
+    void viewModeChanged(int);
     void entryDoubleClicked(QModelIndex);
     void actionFilter();
     void adjusteServerSelectSize(QString);
@@ -80,7 +80,6 @@ private:
     QRegularExpression contregexp;
     QRegularExpression spottercontregexp;
     QRegularExpression bandregexp;
-    SwitchButton* rawModeSwitch;
     QSqlRecord lastQSO;
 
     void connectCluster();
