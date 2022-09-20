@@ -170,6 +170,20 @@ void NetworkNotification::wwvSpot(const WWVSpot &spot)
     }
 }
 
+void NetworkNotification::toAllSpot(const ToAllSpot &spot)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << "ToALL Spot";
+
+    HostsPortString destList(getNotifDXSpotAddrs());
+
+    if ( destList.getAddrList().size() > 0 )
+    {
+        ToAllSpotNotificationMsg ToAllSpotMsg(spot);
+        send(ToAllSpotMsg.getJson(), destList);
+    }
+}
+
 void NetworkNotification::WSJTXCQSpot(const WsjtxEntry &spot)
 {
     FCT_IDENTIFICATION;
@@ -414,6 +428,8 @@ WCYSpotNotificationMsg::WCYSpotNotificationMsg(const WCYSpot &spot, QObject *par
 WWVSpotNotificationMsg::WWVSpotNotificationMsg(const WWVSpot &spot, QObject *parent) :
     GenericNotificationMsg(parent)
 {
+    FCT_IDENTIFICATION;
+
     QJsonObject spotData;
     spotData["rcvtime"] = spot.time.toString("yyyyMMdd hh:mm:ss");
     spotData["SFI"] = spot.SFI;
@@ -423,5 +439,30 @@ WWVSpotNotificationMsg::WWVSpotNotificationMsg(const WWVSpot &spot, QObject *par
     spotData["Info2"] = spot.info2;
 
     msg["msgtype"] = "wwvspot";
+    msg["data"] = spotData;
+}
+
+ToAllSpotNotificationMsg::ToAllSpotNotificationMsg(const ToAllSpot &spot, QObject *parent) :
+    GenericNotificationMsg(parent)
+{
+    FCT_IDENTIFICATION;
+
+    QJsonObject spotData;
+    spotData["rcvtime"] = spot.time.toString("yyyyMMdd hh:mm:ss");
+    spotData["message"] = spot.message;
+
+    QJsonObject spotterInfo;
+    spotterInfo["call"] = spot.spotter;
+    spotterInfo["country"] = spot.dxcc_spotter.country;
+    spotterInfo["pfx"] = spot.dxcc_spotter.prefix;
+    spotterInfo["dxcc"] = spot.dxcc_spotter.dxcc;
+    spotterInfo["cont"] = spot.dxcc_spotter.cont;
+    spotterInfo["cqz"] = spot.dxcc_spotter.cqz;
+    spotterInfo["ituz"] = spot.dxcc_spotter.ituz;
+    spotterInfo["utcoffset"] = spot.dxcc_spotter.tz;
+
+    spotData["spotter"] = spotterInfo;
+
+    msg["msgtype"] = "toallspot";
     msg["data"] = spotData;
 }

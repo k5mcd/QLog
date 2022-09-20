@@ -164,6 +164,7 @@ HEADERS += \
         data/RotProfile.h \
         data/SpotAlert.h \
         data/StationProfile.h \
+        data/ToAllSpot.h \
         data/WCYSpot.h \
         data/WWVSpot.h \
         data/WsjtxEntry.h \

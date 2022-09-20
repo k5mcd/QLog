@@ -11,6 +11,7 @@
 #include "data/DxSpot.h"
 #include "data/WCYSpot.h"
 #include "data/WWVSpot.h"
+#include "data/ToAllSpot.h"
 #include "ui/SwitchButton.h"
 
 namespace Ui {
@@ -70,6 +71,23 @@ private:
     QList<WWVSpot> wwvData;
 };
 
+class ToAllTableModel : public QAbstractTableModel {
+    Q_OBJECT
+
+public:
+    ToAllTableModel(QObject* parent = 0) : QAbstractTableModel(parent) {}
+
+    int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const;
+    QVariant data(const QModelIndex& index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    void addEntry(ToAllSpot entry);
+    void clear();
+
+private:
+    QList<ToAllSpot> toAllData;
+};
+
 class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject
 {
      Q_OBJECT
@@ -108,12 +126,14 @@ signals:
     void newSpot(DxSpot);
     void newWCYSpot(WCYSpot);
     void newWWVSpot(WWVSpot);
+    void newToAllSpot(ToAllSpot);
     void newFilteredSpot(DxSpot);
 
 private:
     DxTableModel* dxTableModel;
     WCYTableModel* wcyTableModel;
     WWVTableModel* wwvTableModel;
+    ToAllTableModel* toAllTableModel;
     QTcpSocket* socket;
     Ui::DxWidget *ui;
     QRegularExpression moderegexp;

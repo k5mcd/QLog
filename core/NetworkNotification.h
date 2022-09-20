@@ -13,6 +13,7 @@
 #include "data/SpotAlert.h"
 #include "data/WCYSpot.h"
 #include "data/WWVSpot.h"
+#include "data/ToAllSpot.h"
 
 class GenericNotificationMsg : public QObject
 {
@@ -106,6 +107,14 @@ public:
 
 };
 
+class ToAllSpotNotificationMsg : public GenericNotificationMsg
+{
+
+public:
+    explicit ToAllSpotNotificationMsg(const ToAllSpot&, QObject *parent = nullptr);
+
+};
+
 class NetworkNotification : public QObject
 {
     Q_OBJECT
@@ -128,6 +137,7 @@ public slots:
     void dxSpot(const DxSpot&);
     void wcySpot(const WCYSpot&);
     void wwvSpot(const WWVSpot&);
+    void toAllSpot(const ToAllSpot&);
     void WSJTXCQSpot(const WsjtxEntry&);
     void spotAlert(const SpotAlert&);
 

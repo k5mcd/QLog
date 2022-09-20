@@ -24,8 +24,9 @@
 #include "data/StationProfile.h"
 #include "data/WCYSpot.h"
 #include "data/WWVSpot.h"
+#include "data/ToAllSpot.h"
 
-#define CONSOLE_VIEW 3
+#define CONSOLE_VIEW 4
 
 MODULE_IDENTIFICATION("qlog.ui.dxwidget");
 
@@ -266,6 +267,66 @@ void WWVTableModel::clear()
     endResetModel();
 }
 
+int ToAllTableModel::rowCount(const QModelIndex&) const
+{
+    return toAllData.count();
+}
+
+int ToAllTableModel::columnCount(const QModelIndex&) const
+{
+    return 3;
+}
+
+QVariant ToAllTableModel::data(const QModelIndex& index, int role) const
+{
+    QLocale locale;
+
+    if ( role == Qt::DisplayRole )
+    {
+        ToAllSpot spot = toAllData.at(index.row());
+
+        switch (index.column()) {
+        case 0:
+            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+        case 1:
+            return spot.spotter;
+        case 2:
+            return spot.message;
+        default:
+            return QVariant();
+        }
+    }
+    return QVariant();
+}
+
+QVariant ToAllTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role != Qt::DisplayRole || orientation != Qt::Horizontal) return QVariant();
+
+    switch (section)
+    {
+    case 0: return tr("Time");
+    case 1: return tr("Spotter");
+    case 2: return tr("Message");
+
+    default: return QVariant();
+    }
+}
+
+void ToAllTableModel::addEntry(ToAllSpot entry)
+{
+    beginInsertRows(QModelIndex(), 0, 0);
+    toAllData.prepend(entry);
+    endInsertRows();
+}
+
+void ToAllTableModel::clear()
+{
+    beginResetModel();
+    toAllData.clear();
+    endResetModel();
+}
+
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
     FCT_IDENTIFICATION;
@@ -303,6 +364,7 @@ DxWidget::DxWidget(QWidget *parent) :
     dxTableModel = new DxTableModel(this);
     wcyTableModel = new WCYTableModel(this);
     wwvTableModel = new WWVTableModel(this);
+    toAllTableModel = new ToAllTableModel(this);
 
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
@@ -313,6 +375,7 @@ DxWidget::DxWidget(QWidget *parent) :
 
     ui->wcyTable->setModel(wcyTableModel);
     ui->wwvTable->setModel(wwvTableModel);
+    ui->toAllTable->setModel(toAllTableModel);
 
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
@@ -391,6 +454,7 @@ void DxWidget::connectCluster() {
     dxTableModel->clear();
     wcyTableModel->clear();
     wwvTableModel->clear();
+    toAllTableModel->clear();
     ui->dxTable->repaint();
 
     socket->connectToHost(host, port);
@@ -524,6 +588,10 @@ void DxWidget::receive() {
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch wwvSpotMatch;
 
+    static QRegularExpression toAllSpotRE("^(To ALL de) +([A-Z0-9\\-#]*)\\s?(<(\\d{4})Z>)?[ :]+(.*)?$",
+                                        QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch toAllSpotMatch;
+
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
     foreach (QString line, lines)
@@ -624,6 +692,24 @@ void DxWidget::receive() {
 
                 emit newWWVSpot(spot);
                 wwvTableModel->addEntry(spot);
+            }
+        }
+        else if ( line.startsWith("To ALL de") )
+        {
+            toAllSpotMatch = toAllSpotRE.match(line);
+
+            if ( toAllSpotMatch.hasMatch() )
+            {
+                ToAllSpot spot;
+
+                spot.time = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
+                spot.spotter = toAllSpotMatch.captured(2);
+                DxccEntity spotter_info = Data::instance()->lookupDxcc(spot.spotter);
+                spot.dxcc_spotter = spotter_info;
+                spot.message = toAllSpotMatch.captured(5);
+
+                emit newToAllSpot(spot);
+                toAllTableModel->addEntry(spot);
             }
         }
 
