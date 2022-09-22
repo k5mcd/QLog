@@ -525,7 +525,11 @@
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <widget class="QLineEdit" name="cwPortEdit"/>
+                      <widget class="QLineEdit" name="cwPortEdit">
+                       <property name="toolTip">
+                        <string>Use COMxx for Window or path to COM port under Unix-line OS</string>
+                       </property>
+                      </widget>
                      </item>
                      <item row="1" column="0">
                       <widget class="QLabel" name="cwBaudLabel">
@@ -1381,6 +1385,9 @@
                      </item>
                      <item row="0" column="1">
                       <widget class="QLineEdit" name="rigPortEdit">
+                       <property name="toolTip">
+                        <string>Use COMxx for Window or path to COM port under Unix-line OS</string>
+                       </property>
                        <property name="text">
                         <string/>
                        </property>
@@ -1833,7 +1840,11 @@
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <widget class="QLineEdit" name="rotPortEdit"/>
+                      <widget class="QLineEdit" name="rotPortEdit">
+                       <property name="toolTip">
+                        <string>Use COMxx for Window or path to COM port under Unix-line OS</string>
+                       </property>
+                      </widget>
                      </item>
                      <item row="1" column="0">
                       <widget class="QLabel" name="rotBaudLabel">
@@ -3320,6 +3331,102 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>cwPortEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustCWKeyCOMPortTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>468</x>
+     <y>284</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rigPortEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustRigCOMPortTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>470</x>
+     <y>382</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotPortEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustRotCOMPortTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rigStackedWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>rigStackWidgetChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>423</x>
+     <y>475</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotStackedWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>rotStackWidgetChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>433</x>
+     <y>317</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwStackedWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>cwKeyStackWidgetChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>433</x>
+     <y>300</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -3357,5 +3464,11 @@
   <slot>addCWShortcutProfile()</slot>
   <slot>delCWShortcutProfile()</slot>
   <slot>cwKeyChanged(int)</slot>
+  <slot>adjustCWKeyCOMPortTextColor()</slot>
+  <slot>adjustRigCOMPortTextColor()</slot>
+  <slot>adjustRotCOMPortTextColor()</slot>
+  <slot>rigStackWidgetChanged(int)</slot>
+  <slot>rotStackWidgetChanged(int)</slot>
+  <slot>cwKeyStackWidgetChanged(int)</slot>
  </slots>
 </ui>

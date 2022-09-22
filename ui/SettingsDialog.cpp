@@ -123,6 +123,18 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->stationLocatorEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
     ui->stationVUCCEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), this));
 
+    static QRegularExpression comPortRE(
+#if defined(Q_OS_WIN)
+                                    "^COM[0-9]+$",
+#else
+                                    ".*",
+#endif
+                                    QRegularExpression::CaseInsensitiveOption);
+
+    ui->rigPortEdit->setValidator(new QRegularExpressionValidator(comPortRE, this));
+    ui->rotPortEdit->setValidator(new QRegularExpressionValidator(comPortRE, this));
+    ui->cwPortEdit->setValidator(new QRegularExpressionValidator(comPortRE, this));
+
     iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
@@ -247,6 +259,16 @@ void SettingsDialog::addRigProfile()
     {
         ui->rigProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
         return;
+    }
+
+    if ( ! ui->rigPortEdit->text().isEmpty() )
+    {
+        if ( ! ui->rigPortEdit->hasAcceptableInput() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("Rig port must be a valid COM port.<br>For Windows use COMxx, for unix-like OS use a path to device"));
+            return;
+        }
     }
 
     if ( ui->rigTXFreqMaxSpinBox->value() == 0.0 )
@@ -479,6 +501,16 @@ void SettingsDialog::addRotProfile()
         return;
     }
 
+    if ( ! ui->rotPortEdit->text().isEmpty() )
+    {
+        if ( ! ui->rotPortEdit->hasAcceptableInput() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("Rotator port must be a valid COM port.<br>For Windows use COMxx, for unix-like OS use a path to device"));
+            return;
+        }
+    }
+
     if ( ui->rotAddProfileButton->text() == tr("Modify"))
     {
         ui->rotAddProfileButton->setText(tr("Add"));
@@ -687,6 +719,16 @@ void SettingsDialog::addCWKeyProfile()
     {
         ui->cwProfileNameEdit->setPlaceholderText(tr("Must not be empty"));
         return;
+    }
+
+    if ( ! ui->cwPortEdit->text().isEmpty() )
+    {
+        if ( ! ui->cwPortEdit->hasAcceptableInput() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("CW Key port must be a valid COM port.<br>For Windows use COMxx, for unix-like OS use a path to device"));
+            return;
+        }
     }
 
     CWKeyProfile cwKeyNewProfile;
@@ -1232,6 +1274,7 @@ void SettingsDialog::cwKeyChanged(int)
     {
         ui->cwBaudSelect->setEnabled(false);
         ui->cwPortEdit->setEnabled(false);
+        ui->cwPortEdit->clear();
         ui->cwKeyModeSelect->setEnabled(false);
         return;
     }
@@ -1250,6 +1293,30 @@ void SettingsDialog::cwKeyChanged(int)
     {
         ui->cwBaudSelect->setCurrentText("115200");
     }
+}
+
+void SettingsDialog::rigStackWidgetChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    ui->rigPortEdit->clear();
+    ui->rigHostNameEdit->clear();
+}
+
+void SettingsDialog::rotStackWidgetChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    ui->rotPortEdit->clear();
+    ui->rotHostNameEdit->clear();
+}
+
+void SettingsDialog::cwKeyStackWidgetChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    ui->cwPortEdit->clear();
+    ui->cwHostNameEdit->clear();
 }
 
 void SettingsDialog::tqslPathBrowse()
@@ -1277,55 +1344,42 @@ void SettingsDialog::adjustCallsignTextColor()
 {
     FCT_IDENTIFICATION;
 
-    QPalette p;
-
-    if ( ! ui->stationCallsignEdit->hasAcceptableInput() )
-    {
-        p.setColor(QPalette::Text,Qt::red);
-    }
-    else
-    {
-        p.setColor(QPalette::Text,qApp->palette().text().color());
-    }
-    ui->stationCallsignEdit->setPalette(p);
-
+    setValidationResultColor(ui->stationCallsignEdit);
 }
 
 void SettingsDialog::adjustLocatorTextColor()
 {
     FCT_IDENTIFICATION;
 
-    QPalette p;
-
-    if ( ! ui->stationLocatorEdit->hasAcceptableInput() )
-    {
-        p.setColor(QPalette::Text,Qt::red);
-    }
-    else
-    {
-        p.setColor(QPalette::Text,qApp->palette().text().color());
-    }
-
-    ui->stationLocatorEdit->setPalette(p);
-
+    setValidationResultColor(ui->stationLocatorEdit);
 }
 
 void SettingsDialog::adjustVUCCLocatorTextColor()
 {
     FCT_IDENTIFICATION;
 
-    QPalette p;
+    setValidationResultColor(ui->stationVUCCEdit);
+}
 
-    if ( ! ui->stationVUCCEdit->hasAcceptableInput() )
-    {
-        p.setColor(QPalette::Text,Qt::red);
-    }
-    else
-    {
-        p.setColor(QPalette::Text,qApp->palette().text().color());
-    }
+void SettingsDialog::adjustRotCOMPortTextColor()
+{
+    FCT_IDENTIFICATION;
 
-    ui->stationVUCCEdit->setPalette(p);
+    setValidationResultColor(ui->cwPortEdit);
+}
+
+void SettingsDialog::adjustRigCOMPortTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    setValidationResultColor(ui->rigPortEdit);
+}
+
+void SettingsDialog::adjustCWKeyCOMPortTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    setValidationResultColor(ui->cwPortEdit);
 }
 
 void SettingsDialog::eqslDirBrowse()
@@ -1775,6 +1829,28 @@ void SettingsDialog::refreshRigAssignedCWKeyCombo()
     model->setStringList(approvedCWProfiles);
 
     ui->rigAssignedCWKeyCombo->setCurrentText(cwKeyName);
+}
+
+void SettingsDialog::setValidationResultColor(QLineEdit *editBox)
+{
+    FCT_IDENTIFICATION;
+
+    QPalette p;
+
+    if ( ! editBox )
+    {
+        return;
+    }
+
+    if ( ! editBox->hasAcceptableInput() )
+    {
+        p.setColor(QPalette::Text,Qt::red);
+    }
+    else
+    {
+        p.setColor(QPalette::Text,qApp->palette().text().color());
+    }
+    editBox->setPalette(p);
 }
 
 SettingsDialog::~SettingsDialog() {
