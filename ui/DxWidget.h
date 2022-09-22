@@ -141,9 +141,11 @@ private:
     QRegularExpression spottercontregexp;
     QRegularExpression bandregexp;
     QSqlRecord lastQSO;
+    quint8 reconnectAttempts;
+    QTimer reconnectTimer;
 
     void connectCluster();
-    void disconnectCluster();
+    void disconnectCluster(bool tryReconnect = false);
     void saveDXCServers();
     QString modeFilterRegExp();
     QString contFilterRegExp();

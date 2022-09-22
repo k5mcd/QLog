@@ -27,6 +27,8 @@
 #include "data/ToAllSpot.h"
 
 #define CONSOLE_VIEW 4
+#define NUM_OF_RECONNECT_ATTEMPTS 3
+#define RECONNECT_TIMEOUT 10000
 
 MODULE_IDENTIFICATION("qlog.ui.dxwidget");
 
@@ -352,7 +354,8 @@ bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *ob
 
 DxWidget::DxWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DxWidget)
+    ui(new Ui::DxWidget),
+    reconnectAttempts(0)
 {
     FCT_IDENTIFICATION;
 
@@ -408,16 +411,23 @@ DxWidget::DxWidget(QWidget *parent) :
     commandsMenu->addAction(ui->actionShowWCY);
     commandsMenu->addAction(ui->actionShowWWV);
     ui->commandButton->setMenu(commandsMenu);
+
+    reconnectTimer.setInterval(RECONNECT_TIMEOUT);
+    reconnectTimer.setSingleShot(true);
+    connect(&reconnectTimer, &QTimer::timeout, this, &DxWidget::connectCluster);
 }
 
-void DxWidget::toggleConnect() {
+void DxWidget::toggleConnect()
+{
     FCT_IDENTIFICATION;
 
-    if (socket && socket->isOpen()) {
+    if ( (socket && socket->isOpen())
+         || reconnectAttempts )
+    {
         disconnectCluster();
-
     }
-    else {
+    else
+    {
         int pos = ui->serverSelect->currentIndex();
         QString curr_server = ui->serverSelect->currentText();
         QValidator::State state = ui->serverSelect->validator()->validate(curr_server,pos);
@@ -432,7 +442,8 @@ void DxWidget::toggleConnect() {
     }
 }
 
-void DxWidget::connectCluster() {
+void DxWidget::connectCluster()
+{
     FCT_IDENTIFICATION;
 
     QStringList server = ui->serverSelect->currentText().split(":");
@@ -449,24 +460,29 @@ void DxWidget::connectCluster() {
     ui->connectButton->setEnabled(false);
     ui->connectButton->setText(tr("Connecting..."));
 
-    ui->log->clear();
-    ui->dxTable->clearSelection();
-    dxTableModel->clear();
-    wcyTableModel->clear();
-    wwvTableModel->clear();
-    toAllTableModel->clear();
-    ui->dxTable->repaint();
+    if ( reconnectAttempts == 0 )
+    {
+        ui->log->clear();
+        ui->dxTable->clearSelection();
+        dxTableModel->clear();
+        wcyTableModel->clear();
+        wwvTableModel->clear();
+        toAllTableModel->clear();
+        ui->dxTable->repaint();
+    }
 
     socket->connectToHost(host, port);
 }
 
-void DxWidget::disconnectCluster() {
+void DxWidget::disconnectCluster(bool tryReconnect)
+{
     FCT_IDENTIFICATION;
 
+    reconnectTimer.stop();
     ui->commandEdit->setEnabled(false);
     ui->commandButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
-    ui->connectButton->setText(tr("Connect"));
+
 
     if ( socket )
     {
@@ -475,6 +491,20 @@ void DxWidget::disconnectCluster() {
 
        socket->deleteLater();
        socket = nullptr;
+    }
+
+    if ( reconnectAttempts < NUM_OF_RECONNECT_ATTEMPTS
+         && tryReconnect )
+    {
+        reconnectAttempts++;
+        reconnectTimer.start();
+        ui->commandEdit->setPlaceholderText(tr("DX Cluster is temporarily unavailable"));
+    }
+    else
+    {
+        reconnectAttempts = 0;
+        ui->commandEdit->setPlaceholderText("");
+        ui->connectButton->setText(tr("Connect"));
     }
 }
 
@@ -573,7 +603,8 @@ void DxWidget::send()
     ui->commandEdit->clear();
 }
 
-void DxWidget::receive() {
+void DxWidget::receive()
+{
     FCT_IDENTIFICATION;
 
     static QRegularExpression dxSpotRE("^DX de ([a-zA-Z0-9\\/]+).*:\\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z)",
@@ -592,6 +623,7 @@ void DxWidget::receive() {
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch toAllSpotMatch;
 
+    reconnectAttempts = 0;
     QString data(socket->readAll());
     QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
     foreach (QString line, lines)
@@ -717,11 +749,16 @@ void DxWidget::receive() {
     }
 }
 
-void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
+void DxWidget::socketError(QAbstractSocket::SocketError socker_error)
+{
     FCT_IDENTIFICATION;
 
+    bool reconectRequested = (reconnectAttempts > 0 ) ? true : false;
 
     QString error_msg = QObject::tr("Cannot connect to DXC Server <p>Reason <b>: ");
+
+    qCDebug(runtime) << socker_error;
+
     switch (socker_error)
     {
     case QAbstractSocket::ConnectionRefusedError:
@@ -729,12 +766,14 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
         break;
     case QAbstractSocket::RemoteHostClosedError:
         error_msg.append(QObject::tr("Host closed the connection"));
+        reconectRequested = true;
         break;
     case QAbstractSocket::HostNotFoundError:
         error_msg.append(QObject::tr("Host not found"));
         break;
     case QAbstractSocket::SocketTimeoutError:
         error_msg.append(QObject::tr("Timeout"));
+        reconectRequested = true;
         break;
     default:
         error_msg.append(QObject::tr("Internal Error"));
@@ -744,9 +783,13 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error) {
 
     qInfo() << "Detailed Error: " << socker_error;
 
-    QMessageBox::warning(nullptr, QMessageBox::tr("DXC Server Connection Error"),
-                                  error_msg);
-    disconnectCluster();
+    if ( ! reconectRequested || reconnectAttempts == NUM_OF_RECONNECT_ATTEMPTS)
+    {
+        QMessageBox::warning(nullptr,
+                             QMessageBox::tr("DXC Server Connection Error"),
+                             error_msg);
+    }
+    disconnectCluster(reconectRequested);
 }
 
 void DxWidget::connected()
@@ -805,11 +848,14 @@ void DxWidget::connected()
         {
             qWarning() << "Cannot set keepalive interval for DXC";
         }
+
+        // TODO: setup TCP_USER_TIMEOUT????
     }
 #endif
     ui->commandEdit->setEnabled(true);
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Disconnect"));
+    ui->commandEdit->setPlaceholderText("");
 
     saveDXCServers();
 }
@@ -863,7 +909,8 @@ void DxWidget::serverSelectChanged(int index)
 
     qDebug(function_parameters) << index;
 
-    if ( socket && socket->isOpen() )
+    if ( (socket && socket->isOpen())
+         || reconnectAttempts )
     {
         /* reconnect DXC Server */
         if ( index >= 0 )
