@@ -11,6 +11,9 @@
 #include "Wsjtx.h"
 #include "data/WsjtxEntry.h"
 #include "data/SpotAlert.h"
+#include "data/WCYSpot.h"
+#include "data/WWVSpot.h"
+#include "data/ToAllSpot.h"
 
 class GenericNotificationMsg : public QObject
 {
@@ -88,6 +91,29 @@ public:
 
 };
 
+class WCYSpotNotificationMsg : public GenericNotificationMsg
+{
+
+public:
+    explicit WCYSpotNotificationMsg(const WCYSpot&, QObject *parent = nullptr);
+
+};
+
+class WWVSpotNotificationMsg : public GenericNotificationMsg
+{
+
+public:
+    explicit WWVSpotNotificationMsg(const WWVSpot&, QObject *parent = nullptr);
+
+};
+
+class ToAllSpotNotificationMsg : public GenericNotificationMsg
+{
+
+public:
+    explicit ToAllSpotNotificationMsg(const ToAllSpot&, QObject *parent = nullptr);
+
+};
 
 class NetworkNotification : public QObject
 {
@@ -109,6 +135,9 @@ public slots:
     void QSOUpdated(const QSqlRecord &);
     void QSODeleted(const QSqlRecord &);
     void dxSpot(const DxSpot&);
+    void wcySpot(const WCYSpot&);
+    void wwvSpot(const WWVSpot&);
+    void toAllSpot(const ToAllSpot&);
     void WSJTXCQSpot(const WsjtxEntry&);
     void spotAlert(const SpotAlert&);
 
