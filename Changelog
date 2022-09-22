@@ -1,4 +1,11 @@
 TBC - 0.14.0
+- [NEW] CW Console (Winkey2, Morse over CAT support)
+- [NEW] DX Cluster pre-defined commands (send last spot, get stats)
+- [NEW] Added DX Cluster Views (Spots, WCY, WWV, ToALL)
+- [NEW] Implemented DX Cluster Reconnection
+- [NEW] Remember last used DX Cluster
+- Fixed COM port validation for Windows platform
+- Fixed DX Cluster crashes when DXC server is not connected and a command is sent (issue #111)
 
 2022/08/06 - 0.13.0
 - [NEW] QSY Contact Wiping (issue #100)
