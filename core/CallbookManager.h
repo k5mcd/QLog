@@ -36,6 +36,7 @@ private:
     QPointer<GenericCallbook> primaryCallbook;
     QPointer<GenericCallbook> secondaryCallbook;
     QString currentQueryCallsign;
+    static QCache<QString, QMap<QString, QString>> queryCache;
 
 };
 

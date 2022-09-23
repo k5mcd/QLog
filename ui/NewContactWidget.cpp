@@ -350,19 +350,9 @@ void NewContactWidget::editCallsignFinished()
 {
     FCT_IDENTIFICATION;
 
-    static QString prevQueryCallsign;
-
-    if ( prevQueryCallsign == callsign )
-    {
-        callsignResult(lastCallbookQueryData);
-        return;
-    }
-
-    if ( prevQueryCallsign != callsign
-         && callsign.size() >= 3 )
+    if ( callsign.size() >= 3 )
     {
         callbookManager.queryCallsign(callsign);
-        prevQueryCallsign = callsign;
     }
 }
 

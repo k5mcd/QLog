@@ -1,4 +1,5 @@
 #include <QSettings>
+#include <QCache>
 #include "CallbookManager.h"
 #include "core/debug.h"
 #include "core/HamQTH.h"
@@ -19,6 +20,12 @@ void CallbookManager::queryCallsign(const QString &callsign)
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << callsign;
+
+    if ( queryCache.contains(callsign) )
+    {
+        emit callsignResult(QMap<QString, QString>(*queryCache.object(callsign)));
+        return;
+    }
 
     if ( !primaryCallbook.isNull() )
     {
@@ -151,8 +158,12 @@ void CallbookManager::processCallsignResult(const QMap<QString, QString> &data)
 {
     FCT_IDENTIFICATION;
 
+    queryCache.insert(data["call"], new QMap<QString, QString>(data));
+
     if ( data["call"] == currentQueryCallsign )
     {
         emit callsignResult(data);
     }
 }
+
+QCache<QString, QMap<QString, QString>> CallbookManager::queryCache(10);
