@@ -1825,9 +1825,9 @@ void NewContactWidget::tuneDx(QString callsign, double frequency)
 
     qCDebug(function_parameters)<<callsign<< " " << frequency;
 
+    ui->freqRXEdit->setValue(frequency);
     resetContact();
     changeCallsignManually(callsign, frequency);
-    ui->freqRXEdit->setValue(frequency);
 }
 
 void NewContactWidget::showDx(QString callsign, QString grid)

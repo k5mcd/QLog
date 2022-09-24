@@ -7,6 +7,7 @@ TBC - 0.14.0
 - Fixed COM port validation for Windows platform
 - Fixed Reconnecting (DXC/Callbook) (issue #110)
 - Fixed DX Cluster crashes when DXC server is not connected and a command is sent (issue #111)
+- Fixed Bandmap callsign selection not fully works (issue #116)
 
 2022/08/06 - 0.13.0
 - [NEW] QSY Contact Wiping (issue #100)
