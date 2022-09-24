@@ -1072,7 +1072,8 @@ LocalOscilator::LocalOscilator(VFOID id, QObject *parent) :
     RXOffset(0.0),
     TXOffset(0.0),
     ID(id),
-    passbandWidth(RIG_PASSBAND_NORMAL)
+    passbandWidth(RIG_PASSBAND_NORMAL),
+    keySpeed(0)
 {}
 
 freq_t LocalOscilator::getFreq() const
