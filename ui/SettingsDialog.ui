@@ -527,7 +527,7 @@
                      <item row="0" column="1">
                       <widget class="QLineEdit" name="cwPortEdit">
                        <property name="toolTip">
-                        <string>Use COMxx for Window or path to COM port under Unix-line OS</string>
+                        <string>Use COMxx for Window or path to COM port under Unix-like OS</string>
                        </property>
                       </widget>
                      </item>
@@ -671,7 +671,7 @@
                  <enum>Qt::NoContextMenu</enum>
                 </property>
                 <property name="toolTip">
-                 <string>List of all available CW Key Macros</string>
+                 <string>List of all available CW Shortcuts Profiles</string>
                 </property>
                 <property name="editTriggers">
                  <set>QAbstractItemView::NoEditTriggers</set>
@@ -1386,7 +1386,7 @@
                      <item row="0" column="1">
                       <widget class="QLineEdit" name="rigPortEdit">
                        <property name="toolTip">
-                        <string>Use COMxx for Window or path to COM port under Unix-line OS</string>
+                        <string>Use COMxx for Window or path to COM port under Unix-like OS</string>
                        </property>
                        <property name="text">
                         <string/>
@@ -1842,7 +1842,7 @@
                      <item row="0" column="1">
                       <widget class="QLineEdit" name="rotPortEdit">
                        <property name="toolTip">
-                        <string>Use COMxx for Window or path to COM port under Unix-line OS</string>
+                        <string>Use COMxx for Window or path to COM port under Unix-like OS</string>
                        </property>
                       </widget>
                      </item>
