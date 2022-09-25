@@ -6111,7 +6111,7 @@ Nesprárované:
         <location filename="../ui/SettingsDialog.ui" line="1389"/>
         <location filename="../ui/SettingsDialog.ui" line="1845"/>
         <source>Use COMxx for Window or path to COM port under Unix-like OS</source>
-        <translation>Pou6ijte COMxx pro Windows or cestu ke COM portu pro Unix-like OS</translation>
+        <translation>Použijte COMxx pro Windows or cestu ke COM portu pro Unix-like OS</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="674"/>
