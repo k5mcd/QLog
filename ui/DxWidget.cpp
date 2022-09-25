@@ -779,6 +779,9 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error)
         error_msg.append(QObject::tr("Timeout"));
         reconectRequested = true;
         break;
+    case QAbstractSocket::NetworkError:
+        error_msg.append(QObject::tr("Network Error"));
+        break;
     default:
         error_msg.append(QObject::tr("Internal Error"));
 
