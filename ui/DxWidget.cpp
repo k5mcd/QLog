@@ -364,6 +364,9 @@ DxWidget::DxWidget(QWidget *parent) :
     socket = nullptr;
 
     ui->setupUi(this);
+
+    ui->serverSelect->setStyleSheet("QComboBox {color: red}");
+
     dxTableModel = new DxTableModel(this);
     wcyTableModel = new WCYTableModel(this);
     wwvTableModel = new WWVTableModel(this);
@@ -505,6 +508,7 @@ void DxWidget::disconnectCluster(bool tryReconnect)
         reconnectAttempts = 0;
         ui->commandEdit->setPlaceholderText("");
         ui->connectButton->setText(tr("Connect"));
+        ui->serverSelect->setStyleSheet("QComboBox {color: red}");
     }
 }
 
@@ -856,6 +860,7 @@ void DxWidget::connected()
     ui->connectButton->setEnabled(true);
     ui->connectButton->setText(tr("Disconnect"));
     ui->commandEdit->setPlaceholderText("");
+    ui->serverSelect->setStyleSheet("QComboBox {color: green}");
 
     saveDXCServers();
 }
