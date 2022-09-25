@@ -412,27 +412,27 @@
         <translation>Bandmap</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="114"/>
+        <location filename="../ui/BandmapWidget.ui" line="126"/>
         <source>Clear All</source>
         <translation>Vše vymazat</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="124"/>
+        <location filename="../ui/BandmapWidget.ui" line="136"/>
         <source>In</source>
         <translation>Přiblížit</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="138"/>
+        <location filename="../ui/BandmapWidget.ui" line="150"/>
         <source>Out</source>
         <translation>Oddálit</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="153"/>
+        <location filename="../ui/BandmapWidget.ui" line="165"/>
         <source>Clear older than</source>
         <translation>Vymazat starší</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="166"/>
+        <location filename="../ui/BandmapWidget.ui" line="178"/>
         <source>Never</source>
         <translation>Nemazat</translation>
     </message>
@@ -453,7 +453,7 @@
         <translation type="vanished">Nemazat</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.ui" line="169"/>
+        <location filename="../ui/BandmapWidget.ui" line="181"/>
         <source> min(s)</source>
         <translation> min</translation>
     </message>
@@ -525,97 +525,105 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="28"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="40"/>
         <source>CW Key Profile</source>
         <translation>Profil klíče</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="47"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="94"/>
         <source>Speed</source>
         <translation>Rychlost</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="56"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="103"/>
         <source> WPM</source>
         <translation> WPM</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="82"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="399"/>
         <source>Clear Sent and Echo Console</source>
         <translation>Vymazat Odeslané a Echo konzoli</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="85"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="402"/>
         <source>Clear</source>
         <translation>Vymazat</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="113"/>
         <source>Show the sent CW text</source>
-        <translation>Zobrazí odeslaný text</translation>
+        <translation type="vanished">Zobrazí odeslaný text</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="127"/>
         <source>Show the echoed CW text</source>
-        <translation>Zobrazí echo text</translation>
+        <translation type="vanished">Zobrazí echo text</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="143"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="167"/>
         <source>&amp;CW</source>
         <translation>&amp;CW</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="156"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="180"/>
         <source>Text to send</source>
         <translation>Text k odeslání</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="176"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="213"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="201"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="238"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="217"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="254"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="249"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="62"/>
         <source>Shortcuts profile</source>
         <translation>Shortcut profil</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="272"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="137"/>
+        <source>Sent text</source>
+        <translation>Odeslaný text</translation>
+    </message>
+    <message>
+        <location filename="../ui/CWConsoleWidget.ui" line="151"/>
+        <source>Echoed text</source>
+        <translation>Echo text</translation>
+    </message>
+    <message>
+        <location filename="../ui/CWConsoleWidget.ui" line="270"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="288"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="286"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="304"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="302"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="320"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="318"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="355"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="370"/>
         <source>Immediatelly stop CW sending</source>
         <translation>Okamžite zastavit odesílání textu</translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="358"/>
+        <location filename="../ui/CWConsoleWidget.ui" line="373"/>
         <source>Hal&amp;t</source>
         <translation>Zastavi&amp;t</translation>
     </message>
@@ -1058,78 +1066,78 @@
         <translation type="vanished">Vložte &lt;b&gt;hostname:port&lt;/b&gt; DXC Serveru. Stiskem &lt;b&gt;DEL&lt;/b&gt; je možné vymazat vybraný DXC server.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="345"/>
+        <location filename="../ui/DxWidget.ui" line="435"/>
         <source>Send DX Cluster Command</source>
         <translation>Odeslat příkaz do DX Clusteru</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="358"/>
+        <location filename="../ui/DxWidget.ui" line="448"/>
         <source>Commands</source>
         <translation>Příkazy</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="375"/>
+        <location filename="../ui/DxWidget.ui" line="40"/>
         <source>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;CTRL + DEL&lt;/b&gt; to delete a highlighted DXC server.</source>
         <translation>Vložte &lt;b&gt;hostname:port&lt;/b&gt; DXC Serveru. Stiskem &lt;b&gt;CTRL + DEL&lt;/b&gt; je možné vymazat vybraný DXC server.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="406"/>
-        <location filename="../ui/DxWidget.cpp" line="507"/>
+        <location filename="../ui/DxWidget.ui" line="71"/>
+        <location filename="../ui/DxWidget.cpp" line="510"/>
         <source>Connect</source>
         <translation>Připojit</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="433"/>
+        <location filename="../ui/DxWidget.ui" line="98"/>
         <source>Spots</source>
         <translation>Spoty</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="438"/>
+        <location filename="../ui/DxWidget.ui" line="103"/>
         <source>WCY</source>
         <translation>WCY</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="443"/>
+        <location filename="../ui/DxWidget.ui" line="108"/>
         <source>WWV</source>
         <translation>WWV</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="448"/>
+        <location filename="../ui/DxWidget.ui" line="113"/>
         <source>To All</source>
         <translation>To All</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="453"/>
+        <location filename="../ui/DxWidget.ui" line="118"/>
         <source>Console</source>
         <translation>Konzole</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="475"/>
+        <location filename="../ui/DxWidget.ui" line="472"/>
         <source>Spot Last QSO</source>
         <translation>Spotni poslední QSO</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="478"/>
+        <location filename="../ui/DxWidget.ui" line="475"/>
         <source>Send last QSO spot</source>
         <translation>Odeslat poslední QSO spot</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="483"/>
+        <location filename="../ui/DxWidget.ui" line="480"/>
         <source>Show HF Stats</source>
         <translation>Zobrazit KV Stats</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="488"/>
+        <location filename="../ui/DxWidget.ui" line="485"/>
         <source>Show VHF Stats</source>
         <translation>Zobrazit VKV Stats</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="493"/>
+        <location filename="../ui/DxWidget.ui" line="490"/>
         <source>Show WCY</source>
         <translation>Zobrazit WCY</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="498"/>
+        <location filename="../ui/DxWidget.ui" line="495"/>
         <source>Show WWV</source>
         <translation>Zobrazit WWV</translation>
     </message>
@@ -1146,47 +1154,47 @@
         <translation type="vanished">Odeslat</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="467"/>
+        <location filename="../ui/DxWidget.ui" line="464"/>
         <source>Filter</source>
         <translation>Filtr</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.ui" line="470"/>
+        <location filename="../ui/DxWidget.ui" line="467"/>
         <source>Filter DXC</source>
         <translation>Filtr DXC</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="461"/>
+        <location filename="../ui/DxWidget.cpp" line="464"/>
         <source>Connecting...</source>
         <translation>Připojování...</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="501"/>
+        <location filename="../ui/DxWidget.cpp" line="504"/>
         <source>DX Cluster is temporarily unavailable</source>
         <translation>DX Cluster je dočasně nedostupný</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="857"/>
+        <location filename="../ui/DxWidget.cpp" line="864"/>
         <source>Disconnect</source>
         <translation>Odpojit</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="945"/>
+        <location filename="../ui/DxWidget.cpp" line="953"/>
         <source>DX Spot</source>
         <translation>DX Spot</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="946"/>
+        <location filename="../ui/DxWidget.cpp" line="954"/>
         <source>Callsign: </source>
         <translation>Značka: </translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="948"/>
+        <location filename="../ui/DxWidget.cpp" line="956"/>
         <source>Frequency: </source>
         <translation>Frekvence: </translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="950"/>
+        <location filename="../ui/DxWidget.cpp" line="958"/>
         <source>Remarks:</source>
         <translation>Poznámka:</translation>
     </message>
@@ -3897,17 +3905,17 @@
         <translation>Migrace databaze selhala.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="437"/>
+        <location filename="../ui/DxWidget.cpp" line="440"/>
         <source>DXC Server Name Error</source>
         <translation>Chyba jména DXC Serveru</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="438"/>
+        <location filename="../ui/DxWidget.cpp" line="441"/>
         <source>DXC Server address must be in format&lt;p&gt;&lt;b&gt;hostname:port&lt;/b&gt; (ex. hamqth.com:7300)&lt;/p&gt;</source>
         <translation>Adresa DXC serveru musí být ve formátu&lt;p&gt;&lt;b&gt;hostname:port&lt;/b&gt; (např. hamqth.com:7300)&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="789"/>
+        <location filename="../ui/DxWidget.cpp" line="796"/>
         <source>DXC Server Connection Error</source>
         <translation>Chyba připojení k DXC serveru</translation>
     </message>
@@ -4082,32 +4090,37 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="758"/>
+        <location filename="../ui/DxWidget.cpp" line="762"/>
         <source>Cannot connect to DXC Server &lt;p&gt;Reason &lt;b&gt;: </source>
         <translation>Nelse se připojit k DXC serveru &lt;p&gt;Důvod &lt;b&gt;: </translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="765"/>
+        <location filename="../ui/DxWidget.cpp" line="769"/>
         <source>Connection Refused</source>
         <translation>Spojení odmítnuto</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="768"/>
+        <location filename="../ui/DxWidget.cpp" line="772"/>
         <source>Host closed the connection</source>
         <translation>Server uzavřel spojení</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="772"/>
+        <location filename="../ui/DxWidget.cpp" line="776"/>
         <source>Host not found</source>
         <translation>Server nenalezen</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="775"/>
+        <location filename="../ui/DxWidget.cpp" line="779"/>
         <source>Timeout</source>
         <translation>Timeout</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="779"/>
+        <location filename="../ui/DxWidget.cpp" line="783"/>
+        <source>Network Error</source>
+        <translation>Chyba sítě</translation>
+    </message>
+    <message>
+        <location filename="../ui/DxWidget.cpp" line="786"/>
         <source>Internal Error</source>
         <translation>Interní Chyba</translation>
     </message>
@@ -5047,22 +5060,22 @@ Nesprárované:
         <translation>Form</translation>
     </message>
     <message>
-        <location filename="../ui/RigWidget.ui" line="85"/>
+        <location filename="../ui/RigWidget.ui" line="153"/>
         <source>RX</source>
         <translation>RX</translation>
     </message>
     <message>
-        <location filename="../ui/RigWidget.ui" line="101"/>
+        <location filename="../ui/RigWidget.ui" line="169"/>
         <source>0.00000 MHz</source>
         <translation>0.00000 MHz</translation>
     </message>
     <message>
-        <location filename="../ui/RigWidget.ui" line="118"/>
+        <location filename="../ui/RigWidget.ui" line="186"/>
         <source>RIT: 0.00000 MHz</source>
         <translation>RIT: 0.00000 MHz</translation>
     </message>
     <message>
-        <location filename="../ui/RigWidget.ui" line="125"/>
+        <location filename="../ui/RigWidget.ui" line="193"/>
         <source>XIT: 0.00000 MHz</source>
         <translation>XIT: 0.00000 MHz</translation>
     </message>
@@ -5132,17 +5145,17 @@ Nesprárované:
         <translation>Form</translation>
     </message>
     <message>
-        <location filename="../ui/RotatorWidget.ui" line="61"/>
+        <location filename="../ui/RotatorWidget.ui" line="57"/>
         <source>Az:</source>
         <translation>Az:</translation>
     </message>
     <message>
-        <location filename="../ui/RotatorWidget.ui" line="77"/>
+        <location filename="../ui/RotatorWidget.ui" line="73"/>
         <source>°</source>
         <translation>°</translation>
     </message>
     <message>
-        <location filename="../ui/RotatorWidget.ui" line="93"/>
+        <location filename="../ui/RotatorWidget.ui" line="89"/>
         <source>Goto</source>
         <translation>Goto</translation>
     </message>

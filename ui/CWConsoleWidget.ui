@@ -134,7 +134,7 @@
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="toolTip">
-       <string>Show the sent CW text</string>
+       <string>Sent text</string>
       </property>
       <property name="readOnly">
        <bool>true</bool>
@@ -148,7 +148,7 @@
        <enum>Qt::NoFocus</enum>
       </property>
       <property name="toolTip">
-       <string>Show the echoed CW text</string>
+       <string>Echoed text</string>
       </property>
       <property name="readOnly">
        <bool>true</bool>
@@ -392,6 +392,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="clearButton">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="toolTip">
         <string>Clear Sent and Echo Console</string>
        </property>
