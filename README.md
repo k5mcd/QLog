@@ -17,6 +17,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - **Secure Password Storage** for all services with password
 - **Online** and **Offline** map
 - Bandmap
+- CW Console
 - WSJT-X integration
 - Station Location Profile support
 - Various station statistics
@@ -84,11 +85,11 @@ Prerequisites:
 
 for Debian:
 
-`sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential`
+`sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev`
 
 for Fedora:
 
-`dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel`
+`dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel qt5-qtserialport-devel`
 
 for all:
 
