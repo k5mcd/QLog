@@ -1720,7 +1720,8 @@ void SettingsDialog::setUIBasedOnRigCaps(const struct rig_caps *caps)
             ui->rigGetVFOCheckBox->setChecked(false);
         }
 
-        if ( ! caps->get_level || ! caps->power2mW )
+        if ( ! ((caps->has_get_level) & (RIG_LEVEL_RFPOWER))
+             || ! caps->power2mW )
         {
             ui->rigGetPWRCheckBox->setEnabled(false);
             ui->rigGetPWRCheckBox->setChecked(false);

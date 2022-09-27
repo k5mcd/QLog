@@ -347,7 +347,7 @@ void Rig::update()
     /************/
 
     if ( connectedRigProfile.getPWRInfo
-         && rig->caps->get_level
+         && rig_has_get_level(rig, RIG_LEVEL_RFPOWER)
          && rig->caps->power2mW )
     {
         value_t rigPowerLevel;
