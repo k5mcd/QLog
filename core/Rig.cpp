@@ -44,7 +44,7 @@ bool Rig::isNetworkRig(const struct rig_caps *caps)
     return ret;
 }
 
-double Rig::getNormalBandwidth(const QString &mode, const QString &subMode)
+qint32 Rig::getNormalBandwidth(const QString &mode, const QString &subMode)
 {
     FCT_IDENTIFICATION;
 
@@ -60,13 +60,13 @@ double Rig::getNormalBandwidth(const QString &mode, const QString &subMode)
     case RIG_MODE_SAH:
     case RIG_MODE_SAL:
     {
-        return Hz2MHz(6000);
+        return 6000;
     }
 
     case RIG_MODE_CW:
     case RIG_MODE_CWR:
     {
-        return Hz2MHz(1000);
+        return 1000;
     }
 
     case RIG_MODE_USB:
@@ -76,26 +76,26 @@ double Rig::getNormalBandwidth(const QString &mode, const QString &subMode)
     case RIG_MODE_ECSSUSB:
     case RIG_MODE_ECSSLSB:
     {
-        return Hz2MHz(2500);
+        return 2500;
     }
 
     case RIG_MODE_RTTY:
     case RIG_MODE_RTTYR:
     {
-        return Hz2MHz(2400);
+        return 2400;
     }
 
     case RIG_MODE_FM:
     case RIG_MODE_PKTFM:
     case RIG_MODE_FMN:
     {
-        return Hz2MHz(12500);
+        return 12500;
     }
 
-    case RIG_MODE_WFM: return Hz2MHz(25000);
+    case RIG_MODE_WFM: return 25000;
     }
 
-    return Hz2MHz(6000);
+    return 6000;
 }
 
 bool Rig::isRigConnected()
@@ -273,7 +273,8 @@ void Rig::update()
             qCDebug(runtime) << "Current LO raw MODE: "<< LoA.getMode();
 
             if ( curr_modeId != LoA.getMode()
-                 || pbwidth != LoA.getPassbandWidth() )
+                 || ( pbwidth != RIG_PASSBAND_NOCHANGE
+                      && pbwidth != LoA.getPassbandWidth() ) )
             {
                 // mode change
                 LoA.setMode(curr_modeId);
@@ -286,7 +287,7 @@ void Rig::update()
                 emit modeChanged(LoA.getID(),
                                  LoA.getModeText(),
                                  mode, submode,
-                                 static_cast<double>(pbwidth));
+                                 LoA.getPassbandWidth());
             }
         }
         else

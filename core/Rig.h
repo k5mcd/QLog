@@ -86,7 +86,7 @@ public:
     static Rig* instance();
 
     static bool isNetworkRig(const struct rig_caps *caps);
-    static double getNormalBandwidth(const QString &, const QString &);
+    static qint32 getNormalBandwidth(const QString &, const QString &);
     bool isRigConnected();
     bool isMorseOverCatSupported();
 
@@ -109,7 +109,7 @@ public slots:
 
 signals:
     void frequencyChanged(VFOID, double, double, double);
-    void modeChanged(VFOID, QString, QString, QString, double);
+    void modeChanged(VFOID, QString, QString, QString, qint32);
     void powerChanged(VFOID, double);
     void keySpeedChanged(VFOID, unsigned int);
     void vfoChanged(VFOID, QString);

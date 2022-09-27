@@ -69,7 +69,7 @@ public slots:
 
     // to receive RIG instructions
     void changeFrequency(VFOID, double, double, double);
-    void changeMode(VFOID, QString rawMode, QString mode, QString subMode, double width);
+    void changeMode(VFOID, QString rawMode, QString mode, QString subMode, qint32 width);
     void changePower(VFOID, double power);
     void rigConnected();
     void rigDisconnected();
@@ -108,7 +108,7 @@ private:
     void clearCallbookQueryFields();
     void readWidgetSettings();
     void writeWidgetSetting();
-    void __modeChanged(double);
+    void __modeChanged(qint32);
     void refreshStationProfileCombo();
     void updateTXBand(double freq);
     void updateRXBand(double freq);
@@ -141,7 +141,7 @@ private:
     QCompleter *sotaCompleter;
     QTimeZone partnerTimeZone;
     double QSOFreq;
-    double bandwidthFilter;
+    qint32 bandwidthFilter;
     bool rigOnline;
     QMap<QString, QString> lastCallbookQueryData;
 };

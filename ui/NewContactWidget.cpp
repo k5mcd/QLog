@@ -679,7 +679,7 @@ void NewContactWidget::refreshAntProfileCombo()
     ui->antennaEdit->blockSignals(false);
 }
 
-void NewContactWidget::__modeChanged(double width)
+void NewContactWidget::__modeChanged(qint32 width)
 {
     FCT_IDENTIFICATION;
 
@@ -708,7 +708,7 @@ void NewContactWidget::__modeChanged(double width)
 
     defaultReport = record.value("rprt").toString();
 
-    bandwidthFilter = Hz2MHz(width);
+    bandwidthFilter = width;
 
     setDefaultReport();
     updateDxccStatus();
@@ -727,7 +727,7 @@ void NewContactWidget::modeChanged()
 
 /* mode is changed from RIG */
 /* Receveived from RIG */
-void NewContactWidget::changeMode(VFOID vfoid, QString rawMode, QString mode, QString subMode, double width)
+void NewContactWidget::changeMode(VFOID vfoid, QString rawMode, QString mode, QString subMode, qint32 width)
 {
     FCT_IDENTIFICATION;
 
@@ -1107,20 +1107,22 @@ void NewContactWidget::QSYContactWiping(double newFreq)
 
     qCDebug(function_parameters) << newFreq;
 
-    double QSYWipingWidth = bandwidthFilter;
+    qint32 QSYWipingWidth = bandwidthFilter;
 
-    if ( QSYWipingWidth == RIG_PASSBAND_NORMAL )
+    if ( QSYWipingWidth <= RIG_PASSBAND_NORMAL )
     {
         QSYWipingWidth = Rig::getNormalBandwidth(ui->modeEdit->currentText(),
                                                 ui->submodeEdit->currentText());
+        qCDebug(runtime) << "Passband is not defined - derived value " << QSYWipingWidth;
     }
 
     qCDebug(runtime) << "Rig online: " << rigOnline << " "
                      << "QSO Freq: " << QSOFreq << " "
                      << "QSO Time: " << isQSOTimeStarted() << " "
                      << "Mode/submode: " << ui->modeEdit->currentText() << ui->submodeEdit->currentText()
-                     << "RIG Filter width: " << QSTRING_FREQ(bandwidthFilter)
-                     << "QSYWipingWidth: " << QSTRING_FREQ(QSYWipingWidth)
+                     << "RIG Filter width: " << bandwidthFilter
+                     << "QSYWipingWidth: " << QSYWipingWidth << QSTRING_FREQ(Hz2MHz(QSYWipingWidth))
+                     << "Diff: " << qAbs(QSOFreq - newFreq)
                      << "Rig Profile QSO Wiping: " << RigProfilesManager::instance()->getCurProfile1().QSYWiping;
 
     if ( RigProfilesManager::instance()->getCurProfile1().QSYWiping
@@ -1128,7 +1130,7 @@ void NewContactWidget::QSYContactWiping(double newFreq)
          && QSOFreq > 0.0        // it means that Form is "dirty" and contain freq when it got dirty
          && !isQSOTimeStarted()  // operator is not in QSO
          && QSYWipingWidth != RIG_PASSBAND_NORMAL
-         && qAbs(QSOFreq - newFreq) > QSYWipingWidth / 1.5 )  //1.5 is a magic constant - determined experimentally
+         && qAbs(QSOFreq - newFreq) > Hz2MHz(QSYWipingWidth) / 1.5 )  //1.5 is a magic constant - determined experimentally
     {
         resetContact();
     }

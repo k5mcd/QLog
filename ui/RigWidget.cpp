@@ -83,7 +83,7 @@ void RigWidget::updateFrequency(VFOID vfoid, double vfoFreq, double ritFreq, dou
     lastSeenFreq = vfoFreq;
 }
 
-void RigWidget::updateMode(VFOID vfoid, QString rawMode, QString mode, QString submode, double)
+void RigWidget::updateMode(VFOID vfoid, QString rawMode, QString mode, QString submode, qint32)
 {
     FCT_IDENTIFICATION;
 
