@@ -4,6 +4,7 @@ TBC - 0.14.0
 - [NEW] Added DX Cluster Views (Spots, WCY, WWV, ToALL)
 - [NEW] Implemented DX Cluster Reconnection
 - [NEW] Remember last used DX Cluster
+- [CHANGED] - UI unifications - Rot/Rig/DXC
 - Fixed COM port validation for Windows platform
 - Fixed Reconnecting (DXC/Callbook) (issue #110)
 - Fixed DX Cluster crashes when DXC server is not connected and a command is sent (issue #111)
