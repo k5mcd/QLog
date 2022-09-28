@@ -579,14 +579,12 @@ void SettingsDialog::delRotProfile()
 void SettingsDialog::refreshRotProfilesView()
 {
     FCT_IDENTIFICATION;
-    QStringListModel* model = (QStringListModel*)ui->rotProfilesListView->model();
-    QStringList profiles = model->stringList();
 
-    profiles.clear();
-
+    QStringList profiles;
     profiles << rotProfManager->profileNameList();
 
-    model->setStringList(profiles);
+    QStringListModel* model = static_cast<QStringListModel*>(ui->rotProfilesListView->model());
+    if ( model ) model->setStringList(profiles);
 }
 
 void SettingsDialog::doubleClickRotProfile(QModelIndex i)
@@ -677,13 +675,12 @@ void SettingsDialog::delAntProfile()
 void SettingsDialog::refreshAntProfilesView()
 {
     FCT_IDENTIFICATION;
-    QStringListModel* model = (QStringListModel*)ui->antProfilesListView->model();
-    QStringList profiles = model->stringList();
 
-    profiles.clear();
-
+    QStringList profiles;
     profiles << antProfManager->profileNameList();
-    model->setStringList(profiles);
+
+    QStringListModel* model = static_cast<QStringListModel*>(ui->antProfilesListView->model());
+    if ( model ) model->setStringList(profiles);
 }
 
 void SettingsDialog::doubleClickAntProfile(QModelIndex i)
@@ -840,7 +837,7 @@ void SettingsDialog::refreshCWKeyProfilesView()
     profiles << cwKeyProfManager->profileNameList();
 
     QStringListModel* model = static_cast<QStringListModel*>(ui->cwProfilesListView->model());
-    model->setStringList(profiles);
+    if ( model ) model->setStringList(profiles);
 }
 
 void SettingsDialog::doubleClickCWKeyProfile(QModelIndex i)
@@ -941,14 +938,11 @@ void SettingsDialog::refreshCWShortcutProfilesView()
 {
     FCT_IDENTIFICATION;
 
-    QStringListModel* model = (QStringListModel*)ui->cwShortcutListView->model();
-    QStringList profiles = model->stringList();
-
-    profiles.clear();
-
+    QStringList profiles;
     profiles << cwShortcutProfManager->profileNameList();
 
-    model->setStringList(profiles);
+    QStringListModel* model = static_cast<QStringListModel*>(ui->cwShortcutListView->model());
+    if ( model ) model->setStringList(profiles);
 }
 
 void SettingsDialog::doubleClickCWShortcutProfile(QModelIndex i)
@@ -1019,27 +1013,23 @@ void SettingsDialog::clearCWShortcutProfileForm()
 void SettingsDialog::refreshRigProfilesView()
 {
     FCT_IDENTIFICATION;
-    QStringListModel* model = (QStringListModel*)ui->rigProfilesListView->model();
-    QStringList profiles = model->stringList();
 
-    profiles.clear();
-
+    QStringList profiles;
     profiles << rigProfManager->profileNameList();
 
-    model->setStringList(profiles);
+    QStringListModel* model = static_cast<QStringListModel*>(ui->rigProfilesListView->model());
+    if ( model ) model->setStringList(profiles);
 }
 
 void SettingsDialog::refreshStationProfilesView()
 {
     FCT_IDENTIFICATION;
-    QStringListModel* model = (QStringListModel*)ui->stationProfilesListView->model();
-    QStringList profiles = model->stringList();
 
-    profiles.clear();
-
+    QStringList profiles;
     profiles << stationProfManager->profileNameList();
 
-    model->setStringList(profiles);
+    QStringListModel* model = static_cast<QStringListModel*>(ui->stationProfilesListView->model());
+    if ( model ) model->setStringList(profiles);
 }
 
 void SettingsDialog::addStationProfile()
@@ -1488,22 +1478,22 @@ void SettingsDialog::readSettings() {
     QSettings settings;
 
     QStringList profiles = stationProfManager->profileNameList();
-    ((QStringListModel*)ui->stationProfilesListView->model())->setStringList(profiles);
+    (static_cast<QStringListModel*>(ui->stationProfilesListView->model()))->setStringList(profiles);
 
     QStringList rigs = rigProfManager->profileNameList();
-    ((QStringListModel*)ui->rigProfilesListView->model())->setStringList(rigs);
+    (static_cast<QStringListModel*>(ui->rigProfilesListView->model()))->setStringList(rigs);
 
     QStringList rots = rotProfManager->profileNameList();
-    ((QStringListModel*)ui->rotProfilesListView->model())->setStringList(rots);
+    (static_cast<QStringListModel*>(ui->rotProfilesListView->model()))->setStringList(rots);
 
     QStringList ants = antProfManager->profileNameList();
-    ((QStringListModel*)ui->antProfilesListView->model())->setStringList(ants);
+    (static_cast<QStringListModel*>(ui->antProfilesListView->model()))->setStringList(ants);
 
     QStringList cwKeys = cwKeyProfManager->profileNameList();
-    ((QStringListModel*)ui->cwProfilesListView->model())->setStringList(cwKeys);
+    (static_cast<QStringListModel*>(ui->cwProfilesListView->model()))->setStringList(cwKeys);
 
     QStringList cwShortcut = cwShortcutProfManager->profileNameList();
-    ((QStringListModel*)ui->cwShortcutListView->model())->setStringList(cwShortcut);
+    (static_cast<QStringListModel*>(ui->cwShortcutListView->model()))->setStringList(cwShortcut);
 
     refreshRigAssignedCWKeyCombo();
 
@@ -1827,7 +1817,7 @@ void SettingsDialog::refreshRigAssignedCWKeyCombo()
     }
 */
     QStringListModel* model = static_cast<QStringListModel*>(ui->rigAssignedCWKeyCombo->model());
-    model->setStringList(approvedCWProfiles);
+    if ( model ) model->setStringList(approvedCWProfiles);
 
     ui->rigAssignedCWKeyCombo->setCurrentText(cwKeyName);
 }
