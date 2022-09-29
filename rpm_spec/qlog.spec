@@ -42,6 +42,18 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Thu Sep 29 2022 Ladislav Foldyna - 0.14.0-1
+- [NEW] CW Console (Winkey2, Morse over CAT support)
+- [NEW] DX Cluster pre-defined commands (send last spot, get stats)
+- [NEW] Added DX Cluster Views (Spots, WCY, WWV, ToALL)
+- [NEW] Implemented DX Cluster Reconnection
+- [NEW] Remember last used DX Cluster
+- [CHANGED] - UI unifications - Rot/Rig/DXC
+- Fixed COM port validation for Windows platform
+- Fixed Reconnecting (DXC/Callbook) (issue #110)
+- Fixed DX Cluster crashes when DXC server is not connected and a command is sent (issue #111)
+- Fixed Bandmap callsign selection not fully works (issue #116)
+
 * Sat Aug 6 2022 Ladislav Foldyna - 0.13.0-1
 - [NEW] QSY Contact Wiping (issue #100)
 - [NEW] Timeoff is highlighted when QSO timer is running (issue #100)
