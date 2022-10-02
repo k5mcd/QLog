@@ -42,6 +42,9 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Oct 2 2022 Ladislav Foldyna - 0.14.1-1
+- Fixed CW Console - HALT Button is not enabled under Ubuntu flavours (issue #124)
+
 * Thu Sep 29 2022 Ladislav Foldyna - 0.14.0-1
 - [NEW] CW Console (Winkey2, Morse over CAT support)
 - [NEW] DX Cluster pre-defined commands (send last spot, get stats)

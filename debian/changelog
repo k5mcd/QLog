@@ -1,3 +1,8 @@
+qlog (0.14.1-1) UNRELEASED; urgency=low
+  * Fixed CW Console - HALT Button is not enabled under Ubuntu flavours (issue #124)
+
+ -- foldynl <foldyna@gmail.com>  Sun, 2 Oct 2022 10:00:00 +0200
+
 qlog (0.14.0-1) UNRELEASED; urgency=low
   * [NEW] CW Console (Winkey2, Morse over CAT support)
   * [NEW] DX Cluster pre-defined commands (send last spot, get stats)
