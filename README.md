@@ -85,11 +85,11 @@ Prerequisites:
 
 for Debian:
 
-`sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev`
+`sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev pkg-config`
 
 for Fedora:
 
-`dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel qt5-qtserialport-devel`
+`dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel qt5-qtserialport-devel pkg-config`
 
 for all:
 

@@ -1,3 +1,6 @@
+2022/10/02 - 0.14.1
+- Fixed CW Console - HALT Button is not enabled under Ubuntu flavours (issue #124)
+
 2022/09/29 - 0.14.0
 - [NEW] CW Console (Winkey2, Morse over CAT support)
 - [NEW] DX Cluster pre-defined commands (send last spot, get stats)
