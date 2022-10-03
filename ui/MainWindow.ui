@@ -80,8 +80,8 @@
     <property name="title">
      <string>&amp;Equipment</string>
     </property>
-    <addaction name="actionConnectCWKeyer"/>
     <addaction name="actionConnectRig"/>
+    <addaction name="actionConnectCWKeyer"/>
     <addaction name="actionConnectRotator"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
