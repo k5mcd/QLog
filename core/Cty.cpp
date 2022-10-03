@@ -33,7 +33,7 @@ Cty::Cty(QObject *parent) :
 void Cty::update() {
     FCT_IDENTIFICATION;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
     QSettings settings;
     QDate last_update = settings.value("last_cty_update").toDate();
@@ -62,7 +62,7 @@ void Cty::update() {
 void Cty::loadData() {
     FCT_IDENTIFICATION;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QFile file(dir.filePath("cty.csv"));
     file.open(QIODevice::ReadOnly);
     QTextStream stream(&file);
@@ -91,7 +91,7 @@ void Cty::processReply(QNetworkReply* reply) {
         qCDebug(runtime) << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
         qCDebug(runtime) << reply->header(QNetworkRequest::KnownHeaders::LocationHeader);
 
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
         QFile file(dir.filePath("cty.csv"));
         file.open(QIODevice::WriteOnly);

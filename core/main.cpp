@@ -45,7 +45,7 @@ static void setupTranslator(QApplication* app) {
 static void createDataDirectory() {
     FCT_IDENTIFICATION;
 
-    QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     qCDebug(runtime) << dataDir.path();
 
     if (!dataDir.exists()) {
@@ -57,7 +57,7 @@ static bool openDatabase() {
     FCT_IDENTIFICATION;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QString path = dir.filePath("qlog.db");
     db.setDatabaseName(path);
 
@@ -91,7 +91,7 @@ static bool backupDatabase()
     const int retention_time = 30;
     const int min_backout_count = 5;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QString path = dir.filePath("qlog_backup_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".adx");
     QString filter("qlog_backup_%1%1%1%1%1%1%1%1%1%1%1%1%1%1.adx");
     filter = filter.arg("[0123456789]");
