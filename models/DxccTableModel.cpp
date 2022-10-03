@@ -20,7 +20,7 @@ QVariant DxccTableModel::data(const QModelIndex &index, int role) const {
             return QColor(Qt::red);
         }
     }
-    else if (index.column() != 0 && role == Qt::TextColorRole) {
+    else if (index.column() != 0 && role == Qt::ForegroundRole) {
         if (this->data(index, Qt::DisplayRole).toInt() > 0) {
             return QColor(Qt::black);
         }

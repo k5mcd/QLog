@@ -77,7 +77,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
         DxSpot spot = dxData.at(index.row());
         return spot.dxcc.country + " [" + Data::statusToText(spot.status) + "]";
     }
-    /*else if (index.column() == 1 && role == Qt::TextColorRole) {
+    /*else if (index.column() == 1 && role == Qt::ForegroundRole) {
         DxSpot spot = dxData.at(index.row());
         return Data::statusToInverseColor(spot.status, QColor(Qt::black));
     }*/

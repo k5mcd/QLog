@@ -65,7 +65,7 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
             return QColor(Qt::darkGray);
         }
     }
-    else if (index.column() == 0 && role == Qt::TextColorRole)
+    else if (index.column() == 0 && role == Qt::ForegroundRole)
     {
         //return Data::statusToInverseColor(entry.status, QColor(Qt::black));
     }
