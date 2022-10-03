@@ -40,7 +40,7 @@ AntProfilesManager::AntProfilesManager(QObject *parent) :
         {
             AntProfile profileDB;
             profileDB.profileName = profileQuery.value(0).toString();
-            profileDB.description =  profileQuery.value(1).toInt();
+            profileDB.description =  profileQuery.value(1).toString();
 
             addProfile(profileDB.profileName, profileDB);
         }
