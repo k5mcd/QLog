@@ -5,7 +5,6 @@
 #include <QNetworkReply>
 #include <QStandardPaths>
 #include <QDebug>
-#include <QStringRef>
 #include <QDir>
 #include <QFile>
 #include <QSqlTableModel>
