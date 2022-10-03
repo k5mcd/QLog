@@ -238,8 +238,11 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
 
 int main(int argc, char* argv[])
 {
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 
     bool stylePresent = false;
 
