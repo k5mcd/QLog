@@ -3,49 +3,49 @@ name: CI Linux/macOS
 on: [push, pull_request]
 
 jobs:
-#  ubuntu-build-qt5:
-#    name: Ubuntu CI QT5
-#    strategy:
-#      matrix:
-#        os: [ubuntu-20.04, ubuntu-22.04]
+  ubuntu-build-qt5:
+    name: Ubuntu CI QT5
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04]
 
-#    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
-#    steps:
-#    - name: Install dependencies
-#      run: |
-#         sudo apt-get update
-#         sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev pkg-config
-#    - name: Checkout code
-#      uses: actions/checkout@v3
-#      with:
-#        submodules: recursive
-#    - name: configure
-#      run: qmake QLog.pro
-#    - name: make
-#      run: make -j2
+    steps:
+    - name: Install dependencies
+      run: |
+         sudo apt-get update
+         sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev pkg-config
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - name: configure
+      run: qmake QLog.pro
+    - name: make
+      run: make -j2
 
-#  ubuntu-build-qt6:
-#    name: Ubuntu CI QT6
-#    strategy:
-#      matrix:
-#        os: [ubuntu-22.04]
+  ubuntu-build-qt6:
+    name: Ubuntu CI QT6
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
         
-#    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
-#    steps:
-#    - name: Install dependencies
-#      run: |
-#         sudo apt-get update
-#         sudo apt-get -y install libhamlib-dev build-essential pkg-config qt6-base-dev qtkeychain-qt6-dev qt6-webengine-dev libqt6charts6-dev libqt6serialport6-dev libqt6webenginecore6-bin libqt6svg6-dev libgl-dev
-#    - name: Checkout code
-#      uses: actions/checkout@v3
-#      with:
-#        submodules: recursive
-#    - name: configure
-#      run: qmake6 QLog.pro
-#    - name: make
-#      run: make -j2
+    steps:
+    - name: Install dependencies
+      run: |
+         sudo apt-get update
+         sudo apt-get -y install libhamlib-dev build-essential pkg-config qt6-base-dev qtkeychain-qt6-dev qt6-webengine-dev libqt6charts6-dev libqt6serialport6-dev libqt6webenginecore6-bin libqt6svg6-dev libgl-dev
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - name: configure
+      run: qmake6 QLog.pro
+    - name: make
+      run: make -j2
 
   macos-build:
      name: MacOS CI
