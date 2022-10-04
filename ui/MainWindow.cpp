@@ -190,7 +190,7 @@ MainWindow::MainWindow(QWidget* parent) :
     /*************/
     /* SHORTCUTs */
     /*************/
-    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Backslash),
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Backslash),
                                         this,
                                         SLOT(shortcutALTBackslash()),
                                         nullptr, Qt::ApplicationShortcut);
