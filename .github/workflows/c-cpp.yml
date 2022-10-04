@@ -37,7 +37,7 @@ jobs:
     - name: Install dependencies
       run: |
          sudo apt-get update
-         sudo apt-get -y install libhamlib-dev build-essential pkg-config qt6-base-dev qtkeychain-qt6-dev qt6-webengine-dev libqt6charts6-dev libqt6serialport6-dev libqt6webenginecore6-bin libqt6svg6-dev
+         sudo apt-get -y install libhamlib-dev build-essential pkg-config qt6-base-dev qtkeychain-qt6-dev qt6-webengine-dev libqt6charts6-dev libqt6serialport6-dev libqt6webenginecore6-bin libqt6svg6-dev libgl-dev
     - name: Checkout code
       uses: actions/checkout@v3
       with:
