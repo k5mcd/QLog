@@ -339,7 +339,7 @@ void CWWinKey2::handleReadyRead()
     else
     {
         qCDebug(runtime) << "\tEcho Char";
-        emit keyEchoText(QString(rcvByte));
+        emit keyEchoText(QString(reinterpret_cast<char*>(&rcvByte)));
     }
 
     tryAsyncWrite();
