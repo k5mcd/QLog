@@ -33,13 +33,22 @@ static void setupTranslator(QApplication* app) {
     FCT_IDENTIFICATION;
 
     QTranslator* qtTranslator = new QTranslator(app);
-    qtTranslator->load("qt_" + QLocale::system().name(),
-    QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app->installTranslator(qtTranslator);
+    if ( qtTranslator->load("qt_" + QLocale::system().name(),
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+                       QLibraryInfo::location(QLibraryInfo::TranslationsPath)) )
+#else
+                       QLibraryInfo::path(QLibraryInfo::TranslationsPath)) )
+#endif
+
+    {
+        app->installTranslator(qtTranslator);
+    }
 
     QTranslator* translator = new QTranslator(app);
-    translator->load(":/i18n/qlog_" + QLocale::system().name().left(2));
-    app->installTranslator(translator);
+    if ( translator->load(":/i18n/qlog_" + QLocale::system().name().left(2)) )
+    {
+        app->installTranslator(translator);
+    }
 }
 
 static void createDataDirectory() {
