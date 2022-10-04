@@ -457,7 +457,11 @@ void DxWidget::connectCluster()
 
     connect(socket, SIGNAL(readyRead()), this, SLOT(receive()));
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     connect(socket, SIGNAL(error(QAbstractSocket::SocketError)),
+#else
+    connect(socket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)),
+#endif
             this, SLOT(socketError(QAbstractSocket::SocketError)));
 
     ui->connectButton->setEnabled(false);
