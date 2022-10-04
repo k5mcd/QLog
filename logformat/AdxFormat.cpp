@@ -44,16 +44,16 @@ void AdxFormat::importStart()
     while ( reader->readNextStartElement() )
     {
         qCDebug(runtime)<<reader->name();
-        if ( reader->name() == "ADX" )
+        if ( reader->name() == QString("ADX") )
         {
             while ( reader->readNextStartElement() )
             {
                 qCDebug(runtime)<<reader->name();
-                if ( reader->name() == "HEADER" )
+                if ( reader->name() == QString("HEADER") )
                 {
                     reader->skipCurrentElement();
                 }
-                else if ( reader->name() == "RECORDS" )
+                else if ( reader->name() == QString("RECORDS") )
                 {
                     qCDebug(runtime)<<"records found";
                     /* header is loaded, QLog is currently in Records sections
@@ -488,12 +488,12 @@ bool AdxFormat::readContact(QVariantMap & contact)
 
         qCDebug(runtime)<<reader->name();
 
-        if ( reader->name() == "RECORDS" && reader->isEndElement() )
+        if ( reader->name() == QString("RECORDS") && reader->isEndElement() )
         {
             qCDebug(runtime)<<"End Records Element";
             return false;
         }
-        if ( reader->name() == "RECORD" )
+        if ( reader->name() == QString("RECORD") )
         {
             while (reader->readNextStartElement() )
             {

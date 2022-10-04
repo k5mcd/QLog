@@ -64,10 +64,13 @@ void Fldigi::processMethodCall(QTcpSocket* sock, QXmlStreamReader& xml) {
     while (!xml.atEnd() && !xml.hasError()) {
         xml.readNextStartElement();
 
-        if (xml.name() == "methodCall") {
+        if (xml.name() == QString("methodCall"))
+        {
             qCDebug(runtime) << "method call";
         }
-        if (xml.name() == "methodName") {
+
+        if (xml.name() == QString("methodName"))
+        {
             QString method = xml.readElementText();
 
             if (method == "log.add_record") {
@@ -103,7 +106,8 @@ QString Fldigi::parseParam(QXmlStreamReader& xml) {
 
     while (!xml.atEnd() && !xml.hasError()) {
         xml.readNextStartElement();
-        if (xml.name() == "value") {
+        if (xml.name() == QString("value"))
+        {
             return xml.readElementText();
         }
     }
