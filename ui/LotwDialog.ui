@@ -178,7 +178,7 @@
   </connection>
   <connection>
    <sender>myCallsignCombo</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>LotwDialog</receiver>
    <slot>uploadCallsignChanged(QString)</slot>
    <hints>

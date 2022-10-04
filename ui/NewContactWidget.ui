@@ -2076,7 +2076,7 @@
   </connection>
   <connection>
    <sender>submodeEdit</sender>
-   <signal>currentTextChanged(QString)</signal>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>NewContactWidget</receiver>
    <slot>subModeChanged()</slot>
    <hints>
@@ -2124,7 +2124,7 @@
   </connection>
   <connection>
    <sender>stationProfileCombo</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>NewContactWidget</receiver>
    <slot>stationProfileComboChanged(QString)</slot>
    <hints>
@@ -2172,7 +2172,7 @@
   </connection>
   <connection>
    <sender>rigEdit</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>NewContactWidget</receiver>
    <slot>rigProfileComboChanged(QString)</slot>
    <hints>
@@ -2188,7 +2188,7 @@
   </connection>
   <connection>
    <sender>antennaEdit</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>NewContactWidget</receiver>
    <slot>antProfileComboChanged(QString)</slot>
    <hints>

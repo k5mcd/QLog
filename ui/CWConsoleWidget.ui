@@ -440,7 +440,7 @@
   </connection>
   <connection>
    <sender>cwKeyProfileCombo</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>CWConsoleWidget</receiver>
    <slot>cwKeyProfileComboChanged(QString)</slot>
    <hints>
@@ -600,7 +600,7 @@
   </connection>
   <connection>
    <sender>cwShortcutProfileCombo</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>CWConsoleWidget</receiver>
    <slot>cwShortcutProfileComboChanged(QString)</slot>
    <hints>

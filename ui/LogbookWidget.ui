@@ -298,7 +298,7 @@
   </connection>
   <connection>
    <sender>bandFilter</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>LogbookWidget</receiver>
    <slot>bandFilterChanged()</slot>
    <hints>
@@ -362,7 +362,7 @@
   </connection>
   <connection>
    <sender>modeFilter</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>LogbookWidget</receiver>
    <slot>modeFilterChanged()</slot>
    <hints>
@@ -378,7 +378,7 @@
   </connection>
   <connection>
    <sender>countryFilter</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>LogbookWidget</receiver>
    <slot>countryFilterChanged()</slot>
    <hints>
@@ -426,7 +426,7 @@
   </connection>
   <connection>
    <sender>userFilter</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>LogbookWidget</receiver>
    <slot>userFilterChanged()</slot>
    <hints>

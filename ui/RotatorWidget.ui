@@ -130,7 +130,7 @@
   </connection>
   <connection>
    <sender>rotProfileCombo</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>RotatorWidget</receiver>
    <slot>rotProfileComboChanged(QString)</slot>
    <hints>
