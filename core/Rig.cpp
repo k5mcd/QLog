@@ -722,7 +722,9 @@ QString Rig::hamlibErrorString(int errorCode)
 
     qCDebug(function_parameters) << errorCode;
 
-    QStringList errorList = QString(rigerror(errorCode)).split(QRegExp("[\r\n]"));
+    static QRegularExpression re("[\r\n]");
+
+    QStringList errorList = QString(rigerror(errorCode)).split(re);
     QString ret;
 
     if ( errorList.size() >= 1 )

@@ -144,8 +144,9 @@ void Cty::deleteDXCCTables()
 void Cty::parseData(QTextStream& data) {
     FCT_IDENTIFICATION;
 
-    QRegExp prefixSeperator("[\\s;]");
-    QRegExp prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
+    static QRegularExpression prefixSeperator("[\\s;]");
+    static QRegularExpression prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
+    QRegularExpressionMatch matchExp;
 
     QSqlDatabase::database().transaction();
 
@@ -197,14 +198,17 @@ void Cty::parseData(QTextStream& data) {
 #endif
         qCDebug(runtime) << prefixList;
 
-        for (auto &prefix : qAsConst(prefixList)) {
-            if (prefixFormat.exactMatch(prefix)) {
+        for (auto &prefix : qAsConst(prefixList))
+        {
+            matchExp = prefixFormat.match(prefix);
+            if ( matchExp.hasMatch() )
+            {
                 prefixRecord.clearValues();
                 prefixRecord.setValue("dxcc", dxcc_id);
-                prefixRecord.setValue("exact", !prefixFormat.cap(1).isEmpty());
-                prefixRecord.setValue("prefix", prefixFormat.cap(2));
-                prefixRecord.setValue("cqz", prefixFormat.cap(3).toInt());
-                prefixRecord.setValue("ituz", prefixFormat.cap(4).toInt());
+                prefixRecord.setValue("exact", !matchExp.captured(1).isEmpty());
+                prefixRecord.setValue("prefix", matchExp.captured(2));
+                prefixRecord.setValue("cqz", matchExp.captured(3).toInt());
+                prefixRecord.setValue("ituz", matchExp.captured(4).toInt());
 
                 prefixTableModel.insertRecord(-1, prefixRecord);
             }

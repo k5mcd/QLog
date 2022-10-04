@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QColor>
 #include <QSettings>
-#include <QRegExpValidator>
+#include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include <QFontMetrics>
 #ifdef Q_OS_WIN
@@ -396,8 +396,8 @@ DxWidget::DxWidget(QWidget *parent) :
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
     ui->serverSelect->installEventFilter(new DeleteHighlightedDXServerWhenDelPressedEventFilter);
-    QRegExp rx("[^\\:]+:[0-9]{1,5}");
-    ui->serverSelect->setValidator(new QRegExpValidator(rx,this));
+    QRegularExpression rx("[^\\:]+:[0-9]{1,5}");
+    ui->serverSelect->setValidator(new QRegularExpressionValidator(rx,this));
     QString lastUsedServer = settings.value("dxc/last_server").toString();
     int index = ui->serverSelect->findText(lastUsedServer);
     // if last server still exists then set it otherwise use the first one
@@ -627,9 +627,13 @@ void DxWidget::receive()
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch toAllSpotMatch;
 
+    static QRegularExpression splitLineRE("(\a|\n|\r)+");
+    static QRegularExpression loginRE("enter your call(sign)?:");
+
     reconnectAttempts = 0;
     QString data(socket->readAll());
-    QStringList lines = data.split(QRegExp("(\a|\n|\r)+"));
+    QStringList lines = data.split(splitLineRE);
+
     foreach (QString line, lines)
     {
 
@@ -639,7 +643,8 @@ void DxWidget::receive()
             continue;
         }
 
-        if (line.startsWith("login") || line.contains(QRegExp("enter your call(sign)?:"))) {
+        if (line.startsWith("login") || line.contains(loginRE) )
+        {
             QByteArray call = StationProfilesManager::instance()->getCurProfile1().callsign.toLocal8Bit();
             call.append("\r\n");
             socket->write(call);
