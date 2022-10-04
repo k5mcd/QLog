@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QComboBox>
+#include <QStringListModel>
 #include "StatisticsWidget.h"
 #include "ui_StatisticsWidget.h"
 #include "core/debug.h"
