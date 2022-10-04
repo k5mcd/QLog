@@ -94,7 +94,12 @@ SelectionControl::~SelectionControl() {
 
 }
 
-void SelectionControl::enterEvent(QEvent* e) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+void SelectionControl::enterEvent(QEvent* e)
+#else
+void SelectionControl::enterEvent(QEnterEvent* e)
+#endif
+{
     setCursor(Qt::PointingHandCursor);
     QAbstractButton::enterEvent(e);
 }
