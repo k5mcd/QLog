@@ -23,8 +23,7 @@ ClubLog::ClubLog(QObject *parent) :
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(processReply(QNetworkReply*)));
+    connect(nam, &QNetworkAccessManager::finished, this, &ClubLog::processReply);
 }
 
 ClubLog::~ClubLog()

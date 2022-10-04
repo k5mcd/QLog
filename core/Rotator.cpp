@@ -89,7 +89,7 @@ void Rotator::start() {
     FCT_IDENTIFICATION;
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, &QTimer::timeout, this, &Rotator::update);
     timer->start(1000);
 }
 

@@ -25,8 +25,7 @@ Cty::Cty(QObject *parent) :
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(processReply(QNetworkReply*)));
+    connect(nam, &QNetworkAccessManager::finished, this, &Cty::processReply);
 }
 
 void Cty::update() {

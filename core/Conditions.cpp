@@ -21,8 +21,7 @@ Conditions::Conditions(QObject *parent) : QObject(parent)
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(processReply(QNetworkReply*)));
+    connect(nam, &QNetworkAccessManager::finished, this, &Conditions::processReply);
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Conditions::update);

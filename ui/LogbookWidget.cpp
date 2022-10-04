@@ -35,8 +35,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->setupUi(this);
 
     model = new LogbookModel(this);
-    connect(model, SIGNAL(beforeUpdate(int,QSqlRecord&)), this, SLOT(handleBeforeUpdate(int,QSqlRecord&)));
-    connect(model, SIGNAL(beforeDelete(int)), this, SLOT(handleBeforeDelete(int)));
+    connect(model, &LogbookModel::beforeUpdate, this, &LogbookWidget::handleBeforeUpdate);
+    connect(model, &LogbookModel::beforeDelete, this, &LogbookWidget::handleBeforeDelete);
 
     ui->contactTable->setModel(model);
 

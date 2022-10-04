@@ -68,8 +68,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
             this, &BandmapWidget::updateTunedFrequency);
 
     update_timer = new QTimer;
-    connect(update_timer, SIGNAL(timeout()),
-            this, SLOT(updateStationTimer()));
+    connect(update_timer, &QTimer::timeout, this, &BandmapWidget::updateStationTimer);
     update_timer->start(BANDMAP_MAX_REFRESH_TIME);
 
     updateTunedFrequency(VFO1, freq, freq, freq);

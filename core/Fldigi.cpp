@@ -24,8 +24,8 @@ void Fldigi::incomingConnection(qintptr socket)
     FCT_IDENTIFICATION;
 
     QTcpSocket* sock = new QTcpSocket(this);
-    connect(sock, SIGNAL(readyRead()), this, SLOT(readClient()));
-    connect(sock, SIGNAL(disconnected()), this, SLOT(discardClient()));
+    connect(sock, &QTcpSocket::readyRead, this, &Fldigi::readClient);
+    connect(sock, &QTcpSocket::disconnected, this, &Fldigi::discardClient);
     sock->setSocketDescriptor(socket);
 }
 

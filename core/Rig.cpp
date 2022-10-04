@@ -135,7 +135,7 @@ void Rig::start() {
     FCT_IDENTIFICATION;
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, &QTimer::timeout, this, &Rig::update);
     timer->start(500);
 }
 

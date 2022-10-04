@@ -455,14 +455,9 @@ void DxWidget::connectCluster()
 
     socket = new QTcpSocket(this);
 
-    connect(socket, SIGNAL(readyRead()), this, SLOT(receive()));
-    connect(socket, SIGNAL(connected()), this, SLOT(connected()));
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)),
-#else
-    connect(socket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)),
-#endif
-            this, SLOT(socketError(QAbstractSocket::SocketError)));
+    connect(socket, &QTcpSocket::readyRead, this, &DxWidget::receive);
+    connect(socket, &QTcpSocket::connected, this, &DxWidget::connected);
+    connect(socket, &QTcpSocket::errorOccurred, this, &DxWidget::socketError);
 
     ui->connectButton->setEnabled(false);
     ui->connectButton->setText(tr("Connecting..."));

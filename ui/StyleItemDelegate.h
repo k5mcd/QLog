@@ -312,7 +312,7 @@ public:
         (void)index;
 
         theCheckBox = new QCheckBox( parent );
-        QObject::connect(theCheckBox,SIGNAL(toggled(bool)),this,SLOT(setData(bool)));
+        QObject::connect(theCheckBox,&QCheckBox::toggled,this,&CheckBoxDelegate::setData);
         return theCheckBox;
     };
 

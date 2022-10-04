@@ -43,7 +43,7 @@ MapWidget::MapWidget(QWidget *parent) :
     clear();
 
     QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(redraw()));
+    connect(timer, &QTimer::timeout, this, &MapWidget::redraw);
     timer->start(60000);
 }
 
