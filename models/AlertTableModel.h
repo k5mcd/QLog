@@ -32,7 +32,7 @@ private:
         QString comment;
         long long counter;
 
-        bool operator==(const AlertTableRecord &);
+        bool operator==(const AlertTableRecord &) const;
         explicit AlertTableRecord(const SpotAlert&);
     };
 
