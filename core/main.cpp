@@ -33,19 +33,28 @@ static void setupTranslator(QApplication* app) {
     FCT_IDENTIFICATION;
 
     QTranslator* qtTranslator = new QTranslator(app);
-    qtTranslator->load("qt_" + QLocale::system().name(),
-    QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app->installTranslator(qtTranslator);
+    if ( qtTranslator->load("qt_" + QLocale::system().name(),
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+                       QLibraryInfo::location(QLibraryInfo::TranslationsPath)) )
+#else
+                       QLibraryInfo::path(QLibraryInfo::TranslationsPath)) )
+#endif
+
+    {
+        app->installTranslator(qtTranslator);
+    }
 
     QTranslator* translator = new QTranslator(app);
-    translator->load(":/i18n/qlog_" + QLocale::system().name().left(2));
-    app->installTranslator(translator);
+    if ( translator->load(":/i18n/qlog_" + QLocale::system().name().left(2)) )
+    {
+        app->installTranslator(translator);
+    }
 }
 
 static void createDataDirectory() {
     FCT_IDENTIFICATION;
 
-    QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dataDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     qCDebug(runtime) << dataDir.path();
 
     if (!dataDir.exists()) {
@@ -57,7 +66,7 @@ static bool openDatabase() {
     FCT_IDENTIFICATION;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QString path = dir.filePath("qlog.db");
     db.setDatabaseName(path);
 
@@ -91,7 +100,7 @@ static bool backupDatabase()
     const int retention_time = 30;
     const int min_backout_count = 5;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QString path = dir.filePath("qlog_backup_" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".adx");
     QString filter("qlog_backup_%1%1%1%1%1%1%1%1%1%1%1%1%1%1.adx");
     filter = filter.arg("[0123456789]");
@@ -238,8 +247,11 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
 
 int main(int argc, char* argv[])
 {
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 
     bool stylePresent = false;
 
@@ -290,7 +302,6 @@ int main(int argc, char* argv[])
     }
 
     qInstallMessageHandler(debugMessageOutput);
-    qRegisterMetaTypeStreamOperators<StationProfile>("StationProfile");
     qRegisterMetaType<VFOID>();
 
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via

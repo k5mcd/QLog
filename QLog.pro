@@ -301,12 +301,14 @@ unix:!macx {
   INSTALLS += target desktop icon
 
   INCLUDEPATH += /usr/local/include
-  LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
+  equals(QT_MAJOR_VERSION, 6): LIBS += -L/usr/local/lib -lhamlib -lqt6keychain
+  equals(QT_MAJOR_VERSION, 5): LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
 }
 
 macx: {
     INCLUDEPATH += /usr/local/include
-    LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
+    equals(QT_MAJOR_VERSION, 6): LIBS += -L/usr/local/lib -lhamlib -lqt6keychain
+    equals(QT_MAJOR_VERSION, 5): LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
     DISTFILES +=
 }
 

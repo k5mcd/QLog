@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget* parent) :
         ui->statusBar->addPermanentWidget(darkLightModeSwith);
         ui->statusBar->addPermanentWidget(darkIconLabel);
 
-        connect(darkLightModeSwith, SIGNAL(stateChanged(int)), this, SLOT(darkModeToggle(int)));
+        connect(darkLightModeSwith, &SwitchButton::stateChanged, this, &MainWindow::darkModeToggle);
         darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
     }
     else
@@ -109,14 +109,14 @@ MainWindow::MainWindow(QWidget* parent) :
         darkModeToggle(Qt::Unchecked);
     }
 
-    connect(Rig::instance(), SIGNAL(rigErrorPresent(QString, QString)), this, SLOT(rigErrorHandler(QString, QString)));
-    connect(Rig::instance(), SIGNAL(rigCWKeyOpenRequest(QString)), this, SLOT(cwKeyerConnectProfile(QString)));
-    connect(Rig::instance(), SIGNAL(rigCWKeyCloseRequest(QString)), this, SLOT(cwKeyerDisconnectProfile(QString)));
+    connect(Rig::instance(), &Rig::rigErrorPresent, this, &MainWindow::rigErrorHandler);
+    connect(Rig::instance(), &Rig::rigCWKeyOpenRequest, this, &MainWindow::cwKeyerConnectProfile);
+    connect(Rig::instance(), &Rig::rigCWKeyCloseRequest, this, &MainWindow::cwKeyerDisconnectProfile);
 
-    connect(Rotator::instance(), SIGNAL(rotErrorPresent(QString, QString)), this, SLOT(rotErrorHandler(QString, QString)));
-    connect(CWKeyer::instance(), SIGNAL(cwKeyerError(QString, QString)), this, SLOT(cwKeyerErrorHandler(QString, QString)));
-    connect(CWKeyer::instance(), SIGNAL(cwKeyWPMChanged(qint32)), ui->cwconsoleWidget, SLOT(setWPM(qint32)));
-    connect(CWKeyer::instance(), SIGNAL(cwKeyEchoText(QString)), ui->cwconsoleWidget, SLOT(appendCWEchoText(QString)));
+    connect(Rotator::instance(), &Rotator::rotErrorPresent, this, &MainWindow::rotErrorHandler);
+    connect(CWKeyer::instance(), &CWKeyer::cwKeyerError, this, &MainWindow::cwKeyerErrorHandler);
+    connect(CWKeyer::instance(), &CWKeyer::cwKeyWPMChanged, ui->cwconsoleWidget, &CWConsoleWidget::setWPM);
+    connect(CWKeyer::instance(), &CWKeyer::cwKeyEchoText, ui->cwconsoleWidget, &CWConsoleWidget::appendCWEchoText);
 
     Fldigi* fldigi = new Fldigi(this);
     connect(fldigi, &Fldigi::addContact, ui->newContactWidget, &NewContactWidget::saveExternalContact);
@@ -190,7 +190,7 @@ MainWindow::MainWindow(QWidget* parent) :
     /*************/
     /* SHORTCUTs */
     /*************/
-    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Backslash),
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Backslash),
                                         this,
                                         SLOT(shortcutALTBackslash()),
                                         nullptr, Qt::ApplicationShortcut);

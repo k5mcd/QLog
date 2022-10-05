@@ -1,5 +1,9 @@
 #include <QEventLoop>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <qt5keychain/keychain.h>
+#else
+#include <qt6keychain/keychain.h>
+#endif
 #include <QApplication>
 #include "CredentialStore.h"
 #include "core/debug.h"
@@ -51,7 +55,7 @@ int CredentialStore::savePassword(const QString &storage_key, const QString &use
     job.setKey(locUser);
     job.setTextData(locPass);
 
-    job.connect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
+    job.connect(&job, &WritePasswordJob::finished, &loop, &QEventLoop::quit);
 
     job.start();
     loop.exec();
@@ -95,7 +99,7 @@ QString CredentialStore::getPassword(const QString &storage_key, const QString &
 #endif
     job.setKey(locUser);
 
-    job.connect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
+    job.connect(&job, &ReadPasswordJob::finished, &loop, &QEventLoop::quit);
 
     job.start();
     loop.exec();
@@ -140,7 +144,7 @@ void CredentialStore::deletePassword(const QString &storage_key, const QString &
 #endif
     job.setKey(locUser);
 
-    job.connect(&job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()));
+    job.connect(&job, &DeletePasswordJob::finished, &loop, &QEventLoop::quit);
     job.start();
 
     loop.exec();

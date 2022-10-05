@@ -1985,7 +1985,7 @@
   </connection>
   <connection>
    <sender>modeEdit</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>QSODetailDialog</receiver>
    <slot>modeChanged(QString)</slot>
    <hints>
@@ -2097,7 +2097,7 @@
   </connection>
   <connection>
    <sender>propagationModeEdit</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>QSODetailDialog</receiver>
    <slot>propagationModeChanged(QString)</slot>
    <hints>

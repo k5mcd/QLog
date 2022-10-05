@@ -37,10 +37,10 @@ CWConsoleWidget::CWConsoleWidget(QWidget *parent) :
     /**************/
     /* SHORTCUTs  */
     /**************/
-    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Up), this, SLOT(cwKeySpeedIncrease()), nullptr, Qt::ApplicationShortcut);
-    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Down), this, SLOT(cwKeySpeedDecrease()), nullptr, Qt::ApplicationShortcut);
-    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Right), this, SLOT(cwShortcutProfileIncrease()), nullptr, Qt::ApplicationShortcut);
-    new QShortcut(QKeySequence(Qt::ALT + Qt::Key_Left), this, SLOT(cwShortcutProfileDecrease()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Up), this, SLOT(cwKeySpeedIncrease()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Down), this, SLOT(cwKeySpeedDecrease()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Right), this, SLOT(cwShortcutProfileIncrease()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Left), this, SLOT(cwShortcutProfileDecrease()), nullptr, Qt::ApplicationShortcut);
 
     cwKeyDisconnected();
 }

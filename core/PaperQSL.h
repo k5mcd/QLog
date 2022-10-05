@@ -13,7 +13,7 @@ public:
     explicit PaperQSL(QObject *parent = nullptr);
 
     QFileInfoList getQSLFileList(const QSqlRecord);
-    static QString getQSLImageFolder(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    static QString getQSLImageFolder(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     static void saveQSLImageFolder(const QString &path);
     QString stripBaseFileName(const QString &);
     bool addQSLFile(const QString &, const QSqlRecord, QString &);

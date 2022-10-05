@@ -5,7 +5,6 @@
 #include <QNetworkReply>
 #include <QStandardPaths>
 #include <QDebug>
-#include <QStringRef>
 #include <QDir>
 #include <QFile>
 #include <QSqlTableModel>
@@ -26,14 +25,14 @@ Sat::Sat(QObject *parent) :
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(processReply(QNetworkReply*)));
+    connect(nam, &QNetworkAccessManager::finished,
+            this, &Sat::processReply);
 }
 
 void Sat::update() {
     FCT_IDENTIFICATION;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
     QSettings settings;
     QDate last_update = settings.value("last_sat_update").toDate();
@@ -62,7 +61,7 @@ void Sat::update() {
 void Sat::loadData() {
     FCT_IDENTIFICATION;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QFile file(dir.filePath("satslist.csv"));
     file.open(QIODevice::ReadOnly);
     QTextStream stream(&file);
@@ -91,7 +90,7 @@ void Sat::processReply(QNetworkReply* reply) {
         qCDebug(runtime) << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
         qCDebug(runtime) << reply->header(QNetworkRequest::KnownHeaders::LocationHeader);
 
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
         QFile file(dir.filePath("satslist.csv"));
         file.open(QIODevice::WriteOnly);

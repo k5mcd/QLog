@@ -20,7 +20,7 @@ public:
 
     static const QString getUsername();
     static const QString getPassword();
-    static const QString getTQSLPath(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    static const QString getTQSLPath(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
     static void saveUsernamePassword(const QString&, const QString&);
     static void saveTQSLPath(const QString&);

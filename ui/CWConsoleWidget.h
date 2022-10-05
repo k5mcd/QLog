@@ -25,6 +25,7 @@ public slots:
     void appendCWEchoText(QString);
     void reloadSettings();
     void clearConsoles();
+    void setWPM(qint32);
 
 private slots:
     void cwKeyProfileComboChanged(QString);
@@ -50,7 +51,7 @@ private slots:
     void cwKeyMacroF6();
     void cwKeyMacroF7();
     void haltButtonPressed();
-    void setWPM(qint32);
+
 
 private:
     Ui::CWConsoleWidget *ui;

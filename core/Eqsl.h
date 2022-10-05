@@ -20,7 +20,7 @@ public:
 
     static const QString getUsername();
     static const QString getPassword();
-    static const QString getQSLImageFolder(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    static const QString getQSLImageFolder(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
     static void saveUsernamePassword(const QString&, const QString&);
     static void saveQSLImageFolder(const QString&);

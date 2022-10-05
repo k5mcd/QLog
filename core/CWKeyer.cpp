@@ -24,7 +24,7 @@ void CWKeyer::start()
     FCT_IDENTIFICATION;
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, &QTimer::timeout, this, &CWKeyer::update);
     timer->start(TIME_PERIOD);
 }
 

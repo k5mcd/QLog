@@ -5,7 +5,6 @@
 #include <QNetworkReply>
 #include <QStandardPaths>
 #include <QDebug>
-#include <QStringRef>
 #include <QDir>
 #include <QFile>
 #include <QSqlTableModel>
@@ -26,14 +25,13 @@ Cty::Cty(QObject *parent) :
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(processReply(QNetworkReply*)));
+    connect(nam, &QNetworkAccessManager::finished, this, &Cty::processReply);
 }
 
 void Cty::update() {
     FCT_IDENTIFICATION;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
     QSettings settings;
     QDate last_update = settings.value("last_cty_update").toDate();
@@ -62,7 +60,7 @@ void Cty::update() {
 void Cty::loadData() {
     FCT_IDENTIFICATION;
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QFile file(dir.filePath("cty.csv"));
     file.open(QIODevice::ReadOnly);
     QTextStream stream(&file);
@@ -91,7 +89,7 @@ void Cty::processReply(QNetworkReply* reply) {
         qCDebug(runtime) << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
         qCDebug(runtime) << reply->header(QNetworkRequest::KnownHeaders::LocationHeader);
 
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
 
         QFile file(dir.filePath("cty.csv"));
         file.open(QIODevice::WriteOnly);
@@ -145,8 +143,9 @@ void Cty::deleteDXCCTables()
 void Cty::parseData(QTextStream& data) {
     FCT_IDENTIFICATION;
 
-    QRegExp prefixSeperator("[\\s;]");
-    QRegExp prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
+    static QRegularExpression prefixSeperator("[\\s;]");
+    static QRegularExpression prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
+    QRegularExpressionMatch matchExp;
 
     QSqlDatabase::database().transaction();
 
@@ -198,14 +197,17 @@ void Cty::parseData(QTextStream& data) {
 #endif
         qCDebug(runtime) << prefixList;
 
-        for (auto &prefix : qAsConst(prefixList)) {
-            if (prefixFormat.exactMatch(prefix)) {
+        for (auto &prefix : qAsConst(prefixList))
+        {
+            matchExp = prefixFormat.match(prefix);
+            if ( matchExp.hasMatch() )
+            {
                 prefixRecord.clearValues();
                 prefixRecord.setValue("dxcc", dxcc_id);
-                prefixRecord.setValue("exact", !prefixFormat.cap(1).isEmpty());
-                prefixRecord.setValue("prefix", prefixFormat.cap(2));
-                prefixRecord.setValue("cqz", prefixFormat.cap(3).toInt());
-                prefixRecord.setValue("ituz", prefixFormat.cap(4).toInt());
+                prefixRecord.setValue("exact", !matchExp.captured(1).isEmpty());
+                prefixRecord.setValue("prefix", matchExp.captured(2));
+                prefixRecord.setValue("cqz", matchExp.captured(3).toInt());
+                prefixRecord.setValue("ituz", matchExp.captured(4).toInt());
 
                 prefixTableModel.insertRecord(-1, prefixRecord);
             }

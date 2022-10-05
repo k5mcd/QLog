@@ -180,7 +180,7 @@
   </connection>
   <connection>
    <sender>myCallsignCombo</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>EqslDialog</receiver>
    <slot>uploadCallsignChanged(QString)</slot>
    <hints>

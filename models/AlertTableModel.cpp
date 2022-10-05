@@ -106,7 +106,7 @@ double AlertTableModel::getFrequency(const QModelIndex &index)
 }
 
 
-bool AlertTableModel::AlertTableRecord::operator==(const AlertTableRecord &spot)
+bool AlertTableModel::AlertTableRecord::operator==(const AlertTableRecord &spot) const
 {
    return ( (spot.callsign == this->callsign)
             && (spot.mode == this->mode)

@@ -197,7 +197,7 @@ void HamQTH::processReply(QNetworkReply* reply) {
             continue;
         }
 
-        if (xml.name() == "error")
+        if ( xml.name() == QString("error") )
         {
             queuedCallsign = QString();
             QString errorString = xml.readElementText();
@@ -226,88 +226,116 @@ void HamQTH::processReply(QNetworkReply* reply) {
             incorrectLogin = false;
         }
 
-        if (xml.name() == "session_id") {
+        if (xml.name() == QString("session_id") )
+        {
             sessionId = xml.readElementText();
         }
-        else if (xml.name() == "callsign") {
+        else if (xml.name() == QString("callsign") )
+        {
             data["call"] = xml.readElementText().toUpper();
         }
-        else if (xml.name() == "nick") {
+        else if (xml.name() == QString("nick") )
+        {
             data["name"] = xml.readElementText();
         }
-        else if (xml.name() == "qth") {
+        else if (xml.name() == QString("qth") )
+        {
             data["qth"] = xml.readElementText();
         }
-        else if (xml.name() == "grid") {
+        else if (xml.name() == QString("grid") )
+        {
             data["gridsquare"] = xml.readElementText().toUpper();
         }
-        else if (xml.name() == "qsl_via") {
+        else if (xml.name() == QString("qsl_via") )
+        {
             data["qsl_via"] = xml.readElementText().toUpper();
         }
-        else if (xml.name() == "cq") {
+        else if (xml.name() == QString("cq") )
+        {
             data["cqz"] = xml.readElementText();
         }
-        else if (xml.name() == "itu") {
+        else if (xml.name() == QString("itu") )
+        {
             data["ituz"] = xml.readElementText();
         }
-        else if (xml.name() == "dok") {
+        else if (xml.name() == QString("dok") )
+        {
             data["dok"] = xml.readElementText().toUpper();
         }
-        else if (xml.name() == "iota") {
+        else if (xml.name() == QString("iota") )
+        {
             data["iota"] = xml.readElementText().toUpper();
         }
-        else if (xml.name() == "email") {
+        else if (xml.name() == QString("email") )
+        {
             data["email"] = xml.readElementText();
         }
-        else if (xml.name() == "adif") {
+        else if (xml.name() == QString("adif") )
+        {
             data["dxcc"] = xml.readElementText();
         }
-        else if (xml.name() == "addr_name") {
+        else if (xml.name() == QString("addr_name") )
+        {
             data["lname"] = xml.readElementText();
         }
-        else if (xml.name() == "adr_street1") {
+        else if (xml.name() == QString("adr_street1") )
+        {
             data["addr1"] = xml.readElementText();
         }
-        else if (xml.name() == "us_state") {
+        else if (xml.name() == QString("us_state") )
+        {
             data["us_state"] = xml.readElementText();
         }
-        else if (xml.name() == "adr_zip") {
+        else if (xml.name() == QString("adr_zip") )
+        {
             data["zipcode"] = xml.readElementText();
         }
-        else if (xml.name() == "country") {
+        else if (xml.name() == QString("country") )
+        {
             data["country"] = xml.readElementText();
         }
-        else if (xml.name() == "latitude") {
+        else if (xml.name() == QString("latitude") )
+        {
             data["latitude"] = xml.readElementText();
         }
-        else if (xml.name() == "longitude") {
+        else if (xml.name() == QString("longitude") )
+        {
             data["longitude"] = xml.readElementText();
         }
-        else if (xml.name() == "county") {
+        else if (xml.name() == QString("county") )
+        {
             data["county"] = xml.readElementText();
         }
-        else if (xml.name() == "lic_year") {
+        else if (xml.name() == QString("lic_year") )
+        {
             data["lic_year"] = xml.readElementText();
         }
-        else if (xml.name() == "utc_offset") {
+        else if (xml.name() == QString("utc_offset") )
+        {
             data["utc_offset"] = xml.readElementText();
         }
-        else if (xml.name() == "eqsl") {
+        else if (xml.name() == QString("eqsl") )
+        {
             data["eqsl"] = xml.readElementText();
         }
-        else if (xml.name() == "qsl") {
+        else if (xml.name() == QString("qsl") )
+        {
             data["pqsl"] = xml.readElementText();
         }
-        else if (xml.name() == "birth_year") {
+        else if (xml.name() == QString("birth_year") )
+        {
             data["born"] = xml.readElementText();
         }
-        else if (xml.name() == "lotw") {
+        else if (xml.name() == QString("lotw") )
+        {
             data["lotw"] = xml.readElementText();
         }
-        else if (xml.name() == "lotw") {
+        else if (xml.name() == QString("lotw") )
+        {
             data["lotw"] = xml.readElementText();
         }
-        else if (xml.name() == "web") {
+        else if (xml.name() == QString("web") )
+        {
             data["url"] = xml.readElementText();
         }
     }

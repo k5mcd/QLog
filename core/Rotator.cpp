@@ -89,7 +89,7 @@ void Rotator::start() {
     FCT_IDENTIFICATION;
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, &QTimer::timeout, this, &Rotator::update);
     timer->start(1000);
 }
 
@@ -239,8 +239,9 @@ QString Rotator::hamlibErrorString(int errorCode)
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << errorCode;
+    static QRegularExpression re("[\r\n]");
 
-    QStringList errorList = QString(rigerror(errorCode)).split(QRegExp("[\r\n]"));
+    QStringList errorList = QString(rigerror(errorCode)).split(re);
     QString ret;
 
     if ( errorList.size() >= 1 )

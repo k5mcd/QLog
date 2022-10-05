@@ -135,7 +135,7 @@ void Rig::start() {
     FCT_IDENTIFICATION;
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(timer, &QTimer::timeout, this, &Rig::update);
     timer->start(500);
 }
 
@@ -722,7 +722,9 @@ QString Rig::hamlibErrorString(int errorCode)
 
     qCDebug(function_parameters) << errorCode;
 
-    QStringList errorList = QString(rigerror(errorCode)).split(QRegExp("[\r\n]"));
+    static QRegularExpression re("[\r\n]");
+
+    QStringList errorList = QString(rigerror(errorCode)).split(re);
     QString ret;
 
     if ( errorList.size() >= 1 )

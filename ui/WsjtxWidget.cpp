@@ -36,18 +36,21 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     qCDebug(function_parameters)<<decode.message;
 
+    static QRegularExpression cqRE("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\\/]+) ?([A-Z]{2}[0-9]{2})?.*");
+
     StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
     if ( decode.message.startsWith("CQ") )
     {
-        QRegExp cqRegExp("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\\/]+) ?([A-Z]{2}[0-9]{2})?.*");
-        if ( cqRegExp.exactMatch(decode.message) )
+        QRegularExpressionMatch match = cqRE.match((decode.message));
+
+        if (  match.hasMatch() )
         {
             WsjtxEntry entry;
 
             entry.decode = decode;
-            entry.callsign = cqRegExp.cap(2);
-            entry.grid = cqRegExp.cap(3);
+            entry.callsign = match.captured(2);
+            entry.grid = match.captured(3);
             entry.dxcc = Data::instance()->lookupDxcc(entry.callsign);
             entry.status = Data::instance()->dxccStatus(entry.dxcc.dxcc, band, status.mode);
             entry.receivedTime = QDateTime::currentDateTimeUtc();

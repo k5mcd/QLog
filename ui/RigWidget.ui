@@ -218,7 +218,7 @@
  <connections>
   <connection>
    <sender>rigProfilCombo</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>RigWidget</receiver>
    <slot>rigProfileComboChanged(QString)</slot>
    <hints>
@@ -234,7 +234,7 @@
   </connection>
   <connection>
    <sender>bandComboBox</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>RigWidget</receiver>
    <slot>bandComboChanged(QString)</slot>
    <hints>
@@ -250,7 +250,7 @@
   </connection>
   <connection>
    <sender>modeComboBox</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>RigWidget</receiver>
    <slot>modeComboChanged(QString)</slot>
    <hints>
