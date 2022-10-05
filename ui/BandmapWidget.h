@@ -27,6 +27,9 @@ class GraphicsScene : public QGraphicsScene
 public:
     explicit GraphicsScene(QObject *parent = nullptr) : QGraphicsScene(parent){};
 
+signals:
+    void spotClicked(QString, double);
+
 protected:
     void mousePressEvent (QGraphicsSceneMouseEvent *evt) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
@@ -83,7 +86,7 @@ private:
 
 private slots:
     void centerRXActionChecked(bool);
-    void spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *oldFocusItem, Qt::FocusReason reason);
+    void spotClicked(QString, double);
     void showContextMenu(QPoint);
     void updateStationTimer();
     void focusZoomFreq(int, int);

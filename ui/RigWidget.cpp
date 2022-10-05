@@ -75,8 +75,8 @@ void RigWidget::updateFrequency(VFOID vfoid, double vfoFreq, double ritFreq, dou
     ui->freqLabel->setText(QString("%1 MHz").arg(QSTRING_FREQ(vfoFreq)));
     if ( Data::band(vfoFreq).name != ui->bandComboBox->currentText() )
     {
-        saveLastSeenFreq();
         ui->bandComboBox->blockSignals(true);
+        saveLastSeenFreq();
         ui->bandComboBox->setCurrentText(Data::band(vfoFreq).name);
         ui->bandComboBox->blockSignals(false);
     }
