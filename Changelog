@@ -1,5 +1,6 @@
 TBC - 0.15.0
 - Fixed Equipment Menu: Swapped Connect Keyer and Rig (issue #122)
+- Fixed Callsign is deleted when clicking bandmap (issue #126)
 - Fixed compilation issues & warning under QT6 - preparation for QT6 migration
 
 2022/10/02 - 0.14.1
