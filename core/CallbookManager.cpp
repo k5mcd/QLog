@@ -27,6 +27,11 @@ void CallbookManager::queryCallsign(const QString &callsign)
         return;
     }
 
+    // create an empty object in cache
+    // if there is the second query for the same call immediatelly after
+    // the first query, then it returns a result of empty object
+    queryCache.insert(callsign, new QMap<QString, QString>());
+
     if ( !primaryCallbook.isNull() )
     {
         currentQueryCallsign = callsign;
