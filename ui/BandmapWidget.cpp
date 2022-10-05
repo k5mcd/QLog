@@ -52,7 +52,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     bandmapScene = new GraphicsScene(this);
     bandmapScene->setFocusOnTouch(false);
 
-    connect(bandmapScene, &GraphicsScene::focusItemChanged,
+    connect(bandmapScene, &GraphicsScene::spotClicked,
             this, &BandmapWidget::spotClicked);
     connect(ui->scrollArea->verticalScrollBar(), &QScrollBar::rangeChanged,
             this, &BandmapWidget::focusZoomFreq);
@@ -571,17 +571,11 @@ void BandmapWidget::focusZoomFreq(int, int)
     }
 }
 
-void BandmapWidget::spotClicked(QGraphicsItem *newFocusItem, QGraphicsItem *, Qt::FocusReason)
+void BandmapWidget::spotClicked(QString call, double freq)
 {
     FCT_IDENTIFICATION;
 
-    QGraphicsTextItem *focusedSpot = dynamic_cast<QGraphicsTextItem*>(newFocusItem);
-
-    if ( focusedSpot )
-    {
-        emit tuneDx(focusedSpot->toPlainText().split(" ").first(),
-                    focusedSpot->property("freq").toDouble());
-    }
+    emit tuneDx(call, freq);
 }
 
 void BandmapWidget::showContextMenu(QPoint point)
@@ -809,14 +803,23 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 {
     FCT_IDENTIFICATION;
 
-    if ( (evt->buttons() & (Qt::MiddleButton | Qt::RightButton) )
-         && items(evt->scenePos()).count())
+    if ( (evt->buttons() & (Qt::MiddleButton | Qt::RightButton) ) )
     {
         evt->accept();
     }
     else
     {
-        QGraphicsScene::mousePressEvent(evt);
+        QGraphicsItem *item = itemAt(evt->scenePos(), QTransform());
+        QGraphicsTextItem *focusedSpot = dynamic_cast<QGraphicsTextItem*>(item);
+
+        if ( focusedSpot )
+        {
+            emit spotClicked(focusedSpot->toPlainText().split(" ").first(),
+                             focusedSpot->property("freq").toDouble());
+
+        }
+        evt->accept();
+        //QGraphicsScene::mousePressEvent(evt);
     }
 }
 
@@ -824,13 +827,5 @@ void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
 {
     FCT_IDENTIFICATION;
 
-    if ( (evt->buttons() & (Qt::MiddleButton | Qt::RightButton) )
-         && items(evt->scenePos()).count())
-    {
-        evt->accept();
-    }
-    else
-    {
-        QGraphicsScene::mouseDoubleClickEvent(evt);
-    }
+    evt->accept();
 }
