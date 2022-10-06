@@ -728,9 +728,28 @@ void BandmapWidget::centerRXFreqPosition()
 {
     FCT_IDENTIFICATION;
 
+    qreal freqScenePos = Freq2ScenePos(rx_freq).y();
+
     if ( keepRXCenter )
     {
-        ui->scrollArea->verticalScrollBar()->setValue(Freq2ScenePos(rx_freq).y() - (this->height()/2) + 50);
+        /* If RX freq should be center then center it */
+        ui->scrollArea->verticalScrollBar()->setValue(freqScenePos - (this->height()/2) + 50);
+    }
+    else
+    {
+        /* If RX freq is out-of-scene then keep the RX mark visible - this is not centering !!! */
+        int sceneSize = this->height() - 60;
+        int sliderSceneMin = ui->scrollArea->verticalScrollBar()->value();
+        int sliderSceneMax = ui->scrollArea->verticalScrollBar()->value() + sceneSize;
+
+        if ( freqScenePos < sliderSceneMin )
+        {
+            ui->scrollArea->verticalScrollBar()->setValue(sliderSceneMin - (sliderSceneMin - freqScenePos) - 40);
+        }
+        else if ( freqScenePos > sliderSceneMax )
+        {
+            ui->scrollArea->verticalScrollBar()->setValue(sliderSceneMin + (freqScenePos - sliderSceneMax) + 40);
+        }
     }
 }
 
