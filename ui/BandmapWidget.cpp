@@ -730,10 +730,16 @@ void BandmapWidget::centerRXFreqPosition()
 
     qreal freqScenePos = Freq2ScenePos(rx_freq).y();
 
+    QPropertyAnimation *anim = new QPropertyAnimation(ui->scrollArea->verticalScrollBar(), "value", this);
+    anim->setDuration(300);
+    anim->setStartValue(ui->scrollArea->verticalScrollBar()->value());
+
     if ( keepRXCenter )
     {
+
         /* If RX freq should be center then center it */
-        ui->scrollArea->verticalScrollBar()->setValue(freqScenePos - (this->height()/2) + 50);
+        anim->setEndValue(freqScenePos - (this->height()/2) + 50);
+        //ui->scrollArea->verticalScrollBar()->setValue(freqScenePos - (this->height()/2) + 50);
     }
     else
     {
@@ -744,13 +750,18 @@ void BandmapWidget::centerRXFreqPosition()
 
         if ( freqScenePos < sliderSceneMin )
         {
-            ui->scrollArea->verticalScrollBar()->setValue(sliderSceneMin - (sliderSceneMin - freqScenePos) - 40);
+            anim->setEndValue(sliderSceneMin - (sliderSceneMin - freqScenePos) - 40);
         }
-        else if ( freqScenePos > sliderSceneMax )
+        else if ( freqScenePos > sliderSceneMax - 20 ) //asymetric becuase possible slider below
         {
-            ui->scrollArea->verticalScrollBar()->setValue(sliderSceneMin + (freqScenePos - sliderSceneMax) + 40);
+            anim->setEndValue(sliderSceneMin + (freqScenePos - sliderSceneMax) + 60);
+        }
+        else
+        {
+            anim->setEndValue(ui->scrollArea->verticalScrollBar()->value());
         }
     }
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 QPointF BandmapWidget::Freq2ScenePos(double freq) const
