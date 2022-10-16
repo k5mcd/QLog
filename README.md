@@ -1,7 +1,7 @@
 # QLog
 
 QLog is an Amateur Radio logging application for Linux, Windows and Mac OS. It
-is based on the Qt 5 framework und uses SQLite as database backend.
+is based on the Qt framework und uses SQLite as database backend.
 
 QLogs aims to be as simple as possible, but to provide everything the operator expects from the log. This log is not currently focused on contests.
 
@@ -53,7 +53,7 @@ Installaction packages are available for [Windows 64bit](https://github.com/fold
 Prerequisites
 
 - Visual Studio 2019
-- Installed Qt 5.15 for Windows
+- Installed Qt for Windows
 - Installed [qtkeychain-devel](https://github.com/frankosterfeld/qtkeychain) library and headers
 - Installed [OpenSSL-devel](https://wiki.openssl.org/index.php/Binaries) libraries and headers
 - Installed [HamLib-devel](https://github.com/Hamlib/Hamlib/releases/latest) libraries and headers
