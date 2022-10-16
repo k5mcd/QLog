@@ -1,4 +1,4 @@
-TBC - 0.15.0
+2022/10/16 - 0.15.0
 - Fixed Keeping the Bandmap RX mark always visible when centre RX is disabled (issue #115)
 - Fixed Equipment Menu: Swapped Connect Keyer and Rig (issue #122)
 - Fixed Callsign is deleted when clicking bandmap (issue #126)

@@ -42,6 +42,13 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Oct 16 2022 Ladislav Foldyna - 0.15.0-1
+- Fixed Keeping the Bandmap RX mark always visible when centre RX is disabled (issue #115)
+- Fixed Equipment Menu: Swapped Connect Keyer and Rig (issue #122)
+- Fixed Callsign is deleted when clicking bandmap (issue #126)
+- Fixed typo in the Map layer menu (issue #127)
+- Fixed compilation issues & warning under QT6 - preparation for QT6 migration
+
 * Sun Oct 2 2022 Ladislav Foldyna - 0.14.1-1
 - Fixed CW Console - HALT Button is not enabled under Ubuntu flavours (issue #124)
 
