@@ -25,6 +25,7 @@
 #include "data/WCYSpot.h"
 #include "data/WWVSpot.h"
 #include "data/ToAllSpot.h"
+#include "ui/ColumnSettingDialog.h"
 
 #define CONSOLE_VIEW 4
 #define NUM_OF_RECONNECT_ATTEMPTS 3
@@ -374,14 +375,24 @@ DxWidget::DxWidget(QWidget *parent) :
 
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
+    ui->dxTable->addAction(ui->actionDisplayedColumns);
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
-    ui->dxTable->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    ui->dxTable->horizontalHeader()->setSectionsMovable(true);
+    restoreTableHeaderState();
 
     ui->wcyTable->setModel(wcyTableModel);
+    ui->wcyTable->addAction(ui->actionDisplayedColumns);
+    ui->wcyTable->horizontalHeader()->setSectionsMovable(true);
+
     ui->wwvTable->setModel(wwvTableModel);
+    ui->wwvTable->addAction(ui->actionDisplayedColumns);
+    ui->wwvTable->horizontalHeader()->setSectionsMovable(true);
+
     ui->toAllTable->setModel(toAllTableModel);
+    ui->toAllTable->addAction(ui->actionDisplayedColumns);
+    ui->toAllTable->horizontalHeader()->setSectionsMovable(true);
 
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
     contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
@@ -599,6 +610,54 @@ void DxWidget::sendCommand(const QString & command,
     if ( switchToConsole )
     {
         ui->viewModeCombo->setCurrentIndex(CONSOLE_VIEW);
+    }
+}
+
+void DxWidget::saveTableHeaderState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    QByteArray state = ui->dxTable->horizontalHeader()->saveState();
+    settings.setValue("dxc/dxtablestate", state);
+    state = ui->wcyTable->horizontalHeader()->saveState();
+    settings.setValue("dxc/wcytablestate", state);
+    state = ui->wwvTable->horizontalHeader()->saveState();
+    settings.setValue("dxc/wwvtablestate", state);
+    state = ui->toAllTable->horizontalHeader()->saveState();
+    settings.setValue("dxc/toalltablestate", state);
+}
+
+void DxWidget::restoreTableHeaderState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    QVariant state = settings.value("dxc/dxtablestate");
+
+    if (!state.isNull())
+    {
+        ui->dxTable->horizontalHeader()->restoreState(state.toByteArray());
+    }
+
+    state = settings.value("dxc/wcytablestate");
+
+    if (!state.isNull())
+    {
+        ui->wcyTable->horizontalHeader()->restoreState(state.toByteArray());
+    }
+
+    state = settings.value("dxc/wwvtablestate");
+
+    if (!state.isNull())
+    {
+        ui->wwvTable->horizontalHeader()->restoreState(state.toByteArray());
+    }
+    state = settings.value("dxc/toalltablestate");
+
+    if (!state.isNull())
+    {
+        ui->toAllTable->horizontalHeader()->restoreState(state.toByteArray());
     }
 }
 
@@ -1012,6 +1071,29 @@ void DxWidget::actionCommandShowWWV()
     sendCommand("sh/wwv", true);
 }
 
+void DxWidget::displayedColumns()
+{
+    FCT_IDENTIFICATION;
+
+    QTableView *view = nullptr;
+
+    switch ( ui->stack->currentIndex() )
+    {
+    case 0: view = ui->dxTable; break;
+    case 1: view = ui->wcyTable; break;
+    case 2: view = ui->wwvTable; break;
+    case 3: view = ui->toAllTable; break;
+    default: view = nullptr;
+    }
+
+    if ( view )
+    {
+        ColumnSettingSimpleDialog dialog(view);
+        dialog.exec();
+        saveTableHeaderState();
+    }
+}
+
 QStringList DxWidget::getDXCServerList()
 {
     FCT_IDENTIFICATION;
@@ -1029,5 +1111,6 @@ DxWidget::~DxWidget() {
     FCT_IDENTIFICATION;
 
     saveDXCServers();
+    saveTableHeaderState();
     delete ui;
 }

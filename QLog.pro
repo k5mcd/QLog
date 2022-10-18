@@ -229,6 +229,7 @@ FORMS += \
         ui/ClockWidget.ui \
         ui/ClublogDialog.ui \
         ui/ColumnSettingDialog.ui \
+        ui/ColumnSettingSimpleDialog.ui \
         ui/DxFilterDialog.ui \
         ui/DxWidget.ui \
         ui/Eqsldialog.ui \
