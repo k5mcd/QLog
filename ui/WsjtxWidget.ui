@@ -38,6 +38,9 @@
      <property name="focusPolicy">
       <enum>Qt::ClickFocus</enum>
      </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
      <property name="sizeAdjustPolicy">
       <enum>QAbstractScrollArea::AdjustToContents</enum>
      </property>
@@ -55,6 +58,12 @@
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="verticalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+     <property name="horizontalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
      </property>
      <attribute name="horizontalHeaderMinimumSectionSize">
       <number>24</number>
@@ -103,6 +112,14 @@
     </spacer>
    </item>
   </layout>
+  <action name="actionDisplayedColumns">
+   <property name="text">
+    <string>Column Visibility</string>
+   </property>
+   <property name="toolTip">
+    <string>Which columns should be displayed</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -138,9 +155,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionDisplayedColumns</sender>
+   <signal>triggered()</signal>
+   <receiver>WsjtxWidget</receiver>
+   <slot>displayedColumns()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>tableViewDoubleClicked(QModelIndex)</slot>
   <slot>tableViewClicked(QModelIndex)</slot>
+  <slot>displayedColumns()</slot>
  </slots>
 </ui>
