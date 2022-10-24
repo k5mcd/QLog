@@ -2068,6 +2068,24 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     }
 }
 
+void NewContactWidget::sotaEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
+
+    if ( sotaInfo.summitCode == ui->sotaEdit->text()
+         && !sotaInfo.summitName.isEmpty() )
+    {
+        ui->qthEdit->setText(sotaInfo.summitName);
+        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+        if ( SOTAGrid.isValid() )
+        {
+            ui->gridEdit->setText(SOTAGrid.getGrid());
+        }
+    }
+}
+
 void NewContactWidget::formFieldChangedString(const QString &)
 {
     FCT_IDENTIFICATION;

@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <QSqlQuery>
 #include "Dxcc.h"
+#include "SOTAEntity.h"
 #include "Band.h"
 #include "core/zonedetect.h"
 
@@ -93,6 +94,7 @@ public:
     QString propagationModeTextToID(const QString &propagationText) { return propagationModes.key(propagationText);}
     QString propagationModeIDToText(const QString &propagationID) { return propagationModes.value(propagationID);}
     DxccEntity lookupDxcc(const QString &callsign);
+    SOTAEntity lookupSOTA(const QString &SOTACode);
     QString dxccFlag(int dxcc);
     QPair<QString, QString> legacyMode(const QString &mode);
     QStringList satModeList() { return satModes.values();}
@@ -102,7 +104,7 @@ public:
     QStringList iotaList() { return iotaRef.values();}
     QStringList iotaIDList() { return iotaRef.keys();}
     QString iotaTextToID(const QString &iotaText) { return iotaRef.key(iotaText);}
-    QStringList sotaIDList() { return sotaRef.keys();}
+    QStringList sotaIDList() { return sotaRefID.keys();}
     QString getIANATimeZone(double, double);
 
 
@@ -126,10 +128,12 @@ private:
     QMap<QString, QPair<QString, QString>> legacyModes;
     QMap<QString, QString> satModes;
     QMap<QString, QString> iotaRef;
-    QMap<QString, QString> sotaRef;
+    QMap<QString, QString> sotaRefID;
     ZoneDetect * zd;
     QSqlQuery queryDXCC;
+    QSqlQuery querySOTA;
     bool isDXCCQueryValid;
+    bool isSOTAQueryValid;
 };
 
 #endif // DATA_H

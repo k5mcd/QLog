@@ -4,11 +4,10 @@
 #include <QDebug>
 #include <QUuid>
 #include "core/Migration.h"
-#include "core/Cty.h"
-#include "core/Sat.h"
 #include "debug.h"
 #include "data/Data.h"
 #include "LogParam.h"
+#include "LOVDownloader.h"
 
 MODULE_IDENTIFICATION("qlog.core.migration");
 
@@ -186,23 +185,26 @@ int Migration::tableRows(QString name) {
     return i;
 }
 
-bool Migration::updateExternalResource() {
+bool Migration::updateExternalResource()
+{
     FCT_IDENTIFICATION;
 
-    Cty cty;
-    Sat sats;
+    LOVDownloader downloader;
 
-    QProgressDialog progress("Updating DXCC entities...", nullptr, 0, Cty::MAX_ENTITIES);
+    QProgressDialog progress("Updating DXCC entities...",
+                             nullptr, //tr("Cancel"), //do not add cancel - it is important
+                             0, 100);
 
-    QObject::connect(&cty, &Cty::progress, &progress, &QProgressDialog::setValue);
-    QObject::connect(&cty, &Cty::finished, &progress, &QProgressDialog::done);
-    QObject::connect(&cty, &Cty::noUpdate, &progress, &QProgressDialog::cancel);
+    connect(&downloader, &LOVDownloader::processingSize,
+            &progress, &QProgressDialog::setMaximum);
+    connect(&downloader, &LOVDownloader::progress,
+            &progress, &QProgressDialog::setValue);
+    connect(&downloader, &LOVDownloader::finished,
+            &progress, &QProgressDialog::done);
+    connect(&downloader, &LOVDownloader::noUpdate,
+            &progress, &QProgressDialog::cancel);
 
-    QObject::connect(&sats, &Sat::progress, &progress, &QProgressDialog::setValue);
-    QObject::connect(&sats, &Sat::finished, &progress, &QProgressDialog::done);
-    QObject::connect(&sats, &Sat::noUpdate, &progress, &QProgressDialog::cancel);
-
-    cty.update();
+    downloader.update(LOVDownloader::CTY);
 
     if ( progress.wasCanceled() )
     {
@@ -211,6 +213,12 @@ bool Migration::updateExternalResource() {
     else
     {
         progress.show();
+        connect(&progress, &QProgressDialog::canceled,
+                this, [&downloader]()
+        {
+            qCDebug(runtime)<< "Data Download Operation canceled";
+            downloader.abortRequest();
+        });
 
         if ( !progress.exec() )
         {
@@ -223,11 +231,10 @@ bool Migration::updateExternalResource() {
     progress.reset();
     progress.setLabelText("Updating Sats Info...");
     progress.setMinimum(0);
-    progress.setMaximum(Sat::MAX_ENTITIES);
 
     progress.show();
 
-    sats.update();
+    downloader.update(LOVDownloader::SATLIST);
 
     if ( progress.wasCanceled() )
     {
@@ -239,6 +246,28 @@ bool Migration::updateExternalResource() {
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
                                  QMessageBox::tr("Sats Info update failed."));
+            return false;
+        }
+    }
+
+    progress.reset();
+    progress.setLabelText("Updating SOTA Info...");
+    progress.setMinimum(0);
+
+    progress.show();
+
+    downloader.update(LOVDownloader::SOTASUMMITS);
+
+    if ( progress.wasCanceled() )
+    {
+        qCDebug(runtime) << "Update SOTA Summits was canceled";
+    }
+    else
+    {
+        if ( !progress.exec() )
+        {
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("SOTA Summits update failed."));
             return false;
         }
     }

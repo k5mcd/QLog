@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QSqlRecord>
 #include <QCompleter>
-#include "core/Cty.h"
 #include "data/Data.h"
 #include "core/Conditions.h"
 #include "core/Gridsquare.h"
@@ -93,6 +92,7 @@ private slots:
     void callsignResult(const QMap<QString, QString>& data);
     void propModeChanged(const QString&);
     void sotaChanged(QString);
+    void sotaEditFinished();
     void formFieldChangedString(const QString&);
     void formFieldChanged();
     void useNearestCallsign();

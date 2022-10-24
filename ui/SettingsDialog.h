@@ -87,6 +87,7 @@ public slots:
     void paperDirBrowse();
     void cancelled();
     void sotaChanged(QString);
+    void sotaEditFinished();
     void primaryCallbookChanged(int);
     void secondaryCallbookChanged(int);
 

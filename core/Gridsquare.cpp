@@ -2,6 +2,7 @@
 #include <core/debug.h>
 #include <QtMath>
 #include <QRegularExpression>
+#include <cmath>
 
 #define EARTH_RADIUS 6371
 #define EARTH_CIRCUM 40075
@@ -50,6 +51,39 @@ Gridsquare::Gridsquare(const QString &in_grid)
             /* not valid grid */
             grid = QString();
         }
+    }
+}
+
+Gridsquare::Gridsquare(const double lat, double lon) :
+    validGrid(false), lat(lat), lon(lon)
+{
+    FCT_IDENTIFICATION;
+
+    QString U = "ABCDEFGHIJKLMNOPQRSTUVWX";
+
+    if ( qIsNaN(lat)
+         && qIsNaN(lon)
+         && qAbs(lat) == 90.0
+         && qAbs(lat) > 90.0
+         && qAbs(lon) > 180.0 )
+    {
+        qCDebug(runtime) << "Invalid Grid lat/lon" << lat << lon;
+    }
+    else
+    {
+        double modifiedLat = lat + 90.0;
+        double modifiedLon = lon + 180.0;
+        QString grid1 = U.at(static_cast<int>(modifiedLon/20));
+        QString grid2 = U.at(static_cast<int>(modifiedLat/10));
+        QString grid3 = QString::number(static_cast<int>(fmod((modifiedLon/2), 10.0)));
+        QString grid4 = QString::number(static_cast<int>(fmod(modifiedLat,10.0)));
+        double rLat = (modifiedLat - static_cast<int>(modifiedLat)) * 60;
+        double rLon = (modifiedLon - 2*static_cast<int>(modifiedLon/2)) *60;
+        QString grid5 = U.at((int)(rLon/5));
+        QString grid6 = U.at((int)(rLat/2.5));
+        grid = grid1 + grid2 + grid3 + grid4 + grid5 + grid6;
+        qCDebug(runtime) << grid;
+        validGrid = true;
     }
 }
 

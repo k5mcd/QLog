@@ -49,6 +49,24 @@ Data::Data(QObject *parent) :
                 "ORDER BY dxcc_prefixes.prefix\n"
                 "DESC LIMIT 1\n"
                 );
+    isSOTAQueryValid = querySOTA.prepare(
+                "SELECT summit_code,"
+                "       association_name,"
+                "       region_name,"
+                "       summit_name,"
+                "       altm,"
+                "       altft,"
+                "       gridref1,"
+                "       gridref2,"
+                "       longitude,"
+                "       latitude,"
+                "       points,"
+                "       bonus_points,"
+                "       valid_from,"
+                "       valid_to "
+                "FROM sota_summits "
+                "WHERE summit_code = :code"
+                );
 }
 
 Data::~Data()
@@ -756,18 +774,12 @@ void Data::loadSOTA()
 {
     FCT_IDENTIFICATION;
 
-    QFile file(":/res/data/sota.json");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QByteArray data = file.readAll();
+    QSqlQuery query("SELECT summit_code FROM sota_summits");
 
-    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
-    for (auto &object : qAsConst(objects))
+    while ( query.next() )
     {
-        QVariantMap sotaData = object.toMap();
-
-        QString id = sotaData.value("id").toString();
-        QString name = ""; // later - use UTF8 string
-        sotaRef.insert(id, name);
+        QString summitCode = query.value(0).toString();
+        sotaRefID.insert(summitCode, QString());
     }
 }
 
@@ -874,6 +886,58 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
     }
 
     return dxccRet;
+}
+
+SOTAEntity Data::lookupSOTA(const QString &SOTACode)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! isSOTAQueryValid )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return SOTAEntity();
+    }
+
+    querySOTA.bindValue(":code", SOTACode);
+
+    if ( ! querySOTA.exec() )
+    {
+        qWarning() << "Cannot execte Select statement" << querySOTA.lastError();
+        return SOTAEntity();
+    }
+
+    SOTAEntity SOTARet;
+
+    if (querySOTA.next())
+    {
+        SOTARet.summitCode = querySOTA.value(0).toString();
+        SOTARet.associationName = querySOTA.value(1).toString();
+        SOTARet.regionName = querySOTA.value(2).toString();
+        SOTARet.summitName = querySOTA.value(3).toString();
+        SOTARet.altm = querySOTA.value(4).toInt();
+        SOTARet.altft = querySOTA.value(5).toInt();
+        SOTARet.gridref1 = querySOTA.value(6).toDouble();
+        SOTARet.gridref2 = querySOTA.value(7).toDouble();
+        SOTARet.longitude = querySOTA.value(8).toDouble();
+        SOTARet.latitude = querySOTA.value(9).toDouble();
+        SOTARet.points = querySOTA.value(10).toInt();
+        SOTARet.bonusPoints = querySOTA.value(11).toInt();
+        SOTARet.validFrom = querySOTA.value(12).toDate();
+        SOTARet.validTo = querySOTA.value(13).toDate();
+    }
+    else
+    {
+        SOTARet.altft = 0;
+        SOTARet.altm  = 0;
+        SOTARet.gridref1 = 0.0;
+        SOTARet.gridref2  = 0.0;
+        SOTARet.longitude = 0.0;
+        SOTARet.latitude  = 0.0;
+        SOTARet.points = 0;
+        SOTARet.bonusPoints  = 0;
+    }
+
+    return SOTARet;
 }
 
 QString Data::dxccFlag(int dxcc) {

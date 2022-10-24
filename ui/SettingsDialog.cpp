@@ -1436,6 +1436,24 @@ void SettingsDialog::sotaChanged(QString newSOTA)
     }
 }
 
+void SettingsDialog::sotaEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->stationSOTAEdit->text());
+
+    if ( sotaInfo.summitCode == ui->stationSOTAEdit->text()
+         && !sotaInfo.summitName.isEmpty() )
+    {
+        ui->stationQTHEdit->setText(sotaInfo.summitName);
+        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+        if ( SOTAGrid.isValid() )
+        {
+            ui->stationLocatorEdit->setText(SOTAGrid.getGrid());
+        }
+    }
+}
+
 void SettingsDialog::primaryCallbookChanged(int index)
 {
     FCT_IDENTIFICATION;
