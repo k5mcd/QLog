@@ -2083,7 +2083,7 @@ void NewContactWidget::sotaEditFinished()
 
     SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
 
-    if ( sotaInfo.summitCode == ui->sotaEdit->text()
+    if ( sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
          && !sotaInfo.summitName.isEmpty() )
     {
         ui->qthEdit->setText(sotaInfo.summitName);

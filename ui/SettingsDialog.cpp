@@ -1448,7 +1448,7 @@ void SettingsDialog::sotaEditFinished()
 
     SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->stationSOTAEdit->text());
 
-    if ( sotaInfo.summitCode == ui->stationSOTAEdit->text()
+    if ( sotaInfo.summitCode.toUpper() == ui->stationSOTAEdit->text().toUpper()
          && !sotaInfo.summitName.isEmpty() )
     {
         ui->stationQTHEdit->setText(sotaInfo.summitName);
