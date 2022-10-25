@@ -2223,6 +2223,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>myWWFFEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>QSODetailDialog</receiver>
+   <slot>myWWFFChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>591</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wwffEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>QSODetailDialog</receiver>
+   <slot>wwffChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>362</x>
+     <y>622</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>modeChanged(QString)</slot>
@@ -2240,5 +2272,7 @@
   <slot>freqRXChanged(double)</slot>
   <slot>sotaChanged(QString)</slot>
   <slot>mySotaChanged(QString)</slot>
+  <slot>wwffChanged(QString)</slot>
+  <slot>myWWFFChanged(QString)</slot>
  </slots>
 </ui>

@@ -21,6 +21,7 @@ Data::Data(QObject *parent) :
     loadSatModes();
     loadIOTA();
     loadSOTA();
+    loadWWFF();
     loadTZ();
 
     isDXCCQueryValid = queryDXCC.prepare(
@@ -66,6 +67,26 @@ Data::Data(QObject *parent) :
                 "       valid_to "
                 "FROM sota_summits "
                 "WHERE summit_code = :code"
+                );
+
+    isWWFFQueryValid = queryWWFF.prepare(
+                "SELECT reference,"
+                "       status,"
+                "       name,"
+                "       program,"
+                "       dxcc,"
+                "       state,"
+                "       county,"
+                "       continent,"
+                "       iota,"
+                "       iaruLocator,"
+                "       latitude,"
+                "       longitude,"
+                "       iucncat,"
+                "       valid_from,"
+                "       valid_to "
+                "FROM wwff_directory "
+                "WHERE reference = UPPER(:reference)"
                 );
 }
 
@@ -783,6 +804,17 @@ void Data::loadSOTA()
     }
 }
 
+void Data::loadWWFF()
+{
+    QSqlQuery query("SELECT reference FROM wwff_directory");
+
+    while ( query.next() )
+    {
+        QString reference = query.value(0).toString();
+        wwffRefID.insert(reference, QString());
+    }
+}
+
 void Data::loadTZ()
 {
     FCT_IDENTIFICATION;
@@ -938,6 +970,53 @@ SOTAEntity Data::lookupSOTA(const QString &SOTACode)
     }
 
     return SOTARet;
+}
+
+WWFFEntity Data::lookupWWFF(const QString &reference)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! isWWFFQueryValid )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return WWFFEntity();
+    }
+
+    queryWWFF.bindValue(":reference", reference);
+
+    if ( ! queryWWFF.exec() )
+    {
+        qWarning() << "Cannot execte Select statement" << queryWWFF.lastError();
+        return WWFFEntity();
+    }
+
+    WWFFEntity WWFFRet;
+
+    if (queryWWFF.next())
+    {
+        WWFFRet.reference = queryWWFF.value(0).toString();
+        WWFFRet.status = queryWWFF.value(1).toString();
+        WWFFRet.name = queryWWFF.value(2).toString();
+        WWFFRet.program = queryWWFF.value(3).toString();
+        WWFFRet.dxcc = queryWWFF.value(4).toString();
+        WWFFRet.state = queryWWFF.value(5).toString();
+        WWFFRet.county = queryWWFF.value(6).toString();
+        WWFFRet.continent = queryWWFF.value(7).toString();
+        WWFFRet.iota = queryWWFF.value(8).toString();
+        WWFFRet.iaruLocator = queryWWFF.value(9).toString();
+        WWFFRet.latitude = queryWWFF.value(10).toDouble();
+        WWFFRet.longitude = queryWWFF.value(11).toDouble();
+        WWFFRet.iucncat = queryWWFF.value(12).toString();
+        WWFFRet.validFrom = queryWWFF.value(13).toDate();
+        WWFFRet.validTo = queryWWFF.value(14).toDate();
+    }
+    else
+    {
+        WWFFRet.longitude = 0.0;
+        WWFFRet.latitude  = 0.0;
+    }
+
+    return WWFFRet;
 }
 
 QString Data::dxccFlag(int dxcc) {

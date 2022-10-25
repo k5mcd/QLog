@@ -173,6 +173,9 @@ void LOVDownloader::parseData(const SourceDefinition &sourceDef, QTextStream &da
     case SOTASUMMITS:
         parseSOTASummits(sourceDef, data);
         break;
+    case WWFFDIRECTORY:
+        parseWWFFDirectory(sourceDef, data);
+        break;
     default:
         qWarning() << "Unsupported type to download" << sourceDef.type << sourceDef.fileName;
     }
@@ -486,6 +489,145 @@ void LOVDownloader::parseSOTASummits(const SourceDefinition &sourceDef, QTextStr
     else
     {
         qCWarning(runtime) << "SOTA Summits update failed - rollback";
+        QSqlDatabase::database().rollback();
+    }
+}
+
+void LOVDownloader::parseWWFFDirectory(const SourceDefinition &sourceDef, QTextStream &data)
+{
+    FCT_IDENTIFICATION;
+
+    QSqlDatabase::database().transaction();
+
+    if ( ! deleteTable(sourceDef.tableName) )
+    {
+        qCWarning(runtime) << "WWFT Directory delete failed - rollback";
+        QSqlDatabase::database().rollback();
+        return;
+    }
+
+    int count = 0;
+
+    QSqlQuery insertQuery;
+
+    if ( ! insertQuery.prepare("INSERT INTO wwff_directory(reference,"
+                               "                        status,"
+                               "                        name,"
+                               "                        program,"
+                               "                        dxcc,"
+                               "                        state,"
+                               "                        county,"
+                               "                        continent,"
+                               "                        iota,"
+                               "                        iaruLocator,"
+                               "                        latitude,"
+                               "                        longitude,"
+                               "                        iucncat,"
+                               "                        valid_from,"
+                               "                        valid_to) "
+                               " VALUES (               :reference,"
+                               "                        :status,"
+                               "                        :name,"
+                               "                        :program,"
+                               "                        :dxcc,"
+                               "                        :state,"
+                               "                        :county,"
+                               "                        :continent,"
+                               "                        :iota,"
+                               "                        :iaruLocator,"
+                               "                        :latitude,"
+                               "                        :longitude,"
+                               "                        :iucncat,"
+                               "                        :valid_from,"
+                               "                        :valid_to) ") )
+    {
+        qWarning() << "cannot prepare Insert statement";
+        abortRequested = true;
+    }
+
+    static QRegularExpression rCSV("(?:^|,)(?=[^\"]|(\")?)\"?((?(1)(?:[^\"]|\"\")*|[^,\"]*))\"?(?=,|$)");
+
+    while ( !data.atEnd() && !abortRequested )
+    {
+        QString line = data.readLine();
+        if ( count == 0 )
+        {
+            QString checkingString = "reference,status,"
+                                     "name,program,dxcc,state,"
+                                     "county,continent,iota,"
+                                     "iaruLocator,latitude,"
+                                     "longitude,IUCNcat,validFrom,"
+                                     "validTo,notes,lastMod,changeLog,"
+                                     "reviewFlag,specialFlags,website,"
+                                     "country,region";
+            //read the first line
+            if ( !line.contains(checkingString) )
+            {
+                qCDebug(runtime) << line;
+                qWarning() << "Unexpected header for WWFF Directory CSV file - aborting";
+                abortRequested = true;
+            }
+            count++;
+            continue;
+        }
+
+        QRegularExpressionMatchIterator i = rCSV.globalMatch(line);
+        QStringList fields;
+
+        while ( i.hasNext() )
+        {
+            QRegularExpressionMatch match = i.next();
+            fields << match.captured(2);
+        }
+
+        if ( fields.size() == 23 )
+        {
+            //qCDebug(runtime) << fields;
+
+            insertQuery.bindValue(":reference", fields.at(0));
+            insertQuery.bindValue(":status", fields.at(1));
+            insertQuery.bindValue(":name", fields.at(2));
+            insertQuery.bindValue(":program", fields.at(3));
+            insertQuery.bindValue(":dxcc", fields.at(4));
+            insertQuery.bindValue(":state", fields.at(5));
+            insertQuery.bindValue(":county", fields.at(6));
+            insertQuery.bindValue(":continent", fields.at(7));
+            insertQuery.bindValue(":iota", fields.at(8));
+            insertQuery.bindValue(":iaruLocator", fields.at(9));
+            insertQuery.bindValue(":latitude", fields.at(10));
+            insertQuery.bindValue(":longitude", fields.at(11));
+            insertQuery.bindValue(":iucncat", fields.at(12));
+            insertQuery.bindValue(":valid_from", fields.at(13));
+            insertQuery.bindValue(":valid_to", fields.at(14));
+
+            if ( ! insertQuery.exec() )
+            {
+                qInfo() << "WWFT Directory insert error " << insertQuery.lastError().text() << insertQuery.lastQuery();
+                abortRequested = true;
+                continue;
+            }
+
+            if ( count%10000 == 0 )
+            {
+                emit progress(data.pos());
+                QCoreApplication::processEvents();
+            }
+        }
+        else
+        {
+            qCDebug(runtime) << "Invalid line in the input file " << line;
+        }
+        count++;
+    }
+
+    if ( !abortRequested )
+    {
+        QSqlDatabase::database().commit();
+        qCDebug(runtime) << "WWFT Directory update finished:" << count << "entities loaded.";
+    }
+    else
+    {
+        qCWarning(runtime) << "WWFT Directory update failed - rollback";
         QSqlDatabase::database().rollback();
     }
 }

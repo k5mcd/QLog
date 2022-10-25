@@ -2218,6 +2218,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>wwffEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>wwffEditFinished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>347</x>
+     <y>448</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wwffEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>wwffChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>347</x>
+     <y>448</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -2242,5 +2274,7 @@
   <slot>rigProfileComboChanged(QString)</slot>
   <slot>antProfileComboChanged(QString)</slot>
   <slot>sotaEditFinished()</slot>
+  <slot>wwffEditFinished()</slot>
+  <slot>wwffChanged(QString)</slot>
  </slots>
 </ui>

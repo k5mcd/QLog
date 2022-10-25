@@ -191,9 +191,7 @@ bool Migration::updateExternalResource()
 
     LOVDownloader downloader;
 
-    QProgressDialog progress("Updating DXCC entities...",
-                             nullptr, //tr("Cancel"), //do not add cancel - it is important
-                             0, 100);
+    QProgressDialog progress;
 
     connect(&downloader, &LOVDownloader::processingSize,
             &progress, &QProgressDialog::setMaximum);
@@ -204,73 +202,66 @@ bool Migration::updateExternalResource()
     connect(&downloader, &LOVDownloader::noUpdate,
             &progress, &QProgressDialog::cancel);
 
-    downloader.update(LOVDownloader::CTY);
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::CTY) )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SATLIST) )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SOTASUMMITS) )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::WWFFDIRECTORY) )
+        return false;
 
-    if ( progress.wasCanceled() )
-    {
-        qCDebug(runtime) << "Update DXCC was canceled";
-    }
-    else
-    {
-        progress.show();
-        connect(&progress, &QProgressDialog::canceled,
-                this, [&downloader]()
-        {
-            qCDebug(runtime)<< "Data Download Operation canceled";
-            downloader.abortRequest();
-        });
+    return true;
+}
 
-        if ( !progress.exec() )
-        {
-            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("DXCC update failed."));
-            return false;
-        }
-    }
+bool Migration::updateExternalResourceProgress(QProgressDialog& progress,
+                                               LOVDownloader& downloader,
+                                               const LOVDownloader::SourceType & sourceType)
+{
+    FCT_IDENTIFICATION;
+
+    QString stringInfo;
 
     progress.reset();
-    progress.setLabelText("Updating Sats Info...");
+    switch ( sourceType )
+    {
+    case LOVDownloader::SourceType::CTY:
+        stringInfo = tr("DXCC Entities");
+        break;
+    case LOVDownloader::SourceType::SATLIST:
+        stringInfo = tr("Sats Info");
+        break;
+    case LOVDownloader::SourceType::SOTASUMMITS:
+        stringInfo = tr("SOTA Summits");
+        break;
+    case LOVDownloader::SourceType::WWFFDIRECTORY:
+        stringInfo = tr("WWFF Records");
+        break;
+    default:
+        stringInfo = tr("List of Values");
+    }
+
+    progress.setLabelText(tr("Updating ") + stringInfo + "...");
     progress.setMinimum(0);
 
     progress.show();
 
-    downloader.update(LOVDownloader::SATLIST);
+    downloader.update(sourceType);
 
     if ( progress.wasCanceled() )
     {
-        qCDebug(runtime) << "Update SATs was canceled";
+        qCDebug(runtime) << "Update was canceled";
     }
     else
     {
         if ( !progress.exec() )
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("Sats Info update failed."));
+                                 stringInfo + tr(" Update Failed"));
             return false;
         }
     }
 
-    progress.reset();
-    progress.setLabelText("Updating SOTA Info...");
-    progress.setMinimum(0);
-
-    progress.show();
-
-    downloader.update(LOVDownloader::SOTASUMMITS);
-
-    if ( progress.wasCanceled() )
-    {
-        qCDebug(runtime) << "Update SOTA Summits was canceled";
-    }
-    else
-    {
-        if ( !progress.exec() )
-        {
-            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("SOTA Summits update failed."));
-            return false;
-        }
-    }
     return true;
 }
 

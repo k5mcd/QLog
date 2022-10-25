@@ -77,7 +77,9 @@ private slots:
     void callbookError(QString);
     void handleBeforeUpdate(int, QSqlRecord&);
     void sotaChanged(QString);
+    void wwffChanged(QString);
     void mySotaChanged(QString);
+    void myWWFFChanged(QString);
 
 private:
     /* It is modified logbook model when only basic
@@ -129,6 +131,8 @@ private:
     QCompleter *myIotaCompleter;
     QCompleter *sotaCompleter;
     QCompleter *mySotaCompleter;
+    QCompleter *wwffCompleter;
+    QCompleter *myWWFFCompleter;
     static const QString SAVE_BUTTON_TEXT;
     static const QString EDIT_BUTTON_TEXT;
 };

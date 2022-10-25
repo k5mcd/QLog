@@ -93,6 +93,8 @@ private slots:
     void propModeChanged(const QString&);
     void sotaChanged(QString);
     void sotaEditFinished();
+    void wwffEditFinished();
+    void wwffChanged(QString);
     void formFieldChangedString(const QString&);
     void formFieldChanged();
     void useNearestCallsign();
@@ -139,6 +141,7 @@ private:
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
+    QCompleter *wwffCompleter;
     QTimeZone partnerTimeZone;
     double QSOFreq;
     qint32 bandwidthFilter;

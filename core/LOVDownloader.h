@@ -14,7 +14,8 @@ public:
         CTY = 0,
         SATLIST = 1,
         SOTASUMMITS = 2,
-        UNDEF = 3
+        WWFFDIRECTORY = 3,
+        UNDEF = 4
     };
 
 public:
@@ -72,7 +73,13 @@ private:
                                    "summitslist.csv",
                                    "last_sotasummits_update",
                                    "sota_summits",
-                                   30)}
+                                   30)},
+        {WWFFDIRECTORY, SourceDefinition(WWFFDIRECTORY,
+                                   "https://wwff.co/wwff-data/wwff_directory.csv",
+                                   "wwff_directory.csv",
+                                   "last_wwffdirectory_update",
+                                   "wwff_directory",
+                                   21)}
     };
 
     QNetworkAccessManager* nam;
@@ -88,6 +95,7 @@ private:
     void parseCTY(const SourceDefinition &sourceDef, QTextStream& data);
     void parseSATLIST(const SourceDefinition &sourceDef, QTextStream& data);
     void parseSOTASummits(const SourceDefinition &sourceDef, QTextStream& data);
+    void parseWWFFDirectory(const SourceDefinition &sourceDef, QTextStream& data);
 
 private slots:
     void processReply(QNetworkReply*);

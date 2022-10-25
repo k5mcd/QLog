@@ -2810,8 +2810,8 @@
    <slot>rigChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>451</x>
-     <y>193</y>
+     <x>472</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2826,7 +2826,7 @@
    <slot>tqslPathBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>662</x>
+     <x>637</x>
      <y>166</y>
     </hint>
     <hint type="destinationlabel">
@@ -2842,8 +2842,8 @@
    <slot>addStationProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>459</x>
-     <y>289</y>
+     <x>461</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2858,8 +2858,8 @@
    <slot>deleteStationProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>635</x>
-     <y>289</y>
+     <x>638</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2922,8 +2922,8 @@
    <slot>eqslDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>662</x>
-     <y>475</y>
+     <x>637</x>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2938,8 +2938,8 @@
    <slot>adjustVUCCLocatorTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>482</x>
-     <y>246</y>
+     <x>638</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -3002,8 +3002,8 @@
    <slot>paperDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>662</x>
-     <y>627</y>
+     <x>637</x>
+     <y>636</y>
     </hint>
     <hint type="destinationlabel">
      <x>298</x>
@@ -3018,8 +3018,8 @@
    <slot>addRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>343</x>
-     <y>776</y>
+     <x>79</x>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3034,8 +3034,8 @@
    <slot>delRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>556</x>
-     <y>776</y>
+     <x>100</x>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3050,8 +3050,8 @@
    <slot>doubleClickRigProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>153</x>
-     <y>184</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3162,7 +3162,7 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>283</x>
+     <x>438</x>
      <y>122</y>
     </hint>
     <hint type="destinationlabel">
@@ -3178,8 +3178,8 @@
    <slot>rigRXOffsetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>640</x>
-     <y>704</y>
+     <x>471</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>347</x>
@@ -3194,8 +3194,8 @@
    <slot>rigTXOffsetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>640</x>
-     <y>733</y>
+     <x>333</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>347</x>
@@ -3210,8 +3210,8 @@
    <slot>rigGetFreqChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>395</x>
-     <y>615</y>
+     <x>333</x>
+     <y>120</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3226,8 +3226,8 @@
    <slot>doubleClickCWKeyProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>135</x>
-     <y>265</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3242,8 +3242,8 @@
    <slot>addCWKeyProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>332</x>
-     <y>401</y>
+     <x>79</x>
+     <y>102</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3258,8 +3258,8 @@
    <slot>delCWKeyProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>535</x>
-     <y>401</y>
+     <x>100</x>
+     <y>102</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3274,8 +3274,8 @@
    <slot>doubleClickCWShortcutProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>135</x>
-     <y>695</y>
+     <x>73</x>
+     <y>125</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3290,8 +3290,8 @@
    <slot>addCWShortcutProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>332</x>
-     <y>840</y>
+     <x>87</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3306,8 +3306,8 @@
    <slot>delCWShortcutProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>535</x>
-     <y>840</y>
+     <x>100</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3322,8 +3322,8 @@
    <slot>cwKeyChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>485</x>
-     <y>175</y>
+     <x>452</x>
+     <y>123</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3338,8 +3338,8 @@
    <slot>adjustCWKeyCOMPortTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>468</x>
-     <y>284</y>
+     <x>443</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3354,8 +3354,8 @@
    <slot>adjustRigCOMPortTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>470</x>
-     <y>382</y>
+     <x>463</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3370,8 +3370,8 @@
    <slot>adjustRotCOMPortTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>480</x>
-     <y>240</y>
+     <x>443</x>
+     <y>123</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3386,8 +3386,8 @@
    <slot>rigStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>423</x>
-     <y>475</y>
+     <x>472</x>
+     <y>121</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3402,8 +3402,8 @@
    <slot>rotStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>433</x>
-     <y>317</y>
+     <x>452</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3418,8 +3418,8 @@
    <slot>cwKeyStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>433</x>
-     <y>300</y>
+     <x>452</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3436,6 +3436,38 @@
     <hint type="sourcelabel">
      <x>585</x>
      <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>439</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationWWFFEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>wwffEditFinished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>246</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>439</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationWWFFEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>wwffChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
      <x>335</x>
@@ -3487,5 +3519,7 @@
   <slot>rotStackWidgetChanged(int)</slot>
   <slot>cwKeyStackWidgetChanged(int)</slot>
   <slot>sotaEditFinished()</slot>
+  <slot>wwffEditFinished()</slot>
+  <slot>wwffChanged(QString)</slot>
  </slots>
 </ui>

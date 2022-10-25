@@ -147,6 +147,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->stationSOTAEdit->setCompleter(nullptr);
 
+    wwffCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
+    wwffCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    wwffCompleter->setFilterMode(Qt::MatchStartsWith);
+    wwffCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->stationWWFFEdit->setCompleter(nullptr);
+
     ui->primaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("HamQTH"),   QVariant(HamQTH::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
@@ -1451,6 +1457,36 @@ void SettingsDialog::sotaEditFinished()
         {
             ui->stationLocatorEdit->setText(SOTAGrid.getGrid());
         }
+    }
+}
+
+void SettingsDialog::wwffChanged(QString newWWFF)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newWWFF.length() >= 3 )
+    {
+        ui->stationWWFFEdit->setCompleter(wwffCompleter);
+    }
+    else
+    {
+        ui->stationWWFFEdit->setCompleter(nullptr);
+    }
+}
+
+void SettingsDialog::wwffEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->stationWWFFEdit->text());
+
+    if ( wwffInfo.reference.toUpper() == ui->stationWWFFEdit->text().toUpper()
+         && !wwffInfo.name.isEmpty() )
+    {
+        ui->stationQTHEdit->setText(wwffInfo.name);
+        if ( ! wwffInfo.iota.isEmpty()
+             && wwffInfo.iota != "-" )
+        ui->stationIOTAEdit->setText(wwffInfo.iota.toUpper());
     }
 }
 

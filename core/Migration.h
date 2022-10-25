@@ -3,6 +3,8 @@
 
 #include <QSqlQuery>
 #include <QObject>
+#include <QProgressDialog>
+#include "core/LOVDownloader.h"
 
 class QString;
 
@@ -26,6 +28,9 @@ private:
     int tableRows(QString name);
 
     bool updateExternalResource();
+    bool updateExternalResourceProgress(QProgressDialog&,
+                                        LOVDownloader&,
+                                        const LOVDownloader::SourceType & sourceType);
     bool fixIntlFields();
     bool insertUUID();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);

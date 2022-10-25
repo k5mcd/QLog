@@ -88,6 +88,8 @@ public slots:
     void cancelled();
     void sotaChanged(QString);
     void sotaEditFinished();
+    void wwffChanged(QString);
+    void wwffEditFinished();
     void primaryCallbookChanged(int);
     void secondaryCallbookChanged(int);
 
@@ -108,6 +110,7 @@ private:
     CWShortcutProfilesManager *cwShortcutProfManager;
     QCompleter *sotaCompleter;
     QCompleter *iotaCompleter;
+    QCompleter *wwffCompleter;
     Ui::SettingsDialog *ui;
 };
 
