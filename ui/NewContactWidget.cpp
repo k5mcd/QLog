@@ -2075,6 +2075,8 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     {
         ui->sotaEdit->setCompleter(nullptr);
     }
+    ui->qthEdit->clear();
+    ui->gridEdit->clear();
 }
 
 void NewContactWidget::sotaEditFinished()
@@ -2093,6 +2095,10 @@ void NewContactWidget::sotaEditFinished()
             ui->gridEdit->setText(SOTAGrid.getGrid());
         }
     }
+    else if ( !ui->wwffEdit->text().isEmpty() )
+    {
+        wwffEditFinished();
+    }
 }
 
 void NewContactWidget::wwffEditFinished()
@@ -2102,7 +2108,8 @@ void NewContactWidget::wwffEditFinished()
     WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->wwffEdit->text());
 
     if ( wwffInfo.reference.toUpper() == ui->wwffEdit->text().toUpper()
-         && !wwffInfo.name.isEmpty() )
+         && !wwffInfo.name.isEmpty()
+         && ui->qthEdit->text().isEmpty() )
     {
         ui->qthEdit->setText(wwffInfo.name);
         if ( ! wwffInfo.iota.isEmpty()
@@ -2125,9 +2132,13 @@ void NewContactWidget::wwffChanged(QString newWWFF)
     {
         ui->wwffEdit->setCompleter(nullptr);
     }
-    ui->qthEdit->clear();
-    //do not clear IOTA - IOTA info seems to be not reliable from WWFF and IOTA
-    //can be added manually by operator
+
+    if ( ui->sotaEdit->text().isEmpty() )
+    {
+        //do not clear IOTA - IOTA info seems to be not reliable from WWFF and IOTA
+        //can be added manually by operator
+        ui->qthEdit->clear();
+    }
 }
 
 void NewContactWidget::formFieldChangedString(const QString &)
