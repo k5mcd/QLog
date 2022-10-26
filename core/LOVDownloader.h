@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QNetworkAccessManager>
+#include <QRegularExpression>
 
 class LOVDownloader : public QObject
 {
@@ -85,6 +86,9 @@ private:
     QNetworkAccessManager* nam;
     QNetworkReply *currentReply;
     bool abortRequested;
+    QRegularExpression CSVRe;
+    QRegularExpression CTYPrefixSeperatorRe;
+    QRegularExpression CTYPrefixFormatRe;
 
 private:
     bool isTableFilled(const QString &);

@@ -18,7 +18,11 @@ MODULE_IDENTIFICATION("qlog.core.lovdownloader");
 LOVDownloader::LOVDownloader(QObject *parent) :
     QObject(parent),
     currentReply(nullptr),
-    abortRequested(false)
+    abortRequested(false),
+    /* https://stackoverflow.com/questions/18144431/regex-to-split-a-csv */
+    CSVRe("(?:^|,)(?=[^\"]|(\")?)\"?((?(1)(?:[^\"]|\"\")*|[^,\"]*))\"?(?=,|$)"),
+    CTYPrefixSeperatorRe("[\\s;]"),
+    CTYPrefixFormatRe("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$")
 {
     FCT_IDENTIFICATION;
 
@@ -185,8 +189,6 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
 {
     FCT_IDENTIFICATION;
 
-    static QRegularExpression prefixSeperator("[\\s;]");
-    static QRegularExpression prefixFormat("(=?)([A-Z0-9/]+)(?:\\((\\d+)\\))?(?:\\[(\\d+)\\])?$");
     QRegularExpressionMatch matchExp;
 
     QSqlDatabase::database().transaction();
@@ -248,15 +250,15 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
         entityTableModel.insertRecord(-1, entityRecord);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-        QStringList prefixList = fields.at(9).split(prefixSeperator, Qt::SkipEmptyParts);
+        QStringList prefixList = fields.at(9).split(CTYPrefixSeperatorRe, Qt::SkipEmptyParts);
 #else /* Due to ubuntu 20.04 where qt5.12 is present */
-        QStringList prefixList = fields.at(9).split(prefixSeperator, QString::SkipEmptyParts);
+        QStringList prefixList = fields.at(9).split(CTYPrefixSeperatorRe, QString::SkipEmptyParts);
 #endif
         qCDebug(runtime) << prefixList;
 
         for (auto &prefix : qAsConst(prefixList))
         {
-            matchExp = prefixFormat.match(prefix);
+            matchExp = CTYPrefixFormatRe.match(prefix);
             if ( matchExp.hasMatch() )
             {
                 prefixRecord.clearValues();
@@ -406,10 +408,6 @@ void LOVDownloader::parseSOTASummits(const SourceDefinition &sourceDef, QTextStr
         abortRequested = true;
     }
 
-    /* https://stackoverflow.com/questions/18144431/regex-to-split-a-csv */
-    /* (?:^|,)(?=[^"]|(")?)"?((?(1)(?:[^"]|"")*|[^,"]*))"?(?=,|$)*/
-    static QRegularExpression rCSV("(?:^|,)(?=[^\"]|(\")?)\"?((?(1)(?:[^\"]|\"\")*|[^,\"]*))\"?(?=,|$)");
-
     while ( !data.atEnd() && !abortRequested )
     {
         QString line = data.readLine();
@@ -433,7 +431,7 @@ void LOVDownloader::parseSOTASummits(const SourceDefinition &sourceDef, QTextStr
             continue;
         }
 
-        QRegularExpressionMatchIterator i = rCSV.globalMatch(line);
+        QRegularExpressionMatchIterator i = CSVRe.globalMatch(line);
         QStringList fields;
 
         while ( i.hasNext() )
@@ -444,7 +442,7 @@ void LOVDownloader::parseSOTASummits(const SourceDefinition &sourceDef, QTextStr
 
         if ( fields.size() == 17 )
         {
-            //qCDebug(runtime) << fields;
+            qCDebug(runtime) << fields;
 
             insertQuery.bindValue(":summit_code", fields.at(0));
             insertQuery.bindValue(":association_name", fields.at(1));
@@ -545,8 +543,6 @@ void LOVDownloader::parseWWFFDirectory(const SourceDefinition &sourceDef, QTextS
         abortRequested = true;
     }
 
-    static QRegularExpression rCSV("(?:^|,)(?=[^\"]|(\")?)\"?((?(1)(?:[^\"]|\"\")*|[^,\"]*))\"?(?=,|$)");
-
     while ( !data.atEnd() && !abortRequested )
     {
         QString line = data.readLine();
@@ -571,7 +567,7 @@ void LOVDownloader::parseWWFFDirectory(const SourceDefinition &sourceDef, QTextS
             continue;
         }
 
-        QRegularExpressionMatchIterator i = rCSV.globalMatch(line);
+        QRegularExpressionMatchIterator i = CSVRe.globalMatch(line);
         QStringList fields;
 
         while ( i.hasNext() )
@@ -582,7 +578,7 @@ void LOVDownloader::parseWWFFDirectory(const SourceDefinition &sourceDef, QTextS
 
         if ( fields.size() == 23 )
         {
-            //qCDebug(runtime) << fields;
+            qCDebug(runtime) << fields;
 
             insertQuery.bindValue(":reference", fields.at(0));
             insertQuery.bindValue(":status", fields.at(1));
