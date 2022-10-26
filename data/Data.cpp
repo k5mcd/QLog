@@ -66,7 +66,7 @@ Data::Data(QObject *parent) :
                 "       valid_from,"
                 "       valid_to "
                 "FROM sota_summits "
-                "WHERE summit_code = :code"
+                "WHERE summit_code = UPPER(:code)"
                 );
 
     isWWFFQueryValid = queryWWFF.prepare(

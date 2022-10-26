@@ -1440,6 +1440,9 @@ void SettingsDialog::sotaChanged(QString newSOTA)
     {
         ui->stationSOTAEdit->setCompleter(nullptr);
     }
+
+    ui->stationQTHEdit->clear();
+    ui->stationLocatorEdit->clear();
 }
 
 void SettingsDialog::sotaEditFinished()
@@ -1458,6 +1461,10 @@ void SettingsDialog::sotaEditFinished()
             ui->stationLocatorEdit->setText(SOTAGrid.getGrid());
         }
     }
+    else if ( !ui->stationWWFFEdit->text().isEmpty() )
+    {
+        wwffEditFinished();
+    }
 }
 
 void SettingsDialog::wwffChanged(QString newWWFF)
@@ -1472,6 +1479,13 @@ void SettingsDialog::wwffChanged(QString newWWFF)
     {
         ui->stationWWFFEdit->setCompleter(nullptr);
     }
+
+    if ( ui->stationSOTAEdit->text().isEmpty() )
+    {
+        //do not clear IOTA - IOTA info seems to be not reliable from WWFF and IOTA
+        //can be added manually by operator
+        ui->stationQTHEdit->clear();
+    }
 }
 
 void SettingsDialog::wwffEditFinished()
@@ -1481,7 +1495,8 @@ void SettingsDialog::wwffEditFinished()
     WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->stationWWFFEdit->text());
 
     if ( wwffInfo.reference.toUpper() == ui->stationWWFFEdit->text().toUpper()
-         && !wwffInfo.name.isEmpty() )
+         && !wwffInfo.name.isEmpty()
+         && ui->stationQTHEdit->text().isEmpty() )
     {
         ui->stationQTHEdit->setText(wwffInfo.name);
         if ( ! wwffInfo.iota.isEmpty()
