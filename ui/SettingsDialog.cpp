@@ -1138,11 +1138,15 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->stationOperatorEdit->setText(profile.operatorName);
     ui->stationQTHEdit->setText(profile.qthName);
     ui->stationIOTAEdit->setText(profile.iota);
+    ui->stationSOTAEdit->blockSignals(true);
     ui->stationSOTAEdit->setText(profile.sota);
+    ui->stationSOTAEdit->blockSignals(false);
     ui->stationSIGEdit->setText(profile.sig);
     ui->stationSIGInfoEdit->setText(profile.sigInfo);
     ui->stationVUCCEdit->setText(profile.vucc);
+    ui->stationWWFFEdit->blockSignals(true);
     ui->stationWWFFEdit->setText(profile.wwff);
+    ui->stationWWFFEdit->blockSignals(false);
 
     ui->stationAddProfileButton->setText(tr("Modify"));
 }
