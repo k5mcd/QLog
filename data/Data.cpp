@@ -775,19 +775,13 @@ void Data::loadIOTA()
 {
     FCT_IDENTIFICATION;
 
-    QFile file(":/res/data/iota.json");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QByteArray data = file.readAll();
+    QSqlQuery query("SELECT iotaid, islandname FROM iota");
 
-    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
-    for (auto &object : qAsConst(objects))
+    while ( query.next() )
     {
-        QVariantMap iotaData = object.toMap();
-
-        QString id = iotaData.value("id").toString();
-        QString name = iotaData.value("name").toString();
-
-        iotaRef.insert(id, name);
+        QString iotaID = query.value(0).toString();
+        QString islandName = query.value(1).toString();
+        iotaRef.insert(iotaID, islandName);
     }
 }
 

@@ -180,6 +180,10 @@ void LOVDownloader::parseData(const SourceDefinition &sourceDef, QTextStream &da
     case WWFFDIRECTORY:
         parseWWFFDirectory(sourceDef, data);
         break;
+    case IOTALIST:
+        parseIOTA(sourceDef, data);
+        break;
+
     default:
         qWarning() << "Unsupported type to download" << sourceDef.type << sourceDef.fileName;
     }
@@ -624,6 +628,97 @@ void LOVDownloader::parseWWFFDirectory(const SourceDefinition &sourceDef, QTextS
     else
     {
         qCWarning(runtime) << "WWFT Directory update failed - rollback";
+        QSqlDatabase::database().rollback();
+    }
+}
+
+void LOVDownloader::parseIOTA(const SourceDefinition &sourceDef, QTextStream &data)
+{
+    FCT_IDENTIFICATION;
+
+    QSqlDatabase::database().transaction();
+
+    if ( ! deleteTable(sourceDef.tableName) )
+    {
+        qCWarning(runtime) << "IOTA List delete failed - rollback";
+        QSqlDatabase::database().rollback();
+        return;
+    }
+
+    int count = 0;
+
+    QSqlQuery insertQuery;
+
+    if ( ! insertQuery.prepare("INSERT INTO IOTA(iotaid,"
+                               "                 islandname)"
+                               " VALUES (:iotaid,"
+                               "         :islandname)") )
+    {
+        qWarning() << "cannot prepare Insert statement";
+        abortRequested = true;
+    }
+
+    while ( !data.atEnd() && !abortRequested )
+    {
+        QString line = data.readLine();
+        if ( count == 0 )
+        {
+            QString checkingString = "iotaid, islandname";
+            //read the first line
+            if ( !line.contains(checkingString) )
+            {
+                qCDebug(runtime) << line;
+                qWarning() << "Unexpected header for IOTA CSV file - aborting";
+                abortRequested = true;
+            }
+            count++;
+            continue;
+        }
+
+        QRegularExpressionMatchIterator i = CSVRe.globalMatch(line);
+        QStringList fields;
+
+        while ( i.hasNext() )
+        {
+            QRegularExpressionMatch match = i.next();
+            fields << match.captured(2);
+        }
+
+        if ( fields.size() == 2 )
+        {
+            qCDebug(runtime) << fields;
+
+            insertQuery.bindValue(":iotaid", fields.at(0));
+            insertQuery.bindValue(":islandname", fields.at(1));
+
+            if ( ! insertQuery.exec() )
+            {
+                qInfo() << "IOTA Directory insert error " << insertQuery.lastError().text() << insertQuery.lastQuery();
+                abortRequested = true;
+                continue;
+            }
+
+            if ( count%100 == 0 )
+            {
+                emit progress(data.pos());
+                QCoreApplication::processEvents();
+            }
+        }
+        else
+        {
+            qCDebug(runtime) << "Invalid line in the input file " << line;
+        }
+        count++;
+    }
+
+    if ( !abortRequested )
+    {
+        QSqlDatabase::database().commit();
+        qCDebug(runtime) << "IOTA update finished:" << count << "entities loaded.";
+    }
+    else
+    {
+        qCWarning(runtime) << "IOTA update failed - rollback";
         QSqlDatabase::database().rollback();
     }
 }

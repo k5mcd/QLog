@@ -32,3 +32,9 @@ CREATE TABLE IF NOT EXISTS wwff_directory(
         valid_from TEXT,
         valid_to TEXT
 );
+
+CREATE TABLE IF NOT EXISTS iota(
+        iotaid TEXT PRIMARY KEY,
+        islandname TEXT
+);
+

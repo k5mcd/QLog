@@ -16,7 +16,8 @@ public:
         SATLIST = 1,
         SOTASUMMITS = 2,
         WWFFDIRECTORY = 3,
-        UNDEF = 4
+        IOTALIST = 4,
+        UNDEF = 5
     };
 
 public:
@@ -80,7 +81,13 @@ private:
                                    "wwff_directory.csv",
                                    "last_wwffdirectory_update",
                                    "wwff_directory",
-                                   21)}
+                                   21)},
+        {IOTALIST, SourceDefinition(IOTALIST,
+                                   "https://foldynl.github.io/QLog/data/iota.csv",
+                                   "iota.csv",
+                                   "last_iota_update",
+                                   "iota",
+                                   30)}
     };
 
     QNetworkAccessManager* nam;
@@ -100,6 +107,7 @@ private:
     void parseSATLIST(const SourceDefinition &sourceDef, QTextStream& data);
     void parseSOTASummits(const SourceDefinition &sourceDef, QTextStream& data);
     void parseWWFFDirectory(const SourceDefinition &sourceDef, QTextStream& data);
+    void parseIOTA(const SourceDefinition &sourceDef, QTextStream& data);
 
 private slots:
     void processReply(QNetworkReply*);

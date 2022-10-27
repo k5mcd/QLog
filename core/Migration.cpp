@@ -210,6 +210,8 @@ bool Migration::updateExternalResource()
         return false;
     if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::WWFFDIRECTORY) )
         return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::IOTALIST) )
+        return false;
 
     return true;
 }
@@ -237,6 +239,10 @@ bool Migration::updateExternalResourceProgress(QProgressDialog& progress,
     case LOVDownloader::SourceType::WWFFDIRECTORY:
         stringInfo = tr("WWFF Records");
         break;
+    case LOVDownloader::SourceType::IOTALIST:
+        stringInfo = tr("IOTA Records");
+        break;
+
     default:
         stringInfo = tr("List of Values");
     }
