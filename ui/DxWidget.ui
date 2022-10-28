@@ -217,6 +217,9 @@
        </property>
        <item row="0" column="0">
         <widget class="QTableView" name="wcyTable">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -282,6 +285,9 @@
        </property>
        <item row="0" column="0">
         <widget class="QTableView" name="wwvTable">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -338,6 +344,9 @@
        </property>
        <item row="0" column="0">
         <widget class="QTableView" name="toAllTable">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -495,6 +504,14 @@
     <string>Show WWV</string>
    </property>
   </action>
+  <action name="actionDisplayedColumns">
+   <property name="text">
+    <string>Column Visibility</string>
+   </property>
+   <property name="toolTip">
+    <string>Which columns should be displayed</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../res/icons/icons.qrc"/>
@@ -507,8 +524,8 @@
    <slot>toggleConnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>187</x>
-     <y>509</y>
+     <x>172</x>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -523,8 +540,8 @@
    <slot>send()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>500</x>
-     <y>508</y>
+     <x>249</x>
+     <y>509</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -539,8 +556,8 @@
    <slot>entryDoubleClicked(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>456</x>
-     <y>239</y>
+     <x>340</x>
+     <y>272</y>
     </hint>
     <hint type="destinationlabel">
      <x>456</x>
@@ -571,8 +588,8 @@
    <slot>adjusteServerSelectSize(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>43</x>
-     <y>497</y>
+     <x>44</x>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
      <x>456</x>
@@ -587,8 +604,8 @@
    <slot>serverSelectChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>43</x>
-     <y>497</y>
+     <x>44</x>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
      <x>456</x>
@@ -683,8 +700,24 @@
    <slot>viewModeChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>294</x>
-     <y>497</y>
+     <x>339</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDisplayedColumns</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>displayedColumns()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>170</x>
@@ -709,5 +742,6 @@
   <slot>actionCommandShowVHFStats()</slot>
   <slot>actionCommandShowWCY()</slot>
   <slot>actionCommandShowWWV()</slot>
+  <slot>displayedColumns()</slot>
  </slots>
 </ui>

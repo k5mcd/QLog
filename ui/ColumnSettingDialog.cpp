@@ -2,24 +2,24 @@
 #include <QPushButton>
 #include "ColumnSettingDialog.h"
 #include "ui_ColumnSettingDialog.h"
+#include "ui_ColumnSettingSimpleDialog.h"
 #include "models/LogbookModel.h"
 #include "core/debug.h"
+
+#define CHECKBOXESPERROW  4
 
 MODULE_IDENTIFICATION("qlog.ui.ColumnSettingDialog");
 
 ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ColumnSettingDialog),
-    table(table)
+    ColumnSettingGenericDialog(table, parent),
+    ui(new Ui::ColumnSettingDialog)
 {
     FCT_IDENTIFICATION;
+
     ui->setupUi(this);
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
     ui->tabWidget->setCurrentIndex(0);
-
-    int checkboxesPerRow = 4;
-    int columnIndex = 0;
 
     QList<QCheckBox*> generalCheckboxList;
     QList<QCheckBox*> myInfoCheckboxList;
@@ -29,6 +29,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
     QList<QCheckBox*> conditionsCheckboxList;
     QList<QCheckBox*> contestCheckboxList;
 
+    int columnIndex = 0;
     while ( columnIndex < table->model()->columnCount() )
     {
         QCheckBox *columnCheckbox=new QCheckBox();
@@ -174,24 +175,37 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         columnIndex++;
     }
 
-    addSortedCheckboxes(ui->generalInfoGrid, generalCheckboxList, checkboxesPerRow);
-    addSortedCheckboxes(ui->myInfoGrid, myInfoCheckboxList, checkboxesPerRow);
-    addSortedCheckboxes(ui->qslInfoGrid, qslInfoCheckboxList, checkboxesPerRow);
-    addSortedCheckboxes(ui->membersInfoGrig, membersInfoCheckboxList, checkboxesPerRow);
-    addSortedCheckboxes(ui->conditionsInfoGrid, conditionsCheckboxList, checkboxesPerRow);
-    addSortedCheckboxes(ui->contestsInfoGrid, contestCheckboxList, checkboxesPerRow);
-    addSortedCheckboxes(ui->otherInfoGrid, otherInfoCheckboxList, checkboxesPerRow);
+    addSortedCheckboxes(ui->generalInfoGrid, generalCheckboxList, CHECKBOXESPERROW);
+    addSortedCheckboxes(ui->myInfoGrid, myInfoCheckboxList, CHECKBOXESPERROW);
+    addSortedCheckboxes(ui->qslInfoGrid, qslInfoCheckboxList, CHECKBOXESPERROW);
+    addSortedCheckboxes(ui->membersInfoGrig, membersInfoCheckboxList, CHECKBOXESPERROW);
+    addSortedCheckboxes(ui->conditionsInfoGrid, conditionsCheckboxList, CHECKBOXESPERROW);
+    addSortedCheckboxes(ui->contestsInfoGrid, contestCheckboxList, CHECKBOXESPERROW);
+    addSortedCheckboxes(ui->otherInfoGrid, otherInfoCheckboxList, CHECKBOXESPERROW);
 
-    addSelectUnselect(ui->generalInfoGrid, checkboxesPerRow);
-    addSelectUnselect(ui->myInfoGrid, checkboxesPerRow);
-    addSelectUnselect(ui->qslInfoGrid, checkboxesPerRow);
-    addSelectUnselect(ui->membersInfoGrig, checkboxesPerRow);
-    addSelectUnselect(ui->conditionsInfoGrid, checkboxesPerRow);
-    addSelectUnselect(ui->contestsInfoGrid, checkboxesPerRow);
-    addSelectUnselect(ui->otherInfoGrid, checkboxesPerRow);
+    addSelectUnselect(ui->generalInfoGrid, CHECKBOXESPERROW);
+    addSelectUnselect(ui->myInfoGrid, CHECKBOXESPERROW);
+    addSelectUnselect(ui->qslInfoGrid, CHECKBOXESPERROW);
+    addSelectUnselect(ui->membersInfoGrig, CHECKBOXESPERROW);
+    addSelectUnselect(ui->conditionsInfoGrid, CHECKBOXESPERROW);
+    addSelectUnselect(ui->contestsInfoGrid, CHECKBOXESPERROW);
+    addSelectUnselect(ui->otherInfoGrid, CHECKBOXESPERROW);
 }
 
-void ColumnSettingDialog::addSortedCheckboxes(QGridLayout *grid, QList<QCheckBox*> &checkboxlist, int elementsPerRow)
+ColumnSettingDialog::~ColumnSettingDialog()
+{
+    FCT_IDENTIFICATION;
+    delete ui;
+}
+
+ColumnSettingGenericDialog::ColumnSettingGenericDialog(QTableView *table, QWidget *parent) :
+    QDialog(parent),
+    table(table)
+{
+    FCT_IDENTIFICATION;
+}
+
+void ColumnSettingGenericDialog::addSortedCheckboxes(QGridLayout *grid, QList<QCheckBox*> &checkboxlist, int elementsPerRow)
 {
     FCT_IDENTIFICATION;
 
@@ -211,7 +225,7 @@ void ColumnSettingDialog::addSortedCheckboxes(QGridLayout *grid, QList<QCheckBox
         elementIndex++;
     }
 }
-void ColumnSettingDialog::addSelectUnselect(QGridLayout *grid, int elementsPerRow)
+void ColumnSettingGenericDialog::addSelectUnselect(QGridLayout *grid, int elementsPerRow)
 {
     FCT_IDENTIFICATION;
 
@@ -262,7 +276,41 @@ void ColumnSettingDialog::addSelectUnselect(QGridLayout *grid, int elementsPerRo
     });
 }
 
-ColumnSettingDialog::~ColumnSettingDialog()
+
+ColumnSettingSimpleDialog::ColumnSettingSimpleDialog(QTableView *table, QWidget *parent) :
+    ColumnSettingGenericDialog(table, parent),
+    ui(new Ui::ColumnSettingSimpleDialog)
+{
+    FCT_IDENTIFICATION;
+
+    ui->setupUi(this);
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
+
+    QList<QCheckBox*> checkboxList;
+
+    int columnIndex = 0;
+    while ( columnIndex < table->model()->columnCount() )
+    {
+        QCheckBox *columnCheckbox=new QCheckBox();
+        QString columnNameString = table->model()->headerData(columnIndex, Qt::Horizontal).toString();
+
+        columnCheckbox->setChecked(!table->isColumnHidden(columnIndex));
+        columnCheckbox->setText(columnNameString);
+
+        connect(columnCheckbox, &QCheckBox::stateChanged, this, [columnIndex, table]() {
+            table->setColumnHidden(columnIndex, !table->isColumnHidden(columnIndex));
+        });
+
+        checkboxList.append(columnCheckbox);
+        columnIndex++;
+    }
+
+    addSortedCheckboxes(ui->generalInfoGrid, checkboxList, CHECKBOXESPERROW);
+    addSelectUnselect(ui->generalInfoGrid, CHECKBOXESPERROW);
+}
+
+ColumnSettingSimpleDialog::~ColumnSettingSimpleDialog()
 {
     FCT_IDENTIFICATION;
     delete ui;

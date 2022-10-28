@@ -9,6 +9,7 @@
 #include "core/debug.h"
 #include "core/Rig.h"
 #include "data/StationProfile.h"
+#include "ui/ColumnSettingDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
@@ -27,7 +28,9 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     proxyModel->setSourceModel(wsjtxTableModel);
 
     ui->tableView->setModel(proxyModel);
-    ui->tableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    ui->tableView->horizontalHeader()->setSectionsMovable(true);
+    ui->tableView->addAction(ui->actionDisplayedColumns);
+    restoreTableHeaderState();
 }
 
 void WsjtxWidget::decodeReceived(WsjtxDecode decode)
@@ -159,9 +162,41 @@ void WsjtxWidget::setSelectedCallsign(const QString &selectCallsign)
     }
 }
 
+void WsjtxWidget::displayedColumns()
+{
+    FCT_IDENTIFICATION;
+
+    ColumnSettingSimpleDialog dialog(ui->tableView);
+    dialog.exec();
+    saveTableHeaderState();
+}
+
+void WsjtxWidget::saveTableHeaderState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    QByteArray state = ui->tableView->horizontalHeader()->saveState();
+    settings.setValue("wsjtx/state", state);
+}
+
+void WsjtxWidget::restoreTableHeaderState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    QVariant state = settings.value("wsjtx/state");
+
+    if (!state.isNull())
+    {
+        ui->tableView->horizontalHeader()->restoreState(state.toByteArray());
+    }
+}
+
 WsjtxWidget::~WsjtxWidget()
 {
     FCT_IDENTIFICATION;
 
+    saveTableHeaderState();
     delete ui;
 }

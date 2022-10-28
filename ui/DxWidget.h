@@ -115,11 +115,15 @@ public slots:
     void serverSelectChanged(int);
     void setLastQSO(QSqlRecord);
 
+
+private slots:
     void actionCommandSpotQSO();
     void actionCommandShowHFStats();
     void actionCommandShowVHFStats();
     void actionCommandShowWCY();
     void actionCommandShowWWV();
+
+    void displayedColumns();
 
 signals:
     void tuneDx(QString, double);
@@ -153,7 +157,8 @@ private:
     QString bandFilterRegExp();
     void sendCommand(const QString&,
                      bool switchToConsole = false);
-
+    void saveTableHeaderState();
+    void restoreTableHeaderState();
 
     QStringList getDXCServerList(void);
 };

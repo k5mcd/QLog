@@ -26,6 +26,9 @@ public slots:
     void tableViewClicked(QModelIndex);
     void setSelectedCallsign(const QString&);
 
+private slots:
+    void displayedColumns();
+
 signals:
     void showDxDetails(QString callsign, QString grid);
     void reply(WsjtxDecode);
@@ -40,6 +43,9 @@ private:
     Ui::WsjtxWidget *ui;
     QSortFilterProxyModel *proxyModel;
     QString lastSelectedCallsign;
+
+    void saveTableHeaderState();
+    void restoreTableHeaderState();
 };
 
 #endif // WSJTXWIDGET_H
