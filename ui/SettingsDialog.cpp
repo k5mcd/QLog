@@ -147,6 +147,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->stationSOTAEdit->setCompleter(nullptr);
 
+    wwffCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
+    wwffCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    wwffCompleter->setFilterMode(Qt::MatchStartsWith);
+    wwffCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->stationWWFFEdit->setCompleter(nullptr);
+
     ui->primaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("HamQTH"),   QVariant(HamQTH::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
@@ -1132,11 +1138,15 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->stationOperatorEdit->setText(profile.operatorName);
     ui->stationQTHEdit->setText(profile.qthName);
     ui->stationIOTAEdit->setText(profile.iota);
+    ui->stationSOTAEdit->blockSignals(true);
     ui->stationSOTAEdit->setText(profile.sota);
+    ui->stationSOTAEdit->blockSignals(false);
     ui->stationSIGEdit->setText(profile.sig);
     ui->stationSIGInfoEdit->setText(profile.sigInfo);
     ui->stationVUCCEdit->setText(profile.vucc);
+    ui->stationWWFFEdit->blockSignals(true);
     ui->stationWWFFEdit->setText(profile.wwff);
+    ui->stationWWFFEdit->blockSignals(false);
 
     ui->stationAddProfileButton->setText(tr("Modify"));
 }
@@ -1433,6 +1443,69 @@ void SettingsDialog::sotaChanged(QString newSOTA)
     else
     {
         ui->stationSOTAEdit->setCompleter(nullptr);
+    }
+
+    ui->stationQTHEdit->clear();
+    ui->stationLocatorEdit->clear();
+}
+
+void SettingsDialog::sotaEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->stationSOTAEdit->text());
+
+    if ( sotaInfo.summitCode.toUpper() == ui->stationSOTAEdit->text().toUpper()
+         && !sotaInfo.summitName.isEmpty() )
+    {
+        ui->stationQTHEdit->setText(sotaInfo.summitName);
+        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+        if ( SOTAGrid.isValid() )
+        {
+            ui->stationLocatorEdit->setText(SOTAGrid.getGrid());
+        }
+    }
+    else if ( !ui->stationWWFFEdit->text().isEmpty() )
+    {
+        wwffEditFinished();
+    }
+}
+
+void SettingsDialog::wwffChanged(QString newWWFF)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newWWFF.length() >= 3 )
+    {
+        ui->stationWWFFEdit->setCompleter(wwffCompleter);
+    }
+    else
+    {
+        ui->stationWWFFEdit->setCompleter(nullptr);
+    }
+
+    if ( ui->stationSOTAEdit->text().isEmpty() )
+    {
+        //do not clear IOTA - IOTA info seems to be not reliable from WWFF and IOTA
+        //can be added manually by operator
+        ui->stationQTHEdit->clear();
+    }
+}
+
+void SettingsDialog::wwffEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->stationWWFFEdit->text());
+
+    if ( wwffInfo.reference.toUpper() == ui->stationWWFFEdit->text().toUpper()
+         && !wwffInfo.name.isEmpty()
+         && ui->stationQTHEdit->text().isEmpty() )
+    {
+        ui->stationQTHEdit->setText(wwffInfo.name);
+        if ( ! wwffInfo.iota.isEmpty()
+             && wwffInfo.iota != "-" )
+        ui->stationIOTAEdit->setText(wwffInfo.iota.toUpper());
     }
 }
 

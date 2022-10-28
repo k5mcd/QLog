@@ -4,11 +4,10 @@
 #include <QDebug>
 #include <QUuid>
 #include "core/Migration.h"
-#include "core/Cty.h"
-#include "core/Sat.h"
 #include "debug.h"
 #include "data/Data.h"
 #include "LogParam.h"
+#include "LOVDownloader.h"
 
 MODULE_IDENTIFICATION("qlog.core.migration");
 
@@ -186,62 +185,89 @@ int Migration::tableRows(QString name) {
     return i;
 }
 
-bool Migration::updateExternalResource() {
+bool Migration::updateExternalResource()
+{
     FCT_IDENTIFICATION;
 
-    Cty cty;
-    Sat sats;
+    LOVDownloader downloader;
 
-    QProgressDialog progress("Updating DXCC entities...", nullptr, 0, Cty::MAX_ENTITIES);
+    QProgressDialog progress;
 
-    QObject::connect(&cty, &Cty::progress, &progress, &QProgressDialog::setValue);
-    QObject::connect(&cty, &Cty::finished, &progress, &QProgressDialog::done);
-    QObject::connect(&cty, &Cty::noUpdate, &progress, &QProgressDialog::cancel);
+    connect(&downloader, &LOVDownloader::processingSize,
+            &progress, &QProgressDialog::setMaximum);
+    connect(&downloader, &LOVDownloader::progress,
+            &progress, &QProgressDialog::setValue);
+    connect(&downloader, &LOVDownloader::finished,
+            &progress, &QProgressDialog::done);
+    connect(&downloader, &LOVDownloader::noUpdate,
+            &progress, &QProgressDialog::cancel);
 
-    QObject::connect(&sats, &Sat::progress, &progress, &QProgressDialog::setValue);
-    QObject::connect(&sats, &Sat::finished, &progress, &QProgressDialog::done);
-    QObject::connect(&sats, &Sat::noUpdate, &progress, &QProgressDialog::cancel);
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::CTY) )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SATLIST) )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SOTASUMMITS) )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::WWFFDIRECTORY) )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::IOTALIST) )
+        return false;
 
-    cty.update();
+    return true;
+}
 
-    if ( progress.wasCanceled() )
-    {
-        qCDebug(runtime) << "Update DXCC was canceled";
-    }
-    else
-    {
-        progress.show();
+bool Migration::updateExternalResourceProgress(QProgressDialog& progress,
+                                               LOVDownloader& downloader,
+                                               const LOVDownloader::SourceType & sourceType)
+{
+    FCT_IDENTIFICATION;
 
-        if ( !progress.exec() )
-        {
-            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("DXCC update failed."));
-            return false;
-        }
-    }
+    QString stringInfo;
 
     progress.reset();
-    progress.setLabelText("Updating Sats Info...");
+    switch ( sourceType )
+    {
+    case LOVDownloader::SourceType::CTY:
+        stringInfo = tr("DXCC Entities");
+        break;
+    case LOVDownloader::SourceType::SATLIST:
+        stringInfo = tr("Sats Info");
+        break;
+    case LOVDownloader::SourceType::SOTASUMMITS:
+        stringInfo = tr("SOTA Summits");
+        break;
+    case LOVDownloader::SourceType::WWFFDIRECTORY:
+        stringInfo = tr("WWFF Records");
+        break;
+    case LOVDownloader::SourceType::IOTALIST:
+        stringInfo = tr("IOTA Records");
+        break;
+
+    default:
+        stringInfo = tr("List of Values");
+    }
+
+    progress.setLabelText(tr("Updating ") + stringInfo + "...");
     progress.setMinimum(0);
-    progress.setMaximum(Sat::MAX_ENTITIES);
 
     progress.show();
 
-    sats.update();
+    downloader.update(sourceType);
 
     if ( progress.wasCanceled() )
     {
-        qCDebug(runtime) << "Update SATs was canceled";
+        qCDebug(runtime) << "Update was canceled";
     }
     else
     {
         if ( !progress.exec() )
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("Sats Info update failed."));
+                                 stringInfo + tr(" Update Failed"));
             return false;
         }
     }
+
     return true;
 }
 

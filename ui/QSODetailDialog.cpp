@@ -130,6 +130,13 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
+    /* WWFF Completer */
+    wwffCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
+    wwffCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    wwffCompleter->setFilterMode(Qt::MatchStartsWith);
+    wwffCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->wwffEdit->setCompleter(nullptr);
+
     /* MyIOTA Completer */
     myIotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     myIotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
@@ -143,6 +150,13 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mySotaCompleter->setFilterMode(Qt::MatchStartsWith);
     mySotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->mySOTAEdit->setCompleter(nullptr);
+
+    /* MyWWFF Completer */
+    myWWFFCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
+    myWWFFCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    myWWFFCompleter->setFilterMode(Qt::MatchStartsWith);
+    myWWFFCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->myWWFFEdit->setCompleter(nullptr);
 
     DEFINE_CONTACT_FIELDS_ENUMS;
 
@@ -943,6 +957,20 @@ void QSODetailDialog::sotaChanged(QString newSOTA)
     }
 }
 
+void QSODetailDialog::wwffChanged(QString newWWFF)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newWWFF.length() >= 3 )
+    {
+        ui->wwffEdit->setCompleter(wwffCompleter);
+    }
+    else
+    {
+        ui->wwffEdit->setCompleter(nullptr);
+    }
+}
+
 void QSODetailDialog::mySotaChanged(QString newSOTA)
 {
     FCT_IDENTIFICATION;
@@ -954,6 +982,20 @@ void QSODetailDialog::mySotaChanged(QString newSOTA)
     else
     {
         ui->mySOTAEdit->setCompleter(nullptr);
+    }
+}
+
+void QSODetailDialog::myWWFFChanged(QString newWWFF)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newWWFF.length() >= 3 )
+    {
+        ui->myWWFFEdit->setCompleter(wwffCompleter);
+    }
+    else
+    {
+        ui->myWWFFEdit->setCompleter(nullptr);
     }
 }
 

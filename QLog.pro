@@ -42,13 +42,13 @@ SOURCES += \
         core/ClubLog.cpp \
         core/Conditions.cpp \
         core/CredentialStore.cpp \
-        core/Cty.cpp \
         core/Eqsl.cpp \
         core/Fldigi.cpp \
         core/GenericCallbook.cpp \
         core/Gridsquare.cpp \
         core/HamQTH.cpp \
         core/HostsPortString.cpp \
+        core/LOVDownloader.cpp \
         core/LogParam.cpp \
         core/Lotw.cpp \
         core/Migration.cpp \
@@ -57,7 +57,6 @@ SOURCES += \
         core/QRZ.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
-        core/Sat.cpp \
         core/SerialPort.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
@@ -132,13 +131,13 @@ HEADERS += \
         core/ClubLog.h \
         core/Conditions.h \
         core/CredentialStore.h \
-        core/Cty.h \
         core/Eqsl.h \
         core/Fldigi.h \
         core/GenericCallbook.h \
         core/Gridsquare.h \
         core/HamQTH.h \
         core/HostsPortString.h \
+        core/LOVDownloader.h \
         core/LogParam.h \
         core/Lotw.h \
         core/Migration.h \
@@ -147,7 +146,6 @@ HEADERS += \
         core/QRZ.h \
         core/Rig.h \
         core/Rotator.h \
-        core/Sat.h \
         core/SerialPort.h \
         core/Wsjtx.h \
         core/debug.h \
@@ -162,10 +160,12 @@ HEADERS += \
         data/ProfileManager.h \
         data/RigProfile.h \
         data/RotProfile.h \
+        data/SOTAEntity.h \
         data/SpotAlert.h \
         data/StationProfile.h \
         data/ToAllSpot.h \
         data/WCYSpot.h \
+        data/WWFFEntity.h \
         data/WWVSpot.h \
         data/WsjtxEntry.h \
         logformat/AdiFormat.h \

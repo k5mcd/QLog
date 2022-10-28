@@ -165,6 +165,15 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
+    /**************/
+    /* WWFF Edit  */
+    /**************/
+    wwffCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
+    wwffCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    wwffCompleter->setFilterMode(Qt::MatchStartsWith);
+    wwffCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->wwffEdit->setCompleter(nullptr);
+
     /* ITU Zones Validators */
     ui->ituEdit->setValidator(new QIntValidator(Data::getITUZMin(), Data::getITUZMax(), this));
 
@@ -2065,6 +2074,70 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     else
     {
         ui->sotaEdit->setCompleter(nullptr);
+    }
+    ui->qthEdit->clear();
+    ui->gridEdit->clear();
+}
+
+void NewContactWidget::sotaEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
+
+    if ( sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
+         && !sotaInfo.summitName.isEmpty() )
+    {
+        ui->qthEdit->setText(sotaInfo.summitName);
+        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+        if ( SOTAGrid.isValid() )
+        {
+            ui->gridEdit->setText(SOTAGrid.getGrid());
+        }
+    }
+    else if ( !ui->wwffEdit->text().isEmpty() )
+    {
+        wwffEditFinished();
+    }
+}
+
+void NewContactWidget::wwffEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->wwffEdit->text());
+
+    if ( wwffInfo.reference.toUpper() == ui->wwffEdit->text().toUpper()
+         && !wwffInfo.name.isEmpty()
+         && ui->qthEdit->text().isEmpty() )
+    {
+        ui->qthEdit->setText(wwffInfo.name);
+        if ( ! wwffInfo.iota.isEmpty()
+             && wwffInfo.iota != "-" )
+        {
+            ui->iotaEdit->setText(wwffInfo.iota.toUpper());
+        }
+    }
+}
+
+void NewContactWidget::wwffChanged(QString newWWFF)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newWWFF.length() >= 3 )
+    {
+        ui->wwffEdit->setCompleter(wwffCompleter);
+    }
+    else
+    {
+        ui->wwffEdit->setCompleter(nullptr);
+    }
+
+    if ( ui->sotaEdit->text().isEmpty() )
+    {
+        //do not clear IOTA - IOTA info seems to be not reliable from WWFF and IOTA
+        //can be added manually by operator
+        ui->qthEdit->clear();
     }
 }
 

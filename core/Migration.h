@@ -2,15 +2,21 @@
 #define MIGRATION_H
 
 #include <QSqlQuery>
+#include <QObject>
+#include <QProgressDialog>
+#include "core/LOVDownloader.h"
 
 class QString;
 
-class Migration {
+class Migration : public QObject
+{
+    Q_OBJECT
+
 public:
-    Migration() {}
+    Migration(QObject *parent = nullptr) : QObject(parent) {}
 
     bool run();
-bool functionMigration(int version);
+    bool functionMigration(int version);
 private:
     bool migrate(int toVersion);
     int getVersion();
@@ -22,11 +28,14 @@ private:
     int tableRows(QString name);
 
     bool updateExternalResource();
+    bool updateExternalResourceProgress(QProgressDialog&,
+                                        LOVDownloader&,
+                                        const LOVDownloader::SourceType & sourceType);
     bool fixIntlFields();
     bool insertUUID();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
-    static const int latestVersion = 12;
+    static const int latestVersion = 13;
 };
 
 #endif // MIGRATION_H

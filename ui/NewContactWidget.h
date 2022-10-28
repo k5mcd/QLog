@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QSqlRecord>
 #include <QCompleter>
-#include "core/Cty.h"
 #include "data/Data.h"
 #include "core/Conditions.h"
 #include "core/Gridsquare.h"
@@ -93,6 +92,9 @@ private slots:
     void callsignResult(const QMap<QString, QString>& data);
     void propModeChanged(const QString&);
     void sotaChanged(QString);
+    void sotaEditFinished();
+    void wwffEditFinished();
+    void wwffChanged(QString);
     void formFieldChangedString(const QString&);
     void formFieldChanged();
     void useNearestCallsign();
@@ -139,6 +141,7 @@ private:
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
+    QCompleter *wwffCompleter;
     QTimeZone partnerTimeZone;
     double QSOFreq;
     qint32 bandwidthFilter;
