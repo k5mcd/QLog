@@ -83,6 +83,7 @@ private:
     double ScenePos2Freq(const QPointF &point) const;
     DxSpot nearestSpot(double) const;
     void updateNearestSpot();
+    void setBandmapAnimation(bool);
 
 private slots:
     void centerRXActionChecked(bool);
@@ -111,6 +112,7 @@ private:
     qint64 lastStationUpdate;
     double zoomFreq;
     int zoomWidgetYOffset;
+    bool bandmapAnimation;
 };
 
 #endif // BANDMAPWIDGET_H

@@ -33,7 +33,8 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     txMark(nullptr),
     keepRXCenter(true),
     pendingSpots(0),
-    lastStationUpdate(0)
+    lastStationUpdate(0),
+    bandmapAnimation(true)
 {
     FCT_IDENTIFICATION;
 
@@ -465,6 +466,15 @@ void BandmapWidget::updateNearestSpot()
     }
 }
 
+void BandmapWidget::setBandmapAnimation(bool isEnable)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << isEnable;
+
+    bandmapAnimation = isEnable;
+}
+
 void BandmapWidget::spotAgingChanged(int)
 {
     FCT_IDENTIFICATION;
@@ -505,7 +515,9 @@ void BandmapWidget::zoomIn()
     {
         zoom = static_cast<BandmapZoom>(static_cast<int>(zoom) - 1);
     }
+    setBandmapAnimation(false);
     update();
+    setBandmapAnimation(true);
 }
 
 void BandmapWidget::zoomOut()
@@ -530,7 +542,9 @@ void BandmapWidget::zoomOut()
     {
         zoom = static_cast<BandmapZoom>(static_cast<int>(zoom) + 1);
     }
+    setBandmapAnimation(false);
     update();
+    setBandmapAnimation(true);
 }
 
 void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
@@ -731,7 +745,7 @@ void BandmapWidget::centerRXFreqPosition()
     qreal freqScenePos = Freq2ScenePos(rx_freq).y();
 
     QPropertyAnimation *anim = new QPropertyAnimation(ui->scrollArea->verticalScrollBar(), "value", this);
-    anim->setDuration(300);
+    anim->setDuration((bandmapAnimation) ? 300 : 0);
     anim->setStartValue(ui->scrollArea->verticalScrollBar()->value());
 
     if ( keepRXCenter )
