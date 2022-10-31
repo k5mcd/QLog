@@ -201,6 +201,8 @@ bool Migration::updateExternalResource()
             &progress, &QProgressDialog::done);
     connect(&downloader, &LOVDownloader::noUpdate,
             &progress, &QProgressDialog::cancel);
+    connect(&progress, &QProgressDialog::canceled,
+            &downloader, &LOVDownloader::abortRequest);
 
     if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::CTY) )
         return false;
