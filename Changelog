@@ -4,6 +4,7 @@ TBC - 0.16.0
 - [NEW] - QTH/Grid are filled based on SOTA/WWFF
 - [NEW] - DXC/WSJTX columns are movable, added column visibility setting
 - [NEW] - DXC/WSJTX columns layout is saved
+- Fixed Bandmap unlogical animation when band is changed (issue #128)
 
 2022/10/16 - 0.15.0
 - Fixed Keeping the Bandmap RX mark always visible when centre RX is disabled (issue #115)
