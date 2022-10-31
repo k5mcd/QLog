@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>671</width>
-    <height>879</height>
+    <width>667</width>
+    <height>769</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,13 +17,6 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -383,6 +376,12 @@
               <string>Key Profiles</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_8">
+              <property name="horizontalSpacing">
+               <number>6</number>
+              </property>
+              <property name="verticalSpacing">
+               <number>2</number>
+              </property>
               <item row="0" column="0" rowspan="3">
                <widget class="QListView" name="cwProfilesListView">
                 <property name="focusPolicy">
@@ -396,20 +395,6 @@
                 </property>
                 <property name="editTriggers">
                  <set>QAbstractItemView::NoEditTriggers</set>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QPushButton" name="cwAddProfileButton">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QPushButton" name="cwDelProfileButton">
-                <property name="text">
-                 <string>Delete</string>
                 </property>
                </widget>
               </item>
@@ -428,6 +413,9 @@
                  <bool>false</bool>
                 </property>
                 <layout class="QFormLayout" name="formLayout_21">
+                 <property name="verticalSpacing">
+                  <number>2</number>
+                 </property>
                  <item row="0" column="0">
                   <widget class="QLabel" name="cwProfileNameLabel">
                    <property name="text">
@@ -504,7 +492,7 @@
                  <item row="5" column="0" colspan="2">
                   <widget class="QStackedWidget" name="cwStackedWidget">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -517,6 +505,18 @@
                    </property>
                    <widget class="QWidget" name="cwSerialPage">
                     <layout class="QFormLayout" name="formLayout_22">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
                      <item row="0" column="0">
                       <widget class="QLabel" name="cwPortLabel">
                        <property name="text">
@@ -586,6 +586,18 @@
                    </widget>
                    <widget class="QWidget" name="cwNetworkPage">
                     <layout class="QFormLayout" name="formLayout_23">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
                      <item row="0" column="0">
                       <widget class="QLabel" name="cwHostNameLabel">
                        <property name="text">
@@ -623,21 +635,35 @@
                    </widget>
                   </widget>
                  </item>
+                 <item row="4" column="1">
+                  <spacer name="verticalSpacer_5">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
                 </layout>
                </widget>
               </item>
-              <item row="1" column="1">
-               <spacer name="verticalSpacer_9">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+              <item row="2" column="1">
+               <widget class="QPushButton" name="cwAddProfileButton">
+                <property name="text">
+                 <string>Add</string>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QPushButton" name="cwDelProfileButton">
+                <property name="text">
+                 <string>Delete</string>
                 </property>
-               </spacer>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -690,6 +716,12 @@
                  <string/>
                 </property>
                 <layout class="QFormLayout" name="formLayout_24">
+                 <property name="horizontalSpacing">
+                  <number>2</number>
+                 </property>
+                 <property name="verticalSpacing">
+                  <number>2</number>
+                 </property>
                  <item row="0" column="0">
                   <widget class="QLabel" name="cwShortcutProfileNameLabel">
                    <property name="text">
@@ -1135,13 +1167,6 @@
               <string>Profiles</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_3">
-              <item row="1" column="1">
-               <widget class="QPushButton" name="rigAddProfileButton">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="2">
                <widget class="QPushButton" name="rigDelProfileButton">
                 <property name="text">
@@ -1149,27 +1174,11 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="0" rowspan="2">
-               <widget class="QListView" name="rigProfilesListView">
-                <property name="focusPolicy">
-                 <enum>Qt::NoFocus</enum>
-                </property>
-                <property name="contextMenuPolicy">
-                 <enum>Qt::NoContextMenu</enum>
-                </property>
-                <property name="toolTip">
-                 <string>List of all available Rigs</string>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::NoEditTriggers</set>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="1" colspan="2">
                <widget class="QGroupBox" name="rigProfileGroup">
                 <property name="minimumSize">
                  <size>
-                  <width>420</width>
+                  <width>400</width>
                   <height>0</height>
                  </size>
                 </property>
@@ -1180,6 +1189,15 @@
                  <bool>false</bool>
                 </property>
                 <layout class="QFormLayout" name="formLayout_7">
+                 <property name="horizontalSpacing">
+                  <number>2</number>
+                 </property>
+                 <property name="verticalSpacing">
+                  <number>2</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>9</number>
+                 </property>
                  <item row="1" column="0">
                   <widget class="QLabel" name="rigProfileNameLabel">
                    <property name="text">
@@ -1360,240 +1378,15 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="8" column="0" colspan="2">
-                  <widget class="QStackedWidget" name="rigStackedWidget">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
+                 <item row="7" column="0">
+                  <widget class="QLabel" name="rigAssignedCWKeyLabel">
+                   <property name="text">
+                    <string>Assigned CW Key</string>
                    </property>
-                   <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                   </property>
-                   <property name="currentIndex">
-                    <number>0</number>
-                   </property>
-                   <widget class="QWidget" name="rigSerialPage">
-                    <layout class="QFormLayout" name="formLayout_9">
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="rigPortLabel">
-                       <property name="text">
-                        <string>Port</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QLineEdit" name="rigPortEdit">
-                       <property name="toolTip">
-                        <string>Use COMxx for Window or path to COM port under Unix-like OS</string>
-                       </property>
-                       <property name="text">
-                        <string/>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="0">
-                      <widget class="QLabel" name="rigBaudLabel">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Baudrate</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QComboBox" name="rigBaudSelect">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="focusPolicy">
-                        <enum>Qt::StrongFocus</enum>
-                       </property>
-                       <item>
-                        <property name="text">
-                         <string notr="true">115200</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>57600</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>38400</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>19200</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>9600</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>4800</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>2400</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string notr="true">1200</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
-                     <item row="2" column="0">
-                      <widget class="QLabel" name="rigDataBitsLabel">
-                       <property name="text">
-                        <string>Data Bits</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="1">
-                      <widget class="QComboBox" name="rigDataBitsSelect">
-                       <item>
-                        <property name="text">
-                         <string>8</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>7</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>6</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>5</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
-                     <item row="3" column="0">
-                      <widget class="QLabel" name="rigStopBitsLabel">
-                       <property name="text">
-                        <string>Stop Bits</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="1">
-                      <widget class="QComboBox" name="rigStopBitsSelect">
-                       <item>
-                        <property name="text">
-                         <string>1</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>2</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
-                     <item row="4" column="0">
-                      <widget class="QLabel" name="rigFlowControlLabel">
-                       <property name="text">
-                        <string>Flow Control</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="4" column="1">
-                      <widget class="QComboBox" name="rigFlowControlSelect"/>
-                     </item>
-                     <item row="5" column="0">
-                      <widget class="QLabel" name="rigParityLabel">
-                       <property name="text">
-                        <string>Parity</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="5" column="1">
-                      <widget class="QComboBox" name="rigParitySelect"/>
-                     </item>
-                     <item row="6" column="0">
-                      <widget class="QLabel" name="rigPollIntervalLabel">
-                       <property name="text">
-                        <string>Poll Interval</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="6" column="1">
-                      <widget class="QSpinBox" name="rigPollIntervalSpinBox">
-                       <property name="suffix">
-                        <string> ms</string>
-                       </property>
-                       <property name="minimum">
-                        <number>100</number>
-                       </property>
-                       <property name="maximum">
-                        <number>60000</number>
-                       </property>
-                       <property name="value">
-                        <number>500</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="rigNetworkPage">
-                    <layout class="QFormLayout" name="formLayout_8">
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="rigHostNameLabel">
-                       <property name="text">
-                        <string>Host Name</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="0">
-                      <widget class="QLabel" name="rigNetPortLabel">
-                       <property name="text">
-                        <string>Port</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QLineEdit" name="rigHostNameEdit"/>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QSpinBox" name="rigNetPortSpin">
-                       <property name="toolTip">
-                        <string>HamLib does not support to change a destination port.</string>
-                       </property>
-                       <property name="minimum">
-                        <number>4532</number>
-                       </property>
-                       <property name="maximum">
-                        <number>65535</number>
-                       </property>
-                       <property name="value">
-                        <number>4532</number>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
                   </widget>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QComboBox" name="rigAssignedCWKeyCombo"/>
                  </item>
                  <item row="9" column="0">
                   <widget class="QLabel" name="rigFeaturesLabel">
@@ -1719,34 +1512,358 @@
                    </item>
                   </layout>
                  </item>
-                 <item row="7" column="1">
-                  <widget class="QComboBox" name="rigAssignedCWKeyCombo"/>
-                 </item>
-                 <item row="7" column="0">
-                  <widget class="QLabel" name="rigAssignedCWKeyLabel">
-                   <property name="text">
-                    <string>Assigned CW Key</string>
+                 <item row="15" column="0" colspan="2">
+                  <widget class="QStackedWidget" name="rigStackedWidget">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="currentIndex">
+                    <number>0</number>
+                   </property>
+                   <widget class="QWidget" name="rigSerialPage">
+                    <layout class="QFormLayout" name="formLayout_9">
+                     <property name="formAlignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                     </property>
+                     <property name="horizontalSpacing">
+                      <number>6</number>
+                     </property>
+                     <property name="verticalSpacing">
+                      <number>2</number>
+                     </property>
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>2</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="rigPortLabel">
+                       <property name="text">
+                        <string>Port</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QLineEdit" name="rigPortEdit">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>Use COMxx for Window or path to COM port under Unix-like OS</string>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="rigBaudLabel">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Baudrate</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QComboBox" name="rigBaudSelect">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="focusPolicy">
+                        <enum>Qt::StrongFocus</enum>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string notr="true">115200</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>57600</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>38400</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>19200</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>9600</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>4800</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>2400</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">1200</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="rigDataBitsLabel">
+                       <property name="text">
+                        <string>Data Bits</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QComboBox" name="rigDataBitsSelect">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>8</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>7</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>6</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>5</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="rigStopBitsLabel">
+                       <property name="text">
+                        <string>Stop Bits</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QComboBox" name="rigStopBitsSelect">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>1</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>2</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="rigFlowControlLabel">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="text">
+                        <string>Flow Control</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QComboBox" name="rigFlowControlSelect">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="5" column="0">
+                      <widget class="QLabel" name="rigParityLabel">
+                       <property name="text">
+                        <string>Parity</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="5" column="1">
+                      <widget class="QComboBox" name="rigParitySelect">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="6" column="0">
+                      <widget class="QLabel" name="rigPollIntervalLabel">
+                       <property name="text">
+                        <string>Poll Interval</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="6" column="1">
+                      <widget class="QSpinBox" name="rigPollIntervalSpinBox">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="suffix">
+                        <string> ms</string>
+                       </property>
+                       <property name="minimum">
+                        <number>100</number>
+                       </property>
+                       <property name="maximum">
+                        <number>60000</number>
+                       </property>
+                       <property name="value">
+                        <number>500</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="rigNetworkPage">
+                    <layout class="QFormLayout" name="formLayout_8">
+                     <property name="horizontalSpacing">
+                      <number>6</number>
+                     </property>
+                     <property name="verticalSpacing">
+                      <number>2</number>
+                     </property>
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>2</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="rigHostNameLabel">
+                       <property name="text">
+                        <string>Host Name</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="rigNetPortLabel">
+                       <property name="text">
+                        <string>Port</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QLineEdit" name="rigHostNameEdit"/>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QSpinBox" name="rigNetPortSpin">
+                       <property name="toolTip">
+                        <string>HamLib does not support to change a destination port.</string>
+                       </property>
+                       <property name="minimum">
+                        <number>4532</number>
+                       </property>
+                       <property name="maximum">
+                        <number>65535</number>
+                       </property>
+                       <property name="value">
+                        <number>4532</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
                </widget>
               </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="rigAddProfileButton">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" rowspan="2">
+               <widget class="QListView" name="rigProfilesListView">
+                <property name="focusPolicy">
+                 <enum>Qt::NoFocus</enum>
+                </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="toolTip">
+                 <string>List of all available Rigs</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -1806,6 +1923,12 @@
                  <bool>false</bool>
                 </property>
                 <layout class="QFormLayout" name="formLayout_18">
+                 <property name="horizontalSpacing">
+                  <number>6</number>
+                 </property>
+                 <property name="verticalSpacing">
+                  <number>2</number>
+                 </property>
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="rotProfileNameEdit">
                    <property name="toolTip">
@@ -1832,6 +1955,21 @@
                    </property>
                    <widget class="QWidget" name="rotSerialPage">
                     <layout class="QFormLayout" name="formLayout_19">
+                     <property name="verticalSpacing">
+                      <number>2</number>
+                     </property>
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
                      <item row="0" column="0">
                       <widget class="QLabel" name="rotPortLabel">
                        <property name="text">
@@ -1973,6 +2111,21 @@
                    </widget>
                    <widget class="QWidget" name="rotNetworkPage">
                     <layout class="QFormLayout" name="formLayout_20">
+                     <property name="verticalSpacing">
+                      <number>2</number>
+                     </property>
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
                      <item row="0" column="0">
                       <widget class="QLabel" name="rotHostNameLabel">
                        <property name="text">
@@ -2027,6 +2180,19 @@
                  <item row="2" column="1">
                   <widget class="QComboBox" name="rotModelSelect"/>
                  </item>
+                 <item row="3" column="1">
+                  <spacer name="verticalSpacer_9">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -2049,6 +2215,19 @@
           </layout>
          </widget>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -2501,7 +2680,14 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QDateEdit" name="dxccStartDate"/>
+        <widget class="QDateEdit" name="dxccStartDate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -2526,7 +2712,7 @@
           <item row="0" column="1">
            <widget class="QSpinBox" name="wsjtPortSpin">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -2682,6 +2868,13 @@
      </widget>
     </widget>
    </item>
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
@@ -2772,130 +2965,114 @@
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
+   <sender>stationWWFFEdit</sender>
+   <signal>editingFinished()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>cancelled()</slot>
+   <slot>wwffEditFinished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>326</x>
-     <y>851</y>
+     <x>585</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
-     <x>297</x>
-     <y>188</y>
+     <x>335</x>
+     <y>439</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
+   <sender>rigGetXITCheckBox</sender>
+   <signal>stateChanged(int)</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>save()</slot>
+   <slot>rigTXOffsetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>326</x>
-     <y>851</y>
+     <x>333</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
-     <x>297</x>
-     <y>188</y>
+     <x>347</x>
+     <y>399</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>rigModelSelect</sender>
-   <signal>currentIndexChanged(int)</signal>
+   <sender>antAddProfileButton</sender>
+   <signal>clicked()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>rigChanged(int)</slot>
+   <slot>addAntProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>472</x>
+     <x>363</x>
+     <y>426</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotStackedWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>rotStackWidgetChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>452</x>
+     <y>119</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationSOTAEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>sotaEditFinished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>439</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwAddProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addCWKeyProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rigPortEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustRigCOMPortTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>463</x>
      <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>359</x>
-     <y>413</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tqslPathButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>tqslPathBrowse()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>637</x>
-     <y>166</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>359</x>
-     <y>424</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>stationAddProfileButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>addStationProfile()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>461</x>
-     <y>320</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>359</x>
-     <y>424</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>stationDelProfileButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>deleteStationProfile()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>638</x>
-     <y>320</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>359</x>
-     <y>424</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>stationProfilesListView</sender>
-   <signal>doubleClicked(QModelIndex)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>doubleClickStationProfile(QModelIndex)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>210</x>
-     <y>220</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>359</x>
-     <y>424</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>stationCallsignEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>adjustCallsignTextColor()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>459</x>
-     <y>134</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>359</x>
-     <y>424</y>
+     <x>338</x>
+     <y>463</y>
     </hint>
    </hints>
   </connection>
@@ -2908,22 +3085,6 @@
     <hint type="sourcelabel">
      <x>459</x>
      <y>227</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>359</x>
-     <y>424</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>eqslFolderPathButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>eqslDirBrowse()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>637</x>
-     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -2948,38 +3109,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>stationSOTAEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>sotaChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>635</x>
-     <y>165</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>377</x>
-     <y>424</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>primaryCallbookCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>primaryCallbookChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>154</x>
-     <y>135</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>377</x>
-     <y>424</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>secondaryCallbookCombo</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>SettingsDialog</receiver>
@@ -2996,18 +3125,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>paperFolderPathButton</sender>
-   <signal>clicked()</signal>
+   <sender>cwModelSelect</sender>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>paperDirBrowse()</slot>
+   <slot>cwKeyChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>637</x>
-     <y>636</y>
+     <x>452</x>
+     <y>123</y>
     </hint>
     <hint type="destinationlabel">
-     <x>298</x>
-     <y>349</y>
+     <x>338</x>
+     <y>463</y>
     </hint>
    </hints>
   </connection>
@@ -3028,50 +3157,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>rigDelProfileButton</sender>
-   <signal>clicked()</signal>
+   <sender>rigModelSelect</sender>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>delRigProfile()</slot>
+   <slot>rigChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>100</x>
-     <y>108</y>
+     <x>472</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>333</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rigProfilesListView</sender>
-   <signal>doubleClicked(QModelIndex)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>doubleClickRigProfile(QModelIndex)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>58</x>
-     <y>116</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>antAddProfileButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>addAntProfile()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>363</x>
-     <y>426</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>349</y>
+     <x>359</x>
+     <y>413</y>
     </hint>
    </hints>
   </connection>
@@ -3084,70 +3181,6 @@
     <hint type="sourcelabel">
      <x>566</x>
      <y>426</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>antProfilesListView</sender>
-   <signal>doubleClicked(QModelIndex)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>doubleClickAntProfile(QModelIndex)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>153</x>
-     <y>184</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rotAddProfileButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>addRotProfile()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>79</x>
-     <y>108</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rotDelProfileButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>delRotProfile()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>100</x>
-     <y>108</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rotProfilesListView</sender>
-   <signal>doubleClicked(QModelIndex)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>doubleClickRotProfile(QModelIndex)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>58</x>
-     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3172,34 +3205,66 @@
    </hints>
   </connection>
   <connection>
-   <sender>rigGetRITCheckBox</sender>
-   <signal>stateChanged(int)</signal>
+   <sender>rotProfilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>rigRXOffsetChanged(int)</slot>
+   <slot>doubleClickRotProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>471</x>
-     <y>119</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
-     <x>347</x>
-     <y>399</y>
+     <x>333</x>
+     <y>349</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>rigGetXITCheckBox</sender>
-   <signal>stateChanged(int)</signal>
+   <sender>cwShortcutDelProfileButton</sender>
+   <signal>clicked()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>rigTXOffsetChanged(int)</slot>
+   <slot>delCWShortcutProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>333</x>
-     <y>119</y>
+     <x>100</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
-     <x>347</x>
-     <y>399</y>
+     <x>338</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationSOTAEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>sotaChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>635</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>antProfilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickAntProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>153</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
     </hint>
    </hints>
   </connection>
@@ -3236,50 +3301,66 @@
    </hints>
   </connection>
   <connection>
-   <sender>cwAddProfileButton</sender>
+   <sender>paperFolderPathButton</sender>
    <signal>clicked()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>addCWKeyProfile()</slot>
+   <slot>paperDirBrowse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>637</x>
+     <y>636</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>298</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotAddProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>79</x>
-     <y>102</y>
+     <y>108</y>
     </hint>
     <hint type="destinationlabel">
-     <x>338</x>
-     <y>408</y>
+     <x>333</x>
+     <y>349</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>cwDelProfileButton</sender>
-   <signal>clicked()</signal>
+   <sender>rigStackedWidget</sender>
+   <signal>currentChanged(int)</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>delCWKeyProfile()</slot>
+   <slot>rigStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>100</x>
-     <y>102</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>338</x>
-     <y>408</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cwShortcutListView</sender>
-   <signal>doubleClicked(QModelIndex)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>doubleClickCWShortcutProfile(QModelIndex)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>73</x>
-     <y>125</y>
+     <x>472</x>
+     <y>121</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
      <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>primaryCallbookCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>primaryCallbookChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>154</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
+     <y>424</y>
     </hint>
    </hints>
   </connection>
@@ -3300,14 +3381,30 @@
    </hints>
   </connection>
   <connection>
-   <sender>cwShortcutDelProfileButton</sender>
+   <sender>rigDelProfileButton</sender>
    <signal>clicked()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>delCWShortcutProfile()</slot>
+   <slot>delRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>100</x>
-     <y>116</y>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwShortcutListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickCWShortcutProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>73</x>
+     <y>125</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3316,18 +3413,162 @@
    </hints>
   </connection>
   <connection>
-   <sender>cwModelSelect</sender>
-   <signal>currentIndexChanged(int)</signal>
+   <sender>stationCallsignEdit</sender>
+   <signal>textChanged(QString)</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>cwKeyChanged(int)</slot>
+   <slot>adjustCallsignTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>459</x>
+     <y>134</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationWWFFEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>wwffChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>246</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>439</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotDelProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>delRotProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwDelProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>delCWKeyProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cwStackedWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>cwKeyStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>452</x>
-     <y>123</y>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
      <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>eqslFolderPathButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>eqslDirBrowse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>637</x>
+     <y>484</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rigGetRITCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>rigRXOffsetChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>471</x>
+     <y>119</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>347</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationProfilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>doubleClickStationProfile(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tqslPathButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>tqslPathBrowse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>637</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationAddProfileButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>addStationProfile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>461</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>359</x>
+     <y>424</y>
     </hint>
    </hints>
   </connection>
@@ -3339,22 +3580,6 @@
    <hints>
     <hint type="sourcelabel">
      <x>443</x>
-     <y>124</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>338</x>
-     <y>463</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rigPortEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>adjustRigCOMPortTextColor()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>463</x>
      <y>124</y>
     </hint>
     <hint type="destinationlabel">
@@ -3380,98 +3605,66 @@
    </hints>
   </connection>
   <connection>
-   <sender>rigStackedWidget</sender>
-   <signal>currentChanged(int)</signal>
+   <sender>stationDelProfileButton</sender>
+   <signal>clicked()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>rigStackWidgetChanged(int)</slot>
+   <slot>deleteStationProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>472</x>
-     <y>121</y>
+     <x>638</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
-     <x>338</x>
-     <y>463</y>
+     <x>359</x>
+     <y>424</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>rotStackedWidget</sender>
-   <signal>currentChanged(int)</signal>
+   <sender>rigProfilesListView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>rotStackWidgetChanged(int)</slot>
+   <slot>doubleClickRigProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>452</x>
-     <y>119</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
-     <x>338</x>
-     <y>463</y>
+     <x>333</x>
+     <y>349</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>cwStackedWidget</sender>
-   <signal>currentChanged(int)</signal>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>cwKeyStackWidgetChanged(int)</slot>
+   <slot>save()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>452</x>
-     <y>119</y>
+     <x>326</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
-     <x>338</x>
-     <y>463</y>
+     <x>297</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>stationSOTAEdit</sender>
-   <signal>editingFinished()</signal>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>sotaEditFinished()</slot>
+   <slot>cancelled()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>585</x>
-     <y>153</y>
+     <x>326</x>
+     <y>851</y>
     </hint>
     <hint type="destinationlabel">
-     <x>335</x>
-     <y>439</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>stationWWFFEdit</sender>
-   <signal>editingFinished()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>wwffEditFinished()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>585</x>
-     <y>246</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>335</x>
-     <y>439</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>stationWWFFEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>wwffChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>585</x>
-     <y>246</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>335</x>
-     <y>439</y>
+     <x>297</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
