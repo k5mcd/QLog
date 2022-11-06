@@ -174,7 +174,11 @@ void HamQTH::processReply(QNetworkReply* reply) {
     /* always process one requests per class */
     currentReply = nullptr;
 
-    if (reply->error() != QNetworkReply::NoError)
+    int replyStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+    if ( reply->error() != QNetworkReply::NoError
+         || replyStatusCode < 200
+         || replyStatusCode >= 300)
     {
         qInfo() << "HamQTH error" << reply->errorString();
         emit lookupError(reply->errorString());

@@ -278,7 +278,11 @@ void QRZ::processReply(QNetworkReply* reply) {
     /* always process one requests per class */
     currentReply = nullptr;
 
-    if ( reply->error() != QNetworkReply::NoError )
+    int replyStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+    if ( reply->error() != QNetworkReply::NoError
+         || replyStatusCode < 200
+         || replyStatusCode >= 300)
     {
         qCDebug(runtime) << "QRZ.com error URL " << reply->request().url().toString();
         qCDebug(runtime) << "QRZ.com error" << reply->errorString();

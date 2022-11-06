@@ -42,8 +42,11 @@ void Conditions::processReply(QNetworkReply* reply) {
 
     qCDebug(runtime) << data;
 
+    int replyStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
     if (reply->isFinished()
-        && reply->error() == QNetworkReply::NoError)
+        && reply->error() == QNetworkReply::NoError
+        && replyStatusCode >= 200 && replyStatusCode < 300)
     {
        /* if (reply->url() == QUrl(FLUX_URL))
         {

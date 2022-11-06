@@ -324,7 +324,11 @@ void EQSL::processReply(QNetworkReply* reply)
     /* always process one requests per class */
     currentReply = nullptr;
 
-    if ( reply->error() != QNetworkReply::NoError )
+    int replyStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+    if ( reply->error() != QNetworkReply::NoError
+         || replyStatusCode < 200
+         || replyStatusCode >= 300)
     {
         qCDebug(runtime) << "eQSL error URL " << reply->request().url().toString();
         qCDebug(runtime) << "eQSL error" << reply->errorString();
