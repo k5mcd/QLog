@@ -54,6 +54,7 @@ private slots:
     void showAwards();
     void showAbout();
     void showWikiHelp();
+    void showReportBug();
     void showAlerts();
     void clearAlerts();
     void conditionsUpdated();

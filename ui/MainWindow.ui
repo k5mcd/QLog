@@ -90,6 +90,8 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionWikiHelp"/>
+    <addaction name="separator"/>
+    <addaction name="actionReportBug"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -472,6 +474,11 @@
    </property>
    <property name="text">
     <string>&amp;Wiki</string>
+   </property>
+  </action>
+  <action name="actionReportBug">
+   <property name="text">
+    <string>Report &amp;Bug...</string>
    </property>
   </action>
  </widget>
@@ -1074,6 +1081,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionReportBug</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showReportBug()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>312</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1098,5 +1121,6 @@
   <slot>beepSettingAlerts()</slot>
   <slot>cwKeyerConnect()</slot>
   <slot>showWikiHelp()</slot>
+  <slot>showReportBug()</slot>
  </slots>
 </ui>

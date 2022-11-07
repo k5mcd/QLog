@@ -630,6 +630,12 @@ void MainWindow::showWikiHelp()
     QDesktopServices::openUrl(QString("https://github.com/foldynl/QLog/wiki"));
 }
 
+void MainWindow::showReportBug()
+{
+    FCT_IDENTIFICATION;
+    QDesktopServices::openUrl(QString("https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md#reporting-bugs"));
+}
+
 void MainWindow::showAlerts()
 {
     FCT_IDENTIFICATION;
