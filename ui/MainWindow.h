@@ -53,6 +53,7 @@ private slots:
     void showQRZ();
     void showAwards();
     void showAbout();
+    void showWikiHelp();
     void showAlerts();
     void clearAlerts();
     void conditionsUpdated();

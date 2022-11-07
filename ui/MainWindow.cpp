@@ -623,6 +623,13 @@ void MainWindow::showAbout() {
     QMessageBox::about(this, tr("About"), aboutText);
 }
 
+void MainWindow::showWikiHelp()
+{
+    FCT_IDENTIFICATION;
+
+    QDesktopServices::openUrl(QString("https://github.com/foldynl/QLog/wiki"));
+}
+
 void MainWindow::showAlerts()
 {
     FCT_IDENTIFICATION;
