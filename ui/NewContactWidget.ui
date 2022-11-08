@@ -131,7 +131,7 @@
           </widget>
          </item>
          <item row="0" column="6">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="submodeLabel">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -2250,6 +2250,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>timeOnEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>timeOnChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>177</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -2276,5 +2292,6 @@
   <slot>sotaEditFinished()</slot>
   <slot>wwffEditFinished()</slot>
   <slot>wwffChanged(QString)</slot>
+  <slot>timeOnChanged()</slot>
  </slots>
 </ui>

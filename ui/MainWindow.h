@@ -30,6 +30,7 @@ signals:
     void alertRulesChanged();
     void themeChanged(int);
     void altBackslash(bool active);
+    void manualMode(bool);
 
 public slots:
     void rigErrorHandler(const QString &error, const QString &errorDetail);
@@ -65,6 +66,7 @@ private slots:
     void clearAlertButtons();
     void beepSettingAlerts();
     void shortcutALTBackslash();
+    void setManualContact(bool);
 
 private:
     Ui::MainWindow* ui;

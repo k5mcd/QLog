@@ -69,6 +69,7 @@
     <addaction name="actionNewContact"/>
     <addaction name="actionSaveContact"/>
     <addaction name="actionQSOFilters"/>
+    <addaction name="actionManualContact"/>
     <addaction name="separator"/>
     <addaction name="actionImport"/>
     <addaction name="actionExport"/>
@@ -470,7 +471,8 @@
   </action>
   <action name="actionWikiHelp">
    <property name="icon">
-    <iconset theme="help"/>
+    <iconset theme="help">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;Wiki</string>
@@ -479,6 +481,17 @@
   <action name="actionReportBug">
    <property name="text">
     <string>Report &amp;Bug...</string>
+   </property>
+  </action>
+  <action name="actionManualContact">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Manual Entry</string>
+   </property>
+   <property name="toolTip">
+    <string>Switch New Contact dialog to the manually entry mode&lt;br/&gt;(time, freq, profiles etc. are not taken from their common sources)</string>
    </property>
   </action>
  </widget>
@@ -1097,6 +1110,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionManualContact</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setManualContact(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>312</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1122,5 +1151,6 @@
   <slot>cwKeyerConnect()</slot>
   <slot>showWikiHelp()</slot>
   <slot>showReportBug()</slot>
+  <slot>setManualContact(bool)</slot>
  </slots>
 </ui>

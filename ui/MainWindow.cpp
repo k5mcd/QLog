@@ -134,6 +134,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::settingsChanged, ui->cwconsoleWidget, &CWConsoleWidget::reloadSettings);
     connect(this, &MainWindow::alertRulesChanged, &alertEvaluator, &AlertEvaluator::loadRules);
     connect(this, &MainWindow::altBackslash, Rig::instance(), &Rig::setPTT);
+    connect(this, &MainWindow::manualMode, ui->newContactWidget, &NewContactWidget::setManualMode);
 
     //ClubLog* clublog = new ClubLog(this);
 
@@ -362,6 +363,13 @@ void MainWindow::shortcutALTBackslash()
     FCT_IDENTIFICATION;
 
     emit altBackslash(true);
+}
+
+void MainWindow::setManualContact(bool isChecked)
+{
+    FCT_IDENTIFICATION;
+
+    emit manualMode(isChecked);
 }
 
 void MainWindow::setDarkMode()
