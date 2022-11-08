@@ -8,6 +8,7 @@ TBC - 0.16.0
 - [NEW] - About dialog contains run-time information
 - Fixed Bandmap unlogical animation when band is changed (issue #128)
 - Fixed Setting Dialog size
+- Update Timezone database
 
 2022/10/16 - 0.15.0
 - Fixed Keeping the Bandmap RX mark always visible when centre RX is disabled (issue #115)
