@@ -16,7 +16,6 @@
 #include "core/CWKeyer.h"
 #include "core/Wsjtx.h"
 #include "core/ClubLog.h"
-#include "core/Conditions.h"
 #include "data/Data.h"
 #include "core/debug.h"
 #include "ui/NewContactWidget.h"
@@ -55,6 +54,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     conditionsLabel = new QLabel("", ui->statusBar);
     conditionsLabel->setIndent(20);
+    conditionsLabel->setToolTip(QString("<img src='%1'>").arg(QUrl::fromLocalFile(Conditions::solarSummaryFile()).toString()));
     callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
     callsignLabel->setIndent(10);
     locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);

@@ -19,6 +19,7 @@ public:
     int getFlux();
     int getAIndex();
     double getKIndex();
+    static QString solarSummaryFile();
 
 signals:
     void conditionsUpdated();

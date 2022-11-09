@@ -4,6 +4,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QTimer>
+#include <QStandardPaths>
+#include <QDir>
 //#include <QJsonDocument>
 //#include <QJsonObject>
 //#include <QJsonArray>
@@ -13,6 +15,7 @@
 
 //#define FLUX_URL "https://services.swpc.noaa.gov/products/summary/10cm-flux.json"
 #define K_INDEX_URL "https://www.hamqsl.com/solarxml.php"
+#define SOLAR_SUMMARY_IMG "https://www.hamqsl.com/solar101vhf.php"
 
 MODULE_IDENTIFICATION("qlog.core.conditions");
 
@@ -31,7 +34,7 @@ Conditions::Conditions(QObject *parent) : QObject(parent)
 void Conditions::update() {
     FCT_IDENTIFICATION;
 
-    //nam->get(QNetworkRequest(QUrl(FLUX_URL)));
+    nam->get(QNetworkRequest(QUrl(SOLAR_SUMMARY_IMG)));
     nam->get(QNetworkRequest(QUrl(K_INDEX_URL)));
 }
 
@@ -48,16 +51,18 @@ void Conditions::processReply(QNetworkReply* reply) {
         && reply->error() == QNetworkReply::NoError
         && replyStatusCode >= 200 && replyStatusCode < 300)
     {
-       /* if (reply->url() == QUrl(FLUX_URL))
+        if (reply->url() == QUrl(SOLAR_SUMMARY_IMG))
         {
-            qInfo()<<"ladas";
-            QJsonDocument doc = QJsonDocument::fromJson(data);
-            QVariantMap obj = doc.object().toVariantMap();
-            flux = obj.value("Flux").toInt();
-            flux_last_update = QDateTime::currentDateTime();
+            QFile file(solarSummaryFile());
+
+            if ( file.open(QIODevice::WriteOnly))
+            {
+                file.write(data);
+                file.flush();
+                file.close();
+            }
         }
-        else */
-        if (reply->url() == QUrl(K_INDEX_URL))
+        else if (reply->url() == QUrl(K_INDEX_URL))
         {
             QDomDocument doc;
 
@@ -178,4 +183,12 @@ double Conditions::getKIndex()
     FCT_IDENTIFICATION;
     qCDebug(runtime)<<"Current K-Index: " << k_index << " last_update: " << k_index_last_update;
     return k_index;
+}
+
+QString Conditions::solarSummaryFile()
+{
+    FCT_IDENTIFICATION;
+
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    return dir.filePath("solar101vhf.gif");
 }

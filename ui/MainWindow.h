@@ -7,12 +7,12 @@
 #include "core/NetworkNotification.h"
 #include "core/AlertEvaluator.h"
 #include "ui/AlertWidget.h"
+#include "core/Conditions.h"
 
 namespace Ui {
 class MainWindow;
 }
 
-class Conditions;
 class QLabel;
 
 class MainWindow : public QMainWindow {
