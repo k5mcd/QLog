@@ -347,6 +347,10 @@ void BandmapWidget::drawTXRXMarks(double step)
     {
         drawFreqMark(tx_freq, step, QColor(255, 0, 0), &txMark);
     }
+    else
+    {
+        clearFreqMark(&txMark);
+    }
 }
 
 void BandmapWidget::removeDuplicates(DxSpot &spot)
