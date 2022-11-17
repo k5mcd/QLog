@@ -10,6 +10,7 @@
 #include "data/DxSpot.h"
 #include "core/Rig.h"
 #include "core/CallbookManager.h"
+#include "data/StationProfile.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -74,6 +75,8 @@ public slots:
     void rigDisconnected();
     void nearestSpot(const DxSpot &);
     void setNearestSpotColor(const QString &call);
+    void setManualMode(bool);
+    void exitManualMode();
 
 private slots:
     void callsignChanged();
@@ -98,6 +101,7 @@ private slots:
     void formFieldChangedString(const QString&);
     void formFieldChanged();
     void useNearestCallsign();
+    void timeOnChanged();
 
     void stationProfileComboChanged(QString);
     void rigProfileComboChanged(QString);
@@ -119,17 +123,20 @@ private:
     void updatePartnerLocTime();
     void setDefaultReport();
     void refreshAntProfileCombo();
-    void addAddlFields(QSqlRecord &record);
+    void addAddlFields(QSqlRecord &record, const StationProfile &profile);
     bool eventFilter(QObject *object, QEvent *event);
     bool isQSOTimeStarted();
     void QSYContactWiping(double);
     void connectFieldChanged();
     void changeCallsignManually(const QString &);
     void changeCallsignManually(const QString &, double);
+    void __changeFrequency(VFOID, double vfoFreq, double ritFreq, double xitFreq);
+    void showRXTXFreqs(bool);
 
 private:
     Rig* rig;
     double realRigFreq;
+    double realFreqForManualExit;
     QString callsign;
     DxccEntity dxccEntity;
     QString defaultReport;
@@ -147,6 +154,7 @@ private:
     qint32 bandwidthFilter;
     bool rigOnline;
     QMap<QString, QString> lastCallbookQueryData;
+    bool isManualEnterMode;
 };
 
 #endif // NEWCONTACTWIDGET_H

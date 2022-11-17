@@ -31,7 +31,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     prop_cond(nullptr),
     QSOFreq(0.0),
     bandwidthFilter(RIG_PASSBAND_NORMAL),
-    rigOnline(false)
+    rigOnline(false),
+    isManualEnterMode(false)
 {
     FCT_IDENTIFICATION;
 
@@ -310,12 +311,6 @@ void NewContactWidget::readGlobalSettings()
     refreshStationProfileCombo();
     refreshRigProfileCombo();
     refreshAntProfileCombo();
-
-    /*****************************/
-    /* Refresh Offsets and Freqs */
-    /*****************************/
-    ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
-    ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
 }
 
 /* function is called when an operator change Callsign Edit */
@@ -637,28 +632,36 @@ void NewContactWidget::refreshRigProfileCombo()
     ui->rigEdit->blockSignals(true);
 
     QStringList currProfiles = RigProfilesManager::instance()->profileNameList();
+    QString currentText = ui->rigEdit->currentText();
     QStringListModel* model = dynamic_cast<QStringListModel*>(ui->rigEdit->model());
 
     model->setStringList(currProfiles);
-
     if ( RigProfilesManager::instance()->getCurProfile1().profileName.isEmpty()
          && currProfiles.count() > 0 )
     {
         /* changing profile from empty to something */
-        ui->rigEdit->setCurrentText(currProfiles.first());
+        currentText = currProfiles.first();
+        ui->rigEdit->setCurrentText(currentText);
         rigProfileComboChanged(currProfiles.first());
     }
     else
     {
         /* no profile change, just refresh the combo and preserve current profile */
-        ui->rigEdit->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
+        currentText = (isManualEnterMode ) ? currentText
+                                           : RigProfilesManager::instance()->getCurProfile1().profileName;
+        ui->rigEdit->setCurrentText(currentText);
+        //do not call rigProfileComboChanged because it did not change
     }
 
-    ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
-    ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
-    ui->powerEdit->setValue(RigProfilesManager::instance()->getCurProfile1().defaultPWR);
-
     ui->rigEdit->blockSignals(false);
+
+    if ( isManualEnterMode )
+        return;
+
+    ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getProfile(currentText).ritOffset);
+    ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getProfile(currentText).xitOffset);
+    ui->powerEdit->setValue(RigProfilesManager::instance()->getProfile(currentText).defaultPWR);
+
 }
 
 void NewContactWidget::refreshAntProfileCombo()
@@ -731,19 +734,27 @@ void NewContactWidget::modeChanged()
     ui->submodeEdit->blockSignals(true);
     __modeChanged(RIG_PASSBAND_NORMAL);
     ui->submodeEdit->blockSignals(false);
-    rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+
+    if ( !isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+    }
 }
 
 /* mode is changed from RIG */
 /* Receveived from RIG */
-void NewContactWidget::changeMode(VFOID vfoid, QString rawMode, QString mode, QString subMode, qint32 width)
+void NewContactWidget::changeMode(VFOID, QString, QString mode, QString subMode, qint32 width)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << mode << " " << subMode;
 
-    Q_UNUSED(rawMode)
-    Q_UNUSED(vfoid);
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     ui->modeEdit->blockSignals(true);
     ui->submodeEdit->blockSignals(true);
@@ -757,6 +768,12 @@ void NewContactWidget::changeMode(VFOID vfoid, QString rawMode, QString mode, QS
 void NewContactWidget::subModeChanged()
 {
     FCT_IDENTIFICATION;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
 }
@@ -880,11 +897,10 @@ void NewContactWidget::resetContact()
     emit newTarget(0, 0);
 }
 
-void NewContactWidget::addAddlFields(QSqlRecord &record)
+void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &profile)
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
     if ( record.value("qsl_sent").toString().isEmpty() )
     {
@@ -1118,6 +1134,12 @@ void NewContactWidget::QSYContactWiping(double newFreq)
 
     qint32 QSYWipingWidth = bandwidthFilter;
 
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
+
     if ( QSYWipingWidth <= RIG_PASSBAND_NORMAL )
     {
         QSYWipingWidth = Rig::getNormalBandwidth(ui->modeEdit->currentText(),
@@ -1236,7 +1258,7 @@ void NewContactWidget::saveContact()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    StationProfile profile = StationProfilesManager::instance()->getProfile(ui->stationProfileCombo->currentText());
 
     if ( profile.callsign.isEmpty() )
     {
@@ -1245,13 +1267,20 @@ void NewContactWidget::saveContact()
         return;
     }
 
+    QDateTime start = QDateTime(ui->dateEdit->date(), ui->timeOnEdit->time(), Qt::UTC);
+    QDateTime end = QDateTime(ui->dateEdit->date(), ui->timeOffEdit->time(), Qt::UTC);
+
+    if ( start > end )
+    {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
+                              QMessageBox::tr("<b>Time Off</b> must not be younger than <b>Time On</b>"));
+        return;
+    }
+
     QSqlTableModel model;
     model.setTable("contacts");
     QSqlField idField = model.record().field(model.fieldIndex("id"));
     model.removeColumn(model.fieldIndex("id"));
-
-    QDateTime start = QDateTime(ui->dateEdit->date(), ui->timeOnEdit->time(), Qt::UTC);
-    QDateTime end = QDateTime(ui->dateEdit->date(), ui->timeOffEdit->time(), Qt::UTC);
 
     QSqlRecord record = model.record(0);
 
@@ -1405,7 +1434,7 @@ void NewContactWidget::saveContact()
         record.setValue("web", Data::removeAccents(ui->urlEdit->text()));
     }    
 
-    addAddlFields(record);
+    addAddlFields(record, profile);
 
     qCDebug(runtime) << record;
 
@@ -1463,7 +1492,9 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
         record.setValue("dxcc", dxcc.dxcc);
     }
 
-    addAddlFields(record);
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+
+    addAddlFields(record, profile);
 
     qCDebug(runtime) << record;
 
@@ -1500,6 +1531,12 @@ void NewContactWidget::startContactTimer()
 {
     FCT_IDENTIFICATION;
 
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
+
     updateTime();
     if (!contactTimer->isActive()) {
         contactTimer->start(500);
@@ -1512,6 +1549,12 @@ void NewContactWidget::startContactTimer()
 void NewContactWidget::stopContactTimer()
 {
     FCT_IDENTIFICATION;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     if (contactTimer->isActive()) {
         contactTimer->stop();
@@ -1542,6 +1585,12 @@ void NewContactWidget::updateTime()
 {
     FCT_IDENTIFICATION;
 
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
+
     QDateTime now = QDateTime::currentDateTimeUtc();
     ui->dateEdit->setDate(now.date());
     ui->timeOnEdit->setTime(now.time());
@@ -1551,6 +1600,12 @@ void NewContactWidget::updateTime()
 void NewContactWidget::updateTimeOff()
 {
     FCT_IDENTIFICATION;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     static bool shouldHighlighted = true;
 
@@ -1584,7 +1639,7 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
 
     if (prec < coordPrec) return;
 
-    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
+    Gridsquare myGrid(StationProfilesManager::instance()->getProfile(ui->stationProfileCombo->currentText()).locator);
     double distance;
     double bearing;
 
@@ -1675,17 +1730,33 @@ void NewContactWidget::frequencyTXChanged()
 {
     FCT_IDENTIFICATION;
 
-    double xit = ui->freqTXEdit->value();
-    realRigFreq = xit - RigProfilesManager::instance()->getCurProfile1().xitOffset;
-    double rit = realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset;
+    double xitFreq = ui->freqTXEdit->value();
 
-    changeFrequency(VFO1, realRigFreq, rit, xit);
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore freq change";
+        updateTXBand(xitFreq);
+        /* Do not change RX */
+        return;
+    }
 
-    rig->setFrequency(MHz(realRigFreq));  // set rig frequency
 
-    qCDebug(runtime) << "rig real freq: " << realRigFreq;
+    realRigFreq = xitFreq - RigProfilesManager::instance()->getCurProfile1().xitOffset;
+    double ritFreq = (isManualEnterMode) ? ui->freqRXEdit->value()
+                                     : realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset;
 
-    emit userFrequencyChanged(VFO1, realRigFreq, rit, xit);
+    __changeFrequency(VFO1, realRigFreq, ritFreq, xitFreq);
+
+    if ( ! isManualEnterMode )
+    {
+        qCDebug(runtime) << "rig real freq: " << realRigFreq;
+        rig->setFrequency(MHz(realRigFreq));  // set rig frequency
+        emit userFrequencyChanged(VFO1, realRigFreq, ritFreq, xitFreq);
+    }
+    else
+    {
+
+    }
 }
 
 /* the function is called when a newcontact RX frequecy spinbox is changed */
@@ -1693,17 +1764,27 @@ void NewContactWidget::frequencyRXChanged()
 {
     FCT_IDENTIFICATION;
 
-    double rit = ui->freqRXEdit->value();
-    realRigFreq = rit - RigProfilesManager::instance()->getCurProfile1().ritOffset;
-    double xit = realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset;
+    double ritFreq = ui->freqRXEdit->value();
 
-    changeFrequency(VFO1, realRigFreq, rit, xit);
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore freq change";
+        updateRXBand(ritFreq);
 
-    rig->setFrequency(MHz(realRigFreq));  // set rig frequency
+        /* Change also TX freq
+           on the oposite site, TX change does not change RX */
+        ui->freqTXEdit->setValue(ritFreq);
+        return;
+    }
+
+    realRigFreq = ritFreq - RigProfilesManager::instance()->getCurProfile1().ritOffset;
+    double xitFreq = realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset;
+
+    __changeFrequency(VFO1, realRigFreq, ritFreq, xitFreq);
 
     qCDebug(runtime) << "rig real freq: " << realRigFreq;
-
-    emit userFrequencyChanged(VFO1, realRigFreq, rit, xit);
+    rig->setFrequency(MHz(realRigFreq));  // set rig frequency
+    emit userFrequencyChanged(VFO1, realRigFreq, ritFreq, xitFreq);
 }
 
 /* the function is called when rig freq is changed */
@@ -1712,7 +1793,30 @@ void NewContactWidget::changeFrequency(VFOID vfoid, double vfoFreq, double ritFr
 {
     FCT_IDENTIFICATION;
 
-    Q_UNUSED(vfoid)
+    realFreqForManualExit = vfoFreq;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
+    __changeFrequency (vfoid, vfoFreq, ritFreq, xitFreq);
+}
+
+void NewContactWidget::showRXTXFreqs(bool enable)
+{
+    FCT_IDENTIFICATION;
+
+    ui->freqTXEdit->setVisible(enable);
+    ui->bandTXLabel->setVisible(enable);
+    ui->freqRXLabel->setVisible(enable);
+    ui->freqTXLabel->setVisible(enable);
+}
+
+/* Generic function to change freq */
+void NewContactWidget::__changeFrequency(VFOID, double vfoFreq, double ritFreq, double xitFreq)
+{
+    FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << vfoFreq << " " << ritFreq << " " << xitFreq;
 
@@ -1732,30 +1836,30 @@ void NewContactWidget::changeFrequency(VFOID vfoid, double vfoFreq, double ritFr
 
     if ( ritFreq != xitFreq
          || RigProfilesManager::instance()->getCurProfile1().ritOffset != 0.0
-         || RigProfilesManager::instance()->getCurProfile1().xitOffset != 0.0)
+         || RigProfilesManager::instance()->getCurProfile1().xitOffset != 0.0
+         || isManualEnterMode )
     {
-        ui->freqTXEdit->setVisible(true);
-        ui->bandTXLabel->setVisible(true);
-        ui->freqRXLabel->setVisible(true);
-        ui->freqTXLabel->setVisible(true);
+        showRXTXFreqs(true);
     }
     else
     {
-        ui->freqTXEdit->setVisible(false);
-        ui->bandTXLabel->setVisible(false);
-        ui->freqRXLabel->setVisible(false);
-        ui->freqTXLabel->setVisible(false);
+        showRXTXFreqs(false);
     }
 }
 
 /* Power is changed from RIG */
 /* Received from RIG */
-void NewContactWidget::changePower(VFOID vfoid, double power) {
+void NewContactWidget::changePower(VFOID, double power)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << power;
 
-    Q_UNUSED(vfoid)
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     ui->powerEdit->blockSignals(true);
     ui->powerEdit->setValue(power);
@@ -1767,6 +1871,12 @@ void NewContactWidget::changePower(VFOID vfoid, double power) {
 void NewContactWidget::rigConnected()
 {
     FCT_IDENTIFICATION;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     RigProfile currProfile = RigProfilesManager::instance()->getCurProfile1();
 
@@ -1792,6 +1902,12 @@ void NewContactWidget::rigDisconnected()
 {
     FCT_IDENTIFICATION;
 
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
+
     ui->powerEdit->setEnabled(true);
     ui->powerEdit->setValue(RigProfilesManager::instance()->getCurProfile1().defaultPWR);
 
@@ -1801,6 +1917,12 @@ void NewContactWidget::rigDisconnected()
 void NewContactWidget::nearestSpot(const DxSpot &spot)
 {
     FCT_IDENTIFICATION;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     setNearestSpotColor(spot.callsign);
 }
@@ -1829,12 +1951,88 @@ void NewContactWidget::setNearestSpotColor(const QString &call)
     ui->nearStationLabel->setText(call);
 }
 
+void NewContactWidget::setManualMode(bool isEnabled)
+{
+    FCT_IDENTIFICATION;
+
+    bool isExitManualMode = ! isEnabled && isManualEnterMode;
+
+    if ( isEnabled && rigOnline )
+    {
+        rigDisconnected();
+    }
+
+    isManualEnterMode = isEnabled;
+
+    if ( isExitManualMode )
+    {
+        realRigFreq = realFreqForManualExit;
+        exitManualMode();
+        showRXTXFreqs((RigProfilesManager::instance()->getCurProfile1().ritOffset != 0.0
+                       || RigProfilesManager::instance()->getCurProfile1().xitOffset != 0.0));
+    }
+    else
+    {
+        realFreqForManualExit = realRigFreq;
+        resetContact();
+        showRXTXFreqs(true);
+    }
+
+    QString styleString = (isManualEnterMode) ? "background-color: orange;"
+                                              : "";
+
+    ui->modeLabel->setStyleSheet(styleString);
+    ui->submodeLabel->setStyleSheet(styleString);
+    ui->frequencyLabel->setStyleSheet(styleString);
+    ui->dateLabel->setStyleSheet(styleString);
+    ui->timeOnLabel->setStyleSheet(styleString);
+    ui->timeOffLabel->setStyleSheet(styleString);
+    ui->stationProfileLabel->setStyleSheet(styleString);
+    ui->rigLabel->setStyleSheet(styleString);
+    ui->antennaLabel->setStyleSheet(styleString);
+    ui->powerLabel->setStyleSheet(styleString);
+
+}
+
+void NewContactWidget::exitManualMode()
+{
+    FCT_IDENTIFICATION;
+
+    // set date/time
+    // clear form
+    resetContact();
+
+    //rig connected/disconnected
+    if ( rig->isRigConnected() )
+    {
+        rigConnected();
+        // set mode/submode
+        // set frequency
+        rig->sendState(); //resend rig state via signals
+    }
+    else
+    {
+        rigDisconnected();
+    }
+
+    // reset my profiles
+    refreshRigProfileCombo();
+    refreshAntProfileCombo();
+    refreshStationProfileCombo();
+}
+
 
 void NewContactWidget::tuneDx(QString callsign, double frequency)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<callsign<< " " << frequency;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     ui->freqRXEdit->setValue(frequency);
     resetContact();
@@ -1846,6 +2044,12 @@ void NewContactWidget::showDx(QString callsign, QString grid)
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<callsign<< " " << grid;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     resetContact();
     changeCallsignManually(callsign);
@@ -2034,6 +2238,15 @@ void NewContactWidget::stationProfileComboChanged(QString profileName)
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
 
+    // My Grid change
+    gridChanged();
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
+
     StationProfilesManager::instance()->setCurProfile1(profileName);
 
     emit stationProfileChanged();
@@ -2044,11 +2257,19 @@ void NewContactWidget::rigProfileComboChanged(QString profileName)
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
 
+    // set just power from the new profile
+    ui->powerEdit->setValue(RigProfilesManager::instance()->getProfile(profileName).defaultPWR);
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
+
     RigProfilesManager::instance()->setCurProfile1(profileName);
 
     ui->freqRXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset);
     ui->freqTXEdit->setValue(realRigFreq + RigProfilesManager::instance()->getCurProfile1().xitOffset);
-    ui->powerEdit->setValue(RigProfilesManager::instance()->getCurProfile1().defaultPWR);
 
     emit rigProfileChanged();
 }
@@ -2057,6 +2278,12 @@ void NewContactWidget::antProfileComboChanged(QString profileName)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
+
+    if ( isManualEnterMode )
+    {
+        qCDebug(runtime) << "Manual mode enabled - ignore event";
+        return;
+    }
 
     AntProfilesManager::instance()->setCurProfile1(profileName);
 
@@ -2161,6 +2388,16 @@ void NewContactWidget::useNearestCallsign()
 
     changeCallsignManually(ui->nearStationLabel->text());
     ui->callsignEdit->setFocus();
+}
+
+void NewContactWidget::timeOnChanged()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! isManualEnterMode )
+        return;
+
+    ui->timeOffEdit->setDateTime(ui->timeOnEdit->dateTime());
 }
 
 NewContactWidget::~NewContactWidget() {

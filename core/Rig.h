@@ -96,6 +96,7 @@ public slots:
     void open();
     void close();
     void stopTimer();
+    void sendState();
 
     void setFrequency(double);
     void setMode(const QString &, const QString &);
@@ -135,7 +136,7 @@ private slots:
 
 private:
     Rig(QObject *parent = nullptr);
-    Rig(Rig const&);
+    //Rig(Rig const&);
     ~Rig();
 
     void operator=(Rig const&);
@@ -152,6 +153,8 @@ private:
 
     QMutex rigLock;
     QTimer* timer;
+
+    bool forceSendState;
 };
 
 Q_DECLARE_METATYPE(rmode_t);

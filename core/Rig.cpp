@@ -131,7 +131,18 @@ void Rig::stopTimer()
     Q_ASSERT( check );
 }
 
-void Rig::start() {
+void Rig::sendState()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! rig )
+        return;
+
+    forceSendState = true;
+}
+
+void Rig::start()
+{
     FCT_IDENTIFICATION;
 
     timer = new QTimer(this);
@@ -146,6 +157,7 @@ void Rig::update()
     if (!rig)
     {
         /* rig is not connected, slow down */
+        forceSendState = false;
         timer->start(2000);
         return;
     }
@@ -167,6 +179,7 @@ void Rig::update()
         __openRig();
         timer->start(STARTING_UPDATE_INTERVAL);
         rigLock.unlock();
+        forceSendState = false;
         return;
     }
 
@@ -190,7 +203,8 @@ void Rig::update()
             qCDebug(runtime) << "Current PTT state: "<< ptt;
             qCDebug(runtime) << "Current LO PTT state: "<< LoA.getPTT();
 
-            if ( ptt != LoA.getPTT() )
+            if ( ptt != LoA.getPTT()
+                 || forceSendState )
             {
                 LoA.setPTT(ptt);
 
@@ -228,7 +242,8 @@ void Rig::update()
             qCDebug(runtime) << "Current RIG raw FREQ: "<< QSTRING_FREQ(Hz2MHz(vfo_freq));
             qCDebug(runtime) << "Current LO raw FREQ: "<< QSTRING_FREQ(Hz2MHz(LoA.getFreq()));
 
-            if ( vfo_freq != LoA.getFreq() )
+            if ( vfo_freq != LoA.getFreq()
+                 || forceSendState )
             {
                 LoA.setFreq(vfo_freq);
 
@@ -248,6 +263,7 @@ void Rig::update()
                                  hamlibErrorString(status));
             timer->start(STARTING_UPDATE_INTERVAL);
             rigLock.unlock();
+            forceSendState = false;
             return;
         }
     }
@@ -274,7 +290,8 @@ void Rig::update()
 
             if ( curr_modeId != LoA.getMode()
                  || ( pbwidth != RIG_PASSBAND_NOCHANGE
-                      && pbwidth != LoA.getPassbandWidth() ) )
+                      && pbwidth != LoA.getPassbandWidth() )
+                 || forceSendState )
             {
                 // mode change
                 LoA.setMode(curr_modeId);
@@ -297,6 +314,7 @@ void Rig::update()
                                  hamlibErrorString(status));
             timer->start(STARTING_UPDATE_INTERVAL);
             rigLock.unlock();
+            forceSendState = false;
             return;
         }
     }
@@ -320,7 +338,8 @@ void Rig::update()
             qCDebug(runtime) << "Current RIG raw VFO: "<< curr_vfo;
             qCDebug(runtime) << "Current LO raw VFO: "<< LoA.getVFO();
 
-            if ( curr_vfo != LoA.getVFO() )
+            if ( curr_vfo != LoA.getVFO()
+                 || forceSendState )
             {
                 LoA.setVFO(curr_vfo);
 
@@ -364,7 +383,8 @@ void Rig::update()
                 qCDebug(runtime) << "Current RIG raw PWR: "<< rigPower;
                 qCDebug(runtime) << "Current LO raw PWR: "<< LoA.getPower();
 
-                if (rigPower != LoA.getPower())
+                if ( rigPower != LoA.getPower()
+                     || forceSendState )
                 {
                     LoA.setPower(rigPower);
 
@@ -427,7 +447,8 @@ void Rig::update()
             qCDebug(runtime) << "Current LO raw RIT: "<< LoA.getRXOffset();
             qCDebug(runtime) << "Current RIG RIT State: " << ritStatus;
 
-            if ( static_cast<double>(rit) != LoA.getRXOffset() )
+            if ( static_cast<double>(rit) != LoA.getRXOffset()
+                 || forceSendState )
             {
                 LoA.setRXOffset(rit);
 
@@ -485,7 +506,8 @@ void Rig::update()
             qCDebug(runtime) << "Current LO raw XIT: "<< LoA.getTXOffset();
             qCDebug(runtime) << "Current RIG XIT State: " << xitStatus;
 
-            if ( static_cast<double>(xit) != LoA.getTXOffset() )
+            if ( static_cast<double>(xit) != LoA.getTXOffset()
+                 || forceSendState )
             {
                 LoA.setTXOffset(xit);
 
@@ -526,7 +548,8 @@ void Rig::update()
             qCDebug(runtime) << "Current RIG Key Speed: "<< rigKeySpeed.i;
             qCDebug(runtime) << "Current LO Key Speed: "<< LoA.getKeySpeed();
 
-            if (static_cast<unsigned int>(rigKeySpeed.i) != LoA.getKeySpeed())
+            if ( static_cast<unsigned int>(rigKeySpeed.i) != LoA.getKeySpeed()
+                 || forceSendState )
             {
                 LoA.setKeySpeed(static_cast<unsigned int>(rigKeySpeed.i));
                 emit keySpeedChanged(LoA.getID(), LoA.getKeySpeed());
@@ -556,6 +579,7 @@ void Rig::update()
 
     timer->start(connectedRigProfile.pollInterval);
     rigLock.unlock();
+    forceSendState = false;
 }
 
 void Rig::open()
@@ -1051,7 +1075,8 @@ QStringList Rig::getAvailableModes()
 Rig::Rig(QObject *parent) :
     SerialPort(parent),
     LoA(VFO1, this),
-    timer(nullptr)
+    timer(nullptr),
+    forceSendState(false)
 {
     FCT_IDENTIFICATION;
 
