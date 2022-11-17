@@ -1918,12 +1918,6 @@ void NewContactWidget::nearestSpot(const DxSpot &spot)
 {
     FCT_IDENTIFICATION;
 
-    if ( isManualEnterMode )
-    {
-        qCDebug(runtime) << "Manual mode enabled - ignore event";
-        return;
-    }
-
     setNearestSpotColor(spot.callsign);
 }
 
