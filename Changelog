@@ -7,6 +7,7 @@ TBC - 0.16.0
 - [NEW] - Added Wiki&Report Issue links to Help section
 - [NEW] - About dialog contains run-time information
 - [NEW] - Solar Info as a ToolTip
+- [NEW] - QSO Manual Entry Mode
 - Fixed Bandmap unlogical animation when band is changed (issue #128)
 - Fixed Bandmap marks are not displayed correctly when RIT/XI (issue #131)
 - Fixed Setting Dialog size
