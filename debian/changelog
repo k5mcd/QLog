@@ -1,4 +1,4 @@
- qlog (0.16.0-1) UNRELEASED; urgency=low
+qlog (0.16.0-1) UNRELEASED; urgency=low
   * [NEW] - SOTA/IOTA lists updated regularly
   * [NEW] - Added WWFF list, updated regularly
   * [NEW] - QTH/Grid are filled based on SOTA/WWFF
