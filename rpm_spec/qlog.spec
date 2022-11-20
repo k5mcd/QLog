@@ -42,6 +42,21 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Nov 20 2022 Ladislav Foldyna - 0.16.0-1
+- [NEW] - SOTA/IOTA lists updated regularly
+- [NEW] - Added WWFF list, updated regularly
+- [NEW] - QTH/Grid are filled based on SOTA/WWFF
+- [NEW] - DXC/WSJTX columns are movable, added column visibility setting
+- [NEW] - DXC/WSJTX columns layout is saved
+- [NEW] - Added Wiki&Report Issue links to Help section
+- [NEW] - About dialog contains run-time information
+- [NEW] - Solar Info as a ToolTip
+- [NEW] - QSO Manual Entry Mode
+- Fixed Bandmap unlogical animation when band is changed (issue #128)
+- Fixed Bandmap marks are not displayed correctly when RIT/XI (issue #131)
+- Fixed Setting Dialog size
+- Update Timezone database
+
 * Sun Oct 16 2022 Ladislav Foldyna - 0.15.0-1
 - Fixed Keeping the Bandmap RX mark always visible when centre RX is disabled (issue #115)
 - Fixed Equipment Menu: Swapped Connect Keyer and Rig (issue #122)
