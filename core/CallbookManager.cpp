@@ -4,6 +4,7 @@
 #include "core/debug.h"
 #include "core/HamQTH.h"
 #include "core/QRZ.h"
+#include "core/Callsign.h"
 
 MODULE_IDENTIFICATION("qlog.ui.callbookmanager");
 
@@ -165,9 +166,43 @@ void CallbookManager::processCallsignResult(const QMap<QString, QString> &data)
 
     queryCache.insert(data["call"], new QMap<QString, QString>(data));
 
+    // Callbook returned queried callsign
     if ( data["call"] == currentQueryCallsign )
     {
         emit callsignResult(data);
+        return;
+    }
+
+    Callsign queryCall(currentQueryCallsign);
+
+    if ( ! queryCall.isValid() )
+    {
+        qCDebug(runtime) << "Query callsign is not valid " << currentQueryCallsign;
+        return;
+    }
+
+    // If not exists full match record for example for SP/OK1xxx in a callbook
+    // then callbooks return a partial result (usually base callsign) OK1xxx. In this case, QLog
+    // takes only selected fields from the callbook response.
+
+    if ( queryCall.getBase() == data["call"] )
+    {
+        qCDebug(runtime) << "Partial match for result - forwarding limited set of information";
+
+        QMap<QString, QString> newdata;
+
+        newdata["call"] = currentQueryCallsign;
+        newdata["fname"] = data["fname"];
+        newdata["lname"] = data["lname"];
+        newdata["lic_year"] = data["lic_year"];
+        newdata["qsl_via"] = data["qsl_via"];
+        newdata["email"] = data["email"];
+        newdata["born"] = data["born"];
+        newdata["name"] = data["name"];
+        newdata["url"] = data["url"];
+
+        queryCache.insert(currentQueryCallsign, new QMap<QString, QString>(newdata));
+        emit callsignResult(newdata);
     }
 }
 
