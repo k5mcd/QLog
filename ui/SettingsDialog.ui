@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>667</width>
-    <height>769</height>
+    <width>698</width>
+    <height>785</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1178,7 +1178,7 @@
                <widget class="QGroupBox" name="rigProfileGroup">
                 <property name="minimumSize">
                  <size>
-                  <width>400</width>
+                  <width>410</width>
                   <height>0</height>
                  </size>
                 </property>
@@ -1507,6 +1507,13 @@
                     <widget class="QCheckBox" name="rigGetKeySpeedCheckBox">
                      <property name="text">
                       <string>CW Key Speed</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="rigKeySpeedSyncCheckBox">
+                     <property name="text">
+                      <string>CW Speed Sync</string>
                      </property>
                     </widget>
                    </item>
@@ -3668,6 +3675,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rigAssignedCWKeyCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>assignedKeyChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>483</x>
+     <y>315</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -3714,5 +3737,6 @@
   <slot>sotaEditFinished()</slot>
   <slot>wwffEditFinished()</slot>
   <slot>wwffChanged(QString)</slot>
+  <slot>assignedKeyChanged(int)</slot>
  </slots>
 </ui>

@@ -104,6 +104,7 @@ public slots:
     void setMode(rmode_t);
     void setPTT(bool);
     void setKeySpeed(qint16 wpm);
+    void syncKeySpeed(qint16 wpm);
     void sendMorse(const QString &text);
     void stopMorse();
     QStringList getAvailableModes();
@@ -131,6 +132,7 @@ private slots:
     void setPTTImpl(bool);
     void stopTimerImplt();
     void setKeySpeedImpl(qint16 wpm);
+    void syncKeySpeedImpl(qint16 wpm);
     void sendMorseImpl(const QString &text);
     void stopMorseImpl();
 
@@ -143,6 +145,8 @@ private:
 
     void __closeRig();
     void __openRig();
+    void __setKeySpeed(qint16 wpm);
+
     static rmode_t modeSubmodeToModeT(const QString &mode, const QString &submode);
     QString hamlibErrorString(int);
 

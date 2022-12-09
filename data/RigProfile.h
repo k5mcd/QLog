@@ -21,7 +21,7 @@ public:
                    getModeInfo = false; getVFOInfo = false; getPWRInfo = false;
                    ritOffset = 0.0; xitOffset = 0.0, getRITInfo = false;
                    getXITInfo = true; defaultPWR = 0.0, getPTTInfo = false;
-                   QSYWiping = false, getKeySpeed = false;
+                   QSYWiping = false, getKeySpeed = false, keySpeedSync = false;
                  };
 
     QString profileName;
@@ -50,6 +50,7 @@ public:
     bool QSYWiping;
     bool getKeySpeed;
     QString assignedCWKey;
+    bool keySpeedSync;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);

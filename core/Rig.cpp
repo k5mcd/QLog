@@ -849,6 +849,14 @@ void Rig::setKeySpeed(qint16 wpm)
                               Q_ARG(qint16, wpm));
 }
 
+void Rig::syncKeySpeed(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "syncKeySpeedImpl", Qt::QueuedConnection,
+                              Q_ARG(qint16, wpm));
+}
+
 void Rig::sendMorse(const QString &text)
 {
     FCT_IDENTIFICATION;
@@ -954,12 +962,32 @@ void Rig::setKeySpeedImpl(qint16 wpm)
 
     if ( !rig || !connectedRigProfile.getKeySpeed ) return;
 
+    rigLock.lock();
+    __setKeySpeed(wpm);
+    rigLock.unlock();
+}
+
+void Rig::syncKeySpeedImpl(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << wpm;
+
+    if ( !rig || !connectedRigProfile.keySpeedSync ) return;
+
+    rigLock.lock();
+    __setKeySpeed(wpm);
+    rigLock.unlock();
+}
+
+void Rig::__setKeySpeed(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
     if ( wpm < 0 )
     {
         return;
     }
-
-    rigLock.lock();
 
     value_t hamlibWPM;
     hamlibWPM.i = wpm;
@@ -977,7 +1005,6 @@ void Rig::setKeySpeedImpl(qint16 wpm)
 #else
     usleep(100000);
 #endif
-    rigLock.unlock();
 }
 
 void Rig::sendMorseImpl(const QString &text)

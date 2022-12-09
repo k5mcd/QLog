@@ -141,7 +141,8 @@ bool CWCatKey::setWPM(const qint16 wpm)
     }
 
     QMutexLocker locker(&commandMutex);
-    Rig::instance()->setKeySpeed(wpm);
+    Rig::instance()->setKeySpeed(wpm); //cat can echo a new Speed therefore
+                                       // emit keyChangedWPMSpeed is not emitted
 
     return true;
 }

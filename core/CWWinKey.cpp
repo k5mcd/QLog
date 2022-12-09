@@ -2,6 +2,7 @@
 
 #include "CWWinKey.h"
 #include "core/debug.h"
+#include "core/Rig.h"
 
 /* Based on WinKey v2 Spec: https://k1el.tripod.com/WinkeyUSBman.pdf */
 
@@ -378,6 +379,8 @@ bool CWWinKey2::setWPM(const qint16 wpm)
     if ( ret )
     {
         emit keyChangedWPMSpeed(wpm); //Winkey does not echo a new Speed
+                //therefore keyChangedWPMSpeed informs the rest for QLog that
+                //Key speed has been changed
     }
     return ret;
 }
@@ -403,6 +406,7 @@ bool CWWinKey2::__setWPM(const qint16 wpm)
     {
         qWarning() << "Unexpected size of write response or communication error";
         qCDebug(runtime) << lastError();
+        return false;
     }
 
     return true;

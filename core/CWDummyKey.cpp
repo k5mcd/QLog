@@ -1,5 +1,6 @@
 #include "CWDummyKey.h"
 #include "core/debug.h"
+#include "core/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.data.cwdummykey");
 
@@ -18,6 +19,7 @@ bool CWDummyKey::open()
 
     isUsed = true;
 
+    setWPM(defaultWPMSpeed);
     return true;
 }
 
@@ -48,12 +50,14 @@ bool CWDummyKey::setWPM(const qint16 wpm)
 {
     FCT_IDENTIFICATION;
 
-    if ( isUsed )
-    {
-        qInfo() << "Setting Speed " << wpm;
-    }
+    if ( !isUsed )
+        return true;
 
-    emit keyChangedWPMSpeed(wpm);
+    qInfo() << "Setting Speed " << wpm;
+
+    emit keyChangedWPMSpeed(wpm); // dummy does not echo a new Speed
+            //therefore keyChangedWPMSpeed informs the rest for QLog that
+            //Key speed has been changed
     return true;
 }
 
