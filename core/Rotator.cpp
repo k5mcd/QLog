@@ -15,6 +15,11 @@ MODULE_IDENTIFICATION("qlog.core.rotator");
 #define HAMLIB_FILPATHLEN FILPATHLEN
 #endif
 
+// at this moment it is not needed to define customized poll interval.
+// poll interval is build-in 500ms
+#define STARTING_UPDATE_INTERVAL 500
+#define SLOW_UPDATE_INTERVAL 2000
+
 Rotator::Rotator(QObject *parent) :
     SerialPort(parent),
     timer(nullptr)
@@ -90,7 +95,7 @@ void Rotator::start() {
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Rotator::update);
-    timer->start(1000);
+    timer->start(STARTING_UPDATE_INTERVAL);
 }
 
 void Rotator::update()
@@ -100,7 +105,7 @@ void Rotator::update()
     if ( !isRotConnected() )
     {
         /* rot is not connected, slow down */
-        timer->start(5000);
+        timer->start(SLOW_UPDATE_INTERVAL);
         return;
     }
 
@@ -119,7 +124,7 @@ void Rotator::update()
          */
         qCDebug(runtime) << "Reconnecting to a new RIG - " << currRotProfile.profileName << "; Old - " << connectedRotProfile.profileName;
         __openRot();
-        timer->start(1000); // fix time is correct, it is not necessary to change.
+        timer->start(STARTING_UPDATE_INTERVAL); // fix time is correct, it is not necessary to change.
         rotLock.unlock();
         return;
     }
@@ -156,7 +161,7 @@ void Rotator::update()
         qCDebug(runtime) << "Get POSITION is disabled";
     }
 
-    timer->start(1000);
+    timer->start(STARTING_UPDATE_INTERVAL);
     rotLock.unlock();
 }
 void Rotator::open()
@@ -205,8 +210,8 @@ void Rotator::__openRot()
     if ( isNetworkRot(rot->caps) )
     {
         // handling network rotator
-        strncpy(rot->state.rotport.pathname, newRotProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
-        //port is hardcoded in hamlib - not necessary to set it.
+        QString portString = newRotProfile.hostname + ":" + QString::number(newRotProfile.netport);
+        strncpy(rot->state.rotport.pathname, portString.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
     }
     else
     {
