@@ -1,4 +1,6 @@
 TBC - 0.17.0
+- [NEW] - NetPort and Polling interval can be defined for NET Rigs
+- [NEW] - NetPort can be defined for NET Rots
 - [NEW] - Added Saving Bandmap Zoom per band (issue #137)
 - [NEW] - CW speed synchronisation (issue #139)
 - Fixed Missing callbook data when callsign has prefix (issue #133)
