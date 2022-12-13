@@ -1519,7 +1519,7 @@
                    </item>
                   </layout>
                  </item>
-                 <item row="15" column="0" colspan="2">
+                 <item row="16" column="0" colspan="2">
                   <widget class="QStackedWidget" name="rigStackedWidget">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1755,35 +1755,6 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="6" column="0">
-                      <widget class="QLabel" name="rigPollIntervalLabel">
-                       <property name="text">
-                        <string>Poll Interval</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="6" column="1">
-                      <widget class="QSpinBox" name="rigPollIntervalSpinBox">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="suffix">
-                        <string> ms</string>
-                       </property>
-                       <property name="minimum">
-                        <number>100</number>
-                       </property>
-                       <property name="maximum">
-                        <number>60000</number>
-                       </property>
-                       <property name="value">
-                        <number>500</number>
-                       </property>
-                      </widget>
-                     </item>
                     </layout>
                    </widget>
                    <widget class="QWidget" name="rigNetworkPage">
@@ -1826,10 +1797,10 @@
                      <item row="1" column="1">
                       <widget class="QSpinBox" name="rigNetPortSpin">
                        <property name="toolTip">
-                        <string>HamLib does not support to change a destination port.</string>
+                        <string/>
                        </property>
                        <property name="minimum">
-                        <number>4532</number>
+                        <number>1</number>
                        </property>
                        <property name="maximum">
                         <number>65535</number>
@@ -1841,6 +1812,35 @@
                      </item>
                     </layout>
                    </widget>
+                  </widget>
+                 </item>
+                 <item row="15" column="1">
+                  <widget class="QSpinBox" name="rigPollIntervalSpinBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="suffix">
+                    <string> ms</string>
+                   </property>
+                   <property name="minimum">
+                    <number>100</number>
+                   </property>
+                   <property name="maximum">
+                    <number>60000</number>
+                   </property>
+                   <property name="value">
+                    <number>500</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="15" column="0">
+                  <widget class="QLabel" name="rigPollIntervalLabel">
+                   <property name="text">
+                    <string>Poll Interval</string>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -2153,10 +2153,10 @@
                      <item row="1" column="1">
                       <widget class="QSpinBox" name="rotNetPortSpin">
                        <property name="toolTip">
-                        <string>HamLib does not support to change a destination port.</string>
+                        <string/>
                        </property>
                        <property name="minimum">
-                        <number>4533</number>
+                        <number>1</number>
                        </property>
                        <property name="maximum">
                         <number>65535</number>
@@ -2915,7 +2915,6 @@
   <tabstop>rigStopBitsSelect</tabstop>
   <tabstop>rigFlowControlSelect</tabstop>
   <tabstop>rigParitySelect</tabstop>
-  <tabstop>rigPollIntervalSpinBox</tabstop>
   <tabstop>rigHostNameEdit</tabstop>
   <tabstop>rigNetPortSpin</tabstop>
   <tabstop>rigGetModeCheckBox</tabstop>

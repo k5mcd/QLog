@@ -39,6 +39,8 @@
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
+#define RIG_NET_DEFAULT_PORT 4532
+#define ROT_NET_DEFAULT_PORT 4533
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -340,14 +342,11 @@ void SettingsDialog::addRigProfile()
                 ui->rigParitySelect->currentData().toString():
                 QString();
 
-    profile.pollInterval = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
-                ui->rigPollIntervalSpinBox->value() :
-                500; // 500ms for Internet Rigs
-
     profile.ritOffset = ui->rigRXOffsetSpinBox->value();
     profile.xitOffset = ui->rigTXOffsetSpinBox->value();
     profile.defaultPWR = ui->rigPWRDefaultSpinBox->value();
     profile.assignedCWKey = ui->rigAssignedCWKeyCombo->currentText();
+    profile.pollInterval = ui->rigPollIntervalSpinBox->value();
 
     profile.getFreqInfo = ui->rigGetFreqCheckBox->isChecked();
     profile.getModeInfo = ui->rigGetModeCheckBox->isChecked();
@@ -442,6 +441,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigPollIntervalSpinBox->setValue(500.0);
     ui->rigPortEdit->clear();
     ui->rigHostNameEdit->clear();
+    ui->rigNetPortSpin->setValue(RIG_NET_DEFAULT_PORT);
     ui->rigBaudSelect->setCurrentIndex(0);
     ui->rigDataBitsSelect->setCurrentIndex(0);
     ui->rigStopBitsSelect->setCurrentIndex(0);
@@ -630,6 +630,7 @@ void SettingsDialog::clearRotProfileForm()
     ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
     ui->rotPortEdit->clear();
     ui->rotHostNameEdit->clear();
+    ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
     ui->rotBaudSelect->setCurrentIndex(0);
     ui->rotDataBitsSelect->setCurrentIndex(0);
     ui->rotStopBitsSelect->setCurrentIndex(0);
@@ -1670,11 +1671,6 @@ void SettingsDialog::readSettings() {
     /******************/
     /* END OF Reading */
     /******************/
-
-    //hamlib has hardcoded port number. Therefore we disable the SpinBox
-    //until hamlib guyes fix it.
-    ui->rigNetPortSpin->setDisabled(true);
-    ui->rotNetPortSpin->setDisabled(true);
 }
 
 void SettingsDialog::writeSettings() {

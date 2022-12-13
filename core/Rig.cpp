@@ -672,8 +672,8 @@ void Rig::__openRig()
     if ( isNetworkRig(rig->caps) )
     {
         //handling Network Radio
-        strncpy(rig->state.rigport.pathname, newRigProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
-        //port is hardcoded in hamlib - not necessary to set it.
+        QString portString = newRigProfile.hostname + ":" + QString::number(newRigProfile.netport);
+        strncpy(rig->state.rigport.pathname, portString.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
     }
     else
     {
