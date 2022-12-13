@@ -19,6 +19,7 @@ MODULE_IDENTIFICATION("qlog.core.rig");
 #endif
 
 #define STARTING_UPDATE_INTERVAL 500
+#define SLOW_UPDATE_INTERVAL 2000
 
 Rig* Rig::instance() {
     FCT_IDENTIFICATION;
@@ -147,7 +148,7 @@ void Rig::start()
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Rig::update);
-    timer->start(500);
+    timer->start(STARTING_UPDATE_INTERVAL);
 }
 
 void Rig::update()
@@ -158,7 +159,7 @@ void Rig::update()
     {
         /* rig is not connected, slow down */
         forceSendState = false;
-        timer->start(2000);
+        timer->start(SLOW_UPDATE_INTERVAL);
         return;
     }
 
