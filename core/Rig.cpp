@@ -1065,18 +1065,14 @@ QStringList Rig::getAvailableModes()
     {
         rmode_t localRigModes = RIG_MODE_NONE;
 
-        if ( localRig->state.mode_list != RIG_MODE_NONE )
+        if ( isNetworkRig(localRig->caps) )
+        {
+            /* Limit a set of modes for network rig */
+            localRigModes = static_cast<rmode_t>(RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
+        }
+        else if ( localRig->state.mode_list != RIG_MODE_NONE )
         {
             localRigModes = static_cast<rmode_t>(localRig->state.mode_list);
-        }
-        else
-        {
-            if ( isNetworkRig(localRig->caps) )
-            {
-                /* Network rig has no mode */
-                /* Add some modes */
-                localRigModes = static_cast<rmode_t>(RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
-            }
         }
 
         /* hamlib 3.x and 4.x are very different - workaround */
