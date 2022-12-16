@@ -45,7 +45,7 @@
 
     var maidenheadConfWorked = L.maidenheadConfWorked({color : 'rgba(255, 0, 0, 0.5)'}).addTo(map);
 
-    var t = L.terminator({fillOpacity: 0.2});
+    var t = L.terminator({fillOpacity: 0.2}).addTo(map);
 
     setInterval(function(){updateTerminator(t)}, 60000);
 
