@@ -19,6 +19,7 @@ MODULE_IDENTIFICATION("qlog.core.rig");
 #endif
 
 #define STARTING_UPDATE_INTERVAL 500
+#define SLOW_UPDATE_INTERVAL 2000
 
 Rig* Rig::instance() {
     FCT_IDENTIFICATION;
@@ -147,7 +148,7 @@ void Rig::start()
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Rig::update);
-    timer->start(500);
+    timer->start(STARTING_UPDATE_INTERVAL);
 }
 
 void Rig::update()
@@ -158,7 +159,7 @@ void Rig::update()
     {
         /* rig is not connected, slow down */
         forceSendState = false;
-        timer->start(2000);
+        timer->start(SLOW_UPDATE_INTERVAL);
         return;
     }
 
@@ -671,8 +672,8 @@ void Rig::__openRig()
     if ( isNetworkRig(rig->caps) )
     {
         //handling Network Radio
-        strncpy(rig->state.rigport.pathname, newRigProfile.hostname.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
-        //port is hardcoded in hamlib - not necessary to set it.
+        QString portString = newRigProfile.hostname + ":" + QString::number(newRigProfile.netport);
+        strncpy(rig->state.rigport.pathname, portString.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
     }
     else
     {
@@ -849,6 +850,14 @@ void Rig::setKeySpeed(qint16 wpm)
                               Q_ARG(qint16, wpm));
 }
 
+void Rig::syncKeySpeed(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "syncKeySpeedImpl", Qt::QueuedConnection,
+                              Q_ARG(qint16, wpm));
+}
+
 void Rig::sendMorse(const QString &text)
 {
     FCT_IDENTIFICATION;
@@ -954,12 +963,32 @@ void Rig::setKeySpeedImpl(qint16 wpm)
 
     if ( !rig || !connectedRigProfile.getKeySpeed ) return;
 
+    rigLock.lock();
+    __setKeySpeed(wpm);
+    rigLock.unlock();
+}
+
+void Rig::syncKeySpeedImpl(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << wpm;
+
+    if ( !rig || !connectedRigProfile.keySpeedSync ) return;
+
+    rigLock.lock();
+    __setKeySpeed(wpm);
+    rigLock.unlock();
+}
+
+void Rig::__setKeySpeed(qint16 wpm)
+{
+    FCT_IDENTIFICATION;
+
     if ( wpm < 0 )
     {
         return;
     }
-
-    rigLock.lock();
 
     value_t hamlibWPM;
     hamlibWPM.i = wpm;
@@ -977,7 +1006,6 @@ void Rig::setKeySpeedImpl(qint16 wpm)
 #else
     usleep(100000);
 #endif
-    rigLock.unlock();
 }
 
 void Rig::sendMorseImpl(const QString &text)
@@ -1037,18 +1065,14 @@ QStringList Rig::getAvailableModes()
     {
         rmode_t localRigModes = RIG_MODE_NONE;
 
-        if ( localRig->state.mode_list != RIG_MODE_NONE )
+        if ( isNetworkRig(localRig->caps) )
+        {
+            /* Limit a set of modes for network rig */
+            localRigModes = static_cast<rmode_t>(RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
+        }
+        else if ( localRig->state.mode_list != RIG_MODE_NONE )
         {
             localRigModes = static_cast<rmode_t>(localRig->state.mode_list);
-        }
-        else
-        {
-            if ( isNetworkRig(localRig->caps) )
-            {
-                /* Network rig has no mode */
-                /* Add some modes */
-                localRigModes = static_cast<rmode_t>(RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
-            }
         }
 
         /* hamlib 3.x and 4.x are very different - workaround */

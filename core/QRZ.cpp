@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "core/CredentialStore.h"
 #include "logformat/AdiFormat.h"
+#include "core/Callsign.h"
 
 #define API_URL "https://xmldata.qrz.com/xml/current/"
 #define API_LOGBOOK_URL "https://logbook.qrz.com/api"
@@ -58,7 +59,19 @@ void QRZ::queryCallsign(QString callsign)
 
     QUrlQuery query;
     query.addQueryItem("s", sessionId);
-    query.addQueryItem("callsign", callsign);
+
+    Callsign qCall(callsign);
+
+    if (qCall.isValid())
+    {
+        // currently QRZ.com does not handle correctly prefixes and suffixes.
+        // That's why it's better to give it away if possible
+        query.addQueryItem("callsign", qCall.getBase());
+    }
+    else
+    {
+        query.addQueryItem("callsign", callsign);
+    }
 
     QUrl url(API_URL);
     url.setQuery(query);

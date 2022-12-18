@@ -92,6 +92,7 @@ public slots:
     void wwffEditFinished();
     void primaryCallbookChanged(int);
     void secondaryCallbookChanged(int);
+    void assignedKeyChanged(int);
 
 private:
     void readSettings();

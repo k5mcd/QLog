@@ -286,6 +286,7 @@ void CWConsoleWidget::cwKeySpeedChanged(int newWPM)
     qCDebug(function_parameters) << newWPM;
 
     CWKeyer::instance()->setSpeed(newWPM);
+    Rig::instance()->syncKeySpeed(newWPM);
 }
 
 void CWConsoleWidget::cwKeySpeedIncrease()
@@ -333,14 +334,21 @@ void CWConsoleWidget::rigConnectHandler()
 {
     FCT_IDENTIFICATION;
 
-    if ( cwKeyOnline
-         && CWKeyer::instance()->rigMustConnected()
-         && Rig::instance()->isMorseOverCatSupported() )
+    if ( cwKeyOnline )
     {
-        allowMorseSending(true);
-        CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
+        // if MorseOverCat Key
+        if (CWKeyer::instance()->rigMustConnected()
+            && Rig::instance()->isMorseOverCatSupported() )
+        {
+            allowMorseSending(true);
+            CWKeyer::instance()->setSpeed(ui->cwKeySpeedSpinBox->value());
 
-        ui->cwSendEdit->setPlaceholderText(QString());
+            ui->cwSendEdit->setPlaceholderText(QString());
+        }
+        else
+        {
+            Rig::instance()->syncKeySpeed(ui->cwKeySpeedSpinBox->value());
+        }
     }
 }
 
@@ -406,6 +414,7 @@ void CWConsoleWidget::setWPM(qint32 wpm)
 
     ui->cwKeySpeedSpinBox->blockSignals(true);
     ui->cwKeySpeedSpinBox->setValue(wpm);
+    Rig::instance()->syncKeySpeed(wpm);
     ui->cwKeySpeedSpinBox->blockSignals(false);
 }
 

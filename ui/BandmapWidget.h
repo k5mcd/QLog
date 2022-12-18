@@ -84,6 +84,9 @@ private:
     DxSpot nearestSpot(double) const;
     void updateNearestSpot();
     void setBandmapAnimation(bool);
+    void setBand(Band newBand, bool savePrevBandZoom = true);
+    void saveCurrentZoom();
+    BandmapWidget::BandmapZoom savedZoom(Band);
 
 private slots:
     void centerRXActionChecked(bool);
@@ -114,5 +117,7 @@ private:
     int zoomWidgetYOffset;
     bool bandmapAnimation;
 };
+
+Q_DECLARE_METATYPE(BandmapWidget::BandmapZoom)
 
 #endif // BANDMAPWIDGET_H

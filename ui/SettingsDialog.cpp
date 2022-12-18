@@ -35,10 +35,12 @@
 
 #define WIDGET_INDEX_SERIAL_RIG  0
 #define STACKED_WIDGET_NETWORK_RIG 1
-
+#define EMPTY_CWKEY_PROFILE " "
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
+#define RIG_NET_DEFAULT_PORT 4532
+#define ROT_NET_DEFAULT_PORT 4533
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -340,14 +342,11 @@ void SettingsDialog::addRigProfile()
                 ui->rigParitySelect->currentData().toString():
                 QString();
 
-    profile.pollInterval = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
-                ui->rigPollIntervalSpinBox->value() :
-                500; // 500ms for Internet Rigs
-
     profile.ritOffset = ui->rigRXOffsetSpinBox->value();
     profile.xitOffset = ui->rigTXOffsetSpinBox->value();
     profile.defaultPWR = ui->rigPWRDefaultSpinBox->value();
     profile.assignedCWKey = ui->rigAssignedCWKeyCombo->currentText();
+    profile.pollInterval = ui->rigPollIntervalSpinBox->value();
 
     profile.getFreqInfo = ui->rigGetFreqCheckBox->isChecked();
     profile.getModeInfo = ui->rigGetModeCheckBox->isChecked();
@@ -358,6 +357,7 @@ void SettingsDialog::addRigProfile()
     profile.getPTTInfo = ui->rigGetPTTStateCheckBox->isChecked();
     profile.QSYWiping = ui->rigQSYWipingCheckBox->isChecked();
     profile.getKeySpeed = ui->rigGetKeySpeedCheckBox->isChecked();
+    profile.keySpeedSync = ui->rigKeySpeedSyncCheckBox->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -417,6 +417,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigGetPTTStateCheckBox->setChecked(profile.getPTTInfo);
     ui->rigQSYWipingCheckBox->setChecked(profile.QSYWiping);
     ui->rigGetKeySpeedCheckBox->setChecked(profile.getKeySpeed);
+    ui->rigKeySpeedSyncCheckBox->setChecked(profile.keySpeedSync);
 
     setUIBasedOnRigCaps(rig_get_caps(profile.model));
 
@@ -440,6 +441,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigPollIntervalSpinBox->setValue(500.0);
     ui->rigPortEdit->clear();
     ui->rigHostNameEdit->clear();
+    ui->rigNetPortSpin->setValue(RIG_NET_DEFAULT_PORT);
     ui->rigBaudSelect->setCurrentIndex(0);
     ui->rigDataBitsSelect->setCurrentIndex(0);
     ui->rigStopBitsSelect->setCurrentIndex(0);
@@ -456,6 +458,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigGetPTTStateCheckBox->setChecked(false);
     ui->rigQSYWipingCheckBox->setChecked(true);
     ui->rigGetKeySpeedCheckBox->setChecked(true);
+    ui->rigKeySpeedSyncCheckBox->setChecked(false);
     ui->rigAddProfileButton->setText(tr("Add"));
 }
 
@@ -627,6 +630,7 @@ void SettingsDialog::clearRotProfileForm()
     ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
     ui->rotPortEdit->clear();
     ui->rotHostNameEdit->clear();
+    ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
     ui->rotBaudSelect->setCurrentIndex(0);
     ui->rotDataBitsSelect->setCurrentIndex(0);
     ui->rotStopBitsSelect->setCurrentIndex(0);
@@ -1183,8 +1187,9 @@ void SettingsDialog::rigChanged(int index)
 
     const struct rig_caps *caps;
 
-    int rigID = ui->rigModelSelect->currentData().toInt();
+    refreshRigAssignedCWKeyCombo();
 
+    int rigID = ui->rigModelSelect->currentData().toInt();
     caps = rig_get_caps(rigID);
 
     if ( caps )
@@ -1228,15 +1233,15 @@ void SettingsDialog::rigChanged(int index)
         ui->rigGetKeySpeedCheckBox->setEnabled(true);
         ui->rigGetKeySpeedCheckBox->setChecked(true);
 
-        /* disable what is unimplemented */
+        ui->rigKeySpeedSyncCheckBox->setEnabled(true);
+        ui->rigKeySpeedSyncCheckBox->setChecked(false);
+
         setUIBasedOnRigCaps(caps);
     }
     else
     {
         ui->rigStackedWidget->setCurrentIndex(0);
     }
-
-    refreshRigAssignedCWKeyCombo();
 }
 
 void SettingsDialog::rotChanged(int index)
@@ -1545,6 +1550,23 @@ void SettingsDialog::secondaryCallbookChanged(int index)
     qCDebug(function_parameters) << index;
 }
 
+void SettingsDialog::assignedKeyChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << index;
+
+    const struct rig_caps *caps;
+
+    int rigID = ui->rigModelSelect->currentData().toInt();
+    caps = rig_get_caps(rigID);
+
+    ui->rigKeySpeedSyncCheckBox->setEnabled(true);
+    ui->rigKeySpeedSyncCheckBox->setChecked(false);
+
+    setUIBasedOnRigCaps(caps);
+}
+
 void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
@@ -1649,11 +1671,6 @@ void SettingsDialog::readSettings() {
     /******************/
     /* END OF Reading */
     /******************/
-
-    //hamlib has hardcoded port number. Therefore we disable the SpinBox
-    //until hamlib guyes fix it.
-    ui->rigNetPortSpin->setDisabled(true);
-    ui->rotNetPortSpin->setDisabled(true);
 }
 
 void SettingsDialog::writeSettings() {
@@ -1823,6 +1840,18 @@ void SettingsDialog::setUIBasedOnRigCaps(const struct rig_caps *caps)
             ui->rigGetKeySpeedCheckBox->setEnabled(false);
             ui->rigGetKeySpeedCheckBox->setChecked(false);
         }
+
+        if ( ui->rigAssignedCWKeyCombo->currentText() != EMPTY_CWKEY_PROFILE )
+        {
+            CWKeyProfile selectedKeyProfile;
+            selectedKeyProfile = cwKeyProfManager->getProfile(ui->rigAssignedCWKeyCombo->currentText());
+            if ( ! ((caps->has_set_level) & (RIG_LEVEL_KEYSPD))
+                 || (selectedKeyProfile.model == CWKey::MORSEOVERCAT) )
+            {
+                ui->rigKeySpeedSyncCheckBox->setEnabled(false);
+                ui->rigKeySpeedSyncCheckBox->setChecked(false);
+            }
+        }
     }
 }
 
@@ -1844,7 +1873,7 @@ void SettingsDialog::refreshRigAssignedCWKeyCombo()
 
     selectedRigCaps = rig_get_caps(rigID);
 
-    approvedCWProfiles << " "; // add empty profile (like NONE)
+    approvedCWProfiles << EMPTY_CWKEY_PROFILE; // add empty profile (like NONE)
 
     if ( selectedRigCaps && selectedRigCaps->send_morse )
     {

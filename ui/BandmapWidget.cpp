@@ -47,8 +47,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 
     keepRXCenter = settings.value("bandmap/centerrx", true).toBool();
 
-    currentBand = Data::band(freq);
-    zoom = ZOOM_1KHZ;
+    setBand(Data::band(freq), false);
 
     bandmapScene = new GraphicsScene(this);
     bandmapScene->setFocusOnTouch(false);
@@ -479,6 +478,37 @@ void BandmapWidget::setBandmapAnimation(bool isEnable)
     bandmapAnimation = isEnable;
 }
 
+void BandmapWidget::setBand(Band newBand, bool savePrevBandZoom)
+{
+    FCT_IDENTIFICATION;
+
+    if ( savePrevBandZoom )
+    {
+        saveCurrentZoom();
+    }
+    currentBand = newBand;
+    zoom = savedZoom(newBand);
+}
+
+void BandmapWidget::saveCurrentZoom()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue("bandmap/zoom/" + currentBand.name, zoom);
+}
+
+BandmapWidget::BandmapZoom BandmapWidget::savedZoom(Band band)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QVariant zoomVariant = settings.value("bandmap/zoom/" + band.name, ZOOM_10KHZ);
+    return zoomVariant.value<BandmapWidget::BandmapZoom>();
+}
+
 void BandmapWidget::spotAgingChanged(int)
 {
     FCT_IDENTIFICATION;
@@ -612,7 +642,7 @@ void BandmapWidget::showContextMenu(QPoint point)
         QAction* action = new QAction(enabledBand.name);
         connect(action, &QAction::triggered, this, [this, enabledBand]()
         {
-            this->currentBand = enabledBand;
+            setBand(enabledBand);
             this->update();
         });
         bandsMenu.addAction(action);
@@ -647,7 +677,7 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
         Band newBand = Data::band(rx_freq);
         if ( !newBand.name.isEmpty() )
         {
-            currentBand = newBand;
+            setBand(newBand);
         }
         /**********************/
         /* Redraw all bandmap */
@@ -680,6 +710,8 @@ BandmapWidget::~BandmapWidget()
         update_timer->stop();
         update_timer->deleteLater();
     }
+
+    saveCurrentZoom();
 
     delete ui;
 }
