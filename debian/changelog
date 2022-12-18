@@ -1,4 +1,4 @@
- qlog (0.17.0-1) UNRELEASED; urgency=low
+qlog (0.17.0-1) UNRELEASED; urgency=low
   * [NEW] - NetPort and Polling interval can be defined for NET Rigs
   * [NEW] - NetPort can be defined for NET Rots
   * [NEW] - Added Saving Bandmap Zoom per band (issue #137)
