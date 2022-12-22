@@ -375,7 +375,7 @@ void NewContactWidget::queryDxcc(QString callsign)
         ui->cqEdit->setText(QString::number(dxccEntity.cqz));
         ui->ituEdit->setText(QString::number(dxccEntity.ituz));
         updateCoordinates(dxccEntity.latlon[0], dxccEntity.latlon[1], COORD_DXCC);
-        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc);
+        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
         ui->contEdit->setCurrentText(dxccEntity.cont);
         updateDxccStatus();
         if ( !dxccEntity.flag.isEmpty() )
@@ -593,6 +593,7 @@ void NewContactWidget::bandChanged()
     FCT_IDENTIFICATION;
 
     updateDxccStatus();
+    ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
 }
 
 
@@ -793,8 +794,8 @@ void NewContactWidget::updateTXBand(double freq)
     else if (band.name != ui->bandTXLabel->text())
     {
         ui->bandTXLabel->setText(band.name);
-        bandChanged();
     }
+    bandChanged();
 }
 
 void NewContactWidget::updateRXBand(double freq)
@@ -889,8 +890,8 @@ void NewContactWidget::resetContact()
     setDefaultReport();
 
     callsign = QString();
+    dxccEntity = DxccEntity();
     coordPrec = COORD_NONE;
-
     QSOFreq = 0.0;
 
     emit filterCallsign(QString());

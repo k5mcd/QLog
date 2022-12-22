@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTableView>
+#include "data/Band.h"
 
 class DxccTableModel;
 
@@ -16,10 +17,11 @@ signals:
 
 public slots:
     void clear();
-    void setDxcc(int dxcc);
+    void setDxcc(int dxcc, Band band);
 
 private:
     DxccTableModel* dxccTableModel;
+    QStringList headerStrings;
 };
 
 #endif // DXCCTABLEWIDGET_H

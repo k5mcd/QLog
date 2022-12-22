@@ -79,6 +79,7 @@ public:
                                        const QString &newMode);
     static Band band(double freq);
     static QList<Band> enabledBandsList();
+    static QList<Band> dxccBandsList(bool onlyEnabled=false);
     static QString freqToDXCCMode(double freq);
     QString modeToDXCCMode(const QString &mode);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
