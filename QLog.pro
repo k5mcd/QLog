@@ -14,6 +14,18 @@ VERSION = 0.17.0
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 
+# Define paths to HAMLIB. Leave empty if system libraries are used
+#HAMLIBINCLUDEPATH =
+#HAMLIBLIBPATH =
+# Define Hamlib version. Leave empty if pkg-config should detect the version (lib must be installed and registered)
+#HAMLIBVERSION_MAJOR =
+#HAMLIBVERSION_MINOR =
+#HAMLIBVERSION_PATCH =
+
+# Define paths to QTKeyChain. Leave empty if system libraries are used
+#QTKEYCHAININCLUDEPATH =
+#QTKEYCHAINLIBPATH =
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -280,58 +292,61 @@ defineReplace(findPackage) {
     return($$eval($$pkg))
 }
 
-HAMLIBVERSIONSTRING =  $$findPackage(hamlib)
-HAMLIBVERSIONS = $$split(HAMLIBVERSIONSTRING, ".")
-HAMLIBVERSION_MAJOR = $$member(HAMLIBVERSIONS, 0)
-HAMLIBVERSION_MINOR = $$member(HAMLIBVERSIONS, 1)
-HAMLIBVERSION_PATCH = $$member(HAMLIBVERSIONS, 2)
-isEmpty(HAMLIBVERSION_MINOR){
-   HAMLIBVERSION_MINOR=0
+isEmpty(HAMLIBVERSION_MAJOR) {
+   HAMLIBVERSIONSTRING =  $$findPackage(hamlib)
+   HAMLIBVERSIONS = $$split(HAMLIBVERSIONSTRING, ".")
+   HAMLIBVERSION_MAJOR = $$member(HAMLIBVERSIONS, 0)
+   HAMLIBVERSION_MINOR = $$member(HAMLIBVERSIONS, 1)
+   HAMLIBVERSION_PATCH = $$member(HAMLIBVERSIONS, 2)
+
+   isEmpty(HAMLIBVERSION_MINOR){
+      HAMLIBVERSION_MINOR=0
+   }
+   isEmpty(HAMLIBVERSION_PATCH){
+     HAMLIBVERSION_PATCH=0
+   }
 }
-isEmpty(HAMLIBVERSION_PATCH){
-   HAMLIBVERSION_PATCH=0
-}
+
+INCLUDEPATH += $$HAMLIBINCLUDEPATH $$QTKEYCHAININCLUDEPATH
+LIBS += -L$$HAMLIBLIBPATH -L$$QTKEYCHAINLIBPATH
 
 unix:!macx {
-  isEmpty(PREFIX) {
-    PREFIX = /usr/local
-  }
+   isEmpty(PREFIX) {
+     PREFIX = /usr/local
+   }
 
-  target.path = $$PREFIX/bin
+   target.path = $$PREFIX/bin
 
-  desktop.path = $$PREFIX/share/applications/
-  desktop.files += res/$${TARGET}.desktop
+   desktop.path = $$PREFIX/share/applications/
+   desktop.files += res/$${TARGET}.desktop
 
-  icon.path = $$PREFIX/share/icons/hicolor/256x256/apps
-  icon.files += res/$${TARGET}.png
+   icon.path = $$PREFIX/share/icons/hicolor/256x256/apps
+   icon.files += res/$${TARGET}.png
 
-  INSTALLS += target desktop icon
+   INSTALLS += target desktop icon
 
-  INCLUDEPATH += /usr/local/include
-  equals(QT_MAJOR_VERSION, 6): LIBS += -L/usr/local/lib -lhamlib -lqt6keychain
-  equals(QT_MAJOR_VERSION, 5): LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
+   INCLUDEPATH += /usr/local/include
+   LIBS += -L/usr/local/lib -lhamlib
+   equals(QT_MAJOR_VERSION, 6): LIBS += -lqt6keychain
+   equals(QT_MAJOR_VERSION, 5): LIBS += -lqt5keychain
 }
 
 macx: {
-    INCLUDEPATH += /usr/local/include
-    equals(QT_MAJOR_VERSION, 6): LIBS += -L/usr/local/lib -lhamlib -lqt6keychain
-    equals(QT_MAJOR_VERSION, 5): LIBS += -L/usr/local/lib -lhamlib -lqt5keychain
-    DISTFILES +=
+   INCLUDEPATH += /usr/local/include
+   LIBS += -L/usr/local/lib -lhamlib
+   equals(QT_MAJOR_VERSION, 6): LIBS += -lqt6keychain
+   equals(QT_MAJOR_VERSION, 5): LIBS += -lqt5keychain
+   DISTFILES +=
 }
 
 win32: {
-    TARGET = qlog
-    QMAKE_TARGET_COMPANY = OK1MLG
-    QMAKE_TARGET_DESCRIPTION = Hamradio logging
-    LIBS += -L"$$PWD/../hamlib/lib/gcc" -lhamlib
-    LIBS += -L"$$PWD/../hamlib/bin"
-    LIBS += -L"$$PWD/../qtkeychain/lib/" -lqt5keychain
-    LIBS += -lws2_32
-    INCLUDEPATH += "$$PWD/../hamlib/include/"
-    INCLUDEPATH += "$$PWD/../qtkeychain/include"
-    HAMLIBVERSION_MAJOR=4
-    HAMLIBVERSION_MINOR=4
-    HAMLIBVERSION_PATCH=0
+   TARGET = qlog
+   QMAKE_TARGET_COMPANY = OK1MLG
+   QMAKE_TARGET_DESCRIPTION = Hamradio logging
+
+   LIBS += -lws2_32 -lhamlib
+   equals(QT_MAJOR_VERSION, 6): LIBS += -lqt6keychain
+   equals(QT_MAJOR_VERSION, 5): LIBS += -lqt5keychain
 }
 
 DEFINES += HAMLIBVERSION_MAJOR=$$HAMLIBVERSION_MAJOR
