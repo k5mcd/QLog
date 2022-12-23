@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QColor>
 #include <QSpacerItem>
+#include <hamlib/rig.h>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "ui/SettingsDialog.h"
@@ -29,7 +30,6 @@
 #include "core/QRZ.h"
 #include "core/CredentialStore.h"
 #include "AlertSettingDialog.h"
-#include <hamlib/rig.h>
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -630,7 +630,13 @@ void MainWindow::showAbout() {
 
 
     QString version = QCoreApplication::applicationVersion();
-    QString hamlibVersion = QString(hamlib_version);
+    QString hamlibVersion =
+#if defined(Q_OS_WIN)
+            QString(rig_version());
+#else
+            QString(hamlib_version);
+#endif
+
     QString OSName = QString("%1 %2").arg(QSysInfo::prettyProductName()).arg(QSysInfo::currentCpuArchitecture());
     aboutText = aboutText.arg(version).arg(qVersion()).arg(hamlibVersion).arg(OSName);
 
