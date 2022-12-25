@@ -27,6 +27,22 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - **NO** ads, **NO** user tracking, **NO** hidden telemetry - simply free and open-source
 - SQLite backend.
 
+### Supported OS
+* Linux
+* MacOS
+* Windows 10 (64bit)
+
+### Supported Rigs
+* all supported by [Hamlib](https://hamlib.github.io/)
+
+### Supported Rotators
+* all supported by [Hamlib](https://hamlib.github.io/)
+
+### Third-party software
+* [TQSL](http://www.arrl.org/tqsl-download) – optional, needed for LoTW support
+
+
+
 For more details, screenshots etc, please, see [QLog Wiki](https://github.com/foldynl/QLog/wiki)
 
 Please, used [QLog Issues](https://github.com/foldynl/QLog/issues) for reporting any issue or open a [discussion](https://github.com/foldynl/QLog/discussions).
@@ -40,13 +56,6 @@ Please, used [QLog Issues](https://github.com/foldynl/QLog/issues) for reporting
 - CPU and memory: minimum requirements the same as for your OS
 - Graphic Card with OpenGL support
 - Serial connection if radio control is used
-
-### Windows
-Prerequisites:
-
-- Installed [Trusted QSL](http://www.arrl.org/tqsl-download) (Optional)
-
-Installation package is available via GitHub [Releases](https://github.com/foldynl/QLog/releases) .
 
 ### Linux
 
@@ -70,6 +79,14 @@ Fedora **RPM packages** are available via GitHub [Releases](https://github.com/f
 ### MacOS
 
  **DMG package** is available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
+
+### Windows
+
+Prerequisites:
+
+- Installed [Trusted QSL](http://www.arrl.org/tqsl-download) (Optional)
+
+Installation package is available via GitHub [Releases](https://github.com/foldynl/QLog/releases) .
 
 
 
