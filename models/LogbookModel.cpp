@@ -431,6 +431,31 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
+        case COLUMN_GRID_EXT:
+        case COLUMN_MY_GRIDSQUARE_EXT:
+        {
+            if ( ! value.toString().isEmpty() )
+            {
+                QRegularExpressionMatch match = Gridsquare::gridExtRegEx().match(value.toString());
+
+                if ( match.hasMatch() )
+                {
+                    depend_update_result = true;
+                }
+                else
+                {
+                    /* grid has an incorrect format */
+                    depend_update_result = false;
+                }
+            }
+            else
+            {
+                /* empty grid is valid (when removing a value) */
+                depend_update_result = true;
+            }
+            break;
+        }
+
         case COLUMN_SAT_MODE:
         case COLUMN_SAT_NAME:
         {

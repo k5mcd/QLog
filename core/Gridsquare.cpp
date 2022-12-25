@@ -32,12 +32,25 @@ Gridsquare::Gridsquare(const QString &in_grid)
 
             if ( grid.size() >= 6 )
             {
-                lon += (grid.at(4).toLatin1() - 'A') * (5/60.0);
+                lon += (grid.at(4).toLatin1() - 'A') * (5.0/60.0);
                 lat += (grid.at(5).toLatin1() - 'A') * (2.5/60.0);
 
-                // move to the center
-                lon += 2.5/60;
-                lat += 1.25/60;
+                if ( grid.size() >= 8 )
+                {
+                    lon += (grid.at(6).toLatin1() - '0') * (30.0/3600.0);
+                    lat += (grid.at(7).toLatin1() - '0') * (15.0/3600.0);
+
+                    // move to the center
+                    lon += 15.0/3600.0;
+                    lat += 7.5/3600.0;
+                }
+                else
+                {
+                    // move to the center
+                    lon += 2.5/60.0;
+                    lat += 1.25/60.0;
+                }
+
             }
             else {
                 // move to the center
@@ -71,6 +84,7 @@ Gridsquare::Gridsquare(const double lat, double lon) :
     }
     else
     {
+        // currently user only for SOTA where only 6 chars are enough
         double modifiedLat = lat + 90.0;
         double modifiedLon = lon + 180.0;
         QString grid1 = U.at(static_cast<int>(modifiedLon/20));
@@ -91,14 +105,21 @@ QRegularExpression Gridsquare::gridRegEx()
 {
     FCT_IDENTIFICATION;
 
-    return QRegularExpression("^[A-Za-z]{2}[0-9]{2}([A-Za-z]{2})?$");
+    return QRegularExpression("^[A-Ra-r]{2}[0-9]{2}([A-Xa-x]{2})?([0-9]{2})?$");
 }
 
 QRegularExpression Gridsquare::gridVUCCRegEx()
 {
     FCT_IDENTIFICATION;
 
-    return QRegularExpression("^[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2}$|^[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2},[ ]*[A-Za-z]{2}[0-9]{2}$");
+    return QRegularExpression("^[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2}$|^[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2}$");
+}
+
+QRegularExpression Gridsquare::gridExtRegEx()
+{
+    FCT_IDENTIFICATION;
+
+    return QRegularExpression("^[A-Xa-x]{2}?([0-9]{2})?$");
 }
 
 bool Gridsquare::isValid() const
