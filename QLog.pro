@@ -14,7 +14,7 @@ VERSION = 0.17.0
 
 DEFINES += VERSION=\\\"$$VERSION\\\"
 
-# Define paths to HAMLIB. Leave empty if system libraries are used
+# Define paths to HAMLIB. Leave empty if system libraries should be used
 #HAMLIBINCLUDEPATH =
 #HAMLIBLIBPATH =
 # Define Hamlib version. Leave empty if pkg-config should detect the version (lib must be installed and registered)
@@ -22,7 +22,7 @@ DEFINES += VERSION=\\\"$$VERSION\\\"
 #HAMLIBVERSION_MINOR =
 #HAMLIBVERSION_PATCH =
 
-# Define paths to QTKeyChain. Leave empty if system libraries are used
+# Define paths to QTKeyChain. Leave empty if system libraries should be used
 #QTKEYCHAININCLUDEPATH =
 #QTKEYCHAINLIBPATH =
 
