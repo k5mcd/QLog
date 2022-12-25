@@ -61,6 +61,22 @@ Prerequisites
 
 To be honest, It is not easy to compile it under Windows but it is possible.
 
+`qmake` supports input parameters that affect the compilation process.
+
+- `HAMLIBINCLUDEPATH` - the path to HAMLIB Includes 
+- `HAMLIBLIBPATH` - the path to HAMLIB Library 
+- `HAMLIBVERSION_MAJOR` - Hamlib version - major number
+- `HAMLIBVERSION_MINOR` - Hamlib version - monir number
+- `HAMLIBVERSION_PATCH` - Hamlib version - path number
+- `QTKEYCHAININCLUDEPATH` - the path to QtKeyChain Includes 
+- `QTKEYCHAINLIBPATH`- the path to QtKeyChain Library
+
+an example of use:
+
+`
+C:/Qt/6.4.1/msvc2019_64/bin/qmake.exe C:\Users\devel\development\QLog\QLog.pro -spec win32-msvc "CONFIG+=qtquickcompiler" "HAMLIBINCLUDEPATH = C:\Users\devel\development\hamlib\include" "HAMLIBLIBPATH =  C:\Users\devel\development\hamlib\lib\gcc" "HAMLIBVERSION_MAJOR = 4" "HAMLIBVERSION_MINOR = 5" "HAMLIBVERSION_PATCH = 0" "QTKEYCHAININCLUDEPATH = C:\Users\devel\development\qtkeychain_build\include" "QTKEYCHAINLIBPATH = C:\Users\devel\development\qtkeychain_build\lib" && C:/Qt/Tools/QtCreator/bin/jom/jom.exe qmake_all
+`
+
 ### Linux
 
 **For users:**
@@ -105,6 +121,8 @@ for Fedora:
 
 `/usr/bin/qmake-qt5`
 
+NOTE: `qmake` supports input parameters that affect the compilation process. Please, see Windows developer section above to see all qmake input parameters. Leave variables empty if system libraries and Hamlib version autodetect (calling `pkg-config`) should be used during compilation.
+
 for all:
 
 `make`
@@ -143,6 +161,8 @@ Last dependencies before building QLog are:
 As soon as the steps above are finished, QLog source can be opened in QtCreator, configured, built and run.  
 QLog app (qlog.app) from the build artifacts folder can be later copied (`installed`) to `~/Applications` and  
 accessed via Spotlight search bar.
+
+NOTE: `qmake` supports input parameters that affect the compilation process. Please, see Windows developer section above to see all qmake input parameters. Leave variables empty if system libraries and Hamlib version autodetect (calling `pkg-config`) should be used during compilation.
 
 ## License
 
