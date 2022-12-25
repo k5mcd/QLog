@@ -47,6 +47,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_ADDRESS, Qt::Horizontal, tr("Address (ASCII)"));
     setHeaderData(COLUMN_ADDRESS_INTL, Qt::Horizontal, tr("Address"));
     setHeaderData(COLUMN_AGE, Qt::Horizontal, tr("Age"));
+    setHeaderData(COLUMN_ALTITUDE, Qt::Horizontal, tr("Altitude"));
     setHeaderData(COLUMN_A_INDEX, Qt::Horizontal, tr("A-Index"));
     setHeaderData(COLUMN_ANT_AZ, Qt::Horizontal, tr("Antenna Az"));
     setHeaderData(COLUMN_ANT_EL, Qt::Horizontal, tr("Antenna El"));
@@ -55,6 +56,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_AWARD_SUBMITTED, Qt::Horizontal, tr("Award Submitted"));
     setHeaderData(COLUMN_AWARD_GRANTED, Qt::Horizontal, tr("Award Granted"));
     setHeaderData(COLUMN_BAND_RX, Qt::Horizontal, tr("Band RX"));
+    setHeaderData(COLUMN_GRID_EXT, Qt::Horizontal, tr("Gridsquare Extended"));
     setHeaderData(COLUMN_CHECK, Qt::Horizontal, tr("Contest Check"));
     setHeaderData(COLUMN_CLASS, Qt::Horizontal, tr("Class"));
     setHeaderData(COLUMN_CLUBLOG_QSO_UPLOAD_DATE, Qt::Horizontal, tr("ClubLog Upload Date"));
@@ -79,6 +81,10 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_FORCE_INIT, Qt::Horizontal, tr("EME Init"));
     setHeaderData(COLUMN_FREQ_RX, Qt::Horizontal, tr("Frequency RX"));
     setHeaderData(COLUMN_GUEST_OP, Qt::Horizontal, tr("Guest Operator"));
+    setHeaderData(COLUMN_HAMLOGEU_QSO_UPLOAD_DATE, Qt::Horizontal, tr("HamlogEU Upload Date"));
+    setHeaderData(COLUMN_HAMLOGEU_QSO_UPLOAD_STATUS, Qt::Horizontal, tr("HamlogEU Upload Status"));
+    setHeaderData(COLUMN_HAMQTH_QSO_UPLOAD_DATE, Qt::Horizontal, tr("HamQTH Upload Date"));
+    setHeaderData(COLUMN_HAMQTH_QSO_UPLOAD_STATUS, Qt::Horizontal, tr("HamQTH Upload Status"));
     setHeaderData(COLUMN_HRDLOG_QSO_UPLOAD_DATE, Qt::Horizontal, tr("HRDLog Upload Date"));
     setHeaderData(COLUMN_HRDLOG_QSO_UPLOAD_STATUS, Qt::Horizontal, tr("HRDLog Upload Status"));
     setHeaderData(COLUMN_IOTA_ISLAND_ID, Qt::Horizontal, tr("IOTA Island ID"));
@@ -87,6 +93,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_LON, Qt::Horizontal, tr("Longitude"));
     setHeaderData(COLUMN_MAX_BURSTS, Qt::Horizontal, tr("Max Bursts"));
     setHeaderData(COLUMN_MS_SHOWER, Qt::Horizontal, tr("MS Shower Name"));
+    setHeaderData(COLUMN_MY_ALTITUDE, Qt::Horizontal, tr("My Altitude"));
     setHeaderData(COLUMN_MY_ANTENNA, Qt::Horizontal, tr("My Antenna (ASCII)"));
     setHeaderData(COLUMN_MY_ANTENNA_INTL, Qt::Horizontal, tr("My Antenna"));
     setHeaderData(COLUMN_MY_CITY, Qt::Horizontal, tr("My City (ASCII)"));
@@ -98,6 +105,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_MY_DXCC, Qt::Horizontal, tr("My DXCC"));
     setHeaderData(COLUMN_MY_FISTS, Qt::Horizontal, tr("My FISTS"));
     setHeaderData(COLUMN_MY_GRIDSQUARE, Qt::Horizontal, tr("My Gridsquare"));
+    setHeaderData(COLUMN_MY_GRIDSQUARE_EXT, Qt::Horizontal, tr("My Gridsquare Extended"));
     setHeaderData(COLUMN_MY_IOTA, Qt::Horizontal, tr("My IOTA"));
     setHeaderData(COLUMN_MY_IOTA_ISLAND_ID, Qt::Horizontal, tr("My IOTA Island ID"));
     setHeaderData(COLUMN_MY_ITU_ZONE, Qt::Horizontal, tr("My ITU"));
@@ -107,6 +115,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_MY_NAME_INTL, Qt::Horizontal, tr("My Name"));
     setHeaderData(COLUMN_MY_POSTAL_CODE, Qt::Horizontal, tr("My Postal Code (ASCII)"));
     setHeaderData(COLUMN_MY_POSTAL_CODE_INTL, Qt::Horizontal, tr("My Postal Code"));
+    setHeaderData(COLUMN_MY_POTA_REF, Qt::Horizontal, tr("My POTA Ref"));
     setHeaderData(COLUMN_MY_RIG, Qt::Horizontal, tr("My Rig (ASCII)"));
     setHeaderData(COLUMN_MY_RIG_INTL, Qt::Horizontal, tr("My Rig"));
     setHeaderData(COLUMN_MY_SIG, Qt::Horizontal, tr("My Special Interest Activity (ASCII)"));
@@ -126,6 +135,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_NR_PINGS, Qt::Horizontal, tr("#MS Pings"));
     setHeaderData(COLUMN_OPERATOR, Qt::Horizontal, tr("Logging Operator"));
     setHeaderData(COLUMN_OWNER_CALLSIGN, Qt::Horizontal, tr("Owner Callsign"));
+    setHeaderData(COLUMN_POTA_REF, Qt::Horizontal, tr("POTA Ref"));
     setHeaderData(COLUMN_PRECEDENCE, Qt::Horizontal, tr("Contest Precedence"));
     setHeaderData(COLUMN_PROP_MODE, Qt::Horizontal, tr("Propagation Mode"));
     setHeaderData(COLUMN_PUBLIC_KEY, Qt::Horizontal, tr("Public Encryption Key"));
@@ -590,6 +600,10 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             case COLUMN_MY_ARRL_SECT:
             case COLUMN_MY_WWFF_REF:
             case COLUMN_WWFF_REF:
+            case COLUMN_MY_POTA_REF:
+            case COLUMN_POTA_REF:
+            case COLUMN_MY_GRIDSQUARE_EXT:
+            case COLUMN_GRID_EXT:
                 main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
                 break;
 
