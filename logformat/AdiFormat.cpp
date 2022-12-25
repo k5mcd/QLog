@@ -10,7 +10,7 @@ void AdiFormat::exportStart() {
     FCT_IDENTIFICATION;
 
     stream << "### QLog ADIF Export\n";
-    writeField("ADIF_VER", "3.1.3");
+    writeField("ADIF_VER", "3.1.4");
     writeField("PROGRAMID", "QLog");
     writeField("PROGRAMVERSION", VERSION);
     writeField("CREATED_TIMESTAMP", QDateTime::currentDateTimeUtc().toString("yyyyMMdd hhmmss"));
