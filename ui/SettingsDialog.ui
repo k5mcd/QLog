@@ -1313,10 +1313,10 @@
                     <number>5</number>
                    </property>
                    <property name="minimum">
-                    <double>-999999.999990000040270</double>
+                    <double>-9999999.999989999458194</double>
                    </property>
                    <property name="maximum">
-                    <double>999999.999990000040270</double>
+                    <double>9999999.999989999458194</double>
                    </property>
                    <property name="value">
                     <double>0.000000000000000</double>
@@ -1345,10 +1345,10 @@
                     <number>5</number>
                    </property>
                    <property name="minimum">
-                    <double>-999999.999990000040270</double>
+                    <double>-9999999.999989999458194</double>
                    </property>
                    <property name="maximum">
-                    <double>999999.999990000040270</double>
+                    <double>9999999.999989999458194</double>
                    </property>
                   </widget>
                  </item>

@@ -271,7 +271,7 @@
             <number>5</number>
            </property>
            <property name="maximum">
-            <double>250000.000000000000000</double>
+            <double>7500000.000000000000000</double>
            </property>
            <property name="singleStep">
             <double>0.001000000000000</double>
@@ -322,7 +322,7 @@
             <number>5</number>
            </property>
            <property name="maximum">
-            <double>250000.000000000000000</double>
+            <double>7500000.000000000000000</double>
            </property>
            <property name="singleStep">
             <double>0.001000000000000</double>
