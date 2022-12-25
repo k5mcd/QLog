@@ -283,7 +283,9 @@ bool QSOFilterDetail::isDateField(int index)
                  || index == LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_DATE
                  || index == LogbookModel::COLUMN_EQSL_QSLRDATE
                  || index == LogbookModel::COLUMN_EQSL_QSLSDATE
-                 || index == LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_DATE );
+                 || index == LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_DATE
+                 || index == LogbookModel::COLUMN_HAMLOGEU_QSO_UPLOAD_DATE
+                 || index == LogbookModel::COLUMN_HAMQTH_QSO_UPLOAD_DATE);
 
     qCDebug(function_parameters) << index << " return " << ret;
     return ret;
@@ -341,7 +343,9 @@ bool QSOFilterDetail::isUploadStatusField(int index)
 
     bool ret = (    index == LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_STATUS
                  || index == LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_STATUS
-                 || index == LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_STATUS );
+                 || index == LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_STATUS
+                 || index == LogbookModel::COLUMN_HAMLOGEU_QSO_UPLOAD_STATUS
+                 || index == LogbookModel::COLUMN_HAMQTH_QSO_UPLOAD_STATUS);
 
     qCDebug(function_parameters) << index << " return " << ret;
     return ret;
