@@ -1051,6 +1051,16 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
        record.setValue("my_sota_ref", Data::removeAccents(profile.sota.toUpper()));
     }
 
+    if ( ! record.value("my_sota_ref").toString().isEmpty() )
+    {
+        SOTAEntity sotaInfo = Data::instance()->lookupSOTA(record.value("my_sota_ref").toString());
+        if ( sotaInfo.summitCode.toUpper() == record.value("my_sota_ref").toString().toUpper()
+             && !sotaInfo.summitName.isEmpty() )
+        {
+            record.setValue("my_altitude", sotaInfo.altm);
+        }
+    }
+
     if ( record.value("my_sig").toString().isEmpty()
          && !profile.sig.isEmpty())
     {

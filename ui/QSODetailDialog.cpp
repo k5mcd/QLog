@@ -1742,6 +1742,25 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
             {
                 depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_ALTITUDE), sotaInfo.altm, role); // clazy:exclude=skipped-base-method
             }
+            else
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_ALTITUDE), QVariant(), role); // clazy:exclude=skipped-base-method
+            }
+            break;
+        }
+
+        case COLUMN_MY_SOTA_REF:
+        {
+            SOTAEntity sotaInfo = Data::instance()->lookupSOTA(value.toString());
+            if ( sotaInfo.summitCode.toUpper() == value.toString().toUpper()
+                 && !sotaInfo.summitName.isEmpty() )
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ALTITUDE), sotaInfo.altm, role); // clazy:exclude=skipped-base-method
+            }
+            else
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ALTITUDE), QVariant(), role); // clazy:exclude=skipped-base-method
+            }
             break;
         }
 
