@@ -605,6 +605,17 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
+        case COLUMN_SOTA_REF:
+        {
+            SOTAEntity sotaInfo = Data::instance()->lookupSOTA(value.toString());
+            if ( sotaInfo.summitCode.toUpper() == value.toString().toUpper()
+                 && !sotaInfo.summitName.isEmpty() )
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_ALTITUDE), sotaInfo.altm, role); // clazy:exclude=skipped-base-method
+            }
+            break;
+        }
+
         }
 
         updateExternalServicesUploadStatus(index, role, depend_update_result);

@@ -1385,6 +1385,11 @@ void NewContactWidget::saveContact()
         record.setValue("distance", ui->distanceInfo->text().split(" ")[0]);
     }
 
+    if ( !ui->AMLSInfo->text().isEmpty() )
+    {
+        record.setValue("altitude", ui->AMLSInfo->text().split(" ")[0]);
+    }
+
     if ( !ui->sotaEdit->text().isEmpty() )
     {
         record.setValue("sota_ref", Data::removeAccents(ui->sotaEdit->text().toUpper()));
@@ -2298,6 +2303,7 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     }
     ui->qthEdit->clear();
     ui->gridEdit->clear();
+    ui->AMLSInfo->clear();
 }
 
 void NewContactWidget::sotaEditFinished()
@@ -2315,6 +2321,7 @@ void NewContactWidget::sotaEditFinished()
         {
             ui->gridEdit->setText(SOTAGrid.getGrid());
         }
+        ui->AMLSInfo->setText(QString::number(sotaInfo.altm) + tr(" m"));
     }
     else if ( !ui->wwffEdit->text().isEmpty() )
     {

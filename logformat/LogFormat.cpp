@@ -231,6 +231,17 @@ int LogFormat::runImport()
             }
         }
 
+        if ( record.value("altitude").isNull()
+             && !record.value("sota_ref").isNull() )
+        {
+            SOTAEntity sotaInfo = Data::instance()->lookupSOTA(record.value("sota_ref").toString());
+            if ( sotaInfo.summitCode.toUpper() == record.value("sota_ref").toString().toUpper()
+                 && !sotaInfo.summitName.isEmpty() )
+            {
+                record.setValue("altitude",sotaInfo.altm);
+            }
+        }
+
         model.insertRecord(-1, record);
 
         count++;

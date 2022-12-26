@@ -793,6 +793,24 @@ bool QSODetailDialog::doValidation()
                                  !ui->myVUCCEdit->text().isEmpty() && !ui->myVUCCEdit->hasAcceptableInput(),
                                  tr("Own VUCC Grid has an incorrect format"));
 
+    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
+
+    if ( sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
+         && !sotaInfo.summitName.isEmpty() )
+    {
+        allValid &= highlightInvalid(ui->qthLabel,
+                                     ui->qthEdit->text() != sotaInfo.summitName,
+                                     tr("Based on SOTA Summit, QTH does not match SOTA Summit Name"));
+        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+        if ( SOTAGrid.isValid() )
+        {
+            allValid &= highlightInvalid(ui->gridLabel,
+                                         ui->gridEdit->text() != SOTAGrid.getGrid(),
+                                         tr("Based on SOTA Summit, Grid does not match SOTA Grid"));
+        }
+
+    }
+
     qCDebug(runtime) << "Validation result: " << allValid;
     return allValid;
 }
@@ -1713,6 +1731,17 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
         case COLUMN_SIG_INFO_INTL:
         {
             depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_SIG_INFO), Data::removeAccents(value.toString()),role); // clazy:exclude=skipped-base-method
+            break;
+        }
+
+        case COLUMN_SOTA_REF:
+        {
+            SOTAEntity sotaInfo = Data::instance()->lookupSOTA(value.toString());
+            if ( sotaInfo.summitCode.toUpper() == value.toString().toUpper()
+                 && !sotaInfo.summitName.isEmpty() )
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_ALTITUDE), sotaInfo.altm, role); // clazy:exclude=skipped-base-method
+            }
             break;
         }
 
