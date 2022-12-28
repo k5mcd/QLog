@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>698</width>
+    <width>681</width>
     <height>785</height>
    </rect>
   </property>
@@ -33,31 +33,20 @@
           <string> Profiles</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="1" column="5">
-           <widget class="QLineEdit" name="stationIOTAEdit">
+          <item row="5" column="4">
+           <widget class="QLineEdit" name="stationSIGInfoEdit">
             <property name="toolTip">
-             <string>IOTA  (Optional parameter)</string>
+             <string>SIG Information (Optional parameter)</string>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
-           <widget class="QLabel" name="stationVUCCLabel">
+          <item row="1" column="3">
+           <widget class="QLabel" name="stationIOTALabel">
             <property name="text">
-             <string>VUCC</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="5">
-           <widget class="QPushButton" name="stationDelProfileButton">
-            <property name="text">
-             <string>Delete</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="stationProfileNameLabel">
-            <property name="text">
-             <string>Profile Name</string>
+             <string>IOTA</string>
             </property>
            </widget>
           </item>
@@ -68,72 +57,52 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="2">
-           <widget class="QPushButton" name="stationAddProfileButton">
-            <property name="text">
-             <string>Add</string>
+          <item row="3" column="4">
+           <widget class="QLineEdit" name="stationSOTAEdit">
+            <property name="toolTip">
+             <string>SOTA (Optional parameter)</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="4">
+          <item row="0" column="1">
+           <widget class="QLabel" name="stationProfileNameLabel">
+            <property name="text">
+             <string>Profile Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
            <widget class="QLabel" name="stationSOTALabel">
             <property name="text">
              <string>SOTA</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QLineEdit" name="stationQTHEdit">
-            <property name="toolTip">
-             <string>QTH Name (Optional parameter)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="stationQTHLabel">
+          <item row="5" column="1">
+           <widget class="QLabel" name="stationSIGLabel">
             <property name="text">
-             <string>QTH</string>
+             <string>SIG</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
-           <widget class="QLineEdit" name="stationCallsignEdit">
-            <property name="toolTip">
-             <string>Callsign (Mandatory parameter)</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="maxLength">
-             <number>25</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="5">
-           <widget class="QLineEdit" name="stationSIGEdit">
-            <property name="toolTip">
-             <string>SIG (Optional parameter). Ex. POTA</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLabel" name="stationLocatorLabel">
-            <property name="text">
-             <string>Gridsquare</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="4">
-           <widget class="QLabel" name="stationSIGInfoLabel">
-            <property name="text">
-             <string>Sig Info</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" colspan="4">
+          <item row="0" column="2" colspan="3">
            <widget class="QLineEdit" name="stationProfileNameEdit">
             <property name="toolTip">
              <string>Profile name that is used as the alias for the call sign, locator, operator name, and QTH (required parameter) </string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="4">
+           <widget class="QPushButton" name="stationDelProfileButton">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLineEdit" name="stationSIGEdit">
+            <property name="toolTip">
+             <string>SIG (Optional parameter).</string>
             </property>
            </widget>
           </item>
@@ -153,58 +122,48 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="4">
+           <widget class="QLineEdit" name="stationPOTAEdit"/>
+          </item>
           <item row="1" column="4">
-           <widget class="QLabel" name="stationIOTALabel">
+           <widget class="QLineEdit" name="stationIOTAEdit">
+            <property name="toolTip">
+             <string>IOTA  (Optional parameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QPushButton" name="stationAddProfileButton">
             <property name="text">
-             <string>IOTA</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="2" colspan="4">
-           <widget class="QLineEdit" name="stationVUCCEdit">
-            <property name="toolTip">
-             <string>VUCC  Grids (Optional parameter). Ex. EN98,FM08,EM97,FM07</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="5">
-           <widget class="QLineEdit" name="stationSOTAEdit">
-            <property name="toolTip">
-             <string>SOTA (Optional parameter)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="5">
-           <widget class="QLineEdit" name="stationSIGInfoEdit">
-            <property name="toolTip">
-             <string>SIG Information (Optional parameter)</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLineEdit" name="stationOperatorEdit">
-            <property name="toolTip">
-             <string>Operator name (Optional parameter)</string>
+             <string>Add</string>
             </property>
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QLabel" name="stationOperatorLabel">
+           <widget class="QLabel" name="stationQTHLabel">
             <property name="text">
-             <string>Operator</string>
+             <string>QTH</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="4">
-           <widget class="QLabel" name="stationSIGLabel">
+          <item row="6" column="1">
+           <widget class="QLabel" name="stationVUCCLabel">
             <property name="text">
-             <string>SIG</string>
+             <string>VUCC</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="4">
+           <widget class="QLineEdit" name="stationWWFFEdit">
+            <property name="toolTip">
+             <string>World Wide Flora &amp; Fauna (Optional parameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QLabel" name="stationSIGInfoLabel">
+            <property name="text">
+             <string>Sig Info</string>
             </property>
            </widget>
           </item>
@@ -221,17 +180,68 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="5">
-           <widget class="QLineEdit" name="stationWWFFEdit">
-            <property name="toolTip">
-             <string>World Wide Flora &amp; Fauna (Optional parameter)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="4">
+          <item row="4" column="3">
            <widget class="QLabel" name="stationWWFFLabel">
             <property name="text">
              <string>WWFF</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLineEdit" name="stationCallsignEdit">
+            <property name="toolTip">
+             <string>Callsign (Mandatory parameter)</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="maxLength">
+             <number>25</number>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2" colspan="3">
+           <widget class="QLineEdit" name="stationVUCCEdit">
+            <property name="toolTip">
+             <string>VUCC  Grids (Optional parameter). Ex. EN98,FM08,EM97,FM07</string>
+            </property>
+            <property name="inputMask">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="stationOperatorLabel">
+            <property name="text">
+             <string>Operator</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="stationLocatorLabel">
+            <property name="text">
+             <string>Gridsquare</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLineEdit" name="stationOperatorEdit">
+            <property name="toolTip">
+             <string>Operator name (Optional parameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLineEdit" name="stationQTHEdit">
+            <property name="toolTip">
+             <string>QTH Name (Optional parameter)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QLabel" name="stationPOTALabel">
+            <property name="text">
+             <string>POTA</string>
             </property>
            </widget>
           </item>
@@ -2887,21 +2897,49 @@
  <tabstops>
   <tabstop>stationProfileNameEdit</tabstop>
   <tabstop>stationCallsignEdit</tabstop>
-  <tabstop>stationQTHEdit</tabstop>
   <tabstop>stationOperatorEdit</tabstop>
+  <tabstop>stationQTHEdit</tabstop>
   <tabstop>stationLocatorEdit</tabstop>
-  <tabstop>stationIOTAEdit</tabstop>
-  <tabstop>stationSOTAEdit</tabstop>
   <tabstop>stationSIGEdit</tabstop>
   <tabstop>stationSIGInfoEdit</tabstop>
-  <tabstop>stationWWFFEdit</tabstop>
   <tabstop>stationVUCCEdit</tabstop>
+  <tabstop>stationIOTAEdit</tabstop>
+  <tabstop>stationPOTAEdit</tabstop>
+  <tabstop>stationSOTAEdit</tabstop>
+  <tabstop>stationWWFFEdit</tabstop>
   <tabstop>stationAddProfileButton</tabstop>
   <tabstop>stationDelProfileButton</tabstop>
   <tabstop>antProfileNameEdit</tabstop>
   <tabstop>antDescEdit</tabstop>
   <tabstop>antAddProfileButton</tabstop>
   <tabstop>antDelProfileButton</tabstop>
+  <tabstop>cwProfileNameEdit</tabstop>
+  <tabstop>cwModelSelect</tabstop>
+  <tabstop>cwKeyModeSelect</tabstop>
+  <tabstop>cwDefaulSpeed</tabstop>
+  <tabstop>cwPortEdit</tabstop>
+  <tabstop>cwBaudSelect</tabstop>
+  <tabstop>cwHostNameEdit</tabstop>
+  <tabstop>cwNetPortSpin</tabstop>
+  <tabstop>cwAddProfileButton</tabstop>
+  <tabstop>cwDelProfileButton</tabstop>
+  <tabstop>cwShortcutProfileNameEdit</tabstop>
+  <tabstop>cwShortcutF1ShortEdit</tabstop>
+  <tabstop>cwShortcutF1MacroEdit</tabstop>
+  <tabstop>cwShortcutF2ShortEdit</tabstop>
+  <tabstop>cwShortcutF2MacroEdit</tabstop>
+  <tabstop>cwShortcutF3ShortEdit</tabstop>
+  <tabstop>cwShortcutF3MacroEdit</tabstop>
+  <tabstop>cwShortcutF4ShortEdit</tabstop>
+  <tabstop>cwShortcutF4MacroEdit</tabstop>
+  <tabstop>cwShortcutF5ShortEdit</tabstop>
+  <tabstop>cwShortcutF5MacroEdit</tabstop>
+  <tabstop>cwShortcutF6ShortEdit</tabstop>
+  <tabstop>cwShortcutF6MacroEdit</tabstop>
+  <tabstop>cwShortcutF7ShortEdit</tabstop>
+  <tabstop>cwShortcutF7MacroEdit</tabstop>
+  <tabstop>cwShortcutAddProfileButton</tabstop>
+  <tabstop>cwShortcutDelProfileButton</tabstop>
   <tabstop>rigProfileNameEdit</tabstop>
   <tabstop>rigModelSelect</tabstop>
   <tabstop>rigTXFreqMinSpinBox</tabstop>
@@ -2909,6 +2947,18 @@
   <tabstop>rigRXOffsetSpinBox</tabstop>
   <tabstop>rigTXOffsetSpinBox</tabstop>
   <tabstop>rigPWRDefaultSpinBox</tabstop>
+  <tabstop>rigAssignedCWKeyCombo</tabstop>
+  <tabstop>rigGetModeCheckBox</tabstop>
+  <tabstop>rigGetFreqCheckBox</tabstop>
+  <tabstop>rigGetPWRCheckBox</tabstop>
+  <tabstop>rigGetXITCheckBox</tabstop>
+  <tabstop>rigGetKeySpeedCheckBox</tabstop>
+  <tabstop>rigGetVFOCheckBox</tabstop>
+  <tabstop>rigQSYWipingCheckBox</tabstop>
+  <tabstop>rigGetPTTStateCheckBox</tabstop>
+  <tabstop>rigGetRITCheckBox</tabstop>
+  <tabstop>rigKeySpeedSyncCheckBox</tabstop>
+  <tabstop>rigPollIntervalSpinBox</tabstop>
   <tabstop>rigPortEdit</tabstop>
   <tabstop>rigBaudSelect</tabstop>
   <tabstop>rigDataBitsSelect</tabstop>
@@ -2917,9 +2967,6 @@
   <tabstop>rigParitySelect</tabstop>
   <tabstop>rigHostNameEdit</tabstop>
   <tabstop>rigNetPortSpin</tabstop>
-  <tabstop>rigGetModeCheckBox</tabstop>
-  <tabstop>rigGetXITCheckBox</tabstop>
-  <tabstop>rigGetRITCheckBox</tabstop>
   <tabstop>rigAddProfileButton</tabstop>
   <tabstop>rigDelProfileButton</tabstop>
   <tabstop>rotProfileNameEdit</tabstop>
@@ -3690,6 +3737,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>stationPOTAEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>potaEditFinished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>607</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stationPOTAEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>potaChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>607</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -3737,5 +3816,7 @@
   <slot>wwffEditFinished()</slot>
   <slot>wwffChanged(QString)</slot>
   <slot>assignedKeyChanged(int)</slot>
+  <slot>potaEditFinished()</slot>
+  <slot>potaChanged(QString)</slot>
  </slots>
 </ui>

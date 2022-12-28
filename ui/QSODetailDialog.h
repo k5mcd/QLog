@@ -77,8 +77,10 @@ private slots:
     void callbookError(QString);
     void handleBeforeUpdate(int, QSqlRecord&);
     void sotaChanged(QString);
+    void potaChanged(QString);
     void wwffChanged(QString);
     void mySotaChanged(QString);
+    void myPOTAChanged(QString);
     void myWWFFChanged(QString);
 
 private:
@@ -131,6 +133,8 @@ private:
     QCompleter *myIotaCompleter;
     QCompleter *sotaCompleter;
     QCompleter *mySotaCompleter;
+    QCompleter *potaCompleter;
+    QCompleter *myPotaCompleter;
     QCompleter *wwffCompleter;
     QCompleter *myWWFFCompleter;
     static const QString SAVE_BUTTON_TEXT;

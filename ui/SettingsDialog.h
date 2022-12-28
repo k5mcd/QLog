@@ -88,6 +88,8 @@ public slots:
     void cancelled();
     void sotaChanged(QString);
     void sotaEditFinished();
+    void potaChanged(QString);
+    void potaEditFinished();
     void wwffChanged(QString);
     void wwffEditFinished();
     void primaryCallbookChanged(int);
@@ -112,6 +114,7 @@ private:
     QCompleter *sotaCompleter;
     QCompleter *iotaCompleter;
     QCompleter *wwffCompleter;
+    QCompleter *potaCompleter;
     Ui::SettingsDialog *ui;
 };
 

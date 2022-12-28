@@ -67,8 +67,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     connect(lookupButtonMovie, &QMovie::frameChanged, this, [this]
     {
           this->lookupButton->setIcon(this->lookupButtonMovie->currentPixmap());
-    });
-    lookupButtonWaitingStyle(false);
+    });    lookupButtonWaitingStyle(false);
 
     /* timeformat for DateTime */
     ui->dateTimeOnEdit->setDisplayFormat(QString(locale.dateFormat(QLocale::ShortFormat) + " " + locale.timeFormat(QLocale::LongFormat)).remove(" t"));
@@ -130,6 +129,13 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
+    /* POTA Completer */
+    potaCompleter = new QCompleter(Data::instance()->potaIDList(), this);
+    potaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    potaCompleter->setFilterMode(Qt::MatchStartsWith);
+    potaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->potaEdit->setCompleter(nullptr);
+
     /* WWFF Completer */
     wwffCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
     wwffCompleter->setCaseSensitivity(Qt::CaseInsensitive);
@@ -150,6 +156,13 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mySotaCompleter->setFilterMode(Qt::MatchStartsWith);
     mySotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->mySOTAEdit->setCompleter(nullptr);
+
+    /* MyPOTA Completer */
+    myPotaCompleter = new QCompleter(Data::instance()->potaIDList(), this);
+    myPotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    myPotaCompleter->setFilterMode(Qt::MatchStartsWith);
+    myPotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->myPOTAEdit->setCompleter(nullptr);
 
     /* MyWWFF Completer */
     myWWFFCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
@@ -252,6 +265,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mapper->addMapping(ui->ageEdit, LogbookModel::COLUMN_AGE);
     mapper->addMapping(ui->iotaEdit, LogbookModel::COLUMN_IOTA);
     mapper->addMapping(ui->sotaEdit, LogbookModel::COLUMN_SOTA_REF);
+    mapper->addMapping(ui->potaEdit, LogbookModel::COLUMN_POTA_REF);
     mapper->addMapping(ui->sigEdit, LogbookModel::COLUMN_SIG_INTL);
     mapper->addMapping(ui->sigInfoEdit, LogbookModel::COLUMN_SIG_INFO_INTL);
     mapper->addMapping(ui->dokEdit, LogbookModel::COLUMN_DARC_DOK);
@@ -270,6 +284,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mapper->addMapping(ui->myQTHEdit, LogbookModel::COLUMN_MY_CITY_INTL);
     mapper->addMapping(ui->myGridEdit, LogbookModel::COLUMN_MY_GRIDSQUARE);
     mapper->addMapping(ui->mySOTAEdit, LogbookModel::COLUMN_MY_SOTA_REF);
+    mapper->addMapping(ui->myPOTAEdit, LogbookModel::COLUMN_MY_POTA_REF);
     mapper->addMapping(ui->myIOTAEdit, LogbookModel::COLUMN_MY_IOTA);
     mapper->addMapping(ui->mySIGEdit, LogbookModel::COLUMN_MY_SIG);
     mapper->addMapping(ui->mySIGInfoEdit, LogbookModel::COLUMN_MY_SIG_INFO_INTL);
@@ -793,7 +808,18 @@ bool QSODetailDialog::doValidation()
                                  !ui->myVUCCEdit->text().isEmpty() && !ui->myVUCCEdit->hasAcceptableInput(),
                                  tr("Own VUCC Grid has an incorrect format"));
 
-    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
+    SOTAEntity sotaInfo;
+    POTAEntity potaInfo;
+
+    if ( !ui->sotaEdit->text().isEmpty() )
+    {
+        sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
+    }
+
+    if ( !ui->potaEdit->text().isEmpty() )
+    {
+        potaInfo = Data::instance()->lookupPOTA(ui->potaEdit->text());
+    }
 
     if ( sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
          && !sotaInfo.summitName.isEmpty() )
@@ -809,6 +835,22 @@ bool QSODetailDialog::doValidation()
                                          tr("Based on SOTA Summit, Grid does not match SOTA Grid"));
         }
 
+    }
+
+    if ( ui->sotaEdit->text().isEmpty()
+         && potaInfo.reference.toUpper() == ui->potaEdit->text().toUpper()
+         && !potaInfo.name.isEmpty() )
+    {
+        allValid &= highlightInvalid(ui->qthLabel,
+                                     ui->qthEdit->text() != potaInfo.name,
+                                     tr("Based on POTA record, QTH does not match POTA Name"));
+        Gridsquare POTAGrid(potaInfo.grid);
+        if ( POTAGrid.isValid() )
+        {
+            allValid &= highlightInvalid(ui->gridLabel,
+                                         ui->gridEdit->text() != POTAGrid.getGrid(),
+                                         tr("Based on POTA record, Grid does not match POTA Grid"));
+        }
     }
 
     qCDebug(runtime) << "Validation result: " << allValid;
@@ -975,6 +1017,20 @@ void QSODetailDialog::sotaChanged(QString newSOTA)
     }
 }
 
+void QSODetailDialog::potaChanged(QString newPOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newPOTA.length() >= 3 )
+    {
+        ui->potaEdit->setCompleter(potaCompleter);
+    }
+    else
+    {
+        ui->potaEdit->setCompleter(nullptr);
+    }
+}
+
 void QSODetailDialog::wwffChanged(QString newWWFF)
 {
     FCT_IDENTIFICATION;
@@ -1000,6 +1056,20 @@ void QSODetailDialog::mySotaChanged(QString newSOTA)
     else
     {
         ui->mySOTAEdit->setCompleter(nullptr);
+    }
+}
+
+void QSODetailDialog::myPOTAChanged(QString newPOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newPOTA.length() >= 3 )
+    {
+        ui->myPOTAEdit->setCompleter(potaCompleter);
+    }
+    else
+    {
+        ui->myPOTAEdit->setCompleter(nullptr);
     }
 }
 
@@ -1786,6 +1856,8 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
 
            case COLUMN_SOTA_REF:
            case COLUMN_MY_SOTA_REF:
+           case COLUMN_POTA_REF:
+           case COLUMN_MY_POTA_REF:
            case COLUMN_IOTA:
            case COLUMN_MY_IOTA:
            case COLUMN_MY_GRIDSQUARE:

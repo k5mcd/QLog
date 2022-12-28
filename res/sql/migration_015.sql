@@ -13,3 +13,16 @@ ALTER TABLE contacts ADD my_altitude REAL;
 ALTER TABLE contacts ADD my_gridsquare_ext TEXT;
 ALTER TABLE contacts ADD my_pota_ref TEXT;
 ALTER TABLE contacts ADD pota_ref TEXT;
+
+CREATE TABLE IF NOT EXISTS pota_directory(
+        reference TEXT PRIMARY KEY,
+        name TEXT,
+        active INTEGER,
+        entityID INTEGER,
+        locationDesc TEXT,
+        latitude REAL,
+        longitude REAL,
+        grid TEXT
+);
+
+ALTER TABLE station_profiles ADD pota TEXT;

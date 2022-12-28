@@ -157,6 +157,7 @@ HEADERS += \
         data/Data.h \
         data/DxSpot.h \
         data/Dxcc.h \
+        data/POTAEntity.h \
         data/ProfileManager.h \
         data/RigProfile.h \
         data/RotProfile.h \

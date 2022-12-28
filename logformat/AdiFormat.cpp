@@ -500,7 +500,7 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("my_itu_zone",contact.take("my_itu_zone"));
     record.setValue("my_lat",contact.take("my_lat"));
     record.setValue("my_lon",contact.take("my_lon"));
-    record.setValue("my_pota_ref",contact.take("my_pota_ref"));
+    record.setValue("my_pota_ref",contact.take("my_pota_ref").toString().toUpper());
     record.setValue("my_sota_ref",contact.take("my_sota_ref"));
     record.setValue("my_state",contact.take("my_state"));
     record.setValue("my_usaca_counties",contact.take("my_usaca_counties"));
@@ -510,7 +510,7 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("nr_pings",contact.take("nr_pings"));
     record.setValue("operator",contact.take("operator"));
     record.setValue("owner_callsign",contact.take("owner_callsign"));
-    record.setValue("pota_ref",contact.take("pota_ref"));
+    record.setValue("pota_ref",contact.take("pota_ref").toString().toUpper());
     record.setValue("precedence",contact.take("precedence"));
     record.setValue("prop_mode",contact.take("prop_mode"));
     record.setValue("public_key",contact.take("public_key"));

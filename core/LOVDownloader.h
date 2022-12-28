@@ -17,7 +17,8 @@ public:
         SOTASUMMITS = 2,
         WWFFDIRECTORY = 3,
         IOTALIST = 4,
-        UNDEF = 5
+        POTADIRECTORY = 5,
+        UNDEF = 6
     };
 
 public:
@@ -89,6 +90,12 @@ private:
                                    "iota.csv",
                                    "last_iota_update",
                                    "iota",
+                                   30)},
+        {POTADIRECTORY, SourceDefinition(POTADIRECTORY,
+                                   "https://pota.app/all_parks_ext.csv",
+                                   "all_parks_ext.csv",
+                                   "last_pota_update",
+                                   "pota_directory",
                                    30)}
     };
 
@@ -110,6 +117,7 @@ private:
     void parseSOTASummits(const SourceDefinition &sourceDef, QTextStream& data);
     void parseWWFFDirectory(const SourceDefinition &sourceDef, QTextStream& data);
     void parseIOTA(const SourceDefinition &sourceDef, QTextStream& data);
+    void parsePOTA(const SourceDefinition &sourceDef, QTextStream& data);
 
 private slots:
     void processReply(QNetworkReply*);

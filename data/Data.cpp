@@ -22,6 +22,7 @@ Data::Data(QObject *parent) :
     loadIOTA();
     loadSOTA();
     loadWWFF();
+    loadPOTA();
     loadTZ();
 
     isDXCCQueryValid = queryDXCC.prepare(
@@ -67,6 +68,19 @@ Data::Data(QObject *parent) :
                 "       valid_to "
                 "FROM sota_summits "
                 "WHERE summit_code = UPPER(:code)"
+                );
+
+    isPOTAQueryValid = queryPOTA.prepare(
+                "SELECT reference,"
+                "       name,"
+                "       active,"
+                "       entityID,"
+                "       locationDesc,"
+                "       latitude,"
+                "       longitude,"
+                "       grid "
+                "FROM pota_directory "
+                "WHERE reference = UPPER(:code)"
                 );
 
     isWWFFQueryValid = queryWWFF.prepare(
@@ -809,6 +823,19 @@ void Data::loadWWFF()
     }
 }
 
+void Data::loadPOTA()
+{
+    FCT_IDENTIFICATION;
+
+    QSqlQuery query("SELECT reference FROM pota_directory");
+
+    while ( query.next() )
+    {
+        QString reference = query.value(0).toString();
+        potaRefID.insert(reference, QString());
+    }
+}
+
 void Data::loadTZ()
 {
     FCT_IDENTIFICATION;
@@ -964,6 +991,48 @@ SOTAEntity Data::lookupSOTA(const QString &SOTACode)
     }
 
     return SOTARet;
+}
+
+POTAEntity Data::lookupPOTA(const QString &POTACode)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! isPOTAQueryValid )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return POTAEntity();
+    }
+
+    queryPOTA.bindValue(":code", POTACode);
+
+    if ( ! queryPOTA.exec() )
+    {
+        qWarning() << "Cannot execte Select statement" << queryPOTA.lastError();
+        return POTAEntity();
+    }
+
+    POTAEntity POTARet;
+
+    if (queryPOTA.next())
+    {
+        POTARet.reference = queryPOTA.value(0).toString();
+        POTARet.name = queryPOTA.value(1).toString();
+        POTARet.active = queryPOTA.value(2).toBool();
+        POTARet.entityID = queryPOTA.value(3).toInt();
+        POTARet.locationDesc = queryPOTA.value(4).toString();
+        POTARet.longitude = queryPOTA.value(5).toDouble();
+        POTARet.latitude = queryPOTA.value(6).toDouble();
+        POTARet.grid = queryPOTA.value(7).toString();
+    }
+    else
+    {
+        POTARet.active = false;
+        POTARet.entityID = 0;
+        POTARet.longitude = 0.0;
+        POTARet.latitude  = 0.0;
+    }
+
+    return POTARet;
 }
 
 WWFFEntity Data::lookupWWFF(const QString &reference)

@@ -167,6 +167,15 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     ui->sotaEdit->setCompleter(nullptr);
 
     /**************/
+    /* POTA Edit  */
+    /**************/
+    potaCompleter = new QCompleter(Data::instance()->potaIDList(), this);
+    potaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    potaCompleter->setFilterMode(Qt::MatchStartsWith);
+    potaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->potaEdit->setCompleter(nullptr);
+
+    /**************/
     /* WWFF Edit  */
     /**************/
     wwffCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
@@ -867,6 +876,7 @@ void NewContactWidget::resetContact()
     ui->ituEdit->clear();
     ui->contEdit->setCurrentText("");
     ui->sotaEdit->clear();
+    ui->potaEdit->clear();
     ui->sigEdit->clear();
     ui->sigInfoEdit->clear();
     ui->vuccEdit->clear();
@@ -1061,6 +1071,12 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
         }
     }
 
+    if ( record.value("my_pota_ref").toString().isEmpty()
+         && !profile.pota.isEmpty())
+    {
+       record.setValue("my_pota_ref", Data::removeAccents(profile.pota.toUpper()));
+    }
+
     if ( record.value("my_sig").toString().isEmpty()
          && !profile.sig.isEmpty())
     {
@@ -1224,6 +1240,9 @@ void NewContactWidget::connectFieldChanged()
             this, &NewContactWidget::formFieldChangedString);
 
     connect(ui->sotaEdit, &QLineEdit::textChanged,
+            this, &NewContactWidget::formFieldChangedString);
+
+    connect(ui->potaEdit, &QLineEdit::textChanged,
             this, &NewContactWidget::formFieldChangedString);
 
     connect(ui->sigEdit, &QLineEdit::textChanged,
@@ -1403,6 +1422,11 @@ void NewContactWidget::saveContact()
     if ( !ui->sotaEdit->text().isEmpty() )
     {
         record.setValue("sota_ref", Data::removeAccents(ui->sotaEdit->text().toUpper()));
+    }
+
+    if ( !ui->potaEdit->text().isEmpty() )
+    {
+        record.setValue("pota_ref", Data::removeAccents(ui->potaEdit->text().toUpper()));
     }
 
     if ( !ui->dokEdit->text().isEmpty() )
@@ -2200,6 +2224,14 @@ QString NewContactWidget::getMySOTA() const
     return profile.sota;
 }
 
+QString NewContactWidget::getMyPOTA() const
+{
+    FCT_IDENTIFICATION;
+
+    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    return profile.pota;
+}
+
 QString NewContactWidget::getMyWWFT() const
 {
     FCT_IDENTIFICATION;
@@ -2311,8 +2343,18 @@ void NewContactWidget::sotaChanged(QString newSOTA)
     {
         ui->sotaEdit->setCompleter(nullptr);
     }
-    ui->qthEdit->clear();
-    ui->gridEdit->clear();
+
+    if ( ui->qthEdit->text() == lastSOTA.summitName )
+    {
+        ui->qthEdit->clear();
+    }
+
+    Gridsquare SOTAGrid(lastSOTA.gridref2, lastSOTA.gridref1);
+    if ( ui->gridEdit->text() == SOTAGrid.getGrid() )
+    {
+        ui->gridEdit->clear();
+    }
+
     ui->AMLSInfo->clear();
 }
 
@@ -2332,6 +2374,64 @@ void NewContactWidget::sotaEditFinished()
             ui->gridEdit->setText(SOTAGrid.getGrid());
         }
         ui->AMLSInfo->setText(QString::number(sotaInfo.altm) + tr(" m"));
+        lastSOTA = sotaInfo;
+    }
+    else if ( !ui->potaEdit->text().isEmpty() )
+    {
+        potaEditFinished();
+    }
+    else if ( !ui->wwffEdit->text().isEmpty() )
+    {
+        wwffEditFinished();
+    } 
+}
+
+void NewContactWidget::potaChanged(QString newPOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newPOTA.length() >= 3 )
+    {
+        ui->potaEdit->setCompleter(potaCompleter);
+    }
+    else
+    {
+        ui->potaEdit->setCompleter(nullptr);
+    }
+
+    if ( ui->qthEdit->text() == lastPOTA.name )
+    {
+        ui->qthEdit->clear();
+    }
+
+    Gridsquare POTAGrid(lastPOTA.grid);
+
+    if ( ui->gridEdit->text() == POTAGrid.getGrid() )
+    {
+        ui->gridEdit->clear();
+    }
+}
+
+void NewContactWidget::potaEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    POTAEntity potaInfo = Data::instance()->lookupPOTA(ui->potaEdit->text());
+
+    if ( potaInfo.reference.toUpper() == ui->potaEdit->text().toUpper()
+         && !potaInfo.name.isEmpty() )
+    {
+        ui->qthEdit->setText(potaInfo.name);
+        Gridsquare POTAGrid(potaInfo.grid);
+        if ( POTAGrid.isValid() )
+        {
+            ui->gridEdit->setText(POTAGrid.getGrid());
+        }
+        lastPOTA = potaInfo;
+    }
+    else if ( !ui->sotaEdit->text().isEmpty() )
+    {
+        sotaEditFinished();
     }
     else if ( !ui->wwffEdit->text().isEmpty() )
     {
@@ -2346,8 +2446,7 @@ void NewContactWidget::wwffEditFinished()
     WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->wwffEdit->text());
 
     if ( wwffInfo.reference.toUpper() == ui->wwffEdit->text().toUpper()
-         && !wwffInfo.name.isEmpty()
-         && ui->qthEdit->text().isEmpty() )
+         && !wwffInfo.name.isEmpty() )
     {
         ui->qthEdit->setText(wwffInfo.name);
         if ( ! wwffInfo.iota.isEmpty()
@@ -2355,6 +2454,15 @@ void NewContactWidget::wwffEditFinished()
         {
             ui->iotaEdit->setText(wwffInfo.iota.toUpper());
         }
+        lastWWFF = wwffInfo;
+    }
+    else if ( !ui->sotaEdit->text().isEmpty() )
+    {
+        sotaEditFinished();
+    }
+    else if ( !ui->potaEdit->text().isEmpty() )
+    {
+        potaEditFinished();
     }
 }
 
@@ -2371,11 +2479,10 @@ void NewContactWidget::wwffChanged(QString newWWFF)
         ui->wwffEdit->setCompleter(nullptr);
     }
 
-    if ( ui->sotaEdit->text().isEmpty() )
+    if ( ui->qthEdit->text() == lastWWFF.name )
     {
-        //do not clear IOTA - IOTA info seems to be not reliable from WWFF and IOTA
-        //can be added manually by operator
         ui->qthEdit->clear();
+        ui->gridEdit->clear();
     }
 }
 

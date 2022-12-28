@@ -13,7 +13,7 @@ QDataStream& operator<<(QDataStream& out, const StationProfile& v)
     out << v.profileName << v.callsign << v.locator
         << v.operatorName << v.qthName << v.iota
         << v.sota << v.sig << v.sigInfo << v.vucc
-        << v.wwff;
+        << v.wwff << v.pota;
     return out;
 }
 
@@ -30,6 +30,7 @@ QDataStream& operator>>(QDataStream& in, StationProfile& v)
     in >> v.sigInfo;
     in >> v.vucc;
     in >> v.wwff;
+    in >> v.pota;
 
     return in;
 }
@@ -44,7 +45,7 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc FROM station_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc, pota FROM station_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -64,6 +65,7 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
             profileDB.sig =  profileQuery.value(7).toString();
             profileDB.sigInfo =  profileQuery.value(8).toString();
             profileDB.vucc =  profileQuery.value(9).toString();
+            profileDB.pota = profileQuery.value(10).toString();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -100,8 +102,8 @@ void StationProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc, wwff) "
-                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc, :wwff)") )
+    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc, wwff, pota) "
+                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc, :wwff, :pota)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -125,6 +127,7 @@ void StationProfilesManager::save()
             insertQuery.bindValue(":sig_info", stationProfile.sigInfo);
             insertQuery.bindValue(":vucc", stationProfile.vucc);
             insertQuery.bindValue(":wwff", stationProfile.wwff);
+            insertQuery.bindValue(":pota", stationProfile.pota);
 
             if ( ! insertQuery.exec() )
             {
@@ -152,7 +155,8 @@ bool StationProfile::operator==(const StationProfile &profile)
             && profile.sig == this->sig
             && profile.sigInfo == this->sigInfo
             && profile.vucc == this->vucc
-            && profile.wwff == this->wwff);
+            && profile.wwff == this->wwff
+            && profile.pota == this->pota);
 }
 
 bool StationProfile::operator!=(const StationProfile &profile)
