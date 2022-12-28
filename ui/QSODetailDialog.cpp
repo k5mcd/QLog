@@ -751,6 +751,13 @@ bool QSODetailDialog::doValidation()
 
     bool allValid = true;
 
+    QList<QLabel *> list = findChildren<QLabel *>();
+
+    for ( QLabel *label : qAsConst(list) )
+    {
+        label->setToolTip(QString());
+    }
+
     allValid &= highlightInvalid(ui->callsignLabel,
                                  ui->callsignEdit->text().isEmpty(),
                                  tr("DX Callsign must not be empty"));
@@ -769,24 +776,21 @@ bool QSODetailDialog::doValidation()
 
     DxccEntity dxccEntity = Data::instance()->lookupDxcc(ui->callsignEdit->text());
 
-    if ( dxccEntity.dxcc )
-    {
-        allValid &= highlightInvalid(ui->countryLabel,
-                                     ui->countryCombo->currentText() != dxccEntity.country,
-                                     tr("Based on callsign, DXCC Country is different from the entered value - expecting ") + "<b> " + dxccEntity.country + "</b>");
+    allValid &= highlightInvalid(ui->countryLabel,
+                                 dxccEntity.dxcc && ui->countryCombo->currentText() != dxccEntity.country,
+                                 tr("Based on callsign, DXCC Country is different from the entered value - expecting ") + "<b> " + dxccEntity.country + "</b>");
 
-        allValid &= highlightInvalid(ui->contLabel,
-                                     ui->contEdit->currentText() != dxccEntity.cont,
-                                     tr("Based on callsign, DXCC Continent is different from the entered value - expecting ") + "<b> " + dxccEntity.cont + "</b>");
+    allValid &= highlightInvalid(ui->contLabel,
+                                 dxccEntity.dxcc && ui->contEdit->currentText() != dxccEntity.cont,
+                                 tr("Based on callsign, DXCC Continent is different from the entered value - expecting ") + "<b> " + dxccEntity.cont + "</b>");
 
-        allValid &= highlightInvalid(ui->ituLabel,
-                                     ui->ituEdit->text() != QString::number(dxccEntity.ituz),
-                                     tr("Based on callsign, DXCC ITU is different from the entered value - expecting ") + "<b> " + QString::number(dxccEntity.ituz) + "</b>");
+    allValid &= highlightInvalid(ui->ituLabel,
+                                 dxccEntity.dxcc && ui->ituEdit->text() != QString::number(dxccEntity.ituz),
+                                 tr("Based on callsign, DXCC ITU is different from the entered value - expecting ") + "<b> " + QString::number(dxccEntity.ituz) + "</b>");
 
-        allValid &= highlightInvalid(ui->cqLabel,
-                                     ui->cqEdit->text() != QString::number(dxccEntity.cqz),
-                                     tr("Based on callsign, DXCC CQZ is different from the entered value - expecting ") + "<b> " + QString::number(dxccEntity.cqz) + "</b>");
-    }
+    allValid &= highlightInvalid(ui->cqLabel,
+                                 dxccEntity.dxcc && ui->cqEdit->text() != QString::number(dxccEntity.cqz),
+                                 tr("Based on callsign, DXCC CQZ is different from the entered value - expecting ") + "<b> " + QString::number(dxccEntity.cqz) + "</b>");
 
     allValid &= highlightInvalid(ui->vuccLabel,
                                  !ui->vuccEdit->text().isEmpty() && !ui->vuccEdit->hasAcceptableInput(),
@@ -821,37 +825,35 @@ bool QSODetailDialog::doValidation()
         potaInfo = Data::instance()->lookupPOTA(ui->potaEdit->text());
     }
 
-    if ( sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
-         && !sotaInfo.summitName.isEmpty() )
-    {
-        allValid &= highlightInvalid(ui->qthLabel,
-                                     ui->qthEdit->text() != sotaInfo.summitName,
-                                     tr("Based on SOTA Summit, QTH does not match SOTA Summit Name"));
-        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
-        if ( SOTAGrid.isValid() )
-        {
-            allValid &= highlightInvalid(ui->gridLabel,
-                                         ui->gridEdit->text() != SOTAGrid.getGrid(),
-                                         tr("Based on SOTA Summit, Grid does not match SOTA Grid"));
-        }
+    allValid &= highlightInvalid(ui->qthLabel,
+                                 sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
+                                 && !sotaInfo.summitName.isEmpty()
+                                 && ui->qthEdit->text() != sotaInfo.summitName,
+                                 tr("Based on SOTA Summit, QTH does not match SOTA Summit Name - expecting ")+ "<b> " + sotaInfo.summitName + "</b>");
 
-    }
+    Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
 
-    if ( ui->sotaEdit->text().isEmpty()
-         && potaInfo.reference.toUpper() == ui->potaEdit->text().toUpper()
-         && !potaInfo.name.isEmpty() )
-    {
-        allValid &= highlightInvalid(ui->qthLabel,
-                                     ui->qthEdit->text() != potaInfo.name,
-                                     tr("Based on POTA record, QTH does not match POTA Name"));
-        Gridsquare POTAGrid(potaInfo.grid);
-        if ( POTAGrid.isValid() )
-        {
-            allValid &= highlightInvalid(ui->gridLabel,
-                                         ui->gridEdit->text() != POTAGrid.getGrid(),
-                                         tr("Based on POTA record, Grid does not match POTA Grid"));
-        }
-    }
+    allValid &= highlightInvalid(ui->gridLabel,
+                                 sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
+                                 && !sotaInfo.summitName.isEmpty()
+                                 && SOTAGrid.isValid()
+                                 && ui->gridEdit->text() != SOTAGrid.getGrid(),
+                                 tr("Based on SOTA Summit, Grid does not match SOTA Grid - expecting ")+ "<b> " + SOTAGrid.getGrid() + "</b>");
+
+    allValid &= highlightInvalid(ui->qthLabel,
+                                 potaInfo.reference.toUpper() == ui->potaEdit->text().toUpper()
+                                 && !potaInfo.name.isEmpty()
+                                 && ui->qthEdit->text() != potaInfo.name,
+                                 tr("Based on POTA record, QTH does not match POTA Name - expecting ")+ "<b> " + potaInfo.name + "</b>");
+
+    Gridsquare POTAGrid(potaInfo.grid);
+
+    allValid &= highlightInvalid(ui->gridLabel,
+                                 potaInfo.reference.toUpper() == ui->potaEdit->text().toUpper()
+                                 && !potaInfo.name.isEmpty()
+                                 && POTAGrid.isValid()
+                                 && ui->gridEdit->text() != POTAGrid.getGrid(),
+                                 tr("Based on POTA record, Grid does not match POTA Grid - expecting ")+ "<b> " + POTAGrid.getGrid() + "</b>");
 
     qCDebug(runtime) << "Validation result: " << allValid;
     return allValid;
