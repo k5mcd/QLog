@@ -1481,6 +1481,10 @@ void SettingsDialog::sotaEditFinished()
             ui->stationLocatorEdit->setText(SOTAGrid.getGrid());
         }
     }
+    else if ( !ui->stationPOTAEdit->text().isEmpty() )
+    {
+        potaEditFinished();
+    }
     else if ( !ui->stationWWFFEdit->text().isEmpty() )
     {
         wwffEditFinished();
@@ -1508,9 +1512,21 @@ void SettingsDialog::potaEditFinished()
 {
     FCT_IDENTIFICATION;
 
-    POTAEntity potaInfo = Data::instance()->lookupPOTA(ui->stationPOTAEdit->text());
+    QStringList potaList = ui->stationPOTAEdit->text().split("@");
+    QString potaString;
 
-    if ( potaInfo.reference.toUpper() == ui->stationPOTAEdit->text().toUpper()
+    if ( potaList.size() > 0 )
+    {
+        potaString = potaList[0];
+    }
+    else
+    {
+        potaString = ui->stationPOTAEdit->text();
+    }
+
+    POTAEntity potaInfo = Data::instance()->lookupPOTA(potaString);
+
+    if ( potaInfo.reference.toUpper() == potaString.toUpper()
          && !potaInfo.name.isEmpty() )
     {
         ui->stationQTHEdit->setText(potaInfo.name);
@@ -1519,6 +1535,10 @@ void SettingsDialog::potaEditFinished()
         {
             ui->stationLocatorEdit->setText(POTAGrid.getGrid());
         }
+    }
+    else if ( !ui->stationSOTAEdit->text().isEmpty() )
+    {
+        sotaEditFinished();
     }
     else if ( !ui->stationWWFFEdit->text().isEmpty() )
     {
@@ -1561,6 +1581,14 @@ void SettingsDialog::wwffEditFinished()
         if ( ! wwffInfo.iota.isEmpty()
              && wwffInfo.iota != "-" )
         ui->stationIOTAEdit->setText(wwffInfo.iota.toUpper());
+    }
+    else if ( !ui->stationSOTAEdit->text().isEmpty() )
+    {
+        sotaEditFinished();
+    }
+    else if ( !ui->stationPOTAEdit->text().isEmpty() )
+    {
+        potaEditFinished();
     }
 }
 

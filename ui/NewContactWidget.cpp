@@ -2416,9 +2416,21 @@ void NewContactWidget::potaEditFinished()
 {
     FCT_IDENTIFICATION;
 
-    POTAEntity potaInfo = Data::instance()->lookupPOTA(ui->potaEdit->text());
+    QStringList potaList = ui->potaEdit->text().split("@");
+    QString potaString;
 
-    if ( potaInfo.reference.toUpper() == ui->potaEdit->text().toUpper()
+    if ( potaList.size() > 0 )
+    {
+        potaString = potaList[0];
+    }
+    else
+    {
+        potaString = ui->potaEdit->text();
+    }
+
+    POTAEntity potaInfo = Data::instance()->lookupPOTA(potaString);
+
+    if ( potaInfo.reference.toUpper() == potaString.toUpper()
          && !potaInfo.name.isEmpty() )
     {
         ui->qthEdit->setText(potaInfo.name);
