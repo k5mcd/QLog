@@ -69,7 +69,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_CREDIT_SUBMITTED, Qt::Horizontal, tr("Credit Submitted"));
     setHeaderData(COLUMN_CREDIT_GRANTED, Qt::Horizontal, tr("Credit Granted"));
     setHeaderData(COLUMN_DARC_DOK, Qt::Horizontal, tr("DARC DOK"));
-    setHeaderData(COLUMN_DISTANCE, Qt::Horizontal, tr("Dinstance"));
+    setHeaderData(COLUMN_DISTANCE, Qt::Horizontal, tr("Distance"));
     setHeaderData(COLUMN_EMAIL, Qt::Horizontal, tr("Email"));
     setHeaderData(COLUMN_EQ_CALL, Qt::Horizontal, tr("Owner Callsign"));
     setHeaderData(COLUMN_EQSL_QSLRDATE, Qt::Horizontal, tr("eQSLr Date"));
