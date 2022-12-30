@@ -2454,6 +2454,7 @@ void NewContactWidget::wwffEditFinished()
         {
             ui->iotaEdit->setText(wwffInfo.iota.toUpper());
         }
+        ui->gridEdit->setText(QString()); // WWFF's Grid is unrealiable information
         lastWWFF = wwffInfo;
     }
     else if ( !ui->sotaEdit->text().isEmpty() )
