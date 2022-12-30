@@ -473,12 +473,6 @@ void QSOFilterDetail::save()
     QString valueString;
     QSqlQuery filterInsertStmt, deleteFilterStmt, updateStmt;
 
-    if ( ui->filterLineEdit->text().isEmpty() )
-    {
-        ui->filterLineEdit->setPlaceholderText(tr("Must not be empty"));
-        return;
-    }
-
     if ( filterExists(ui->filterLineEdit->text()) )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Info"),
@@ -552,11 +546,6 @@ void QSOFilterDetail::save()
                             {
                                 QLineEdit* editLine = dynamic_cast<QLineEdit*>(stackedEdit);
                                 valueString = editLine->text();
-                                if ( valueString.isEmpty() )
-                                {
-                                    editLine->setPlaceholderText(tr("Must not be empty"));
-                                    return;
-                                }
                             }
                             else if ( stacketEditObjName.contains("valueDateEdit") )
                             {
@@ -589,7 +578,14 @@ void QSOFilterDetail::save()
                 filterInsertStmt.bindValue(":filterName", ui->filterLineEdit->text());
                 filterInsertStmt.bindValue(":tableFieldIndex", fieldNameIdx);
                 filterInsertStmt.bindValue(":operatorID", conditionIdx);
-                filterInsertStmt.bindValue(":valueString", valueString);
+                if ( valueString.isEmpty() )
+                {
+                    filterInsertStmt.bindValue(":valueString", QVariant());
+                }
+                else
+                {
+                    filterInsertStmt.bindValue(":valueString", valueString);
+                }
 
                 if ( ! filterInsertStmt.exec() )
                 {
