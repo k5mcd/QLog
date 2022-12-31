@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QColor>
 #include <QSpacerItem>
+#include <hamlib/rig.h>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "ui/SettingsDialog.h"
@@ -620,7 +621,7 @@ void MainWindow::showAbout() {
                            "<p>&copy; 2019 Thomas Gatzweiler DL2IC<br/>"
                            "&copy; 2021-2022 Ladislav Foldyna OK1MLG</p>"
                            "<p>Based on Qt %2<br/>"
-                           "Hamlib %3<br/>"
+                           "%3<br/>"
                            "%4</p>"
                            "<p>Icon by <a href='http://www.iconshock.com'>Icon Shock</a><br />"
                            "Satellite images by <a href='http://www.nasa.gov'>NASA</a><br />"
@@ -629,7 +630,13 @@ void MainWindow::showAbout() {
 
 
     QString version = QCoreApplication::applicationVersion();
-    QString hamlibVersion = QString("%1.%2.%3").arg(HAMLIBVERSION_MAJOR).arg(HAMLIBVERSION_MINOR).arg(HAMLIBVERSION_PATCH);
+    QString hamlibVersion =
+#if defined(Q_OS_WIN)
+            QString(rig_version());
+#else
+            QString(hamlib_version);
+#endif
+
     QString OSName = QString("%1 %2").arg(QSysInfo::prettyProductName()).arg(QSysInfo::currentCpuArchitecture());
     aboutText = aboutText.arg(version).arg(qVersion()).arg(hamlibVersion).arg(OSName);
 

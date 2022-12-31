@@ -27,49 +27,43 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - **NO** ads, **NO** user tracking, **NO** hidden telemetry - simply free and open-source
 - SQLite backend.
 
+### Supported OS
+* Linux
+* MacOS
+* Windows 10 (64bit)
+
+### Supported Rigs
+* all supported by [Hamlib](https://hamlib.github.io/)
+
+### Supported Rotators
+* all supported by [Hamlib](https://hamlib.github.io/)
+
+### Third-party software
+* [TQSL](http://www.arrl.org/tqsl-download) – optional, needed for LoTW support
+
+
+
 For more details, screenshots etc, please, see [QLog Wiki](https://github.com/foldynl/QLog/wiki)
 
 Please, used [QLog Issues](https://github.com/foldynl/QLog/issues) for reporting any issue or open a [discussion](https://github.com/foldynl/QLog/discussions).
 
 
+
 ## Installation
+
 ### Minimum Hardware Requirements
 - The recommended graphical resolution: 1920x1080
 - CPU and memory: minimum requirements the same as for your OS
 - Graphic Card with OpenGL support
 - Serial connection if radio control is used
- 
-### Windows
-**For users:**
-
-Prerequisites:
-
-- Installed [Trusted QSL](http://www.arrl.org/tqsl-download) (Optional)
-
-Installaction packages are available for [Windows 64bit](https://github.com/foldynl/QLog/releases)
-
-**For developers:**
-
-Prerequisites
-
-- Visual Studio 2019
-- Installed Qt for Windows
-- Installed [qtkeychain-devel](https://github.com/frankosterfeld/qtkeychain) library and headers
-- Installed [OpenSSL-devel](https://wiki.openssl.org/index.php/Binaries) libraries and headers
-- Installed [HamLib-devel](https://github.com/Hamlib/Hamlib/releases/latest) libraries and headers
-- All integrated in QT Creator
-
-To be honest, It is not easy to compile it under Windows but it is possible.
 
 ### Linux
-
-**For users:**
 
 Prerequisites:
 
 - Installed Trusted QSL (Optional) - `sudo apt install trustedqsl` or from [ARRL](http://www.arrl.org/tqsl-download)
 
-**DEB packages** for currently supported Ubuntu version are available for amd64, arm64 platforms via [Ubuntu PPA](https://launchpad.net/~foldyna/+archive/ubuntu/qlog). Ubuntu users can use following commands:
+**DEB packages** for currently supported Ubuntu versions are available for amd64, arm64 platforms via [Ubuntu PPA](https://launchpad.net/~foldyna/+archive/ubuntu/qlog). Ubuntu users can use following commands:
 
 `sudo add-apt-repository ppa:foldyna/qlog`
 
@@ -77,11 +71,63 @@ Prerequisites:
 
 `sudo apt install qlog`
 
-**RPM packages** are available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
+Fedora **RPM packages** are available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
 
 **Snap or Flatpak** are not planned at this moment.
 
-**For developers:**
+
+### MacOS
+
+ **DMG package** is available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
+
+### Windows
+
+Prerequisites:
+
+- Installed [Trusted QSL](http://www.arrl.org/tqsl-download) (Optional)
+
+Installation package is available via GitHub [Releases](https://github.com/foldynl/QLog/releases) .
+
+
+
+## Compilation
+
+### General
+
+Prerequisites
+
+- Installed Qt
+- Installed [qtkeychain-devel](https://github.com/frankosterfeld/qtkeychain) library and headers
+- Installed [OpenSSL-devel](https://wiki.openssl.org/index.php/Binaries) libraries and headers
+- Installed [HamLib-devel](https://github.com/Hamlib/Hamlib/releases/latest) libraries and headers
+
+`qmake` supports listed input parameters that affect the compilation process.
+
+- `HAMLIBINCLUDEPATH` - the path to Hamlib Includes 
+- `HAMLIBLIBPATH` - the path to Hamlib Library 
+- `HAMLIBVERSION_MAJOR` - Hamlib version - major number
+- `HAMLIBVERSION_MINOR` - Hamlib version - monir number
+- `HAMLIBVERSION_PATCH` - Hamlib version - path number
+- `QTKEYCHAININCLUDEPATH` - the path to QtKeyChain Includes 
+- `QTKEYCHAINLIBPATH`- the path to QtKeyChain Library
+
+Leave variables empty if system libraries and Hamlib version autodetect (calling `pkg-config`) should be used during compilation (for Windows, the parameter must be present)
+
+An example of use:
+
+`
+C:/Qt/6.4.1/msvc2019_64/bin/qmake.exe C:\Users\devel\development\QLog\QLog.pro -spec win32-msvc "CONFIG+=qtquickcompiler" "HAMLIBINCLUDEPATH = C:\Users\devel\development\hamlib\include" "HAMLIBLIBPATH =  C:\Users\devel\development\hamlib\lib\gcc" "HAMLIBVERSION_MAJOR = 4" "HAMLIBVERSION_MINOR = 5" "HAMLIBVERSION_PATCH = 0" "QTKEYCHAININCLUDEPATH = C:\Users\devel\development\qtkeychain_build\include" "QTKEYCHAINLIBPATH = C:\Users\devel\development\qtkeychain_build\lib" && C:/Qt/Tools/QtCreator/bin/jom/jom.exe qmake_all
+`
+
+### Windows
+
+Prerequisites
+
+- Visual Studio 2019
+
+To be honest, It is not easy to compile it under Windows but it is possible.
+
+### Linux
 
 for Debian:
 
@@ -91,7 +137,7 @@ for Fedora:
 
 `dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel qt5-qtserialport-devel pkg-config`
 
-for all:
+for both:
 
 `git clone --recurse-submodules https://github.com/foldynl/QLog.git`
 
@@ -105,30 +151,35 @@ for Fedora:
 
 `/usr/bin/qmake-qt5`
 
+NOTE: if it is necessary then use `qmake` input parameters described above to affect compilation. The input parameter must be use in case when Hamlib or qtkeychain are compiled from their source code repos.
+
 for all:
 
 `make`
 
-
 ### MacOS
 
-**For developers:**
-
 In order to build QLog on MacOS, following prerequisites must be satisfied.
+
 1. [Xcode](#xcode) command line tools
 2. [Homebrew](https://brew.sh)
 3. [Qt](https://www.qt.io) with QtCreator
 
 ##### Xcode  
+
 Xcode command line tools can be installed by issuing a command in command terminal:
+
 ```
 xcode-select --install
 ```
+
 **N.B.:** This command doesn't install Xcode itself, however It will take some time to download and  
 install the tools anyway.
 
 ##### MacOS build
+
 Last dependencies before building QLog are:
+
 ```
  brew install qt6
  brew link qt6 --force
@@ -143,6 +194,10 @@ Last dependencies before building QLog are:
 As soon as the steps above are finished, QLog source can be opened in QtCreator, configured, built and run.  
 QLog app (qlog.app) from the build artifacts folder can be later copied (`installed`) to `~/Applications` and  
 accessed via Spotlight search bar.
+
+NOTE: if it is necessary then use `qmake` input parameters described above to affect compilation. The input parameter must be use in case when hamlib or qtkeychain is compiled from their source code repos.
+
+
 
 ## License
 
