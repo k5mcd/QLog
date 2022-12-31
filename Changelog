@@ -1,5 +1,16 @@
 TBC - 0.18.0
+- [NEW] - ADIF 3.1.4 updates
+        - Added new modes
+        - Added new band
+        - Adopted Altitude (for SOTA only)
+        - Adopted POTA (includes POTA List)
+        - Adopted Gridsquare_ext (only import/export)
+        - Adopted Hamlogeu_* (only import/export)
+        - Adopted HamQTH_* (only import/export)
+- [NEW] - Grid can contain 8-characters
+- [NEW] - User filter can contain NULL value
 - [NEW] - Compilation - added variables for external sources path
+- [CHANGED] - Station Profile Setting layout
 
 2022/12/18 - 0.17.0
 - [NEW] - NetPort and Polling interval can be defined for NET Rigs
