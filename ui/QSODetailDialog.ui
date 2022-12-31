@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1028</width>
-    <height>690</height>
+    <height>696</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -271,7 +271,7 @@
             <number>5</number>
            </property>
            <property name="maximum">
-            <double>250000.000000000000000</double>
+            <double>7500000.000000000000000</double>
            </property>
            <property name="singleStep">
             <double>0.001000000000000</double>
@@ -322,7 +322,7 @@
             <number>5</number>
            </property>
            <property name="maximum">
-            <double>250000.000000000000000</double>
+            <double>7500000.000000000000000</double>
            </property>
            <property name="singleStep">
             <double>0.001000000000000</double>
@@ -687,6 +687,12 @@
          <property name="formAlignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
+         <property name="horizontalSpacing">
+          <number>6</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>4</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="countryLabel">
            <property name="text">
@@ -899,6 +905,23 @@
            </item>
           </widget>
          </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="vuccLabel">
+           <property name="text">
+            <string>VUCC</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="vuccEdit">
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -909,24 +932,44 @@
          <property name="formAlignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
+         <property name="verticalSpacing">
+          <number>4</number>
+         </property>
          <item row="0" column="0">
+          <widget class="QLabel" name="dokLabel">
+           <property name="text">
+            <string>DOK</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="dokEdit">
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>the contacted station's DARC DOK (District Location Code) (ex. A01)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
           <widget class="QLabel" name="iotaLabel">
            <property name="text">
             <string>IOTA</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
+         <item row="1" column="1">
           <widget class="QLineEdit" name="iotaEdit">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="maximumSize">
             <size>
-             <width>200</width>
+             <width>16777215</width>
              <height>16777215</height>
             </size>
            </property>
@@ -935,14 +978,24 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="2" column="0">
+          <widget class="QLabel" name="potaLabel">
+           <property name="text">
+            <string>POTA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="potaEdit"/>
+         </item>
+         <item row="3" column="0">
           <widget class="QLabel" name="sotaLabel">
            <property name="text">
             <string>SOTA</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="3" column="1">
           <widget class="QLineEdit" name="sotaEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -955,83 +1008,43 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="sigLabel">
-           <property name="text">
-            <string>SIG</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="sigEdit">
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="toolTip">
-            <string>Example POTA</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="sigInfoLabel">
-           <property name="text">
-            <string>SIG Info</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="sigInfoEdit">
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="toolTip">
-            <string>Example DA-0165</string>
-           </property>
-          </widget>
-         </item>
          <item row="4" column="0">
-          <widget class="QLabel" name="dokLabel">
-           <property name="text">
-            <string>DOK</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLineEdit" name="dokEdit">
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="toolTip">
-            <string>the contacted station's DARC DOK (District Location Code) (ex. A01)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="vuccLabel">
-           <property name="text">
-            <string>VUCC</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QLineEdit" name="vuccEdit">
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="toolTip">
-            <string>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
           <widget class="QLabel" name="wwffLabel">
            <property name="text">
             <string>WWFF</string>
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
+         <item row="4" column="1">
           <widget class="QLineEdit" name="wwffEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="sigLabel">
+           <property name="text">
+            <string>SIG</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="sigEdit">
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="sigInfoLabel">
+           <property name="text">
+            <string>SIG Info</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="sigInfoEdit">
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -1039,6 +1052,9 @@
         <layout class="QFormLayout" name="formLayout_3">
          <property name="formAlignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <property name="verticalSpacing">
+          <number>4</number>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="emailLabel">
@@ -1182,6 +1198,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout_16">
        <item>
         <layout class="QFormLayout" name="formLayout_5">
+         <property name="verticalSpacing">
+          <number>4</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="myCallsignLabel">
            <property name="text">
@@ -1278,8 +1297,11 @@
        </item>
        <item>
         <layout class="QFormLayout" name="formLayout_4">
+         <property name="verticalSpacing">
+          <number>4</number>
+         </property>
          <property name="rightMargin">
-          <number>8</number>
+          <number>0</number>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="myIOTALabel">
@@ -1292,54 +1314,64 @@
           <widget class="QLineEdit" name="myIOTAEdit"/>
          </item>
          <item row="1" column="0">
+          <widget class="QLabel" name="myPOTALabel">
+           <property name="text">
+            <string>POTA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="myPOTAEdit"/>
+         </item>
+         <item row="2" column="0">
           <widget class="QLabel" name="mySOTALabel">
            <property name="text">
             <string>SOTA</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="2" column="1">
           <widget class="QLineEdit" name="mySOTAEdit"/>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="mySIGLabel">
-           <property name="text">
-            <string>SIG</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="mySIGEdit"/>
-         </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="mySIGInfoLabel">
-           <property name="text">
-            <string>Sig Info</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="mySIGInfoEdit"/>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="myVUCCLabel">
-           <property name="text">
-            <string>VUCC</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLineEdit" name="myVUCCEdit"/>
-         </item>
-         <item row="5" column="0">
           <widget class="QLabel" name="myWWFFLabel">
            <property name="text">
             <string>WWFF</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
+         <item row="3" column="1">
           <widget class="QLineEdit" name="myWWFFEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="mySIGLabel">
+           <property name="text">
+            <string>SIG</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="mySIGEdit"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="mySIGInfoLabel">
+           <property name="text">
+            <string>Sig Info</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="mySIGInfoEdit"/>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="myVUCCEdit"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="myVUCCLabel">
+           <property name="text">
+            <string>VUCC</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -1365,6 +1397,9 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QGridLayout" name="gridLayout_3">
+         <property name="verticalSpacing">
+          <number>4</number>
+         </property>
          <item row="6" column="1" colspan="5">
           <widget class="QLabel" name="qslReceivedMsgEdit">
            <property name="text">
@@ -1768,6 +1803,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <layout class="QFormLayout" name="formLayout_9">
+           <property name="verticalSpacing">
+            <number>4</number>
+           </property>
            <property name="rightMargin">
             <number>10</number>
            </property>
@@ -1908,13 +1946,14 @@
   <tabstop>stateEdit</tabstop>
   <tabstop>countyEdit</tabstop>
   <tabstop>ageEdit</tabstop>
+  <tabstop>vuccEdit</tabstop>
+  <tabstop>dokEdit</tabstop>
   <tabstop>iotaEdit</tabstop>
+  <tabstop>potaEdit</tabstop>
   <tabstop>sotaEdit</tabstop>
+  <tabstop>wwffEdit</tabstop>
   <tabstop>sigEdit</tabstop>
   <tabstop>sigInfoEdit</tabstop>
-  <tabstop>dokEdit</tabstop>
-  <tabstop>vuccEdit</tabstop>
-  <tabstop>wwffEdit</tabstop>
   <tabstop>emailEdit</tabstop>
   <tabstop>urlEdit</tabstop>
   <tabstop>propagationModeEdit</tabstop>
@@ -1928,11 +1967,12 @@
   <tabstop>myAntEdit</tabstop>
   <tabstop>powerEdit</tabstop>
   <tabstop>myIOTAEdit</tabstop>
+  <tabstop>myPOTAEdit</tabstop>
   <tabstop>mySOTAEdit</tabstop>
+  <tabstop>myWWFFEdit</tabstop>
   <tabstop>mySIGEdit</tabstop>
   <tabstop>mySIGInfoEdit</tabstop>
   <tabstop>myVUCCEdit</tabstop>
-  <tabstop>myWWFFEdit</tabstop>
   <tabstop>qslPaperReceiveDateEdit</tabstop>
   <tabstop>qslPaperReceiveStatusBox</tabstop>
   <tabstop>qslPaperSentDateEdit</tabstop>
@@ -2255,6 +2295,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>potaEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>QSODetailDialog</receiver>
+   <slot>potaChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>362</x>
+     <y>488</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myPOTAEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>QSODetailDialog</receiver>
+   <slot>myPOTAChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>457</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>modeChanged(QString)</slot>
@@ -2274,5 +2346,7 @@
   <slot>mySotaChanged(QString)</slot>
   <slot>wwffChanged(QString)</slot>
   <slot>myWWFFChanged(QString)</slot>
+  <slot>potaChanged(QString)</slot>
+  <slot>myPOTAChanged(QString)</slot>
  </slots>
 </ui>

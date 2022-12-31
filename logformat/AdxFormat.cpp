@@ -19,7 +19,7 @@ void AdxFormat::exportStart() {
     writer->writeStartElement("ADX");
 
     writer->writeStartElement("HEADER");
-    writer->writeTextElement("ADIF_VER", "3.1.3");
+    writer->writeTextElement("ADIF_VER", "3.1.4");
     writer->writeTextElement("PROGRAMID", "QLog");
     writer->writeTextElement("PROGRAMVERSION", VERSION);
     writer->writeTextElement("CREATED_TIMESTAMP", date);
@@ -123,6 +123,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("lotw_qslsdate", AdiFormat::parseDate(contact.take("lotw_qslsdate").toString()));
     record.setValue("tx_pwr", contact.take("tx_pwr").toDouble());
     record.setValue("age", contact.take("age"));
+    record.setValue("altitude", contact.take("altitude").toDouble());
     record.setValue("a_index", contact.take("a_index"));
     record.setValue("ant_az", contact.take("ant_az"));
     record.setValue("ant_el", contact.take("ant_el"));
@@ -151,7 +152,12 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("fists_cc",contact.take("fists_cc"));
     record.setValue("force_init",contact.take("force_init").toString());
     record.setValue("freq_rx",contact.take("freq_rx"));
+    record.setValue("gridsquare_ext",contact.take("gridsquare_ext"));
     record.setValue("guest_op",contact.take("guest_op"));
+    record.setValue("hamlogeu_qso_upload_date",AdiFormat::parseDate(contact.take("hamlogeu_qso_upload_date").toString()));
+    record.setValue("hamlogeu_qso_upload_status",AdiFormat::parseUploadStatus(contact.take("hamlogeu_qso_upload_status").toString()));
+    record.setValue("hamqth_qso_upload_date",AdiFormat::parseDate(contact.take("hamqth_qso_upload_date").toString()));
+    record.setValue("hamqth_qso_upload_status",AdiFormat::parseUploadStatus(contact.take("hamqth_qso_upload_status").toString()));
     record.setValue("hrdlog_qso_upload_date",AdiFormat::parseDate(contact.take("hrdlog_qso_upload_date").toString()));
     record.setValue("hrdlog_qso_upload_status",AdiFormat::parseUploadStatus(contact.take("hrdlog_qso_upload_status").toString()));
     record.setValue("iota_island_id",contact.take("iota_island_id").toString().toUpper());
@@ -160,18 +166,21 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("lon",contact.take("lon"));
     record.setValue("max_bursts",contact.take("max_bursts"));
     record.setValue("ms_shower",contact.take("ms_shower"));
+    record.setValue("my_altitude",contact.take("my_altitude").toDouble());
     record.setValue("my_arrl_sect",contact.take("my_arrl_sect"));
     record.setValue("my_cnty",contact.take("my_cnty"));
     record.setValue("my_cq_zone",contact.take("my_cq_zone"));
     record.setValue("my_dxcc",contact.take("my_dxcc"));
     record.setValue("my_fists",contact.take("my_fists"));
     record.setValue("my_gridsquare",contact.take("my_gridsquare").toString().toUpper());
-    record.setValue("my_iota",contact.take("my_iota"));
-    record.setValue("my_iota_island_id",contact.take("my_iota_island_id"));
+    record.setValue("my_gridsquare_ext",contact.take("my_gridsquare_ext").toString().toUpper());
+    record.setValue("my_iota",contact.take("my_iota").toString().toUpper());
+    record.setValue("my_iota_island_id",contact.take("my_iota_island_id").toString().toUpper());
     record.setValue("my_itu_zone",contact.take("my_itu_zone"));
     record.setValue("my_lat",contact.take("my_lat"));
     record.setValue("my_lon",contact.take("my_lon"));
-    record.setValue("my_sota_ref",contact.take("my_sota_ref"));
+    record.setValue("my_pota_ref",contact.take("my_pota_ref").toString().toUpper());
+    record.setValue("my_sota_ref",contact.take("my_sota_ref").toString().toUpper());
     record.setValue("my_state",contact.take("my_state"));
     record.setValue("my_usaca_counties",contact.take("my_usaca_counties"));
     record.setValue("my_vucc_grids",contact.take("my_vucc_grids").toString().toUpper());
@@ -180,6 +189,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("nr_pings",contact.take("nr_pings"));
     record.setValue("operator",contact.take("operator"));
     record.setValue("owner_callsign",contact.take("owner_callsign"));
+    record.setValue("pota_ref",contact.take("pota_ref").toString().toUpper());
     record.setValue("precedence",contact.take("precedence"));
     record.setValue("prop_mode",contact.take("prop_mode"));
     record.setValue("public_key",contact.take("public_key"));
@@ -197,7 +207,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("sfi",contact.take("sfi"));
     record.setValue("silent_key",contact.take("silent_key").toString().toUtf8());
     record.setValue("skcc",contact.take("skcc"));
-    record.setValue("sota_ref",contact.take("sota_ref"));
+    record.setValue("sota_ref",contact.take("sota_ref").toString().toUpper());
     record.setValue("srx",contact.take("srx"));
     record.setValue("srx_string",contact.take("srx_string"));
     record.setValue("station_callsign",contact.take("station_callsign").toString().toUpper());
@@ -313,7 +323,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("pfx", record.value("pfx").toString());
     writeField("state", record.value("state").toString());
     writeField("cnty", record.value("cnty").toString());
-    writeField("iota", record.value("iota").toString());
+    writeField("iota", record.value("iota").toString().toUpper());
     writeField("qsl_rcvd", record.value("qsl_rcvd").toString());
     writeField("qslrdate", record.value("qslrdate").toDate().toString("yyyyMMdd"));
     writeField("qsl_sent", record.value("qsl_sent").toString());
@@ -326,6 +336,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("address", record.value("address").toString());
     writeField("address_intl", record.value("address").toString());
     writeField("age", record.value("age").toString());
+    writeField("altitude", record.value("altitude").toString());
     writeField("a_index", record.value("a_index").toString());
     writeField("ant_az", record.value("ant_az").toString());
     writeField("ant_el", record.value("ant_el").toString());
@@ -357,15 +368,21 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("fists_cc", record.value("fists_cc").toString());
     writeField("force_init", record.value("force_init").toString());
     writeField("freq_rx", record.value("freq_rx").toString());
+    writeField("gridsquare_ext", record.value("gridsquare_ext").toString());
     writeField("guest_op", record.value("guest_op").toString());
+    writeField("hamlogeu_qso_upload_date", record.value("hamlogeu_qso_upload_date").toDate().toString("yyyyMMdd"));
+    writeField("hamlogeu_qso_upload_status", record.value("hamlogeu_qso_upload_status").toString());
+    writeField("hamqth_qso_upload_date", record.value("hamqth_qso_upload_date").toDate().toString("yyyyMMdd"));
+    writeField("hamqth_qso_upload_status", record.value("hamqth_qso_upload_status").toString());
     writeField("hrdlog_qso_upload_date", record.value("hrdlog_qso_upload_date").toDate().toString("yyyyMMdd"));
     writeField("hrdlog_qso_upload_status", record.value("hrdlog_qso_upload_status").toString());
-    writeField("iota_island_id", record.value("iota_island_id").toString());
+    writeField("iota_island_id", record.value("iota_island_id").toString().toUpper());
     writeField("k_index", record.value("k_index").toString());
     writeField("lat", record.value("lat").toString());
     writeField("lon", record.value("lon").toString());
     writeField("max_bursts", record.value("max_bursts").toString());
     writeField("ms_shower", record.value("ms_shower").toString());
+    writeField("my_altitude", record.value("my_altitude").toString());
     writeField("my_arrl_sect", record.value("my_arrl_sect").toString());
     writeField("my_antenna", record.value("my_antenna").toString());
     writeField("my_antenna_intl", record.value("my_antenna_intl").toString());
@@ -378,14 +395,16 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("my_dxcc", record.value("my_dxcc").toString());
     writeField("my_fists", record.value("my_fists").toString());
     writeField("my_gridsquare", record.value("my_gridsquare").toString());
-    writeField("my_iota", record.value("my_iota").toString());
-    writeField("my_iota_island_id", record.value("my_iota_island_id").toString());
+    writeField("my_gridsquare_ext", record.value("my_gridsquare_ext").toString());
+    writeField("my_iota", record.value("my_iota").toString().toUpper());
+    writeField("my_iota_island_id", record.value("my_iota_island_id").toString().toUpper());
     writeField("my_itu_zone", record.value("my_itu_zone").toString());
     writeField("my_lat", record.value("my_lat").toString());
     writeField("my_lon", record.value("my_lon").toString());
     writeField("my_name", record.value("my_name").toString());
     writeField("my_name_intl", record.value("my_name_intl").toString());
     writeField("my_postal_code", record.value("my_postal_code").toString());
+    writeField("my_pota_ref", record.value("my_pota_ref").toString().toUpper());
     writeField("my_postal_code_intl", record.value("my_postal_code_intl").toString());
     writeField("my_rig", record.value("my_rig").toString());
     writeField("my_rig_intl", record.value("my_rig_intl").toString());
@@ -393,13 +412,13 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("my_sig_intl", record.value("my_sig_intl").toString());
     writeField("my_sig_info", record.value("my_sig_info").toString());
     writeField("my_sig_info_intl", record.value("my_sig_info_intl").toString());
-    writeField("my_sota_ref", record.value("my_sota_ref").toString());
+    writeField("my_sota_ref", record.value("my_sota_ref").toString().toUpper());
     writeField("my_state", record.value("my_state").toString());
     writeField("my_street", record.value("my_street").toString());
     writeField("my_street_intl", record.value("my_street_intl").toString());
     writeField("my_usaca_counties", record.value("my_usaca_counties").toString());
-    writeField("my_vucc_grids", record.value("my_vucc_grids").toString());
-    writeField("my_wwff_ref", record.value("my_wwff_ref").toString());
+    writeField("my_vucc_grids", record.value("my_vucc_grids").toString().toUpper());
+    writeField("my_wwff_ref", record.value("my_wwff_ref").toString().toUpper());
     writeField("name_intl", record.value("name_intl").toString());
     writeField("notes", record.value("notes").toString());
     writeField("notes_intl", record.value("notes_intl").toString());
@@ -407,6 +426,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("nr_pings", record.value("nr_pings").toString());
     writeField("operator", record.value("operator").toString());
     writeField("owner_callsign", record.value("owner_callsign").toString());
+    writeField("pota_ref", record.value("pota_ref").toString().toUpper());
     writeField("precedence", record.value("precedence").toString());
     writeField("prop_mode", record.value("prop_mode").toString());
     writeField("public_key", record.value("public_key").toString());
@@ -433,7 +453,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("sig_info_intl", record.value("sig_info_intl").toString());
     writeField("silent_key", record.value("silent_key").toString());
     writeField("skcc", record.value("skcc").toString());
-    writeField("sota_ref", record.value("sota_ref").toString());
+    writeField("sota_ref", record.value("sota_ref").toString().toUpper());
     writeField("srx", record.value("srx").toString());
     writeField("srx_string", record.value("srx_string").toString());
     writeField("station_callsign", record.value("station_callsign").toString());
@@ -444,9 +464,9 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("uksmg", record.value("uksmg").toString());
     writeField("usaca_counties", record.value("usaca_counties").toString());
     writeField("ve_prov", record.value("ve_prov").toString());
-    writeField("vucc_grids", record.value("vucc_grids").toString());
+    writeField("vucc_grids", record.value("vucc_grids").toString().toUpper());
     writeField("web", record.value("web").toString());
-    writeField("wwff_ref", record.value("wwff_ref").toString());
+    writeField("wwff_ref", record.value("wwff_ref").toString().toUpper());
 
     QJsonObject fields = QJsonDocument::fromJson(record.value("fields").toByteArray()).object();
 

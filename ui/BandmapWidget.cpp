@@ -94,6 +94,12 @@ void BandmapWidget::update()
 
     bandmapScene->clear();
 
+    // do not show bandmap for submm bands
+    if ( rx_freq > 250000.0 || currentBand.start >= 300000.0 )
+    {
+        return;
+    }
+
     /*******************
      * Determine Scale *
      *******************/
@@ -181,6 +187,12 @@ void BandmapWidget::updateStations()
     clearAllCallsignFromScene();
 
     spotAging();
+
+    // do not show bandmap for submm bands
+    if ( rx_freq > 250000.0 || currentBand.start >= 300000.0 )
+    {
+        return;
+    }
 
     determineStepDigits(step, digits);
 
@@ -329,6 +341,12 @@ void BandmapWidget::drawFreqMark(const double freq,
 void BandmapWidget::drawTXRXMarks(double step)
 {
     FCT_IDENTIFICATION;
+
+    // do not show bandmap for submm bands
+    if ( rx_freq > 250000.0 || currentBand.start >= 300000.0 )
+    {
+        return;
+    }
 
     /**************************/
     /* Draw RX frequency mark */

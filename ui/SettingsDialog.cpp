@@ -155,6 +155,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     wwffCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->stationWWFFEdit->setCompleter(nullptr);
 
+    potaCompleter = new QCompleter(Data::instance()->potaIDList(), this);
+    potaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    potaCompleter->setFilterMode(Qt::MatchStartsWith);
+    potaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->stationPOTAEdit->setCompleter(nullptr);
+
     ui->primaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("HamQTH"),   QVariant(HamQTH::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
@@ -1102,6 +1108,7 @@ void SettingsDialog::addStationProfile()
     profile.qthName = ui->stationQTHEdit->text();
     profile.iota = ui->stationIOTAEdit->text().toUpper();
     profile.sota = ui->stationSOTAEdit->text().toUpper();
+    profile.pota = ui->stationPOTAEdit->text().toUpper();
     profile.sig = ui->stationSIGEdit->text();
     profile.sigInfo = ui->stationSIGInfoEdit->text();
     profile.vucc = ui->stationVUCCEdit->text().toUpper();
@@ -1145,6 +1152,9 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->stationSOTAEdit->blockSignals(true);
     ui->stationSOTAEdit->setText(profile.sota);
     ui->stationSOTAEdit->blockSignals(false);
+    ui->stationPOTAEdit->blockSignals(true);
+    ui->stationPOTAEdit->setText(profile.pota);
+    ui->stationPOTAEdit->blockSignals(false);
     ui->stationSIGEdit->setText(profile.sig);
     ui->stationSIGInfoEdit->setText(profile.sigInfo);
     ui->stationVUCCEdit->setText(profile.vucc);
@@ -1168,6 +1178,7 @@ void SettingsDialog::clearStationProfileForm()
     ui->stationOperatorEdit->clear();
     ui->stationQTHEdit->clear();
     ui->stationSOTAEdit->clear();
+    ui->stationPOTAEdit->clear();
     ui->stationIOTAEdit->clear();
     ui->stationSIGEdit->clear();
     ui->stationSIGInfoEdit->clear();
@@ -1470,6 +1481,65 @@ void SettingsDialog::sotaEditFinished()
             ui->stationLocatorEdit->setText(SOTAGrid.getGrid());
         }
     }
+    else if ( !ui->stationPOTAEdit->text().isEmpty() )
+    {
+        potaEditFinished();
+    }
+    else if ( !ui->stationWWFFEdit->text().isEmpty() )
+    {
+        wwffEditFinished();
+    }
+}
+
+void SettingsDialog::potaChanged(QString newPOTA)
+{
+    FCT_IDENTIFICATION;
+
+    if ( newPOTA.length() >= 3 )
+    {
+        ui->stationPOTAEdit->setCompleter(potaCompleter);
+    }
+    else
+    {
+        ui->stationPOTAEdit->setCompleter(nullptr);
+    }
+
+    ui->stationQTHEdit->clear();
+    ui->stationLocatorEdit->clear();
+}
+
+void SettingsDialog::potaEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    QStringList potaList = ui->stationPOTAEdit->text().split("@");
+    QString potaString;
+
+    if ( potaList.size() > 0 )
+    {
+        potaString = potaList[0];
+    }
+    else
+    {
+        potaString = ui->stationPOTAEdit->text();
+    }
+
+    POTAEntity potaInfo = Data::instance()->lookupPOTA(potaString);
+
+    if ( potaInfo.reference.toUpper() == potaString.toUpper()
+         && !potaInfo.name.isEmpty() )
+    {
+        ui->stationQTHEdit->setText(potaInfo.name);
+        Gridsquare POTAGrid(potaInfo.grid);
+        if ( POTAGrid.isValid() )
+        {
+            ui->stationLocatorEdit->setText(POTAGrid.getGrid());
+        }
+    }
+    else if ( !ui->stationSOTAEdit->text().isEmpty() )
+    {
+        sotaEditFinished();
+    }
     else if ( !ui->stationWWFFEdit->text().isEmpty() )
     {
         wwffEditFinished();
@@ -1511,6 +1581,14 @@ void SettingsDialog::wwffEditFinished()
         if ( ! wwffInfo.iota.isEmpty()
              && wwffInfo.iota != "-" )
         ui->stationIOTAEdit->setText(wwffInfo.iota.toUpper());
+    }
+    else if ( !ui->stationSOTAEdit->text().isEmpty() )
+    {
+        sotaEditFinished();
+    }
+    else if ( !ui->stationPOTAEdit->text().isEmpty() )
+    {
+        potaEditFinished();
     }
 }
 

@@ -43,6 +43,7 @@ public:
     QString getMySIGInfo() const;
     QString getMyIOTA() const;
     QString getMySOTA() const;
+    QString getMyPOTA() const;
     QString getMyWWFT() const;
     QString getMyVUCC() const;
     QString getMyPWR() const;
@@ -96,6 +97,8 @@ private slots:
     void propModeChanged(const QString&);
     void sotaChanged(QString);
     void sotaEditFinished();
+    void potaChanged(QString);
+    void potaEditFinished();
     void wwffEditFinished();
     void wwffChanged(QString);
     void formFieldChangedString(const QString&);
@@ -148,12 +151,16 @@ private:
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
+    QCompleter *potaCompleter;
     QCompleter *wwffCompleter;
     QTimeZone partnerTimeZone;
     double QSOFreq;
     qint32 bandwidthFilter;
     bool rigOnline;
     QMap<QString, QString> lastCallbookQueryData;
+    SOTAEntity lastSOTA;
+    POTAEntity lastPOTA;
+    WWFFEntity lastWWFF;
     bool isManualEnterMode;
 };
 

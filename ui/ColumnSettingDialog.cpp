@@ -44,6 +44,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
 
         switch ( columnIndex )
         {
+        case LogbookModel::COLUMN_MY_ALTITUDE:
         case LogbookModel::COLUMN_MY_ARRL_SECT:
         case LogbookModel::COLUMN_MY_ANTENNA:
         case LogbookModel::COLUMN_MY_ANTENNA_INTL:
@@ -56,6 +57,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_MY_DXCC:
         case LogbookModel::COLUMN_MY_FISTS:
         case LogbookModel::COLUMN_MY_GRIDSQUARE:
+        case LogbookModel::COLUMN_MY_GRIDSQUARE_EXT:
         case LogbookModel::COLUMN_MY_IOTA:
         case LogbookModel::COLUMN_MY_IOTA_ISLAND_ID:
         case LogbookModel::COLUMN_MY_ITU_ZONE:
@@ -65,6 +67,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_MY_NAME_INTL:
         case LogbookModel::COLUMN_MY_POSTAL_CODE:
         case LogbookModel::COLUMN_MY_POSTAL_CODE_INTL:
+        case LogbookModel::COLUMN_MY_POTA_REF:
         case LogbookModel::COLUMN_MY_RIG:
         case LogbookModel::COLUMN_MY_RIG_INTL:
         case LogbookModel::COLUMN_MY_SIG:
@@ -78,6 +81,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_MY_USACA_COUNTIES:
         case LogbookModel::COLUMN_MY_VUCC_GRIDS:
         case LogbookModel::COLUMN_MY_WWFF_REF:
+
             myInfoCheckboxList.append(columnCheckbox);
             break;
 
@@ -104,24 +108,22 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_STATUS:
         case LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_DATE:
         case LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_STATUS:
+        case LogbookModel::COLUMN_HAMLOGEU_QSO_UPLOAD_DATE:
+        case LogbookModel::COLUMN_HAMLOGEU_QSO_UPLOAD_STATUS:
+        case LogbookModel::COLUMN_HAMQTH_QSO_UPLOAD_DATE:
+        case LogbookModel::COLUMN_HAMQTH_QSO_UPLOAD_STATUS:
             qslInfoCheckboxList.append(columnCheckbox);
             break;
 
         case LogbookModel::COLUMN_TEN_TEN:
-        case LogbookModel::COLUMN_SIG:
-        case LogbookModel::COLUMN_SIG_INTL:
-        case LogbookModel::COLUMN_SIG_INFO:
-        case LogbookModel::COLUMN_SIG_INFO_INTL:
         case LogbookModel::COLUMN_FISTS:
         case LogbookModel::COLUMN_FISTS_CC:
         case LogbookModel::COLUMN_SKCC:
         case LogbookModel::COLUMN_UKSMG:
         case LogbookModel::COLUMN_DARC_DOK:
-        case LogbookModel::COLUMN_WWFF_REF:
             membersInfoCheckboxList.append(columnCheckbox);
             break;
 
-        case LogbookModel::COLUMN_VUCC_GRIDS:
         case LogbookModel::COLUMN_VE_PROV:
         case LogbookModel::COLUMN_USACA_COUNTIES:
         case LogbookModel::COLUMN_PUBLIC_KEY:
@@ -148,6 +150,19 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
         case LogbookModel::COLUMN_OWNER_CALLSIGN:
         case LogbookModel::COLUMN_CONTACTED_OP:
         case LogbookModel::COLUMN_STATION_CALLSIGN:
+        case LogbookModel::COLUMN_COMMENT:
+        case LogbookModel::COLUMN_COUNTRY:
+        case LogbookModel::COLUMN_IOTA_ISLAND_ID:
+        case LogbookModel::COLUMN_NAME:
+        case LogbookModel::COLUMN_NOTES:
+        case LogbookModel::COLUMN_QTH:
+        case LogbookModel::COLUMN_RIG:
+        case LogbookModel::COLUMN_ADDRESS:
+        case LogbookModel::COLUMN_RX_PWR:
+        case LogbookModel::COLUMN_GRID_EXT:
+        case LogbookModel::COLUMN_SIG:
+        case LogbookModel::COLUMN_SIG_INFO:
+
             otherInfoCheckboxList.append(columnCheckbox);
             break;
 

@@ -35,7 +35,7 @@ private:
     bool insertUUID();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
-    static const int latestVersion = 14;
+    static const int latestVersion = 15;
 };
 
 #endif // MIGRATION_H

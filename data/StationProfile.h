@@ -22,6 +22,7 @@ public:
     QString operatorName;
     QString qthName;
     QString iota;
+    QString pota;
     QString sota;
     QString sig;
     QString sigInfo;

@@ -283,7 +283,9 @@ bool QSOFilterDetail::isDateField(int index)
                  || index == LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_DATE
                  || index == LogbookModel::COLUMN_EQSL_QSLRDATE
                  || index == LogbookModel::COLUMN_EQSL_QSLSDATE
-                 || index == LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_DATE );
+                 || index == LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_DATE
+                 || index == LogbookModel::COLUMN_HAMLOGEU_QSO_UPLOAD_DATE
+                 || index == LogbookModel::COLUMN_HAMQTH_QSO_UPLOAD_DATE);
 
     qCDebug(function_parameters) << index << " return " << ret;
     return ret;
@@ -341,7 +343,9 @@ bool QSOFilterDetail::isUploadStatusField(int index)
 
     bool ret = (    index == LogbookModel::COLUMN_CLUBLOG_QSO_UPLOAD_STATUS
                  || index == LogbookModel::COLUMN_HRDLOG_QSO_UPLOAD_STATUS
-                 || index == LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_STATUS );
+                 || index == LogbookModel::COLUMN_QRZCOM_QSO_UPLOAD_STATUS
+                 || index == LogbookModel::COLUMN_HAMLOGEU_QSO_UPLOAD_STATUS
+                 || index == LogbookModel::COLUMN_HAMQTH_QSO_UPLOAD_STATUS);
 
     qCDebug(function_parameters) << index << " return " << ret;
     return ret;
@@ -469,12 +473,6 @@ void QSOFilterDetail::save()
     QString valueString;
     QSqlQuery filterInsertStmt, deleteFilterStmt, updateStmt;
 
-    if ( ui->filterLineEdit->text().isEmpty() )
-    {
-        ui->filterLineEdit->setPlaceholderText(tr("Must not be empty"));
-        return;
-    }
-
     if ( filterExists(ui->filterLineEdit->text()) )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Info"),
@@ -548,11 +546,6 @@ void QSOFilterDetail::save()
                             {
                                 QLineEdit* editLine = dynamic_cast<QLineEdit*>(stackedEdit);
                                 valueString = editLine->text();
-                                if ( valueString.isEmpty() )
-                                {
-                                    editLine->setPlaceholderText(tr("Must not be empty"));
-                                    return;
-                                }
                             }
                             else if ( stacketEditObjName.contains("valueDateEdit") )
                             {
@@ -585,7 +578,14 @@ void QSOFilterDetail::save()
                 filterInsertStmt.bindValue(":filterName", ui->filterLineEdit->text());
                 filterInsertStmt.bindValue(":tableFieldIndex", fieldNameIdx);
                 filterInsertStmt.bindValue(":operatorID", conditionIdx);
-                filterInsertStmt.bindValue(":valueString", valueString);
+                if ( valueString.isEmpty() )
+                {
+                    filterInsertStmt.bindValue(":valueString", QVariant());
+                }
+                else
+                {
+                    filterInsertStmt.bindValue(":valueString", valueString);
+                }
 
                 if ( ! filterInsertStmt.exec() )
                 {

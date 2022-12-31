@@ -214,6 +214,8 @@ bool Migration::updateExternalResource()
         return false;
     if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::IOTALIST) )
         return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::POTADIRECTORY) )
+        return false;
 
     return true;
 }
@@ -243,6 +245,9 @@ bool Migration::updateExternalResourceProgress(QProgressDialog& progress,
         break;
     case LOVDownloader::SourceType::IOTALIST:
         stringInfo = tr("IOTA Records");
+        break;
+    case LOVDownloader::SourceType::POTADIRECTORY:
+        stringInfo = tr("POTA Records");
         break;
 
     default:

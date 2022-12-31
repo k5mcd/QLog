@@ -13,6 +13,7 @@ public:
     ~Gridsquare() {};
     static QRegularExpression gridRegEx();
     static QRegularExpression gridVUCCRegEx();
+    static QRegularExpression gridExtRegEx();
 
     bool isValid() const;
     double getLongitude() const {return lon;};
