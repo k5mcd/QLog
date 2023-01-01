@@ -8,6 +8,7 @@
 #include "ui_DxFilterDialog.h"
 #include "../models/SqlListModel.h"
 #include "core/debug.h"
+#include "data/Dxcc.h"
 
 MODULE_IDENTIFICATION("qlog.ui.dxfilterdialog");
 
@@ -25,6 +26,9 @@ DxFilterDialog::DxFilterDialog(QWidget *parent) :
     int band_index = 0;
     SqlListModel *bands= new SqlListModel("SELECT name FROM bands WHERE enabled = 1 ORDER BY start_freq", "Band");
 
+    /********************/
+    /* Bands Checkboxes */
+    /********************/
     while (band_index < bands->rowCount())
     {
         for (int i = 0; i < 6; i ++)
@@ -45,11 +49,28 @@ DxFilterDialog::DxFilterDialog(QWidget *parent) :
         row++;
     }
 
+    /*********************/
+    /* Status Checkboxes */
+    /*********************/
+    uint statusSetting = settings.value("dxc/filter_dxcc_status", DxccStatus::All).toUInt();
+
+    ui->newEntitycheckbox->setChecked(statusSetting & DxccStatus::NewEntity);
+    ui->newBandcheckbox->setChecked(statusSetting & DxccStatus::NewBand);
+    ui->newModecheckbox->setChecked(statusSetting & DxccStatus::NewMode);
+    ui->newSlotcheckbox->setChecked(statusSetting & DxccStatus::NewSlot);
+    ui->workedcheckbox->setChecked(statusSetting & DxccStatus::Worked);
+
+    /*******************/
+    /* Mode Checkboxes */
+    /*******************/
     ui->cwcheckbox->setChecked(settings.value("dxc/filter_mode_cw",true).toBool());
     ui->phonecheckbox->setChecked(settings.value("dxc/filter_mode_phone",true).toBool());
     ui->digitalcheckbox->setChecked(settings.value("dxc/filter_mode_digital",true).toBool());
     ui->ft8checkbox->setChecked(settings.value("dxc/filter_mode_ft8",true).toBool());
 
+    /************************/
+    /* Continent Checkboxes */
+    /************************/
     QString contregexp = settings.value("dxc/filter_cont_regexp", "NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
 
     ui->afcheckbox->setChecked(contregexp.contains("|AF"));
@@ -60,6 +81,9 @@ DxFilterDialog::DxFilterDialog(QWidget *parent) :
     ui->occheckbox->setChecked(contregexp.contains("|OC"));
     ui->sacheckbox->setChecked(contregexp.contains("|SA"));
 
+    /********************************/
+    /* Spotter Continent Checkboxes */
+    /********************************/
     QString contregexp_spotter = settings.value("dxc/filter_spotter_cont_regexp", "NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
 
     ui->afcheckbox_spotter->setChecked(contregexp_spotter.contains("|AF"));
@@ -69,6 +93,12 @@ DxFilterDialog::DxFilterDialog(QWidget *parent) :
     ui->nacheckbox_spotter->setChecked(contregexp_spotter.contains("|NA"));
     ui->occheckbox_spotter->setChecked(contregexp_spotter.contains("|OC"));
     ui->sacheckbox_spotter->setChecked(contregexp_spotter.contains("|SA"));
+
+    /*****************/
+    /* Deduplication */
+    /*****************/
+    bool deduplication = settings.value("dxc/filter_deduplication", false).toBool();
+    ui->deduplicationcheckbox->setChecked(deduplication);
 }
 
 void DxFilterDialog::accept()
@@ -77,6 +107,9 @@ void DxFilterDialog::accept()
 
     QSettings settings;
 
+    /********************/
+    /* Bands Checkboxes */
+    /********************/
     for ( int i = 0; i < ui->band_group->count(); i++)
     {
         QLayoutItem *item = ui->band_group->itemAt(i);
@@ -90,11 +123,31 @@ void DxFilterDialog::accept()
             settings.setValue("dxc/" + bandcheckbox->objectName(), bandcheckbox->isChecked());
         }
     }
+
+    /*********************/
+    /* Status Checkboxes */
+    /*********************/
+    uint status = 0;
+
+    if ( ui->newEntitycheckbox->isChecked() ) status |=  DxccStatus::NewEntity;
+    if ( ui->newBandcheckbox->isChecked() ) status |=  DxccStatus::NewBand;
+    if ( ui->newModecheckbox->isChecked() ) status |=  DxccStatus::NewMode;
+    if ( ui->newSlotcheckbox->isChecked() ) status |=  DxccStatus::NewSlot;
+    if ( ui->workedcheckbox->isChecked() ) status |=  DxccStatus::Worked;
+
+    settings.setValue("dxc/filter_dxcc_status", status);
+
+    /*******************/
+    /* Mode Checkboxes */
+    /*******************/
     settings.setValue("dxc/filter_mode_cw", ui->cwcheckbox->isChecked());
     settings.setValue("dxc/filter_mode_phone", ui->phonecheckbox->isChecked());
     settings.setValue("dxc/filter_mode_digital", ui->digitalcheckbox->isChecked());
     settings.setValue("dxc/filter_mode_ft8", ui->ft8checkbox->isChecked());
 
+    /************************/
+    /* Continent Checkboxes */
+    /************************/
     QString contregexp = "NOTHING";
     if ( ui->afcheckbox->isChecked() ) contregexp.append("|AF");
     if ( ui->ancheckbox->isChecked() ) contregexp.append("|AN");
@@ -105,6 +158,9 @@ void DxFilterDialog::accept()
     if ( ui->sacheckbox->isChecked() ) contregexp.append("|SA");
     settings.setValue("dxc/filter_cont_regexp", contregexp);
 
+    /********************************/
+    /* Spotter Continent Checkboxes */
+    /********************************/
     QString contregexp_spotter = "NOTHING";
     if ( ui->afcheckbox_spotter->isChecked() ) contregexp_spotter.append("|AF");
     if ( ui->ancheckbox_spotter->isChecked() ) contregexp_spotter.append("|AN");
@@ -114,6 +170,11 @@ void DxFilterDialog::accept()
     if ( ui->occheckbox_spotter->isChecked() ) contregexp_spotter.append("|OC");
     if ( ui->sacheckbox_spotter->isChecked() ) contregexp_spotter.append("|SA");
     settings.setValue("dxc/filter_spotter_cont_regexp", contregexp_spotter);
+
+    /*****************/
+    /* Deduplication */
+    /*****************/
+    settings.setValue("dxc/filter_deduplication", ui->deduplicationcheckbox->isChecked());
 
     done(QDialog::Accepted);
 }

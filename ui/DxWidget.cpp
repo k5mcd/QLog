@@ -104,12 +104,36 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     }
 }
 
-void DxTableModel::addEntry(DxSpot entry) {
-    //beginInsertRows(QModelIndex(), dxData.count(), dxData.count());
-    beginInsertRows(QModelIndex(), 0, 0);
-    //dxData.append(entry);
-    dxData.prepend(entry);
-    endInsertRows();
+bool DxTableModel::addEntry(DxSpot entry, bool deduplicate,
+                            qint16 dedup_interval, double dedup_freq_tolerance)
+{
+    bool shouldInsert = true;
+
+    if ( deduplicate )
+    {
+        for (auto record : qAsConst(dxData))
+        {
+            if ( record.time.secsTo(entry.time) > dedup_interval )
+                break;
+
+            if ( record.callsign == entry.callsign
+                 && qAbs(record.freq - entry.freq) < dedup_freq_tolerance )
+            {
+                qCDebug(runtime) << "Duplicate spot" << record.callsign << record.freq <<  entry.callsign << entry.freq;
+                shouldInsert = false;
+                break;
+            }
+        }
+    }
+
+    if ( shouldInsert )
+    {
+        beginInsertRows(QModelIndex(), 0, 0);
+        dxData.prepend(entry);
+        endInsertRows();
+    }
+
+    return shouldInsert;
 }
 
 QString DxTableModel::getCallsign(const QModelIndex& index) {
@@ -356,6 +380,7 @@ bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *ob
 DxWidget::DxWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DxWidget),
+    deduplicateSpots(false),
     reconnectAttempts(0)
 {
     FCT_IDENTIFICATION;
@@ -403,6 +428,8 @@ DxWidget::DxWidget(QWidget *parent) :
     contregexp.setPattern(contFilterRegExp());
     spottercontregexp.setPattern(spotterContFilterRegExp());
     bandregexp.setPattern(bandFilterRegExp());
+    dxccStatusFilter = dxccStatusFilterValue();
+    deduplicateSpots = spotDedupValue();
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
@@ -592,6 +619,22 @@ QString DxWidget::bandFilterRegExp()
     return regexp;
 }
 
+uint DxWidget::dxccStatusFilterValue()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("dxc/filter_dxcc_status", DxccStatus::All).toUInt();
+}
+
+bool DxWidget::spotDedupValue()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("dxc/filter_deduplication", false).toBool();
+}
+
 void DxWidget::sendCommand(const QString & command,
                            bool switchToConsole)
 {
@@ -749,10 +792,12 @@ void DxWidget::receive()
                 if ( spot.mode.contains(moderegexp)
                      && spot.dxcc.cont.contains(contregexp)
                      && spot.dxcc_spotter.cont.contains(spottercontregexp)
-                     && spot.band.contains(bandregexp) )
+                     && spot.band.contains(bandregexp)
+                     && ( spot.status & dxccStatusFilter )
+                    )
                 {
-                    emit newFilteredSpot(spot);
-                    dxTableModel->addEntry(spot);
+                    if ( dxTableModel->addEntry(spot, deduplicateSpots) )
+                        emit newFilteredSpot(spot);
                 }
             }
         }
@@ -961,6 +1006,8 @@ void DxWidget::actionFilter()
       contregexp.setPattern(contFilterRegExp());
       spottercontregexp.setPattern(spotterContFilterRegExp());
       bandregexp.setPattern(bandFilterRegExp());
+      dxccStatusFilter = dxccStatusFilterValue();
+      deduplicateSpots = spotDedupValue();
   }
 }
 

@@ -10,7 +10,8 @@ enum DxccStatus {
     NewMode = 0b100,
     NewSlot = 0b1000,
     Worked = 0b10000,
-    UnknownStatus = 0b100000
+    UnknownStatus = 0b100000,
+    All = 0b111111
 };
 
 class DxccEntity {

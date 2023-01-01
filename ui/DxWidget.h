@@ -14,6 +14,9 @@
 #include "data/ToAllSpot.h"
 #include "ui/SwitchButton.h"
 
+#define DEDUPLICATION_TIME 3
+#define DEDUPLICATION_FREQ_TOLERANCE 0.005
+
 namespace Ui {
 class DxWidget;
 }
@@ -28,7 +31,10 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    void addEntry(DxSpot entry);
+    bool addEntry(DxSpot entry,
+                  bool deduplicate = false,
+                  qint16 dedup_interval = DEDUPLICATION_TIME,
+                  double freq_tolerance = DEDUPLICATION_FREQ_TOLERANCE);
     QString getCallsign(const QModelIndex& index);
     double getFrequency(const QModelIndex& index);
     void clear();
@@ -144,6 +150,8 @@ private:
     QRegularExpression contregexp;
     QRegularExpression spottercontregexp;
     QRegularExpression bandregexp;
+    uint dxccStatusFilter;
+    bool deduplicateSpots;
     QSqlRecord lastQSO;
     quint8 reconnectAttempts;
     QTimer reconnectTimer;
@@ -155,6 +163,8 @@ private:
     QString contFilterRegExp();
     QString spotterContFilterRegExp();
     QString bandFilterRegExp();
+    uint dxccStatusFilterValue();
+    bool spotDedupValue();
     void sendCommand(const QString&,
                      bool switchToConsole = false);
     void saveTableHeaderState();
