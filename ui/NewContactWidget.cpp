@@ -190,6 +190,9 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     /* CQ Zones Validators */
     ui->ituEdit->setValidator(new QIntValidator(Data::getCQZMin(), Data::getCQZMax(), this));
 
+    /* Grid Validator */
+    ui->gridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
+
     /**************/
     /* CONNECTs   */
     /**************/
