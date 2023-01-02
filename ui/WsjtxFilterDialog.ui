@@ -27,7 +27,7 @@
        <item>
         <widget class="QGroupBox" name="statusGroupBox">
          <property name="title">
-          <string>Status</string>
+          <string>Log Status</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
