@@ -10,6 +10,8 @@
 #include "core/Rig.h"
 #include "data/StationProfile.h"
 #include "ui/ColumnSettingDialog.h"
+#include "ui/WsjtxFilterDialog.h"
+#include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
@@ -29,8 +31,15 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
 
     ui->tableView->setModel(proxyModel);
     ui->tableView->horizontalHeader()->setSectionsMovable(true);
+    ui->tableView->addAction(ui->actionFilter);
     ui->tableView->addAction(ui->actionDisplayedColumns);
     restoreTableHeaderState();
+
+    contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    contregexp.setPattern(contFilterRegExp());
+    dxccStatusFilter = dxccStatusFilterValue();
+    distanceFilter = getDistanceFilterValue();
+    snrFilter = getSNRFilterValue();
 }
 
 void WsjtxWidget::decodeReceived(WsjtxDecode decode)
@@ -62,9 +71,29 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
             entry.decodedMode = currMode;
             entry.spotter = profile.callsign.toUpper();
             entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
+            entry.distance = 0.0;
+
+            if ( !profile.locator.isEmpty() )
+            {
+                Gridsquare myGrid(profile.locator);
+                double distance;
+
+                if ( myGrid.distanceTo(Gridsquare(entry.grid), distance) )
+                {
+                    entry.distance = round(distance);
+                }
+            }
 
             emit CQSpot(entry);
-            wsjtxTableModel->addOrReplaceEntry(entry);
+
+            if ( entry.dxcc.cont.contains(contregexp)
+                 && ( entry.status & dxccStatusFilter )
+                 && entry.distance > distanceFilter
+                 && entry.decode.snr > snrFilter
+               )
+            {
+                wsjtxTableModel->addOrReplaceEntry(entry);
+            }
         }
     }
     else
@@ -87,6 +116,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
                 entry.decodedMode = currMode;
                 entry.spotter = profile.callsign.toUpper();
                 entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
+                entry.distance = 0.0;
 
                 wsjtxTableModel->addOrReplaceEntry(entry);
             }
@@ -169,6 +199,54 @@ void WsjtxWidget::displayedColumns()
     ColumnSettingSimpleDialog dialog(ui->tableView);
     dialog.exec();
     saveTableHeaderState();
+}
+
+void WsjtxWidget::actionFilter()
+{
+    FCT_IDENTIFICATION;
+
+    WsjtxFilterDialog dialog;
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        dxccStatusFilter = dxccStatusFilterValue();
+        contregexp.setPattern(contFilterRegExp());
+        distanceFilter = getDistanceFilterValue();
+        snrFilter = getSNRFilterValue();
+        wsjtxTableModel->clear();
+    }
+}
+
+uint WsjtxWidget::dxccStatusFilterValue()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("wsjtx/filter_dxcc_status", DxccStatus::All).toUInt();
+}
+
+QString WsjtxWidget::contFilterRegExp()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("wsjtx/filter_cont_regexp","NOTHING|AF|AN|AS|EU|NA|OC|SA").toString();
+}
+
+int WsjtxWidget::getDistanceFilterValue()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("wsjtx/filter_distance", 0).toInt();
+}
+
+int WsjtxWidget::getSNRFilterValue()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("wsjtx/filter_snr", 0).toInt();
 }
 
 void WsjtxWidget::saveTableHeaderState()

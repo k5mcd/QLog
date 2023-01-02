@@ -10,6 +10,7 @@ struct WsjtxEntry {
     DxccStatus status;
     QString callsign;
     QString grid;
+    double distance;
     QDateTime receivedTime;
     double freq;
     QString band;

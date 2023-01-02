@@ -28,6 +28,7 @@ public slots:
 
 private slots:
     void displayedColumns();
+    void actionFilter();
 
 signals:
     void showDxDetails(QString callsign, QString grid);
@@ -35,6 +36,11 @@ signals:
     void CQSpot(WsjtxEntry);
 
 private:
+    uint dxccStatusFilterValue();
+    QString contFilterRegExp();
+    int getDistanceFilterValue();
+    int getSNRFilterValue();
+
     WsjtxTableModel* wsjtxTableModel;
     WsjtxStatus status;
     QString band;
@@ -43,7 +49,10 @@ private:
     Ui::WsjtxWidget *ui;
     QSortFilterProxyModel *proxyModel;
     QString lastSelectedCallsign;
-
+    QRegularExpression contregexp;
+    int distanceFilter;
+    int snrFilter;
+    uint dxccStatusFilter;
     void saveTableHeaderState();
     void restoreTableHeaderState();
 };

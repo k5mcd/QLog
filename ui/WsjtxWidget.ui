@@ -120,6 +120,14 @@
     <string>Which columns should be displayed</string>
    </property>
   </action>
+  <action name="actionFilter">
+   <property name="text">
+    <string>Filter</string>
+   </property>
+   <property name="toolTip">
+    <string>Filter Spots</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -171,10 +179,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionFilter</sender>
+   <signal>triggered()</signal>
+   <receiver>WsjtxWidget</receiver>
+   <slot>actionFilter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>tableViewDoubleClicked(QModelIndex)</slot>
   <slot>tableViewClicked(QModelIndex)</slot>
   <slot>displayedColumns()</slot>
+  <slot>actionFilter()</slot>
  </slots>
 </ui>

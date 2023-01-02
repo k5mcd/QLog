@@ -128,6 +128,7 @@ SOURCES += \
         ui/SettingsDialog.cpp \
         ui/StatisticsWidget.cpp \
         ui/SwitchButton.cpp \
+        ui/WsjtxFilterDialog.cpp \
         ui/WsjtxWidget.cpp
 
 HEADERS += \
@@ -230,6 +231,7 @@ HEADERS += \
         ui/SettingsDialog.h \
         ui/StatisticsWidget.h \
         ui/SwitchButton.h \
+        ui/WsjtxFilterDialog.h \
         ui/WsjtxWidget.h
 
 FORMS += \
@@ -263,6 +265,7 @@ FORMS += \
         ui/RotatorWidget.ui \
         ui/SettingsDialog.ui \
         ui/StatisticsWidget.ui \
+        ui/WsjtxFilterDialog.ui \
         ui/WsjtxWidget.ui
 
 RESOURCES += \

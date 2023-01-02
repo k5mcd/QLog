@@ -29,24 +29,7 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
         {
         case 0: return entry.callsign;
         case 1: return entry.grid;
-        case 2:
-        {
-            StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
-            //QString ret = entry.grid;
-
-            if ( !profile.locator.isEmpty() )
-            {
-                Gridsquare myGrid(profile.locator);
-                double distance;
-
-                if ( myGrid.distanceTo(Gridsquare(entry.grid), distance) )
-                {
-                    return round(distance);
-                }
-            }
-
-            return QVariant();
-        }
+        case 2: if ( entry.distance > 0.0 ) return entry.distance; else QVariant();
         case 3: return QString::number(entry.decode.snr);
         case 4: return entry.decode.time.toString();
         case 5: return entry.decode.message;
