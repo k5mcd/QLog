@@ -10,6 +10,9 @@ TBC - 0.18.0
 - [NEW] - Grid can contain 8-characters
 - [NEW] - User filter can contain NULL value
 - [NEW] - Compilation - added variables for external sources path
+- [NEW] - WSJTX - CQ-Spot Added Filter
+- [NEW] - DXC - Added Log Status to filter
+- [NEW] - DXC - Added Spot deduplication to filter
 - [CHANGED] - Station Profile Setting layout
 
 2022/12/18 - 0.17.0
