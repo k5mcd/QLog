@@ -755,7 +755,7 @@ bool QSODetailDialog::doValidation()
 
     for ( QLabel *label : qAsConst(list) )
     {
-        label->setToolTip(QString());
+        if ( label ) label->setToolTip(QString());
     }
 
     allValid &= highlightInvalid(ui->callsignLabel,
