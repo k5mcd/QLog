@@ -67,7 +67,7 @@ Gridsquare::Gridsquare(const QString &in_grid)
     }
 }
 
-Gridsquare::Gridsquare(const double lat, double lon) :
+Gridsquare::Gridsquare(const double lat, const double lon) :
     validGrid(false), lat(lat), lon(lon)
 {
     FCT_IDENTIFICATION;
@@ -75,10 +75,9 @@ Gridsquare::Gridsquare(const double lat, double lon) :
     QString U = "ABCDEFGHIJKLMNOPQRSTUVWX";
 
     if ( qIsNaN(lat)
-         && qIsNaN(lon)
-         && qAbs(lat) == 90.0
-         && qAbs(lat) > 90.0
-         && qAbs(lon) > 180.0 )
+         || qIsNaN(lon)
+         || qAbs(lat) >= 90.0
+         || qAbs(lon) >= 180.0 )
     {
         qCDebug(runtime) << "Invalid Grid lat/lon" << lat << lon;
     }
