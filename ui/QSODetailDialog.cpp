@@ -855,6 +855,49 @@ bool QSODetailDialog::doValidation()
                                  && ui->gridEdit->text().toUpper() != POTAGrid.getGrid().toUpper(),
                                  tr("Based on POTA record, Grid does not match POTA Grid - expecting ")+ "<b> " + POTAGrid.getGrid() + "</b>");
 
+    SOTAEntity mySotaInfo;
+    POTAEntity myPotaInfo;
+
+    if ( !ui->mySOTAEdit->text().isEmpty() )
+    {
+        mySotaInfo = Data::instance()->lookupSOTA(ui->mySOTAEdit->text());
+    }
+
+    if ( !ui->myPOTAEdit->text().isEmpty() )
+    {
+        myPotaInfo = Data::instance()->lookupPOTA(ui->myPOTAEdit->text());
+    }
+
+    allValid &= highlightInvalid(ui->myQTHLabel,
+                                 mySotaInfo.summitCode.toUpper() == ui->mySOTAEdit->text().toUpper()
+                                 && !mySotaInfo.summitName.isEmpty()
+                                 && ui->myQTHEdit->text().toUpper() != mySotaInfo.summitName.toUpper(),
+                                 tr("Based on SOTA Summit, my QTH does not match SOTA Summit Name - expecting ")+ "<b> " + mySotaInfo.summitName + "</b>");
+
+    Gridsquare MySOTAGrid(mySotaInfo.gridref2, mySotaInfo.gridref1);
+
+    allValid &= highlightInvalid(ui->myGridLabel,
+                                 mySotaInfo.summitCode.toUpper() == ui->mySOTAEdit->text().toUpper()
+                                 && !mySotaInfo.summitName.isEmpty()
+                                 && MySOTAGrid.isValid()
+                                 && ui->myGridEdit->text().toUpper() != MySOTAGrid.getGrid().toUpper(),
+                                 tr("Based on SOTA Summit, my Grid does not match SOTA Grid - expecting ")+ "<b> " + MySOTAGrid.getGrid() + "</b>");
+
+    allValid &= highlightInvalid(ui->myQTHLabel,
+                                 myPotaInfo.reference.toUpper() == ui->myPOTAEdit->text().toUpper()
+                                 && !myPotaInfo.name.isEmpty()
+                                 && ui->myQTHEdit->text().toUpper() != myPotaInfo.name.toUpper(),
+                                 tr("Based on POTA record, my QTH does not match POTA Name - expecting ")+ "<b> " + myPotaInfo.name + "</b>");
+
+    Gridsquare myPOTAGrid(myPotaInfo.grid);
+
+    allValid &= highlightInvalid(ui->myGridLabel,
+                                 myPotaInfo.reference.toUpper() == ui->myPOTAEdit->text().toUpper()
+                                 && !myPotaInfo.name.isEmpty()
+                                 && myPOTAGrid.isValid()
+                                 && ui->myGridEdit->text().toUpper() != myPOTAGrid.getGrid().toUpper(),
+                                 tr("Based on POTA record, my Grid does not match POTA Grid - expecting ")+ "<b> " + myPOTAGrid.getGrid() + "</b>");
+
     qCDebug(runtime) << "Validation result: " << allValid;
     return allValid;
 }
