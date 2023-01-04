@@ -1836,6 +1836,28 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
             break;
         }
 
+        case COLUMN_STATION_CALLSIGN:
+        {
+            DxccEntity dxccEntity = Data::instance()->lookupDxcc(value.toString().toUpper());
+
+            if ( dxccEntity.dxcc )
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_DXCC), dxccEntity.dxcc, role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ITU_ZONE), dxccEntity.ituz, role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_CQ_ZONE), dxccEntity.cqz, role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY_INTL), dxccEntity.country, role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY), Data::removeAccents(dxccEntity.country), role); // clazy:exclude=skipped-base-method
+            }
+            else
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CQZ), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_ITUZ), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_DXCC), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CONTINENT), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+            }
+            break;
+        }
        }
        updateExternalServicesUploadStatus(index, role, depend_update_result);
 
@@ -1869,6 +1891,7 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            case COLUMN_MY_VUCC_GRIDS:
            case COLUMN_MY_WWFF_REF:
            case COLUMN_WWFF_REF:
+           case COLUMN_STATION_CALLSIGN:
                main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role); // clazy:exclude=skipped-base-method
                break;
 

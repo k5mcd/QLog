@@ -33,6 +33,7 @@ private:
                                         const LOVDownloader::SourceType & sourceType);
     bool fixIntlFields();
     bool insertUUID();
+    bool fillMyDXCC();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
     static const int latestVersion = 15;

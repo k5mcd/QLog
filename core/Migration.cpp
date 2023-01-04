@@ -169,6 +169,9 @@ bool Migration::functionMigration(int version)
     case 6:
         ret = insertUUID();
         break;
+    case 15:
+        ret = fillMyDXCC();
+        break;
     default:
         ret = true;
     }
@@ -357,6 +360,62 @@ bool Migration::insertUUID()
     FCT_IDENTIFICATION;
 
     return LogParam::setParam("logid", QUuid::createUuid().toString());
+}
+
+bool Migration::fillMyDXCC()
+{
+    FCT_IDENTIFICATION;
+
+    QSqlQuery query;
+    QSqlQuery update;
+
+    if ( !query.prepare( "SELECT DISTINCT station_callsign FROM contacts" ) )
+    {
+        qWarning()<< " Cannot prepare a migration script - fillMyDXCC 1" << query.lastError();
+        return false;
+    }
+
+    if( !query.exec() )
+    {
+        qWarning()<< "Cannot exec a migration script - fillMyDXCC 1" << query.lastError();
+        return false;
+    }
+
+    if ( !update.prepare("UPDATE contacts "
+                         "SET my_dxcc = CASE WHEN my_dxcc IS NULL THEN :my_dxcc ELSE my_dxcc END, "
+                         "    my_itu_zone = CASE WHEN my_itu_zone IS NULL THEN :my_itu_zone ELSE my_itu_zone END, "
+                         "    my_cq_zone = CASE WHEN my_cq_zone IS NULL THEN :my_cq_zone ELSE my_cq_zone END, "
+                         "    my_country = CASE WHEN my_country IS NULL THEN :my_country ELSE my_country END, "
+                         "    my_country_intl = CASE WHEN my_country_intl IS NULL THEN :my_country_intl ELSE my_country_intl END "
+                         "WHERE station_callsign = :station_callsign") )
+    {
+        qWarning()<< " Cannot prepare a migration script - fillMyDXCC 2" << update.lastError();
+        return false;
+    }
+
+    while( query.next() )
+    {
+        QString myCallsign = query.value("station_callsign").toString();
+        DxccEntity dxccEntity = Data::instance()->lookupDxcc(myCallsign);
+
+        if ( dxccEntity.dxcc )
+        {
+            update.bindValue(":my_dxcc",          dxccEntity.dxcc);
+            update.bindValue(":my_itu_zone",      dxccEntity.ituz);
+            update.bindValue(":my_cq_zone",       dxccEntity.cqz);
+            update.bindValue(":my_country_intl",  dxccEntity.country);
+            update.bindValue(":my_country",       Data::removeAccents(dxccEntity.country));
+            update.bindValue(":station_callsign", myCallsign);
+
+            if ( !update.exec())
+            {
+                qWarning() << "Cannot exec a migration script - fillMyDXCC 2" << update.lastError();
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 QString Migration::fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl)

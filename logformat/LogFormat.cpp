@@ -253,6 +253,41 @@ int LogFormat::runImport()
             }
         }
 
+        QString myCallsign = record.value("station_callsign").toString().toUpper();
+
+        if ( !myCallsign.isEmpty() )
+        {
+            DxccEntity dxccEntity = Data::instance()->lookupDxcc(myCallsign);
+
+            if ( dxccEntity.dxcc )
+            {
+                if ( record.value("my_dxcc").toString().isEmpty() )
+                {
+                    record.setValue("my_dxcc", dxccEntity.dxcc);
+                }
+
+                if ( record.value("my_itu_zone").toString().isEmpty() )
+                {
+                    record.setValue("my_itu_zone", dxccEntity.ituz);
+                }
+
+                if ( record.value("my_cq_zone").toString().isEmpty() )
+                {
+                    record.setValue("my_cq_zone", dxccEntity.cqz);
+                }
+
+                if ( record.value("my_country_intl").toString().isEmpty() )
+                {
+                    record.setValue("my_country_intl", dxccEntity.country);
+                }
+
+                if ( record.value("my_country").toString().isEmpty() )
+                {
+                    record.setValue("my_country", Data::removeAccents(dxccEntity.country));
+                }
+            }
+        }
+
         model.insertRecord(-1, record);
 
         count++;
