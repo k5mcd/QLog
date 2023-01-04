@@ -396,6 +396,66 @@ QList<Band> Data::enabledBandsList()
     return ret;
 }
 
+QList<Band> Data::dxccBandsList(bool onlyEnabled)
+{
+    FCT_IDENTIFICATION;
+
+    QSqlQuery query;
+    QList<Band> ret;
+
+    /* Only selected bands are accepted for DXCC */
+    QString stmt = QString(" SELECT name, start_freq, end_freq "
+                            " FROM bands "
+                            " WHERE ((1.9 between start_freq and end_freq) "
+                            "         OR (3.6 between start_freq and end_freq) "
+                            "         OR (7.1 between start_freq and end_freq) "
+                            "         OR (10.1 between start_freq and end_freq) "
+                            "         OR (14.1 between start_freq and end_freq) "
+                            "         OR (18.1 between start_freq and end_freq) "
+                            "         OR (21.1 between start_freq and end_freq) "
+                            "         OR (24.9 between start_freq and end_freq) "
+                            "         OR (28.1 between start_freq and end_freq) "
+                            "         OR (50.1 between start_freq and end_freq) "
+                            "         OR (145.1 between start_freq and end_freq) "
+                            "         OR (421.1 between start_freq and end_freq) "
+                            "         OR (1241.0 between start_freq and end_freq) "
+                            "         OR (2301.0 between start_freq and end_freq) "
+                            "         OR (10001.0 between start_freq and end_freq)) "
+                            );
+
+    if ( onlyEnabled )
+    {
+        stmt.append("AND enabled = 1 ");
+    }
+
+    stmt.append("ORDER BY start_freq ");
+
+    qCDebug(runtime) << stmt;
+
+    if ( ! query.prepare(stmt) )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return ret;
+    }
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return ret;
+    }
+
+    while ( query.next() )
+    {
+        Band band;
+        band.name = query.value(0).toString();
+        band.start = query.value(1).toDouble();
+        band.end = query.value(2).toDouble();
+        ret << band;
+    }
+
+    return ret;
+}
+
 QString Data::freqToDXCCMode(double freq)
 {
     FCT_IDENTIFICATION;

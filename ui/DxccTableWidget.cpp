@@ -3,13 +3,18 @@
 #include <QVBoxLayout>
 #include <QDate>
 #include <QSettings>
+#include <QSqlError>
+#include <QSqlQuery>
 #include "models/DxccTableModel.h"
 #include "DxccTableWidget.h"
 #include "core/debug.h"
+#include "data/StationProfile.h"
+#include "data/Data.h"
 
 MODULE_IDENTIFICATION("qlog.ui.dxcctablewidget");
 
-DxccTableWidget::DxccTableWidget(QWidget *parent) : QTableView(parent) {
+DxccTableWidget::DxccTableWidget(QWidget *parent) : QTableView(parent)
+{
     FCT_IDENTIFICATION;
 
     dxccTableModel = new DxccTableModel;
@@ -17,62 +22,109 @@ DxccTableWidget::DxccTableWidget(QWidget *parent) : QTableView(parent) {
     this->setObjectName("dxccTableView");
     this->setModel(dxccTableModel);
     this->verticalHeader()->setVisible(false);
-    this->verticalHeader()->setDefaultSectionSize(16);
-    //this->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-    this->setGridStyle(Qt::PenStyle::NoPen);
-    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
-void DxccTableWidget::clear() {
+void DxccTableWidget::clear()
+{
     FCT_IDENTIFICATION;
 
     dxccTableModel->clear();
-    this->show();
+    dxccTableModel->setQuery(QString());
+    show();
 }
 
-void DxccTableWidget::setDxcc(int dxcc) {
+void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
+{
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<dxcc;
+    qCDebug(function_parameters) << dxcc;
 
-    if (dxcc)  {
-        QString filter;
+    if ( dxcc )
+    {
+        QList<Band> dxccBands = Data::dxccBandsList(true);
+
+        if ( dxccBands.size() == 0 )
+        {
+            return;
+        }
+
+        QString filter("1 = 1");
+        StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+
+        if ( profile != StationProfile() )
+        {
+            filter.append(QString(" AND c.station_callsign = '%1'").arg(profile.callsign));
+        }
 
         QSettings settings;
         QVariant start = settings.value("dxcc/start");
-        if (!start.isNull()) {
-            filter = QString("AND contacts.start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd"));
+
+        if ( !start.isNull() )
+        {
+            filter.append(QString(" AND contacts.start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd")));
         }
 
-        dxccTableModel->setQuery(QString(
-                             "SELECT bands.name,\n"
-                             "count(CASE WHEN modes.dxcc = 'CW' THEN 1 END) as cw,\n"
-                             "count(CASE WHEN modes.dxcc = 'PHONE' THEN 1 END) as phone,\n"
-                             "count(CASE WHEN modes.dxcc = 'DIGITAL' THEN 1 END) as digital\n"
-                             "FROM contacts\n"
-                             "INNER JOIN modes ON (contacts.dxcc = %1 AND contacts.mode = modes.name)\n"
-                             "INNER JOIN bands ON (contacts.band = bands.name)\n"
-                             "WHERE bands.enabled = true " + filter + "\n"
-                             "GROUP BY bands.name, bands.start_freq\n"
-                             "ORDER BY bands.start_freq").arg(dxcc));
+        QStringList stmt_band_part1;
+        QStringList stmt_band_part2;
 
-        if (dxccTableModel->columnCount() >= 4) {
-            dxccTableModel->setHeaderData(0, Qt::Horizontal, tr("Band"));
-            dxccTableModel->setHeaderData(1, Qt::Horizontal, tr("CW"));
-            dxccTableModel->setHeaderData(2, Qt::Horizontal, tr("PH"));
-            dxccTableModel->setHeaderData(3, Qt::Horizontal, tr("DIG"));
+        for ( int i = 0; i < dxccBands.size(); i++ )
+        {
+            stmt_band_part1 << QString(" MAX(CASE WHEN band = '%1' THEN  CASE WHEN (eqsl_qsl_rcvd = 'Y') THEN 2 ELSE 1 END  ELSE 0 END) as '%2_eqsl',"
+                                       " MAX(CASE WHEN band = '%3' THEN  CASE WHEN (lotw_qsl_rcvd = 'Y') THEN 2 ELSE 1 END  ELSE 0 END) as '%4_lotw',"
+                                       " MAX(CASE WHEN band = '%5' THEN  CASE WHEN (qsl_rcvd = 'Y')      THEN 2 ELSE 1 END  ELSE 0 END) as '%6_paper' ")
+                                        .arg(dxccBands[i].name, dxccBands[i].name,
+                                             dxccBands[i].name, dxccBands[i].name,
+                                             dxccBands[i].name, dxccBands[i].name);
+            stmt_band_part2 << QString(" c.'%1_eqsl' || c.'%2_lotw'|| c.'%3_paper' as '%4'").arg(dxccBands[i].name, dxccBands[i].name,
+                                                                                                 dxccBands[i].name, dxccBands[i].name);
         }
 
-        if (this->horizontalHeader()->count() >= 4) {
-            this->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-            this->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-            this->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-            this->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+        QString stmt = QString("WITH dxcc_summary AS "
+                               "             ("
+                               "			  SELECT  "
+                               "			  m.dxcc , "
+                               "		      %1 "
+                               "		      FROM contacts c"
+                               "		           LEFT OUTER JOIN modes m on c.mode = m.name"
+                               "		      WHERE %2 AND c.dxcc = %3 GROUP BY m.dxcc ) "
+                               " SELECT m.dxcc,"
+                               "	   %4 "
+                               " FROM (SELECT DISTINCT dxcc"
+                               "	   FROM modes) m"
+                               "        LEFT OUTER JOIN dxcc_summary c ON c.dxcc = m.dxcc "
+                               " ORDER BY m.dxcc").arg(stmt_band_part1.join(","))
+                                                  .arg(filter)
+                                                  .arg(dxcc)
+                                                  .arg(stmt_band_part2.join(","));
+
+        qCDebug(runtime) << stmt;
+
+        dxccTableModel->setQuery(stmt);
+
+        // get default Brush from Mode column - Mode Column has always the default color
+        QVariant defaultBrush = dxccTableModel->headerData(0, Qt::Horizontal, Qt::BackgroundColorRole);
+
+        dxccTableModel->setHeaderData(0, Qt::Horizontal, tr("Mode"));
+
+        for ( int i = 0; i < dxccBands.size(); i++)
+        {
+            QVariant headerBrush;
+            if ( highlightedBand == dxccBands[i] )
+            {
+                headerBrush = QBrush(Qt::darkGray);
+            }
+            else
+            {
+                headerBrush = defaultBrush;
+            }
+            dxccTableModel->setHeaderData(i+1, Qt::Horizontal, headerBrush, Qt::BackgroundRole);
+            dxccTableModel->setHeaderData(i+1, Qt::Horizontal, dxccBands[i].name);
         }
     }
-    else {
+    else
+    {
         dxccTableModel->clear();
     }
 
-    this->show();
+    show();
 }
