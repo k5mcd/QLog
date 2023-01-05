@@ -105,9 +105,9 @@ Prerequisites
 
 - `HAMLIBINCLUDEPATH` - the path to Hamlib Includes 
 - `HAMLIBLIBPATH` - the path to Hamlib Library 
-- `HAMLIBVERSION_MAJOR` - Hamlib version - major number
-- `HAMLIBVERSION_MINOR` - Hamlib version - monir number
-- `HAMLIBVERSION_PATCH` - Hamlib version - path number
+- `HAMLIBVERSION_MAJOR` - Hamlib version - major number (must be present if `pkg-config` cannot determine Hamlib version)
+- `HAMLIBVERSION_MINOR` - Hamlib version - minor number (must be present if `pkg-config` cannot determine Hamlib version)
+- `HAMLIBVERSION_PATCH` - Hamlib version - path number (must be present if `pkg-config` cannot determine Hamlib version)
 - `QTKEYCHAININCLUDEPATH` - the path to QtKeyChain Includes 
 - `QTKEYCHAINLIBPATH`- the path to QtKeyChain Library
 
@@ -133,6 +133,10 @@ for Debian:
 
 `sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev pkg-config`
 
+for Debian (QT6):
+
+`sudo apt-get -y install libhamlib-dev build-essential pkg-config qt6-base-dev qtkeychain-qt6-dev qt6-webengine-dev libqt6charts6-dev libqt6serialport6-dev libqt6webenginecore6-bin libqt6svg6-dev libgl-dev`
+
 for Fedora:
 
 `dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel qt5-qtserialport-devel pkg-config`
@@ -146,6 +150,10 @@ for both:
 for Debian:
 
 `qmake QLog.pro`
+
+for Debian (QT6):
+
+`qmake6 QLog.pro`
 
 for Fedora:
 
