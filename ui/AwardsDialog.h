@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSqlQueryModel>
 #include "models/AwardsTableModel.h"
+#include "models/SqlListModel.h"
 
 namespace Ui {
 class AwardsDialog;
@@ -22,6 +23,7 @@ public slots:
 private:
     Ui::AwardsDialog *ui;
     AwardsTableModel *detailedViewModel;
+    SqlListModel* entityCallsignModel;
 
 };
 

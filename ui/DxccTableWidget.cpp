@@ -41,7 +41,8 @@ void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
 
     if ( dxcc )
     {
-        QList<Band> dxccBands = Data::dxccBandsList(true);
+        QSettings settings;
+        QList<Band> dxccBands = Data::bandsList(true, true);
 
         if ( dxccBands.size() == 0 )
         {
@@ -50,22 +51,28 @@ void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
 
         QString filter("1 = 1");
         StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+        QVariant start = settings.value("dxcc/start");
+        QStringList stmt_band_part1;
+        QStringList stmt_band_part2;
 
         if ( profile != StationProfile() )
         {
-            filter.append(QString(" AND c.station_callsign = '%1'").arg(profile.callsign));
-        }
+            DxccEntity dxccEntity = Data::instance()->lookupDxcc(profile.callsign);
 
-        QSettings settings;
-        QVariant start = settings.value("dxcc/start");
+            if ( dxccEntity.dxcc )
+            {
+                filter.append(QString(" AND c.my_dxcc = %1").arg(dxccEntity.dxcc));
+            }
+            else
+            {
+                filter.append(QString(" AND c.station_callsign = '%1'").arg(profile.callsign));
+            }
+        }
 
         if ( !start.isNull() )
         {
             filter.append(QString(" AND contacts.start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd")));
         }
-
-        QStringList stmt_band_part1;
-        QStringList stmt_band_part2;
 
         for ( int i = 0; i < dxccBands.size(); i++ )
         {

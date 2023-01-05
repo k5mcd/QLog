@@ -655,7 +655,7 @@ void BandmapWidget::showContextMenu(QPoint point)
     QMenu contextMenu(this);
     QMenu bandsMenu(tr("Show Band"), &contextMenu);
 
-    for (Band &enabledBand : Data::enabledBandsList())
+    for (Band &enabledBand : Data::bandsList(false, true))
     {
         QAction* action = new QAction(enabledBand.name);
         connect(action, &QAction::triggered, this, [this, enabledBand]()
