@@ -14,6 +14,8 @@ TBC - 0.18.0
 - [NEW] - DXC - Added Log Status to filter
 - [NEW] - DXC - Added Spot deduplication to filter
 - [NEW] - My DXCC/CQZ/ITUZ/Country is filled
+- [CHANGED] - New QSO DXCC Tab reworked
+- [CHANGED] - All DXCC Stats are computed based on My DXCC instead of My Callsign
 - [CHANGED] - Station Profile Setting layout
 
 2022/12/18 - 0.17.0
