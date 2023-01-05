@@ -107,7 +107,7 @@ Prerequisites
 - `HAMLIBLIBPATH` - the path to Hamlib Library 
 - `HAMLIBVERSION_MAJOR` - Hamlib version - major number (must be present if `pkg-config` cannot determine Hamlib version)
 - `HAMLIBVERSION_MINOR` - Hamlib version - minor number (must be present if `pkg-config` cannot determine Hamlib version)
-- `HAMLIBVERSION_PATCH` - Hamlib version - path number (must be present if `pkg-config` cannot determine Hamlib version)
+- `HAMLIBVERSION_PATCH` - Hamlib version - patch number (must be present if `pkg-config` cannot determine Hamlib version)
 - `QTKEYCHAININCLUDEPATH` - the path to QtKeyChain Includes 
 - `QTKEYCHAINLIBPATH`- the path to QtKeyChain Library
 
