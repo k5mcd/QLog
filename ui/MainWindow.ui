@@ -89,10 +89,10 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="actionAbout"/>
     <addaction name="actionWikiHelp"/>
-    <addaction name="separator"/>
     <addaction name="actionReportBug"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
