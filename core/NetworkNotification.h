@@ -64,6 +64,7 @@ protected:
         {DxccStatus::NewMode, "newmode"},
         {DxccStatus::NewSlot, "newslot"},
         {DxccStatus::Worked, "worked"},
+        {DxccStatus::Confirmed, "confirmed"},
         {DxccStatus::UnknownStatus, "unknown"},
     };
 };

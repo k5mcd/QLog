@@ -24,7 +24,7 @@ QVariant AwardsTableModel::data(const QModelIndex &index, int role) const
         }
         else if ( this->data(index, Qt::DisplayRole).toInt() == 1 )
         {
-            return QColor(Qt::yellow);
+            return QColor(QColor(255,165,0));
         }
     }
     else if ( role == Qt::FontRole

@@ -145,7 +145,8 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
                          "  SELECT (SELECT 1 FROM all_dxcc_qsos LIMIT 1) as entity,"
                          "         (SELECT 1 FROM all_dxcc_qsos WHERE band = :band LIMIT 1) as band, "
                          "         (SELECT 1 FROM all_dxcc_qsos INNER JOIN modes ON (modes.name = all_dxcc_qsos.mode) WHERE modes.dxcc = " + sql_mode + " LIMIT 1) as mode, "
-                         "         (SELECT 1 FROM all_dxcc_qsos INNER JOIN modes ON (modes.name = all_dxcc_qsos.mode) WHERE modes.dxcc = " + sql_mode + " AND all_dxcc_qsos.band = :band LIMIT 1) as slot"
+                         "         (SELECT 1 FROM all_dxcc_qsos INNER JOIN modes ON (modes.name = all_dxcc_qsos.mode) WHERE modes.dxcc = " + sql_mode + " AND all_dxcc_qsos.band = :band LIMIT 1) as slot, "
+                         "         (SELECT 1 FROM all_dxcc_qsos INNER JOIN modes ON (modes.name = all_dxcc_qsos.mode) WHERE modes.dxcc = " + sql_mode + " AND all_dxcc_qsos.band = :band AND (all_dxcc_qsos.qsl_rcvd = 'Y' OR all_dxcc_qsos.lotw_qsl_rcvd = 'Y') LIMIT 1) as confirmed"
                          )
        )
     {
@@ -181,8 +182,11 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
         if (query.value(3).isNull()) {
             return DxccStatus::NewSlot;
         }
-        else {
+        if ( query.value(4).isNull()) {
             return DxccStatus::Worked;
+        }
+        else {
+            return DxccStatus::Confirmed;
         }
     }
     else {
@@ -194,6 +198,7 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
     qCDebug(runtime) << "new DXCC Status: " << (a); \
     return ((a))
 
+//TODO FIX IT
 DxccStatus Data::dxccFutureStatus(const DxccStatus &oldStatus,
                                   const qint32 oldDxcc,
                                   const QString &oldBand,
@@ -326,6 +331,22 @@ DxccStatus Data::dxccFutureStatus(const DxccStatus &oldStatus,
     if ( oldStatus == DxccStatus::NewSlot )
     {
         RETURNCODE(DxccStatus::NewSlot);
+    }
+
+    /*************/
+    /* Worked   */
+    /*************/
+    if ( oldStatus == DxccStatus::Worked )
+    {
+        RETURNCODE(DxccStatus::Worked);
+    }
+
+    /***************/
+    /* Confirmed   */
+    /***************/
+    if ( oldStatus == DxccStatus::Confirmed )
+    {
+        RETURNCODE(DxccStatus::Confirmed);
     }
 
     RETURNCODE(DxccStatus::UnknownStatus);
@@ -589,6 +610,8 @@ QColor Data::statusToColor(const DxccStatus &status, const QColor &defaultColor)
             return QColor(76, 200, 80);
         case DxccStatus::NewSlot:
             return QColor(30, 180, 230);
+        case DxccStatus::Worked:
+            return QColor(255,165,0);
         default:
             return defaultColor;
     }
@@ -610,6 +633,8 @@ QString Data::statusToText(const DxccStatus &status) {
             return tr("New Band&Mode");
         case DxccStatus::NewSlot:
             return tr("New Slot");
+        case DxccStatus::Confirmed:
+            return tr("Confirmed");
         case DxccStatus::Worked:
             return tr("Worked");
         default:
@@ -680,25 +705,6 @@ int Data::getCQZMax()
     qCDebug(runtime) << 40;
 
     return 40;
-}
-
-QColor Data::statusToInverseColor(const DxccStatus &status, const QColor &defaultColor) {
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << status;
-
-    switch (status) {
-        case DxccStatus::NewEntity:
-            return QColor(Qt::white);
-        case DxccStatus::NewBand:
-        case DxccStatus::NewMode:
-        case DxccStatus::NewBandMode:
-            return QColor(Qt::white);
-        case DxccStatus::NewSlot:
-            return QColor(Qt::black);
-        default:
-            return defaultColor;
-    }
 }
 
 QPair<QString, QString> Data::legacyMode(const QString &mode) {

@@ -59,6 +59,7 @@ DxFilterDialog::DxFilterDialog(QWidget *parent) :
     ui->newModecheckbox->setChecked(statusSetting & DxccStatus::NewMode);
     ui->newSlotcheckbox->setChecked(statusSetting & DxccStatus::NewSlot);
     ui->workedcheckbox->setChecked(statusSetting & DxccStatus::Worked);
+    ui->confirmedcheckbox->setChecked(statusSetting & DxccStatus::Confirmed);
 
     /*******************/
     /* Mode Checkboxes */
@@ -134,6 +135,7 @@ void DxFilterDialog::accept()
     if ( ui->newModecheckbox->isChecked() ) status |=  DxccStatus::NewMode;
     if ( ui->newSlotcheckbox->isChecked() ) status |=  DxccStatus::NewSlot;
     if ( ui->workedcheckbox->isChecked() ) status |=  DxccStatus::Worked;
+    if ( ui->confirmedcheckbox->isChecked() ) status |=  DxccStatus::Confirmed;
 
     settings.setValue("dxc/filter_dxcc_status", status);
 

@@ -21,7 +21,7 @@ QVariant DxccTableModel::data(const QModelIndex &index, int role) const
 
         if ( currData == QString("W") )
         {
-            return QColor(Qt::darkYellow);
+            return QColor(QColor(255,165,0));
         }
 
         if ( currData.contains("e")

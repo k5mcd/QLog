@@ -77,6 +77,7 @@ AlertRuleDetail::AlertRuleDetail(const QString &ruleName, QWidget *parent) :
                                         | DxccStatus::NewBandMode
                                         | DxccStatus::NewSlot
                                         | DxccStatus::Worked
+                                        | DxccStatus::Confirmed
                                         | DxccStatus::UnknownStatus) );
     ui->logStatusCombo->addItem(Data::statusToText(DxccStatus::NewEntity), DxccStatus::NewEntity);
     ui->logStatusCombo->addItem(Data::statusToText(DxccStatus::NewBand), DxccStatus::NewBand);
@@ -84,6 +85,7 @@ AlertRuleDetail::AlertRuleDetail(const QString &ruleName, QWidget *parent) :
     ui->logStatusCombo->addItem(Data::statusToText(DxccStatus::NewBandMode), DxccStatus::NewBandMode);
     ui->logStatusCombo->addItem(Data::statusToText(DxccStatus::NewSlot), DxccStatus::NewSlot);
     ui->logStatusCombo->addItem(Data::statusToText(DxccStatus::Worked), DxccStatus::Worked);
+    ui->logStatusCombo->addItem(Data::statusToText(DxccStatus::Confirmed), DxccStatus::Confirmed);
 
     /**************************************/
     /* Load or Prepare Rule Dialog Values */

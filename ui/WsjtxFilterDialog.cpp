@@ -23,6 +23,7 @@ WsjtxFilterDialog::WsjtxFilterDialog(QWidget *parent) :
     ui->newModeCheckBox->setChecked(statusSetting & DxccStatus::NewMode);
     ui->newSlotCheckBox->setChecked(statusSetting & DxccStatus::NewSlot);
     ui->workedCheckBox->setChecked(statusSetting & DxccStatus::Worked);
+    ui->confirmedCheckBox->setChecked(statusSetting & DxccStatus::Confirmed);
 
     /************************/
     /* Continent Checkboxes */
@@ -64,6 +65,7 @@ void WsjtxFilterDialog::accept()
     if ( ui->newModeCheckBox->isChecked() ) status |=  DxccStatus::NewMode;
     if ( ui->newSlotCheckBox->isChecked() ) status |=  DxccStatus::NewSlot;
     if ( ui->workedCheckBox->isChecked() ) status |=  DxccStatus::Worked;
+    if ( ui->confirmedCheckBox->isChecked() ) status |=  DxccStatus::Confirmed;
 
     settings.setValue("wsjtx/filter_dxcc_status", status);
 

@@ -83,7 +83,6 @@ public:
     static QString freqToDXCCMode(double freq);
     QString modeToDXCCMode(const QString &mode);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
-    static QColor statusToInverseColor(const DxccStatus &status, const QColor &defaultColor);
     static QString statusToText(const DxccStatus &status);
     static QString removeAccents(const QString &input);
     static int getITUZMin();

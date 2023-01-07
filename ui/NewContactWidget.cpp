@@ -1776,6 +1776,12 @@ void NewContactWidget::updateDxccStatus()
     case DxccStatus::NewSlot:
         ui->dxccStatus->setText(tr("New Slot!"));
         break;
+    case DxccStatus::Worked:
+        ui->dxccStatus->setText(tr("Worked"));
+        break;
+    case DxccStatus::Confirmed:
+        ui->dxccStatus->setText(tr("Confirmed"));
+        break;
     default:
         ui->dxccStatus->clear();
     }

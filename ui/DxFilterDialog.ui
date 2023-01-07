@@ -249,6 +249,13 @@
               </property>
              </widget>
             </item>
+            <item row="1" column="2">
+             <widget class="QCheckBox" name="confirmedcheckbox">
+              <property name="text">
+               <string>Confirmed</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
