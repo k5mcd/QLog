@@ -141,14 +141,13 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
 
     QSqlQuery query;
 
-    if ( ! query.prepare("SELECT (SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc " + filter + " LIMIT 1) as entity,"
-                  "(SELECT contacts.callsign FROM contacts WHERE dxcc = :dxcc AND band = :band " + filter + " LIMIT 1) as band,"
-                  "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
-                  "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
-                  "        LIMIT 1) as mode,"
-                  "(SELECT contacts.callsign FROM contacts INNER JOIN modes ON (modes.name = contacts.mode)"
-                  "        WHERE contacts.dxcc = :dxcc AND modes.dxcc = " + sql_mode + filter +
-                  "        AND band = :band LIMIT 1) as slot;") )
+    if ( ! query.prepare("WITH all_dxcc_qsos AS (SELECT DISTINCT contacts.mode, contacts.band, contacts.qsl_rcvd, contacts.lotw_qsl_rcvd FROM contacts WHERE dxcc = :dxcc " + filter + ") "
+                         "  SELECT (SELECT 1 FROM all_dxcc_qsos LIMIT 1) as entity,"
+                         "         (SELECT 1 FROM all_dxcc_qsos WHERE band = :band LIMIT 1) as band, "
+                         "         (SELECT 1 FROM all_dxcc_qsos INNER JOIN modes ON (modes.name = all_dxcc_qsos.mode) WHERE modes.dxcc = " + sql_mode + " LIMIT 1) as mode, "
+                         "         (SELECT 1 FROM all_dxcc_qsos INNER JOIN modes ON (modes.name = all_dxcc_qsos.mode) WHERE modes.dxcc = " + sql_mode + " AND all_dxcc_qsos.band = :band LIMIT 1) as slot"
+                         )
+       )
     {
         qWarning() << "Cannot prepare Select statement";
         return DxccStatus::UnknownStatus;
