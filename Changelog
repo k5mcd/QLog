@@ -7,6 +7,7 @@ TBC - 0.18.0
         - Adopted Gridsquare_ext (only import/export)
         - Adopted Hamlogeu_* (only import/export)
         - Adopted HamQTH_* (only import/export)
+- [NEW] - Added new DXCC Status and color for it - Confirmed
 - [NEW] - Grid can contain 8-characters
 - [NEW] - User filter can contain NULL value
 - [NEW] - Compilation - added variables for external sources path
