@@ -114,6 +114,7 @@ private:
     SubmitError submitAllChanges();
     void callbookLookupFinished();
     void callbookLookupStart();
+    void refreshDXCCTab();
 
     Ui::QSODetailDialog *ui;
     QPointer<QDataWidgetMapper> mapper;

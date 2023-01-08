@@ -335,6 +335,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     drawDXOnMap(ui->callsignEdit->text(), Gridsquare(ui->gridEdit->text()));
     drawMyQTHOnMap(ui->myCallsignEdit->text(), Gridsquare(ui->myGridEdit->text()));
 
+    refreshDXCCTab();
+
     enableWidgetChangeHandlers();
 }
 
@@ -719,10 +721,7 @@ void QSODetailDialog::callsignChanged(QString)
 {
     FCT_IDENTIFICATION;
 
-    /* In general, we assume that an operator will modify just suffix therefore QLog will not update ITU, COUNTRY, CQZ, DXCC Countitne */
-    /* If an operator will need to modify ITU, so do it manually now */
-
-    //nothing to do
+    refreshDXCCTab();
 }
 
 void QSODetailDialog::propagationModeChanged(const QString &propModeText)
@@ -1386,6 +1385,21 @@ void QSODetailDialog::callbookLookupStart()
     resetButton->setEnabled(false);
     editButton->setEnabled(false);
     lookupButtonWaitingStyle(true);
+}
+
+void QSODetailDialog::refreshDXCCTab()
+{
+    FCT_IDENTIFICATION;
+
+    DxccEntity dxccEntity = Data::instance()->lookupDxcc(ui->callsignEdit->text());
+    if ( dxccEntity.dxcc )
+    {
+        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
+    }
+    else
+    {
+        ui->dxccTableWidget->clear();
+    }
 }
 
 void QSOEditMapperDelegate::setEditorData(QWidget *editor,
