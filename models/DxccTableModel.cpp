@@ -19,17 +19,18 @@ QVariant DxccTableModel::data(const QModelIndex &index, int role) const
     {
         QString currData = data(index, Qt::DisplayRole).toString();
 
-        if ( currData == QString("W") )
-        {
-            return QColor(QColor(255,165,0));
-        }
-
-        if ( currData.contains("e")
-             || currData.contains("L")
+        if ( currData.contains("L")
              || currData.contains("P"))
         {
             return Data::statusToColor(DxccStatus::NewMode, Qt::green);
         }
+
+        if ( currData == QString("e")
+             || currData == QString("W") )
+        {
+            return QColor(QColor(255,165,0));
+        }
+
     }
     else if ( index.column() != 0 && role == Qt::DisplayRole )
     {
