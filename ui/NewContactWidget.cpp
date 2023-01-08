@@ -281,10 +281,12 @@ void NewContactWidget::readWidgetSettings()
     QString submode = settings.value("newcontact/submode").toString();
     realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
     double power = settings.value("newcontact/power", 100).toDouble();
+    int tabIndex = settings.value("newcontact/tabindex", 0).toInt();
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
     ui->powerEdit->setValue(power);
+    ui->tabWidget_2->setCurrentIndex(tabIndex);
 }
 
 void NewContactWidget::writeWidgetSetting()
@@ -296,6 +298,7 @@ void NewContactWidget::writeWidgetSetting()
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
     settings.setValue("newcontact/frequency", realRigFreq);
     settings.setValue("newcontact/power", ui->powerEdit->value());
+    settings.setValue("newcontact/tabindex", ui->tabWidget_2->currentIndex());
 }
 
 /* function read global setting, called when starting or when Setting is reloaded */
