@@ -1,5 +1,7 @@
+#include <QColor>
 #include "AlertTableModel.h"
 #include "core/debug.h"
+#include "data/Data.h"
 
 //-+ FREQ_MATCH_TOLERANCE MHz is OK when QLog evaluates the same spot freq
 #define FREQ_MATCH_TOLERANCE 0.005
@@ -32,6 +34,10 @@ QVariant AlertTableModel::data(const QModelIndex& index, int role) const
         case 5: return selectedRecord.comment;
         default: return QVariant();
         }
+    }
+    else if ( index.column() == 0 && role == Qt::BackgroundRole )
+    {
+        return Data::statusToColor(selectedRecord.status, QColor(Qt::transparent));
     }
 
     return QVariant();
@@ -122,7 +128,8 @@ AlertTableModel::AlertTableRecord::AlertTableRecord(const SpotAlert &spotAlert) 
     band(spotAlert.band),
     mode(spotAlert.mode),
     comment(spotAlert.comment),
-    counter(0)
+    counter(0),
+    status(spotAlert.status)
 {
 
 }

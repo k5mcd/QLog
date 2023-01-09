@@ -31,6 +31,7 @@ private:
         QString mode;
         QString comment;
         long long counter;
+        DxccStatus status;
 
         bool operator==(const AlertTableRecord &) const;
         explicit AlertTableRecord(const SpotAlert&);
