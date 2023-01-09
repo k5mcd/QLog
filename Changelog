@@ -9,6 +9,8 @@ TBC - 0.18.0
         - Adopted HamQTH_* (only import/export)
 - [NEW] - Added new DXCC Status and color for it - Confirmed
 - [NEW] - New Contact - Tab selection is saved
+- [NEW] - Alerts - Added DXCC Status Colort
+- [NEW] - Alerts - Added Aging
 - [NEW] - QSO Detail contain DXCC Tab
 - [NEW] - Grid can contain 8-characters
 - [NEW] - User filter can contain NULL value
