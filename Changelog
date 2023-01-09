@@ -9,17 +9,17 @@ TBC - 0.18.0
         - Adopted HamQTH_* (only import/export)
 - [NEW] - Added new DXCC Status and color for it - Confirmed
 - [NEW] - New Contact - Tab selection is saved
-- [NEW] - Alerts - Added DXCC Status Colort
-- [NEW] - Alerts - Added Aging
-- [NEW] - QSO Detail contain DXCC Tab
 - [NEW] - Grid can contain 8-characters
 - [NEW] - User filter can contain NULL value
-- [NEW] - Compilation - added variables for external sources path
-- [NEW] - WSJTX - CQ-Spot Added Filter
-- [NEW] - DXC - Added Log Status to filter
-- [NEW] - DXC - Added Spot deduplication to filter
+- [NEW] - Compilation - added variables for external sources
 - [NEW] - My DXCC/CQZ/ITUZ/Country is filled
-- [CHANGED] - New QSO DXCC Tab reworked
+- [NEW] - Alerts - Added Aging (issue #153)
+- [NEW] - Alerts - Added DXCC Status Color (issue #153)
+- [NEW] - DXC - Added Log Status to filter (issue #154)
+- [NEW] - DXC - Added Spot deduplication to filter (issue #154)
+- [NEW] - WSJTX - Added CQ-Spot Filter (issue #155)
+- [NEW] - QSO Detail contains DXCC Tab (issue #156)
+- [CHANGED] - New QSO DXCC Tab reworked (issue #144)
 - [CHANGED] - All DXCC Stats are computed based on My DXCC instead of My Callsign
 - [CHANGED] - Station Profile Setting layout
 
