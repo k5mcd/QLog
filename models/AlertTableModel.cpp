@@ -79,7 +79,7 @@ void AlertTableModel::addAlert(SpotAlert entry)
     else
     {
         /* New spot, insert it */
-        beginInsertRows(QModelIndex(), alertList.count(), alertList.count());
+        beginInsertRows(QModelIndex(), 0, 0);
         alertList.prepend(newRecord);
         endInsertRows();
     }
@@ -109,6 +109,30 @@ double AlertTableModel::getFrequency(const QModelIndex &index)
     double ret = alertList.at(index.row()).freq;
     alertListMutex.unlock();
     return ret;
+}
+
+void AlertTableModel::aging(const int clear_interval_sec)
+{
+    if ( clear_interval_sec <= 0 ) return;
+
+    alertListMutex.lock();
+
+    QMutableListIterator<AlertTableRecord> alertIterator(alertList);
+
+    beginResetModel();
+    while ( alertIterator.hasNext() )
+    {
+        alertIterator.next();
+        if ( alertIterator.value().dateTime.addSecs(clear_interval_sec) <= QDateTime::currentDateTimeUtc() )
+        {
+
+            alertIterator.remove();
+
+        }
+    }
+    endResetModel();
+
+    alertListMutex.unlock();
 }
 
 

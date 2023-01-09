@@ -156,7 +156,7 @@ void BandmapWidget::spotAging()
 
     qCDebug(function_parameters)<<clear_interval_sec;
 
-    if ( clear_interval_sec == 0 ) return;
+    if ( clear_interval_sec <= 0 ) return;
 
     QMutableMapIterator<double, DxSpot> spotIterator(spots);
 

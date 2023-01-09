@@ -23,6 +23,8 @@ public slots:
     void addAlert(const SpotAlert &alert);
     void clearAllAlerts();
     void entryDoubleClicked(QModelIndex index);
+    void alertAgingChanged(int);
+
 
 signals:
     void alertsCleared();
@@ -31,6 +33,11 @@ signals:
 private:
     Ui::AlertWidget *ui;
     AlertTableModel* alertTableModel;
+    QTimer *aging_timer;
+
+private slots:
+    void alertAging();
+
 };
 
 #endif // ALERTWIDGET_H

@@ -55,14 +55,51 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="clearAllButton">
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="text">
-      <string>Clear All</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="clearAlertOlderLabel">
+       <property name="text">
+        <string>Clear older than</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="clearAlertOlderSpinBox">
+       <property name="specialValueText">
+        <string>Never</string>
+       </property>
+       <property name="suffix">
+        <string> min(s)</string>
+       </property>
+       <property name="maximum">
+        <number>9999</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clearAllButton">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="text">
+        <string>Clear All</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -100,9 +137,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>clearAlertOlderSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>AlertWidget</receiver>
+   <slot>alertAgingChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>178</x>
+     <y>302</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clearAllAlerts()</slot>
   <slot>entryDoubleClicked(QModelIndex)</slot>
+  <slot>alertAgingChanged(int)</slot>
  </slots>
 </ui>

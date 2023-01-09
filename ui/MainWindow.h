@@ -63,7 +63,7 @@ private slots:
     void alertRuleSetting();
     void darkModeToggle(int);
     void processSpotAlert(SpotAlert alert);
-    void clearAlertButtons();
+    void clearAlertEvent();
     void beepSettingAlerts();
     void shortcutALTBackslash();
     void setManualContact(bool);
@@ -86,7 +86,6 @@ private:
 
     void setDarkMode();
     void setLightMode();
-    void refreshAlertButton();
 };
 
 #endif // MAINWINDOW_H

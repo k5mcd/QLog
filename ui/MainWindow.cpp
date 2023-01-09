@@ -176,7 +176,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->rigWidget, &RigWidget::rigProfileChanged, ui->newContactWidget, &NewContactWidget::refreshRigProfileCombo);
 
-    connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::clearAlertButtons);
+    connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::clearAlertEvent);
     connect(alertWidget, &AlertWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
     conditions = new Conditions(this);
@@ -328,21 +328,34 @@ void MainWindow::processSpotAlert(SpotAlert alert)
     FCT_IDENTIFICATION;
 
     alertWidget->addAlert(alert);
-    refreshAlertButton();
+    alertButton->setText(QString::number(alertWidget->alertCount()));
     alertTextButton->setText(alert.ruleName.join(", ") + ": " + alert.callsign + ", " + alert.band + ", " + alert.mode);
     alertTextButton->disconnect();
+
     connect(alertTextButton, &QPushButton::clicked, this, [this, alert]()
     {
         ui->newContactWidget->tuneDx(alert.callsign, alert.freq);
     });
+
+    if ( ui->actionBeepSettingAlert->isChecked() )
+    {
+        QApplication::beep();
+    }
 }
 
-void MainWindow::clearAlertButtons()
+void MainWindow::clearAlertEvent()
 {
     FCT_IDENTIFICATION;
-    refreshAlertButton();
-    alertTextButton->setText(" ");
-    alertTextButton->disconnect();
+
+    int newCount = alertWidget->alertCount();
+
+    alertButton->setText(QString::number(newCount));
+
+    if ( newCount == 0 )
+    {
+        alertTextButton->setText(" ");
+        alertTextButton->disconnect();
+    }
 }
 
 void MainWindow::beepSettingAlerts()
@@ -403,23 +416,6 @@ void MainWindow::setLightMode()
     FCT_IDENTIFICATION;
 
     qApp->setPalette(this->style()->standardPalette());
-}
-
-void MainWindow::refreshAlertButton()
-{
-    FCT_IDENTIFICATION;
-    static int prevCount = 0;
-
-    if ( prevCount != alertWidget->alertCount() )
-    {
-        alertButton->setText(QString::number(alertWidget->alertCount()));
-        if ( alertWidget->alertCount() != 0
-             && ui->actionBeepSettingAlert->isChecked() )
-        {
-            QApplication::beep();
-        }
-        prevCount = alertWidget->alertCount();
-    }
 }
 
 void MainWindow::rotConnect() {

@@ -19,6 +19,7 @@ public:
     void clear();
     QString getCallsign(const QModelIndex& index);
     double getFrequency(const QModelIndex& index);
+    void aging(const int clear_interval_sec);
 
 private:
     struct AlertTableRecord
