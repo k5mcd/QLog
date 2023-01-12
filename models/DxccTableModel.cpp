@@ -36,7 +36,7 @@ QVariant DxccTableModel::data(const QModelIndex &index, int role) const
     {
         QString currData = QSqlQueryModel::data(index, Qt::DisplayRole).toString();
 
-        if ( currData.isEmpty() )
+        if ( currData.isEmpty() || currData.size() < 3 )
             return QString();
 
         if ( currData == QString("111") )
@@ -46,17 +46,17 @@ QVariant DxccTableModel::data(const QModelIndex &index, int role) const
 
         QString ret;
 
-        if ( currData[0] == "2" )
+        if ( currData[0] == '2' )
         {
             ret.append("e");
         }
 
-        if ( currData[1] == "2" )
+        if ( currData[1] == '2' )
         {
             ret.append("L");
         }
 
-        if ( currData[2] == "2" )
+        if ( currData[2] == '2' )
         {
             ret.append("P");
         }

@@ -109,7 +109,7 @@ void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
         dxccTableModel->setQuery(stmt);
 
         // get default Brush from Mode column - Mode Column has always the default color
-        QVariant defaultBrush = dxccTableModel->headerData(0, Qt::Horizontal, Qt::BackgroundColorRole);
+        QVariant defaultBrush = dxccTableModel->headerData(0, Qt::Horizontal, Qt::BackgroundRole);
 
         dxccTableModel->setHeaderData(0, Qt::Horizontal, tr("Mode"));
 
