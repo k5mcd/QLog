@@ -1,7 +1,7 @@
 TBC - 0.18.0
 - [NEW] - ADIF 3.1.4 updates
-        - Added new modes
-        - Added new band
+        - Added new modes FREEDV and M17
+        - Added new band (submm)
         - Adopted Altitude (for SOTA only)
         - Adopted POTA (includes POTA List)
         - Adopted Gridsquare_ext (only import/export)
