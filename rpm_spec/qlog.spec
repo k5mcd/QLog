@@ -42,6 +42,31 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Jan 15 2023 Ladislav Foldyna - 0.18.0-1
+- [NEW] - ADIF 3.1.4 updates
+-   Added new modes FREEDV and M17
+-   Added new band (submm)
+-   Adopted Altitude (for SOTA only)
+-   Adopted POTA (includes POTA List)
+-   Adopted Gridsquare_ext (only import/export)
+-   Adopted Hamlogeu_* (only import/export)
+-   Adopted HamQTH_* (only import/export)
+- [NEW] - Added new DXCC Status and color for it - Confirmed
+- [NEW] - New Contact - Tab selection is saved
+- [NEW] - Grid can contain 8-characters
+- [NEW] - User filter can contain NULL value
+- [NEW] - Compilation - added variables for external sources
+- [NEW] - My DXCC/CQZ/ITUZ/Country is filled
+- [NEW] - Alerts - Added Aging (issue #153)
+- [NEW] - Alerts - Added DXCC Status Color (issue #153)
+- [NEW] - DXC - Added Log Status to filter (issue #154)
+- [NEW] - DXC - Added Spot deduplication to filter (issue #154)
+- [NEW] - WSJTX - Added CQ-Spot Filter (issue #155)
+- [NEW] - QSO Detail contains DXCC Tab (issue #156)
+- [CHANGED] - New QSO DXCC Tab reworked (issue #144)
+- [CHANGED] - All DXCC Stats are computed based on My DXCC instead of My Callsign
+- [CHANGED] - Station Profile Setting layout
+
 * Sun Dec 18 2022 Ladislav Foldyna - 0.17.0-1
 - [NEW] - NetPort and Polling interval can be defined for NET Rigs
 - [NEW] - NetPort can be defined for NET Rots
