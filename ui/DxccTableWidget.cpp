@@ -71,7 +71,7 @@ void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
 
         if ( !start.isNull() )
         {
-            filter.append(QString(" AND contacts.start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd")));
+            filter.append(QString(" AND c.start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd")));
         }
 
         for ( int i = 0; i < dxccBands.size(); i++ )
