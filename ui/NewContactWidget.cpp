@@ -46,6 +46,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     QLocale locale;
     ui->timeOnEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
     ui->timeOffEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
+    ui->timeDurationEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
 
     /**************************/
     /* QSL Send Combo Content */
@@ -1616,17 +1617,21 @@ void NewContactWidget::startContactTimer()
     }
 
     updateTime();
+
     if (!contactTimer->isActive()) {
         contactTimer->start(500);
     }
     ui->dateEdit->setReadOnly(true);
     ui->timeOnEdit->setReadOnly(true);
     ui->timeOffEdit->setReadOnly(true);
+    ui->timeStackedWidget->setCurrentIndex(1);
 }
 
 void NewContactWidget::stopContactTimer()
 {
     FCT_IDENTIFICATION;
+
+    ui->timeStackedWidget->setCurrentIndex(0);
 
     if ( isManualEnterMode )
     {
@@ -1673,6 +1678,7 @@ void NewContactWidget::updateTime()
     ui->dateEdit->setDate(now.date());
     ui->timeOnEdit->setTime(now.time());
     ui->timeOffEdit->setTime(now.time());
+    ui->timeDurationEdit->setTime(QTime(0,0,0));
 }
 
 void NewContactWidget::updateTimeOff()
@@ -1688,15 +1694,18 @@ void NewContactWidget::updateTimeOff()
     static bool shouldHighlighted = true;
 
     ui->timeOffEdit->setTime(QDateTime::currentDateTimeUtc().time());
+    qint64 seconds = ui->timeOnEdit->dateTime().secsTo(ui->timeOffEdit->dateTime());
+    QTime t = QTime(0,0).addSecs(seconds % 86400);
+    ui->timeDurationEdit->setTime(t);
 
     if ( shouldHighlighted && isQSOTimeStarted() )
     {
         //QColor(76, 200, 80)
-        ui->timeOffEdit->setStyleSheet("background-color: #4CC850 ;");
+        ui->timeDurationEdit->setStyleSheet("background-color: #4CC850 ;");
     }
     else
     {
-        ui->timeOffEdit->setStyleSheet("");
+        ui->timeDurationEdit->setStyleSheet("");
     }
 
     if ( isQSOTimeStarted() )
@@ -2574,6 +2583,7 @@ void NewContactWidget::timeOnChanged()
         return;
 
     ui->timeOffEdit->setDateTime(ui->timeOnEdit->dateTime());
+    ui->timeDurationEdit->setTime(QTime(0,0,0));
 }
 
 NewContactWidget::~NewContactWidget() {
