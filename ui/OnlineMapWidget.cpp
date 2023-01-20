@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QVector3D>
 #include <QtMath>
+#include <QFile>
+#include <QSettings>
 #include "OnlineMapWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
@@ -19,6 +21,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   isMainPageLoaded(false)
 {
     FCT_IDENTIFICATION;
+    main_page->setWebChannel(&channel);
 
     setPage(main_page);
     main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
@@ -26,6 +29,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
 
     setFocusPolicy(Qt::ClickFocus);
     setContextMenuPolicy(Qt::NoContextMenu);
+    channel.registerObject("layerControlHandler", &layerControlHandler);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
@@ -141,8 +145,75 @@ void OnlineMapWidget::finishLoading(bool)
 {
     FCT_IDENTIFICATION;
 
+    QSettings settings;
+
     isMainPageLoaded = true;
+    postponedScripts += prepareRestoreLayerStateJS();
     main_page->runJavaScript(postponedScripts);
+
+    QFile file(":/qtwebchannel/qwebchannel.js");
+
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qCInfo(runtime) << "Cannot read qwebchannel.js";
+    }
+
+    QTextStream stream(&file);
+    QString js;
+
+    js.append(stream.readAll());
+    js += " var webChannel = new QWebChannel(qt.webChannelTransport, function(channel) "
+          "{ window.foo = channel.objects.layerControlHandler; });"
+          " map.on('overlayadd', function(e){ "
+          "  switch (e.name) "
+          "  { "
+          "     case 'Grid': "
+          "        foo.handleLayerSelectionChanged('maidenheadConfWorked', 'on'); "
+          "        break; "
+          "     case 'Gray-Line': "
+          "        foo.handleLayerSelectionChanged('grayline', 'on'); "
+          "        break; "
+          "  } "
+          "});"
+          "map.on('overlayremove', function(e){ "
+          "   switch (e.name) "
+          "   { "
+          "      case 'Grid': "
+          "         foo.handleLayerSelectionChanged('maidenheadConfWorked', 'off'); "
+          "         break; "
+          "      case 'Gray-Line': "
+          "         foo.handleLayerSelectionChanged('grayline', 'off'); "
+          "         break; "
+          "   } "
+          "});";
+    main_page->runJavaScript(js);
+}
+
+QString OnlineMapWidget::prepareRestoreLayerStateJS()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    QString js;
+
+    settings.beginGroup("onlinemap/layoutstate");
+    QStringList keys = settings.allKeys();
+
+    for ( const QString &key : qAsConst(keys))
+    {
+        qCDebug(runtime) << "key:" << key << "value:" << settings.value(key);
+
+        if ( settings.value(key).toBool() )
+        {
+            js += QString("map.addLayer(%1);").arg(key);
+        }
+        else
+        {
+            js += QString("map.removeLayer(%1);").arg(key);
+        }
+    }
+    qCDebug(runtime) << js;
+    return js;
 }
 
 OnlineMapWidget::~OnlineMapWidget()
@@ -150,4 +221,17 @@ OnlineMapWidget::~OnlineMapWidget()
     FCT_IDENTIFICATION;
 
     main_page->deleteLater();
+}
+
+void LayerControlHandler::handleLayerSelectionChanged(const QVariant &data,
+                                                      const QVariant &state)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << data << state;
+
+    QSettings settings;
+
+    settings.setValue("onlinemap/layoutstate/" + data.toString(),
+                      (state.toString().toLower() == "on") ? true : false);
 }
