@@ -9,6 +9,8 @@
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
   <script src="https://foldynl.github.io/QLog/js/L.MaidenheadConfWorked.js"></script>
   <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
+  <script src="https://foldynl.github.io/QLog/js/heatmap.js"></script>
+  <script src="https://foldynl.github.io/QLog/js/leaflet-heatmap.js"></script>
   <style>
     body {
       padding: 0;
@@ -78,10 +80,31 @@
        grayline.redraw();
     }
 
+    var auroraCfg = {
+      // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+      "radius": 2,
+      "maxOpacity": .3,
+      // scales the radius based on map zoom
+      "scaleRadius": true,
+      // if set to false the heatmap uses the global maximum for colorization
+      // if activated: uses the data maximum within the current map boundaries
+      //   (there will always be a red spot with useLocalExtremas true)
+      "useLocalExtrema": false,
+      // which field name in your data represents the latitude - default "lat"
+      latField: 'lat',
+      // which field name in your data represents the longitude - default "lng"
+      lngField: 'lng',
+      // which field name in your data represents the data value - default "value"
+      valueField: 'count'
+    };
+
+    var auroraLayer = new HeatmapOverlay(auroraCfg);
+
     var layerControl = new L.Control.Layers(null,
     {
        "Grid": maidenheadConfWorked,
        "Gray-Line": grayline,
+       "Aurora": auroraLayer,
     },{}).addTo(map);
 
   </script>

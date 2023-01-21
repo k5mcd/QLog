@@ -12,6 +12,7 @@
 #include "core/Gridsquare.h"
 #include "data/StationProfile.h"
 #include "core/debug.h"
+#include "core/Conditions.h"
 
 MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
@@ -108,6 +109,42 @@ void OnlineMapWidget::changeTheme(int theme)
     }
 }
 
+void OnlineMapWidget::auroraDataUpdate()
+{
+    FCT_IDENTIFICATION;
+
+    QString targetJavaScript;
+    QStringList mapPoints;
+
+    if ( Conditions::instance()->isAuroraMapValid() )
+    {
+        const QList<AuroraMap::AuroraPoint> points = Conditions::instance()->getAuroraPoints();
+
+        for (const AuroraMap::AuroraPoint &point : points )
+        {
+            if ( point.propability > 10 )
+            {
+                mapPoints << QString("{lat: %1, lng: %2, count: %3}").arg(point.latitude)
+                                                                     .arg(point.longitude)
+                                                                     .arg(point.propability);
+            }
+        }
+    }
+
+    targetJavaScript = QString(" auroraLayer.setData({max: 100, data:[%1]});").arg(mapPoints.join(","));
+
+    qCDebug(runtime) << "Aurora JS: "<< targetJavaScript;
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(targetJavaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(targetJavaScript);
+    }
+}
+
 QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, double lon2)
 {
     FCT_IDENTIFICATION;
@@ -173,6 +210,9 @@ void OnlineMapWidget::finishLoading(bool)
           "     case 'Gray-Line': "
           "        foo.handleLayerSelectionChanged('grayline', 'on'); "
           "        break; "
+          "     case 'Aurora': "
+          "        foo.handleLayerSelectionChanged('auroraLayer', 'on'); "
+          "        break; "
           "  } "
           "});"
           "map.on('overlayremove', function(e){ "
@@ -184,9 +224,14 @@ void OnlineMapWidget::finishLoading(bool)
           "      case 'Gray-Line': "
           "         foo.handleLayerSelectionChanged('grayline', 'off'); "
           "         break; "
+          "     case 'Aurora': "
+          "        foo.handleLayerSelectionChanged('auroraLayer', 'off'); "
+          "        break; "
           "   } "
           "});";
     main_page->runJavaScript(js);
+
+    auroraDataUpdate();
 }
 
 QString OnlineMapWidget::prepareRestoreLayerStateJS()

@@ -6,9 +6,9 @@
 #include <QTimer>
 #include <QStandardPaths>
 #include <QDir>
-//#include <QJsonDocument>
-//#include <QJsonObject>
-//#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QDomDocument>
 #include "Conditions.h"
 #include "debug.h"
@@ -16,6 +16,7 @@
 //#define FLUX_URL "https://services.swpc.noaa.gov/products/summary/10cm-flux.json"
 #define K_INDEX_URL "https://www.hamqsl.com/solarxml.php"
 #define SOLAR_SUMMARY_IMG "https://www.hamqsl.com/solar101vhf.php"
+#define AURORA_MAP "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json"
 
 MODULE_IDENTIFICATION("qlog.core.conditions");
 
@@ -36,6 +37,7 @@ void Conditions::update() {
 
     nam->get(QNetworkRequest(QUrl(SOLAR_SUMMARY_IMG)));
     nam->get(QNetworkRequest(QUrl(K_INDEX_URL)));
+    nam->get(QNetworkRequest(QUrl(AURORA_MAP)));
 }
 
 void Conditions::processReply(QNetworkReply* reply) {
@@ -90,6 +92,7 @@ void Conditions::processReply(QNetworkReply* reply) {
                 a_index = aindex.text().toInt();
                 qCDebug(runtime) << "A-Index: " << a_index;
                 a_index_last_update = QDateTime::currentDateTime();
+                emit AIndexUpdated();
             }
 
             if ( !kindex.isNull() )
@@ -97,6 +100,7 @@ void Conditions::processReply(QNetworkReply* reply) {
                 k_index = kindex.text().toDouble();
                 qCDebug(runtime) << "K-Index: " << k_index;
                 k_index_last_update = QDateTime::currentDateTime();
+                emit KIndexUpdated();
             }
 
             if ( !solarflux.isNull() )
@@ -104,7 +108,37 @@ void Conditions::processReply(QNetworkReply* reply) {
                 flux = solarflux.text().toInt();
                 qCDebug(runtime) << "Flux: " << flux;
                 flux_last_update = QDateTime::currentDateTime();
+                emit fluxUpdated();
+            }
+        }
+        else if (reply->url() == QUrl(AURORA_MAP))
+        {
+            auroraMap.clear();
 
+            QJsonDocument doc = QJsonDocument::fromJson(data);
+            QString forecastTime = doc["Forecast Time"].toString();
+            qCDebug(runtime) << "Aurora forecast Time:" << forecastTime;
+            if ( forecastTime != auroraMap.lastForecastTime() )
+            {
+                QJsonArray jsonArray = doc["coordinates"].toArray();
+                for (const QJsonValue &value : qAsConst(jsonArray))
+                {
+                    QJsonArray obj = value.toArray();
+                    if ( obj.size() == 3 )
+                    {
+                        double longitute = obj[0].toDouble();
+                        double latitude = obj[1].toDouble();
+                        double prob = obj[2].toDouble();
+                        auroraMap.addPoint(longitute - 360, latitude, prob);
+                        auroraMap.addPoint(longitute, latitude, prob);
+                    }
+                }
+                auroraMap_last_update = QDateTime::currentDateTime();
+                emit auroraMapUpdated();
+            }
+            else
+            {
+                qCDebug(runtime) << "the same Aurora forecast - ignore";
             }
         }
         reply->deleteLater();
@@ -117,6 +151,13 @@ void Conditions::processReply(QNetworkReply* reply) {
 
 Conditions::~Conditions() {
     delete nam;
+}
+
+Conditions *Conditions::instance()
+{
+    FCT_IDENTIFICATION;
+    static Conditions instance;
+    return &instance;
 }
 
 bool Conditions::isFluxValid()
@@ -163,6 +204,25 @@ bool Conditions::isAIndexValid()
     return ret;
 }
 
+bool Conditions::isAuroraMapValid()
+{
+    FCT_IDENTIFICATION;
+
+    bool ret = false;
+
+    qCDebug(runtime)<<"Date valid: " << auroraMap_last_update.isValid()
+                    << " last_update: " << auroraMap_last_update
+                    << " aurora count: " << auroraMap.count();
+
+    ret = (auroraMap_last_update.isValid()
+           && auroraMap_last_update.secsTo(QDateTime::currentDateTime()) < 20 * 60
+           && auroraMap.count() > 0);
+
+    qCDebug(runtime)<< "Result: " << ret;
+
+    return ret;
+}
+
 int Conditions::getFlux()
 {
     FCT_IDENTIFICATION;
@@ -185,10 +245,60 @@ double Conditions::getKIndex()
     return k_index;
 }
 
+QList<AuroraMap::AuroraPoint> Conditions::getAuroraPoints() const
+{
+    FCT_IDENTIFICATION;
+
+    return auroraMap.getMap();
+}
+
 QString Conditions::solarSummaryFile()
 {
     FCT_IDENTIFICATION;
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     return dir.filePath("solar101vhf.gif");
+}
+
+void AuroraMap::addPoint(double longitude, double latitude, double propability)
+{
+    FCT_IDENTIFICATION;
+
+    if ( propability == 0 )
+        return;
+
+    AuroraMap::AuroraPoint point;
+    point.longitude = longitude;
+    point.latitude = latitude;
+    point.propability = propability;
+
+    auroraMap.append(point);
+}
+
+QList<AuroraMap::AuroraPoint> AuroraMap::getMap() const
+{
+    FCT_IDENTIFICATION;
+
+    return auroraMap;
+}
+
+void AuroraMap::clear()
+{
+    FCT_IDENTIFICATION;
+
+    auroraMap.clear();
+}
+
+QString AuroraMap::lastForecastTime() const
+{
+    FCT_IDENTIFICATION;
+
+    return forecastTime;
+}
+
+int AuroraMap::count() const
+{
+    FCT_IDENTIFICATION;
+
+    return auroraMap.size();
 }

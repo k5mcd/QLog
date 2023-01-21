@@ -30,6 +30,7 @@
 #include "core/QRZ.h"
 #include "core/CredentialStore.h"
 #include "AlertSettingDialog.h"
+#include "core/Conditions.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -179,11 +180,9 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::clearAlertEvent);
     connect(alertWidget, &AlertWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
-    conditions = new Conditions(this);
-    connect(conditions, &Conditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
-    conditions->update();
-
-    ui->newContactWidget->addPropConditions(conditions);
+    connect(Conditions::instance(), &Conditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
+    connect(Conditions::instance(), &Conditions::auroraMapUpdated, ui->onlineMapWidget, &OnlineMapWidget::auroraDataUpdate);
+    Conditions::instance()->update();
 
     if ( StationProfilesManager::instance()->profileNameList().isEmpty() )
     {
@@ -677,9 +676,9 @@ void MainWindow::conditionsUpdated() {
     k_index_string = flux_string = a_index_string = tr("N/A");
 
     /* https://3fs.net.au/making-sense-of-solar-indices/ */
-    if ( conditions->isKIndexValid() )
+    if ( Conditions::instance()->isKIndexValid() )
     {
-        double k_index = conditions->getKIndex();
+        double k_index = Conditions::instance()->getKIndex();
 
         if (k_index < 3.5) {
             kcolor = "green";
@@ -694,13 +693,13 @@ void MainWindow::conditionsUpdated() {
         k_index_string = QString::number(k_index, 'g', 2);
     }
 
-    if ( conditions->isFluxValid() )
+    if ( Conditions::instance()->isFluxValid() )
     {
-        if ( conditions->getFlux() < 100 )
+        if ( Conditions::instance()->getFlux() < 100 )
         {
             fluxcolor = "red";
         }
-        else if ( conditions->getFlux() < 200 )
+        else if ( Conditions::instance()->getFlux() < 200 )
         {
             fluxcolor = "orange";
         }
@@ -709,17 +708,17 @@ void MainWindow::conditionsUpdated() {
             fluxcolor = "green";
         }
 
-        flux_string = QString::number(conditions->getFlux());
+        flux_string = QString::number(Conditions::instance()->getFlux());
 
     }
 
-    if ( conditions->isAIndexValid() )
+    if ( Conditions::instance()->isAIndexValid() )
     {
-        if ( conditions->getAIndex() < 27 )
+        if ( Conditions::instance()->getAIndex() < 27 )
         {
             acolor = "green";
         }
-        else if ( conditions->getAIndex() < 48 )
+        else if ( Conditions::instance()->getAIndex() < 48 )
         {
             acolor = "orange";
         }
@@ -728,7 +727,7 @@ void MainWindow::conditionsUpdated() {
             acolor = "red";
         }
 
-        a_index_string = QString::number(conditions->getAIndex());
+        a_index_string = QString::number(Conditions::instance()->getAIndex());
     }
 
     conditionsLabel->setTextFormat(Qt::RichText);
@@ -765,7 +764,6 @@ MainWindow::~MainWindow() {
     CWKeyer::instance()->stopTimer();
 
     alertWidget->deleteLater();
-    conditions->deleteLater();
     conditionsLabel->deleteLater();
     callsignLabel->deleteLater();
     locatorLabel->deleteLater();

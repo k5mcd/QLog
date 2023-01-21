@@ -20,6 +20,7 @@
 #include "data/CWKeyProfile.h"
 #include "data/Data.h"
 #include "core/Callsign.h"
+#include "core/Conditions.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -28,7 +29,6 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     rig(Rig::instance()),
     contactTimer(new QTimer(this)),
     ui(new Ui::NewContactWidget),
-    prop_cond(nullptr),
     QSOFreq(0.0),
     bandwidthFilter(RIG_PASSBAND_NORMAL),
     rigOnline(false),
@@ -957,25 +957,22 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
         record.setValue("ant_el", Rotator::instance()->getElevation());
     }
 
-    if ( prop_cond )
+    if ( record.value("sfi").isNull()
+         && Conditions::instance()->isFluxValid() )
     {
-        if ( record.value("sfi").isNull()
-             && prop_cond->isFluxValid() )
-        {
-            record.setValue("sfi", prop_cond->getFlux());
-        }
+        record.setValue("sfi", Conditions::instance()->getFlux());
+    }
 
-        if ( record.value("k_index").isNull()
-             && prop_cond->isKIndexValid() )
-        {
-            record.setValue("k_index", prop_cond->getKIndex());
-        }
+    if ( record.value("k_index").isNull()
+         && Conditions::instance()->isKIndexValid() )
+    {
+        record.setValue("k_index", Conditions::instance()->getKIndex());
+    }
 
-        if ( record.value("a_index").isNull()
-             && prop_cond->isAIndexValid() )
-        {
-            record.setValue("a_index", prop_cond->getAIndex());
-        }
+    if ( record.value("a_index").isNull()
+         && Conditions::instance()->isAIndexValid() )
+    {
+        record.setValue("a_index", Conditions::instance()->getAIndex());
     }
 
     if ( (record.value("tx_pwr").isNull() || record.value("tx_pwr") == 0.0 )
@@ -2149,12 +2146,6 @@ void NewContactWidget::qrz() {
     FCT_IDENTIFICATION;
 
     QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
-}
-
-void NewContactWidget::addPropConditions(Conditions *cond)
-{
-    FCT_IDENTIFICATION;
-    prop_cond = cond;
 }
 
 QString NewContactWidget::getCallsign() const
