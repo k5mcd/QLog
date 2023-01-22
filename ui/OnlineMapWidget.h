@@ -4,19 +4,11 @@
 #include <QWidget>
 #include <QWebEngineView>
 #include <QWebChannel>
+#include "ui/MapLayerControlHandler.h"
 
 namespace Ui {
 class OnlineMapWidget;
 }
-
-class LayerControlHandler : public QObject
-{
-    Q_OBJECT
-
-public slots:
-    void handleLayerSelectionChanged(const QVariant &data,
-                                     const QVariant &state);
-};
 
 class OnlineMapWidget : public QWebEngineView
 {
@@ -33,7 +25,6 @@ public slots:
 
 protected slots:
     void finishLoading(bool);
-    QString prepareRestoreLayerStateJS();
 
 private:
 
@@ -41,7 +32,7 @@ private:
     bool isMainPageLoaded;
     QString postponedScripts;
     QWebChannel channel;
-    LayerControlHandler layerControlHandler;
+    MapLayerControlHandler layerControlHandler;
 
     QString computePath(double lat1, double lon1, double lat2, double lon2);
 };

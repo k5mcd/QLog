@@ -113,6 +113,7 @@ SOURCES += \
         ui/LotwDialog.cpp \
         ui/LotwShowUploadDialog.cpp \
         ui/MainWindow.cpp \
+        ui/MapLayerControlHandler.cpp \
         ui/MapWidget.cpp \
         ui/NewContactWidget.cpp \
         ui/OnlineMapWidget.cpp \
@@ -214,6 +215,7 @@ HEADERS += \
         ui/LotwDialog.h \
         ui/LotwShowUploadDialog.h \
         ui/MainWindow.h \
+        ui/MapLayerControlHandler.h \
         ui/MapWidget.h \
         ui/NewContactWidget.h \
         ui/OnlineMapWidget.h \

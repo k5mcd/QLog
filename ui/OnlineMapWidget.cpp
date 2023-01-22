@@ -19,7 +19,8 @@ MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   QWebEngineView(parent),
   main_page(new QWebEnginePage(this)),
-  isMainPageLoaded(false)
+  isMainPageLoaded(false),
+  layerControlHandler("onlinemap",parent)
 {
     FCT_IDENTIFICATION;
     main_page->setWebChannel(&channel);
@@ -185,80 +186,13 @@ void OnlineMapWidget::finishLoading(bool)
     QSettings settings;
 
     isMainPageLoaded = true;
-    postponedScripts += prepareRestoreLayerStateJS();
+
+    /* which layers will be active */
+    postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true);
+
     main_page->runJavaScript(postponedScripts);
-
-    QFile file(":/qtwebchannel/qwebchannel.js");
-
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        qCInfo(runtime) << "Cannot read qwebchannel.js";
-    }
-
-    QTextStream stream(&file);
-    QString js;
-
-    js.append(stream.readAll());
-    js += " var webChannel = new QWebChannel(qt.webChannelTransport, function(channel) "
-          "{ window.foo = channel.objects.layerControlHandler; });"
-          " map.on('overlayadd', function(e){ "
-          "  switch (e.name) "
-          "  { "
-          "     case 'Grid': "
-          "        foo.handleLayerSelectionChanged('maidenheadConfWorked', 'on'); "
-          "        break; "
-          "     case 'Gray-Line': "
-          "        foo.handleLayerSelectionChanged('grayline', 'on'); "
-          "        break; "
-          "     case 'Aurora': "
-          "        foo.handleLayerSelectionChanged('auroraLayer', 'on'); "
-          "        break; "
-          "  } "
-          "});"
-          "map.on('overlayremove', function(e){ "
-          "   switch (e.name) "
-          "   { "
-          "      case 'Grid': "
-          "         foo.handleLayerSelectionChanged('maidenheadConfWorked', 'off'); "
-          "         break; "
-          "      case 'Gray-Line': "
-          "         foo.handleLayerSelectionChanged('grayline', 'off'); "
-          "         break; "
-          "     case 'Aurora': "
-          "        foo.handleLayerSelectionChanged('auroraLayer', 'off'); "
-          "        break; "
-          "   } "
-          "});";
-    main_page->runJavaScript(js);
-
+    layerControlHandler.restoreControls(main_page);
     auroraDataUpdate();
-}
-
-QString OnlineMapWidget::prepareRestoreLayerStateJS()
-{
-    FCT_IDENTIFICATION;
-
-    QSettings settings;
-    QString js;
-
-    settings.beginGroup("onlinemap/layoutstate");
-    QStringList keys = settings.allKeys();
-
-    for ( const QString &key : qAsConst(keys))
-    {
-        qCDebug(runtime) << "key:" << key << "value:" << settings.value(key);
-
-        if ( settings.value(key).toBool() )
-        {
-            js += QString("map.addLayer(%1);").arg(key);
-        }
-        else
-        {
-            js += QString("map.removeLayer(%1);").arg(key);
-        }
-    }
-    qCDebug(runtime) << js;
-    return js;
 }
 
 OnlineMapWidget::~OnlineMapWidget()
@@ -266,17 +200,4 @@ OnlineMapWidget::~OnlineMapWidget()
     FCT_IDENTIFICATION;
 
     main_page->deleteLater();
-}
-
-void LayerControlHandler::handleLayerSelectionChanged(const QVariant &data,
-                                                      const QVariant &state)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << data << state;
-
-    QSettings settings;
-
-    settings.setValue("onlinemap/layoutstate/" + data.toString(),
-                      (state.toString().toLower() == "on") ? true : false);
 }

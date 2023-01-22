@@ -69,7 +69,7 @@
                 }).addTo(map);
 
     var maidenheadConfWorked = L.maidenheadConfWorked({color : 'rgba(255, 0, 0, 0.5)'}).addTo(map);
-    var grayline = L.terminator({fillOpacity: 0.2}).addTo(map);
+    var grayline = L.terminator({fillOpacity: 0.2})
 
     setInterval(function(){updateTerminator(grayline)}, 60000);
 
@@ -99,13 +99,6 @@
     };
 
     var auroraLayer = new HeatmapOverlay(auroraCfg);
-
-    var layerControl = new L.Control.Layers(null,
-    {
-       "Grid": maidenheadConfWorked,
-       "Gray-Line": grayline,
-       "Aurora": auroraLayer,
-    },{}).addTo(map);
 
   </script>
 

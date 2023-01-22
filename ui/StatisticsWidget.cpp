@@ -450,7 +450,12 @@ void StatisticsWidget::mapLoaded(bool)
     FCT_IDENTIFICATION;
 
     isMainPageLoaded = true;
+
+    /* which layers will be active */
+    postponedScripts += layerControlHandler.injectMapMenuJS();
     main_page->runJavaScript(postponedScripts);
+
+    layerControlHandler.restoreControls(main_page);
 }
 
 void StatisticsWidget::changeTheme(int theme)
@@ -484,7 +489,8 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StatisticsWidget),
     main_page(new QWebEnginePage(this)),
-    isMainPageLoaded(false)
+    isMainPageLoaded(false),
+    layerControlHandler("statistics", parent)
 {
     FCT_IDENTIFICATION;
 
@@ -510,10 +516,12 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
     ui->graphView->setRenderHint(QPainter::Antialiasing);
     ui->graphView->setChart(new QChart());
 
+    main_page->setWebChannel(&channel);
     ui->mapView->setPage(main_page);
     main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
     ui->mapView->setFocusPolicy(Qt::ClickFocus);
     connect(ui->mapView, &QWebEngineView::loadFinished, this, &StatisticsWidget::mapLoaded);
+    channel.registerObject("layerControlHandler", &layerControlHandler);
 
     mainStatChanged(0);
 }
