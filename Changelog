@@ -1,4 +1,6 @@
 TBC - 0.19.0
+- [NEW] - Added Aurora Layer to online map
+- [NEW] - Map Setting is saved (issue #140)
 - [NEW] - QSO Duration (issue #158)
 - [NEW] - DX Cluster uses monospace font (issue #164)
 
