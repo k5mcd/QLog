@@ -5,20 +5,25 @@
 #include <QPainter>
 #include <QVector3D>
 #include <QtMath>
+#include <QFile>
+#include <QSettings>
 #include "OnlineMapWidget.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
 #include "data/StationProfile.h"
 #include "core/debug.h"
+#include "core/Conditions.h"
 
 MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
 OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   QWebEngineView(parent),
   main_page(new QWebEnginePage(this)),
-  isMainPageLoaded(false)
+  isMainPageLoaded(false),
+  layerControlHandler("onlinemap",parent)
 {
     FCT_IDENTIFICATION;
+    main_page->setWebChannel(&channel);
 
     setPage(main_page);
     main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
@@ -26,6 +31,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
 
     setFocusPolicy(Qt::ClickFocus);
     setContextMenuPolicy(Qt::NoContextMenu);
+    channel.registerObject("layerControlHandler", &layerControlHandler);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
@@ -104,6 +110,42 @@ void OnlineMapWidget::changeTheme(int theme)
     }
 }
 
+void OnlineMapWidget::auroraDataUpdate()
+{
+    FCT_IDENTIFICATION;
+
+    QString targetJavaScript;
+    QStringList mapPoints;
+
+    if ( Conditions::instance()->isAuroraMapValid() )
+    {
+        const QList<AuroraMap::AuroraPoint> points = Conditions::instance()->getAuroraPoints();
+
+        for (const AuroraMap::AuroraPoint &point : points )
+        {
+            if ( point.propability > 10 )
+            {
+                mapPoints << QString("{lat: %1, lng: %2, count: %3}").arg(point.latitude)
+                                                                     .arg(point.longitude)
+                                                                     .arg(point.propability);
+            }
+        }
+    }
+
+    targetJavaScript = QString(" auroraLayer.setData({max: 100, data:[%1]});").arg(mapPoints.join(","));
+
+    qCDebug(runtime) << "Aurora JS: "<< targetJavaScript;
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(targetJavaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(targetJavaScript);
+    }
+}
+
 QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, double lon2)
 {
     FCT_IDENTIFICATION;
@@ -141,8 +183,16 @@ void OnlineMapWidget::finishLoading(bool)
 {
     FCT_IDENTIFICATION;
 
+    QSettings settings;
+
     isMainPageLoaded = true;
+
+    /* which layers will be active */
+    postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true);
+
     main_page->runJavaScript(postponedScripts);
+    layerControlHandler.restoreControls(main_page);
+    auroraDataUpdate();
 }
 
 OnlineMapWidget::~OnlineMapWidget()

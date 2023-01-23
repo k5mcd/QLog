@@ -29,7 +29,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     model(new LogbookModelPrivate),
     editedRecord(new QSqlRecord(qso)),
     isMainPageLoaded(false),
-    main_page(new QWebEnginePage(this))
+    main_page(new QWebEnginePage(this)),
+    layerControlHandler("qsodetail", parent)
 {
     FCT_IDENTIFICATION;
 
@@ -43,10 +44,12 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     connect(model, &QSqlTableModel::beforeUpdate, this, &QSODetailDialog::handleBeforeUpdate);
 
     /* mapView setting */
+    main_page->setWebChannel(&channel);
     ui->mapView->setPage(main_page);
     main_page->load(QUrl(QStringLiteral("qrc:/res/map/onlinemap.html")));
     ui->mapView->setFocusPolicy(Qt::ClickFocus);
     connect(ui->mapView, &QWebEngineView::loadFinished, this, &QSODetailDialog::mapLoaded);
+    channel.registerObject("layerControlHandler", &layerControlHandler);
 
     /* Edit Button */
     editButton = new QPushButton(EDIT_BUTTON_TEXT);
@@ -918,6 +921,10 @@ void QSODetailDialog::mapLoaded(bool)
     QSettings settings;
 
     isMainPageLoaded = true;
+
+    /* which layers will be active */
+    postponedScripts += layerControlHandler.injectMapMenuJS();
+
     main_page->runJavaScript(postponedScripts);
 
     bool darkmode = settings.value("darkmode", false).toBool();
@@ -927,6 +934,8 @@ void QSODetailDialog::mapLoaded(bool)
         QString themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.9)\";";
         main_page->runJavaScript(themeJavaScript);
     }
+
+    layerControlHandler.restoreControls(main_page);
 }
 
 void QSODetailDialog::myGridChanged(QString newGrid)

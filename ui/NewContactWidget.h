@@ -5,7 +5,6 @@
 #include <QSqlRecord>
 #include <QCompleter>
 #include "data/Data.h"
-#include "core/Conditions.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
 #include "core/Rig.h"
@@ -30,7 +29,6 @@ public:
     explicit NewContactWidget(QWidget *parent = nullptr);
     ~NewContactWidget();
 
-    void addPropConditions(Conditions *);
     QString getCallsign() const;
     QString getName() const;
     QString getRST() const;
@@ -147,7 +145,6 @@ private:
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;
-    Conditions *prop_cond;
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;

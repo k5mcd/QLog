@@ -6,6 +6,9 @@
 #include <QPieSeries>
 #include <QWebEngineView>
 #include <QComboBox>
+#include <QWebChannel>
+
+#include "ui/MapLayerControlHandler.h"
 
 namespace Ui {
 class StatisticsWidget;
@@ -49,6 +52,8 @@ private:
     QWebEnginePage *main_page;
     bool isMainPageLoaded;
     QString postponedScripts;
+    QWebChannel channel;
+    MapLayerControlHandler layerControlHandler;
 };
 
 #endif // STATISTICSWIDGET_H

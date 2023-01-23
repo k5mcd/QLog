@@ -7,7 +7,6 @@
 #include "core/NetworkNotification.h"
 #include "core/AlertEvaluator.h"
 #include "ui/AlertWidget.h"
-#include "core/Conditions.h"
 
 namespace Ui {
 class MainWindow;
@@ -70,7 +69,6 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
-    Conditions* conditions;
     QLabel* conditionsLabel;
     QLabel* callsignLabel;
     QLabel* locatorLabel;
