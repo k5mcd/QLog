@@ -708,12 +708,12 @@ void DxWidget::restoreWidgetSetting()
 
     int fontsize = settings.value("dxc/consolefontsize", -1).toInt();
 
+    QFont monospace(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     if ( fontsize > 0 )
     {
-        QFont monospace(QFontDatabase::systemFont(QFontDatabase::FixedFont));
         monospace.setPointSize(fontsize);
-        ui->log->setFont(monospace);
     }
+    ui->log->setFont(monospace);
 }
 
 void DxWidget::send()
