@@ -623,13 +623,6 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="timeOffLabel">
-           <property name="text">
-            <string>Time Off</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="6">
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
@@ -662,19 +655,6 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="3">
-          <widget class="QTimeEdit" name="timeOffEdit">
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="displayFormat">
-            <string notr="true">hh:mm:ss</string>
-           </property>
-           <property name="timeSpec">
-            <enum>Qt::UTC</enum>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="4">
           <widget class="QPushButton" name="stopTimerButton">
            <property name="enabled">
@@ -696,6 +676,160 @@
              <height>16</height>
             </size>
            </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QStackedWidget" name="timeStackedWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="timeOffPage">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QTimeEdit" name="timeOffEdit">
+               <property name="focusPolicy">
+                <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="displayFormat">
+                <string notr="true">hh:mm:ss</string>
+               </property>
+               <property name="timeSpec">
+                <enum>Qt::UTC</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="timeDurationPage">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QTimeEdit" name="timeDurationEdit">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+               <property name="currentSection">
+                <enum>QDateTimeEdit::HourSection</enum>
+               </property>
+               <property name="displayFormat">
+                <string notr="true">HH:mm:ss</string>
+               </property>
+               <property name="timeSpec">
+                <enum>Qt::UTC</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QStackedWidget" name="timeLabelStackedWidget">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="timeOffLabelPage">
+            <layout class="QVBoxLayout" name="verticalLayout_12">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="timeOffLabel">
+               <property name="text">
+                <string>Time Off</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="durationLabelPage">
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="durationLabel">
+               <property name="text">
+                <string>Duration</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
         </layout>
@@ -2038,7 +2172,6 @@
   <tabstop>commentEdit</tabstop>
   <tabstop>dateEdit</tabstop>
   <tabstop>timeOnEdit</tabstop>
-  <tabstop>timeOffEdit</tabstop>
   <tabstop>saveButton</tabstop>
   <tabstop>resetButton</tabstop>
   <tabstop>noteEdit</tabstop>
@@ -2444,6 +2577,22 @@
     <hint type="destinationlabel">
      <x>489</x>
      <y>237</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>timeStackedWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>timeLabelStackedWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>292</x>
+     <y>177</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>292</x>
+     <y>152</y>
     </hint>
    </hints>
   </connection>
