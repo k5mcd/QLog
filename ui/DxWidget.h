@@ -167,8 +167,8 @@ private:
     bool spotDedupValue();
     void sendCommand(const QString&,
                      bool switchToConsole = false);
-    void saveTableHeaderState();
-    void restoreTableHeaderState();
+    void saveWidgetSetting();
+    void restoreWidgetSetting();
 
     QStringList getDXCServerList(void);
 };

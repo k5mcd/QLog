@@ -405,7 +405,6 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
     ui->dxTable->horizontalHeader()->setSectionsMovable(true);
-    restoreTableHeaderState();
 
     ui->wcyTable->setModel(wcyTableModel);
     ui->wcyTable->addAction(ui->actionDisplayedColumns);
@@ -456,6 +455,8 @@ DxWidget::DxWidget(QWidget *parent) :
     reconnectTimer.setInterval(RECONNECT_TIMEOUT);
     reconnectTimer.setSingleShot(true);
     connect(&reconnectTimer, &QTimer::timeout, this, &DxWidget::connectCluster);
+
+    restoreWidgetSetting();
 }
 
 void DxWidget::toggleConnect()
@@ -656,7 +657,7 @@ void DxWidget::sendCommand(const QString & command,
     }
 }
 
-void DxWidget::saveTableHeaderState()
+void DxWidget::saveWidgetSetting()
 {
     FCT_IDENTIFICATION;
 
@@ -669,9 +670,11 @@ void DxWidget::saveTableHeaderState()
     settings.setValue("dxc/wwvtablestate", state);
     state = ui->toAllTable->horizontalHeader()->saveState();
     settings.setValue("dxc/toalltablestate", state);
+
+    settings.setValue("dxc/consolefontsize", ui->log->font().pointSize());
 }
 
-void DxWidget::restoreTableHeaderState()
+void DxWidget::restoreWidgetSetting()
 {
     FCT_IDENTIFICATION;
 
@@ -701,6 +704,15 @@ void DxWidget::restoreTableHeaderState()
     if (!state.isNull())
     {
         ui->toAllTable->horizontalHeader()->restoreState(state.toByteArray());
+    }
+
+    int fontsize = settings.value("dxc/consolefontsize", -1).toInt();
+
+    if ( fontsize > 0 )
+    {
+        QFont monospace(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+        monospace.setPointSize(fontsize);
+        ui->log->setFont(monospace);
     }
 }
 
@@ -860,7 +872,6 @@ void DxWidget::receive()
                 toAllTableModel->addEntry(spot);
             }
         }
-
         ui->log->appendPlainText(line);
     }
 }
@@ -1137,7 +1148,7 @@ void DxWidget::displayedColumns()
     {
         ColumnSettingSimpleDialog dialog(view);
         dialog.exec();
-        saveTableHeaderState();
+        saveWidgetSetting();
     }
 }
 
@@ -1158,6 +1169,6 @@ DxWidget::~DxWidget() {
     FCT_IDENTIFICATION;
 
     saveDXCServers();
-    saveTableHeaderState();
+    saveWidgetSetting();
     delete ui;
 }
