@@ -198,7 +198,6 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
     qCDebug(runtime) << "new DXCC Status: " << (a); \
     return ((a))
 
-//TODO FIX IT
 DxccStatus Data::dxccFutureStatus(const DxccStatus &oldStatus,
                                   const qint32 oldDxcc,
                                   const QString &oldBand,

@@ -72,18 +72,6 @@ RotProfilesManager::RotProfilesManager(QObject *parent) :
     {
         qInfo() << "Rot Profile DB select error " << profileQuery.lastError().text();
     }
-
-    /* TODO: remove this line in the future */
-    settings.remove("hamlib/rot/baudrate");
-    settings.remove("hamlib/rot/databits");
-    settings.remove("hamlib/rot/flowcontrol");
-    settings.remove("hamlib/rot/hostname");
-    settings.remove("hamlib/rot/model");
-    settings.remove("hamlib/rot/modelrow");
-    settings.remove("hamlib/rot/netport");
-    settings.remove("hamlib/rot/parity");
-    settings.remove("hamlib/rot/port");
-    settings.remove("hamlib/rot/stopbits");
 }
 
 RotProfilesManager *RotProfilesManager::instance()

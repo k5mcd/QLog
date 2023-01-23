@@ -74,10 +74,6 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
     {
         qInfo() << "Station Profile DB select error " << profileQuery.lastError().text();
     }
-
-    /* TODO: remove this line in the future */
-    settings.remove("station/profiles");
-    settings.remove("station/currentprofile");
 }
 
 StationProfilesManager *StationProfilesManager::instance()

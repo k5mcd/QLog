@@ -49,12 +49,6 @@ AntProfilesManager::AntProfilesManager(QObject *parent) :
     {
         qInfo() << "Station Profile DB select error " << profileQuery.lastError().text();
     }
-
-    /* TODO: remove this line in the future */
-    QSettings settings;
-    settings.remove("newcontact/antenna");
-    settings.remove("station/antennas");
-
 }
 
 AntProfilesManager *AntProfilesManager::instance()

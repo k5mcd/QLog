@@ -116,22 +116,6 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
     {
         qInfo() << "Station Profile DB select error " << profileQuery.lastError().text();
     }
-
-    /* TODO: remove this line in the future */
-    settings.remove("hamlib/rig/baudrate");
-    settings.remove("hamlib/rig/databits");
-    settings.remove("hamlib/rig/flowcontrol");
-    settings.remove("hamlib/rig/hostname");
-    settings.remove("hamlib/rig/model");
-    settings.remove("hamlib/rig/modelrow");
-    settings.remove("hamlib/rig/netport");
-    settings.remove("hamlib/rig/parity");
-    settings.remove("hamlib/rig/port");
-    settings.remove("hamlib/rig/stopbits");
-    settings.remove("station/rigs");
-    settings.remove("newcontact/rig");
-    settings.remove("newcontact/freqOffset");
-    settings.remove("newcontact/freqRXOffset");
 }
 
 RigProfilesManager *RigProfilesManager::instance()
