@@ -5,7 +5,7 @@
 #include <QWebEngineView>
 #include <QWebChannel>
 #include "ui/MapLayerControlHandler.h"
-#include "core/Conditions.h"
+#include "core/PropConditions.h"
 
 namespace Ui {
 class OnlineMapWidget;
@@ -19,7 +19,7 @@ public:
     explicit OnlineMapWidget(QWidget* parent = nullptr);
     ~OnlineMapWidget();
 
-    void assignPropConditions(Conditions *);
+    void assignPropConditions(PropConditions *);
 
 public slots:
     void setTarget(double lat, double lon);
@@ -36,7 +36,7 @@ private:
     QString postponedScripts;
     QWebChannel channel;
     MapLayerControlHandler layerControlHandler;
-    Conditions *prop_cond;
+    PropConditions *prop_cond;
     QString computePath(double lat1, double lon1, double lat2, double lon2);
 };
 

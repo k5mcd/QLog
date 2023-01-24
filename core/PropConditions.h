@@ -1,5 +1,5 @@
-#ifndef CONDITIONS_H
-#define CONDITIONS_H
+#ifndef PROPCONDITIONS_H
+#define PROPCONDITIONS_H
 
 #include <QObject>
 #include <QDateTime>
@@ -31,12 +31,12 @@ private:
     QString forecastTime;
 };
 
-class Conditions : public QObject
+class PropConditions : public QObject
 {
     Q_OBJECT
 public:
-    explicit Conditions(QObject *parent = nullptr);
-    ~Conditions();
+    explicit PropConditions(QObject *parent = nullptr);
+    ~PropConditions();
     bool isFluxValid();
     bool isKIndexValid();
     bool isAIndexValid();
@@ -73,4 +73,4 @@ private:
     QNetworkAccessManager* nam;
 };
 
-#endif // CONDITIONS_H
+#endif // PROPCONDITIONS_H

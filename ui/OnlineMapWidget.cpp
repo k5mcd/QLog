@@ -12,7 +12,7 @@
 #include "core/Gridsquare.h"
 #include "data/StationProfile.h"
 #include "core/debug.h"
-#include "core/Conditions.h"
+#include "core/PropConditions.h"
 
 MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
@@ -208,7 +208,7 @@ OnlineMapWidget::~OnlineMapWidget()
     main_page->deleteLater();
 }
 
-void OnlineMapWidget::assignPropConditions(Conditions *conditions)
+void OnlineMapWidget::assignPropConditions(PropConditions *conditions)
 {
     FCT_IDENTIFICATION;
 

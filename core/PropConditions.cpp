@@ -10,7 +10,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDomDocument>
-#include "Conditions.h"
+#include "PropConditions.h"
 #include "debug.h"
 
 //#define FLUX_URL "https://services.swpc.noaa.gov/products/summary/10cm-flux.json"
@@ -20,20 +20,20 @@
 
 MODULE_IDENTIFICATION("qlog.core.conditions");
 
-Conditions::Conditions(QObject *parent) : QObject(parent)
+PropConditions::PropConditions(QObject *parent) : QObject(parent)
 {
     FCT_IDENTIFICATION;
 
     nam = new QNetworkAccessManager(this);
-    connect(nam, &QNetworkAccessManager::finished, this, &Conditions::processReply);
+    connect(nam, &QNetworkAccessManager::finished, this, &PropConditions::processReply);
 
     QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Conditions::update);
+    connect(timer, &QTimer::timeout, this, &PropConditions::update);
     update();
     timer->start(15*60*1000);
 }
 
-void Conditions::update() {
+void PropConditions::update() {
     FCT_IDENTIFICATION;
 
     nam->get(QNetworkRequest(QUrl(SOLAR_SUMMARY_IMG)));
@@ -41,7 +41,7 @@ void Conditions::update() {
     nam->get(QNetworkRequest(QUrl(AURORA_MAP)));
 }
 
-void Conditions::processReply(QNetworkReply* reply) {
+void PropConditions::processReply(QNetworkReply* reply) {
     FCT_IDENTIFICATION;
 
     QByteArray data = reply->readAll();
@@ -150,11 +150,11 @@ void Conditions::processReply(QNetworkReply* reply) {
     }
 }
 
-Conditions::~Conditions() {
+PropConditions::~PropConditions() {
     delete nam;
 }
 
-bool Conditions::isFluxValid()
+bool PropConditions::isFluxValid()
 {
     FCT_IDENTIFICATION;
     bool ret = false;
@@ -168,7 +168,7 @@ bool Conditions::isFluxValid()
     return ret;
 }
 
-bool Conditions::isKIndexValid()
+bool PropConditions::isKIndexValid()
 {
     FCT_IDENTIFICATION;
     bool ret = false;
@@ -183,7 +183,7 @@ bool Conditions::isKIndexValid()
     return ret;
 }
 
-bool Conditions::isAIndexValid()
+bool PropConditions::isAIndexValid()
 {
     FCT_IDENTIFICATION;
     bool ret = false;
@@ -198,7 +198,7 @@ bool Conditions::isAIndexValid()
     return ret;
 }
 
-bool Conditions::isAuroraMapValid()
+bool PropConditions::isAuroraMapValid()
 {
     FCT_IDENTIFICATION;
 
@@ -217,7 +217,7 @@ bool Conditions::isAuroraMapValid()
     return ret;
 }
 
-int Conditions::getFlux()
+int PropConditions::getFlux()
 {
     FCT_IDENTIFICATION;
     qCDebug(runtime)<<"Current Flux: " << flux << " last_update: " << flux_last_update;
@@ -225,28 +225,28 @@ int Conditions::getFlux()
 
 }
 
-int Conditions::getAIndex()
+int PropConditions::getAIndex()
 {
     FCT_IDENTIFICATION;
     qCDebug(runtime)<<"Current A-Index: " << a_index << " last_update: " << a_index_last_update;
     return a_index;
 }
 
-double Conditions::getKIndex()
+double PropConditions::getKIndex()
 {
     FCT_IDENTIFICATION;
     qCDebug(runtime)<<"Current K-Index: " << k_index << " last_update: " << k_index_last_update;
     return k_index;
 }
 
-QList<AuroraMap::AuroraPoint> Conditions::getAuroraPoints() const
+QList<AuroraMap::AuroraPoint> PropConditions::getAuroraPoints() const
 {
     FCT_IDENTIFICATION;
 
     return auroraMap.getMap();
 }
 
-QString Conditions::solarSummaryFile()
+QString PropConditions::solarSummaryFile()
 {
     FCT_IDENTIFICATION;
 

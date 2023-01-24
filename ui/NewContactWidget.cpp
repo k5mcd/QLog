@@ -20,7 +20,7 @@
 #include "data/CWKeyProfile.h"
 #include "data/Data.h"
 #include "core/Callsign.h"
-#include "core/Conditions.h"
+#include "core/PropConditions.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -2588,7 +2588,7 @@ NewContactWidget::~NewContactWidget() {
     delete ui;
 }
 
-void NewContactWidget::assignPropConditions(Conditions *cond)
+void NewContactWidget::assignPropConditions(PropConditions *cond)
 {
     FCT_IDENTIFICATION;
     prop_cond = cond;

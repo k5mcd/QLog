@@ -30,7 +30,7 @@
 #include "core/QRZ.h"
 #include "core/CredentialStore.h"
 #include "AlertSettingDialog.h"
-#include "core/Conditions.h"
+#include "core/PropConditions.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     conditionsLabel = new QLabel("", ui->statusBar);
     conditionsLabel->setIndent(20);
-    conditionsLabel->setToolTip(QString("<img src='%1'>").arg(QUrl::fromLocalFile(Conditions::solarSummaryFile()).toString()));
+    conditionsLabel->setToolTip(QString("<img src='%1'>").arg(QUrl::fromLocalFile(PropConditions::solarSummaryFile()).toString()));
     callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
     callsignLabel->setIndent(10);
     locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);
@@ -180,10 +180,10 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::clearAlertEvent);
     connect(alertWidget, &AlertWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);
 
-    conditions = new Conditions();
+    conditions = new PropConditions();
 
-    connect(conditions, &Conditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
-    connect(conditions, &Conditions::auroraMapUpdated, ui->onlineMapWidget, &OnlineMapWidget::auroraDataUpdate);
+    connect(conditions, &PropConditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
+    connect(conditions, &PropConditions::auroraMapUpdated, ui->onlineMapWidget, &OnlineMapWidget::auroraDataUpdate);
 
     ui->onlineMapWidget->assignPropConditions(conditions);
     ui->newContactWidget->assignPropConditions(conditions);

@@ -52,7 +52,6 @@ SOURCES += \
         core/CallbookManager.cpp \
         core/Callsign.cpp \
         core/ClubLog.cpp \
-        core/Conditions.cpp \
         core/CredentialStore.cpp \
         core/Eqsl.cpp \
         core/Fldigi.cpp \
@@ -66,6 +65,7 @@ SOURCES += \
         core/Migration.cpp \
         core/NetworkNotification.cpp \
         core/PaperQSL.cpp \
+        core/PropConditions.cpp \
         core/QRZ.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
@@ -143,7 +143,6 @@ HEADERS += \
         core/CallbookManager.h \
         core/Callsign.h \
         core/ClubLog.h \
-        core/Conditions.h \
         core/CredentialStore.h \
         core/Eqsl.h \
         core/Fldigi.h \
@@ -157,6 +156,7 @@ HEADERS += \
         core/Migration.h \
         core/NetworkNotification.h \
         core/PaperQSL.h \
+        core/PropConditions.h \
         core/QRZ.h \
         core/Rig.h \
         core/Rotator.h \

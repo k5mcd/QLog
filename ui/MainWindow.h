@@ -7,7 +7,7 @@
 #include "core/NetworkNotification.h"
 #include "core/AlertEvaluator.h"
 #include "ui/AlertWidget.h"
-#include "core/Conditions.h"
+#include "core/PropConditions.h"
 
 namespace Ui {
 class MainWindow;
@@ -82,7 +82,7 @@ private:
     AlertWidget* alertWidget;
     NetworkNotification networknotification;
     AlertEvaluator alertEvaluator;
-    Conditions *conditions;
+    PropConditions *conditions;
 
     void setDarkMode();
     void setLightMode();
