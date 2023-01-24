@@ -10,6 +10,7 @@
 #include "core/Rig.h"
 #include "core/CallbookManager.h"
 #include "data/StationProfile.h"
+#include "core/Conditions.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -29,6 +30,7 @@ public:
     explicit NewContactWidget(QWidget *parent = nullptr);
     ~NewContactWidget();
 
+    void assignPropConditions(Conditions *);
     QString getCallsign() const;
     QString getName() const;
     QString getRST() const;
@@ -145,6 +147,7 @@ private:
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
     CoordPrecision coordPrec;
+    Conditions *prop_cond;
     QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;

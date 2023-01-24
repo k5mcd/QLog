@@ -29,6 +29,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     rig(Rig::instance()),
     contactTimer(new QTimer(this)),
     ui(new Ui::NewContactWidget),
+    prop_cond(nullptr),
     QSOFreq(0.0),
     bandwidthFilter(RIG_PASSBAND_NORMAL),
     rigOnline(false),
@@ -958,22 +959,25 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
         record.setValue("ant_el", Rotator::instance()->getElevation());
     }
 
-    if ( record.value("sfi").isNull()
-         && Conditions::instance()->isFluxValid() )
+    if ( prop_cond )
     {
-        record.setValue("sfi", Conditions::instance()->getFlux());
-    }
+        if ( record.value("sfi").isNull()
+             && prop_cond->isFluxValid() )
+        {
+            record.setValue("sfi", prop_cond->getFlux());
+        }
 
-    if ( record.value("k_index").isNull()
-         && Conditions::instance()->isKIndexValid() )
-    {
-        record.setValue("k_index", Conditions::instance()->getKIndex());
-    }
+        if ( record.value("k_index").isNull()
+             && prop_cond->isKIndexValid() )
+        {
+            record.setValue("k_index", prop_cond->getKIndex());
+        }
 
-    if ( record.value("a_index").isNull()
-         && Conditions::instance()->isAIndexValid() )
-    {
-        record.setValue("a_index", Conditions::instance()->getAIndex());
+        if ( record.value("a_index").isNull()
+             && prop_cond->isAIndexValid() )
+        {
+            record.setValue("a_index", prop_cond->getAIndex());
+        }
     }
 
     if ( (record.value("tx_pwr").isNull() || record.value("tx_pwr") == 0.0 )
@@ -2582,6 +2586,12 @@ NewContactWidget::~NewContactWidget() {
 
     writeWidgetSetting();
     delete ui;
+}
+
+void NewContactWidget::assignPropConditions(Conditions *cond)
+{
+    FCT_IDENTIFICATION;
+    prop_cond = cond;
 }
 
 void NewContactWidget::changeCallsignManually(const QString &callsign)

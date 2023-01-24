@@ -37,7 +37,6 @@ class Conditions : public QObject
 public:
     explicit Conditions(QObject *parent = nullptr);
     ~Conditions();
-    static Conditions* instance();
     bool isFluxValid();
     bool isKIndexValid();
     bool isAIndexValid();

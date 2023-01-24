@@ -29,6 +29,7 @@ Conditions::Conditions(QObject *parent) : QObject(parent)
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Conditions::update);
+    update();
     timer->start(15*60*1000);
 }
 
@@ -151,13 +152,6 @@ void Conditions::processReply(QNetworkReply* reply) {
 
 Conditions::~Conditions() {
     delete nam;
-}
-
-Conditions *Conditions::instance()
-{
-    FCT_IDENTIFICATION;
-    static Conditions instance;
-    return &instance;
 }
 
 bool Conditions::isFluxValid()

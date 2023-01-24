@@ -20,7 +20,8 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   QWebEngineView(parent),
   main_page(new QWebEnginePage(this)),
   isMainPageLoaded(false),
-  layerControlHandler("onlinemap",parent)
+  layerControlHandler("onlinemap",parent),
+  prop_cond(nullptr)
 {
     FCT_IDENTIFICATION;
     main_page->setWebChannel(&channel);
@@ -117,9 +118,14 @@ void OnlineMapWidget::auroraDataUpdate()
     QString targetJavaScript;
     QStringList mapPoints;
 
-    if ( Conditions::instance()->isAuroraMapValid() )
+    if ( !prop_cond )
     {
-        const QList<AuroraMap::AuroraPoint> points = Conditions::instance()->getAuroraPoints();
+        return;
+    }
+
+    if ( prop_cond->isAuroraMapValid() )
+    {
+        const QList<AuroraMap::AuroraPoint> points = prop_cond->getAuroraPoints();
 
         for (const AuroraMap::AuroraPoint &point : points )
         {
@@ -200,4 +206,11 @@ OnlineMapWidget::~OnlineMapWidget()
     FCT_IDENTIFICATION;
 
     main_page->deleteLater();
+}
+
+void OnlineMapWidget::assignPropConditions(Conditions *conditions)
+{
+    FCT_IDENTIFICATION;
+
+    prop_cond = conditions;
 }
