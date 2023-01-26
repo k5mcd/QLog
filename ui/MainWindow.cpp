@@ -610,6 +610,8 @@ void MainWindow::showAwards()
     FCT_IDENTIFICATION;
 
     AwardsDialog dialog;
+    connect(&dialog, &AwardsDialog::DXCCSelected,
+            ui->logbookWidget, &LogbookWidget::filterCountryBand);
     dialog.exec();
 }
 

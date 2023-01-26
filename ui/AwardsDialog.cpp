@@ -47,6 +47,7 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
 AwardsDialog::~AwardsDialog()
 {
     FCT_IDENTIFICATION;
+
     delete ui;
     detailedViewModel->deleteLater();
     entityCallsignModel->deleteLater();
@@ -224,4 +225,20 @@ void AwardsDialog::refreshTable(int)
 
     ui->awardTableView->setModel(detailedViewModel);
     ui->awardTableView->setColumnHidden(0,true);
+}
+
+void AwardsDialog::awardTableDoubleClicked(QModelIndex idx)
+{
+    FCT_IDENTIFICATION;
+
+    if ( idx.row() > 3 )
+    {
+        QString entity = detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString();
+        QString band;
+        if ( idx.column() > 2 )
+        {
+             band = detailedViewModel->headerData( idx.column(), Qt::Horizontal ).toString();
+        }
+        emit DXCCSelected(entity, band);
+    }
 }

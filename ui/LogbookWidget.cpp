@@ -187,7 +187,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     updateTable();
 }
 
-void LogbookWidget::filterSelectedCallsign() {
+void LogbookWidget::filterSelectedCallsign()
+{
     FCT_IDENTIFICATION;
 
     QModelIndexList modeList= ui->contactTable->selectionModel()->selectedRows();
@@ -198,21 +199,36 @@ void LogbookWidget::filterSelectedCallsign() {
     }
 }
 
+void LogbookWidget::filterCountryBand(QString entity, QString band)
+{
+    FCT_IDENTIFICATION;
+
+    ui->countryFilter->blockSignals(true);
+    ui->bandFilter->blockSignals(true);
+
+    ui->bandFilter->setCurrentText(band);
+    ui->countryFilter->setCurrentText(entity);
+
+    ui->countryFilter->blockSignals(false);
+    ui->bandFilter->blockSignals(false);
+
+    updateTable();
+}
+
 void LogbookWidget::lookupSelectedCallsign() {
     FCT_IDENTIFICATION;
 
     QModelIndexList modeList = ui->contactTable->selectionModel()->selectedRows();
     if ( modeList.count() > 0)
     {
-
         QSqlRecord record = model->record(modeList.first().row());
         QString callsign = record.value("callsign").toString();
         QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
     }
-
 }
 
-void LogbookWidget::filterCallsign(QString call) {
+void LogbookWidget::filterCallsign(QString call)
+{
     FCT_IDENTIFICATION;
 
     if ( !call.isEmpty() )

@@ -19,6 +19,10 @@ public:
     ~AwardsDialog();
 public slots:
     void refreshTable(int);
+    void awardTableDoubleClicked(QModelIndex);
+
+signals:
+    void DXCCSelected(QString entity, QString band);
 
 private:
     Ui::AwardsDialog *ui;

@@ -137,7 +137,7 @@
       <bool>true</bool>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::NoSelection</enum>
+      <enum>QAbstractItemView::SingleSelection</enum>
      </property>
      <attribute name="horizontalHeaderVisible">
       <bool>true</bool>
@@ -333,8 +333,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>awardTableView</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>AwardsDialog</receiver>
+   <slot>awardTableDoubleClicked(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>521</x>
+     <y>419</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>521</x>
+     <y>350</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshTable(int)</slot>
+  <slot>awardTableDoubleClicked(QModelIndex)</slot>
  </slots>
 </ui>

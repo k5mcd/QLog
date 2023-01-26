@@ -27,6 +27,7 @@ signals:
 public slots:
     void filterCallsign(QString call);
     void filterSelectedCallsign();
+    void filterCountryBand(QString, QString);
     void lookupSelectedCallsign();
     void callsignFilterChanged();
     void bandFilterChanged();

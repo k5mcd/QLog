@@ -12,25 +12,30 @@ AwardsTableModel::AwardsTableModel(QObject* parent) :
 QVariant AwardsTableModel::data(const QModelIndex &index, int role) const
 {
     /* using hiden column 0 to identify type of information */
+    /* 0 - Total Worked/Confirmed row
+     * 1 - Confirmed row
+     * 2 - Worked row
+     * 3 - Per DXCC Entity row
+     */
+
+    QVariant originRowType = QSqlQueryModel::data(this->index(index.row(),0), Qt::DisplayRole);
+    QVariant originCellValue = QSqlQueryModel::data(index, Qt::DisplayRole);
 
     if ( index.column() >= 3
          && role == Qt::BackgroundRole
-         /* using hiddne column 0 to identify type of information */
-         &&  this->data(this->index(index.row(),0), Qt::DisplayRole).toInt() >= 3 )
+         &&  originRowType.toInt() >= 3 )
     {
-        if (this->data(index, Qt::DisplayRole).toInt() > 1 )
+        if ( originCellValue.toInt() > 1 )
         {
             return QColor(Qt::green);
         }
-        else if ( this->data(index, Qt::DisplayRole).toInt() == 1 )
+        else if ( originCellValue.toInt() == 1 )
         {
             return QColor(QColor(255,165,0));
         }
     }
     else if ( role == Qt::FontRole
-             && ( this->data(this->index(index.row(),0), Qt::DisplayRole).toInt() == 0
-                  || this->data(this->index(index.row(),0), Qt::DisplayRole).toInt() == 1
-                  || this->data(this->index(index.row(),0), Qt::DisplayRole).toInt() == 2 ) )
+             &&  originRowType.toInt() <= 2 )
     {
         QFont font;
         font.setBold(true);
@@ -38,14 +43,13 @@ QVariant AwardsTableModel::data(const QModelIndex &index, int role) const
     }
     else if ( index.column() >= 3
               && role == Qt::ToolTipRole
-              && this->data(this->index(index.row(),0), Qt::DisplayRole).toInt() >= 3 )
+              && originRowType.toInt() >= 3 )
     {
-        if (this->data(index, Qt::DisplayRole).toInt() > 1 )
+        if ( originCellValue.toInt() > 1 )
         {
-
             return QString(tr("Confirmed"));
         }
-        else if ( this->data(index, Qt::DisplayRole).toInt() == 1 )
+        else if ( originCellValue.toInt() == 1 )
         {
             return QString(tr("Worked"));
         }
@@ -54,11 +58,22 @@ QVariant AwardsTableModel::data(const QModelIndex &index, int role) const
             return QString(tr("Still Waiting"));
         }
     }
+    else if ( index.column() >= 3
+              && role == Qt::DisplayRole )
+    {
+        if ( originRowType.toInt() >= 3 )
+        {
+            return QString();
+        }
+        else
+        {
+            return originCellValue.toString();
+        }
+    }
     else if ( index.column() >=  3
               && role == Qt::ForegroundRole
-              && this->data(this->index(index.row(),0), Qt::DisplayRole).toInt() >= 3 )
+              && originRowType.toInt() >= 3 )
     {
-        //return this->data(index,Qt::BackgroundRole);
         return QColor(Qt::transparent);
     }
 
