@@ -447,7 +447,7 @@ void LOVDownloader::parseSOTASummits(const SourceDefinition &sourceDef, QTextStr
             fields << match.captured(2);
         }
 
-        if ( fields.size() == 17 )
+        if ( fields.size() >= 14 )
         {
             qCDebug(runtime) << fields;
 
@@ -583,7 +583,7 @@ void LOVDownloader::parseWWFFDirectory(const SourceDefinition &sourceDef, QTextS
             fields << match.captured(2);
         }
 
-        if ( fields.size() == 23 )
+        if ( fields.size() >= 15 )
         {
             qCDebug(runtime) << fields;
 
@@ -687,7 +687,7 @@ void LOVDownloader::parseIOTA(const SourceDefinition &sourceDef, QTextStream &da
             fields << match.captured(2);
         }
 
-        if ( fields.size() == 2 )
+        if ( fields.size() >= 2 )
         {
             qCDebug(runtime) << fields;
 
@@ -792,7 +792,7 @@ void LOVDownloader::parsePOTA(const SourceDefinition &sourceDef, QTextStream &da
             fields << match.captured(2);
         }
 
-        if ( fields.size() == 8 )
+        if ( fields.size() >= 8 )
         {
             qCDebug(runtime) << fields;
 
