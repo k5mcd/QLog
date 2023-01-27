@@ -612,6 +612,8 @@ void MainWindow::showAwards()
     AwardsDialog dialog;
     connect(&dialog, &AwardsDialog::DXCCSelected,
             ui->logbookWidget, &LogbookWidget::filterCountryBand);
+    connect(&dialog, &AwardsDialog::finished,
+            ui->logbookWidget, &LogbookWidget::restoreFilters);
     dialog.exec();
 }
 

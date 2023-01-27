@@ -184,7 +184,7 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
 
     new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this, SLOT(focusSearchCallsign()), nullptr, Qt::ApplicationShortcut);
 
-    updateTable();
+    restoreFilters();
 }
 
 void LogbookWidget::filterSelectedCallsign()
@@ -205,10 +205,26 @@ void LogbookWidget::filterCountryBand(QString entity, QString band)
 
     ui->countryFilter->blockSignals(true);
     ui->bandFilter->blockSignals(true);
+    ui->userFilter->blockSignals(true);
+    ui->modeFilter->blockSignals(true);
 
-    ui->bandFilter->setCurrentText(band);
     ui->countryFilter->setCurrentText(entity);
 
+    if ( !band.isEmpty() )
+    {
+        ui->bandFilter->setCurrentText(band);
+    }
+    else
+    {
+        ui->bandFilter->setCurrentIndex(0);
+    }
+
+    //user wants to see only selected band and country
+    ui->userFilter->setCurrentIndex(0); //suppress user-defined filter
+    ui->modeFilter->setCurrentIndex(0); //suppress mode filter
+
+    ui->userFilter->blockSignals(false);
+    ui->modeFilter->blockSignals(false);
     ui->countryFilter->blockSignals(false);
     ui->bandFilter->blockSignals(false);
 
@@ -248,28 +264,118 @@ void LogbookWidget::callsignFilterChanged()
     updateTable();
 }
 
-void LogbookWidget::bandFilterChanged() {
+void LogbookWidget::bandFilterChanged()
+{
     FCT_IDENTIFICATION;
 
+    saveBandFilter();
     updateTable();
 }
 
-void LogbookWidget::modeFilterChanged() {
+void LogbookWidget::saveBandFilter()
+{
     FCT_IDENTIFICATION;
 
+    QSettings settings;
+    settings.setValue("logbook/filters/band", ui->bandFilter->currentText());
+}
+
+void LogbookWidget::restoreBandFilter()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    ui->bandFilter->blockSignals(true);
+    ui->bandFilter->setCurrentText(settings.value("logbook/filters/band").toString());
+    ui->bandFilter->blockSignals(false);
+}
+
+void LogbookWidget::modeFilterChanged()
+{
+    FCT_IDENTIFICATION;
+
+    saveModeFilter();
     updateTable();
 }
 
-void LogbookWidget::countryFilterChanged() {
+void LogbookWidget::saveModeFilter()
+{
     FCT_IDENTIFICATION;
 
+    QSettings settings;
+    settings.setValue("logbook/filters/mode", ui->modeFilter->currentText());
+}
+
+void LogbookWidget::restoreModeFilter()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    ui->modeFilter->blockSignals(true);
+    ui->modeFilter->setCurrentText(settings.value("logbook/filters/mode").toString());
+    ui->modeFilter->blockSignals(false);
+}
+
+void LogbookWidget::countryFilterChanged()
+{
+    FCT_IDENTIFICATION;
+
+    saveCountryFilter();
     updateTable();
+}
+
+void LogbookWidget::saveCountryFilter()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    settings.setValue("logbook/filters/country", ui->countryFilter->currentText());
+}
+
+void LogbookWidget::restoreCountryFilter()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    ui->countryFilter->blockSignals(true);
+    ui->countryFilter->setCurrentText(settings.value("logbook/filters/country").toString());
+    ui->countryFilter->blockSignals(false);
 }
 
 void LogbookWidget::userFilterChanged()
 {
     FCT_IDENTIFICATION;
 
+    saveUserFilter();
+    updateTable();
+}
+
+void LogbookWidget::saveUserFilter()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    settings.setValue("logbook/filters/user", ui->userFilter->currentText());
+}
+
+void LogbookWidget::restoreUserFilter()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    ui->userFilter->blockSignals(true);
+    ui->userFilter->setCurrentText(settings.value("logbook/filters/user").toString());
+    ui->userFilter->blockSignals(false);
+}
+
+void LogbookWidget::restoreFilters()
+{
+    FCT_IDENTIFICATION;
+
+    restoreModeFilter();
+    restoreBandFilter();
+    restoreCountryFilter();
+    restoreUserFilter();
     updateTable();
 }
 

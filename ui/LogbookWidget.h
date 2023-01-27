@@ -31,9 +31,18 @@ public slots:
     void lookupSelectedCallsign();
     void callsignFilterChanged();
     void bandFilterChanged();
+    void saveBandFilter();
+    void restoreBandFilter();
     void modeFilterChanged();
+    void saveModeFilter();
+    void restoreModeFilter();
     void countryFilterChanged();
+    void saveCountryFilter();
+    void restoreCountryFilter();
     void userFilterChanged();
+    void saveUserFilter();
+    void restoreUserFilter();
+    void restoreFilters();
     void updateTable();
     void uploadClublog();
     void deleteContact();
