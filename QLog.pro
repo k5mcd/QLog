@@ -129,6 +129,7 @@ SOURCES += \
         ui/SettingsDialog.cpp \
         ui/StatisticsWidget.cpp \
         ui/SwitchButton.cpp \
+        ui/WebEnginePage.cpp \
         ui/WsjtxFilterDialog.cpp \
         ui/WsjtxWidget.cpp
 
@@ -233,6 +234,7 @@ HEADERS += \
         ui/SettingsDialog.h \
         ui/StatisticsWidget.h \
         ui/SwitchButton.h \
+        ui/WebEnginePage.h \
         ui/WsjtxFilterDialog.h \
         ui/WsjtxWidget.h
 

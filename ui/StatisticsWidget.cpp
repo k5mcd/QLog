@@ -488,7 +488,7 @@ void StatisticsWidget::changeTheme(int theme)
 StatisticsWidget::StatisticsWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::StatisticsWidget),
-    main_page(new QWebEnginePage(this)),
+    main_page(new WebEnginePage(this)),
     isMainPageLoaded(false),
     layerControlHandler("statistics", parent)
 {

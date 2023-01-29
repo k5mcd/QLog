@@ -5,7 +5,6 @@
 #include <QDataWidgetMapper>
 #include <QItemDelegate>
 #include <QLabel>
-#include <QWebEnginePage>
 #include <QPointer>
 #include <QCompleter>
 #include <QWebChannel>
@@ -14,6 +13,7 @@
 #include "core/Gridsquare.h"
 #include "core/CallbookManager.h"
 #include "ui/MapLayerControlHandler.h"
+#include "ui/WebEnginePage.h"
 
 namespace Ui {
 class QSODetailDialog;
@@ -129,7 +129,7 @@ private:
     qint64 timeLockDiff;
     double freqLockDiff;
     bool isMainPageLoaded;
-    QPointer<QWebEnginePage> main_page;
+    QPointer<WebEnginePage> main_page;
     QString postponedScripts;
     CallbookManager callbookManager;
     QCompleter *iotaCompleter;

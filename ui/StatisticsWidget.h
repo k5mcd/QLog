@@ -4,11 +4,11 @@
 #include <QWidget>
 #include <QSqlQuery>
 #include <QPieSeries>
-#include <QWebEngineView>
 #include <QComboBox>
 #include <QWebChannel>
 
 #include "ui/MapLayerControlHandler.h"
+#include "ui/WebEnginePage.h"
 
 namespace Ui {
 class StatisticsWidget;
@@ -49,7 +49,7 @@ private:
 
 private:
     Ui::StatisticsWidget *ui;
-    QWebEnginePage *main_page;
+    WebEnginePage *main_page;
     bool isMainPageLoaded;
     QString postponedScripts;
     QWebChannel channel;

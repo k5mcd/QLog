@@ -29,7 +29,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     model(new LogbookModelPrivate),
     editedRecord(new QSqlRecord(qso)),
     isMainPageLoaded(false),
-    main_page(new QWebEnginePage(this)),
+    main_page(new WebEnginePage(this)),
     layerControlHandler("qsodetail", parent)
 {
     FCT_IDENTIFICATION;

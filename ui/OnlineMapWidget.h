@@ -6,6 +6,7 @@
 #include <QWebChannel>
 #include "ui/MapLayerControlHandler.h"
 #include "core/PropConditions.h"
+#include "ui/WebEnginePage.h"
 
 namespace Ui {
 class OnlineMapWidget;
@@ -31,7 +32,7 @@ protected slots:
 
 private:
 
-    QWebEnginePage *main_page;
+    WebEnginePage *main_page;
     bool isMainPageLoaded;
     QString postponedScripts;
     QWebChannel channel;

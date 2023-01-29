@@ -18,7 +18,7 @@ MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
 OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   QWebEngineView(parent),
-  main_page(new QWebEnginePage(this)),
+  main_page(new WebEnginePage(this)),
   isMainPageLoaded(false),
   layerControlHandler("onlinemap",parent),
   prop_cond(nullptr)
