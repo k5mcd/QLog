@@ -532,6 +532,12 @@
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="dateLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>Date</string>
            </property>
@@ -572,6 +578,12 @@
          </item>
          <item row="0" column="1">
           <widget class="QLabel" name="timeOnLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>Time On</string>
            </property>
@@ -681,13 +693,13 @@
          <item row="1" column="3">
           <widget class="QStackedWidget" name="timeStackedWidget">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="timeOffPage">
             <property name="sizePolicy">
@@ -714,6 +726,12 @@
              </property>
              <item>
               <widget class="QTimeEdit" name="timeOffEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
@@ -752,6 +770,12 @@
              </property>
              <item>
               <widget class="QTimeEdit" name="timeDurationEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
@@ -775,8 +799,14 @@
          </item>
          <item row="0" column="3">
           <widget class="QStackedWidget" name="timeLabelStackedWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="timeOffLabelPage">
             <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -797,6 +827,12 @@
              </property>
              <item>
               <widget class="QLabel" name="timeOffLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Time Off</string>
                </property>
@@ -823,6 +859,12 @@
              </property>
              <item>
               <widget class="QLabel" name="durationLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Duration</string>
                </property>
@@ -838,6 +880,12 @@
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>200</width>
@@ -1058,8 +1106,8 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>5</width>
-       <height>5</height>
+       <width>10</width>
+       <height>10</height>
       </size>
      </property>
     </spacer>
@@ -1067,7 +1115,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget_2">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
