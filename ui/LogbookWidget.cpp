@@ -286,7 +286,15 @@ void LogbookWidget::restoreBandFilter()
 
     QSettings settings;
     ui->bandFilter->blockSignals(true);
-    ui->bandFilter->setCurrentText(settings.value("logbook/filters/band").toString());
+    QString value = settings.value("logbook/filters/band").toString();
+    if ( !value.isEmpty() )
+    {
+        ui->bandFilter->setCurrentText(value);
+    }
+    else
+    {
+        ui->bandFilter->setCurrentIndex(0);
+    }
     ui->bandFilter->blockSignals(false);
 }
 
@@ -312,7 +320,15 @@ void LogbookWidget::restoreModeFilter()
 
     QSettings settings;
     ui->modeFilter->blockSignals(true);
-    ui->modeFilter->setCurrentText(settings.value("logbook/filters/mode").toString());
+    QString value = settings.value("logbook/filters/mode").toString();
+    if ( !value.isEmpty() )
+    {
+        ui->modeFilter->setCurrentText(value);
+    }
+    else
+    {
+        ui->modeFilter->setCurrentIndex(0);
+    }
     ui->modeFilter->blockSignals(false);
 }
 
@@ -338,7 +354,15 @@ void LogbookWidget::restoreCountryFilter()
 
     QSettings settings;
     ui->countryFilter->blockSignals(true);
-    ui->countryFilter->setCurrentText(settings.value("logbook/filters/country").toString());
+    QString value = settings.value("logbook/filters/country").toString();
+    if ( !value.isEmpty() )
+    {
+        ui->countryFilter->setCurrentText(value);
+    }
+    else
+    {
+        ui->countryFilter->setCurrentIndex(0);
+    }
     ui->countryFilter->blockSignals(false);
 }
 
@@ -364,7 +388,15 @@ void LogbookWidget::restoreUserFilter()
 
     QSettings settings;
     ui->userFilter->blockSignals(true);
-    ui->userFilter->setCurrentText(settings.value("logbook/filters/user").toString());
+    QString value = settings.value("logbook/filters/user").toString();
+    if ( !value.isEmpty() )
+    {
+        ui->userFilter->setCurrentText(value);
+    }
+    else
+    {
+        ui->userFilter->setCurrentIndex(0);
+    }
     ui->userFilter->blockSignals(false);
 }
 
