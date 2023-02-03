@@ -96,6 +96,9 @@ public slots:
     void secondaryCallbookChanged(int);
     void assignedKeyChanged(int);
 
+    void joinMulticastChanged(int);
+    void adjustWSJTXMulticastAddrTextColor();
+
 private:
     void readSettings();
     void writeSettings();

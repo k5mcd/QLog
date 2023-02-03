@@ -2754,15 +2754,32 @@
          <property name="title">
           <string>Wsjtx</string>
          </property>
-         <layout class="QFormLayout" name="formLayout_14">
+         <layout class="QFormLayout" name="formLayout_2">
           <item row="0" column="0">
+           <widget class="QLabel" name="wsjtForwardLabel">
+            <property name="text">
+             <string>Raw UDP Forward</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="wsjtForwardEdit">
+            <property name="toolTip">
+             <string>&lt;p&gt;List of IP addresses to which QLog forwards raw UDP WSJT-X packets.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
+            </property>
+            <property name="placeholderText">
+             <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
            <widget class="QLabel" name="wsjtPortLabel">
             <property name="text">
              <string>Port </string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item row="1" column="1">
            <widget class="QSpinBox" name="wsjtPortSpin">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -2784,22 +2801,81 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="wsjtForwardLabel">
+          <item row="2" column="0">
+           <widget class="QLabel" name="wsjtMulticastCheckboxLabel">
             <property name="text">
-             <string>Raw UDP Forward</string>
+             <string>Join Multicast</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="wsjtForwardEdit">
-            <property name="toolTip">
-             <string>&lt;p&gt;List of IP addresses to which QLog forwards raw UDP WSJT-X packets.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="wsjtMulticastCheckbox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="placeholderText">
-             <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
+            <property name="toolTip">
+             <string>Enable/Disable Multicast option for WSJTX</string>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="wsjtMulticastAddressLabel">
+            <property name="text">
+             <string>Multicast Address</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <widget class="QLineEdit" name="wsjtMulticastAddressEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Specify Multicast Address. &lt;br&gt;On some Linux systems it may be necessary to enable multicast on the loop-back network interface.</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="wsjtMulticastTTLLabel">
+              <property name="text">
+               <string>TTL</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="wsjtMulticastTTLSpin">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Time-To-Live determines the range&lt;br&gt; over which a multicast packet is propagated in your intranet. </string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>255</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -2810,6 +2886,29 @@
           <string>Notifications</string>
          </property>
          <layout class="QFormLayout" name="formLayout_16">
+          <item row="0" column="0">
+           <widget class="QLabel" name="notifLogIDLabel">
+            <property name="text">
+             <string>LogID</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="notifLogIDEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>&lt;p&gt;Assigned LogID to the current log.&lt;/p&gt;The LogID is sent in the Network Nofitication messages as a unique instance identified.&lt;p&gt; The ID is generated automatically and cannot be changed&lt;/&gt;</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="notifDXSpotsLabel">
             <property name="text">
@@ -2821,6 +2920,23 @@
            <widget class="QLineEdit" name="notifDXSpotsEdit">
             <property name="toolTip">
              <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with DX Cluster Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
+            </property>
+            <property name="placeholderText">
+             <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="notifSpotAlertLabel">
+            <property name="text">
+             <string>Spot Alerts</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="notifSpotAlertEdit">
+            <property name="toolTip">
+             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about user Spot Alerts.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
             </property>
             <property name="placeholderText">
              <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
@@ -2858,46 +2974,6 @@
             </property>
             <property name="placeholderText">
              <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="notifSpotAlertLabel">
-            <property name="text">
-             <string>Spot Alerts</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="notifSpotAlertEdit">
-            <property name="toolTip">
-             <string>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about user Spot Alerts.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</string>
-            </property>
-            <property name="placeholderText">
-             <string>ex. 192.168.1.1:1234 192.168.2.1:1234</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="notifLogIDLabel">
-            <property name="text">
-             <string>LogID</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="notifLogIDEdit">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="toolTip">
-             <string>&lt;p&gt;Assigned LogID to the current log.&lt;/p&gt;The LogID is sent in the Network Nofitication messages as a unique instance identified.&lt;p&gt; The ID is generated automatically and cannot be changed&lt;/&gt;</string>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -3042,7 +3118,6 @@
   <tabstop>dxccStartDateCheckBox</tabstop>
   <tabstop>dxccStartDate</tabstop>
   <tabstop>wsjtPortSpin</tabstop>
-  <tabstop>wsjtForwardEdit</tabstop>
   <tabstop>notifLogIDEdit</tabstop>
   <tabstop>notifDXSpotsEdit</tabstop>
   <tabstop>notifSpotAlertEdit</tabstop>
@@ -3805,6 +3880,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>wsjtMulticastCheckbox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>joinMulticastChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>404</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>340</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>wsjtMulticastAddressEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>adjustWSJTXMulticastAddrTextColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>404</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>340</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -3854,5 +3961,7 @@
   <slot>assignedKeyChanged(int)</slot>
   <slot>potaEditFinished()</slot>
   <slot>potaChanged(QString)</slot>
+  <slot>joinMulticastChanged(int)</slot>
+  <slot>adjustWSJTXMulticastAddrTextColor()</slot>
  </slots>
 </ui>

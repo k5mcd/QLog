@@ -130,6 +130,12 @@ public:
     static void saveConfigPort(quint16);
     static QString getConfigForwardAddresses();
     static void saveConfigForwardAddresses(const QString &);
+    static void saveConfigMulticastJoin(bool);
+    static bool getConfigMulticastJoin();
+    static void saveConfigMulticastAddress(QString);
+    static QString getConfigMulticastAddress();
+    static void saveConfigMulticastTTL(int);
+    static int getConfigMulticastTTL();
 
 signals:
     void statusReceived(WsjtxStatus);
@@ -152,6 +158,9 @@ private:
     static QString CONFIG_PORT;
     static int DEFAULT_PORT;
     static QString CONFIG_FORWARD_ADDRESSES;
+    static QString CONFIG_MULTICAST_JOIN;
+    static QString CONFIG_MULTICAST_ADDRESS;
+    static QString CONFIG_MULTICAST_TTL;
 
     void openPort();
     void forwardDatagram(const QNetworkDatagram &);

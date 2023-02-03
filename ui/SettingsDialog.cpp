@@ -137,6 +137,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->rotPortEdit->setValidator(new QRegularExpressionValidator(comPortRE, this));
     ui->cwPortEdit->setValidator(new QRegularExpressionValidator(comPortRE, this));
 
+    /* https://stackoverflow.com/questions/13145397/regex-for-multicast-ip-address */
+    static QRegularExpression multicastAddress("^2(?:2[4-9]|3\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d?|0)){3}$");
+
+    ui->wsjtMulticastAddressEdit->setValidator(new QRegularExpressionValidator(multicastAddress, this));
+
     iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
@@ -199,6 +204,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->cwKeyModeSelect->addItem(tr("Ultimate"), CWKey::ULTIMATE);
     ui->cwKeyModeSelect->setCurrentIndex(ui->cwKeyModeSelect->findData(CWKey::IAMBIC_B));
 
+    /* disable WSJTX Multicast by default */
+    joinMulticastChanged(false);
+
     readSettings();
 }
 
@@ -259,6 +267,17 @@ void SettingsDialog::save() {
         ui->equipmentTabWidget->setCurrentIndex(3);
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),pleaseModifyTXT);
         return;
+    }
+
+    if ( ui->wsjtMulticastCheckbox->isChecked() )
+    {
+        if ( ! ui->wsjtMulticastAddressEdit->hasAcceptableInput() )
+        {
+            ui->tabWidget->setCurrentIndex(7);
+            QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                                 QMessageBox::tr("WSJTX Multicast is enabled but the Address is not a multicast address."));
+            return;
+        }
     }
 
     writeSettings();
@@ -1645,6 +1664,23 @@ void SettingsDialog::assignedKeyChanged(int index)
     setUIBasedOnRigCaps(caps);
 }
 
+void SettingsDialog::joinMulticastChanged(int state)
+{
+    FCT_IDENTIFICATION;
+
+    ui->wsjtMulticastAddressLabel->setVisible(state);
+    ui->wsjtMulticastAddressEdit->setVisible(state);
+    ui->wsjtMulticastTTLLabel->setVisible(state);
+    ui->wsjtMulticastTTLSpin->setVisible(state);
+}
+
+void SettingsDialog::adjustWSJTXMulticastAddrTextColor()
+{
+    FCT_IDENTIFICATION;
+
+    setValidationResultColor(ui->wsjtMulticastAddressEdit);
+}
+
 void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
@@ -1739,6 +1775,9 @@ void SettingsDialog::readSettings() {
 
     ui->wsjtPortSpin->setValue(Wsjtx::getConfigPort());
     ui->wsjtForwardEdit->setText(Wsjtx::getConfigForwardAddresses());
+    ui->wsjtMulticastCheckbox->setChecked(Wsjtx::getConfigMulticastJoin());
+    ui->wsjtMulticastAddressEdit->setText(Wsjtx::getConfigMulticastAddress());
+    ui->wsjtMulticastTTLSpin->setValue(Wsjtx::getConfigMulticastTTL());
 
     ui->notifLogIDEdit->setText(LogParam::getParam("logid"));
     ui->notifQSOEdit->setText(NetworkNotification::getNotifQSOAdiAddrs());
@@ -1826,6 +1865,9 @@ void SettingsDialog::writeSettings() {
     /***********/
     Wsjtx::saveConfigPort(ui->wsjtPortSpin->value());
     Wsjtx::saveConfigForwardAddresses(ui->wsjtForwardEdit->text());
+    Wsjtx::saveConfigMulticastJoin(ui->wsjtMulticastCheckbox->isChecked());
+    Wsjtx::saveConfigMulticastAddress(ui->wsjtMulticastAddressEdit->text());
+    Wsjtx::saveConfigMulticastTTL(ui->wsjtMulticastTTLSpin->value());
 
     NetworkNotification::saveNotifQSOAdiAddrs(ui->notifQSOEdit->text());
     NetworkNotification::saveNotifDXSpotAddrs(ui->notifDXSpotsEdit->text());

@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QDateTime>
 #include <QHostAddress>
+#include <QNetworkInterface>
 
 #include "Wsjtx.h"
 #include "data/Data.h"
@@ -36,13 +37,63 @@ void Wsjtx::openPort()
         return;
     }
 
-    socket->close();
+    if( socket->state() == QAbstractSocket::BoundState)
+    {
+        socket->close();
+    }
 
     int newPort = settings.value(Wsjtx::CONFIG_PORT,Wsjtx::DEFAULT_PORT).toInt();
 
-    qCDebug(runtime) << "New port "<< newPort;
+    qCDebug(runtime) << "Listen port"<< newPort;
 
-    socket->bind(QHostAddress::Any, newPort);
+    bool multicastEnabled = getConfigMulticastJoin();
+
+    qCDebug(runtime) << (( multicastEnabled ) ? "Multicast" : "Unicast") << "enabled";
+
+    if ( multicastEnabled )
+    {
+        if ( ! socket->bind(QHostAddress::AnyIPv4, newPort, QUdpSocket::ShareAddress|QUdpSocket::ReuseAddressHint) )
+        {
+            qWarning() << "Cannot bind the Port for WSJTX";
+        }
+        else
+        {
+            QHostAddress multicastAddress = QHostAddress(getConfigMulticastAddress());
+
+            const QList<QNetworkInterface> listNetworkIF = QNetworkInterface::allInterfaces();
+
+            /* Join Multicast Group on all Multicast-capable interfaces */
+            for ( const auto &networkIF : listNetworkIF )
+            {
+                auto flags = QNetworkInterface::IsUp | QNetworkInterface::CanMulticast;
+                if ( networkIF.isValid()
+                     && (networkIF.flags() & flags) )
+                {
+                    if ( ! socket->joinMulticastGroup(multicastAddress, networkIF) )
+                    {
+                        qWarning() << "Cannot join the Multicast address" << networkIF.humanReadableName() << "; Address" << multicastAddress;;
+                    }
+                    else
+                    {
+                        qCDebug(runtime) << "Joined interface: " << networkIF.humanReadableName() << "; Address" << multicastAddress;
+                    }
+                }
+            }
+
+            socket->setSocketOption(QAbstractSocket::MulticastTtlOption, getConfigMulticastTTL());
+        }
+    }
+    else
+    {
+        if ( ! socket->bind(QHostAddress::Any, newPort) )
+        {
+            qWarning() << "Cannot bind the Port for WSJTX";
+        }
+        else
+        {
+            qCDebug(runtime) << "Listening on all interfaces";
+        }
+    }
 }
 
 void Wsjtx::forwardDatagram(const QNetworkDatagram &datagram)
@@ -135,6 +186,60 @@ void Wsjtx::saveConfigForwardAddresses(const QString &addresses)
     settings.setValue(Wsjtx::CONFIG_FORWARD_ADDRESSES, addresses);
 }
 
+void Wsjtx::saveConfigMulticastJoin(bool state)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(Wsjtx::CONFIG_MULTICAST_JOIN, state);
+}
+
+bool Wsjtx::getConfigMulticastJoin()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(Wsjtx::CONFIG_MULTICAST_JOIN).toBool();
+}
+
+void Wsjtx::saveConfigMulticastAddress(QString addr)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(Wsjtx::CONFIG_MULTICAST_ADDRESS, addr);
+}
+
+QString Wsjtx::getConfigMulticastAddress()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(Wsjtx::CONFIG_MULTICAST_ADDRESS).toString();
+}
+
+void Wsjtx::saveConfigMulticastTTL(int ttl)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue(Wsjtx::CONFIG_MULTICAST_TTL, ttl);
+}
+
+int Wsjtx::getConfigMulticastTTL()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value(Wsjtx::CONFIG_MULTICAST_TTL).toInt();
+}
+
 void Wsjtx::readPendingDatagrams()
 {
     FCT_IDENTIFICATION;
@@ -142,8 +247,12 @@ void Wsjtx::readPendingDatagrams()
     while (socket->hasPendingDatagrams()) {
         QNetworkDatagram datagram = socket->receiveDatagram();
 
+        /* remember WSJT receiving address becuase WSJT does not listen multicast address
+         * but only UDP address. Therefore the command must be sent via UDP unicast */
         wsjtxAddress = datagram.senderAddress();
         wsjtxPort = datagram.senderPort();
+
+        qInfo() << wsjtxAddress;
 
         QDataStream stream(datagram.data());
 
@@ -366,6 +475,9 @@ void Wsjtx::startReply(WsjtxDecode decode)
 
     qCDebug(function_parameters) << decode;
 
+    /* sending to WSJT to UDP address, not multicast address because
+     * WSJTX does not listen multicast address */
+    qInfo() << "sending to " << wsjtxAddress;
     QByteArray data;
     QDataStream stream(&data, QIODevice::ReadWrite);
     stream << static_cast<quint32>(0xadbccbda);
@@ -393,3 +505,6 @@ void Wsjtx::reloadSetting()
 QString Wsjtx::CONFIG_PORT = "network/wsjtx_port";
 int     Wsjtx::DEFAULT_PORT = 2237;
 QString Wsjtx::CONFIG_FORWARD_ADDRESSES = "network/wsjtx_forward";
+QString Wsjtx::CONFIG_MULTICAST_JOIN = "network/wsjtx_multicast";
+QString Wsjtx::CONFIG_MULTICAST_ADDRESS = "network/wsjtx_multicast_addr";
+QString Wsjtx::CONFIG_MULTICAST_TTL = "network/wsjtx_multicast_ttl";
