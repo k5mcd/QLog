@@ -252,7 +252,7 @@ void Wsjtx::readPendingDatagrams()
         wsjtxAddress = datagram.senderAddress();
         wsjtxPort = datagram.senderPort();
 
-        qInfo() << wsjtxAddress;
+        qCDebug(runtime) << "Received from" << wsjtxAddress;
 
         QDataStream stream(datagram.data());
 
@@ -477,7 +477,8 @@ void Wsjtx::startReply(WsjtxDecode decode)
 
     /* sending to WSJT to UDP address, not multicast address because
      * WSJTX does not listen multicast address */
-    qInfo() << "sending to " << wsjtxAddress;
+    qCDebug(runtime) << "Sending to" << wsjtxAddress;
+
     QByteArray data;
     QDataStream stream(&data, QIODevice::ReadWrite);
     stream << static_cast<quint32>(0xadbccbda);
