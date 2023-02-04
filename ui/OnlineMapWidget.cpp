@@ -46,7 +46,7 @@ void OnlineMapWidget::setTarget(double lat, double lon)
     if ( lat == 0 && lon == 0 )
     {
         /* just clean the last path */
-        targetJavaScript = QString("if ( typeof firstpolyline !== 'undefined' ) { map.removeLayer(firstpolyline)};");
+        targetJavaScript = QString("drawPath([]);");
     }
     else
     {
@@ -64,14 +64,7 @@ void OnlineMapWidget::setTarget(double lat, double lon)
 
         QString path = computePath(my_lat,my_lon, lat, lon);
 
-        targetJavaScript = QString("if ( typeof firstpolyline !== 'undefined' ) { map.removeLayer(firstpolyline)}; var pointList = [ " + path + " ]; "
-                            " var firstpolyline = new L.Polyline(pointList, { "
-                            " color: 'Fuchsia', weight: 3, opacity: 0.7, smoothFactor: 1 }); "
-                            "  firstpolyline.addTo(map);"
-                            " var bounds = firstpolyline.getBounds(); "
-                            "map.fitBounds(bounds); "
-                            "var center = bounds.getCenter(); "
-                            "map.panTo(center);");
+        targetJavaScript = QString("drawPath(%1);").arg(path);
     }
 
     if ( !isMainPageLoaded )
@@ -182,7 +175,7 @@ QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, doub
 
         f += 0.001;
     }
-    return result.join(",");
+    return "[" + result.join(",") + "]";
 }
 
 void OnlineMapWidget::finishLoading(bool)

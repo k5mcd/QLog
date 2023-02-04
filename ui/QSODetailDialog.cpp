@@ -1216,17 +1216,13 @@ void QSODetailDialog::drawDXOnMap(const QString &label, const Gridsquare &dxGrid
 
     double lat = dxGrid.getLatitude();
     double lon = dxGrid.getLongitude();
-    stationString.append(QString("[\"%1\", %2, %3]").arg(popupString).arg(lat).arg(lon));
+    stationString.append(QString("[[\"%1\", %2, %3, yellowIcon]]").arg(popupString).arg(lat).arg(lon));
 
     QString javaScript = QString("grids_confirmed = [];"
                                  "grids_worked = [];"
-                                 "if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
-                                 " var QSOGroup = L.layerGroup().addTo(map); "
-                                 " locations = [ %1 ]; "
-                                 "   QSOGroup.addLayer(L.marker([locations[0][1], locations[0][2]],{icon: yellowIcon})"
-                                 "   .bindPopup(locations[0][0]));"
+                                 "drawPoints(%1);"
                                  "maidenheadConfWorked.redraw();"
-                                 "map.flyTo([locations[0][1], locations[0][2]],6);").arg(stationString);
+                                 "flyToPoint(%2[0]);").arg(stationString, stationString);
 
     qCDebug(runtime) << javaScript;
 
@@ -1254,15 +1250,11 @@ void QSODetailDialog::drawMyQTHOnMap(const QString &label, const Gridsquare &myG
     QString stationString;
     double lat = myGrid.getLatitude();
     double lon = myGrid.getLongitude();
-    stationString.append(QString("[\"%1\", %2, %3]").arg(label).arg(lat).arg(lon));
+    stationString.append(QString("[[\"%1\", %2, %3, homeIcon]]").arg(label).arg(lat).arg(lon));
 
     QString javaScript = QString("grids_confirmed = [];"
                                  "grids_worked = [];"
-                                 "if ( typeof myLocGroup !== 'undefined' ) { map.removeLayer(myLocGroup)};"
-                                 " var myLocGroup = L.layerGroup().addTo(map); "
-                                 " mylocations = [ %1 ]; "
-                                 "   myLocGroup.addLayer(L.marker([mylocations[0][1], mylocations[0][2]],{icon: homeIcon}) "
-                                 "   .bindPopup(mylocations[0][0]));"
+                                 "drawPointsGroup2(%1);"
                                  "maidenheadConfWorked.redraw();").arg(stationString);
 
     qCDebug(runtime) << javaScript;

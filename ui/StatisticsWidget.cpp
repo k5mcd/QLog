@@ -621,18 +621,13 @@ void StatisticsWidget::drawMyLocationsOnMap(QSqlQuery &query)
         {
             double lat = stationGrid.getLatitude();
             double lon = stationGrid.getLongitude();
-            locations.append(QString("[\"%1\", %2, %3]").arg(loc).arg(lat).arg(lon));
+            locations.append(QString("[\"%1\", %2, %3, homeIcon]").arg(loc).arg(lat).arg(lon));
         }
     }
 
     QString javaScript = QString("grids_confirmed = [];"
                                  "grids_worked = [];"
-                                 "if ( typeof myLocGroup !== 'undefined' ) { map.removeLayer(myLocGroup)};"
-                                 " var myLocGroup = L.layerGroup().addTo(map); "
-                                 " mylocations = [ %1 ]; "
-                                 " for (var i = 0; i < mylocations.length; i++) { "
-                                 "   myLocGroup.addLayer(L.marker([mylocations[i][1], mylocations[i][2]],{icon: homeIcon}) "
-                                 "   .bindPopup(mylocations[i][0])); }"
+                                 "drawPointsGroup2([%1]);"
                                  "maidenheadConfWorked.redraw();").arg(locations.join(","));
 
     qCDebug(runtime) << javaScript;
@@ -664,18 +659,16 @@ void StatisticsWidget::drawPointsOnMap(QSqlQuery &query)
         {
             double lat = stationGrid.getLatitude();
             double lon = stationGrid.getLongitude();
-            stations.append(QString("[\"%1\", %2, %3, %4]").arg(query.value(0).toString()).arg(lat).arg(lon).arg(query.value(2).toInt()));
+            stations.append(QString("[\"%1\", %2, %3, %4]").arg(query.value(0).toString())
+                                                           .arg(lat)
+                                                           .arg(lon)
+                                                           .arg((query.value(2).toInt()) > 0 ? "greenIcon" : "yellowIcon"));
         }
     }
 
     QString javaScript = QString("grids_confirmed = [];"
                                  "grids_worked = [];"
-                                 "if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
-                                 " var QSOGroup = L.layerGroup().addTo(map); "
-                                 " locations = [ %1 ]; "
-                                 " for (var i = 0; i < locations.length; i++) { "
-                                 "   QSOGroup.addLayer(L.marker([locations[i][1], locations[i][2]],{icon: (locations[i][3] > 0) ? greenIcon: yellowIcon}) "
-                                 "   .bindPopup(locations[i][0])); }"
+                                 "drawPoints([%1]);"
                                  "maidenheadConfWorked.redraw();").arg(stations.join(","));
 
     qCDebug(runtime) << javaScript;
@@ -712,11 +705,10 @@ void StatisticsWidget::drawFilledGridsOnMap(QSqlQuery &query)
         }
     }
 
-    QString javaScript = QString(" grids_confirmed = [ %1 ]; "
-                                 " grids_worked = [ %2 ];"
-                                 " mylocations = [];"
-                                 " locations = [];"
-                                 "if ( typeof QSOGroup !== 'undefined' ) { map.removeLayer(QSOGroup)};"
+    QString javaScript = QString("grids_confirmed = [ %1 ]; "
+                                 "grids_worked = [ %2 ];"
+                                 "mylocations = [];"
+                                 "drawPoints([]);"
                                  "maidenheadConfWorked.redraw();").arg(confirmedGrids.join(","), workedGrids.join(","));
 
     qCDebug(runtime) << javaScript;
