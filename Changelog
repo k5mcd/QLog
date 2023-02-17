@@ -1,7 +1,7 @@
-TBC - 0.19.0
+2023/02/17 - 0.19.0
 - [NEW] - Added Aurora Layer to online map
 - [NEW] - Logbook - filter options are saved and restored
-- [NEW] - Map Setting is saved (issue #140)
+- [NEW] - Map Setting is saved and restored (issue #140)
 - [NEW] - QSO Duration (issue #158)
 - [NEW] - DX Cluster uses monospace font (issue #164)
 - [NEW] - Awards - if click on the Entity/band the logbook filter is set (issue #168)

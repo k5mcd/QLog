@@ -1,3 +1,15 @@
+qlog (0.19.0-1) UNRELEASED; urgency=low
+  * [NEW] - Added Aurora Layer to online map
+  * [NEW] - Logbook - filter options are saved and restored
+  * [NEW] - Map Setting is saved and restored (issue #140)
+  * [NEW] - QSO Duration (issue #158)
+  * [NEW] - DX Cluster uses monospace font (issue #164)
+  * [NEW] - Awards - if click on the Entity/band the logbook filter is set (issue #168)
+  * [NEW] - WSJTX - Added Multicast support (issue #172)
+  * Fixed WWFF LOV Download (issue #169)
+
+ -- foldynl <foldyna@gmail.com>  Fri, 17 Feb 2023 15:00:00 +0100
+
 qlog (0.18.0-1) UNRELEASED; urgency=low
   * [NEW] - ADIF 3.1.4 updates
   *    Added new modes FREEDV and M17

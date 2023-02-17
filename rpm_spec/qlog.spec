@@ -42,6 +42,16 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Feb 17 2023 Ladislav Foldyna - 0.19.0-1
+- [NEW] - Added Aurora Layer to online map
+- [NEW] - Logbook - filter options are saved and restored
+- [NEW] - Map Setting is saved and restored (issue #140)
+- [NEW] - QSO Duration (issue #158)
+- [NEW] - DX Cluster uses monospace font (issue #164)
+- [NEW] - Awards - if click on the Entity/band the logbook filter is set (issue #168)
+- [NEW] - WSJTX - Added Multicast support (issue #172)
+- Fixed WWFF LOV Download (issue #169)
+
 * Sun Jan 15 2023 Ladislav Foldyna - 0.18.0-1
 - [NEW] - ADIF 3.1.4 updates
 -   Added new modes FREEDV and M17
