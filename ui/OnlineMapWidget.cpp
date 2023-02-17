@@ -41,14 +41,9 @@ void OnlineMapWidget::setTarget(double lat, double lon)
 
     qCDebug(function_parameters) << lat << " " << lon;
 
-    QString targetJavaScript;
+    QString targetJavaScript = QString("drawPath([]);");
 
-    if ( lat == 0 && lon == 0 )
-    {
-        /* just clean the last path */
-        targetJavaScript = QString("drawPath([]);");
-    }
-    else
+    if ( lat != 0 || lon != 0 )
     {
         /* Draw a new path */
         Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
@@ -60,11 +55,10 @@ void OnlineMapWidget::setTarget(double lat, double lon)
         {
             my_lat = myGrid.getLatitude();
             my_lon = myGrid.getLongitude();
+
+            QString path = computePath(my_lat,my_lon, lat, lon);
+            targetJavaScript = QString("drawPath(%1);").arg(path);
         }
-
-        QString path = computePath(my_lat,my_lon, lat, lon);
-
-        targetJavaScript = QString("drawPath(%1);").arg(path);
     }
 
     if ( !isMainPageLoaded )

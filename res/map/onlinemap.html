@@ -104,12 +104,14 @@
 
     function drawPath(points) {
         pathLayer.clearLayers();
-        var polyLine = new L.Polyline(points, {color: 'Fuchsia', weight: 3, opacity: 0.7, smoothFactor: 1 });
-        pathLayer.addLayer(polyLine);
-        var bounds = polyLine.getBounds();
-        map.fitBounds(bounds);
-        var center = bounds.getCenter();
-        map.panTo(center);
+        if ( points.length > 0 ) {
+            var polyLine = new L.Polyline(points, {color: 'Fuchsia', weight: 3, opacity: 0.7, smoothFactor: 1 });
+            pathLayer.addLayer(polyLine);
+            var bounds = polyLine.getBounds();
+            map.fitBounds(bounds);
+            var center = bounds.getCenter();
+            map.panTo(center);
+        }
     }
 
     var markersLayer = L.layerGroup().addTo(map);
