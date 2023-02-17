@@ -26,6 +26,7 @@ jobs:
          brew install dbus-glib
          brew install brotli
          brew install icu4c
+         brew install pkg-config
      - name: Checkout Code
        uses: actions/checkout@v3
        with:
