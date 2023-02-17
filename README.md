@@ -197,6 +197,7 @@ Last dependencies before building QLog are:
  brew install dbus-glib
  brew install brotli
  brew install icu4c
+ brew install pkg-config
 ```
 
 As soon as the steps above are finished, QLog source can be opened in QtCreator, configured, built and run.  
