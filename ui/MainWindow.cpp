@@ -625,7 +625,8 @@ void MainWindow::showAbout() {
                            "&copy; 2021-2023 Ladislav Foldyna OK1MLG</p>"
                            "<p>Based on Qt %2<br/>"
                            "%3<br/>"
-                           "%4</p>"
+                           "%4<br/>"
+                           "%5</p>"
                            "<p>Icon by <a href='http://www.iconshock.com'>Icon Shock</a><br />"
                            "Satellite images by <a href='http://www.nasa.gov'>NASA</a><br />"
                            "ZoneDetect by <a href='https://github.com/BertoldVdb/ZoneDetect'>Bertold Van den Bergh</a><br />"
@@ -641,7 +642,11 @@ void MainWindow::showAbout() {
 #endif
 
     QString OSName = QString("%1 %2").arg(QSysInfo::prettyProductName()).arg(QSysInfo::currentCpuArchitecture());
-    aboutText = aboutText.arg(version).arg(qVersion()).arg(hamlibVersion).arg(OSName);
+    aboutText = aboutText.arg(version)
+                         .arg(qVersion())
+                         .arg(hamlibVersion)
+                         .arg(QSslSocket::sslLibraryVersionString())
+                         .arg(OSName);
 
 
     QMessageBox::about(this, tr("About"), aboutText);
