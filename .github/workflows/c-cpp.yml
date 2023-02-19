@@ -70,10 +70,12 @@ jobs:
        uses: actions/checkout@v3
        with:
          submodules: recursive
-     - name: configure
-       run: qmake6 QLog.pro
-     - name: make
-       run: make -j2
+     - name: configure and Compilea
+       run: |
+         mkdir build
+         cd build
+         qmake6 -config release ..
+         make -j2
      - name: Build dmg
        run: |
          cd build
