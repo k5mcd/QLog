@@ -43,6 +43,9 @@ void MapLayerControlHandler::connectChannel(QWebEnginePage *page)
           "     case 'Aurora': "
           "        foo.handleLayerSelectionChanged('auroraLayer', 'on'); "
           "        break; "
+          "     case 'MUF': "
+          "        foo.handleLayerSelectionChanged('mufLayer', 'on'); "
+          "        break; "
           "  } "
           "});"
           "map.on('overlayremove', function(e){ "
@@ -56,6 +59,9 @@ void MapLayerControlHandler::connectChannel(QWebEnginePage *page)
           "         break; "
           "     case 'Aurora': "
           "        foo.handleLayerSelectionChanged('auroraLayer', 'off'); "
+          "        break; "
+          "     case 'MUF': "
+          "        foo.handleLayerSelectionChanged('mufLayer', 'off'); "
           "        break; "
           "   } "
           "});";
@@ -95,7 +101,8 @@ void MapLayerControlHandler::restoreControls(QWebEnginePage *page)
 
 QString MapLayerControlHandler::injectMapMenuJS(bool gridLayer,
                                                 bool grayline,
-                                                bool aurora)
+                                                bool aurora,
+                                                bool muf)
 {
     FCT_IDENTIFICATION;
     QStringList options;
@@ -110,9 +117,14 @@ QString MapLayerControlHandler::injectMapMenuJS(bool gridLayer,
         options << "\"" + tr("Gray-Line") + "\": grayline";
     }
 
-    if (aurora)
+    if ( aurora )
     {
         options << "\"" + tr("Aurora") + "\": auroraLayer";
+    }
+
+    if ( muf )
+    {
+        options << "\"" + tr("MUF") + "\": mufLayer";
     }
 
     QString ret = QString("var layerControl = new L.Control.Layers(null,"

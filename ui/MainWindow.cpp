@@ -184,6 +184,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(conditions, &PropConditions::conditionsUpdated, this, &MainWindow::conditionsUpdated);
     connect(conditions, &PropConditions::auroraMapUpdated, ui->onlineMapWidget, &OnlineMapWidget::auroraDataUpdate);
+    connect(conditions, &PropConditions::mufMapUpdated, ui->onlineMapWidget, &OnlineMapWidget::mufDataUpdate);
 
     ui->onlineMapWidget->assignPropConditions(conditions);
     ui->newContactWidget->assignPropConditions(conditions);

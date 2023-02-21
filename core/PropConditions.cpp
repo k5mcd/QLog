@@ -17,6 +17,7 @@
 #define K_INDEX_URL "https://www.hamqsl.com/solarxml.php"
 #define SOLAR_SUMMARY_IMG "https://www.hamqsl.com/solar101vhf.php"
 #define AURORA_MAP "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json"
+#define MUF_POINTS "https://prop.kc2g.com/api/stations.json?maxage=2700"
 
 MODULE_IDENTIFICATION("qlog.core.conditions");
 
@@ -39,6 +40,7 @@ void PropConditions::update() {
     nam->get(QNetworkRequest(QUrl(SOLAR_SUMMARY_IMG)));
     nam->get(QNetworkRequest(QUrl(K_INDEX_URL)));
     nam->get(QNetworkRequest(QUrl(AURORA_MAP)));
+    nam->get(QNetworkRequest(QUrl(MUF_POINTS)));
 }
 
 void PropConditions::processReply(QNetworkReply* reply) {
@@ -117,10 +119,11 @@ void PropConditions::processReply(QNetworkReply* reply) {
             auroraMap.clear();
 
             QJsonDocument doc = QJsonDocument::fromJson(data);
-            QString forecastTime = doc["Forecast Time"].toString();
-            qCDebug(runtime) << "Aurora forecast Time:" << forecastTime;
-            if ( forecastTime != auroraMap.lastForecastTime() )
+            if ( ! doc.isNull() )
             {
+                double skipElement = 0.0;
+
+                qCDebug(runtime) << "Aurora forecast Time:" << doc["Forecast Time"].toString();
                 QJsonArray jsonArray = doc["coordinates"].toArray();
                 for (const QJsonValue &value : qAsConst(jsonArray))
                 {
@@ -130,16 +133,37 @@ void PropConditions::processReply(QNetworkReply* reply) {
                         double longitute = obj[0].toDouble();
                         double latitude = obj[1].toDouble();
                         double prob = obj[2].toDouble();
-                        auroraMap.addPoint(longitute - 360, latitude, prob);
-                        auroraMap.addPoint(longitute, latitude, prob);
+                        auroraMap.addPoint(longitute - 360, latitude, prob, &skipElement);
+                        auroraMap.addPoint(longitute, latitude, prob, &skipElement);
                     }
                 }
                 auroraMap_last_update = QDateTime::currentDateTime();
                 emit auroraMapUpdated();
             }
-            else
+        }
+        else if (reply->url() == QUrl(MUF_POINTS))
+        {
+            mufMap.clear();
+
+            QJsonDocument doc = QJsonDocument::fromJson(data);
+
+            if ( ! doc.isNull() )
             {
-                qCDebug(runtime) << "the same Aurora forecast - ignore";
+                double skipElement = 0.0;
+
+                QJsonArray jsonArray = doc.array();
+                for (const QJsonValue &value : qAsConst(jsonArray))
+                {
+                    QJsonObject obj = value.toObject();
+                    QJsonObject station = obj["station"].toObject();
+                    double longitute = station["longitude"].toString().toDouble();
+                    double latitude = station["latitude"].toString().toDouble();
+                    double muf = obj["mufd"].toDouble();
+                    mufMap.addPoint(longitute - 360, latitude, muf,&skipElement);
+                    mufMap.addPoint(longitute, latitude, muf, &skipElement);
+                }
+                mufMap_last_update = QDateTime::currentDateTime();
+                emit mufMapUpdated();
             }
         }
         reply->deleteLater();
@@ -202,15 +226,30 @@ bool PropConditions::isAuroraMapValid()
 {
     FCT_IDENTIFICATION;
 
-    bool ret = false;
-
     qCDebug(runtime)<<"Date valid: " << auroraMap_last_update.isValid()
                     << " last_update: " << auroraMap_last_update
                     << " aurora count: " << auroraMap.count();
 
-    ret = (auroraMap_last_update.isValid()
+    bool ret = (auroraMap_last_update.isValid()
            && auroraMap_last_update.secsTo(QDateTime::currentDateTime()) < 20 * 60
            && auroraMap.count() > 0);
+
+    qCDebug(runtime)<< "Result: " << ret;
+
+    return ret;
+}
+
+bool PropConditions::isMufMapValid()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime)<<"Date valid: " << mufMap_last_update.isValid()
+                    << " last_update: " << mufMap_last_update
+                    << " aurora count: " << mufMap.count();
+
+    bool ret = (mufMap_last_update.isValid()
+           && mufMap_last_update.secsTo(QDateTime::currentDateTime()) < 20 * 60
+           && mufMap.count() > 0);
 
     qCDebug(runtime)<< "Result: " << ret;
 
@@ -239,11 +278,16 @@ double PropConditions::getKIndex()
     return k_index;
 }
 
-QList<AuroraMap::AuroraPoint> PropConditions::getAuroraPoints() const
+QList<GenericValueMap<double>::MapPoint> PropConditions::getAuroraPoints() const
 {
     FCT_IDENTIFICATION;
 
     return auroraMap.getMap();
+}
+
+QList<GenericValueMap<double>::MapPoint> PropConditions::getMUFPoints() const
+{
+    return mufMap.getMap();
 }
 
 QString PropConditions::solarSummaryFile()
@@ -252,47 +296,4 @@ QString PropConditions::solarSummaryFile()
 
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     return dir.filePath("solar101vhf.gif");
-}
-
-void AuroraMap::addPoint(double longitude, double latitude, double propability)
-{
-    FCT_IDENTIFICATION;
-
-    if ( propability == 0 )
-        return;
-
-    AuroraMap::AuroraPoint point;
-    point.longitude = longitude;
-    point.latitude = latitude;
-    point.propability = propability;
-
-    auroraMap.append(point);
-}
-
-QList<AuroraMap::AuroraPoint> AuroraMap::getMap() const
-{
-    FCT_IDENTIFICATION;
-
-    return auroraMap;
-}
-
-void AuroraMap::clear()
-{
-    FCT_IDENTIFICATION;
-
-    auroraMap.clear();
-}
-
-QString AuroraMap::lastForecastTime() const
-{
-    FCT_IDENTIFICATION;
-
-    return forecastTime;
-}
-
-int AuroraMap::count() const
-{
-    FCT_IDENTIFICATION;
-
-    return auroraMap.size();
 }

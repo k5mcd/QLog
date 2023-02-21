@@ -19,6 +19,26 @@
     html, body, #map {
       height: 100%;
     }
+    .leaflet-tooltip {
+        border: 0px;
+        color: #232D45;
+        box-shadow: none;
+        margin: 0px !important;
+        line-height: 10px;
+        font-weight: 900;
+      }
+    .leaflet-tooltip-top:before,
+    .leaflet-tooltip-bottom:before,
+    .leaflet-tooltip-left:before,
+    .leaflet-tooltip-right:before {
+        border: none !important;
+    }
+    .leaflet-tooltip.muf-tooltip {
+        border-radius: 20px;
+        background-color: transparent;
+        padding: 5px;
+        font-weight: bold;
+    }
   </style>
 </head>
 
@@ -140,6 +160,70 @@
                         .bindPopup(point[0]);
            markersLayer2.addLayer(marker);
         });
+     }
+
+    function colorGradient(fadeFraction, rgbColor1, rgbColor2, rgbColor3) {
+      var color1 = rgbColor1;
+      var color2 = rgbColor2;
+      var fade = fadeFraction;
+
+      if (rgbColor3) {
+        fade = fade * 2;
+
+        if (fade >= 1) {
+          fade -= 1;
+          color1 = rgbColor2;
+          color2 = rgbColor3;
+        }
+      }
+
+      var diffRed = color2.red - color1.red;
+      var diffGreen = color2.green - color1.green;
+      var diffBlue = color2.blue - color1.blue;
+
+      var gradient = {
+        red: parseInt(Math.floor(color1.red + (diffRed * fade)), 10),
+        green: parseInt(Math.floor(color1.green + (diffGreen * fade)), 10),
+        blue: parseInt(Math.floor(color1.blue + (diffBlue * fade)), 10),
+      };
+
+      return 'rgb(' + gradient.red + ',' + gradient.green + ',' + gradient.blue + ')';
+    }
+
+    var mufLayer = L.layerGroup();
+
+    function drawMuf(points) {
+       var lowColor = {
+            red: 0,
+            green: 131,
+            blue: 255
+       };
+
+       var mediumColor = {
+           red: 255,
+           green: 162,
+           blue: 0
+       };
+
+       var highColor = {
+           red: 255,
+           green: 255,
+           blue: 0
+       };
+
+       mufLayer.clearLayers();
+       points.forEach(function(point) {
+            var marker = new L.marker([point[1], point[2]], {opacity: 0.001 });
+            marker.bindTooltip(point[0], {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+            const oldValue = parseFloat(point[0]);
+            const oldMin = 0; const oldMax = 50;
+            const newMin = 0; const newMax = 1;
+            const newValue = (oldValue - oldMin) / (oldMax - oldMin) * (newMax - newMin) + newMin;
+            const color = colorGradient(newValue, lowColor, mediumColor, highColor);
+
+            marker.getTooltip().setContent(`<div style="background-color: ${color};border-radius: 20px;padding: 5px;font-weight: bold;">${marker.getTooltip().getContent()}</div>`);
+            mufLayer.addLayer(marker);
+         });
      }
 
   </script>
