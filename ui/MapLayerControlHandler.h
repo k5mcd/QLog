@@ -13,7 +13,8 @@ public:
     void restoreControls(QWebEnginePage *page);
     QString injectMapMenuJS(bool gridLayer = true,
                             bool grayline = false,
-                            bool aurora = false);
+                            bool aurora = false,
+                            bool muf = false);
 
 public slots:
     void handleLayerSelectionChanged(const QVariant &data,

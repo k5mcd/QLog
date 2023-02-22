@@ -26,6 +26,7 @@ public slots:
     void setTarget(double lat, double lon);
     void changeTheme(int);
     void auroraDataUpdate();
+    void mufDataUpdate();
 
 protected slots:
     void finishLoading(bool);

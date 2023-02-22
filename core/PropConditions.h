@@ -8,27 +8,53 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class AuroraMap: QObject
+template<class T>
+class GenericValueMap
 {
 public:
-    explicit AuroraMap(QObject *parent = nullptr) : QObject(parent){};
-    ~AuroraMap(){};
-    struct AuroraPoint
+    explicit GenericValueMap() {}
+    ~GenericValueMap(){};
+
+    struct MapPoint
     {
         double longitude;
         double latitude;
-        double propability;
+        T value;
     };
 
-    void addPoint(double longitude, double latitude, double propability);
-    QList<AuroraMap::AuroraPoint> getMap() const;
-    void clear();
-    QString lastForecastTime() const;
-    int count() const;
+    virtual void addPoint(double longitude,
+                          double latitude,
+                          const T &value,
+                          const T *skipValue = nullptr)
+    {
+        if ( skipValue && value == *skipValue )
+            return;
+
+        GenericValueMap::MapPoint point;
+        point.longitude = longitude;
+        point.latitude = latitude;
+        point.value = value;
+
+        map.append(point);
+    };
+
+    QList<GenericValueMap::MapPoint> getMap() const
+    {
+        return map;
+    };
+
+    void clear()
+    {
+        map.clear();
+    };
+
+    int count() const
+    {
+        return map.size();
+    };
 
 private:
-    QList<AuroraMap::AuroraPoint> auroraMap;
-    QString forecastTime;
+    QList<GenericValueMap::MapPoint> map;
 };
 
 class PropConditions : public QObject
@@ -41,10 +67,12 @@ public:
     bool isKIndexValid();
     bool isAIndexValid();
     bool isAuroraMapValid();
+    bool isMufMapValid();
     int getFlux();
     int getAIndex();
     double getKIndex();
-    QList<AuroraMap::AuroraPoint> getAuroraPoints() const;
+    QList<GenericValueMap<double>::MapPoint> getAuroraPoints() const;
+    QList<GenericValueMap<double>::MapPoint> getMUFPoints() const;
 
     static QString solarSummaryFile();
 
@@ -54,6 +82,7 @@ signals:
     void KIndexUpdated();
     void AIndexUpdated();
     void auroraMapUpdated();
+    void mufMapUpdated();
 
 public slots:
     void update();
@@ -64,10 +93,15 @@ private:
     QDateTime k_index_last_update;
     QDateTime a_index_last_update;
     QDateTime auroraMap_last_update;
+    QDateTime mufMap_last_update;
     int flux;
     int a_index;
     double k_index;
-    AuroraMap auroraMap;
+    GenericValueMap<double> auroraMap;
+    GenericValueMap<double> mufMap;
+    QHash<QUrl, int> failedRequests;
+
+    void repeateRequest(const QUrl &);
 
 private:
     QNetworkAccessManager* nam;

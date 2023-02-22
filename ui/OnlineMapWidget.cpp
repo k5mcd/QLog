@@ -112,15 +112,15 @@ void OnlineMapWidget::auroraDataUpdate()
 
     if ( prop_cond->isAuroraMapValid() )
     {
-        const QList<AuroraMap::AuroraPoint> points = prop_cond->getAuroraPoints();
+        const QList<GenericValueMap<double>::MapPoint> points = prop_cond->getAuroraPoints();
 
-        for (const AuroraMap::AuroraPoint &point : points )
+        for (const GenericValueMap<double>::MapPoint &point : points )
         {
-            if ( point.propability > 10 )
+            if ( point.value > 10 )
             {
                 mapPoints << QString("{lat: %1, lng: %2, count: %3}").arg(point.latitude)
                                                                      .arg(point.longitude)
-                                                                     .arg(point.propability);
+                                                                     .arg(point.value);
             }
         }
     }
@@ -128,6 +128,44 @@ void OnlineMapWidget::auroraDataUpdate()
     targetJavaScript = QString(" auroraLayer.setData({max: 100, data:[%1]});").arg(mapPoints.join(","));
 
     qCDebug(runtime) << "Aurora JS: "<< targetJavaScript;
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(targetJavaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(targetJavaScript);
+    }
+}
+
+void OnlineMapWidget::mufDataUpdate()
+{
+    FCT_IDENTIFICATION;
+
+    QString targetJavaScript = QString("drawMuf([]);");
+    QStringList mapPoints;
+
+    if ( !prop_cond )
+    {
+        return;
+    }
+
+    if ( prop_cond->isMufMapValid() )
+    {
+        const QList<GenericValueMap<double>::MapPoint> points = prop_cond->getMUFPoints();
+
+        for (const GenericValueMap<double>::MapPoint &point : points )
+        {
+            mapPoints << QString("['%1', %2, %3]").arg(QString::number(point.value,'f',0))
+                                                .arg(point.latitude)
+                                                .arg(point.longitude);
+        }
+    }
+
+    targetJavaScript = QString(" drawMuf([%1]);").arg(mapPoints.join(","));
+
+    qCDebug(runtime) << "MUF JS: "<< targetJavaScript;
 
     if ( !isMainPageLoaded )
     {
@@ -181,7 +219,7 @@ void OnlineMapWidget::finishLoading(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true);
+    postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true, true);
 
     main_page->runJavaScript(postponedScripts);
     layerControlHandler.restoreControls(main_page);
