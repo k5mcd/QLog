@@ -166,7 +166,6 @@ void OnlineMapWidget::mufDataUpdate()
     targetJavaScript = QString(" drawMuf([%1]);").arg(mapPoints.join(","));
 
     qCDebug(runtime) << "MUF JS: "<< targetJavaScript;
-    qInfo() << "MUF JS: "<< targetJavaScript;
 
     if ( !isMainPageLoaded )
     {

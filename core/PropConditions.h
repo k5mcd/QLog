@@ -99,6 +99,9 @@ private:
     double k_index;
     GenericValueMap<double> auroraMap;
     GenericValueMap<double> mufMap;
+    QHash<QUrl, int> failedRequests;
+
+    void repeateRequest(const QUrl &);
 
 private:
     QNetworkAccessManager* nam;

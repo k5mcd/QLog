@@ -19,6 +19,16 @@
 #define AURORA_MAP "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json"
 #define MUF_POINTS "https://prop.kc2g.com/api/stations.json?maxage=2700"
 
+// the resend mechanism was implemented only because of a issue with prop.kc2g.com
+// This site has IPv4 and IPv6 DNS record, and if the notebook is IPv4 only, QT uses an IPv6
+// address for the first attempt and an IPv4 address for the second attempt.
+// This resulted in a long interval before information was obtained from this server.
+// Resend mechanism accelerates all this.
+#define RESEND_ATTEMPTS 3
+//intervals are defined in seconds
+#define RESEND_BASE_INTERVAL 5
+#define BASE_UPDATE_INTERVAL (15 * 60)
+
 MODULE_IDENTIFICATION("qlog.core.conditions");
 
 PropConditions::PropConditions(QObject *parent) : QObject(parent)
@@ -31,10 +41,11 @@ PropConditions::PropConditions(QObject *parent) : QObject(parent)
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &PropConditions::update);
     update();
-    timer->start(15*60*1000);
+    timer->start(BASE_UPDATE_INTERVAL * 1000);
 }
 
-void PropConditions::update() {
+void PropConditions::update()
+{
     FCT_IDENTIFICATION;
 
     nam->get(QNetworkRequest(QUrl(SOLAR_SUMMARY_IMG)));
@@ -43,7 +54,8 @@ void PropConditions::update() {
     nam->get(QNetworkRequest(QUrl(MUF_POINTS)));
 }
 
-void PropConditions::processReply(QNetworkReply* reply) {
+void PropConditions::processReply(QNetworkReply* reply)
+{
     FCT_IDENTIFICATION;
 
     QByteArray data = reply->readAll();
@@ -52,10 +64,15 @@ void PropConditions::processReply(QNetworkReply* reply) {
 
     int replyStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
-    if (reply->isFinished()
-        && reply->error() == QNetworkReply::NoError
-        && replyStatusCode >= 200 && replyStatusCode < 300)
+    qCDebug(runtime) << reply->error()
+                     << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute)
+                     << reply->url();
+
+    if ( reply->error() == QNetworkReply::NoError
+         && replyStatusCode >= 200 && replyStatusCode < 300 )
     {
+        failedRequests[reply->url()] = 0;
+
         if (reply->url() == QUrl(SOLAR_SUMMARY_IMG))
         {
             QFile file(solarSummaryFile());
@@ -169,8 +186,33 @@ void PropConditions::processReply(QNetworkReply* reply) {
         reply->deleteLater();
         emit conditionsUpdated();
     }
-    else {
+    else
+    {
+        repeateRequest(reply->url());
         reply->deleteLater();
+    }
+}
+
+void PropConditions::repeateRequest(const QUrl &url)
+{
+    FCT_IDENTIFICATION;
+
+    failedRequests[url]++;
+
+    if ( failedRequests[url] <= RESEND_ATTEMPTS )
+    {
+        int resendInterval = RESEND_BASE_INTERVAL * failedRequests[url];
+        qCDebug(runtime) << "Scheduled URL request resend" << resendInterval << "; URL:" << url.toString();
+
+        QTimer::singleShot(1000 * RESEND_BASE_INTERVAL * failedRequests[url], [this,url]()
+        {
+            qCDebug(runtime) << "Resending request" << url.toString();
+            nam->get(QNetworkRequest(url));
+        });
+    }
+    else
+    {
+        qCDebug(runtime) << "Propagation - detected consecutive errors from" << url.toString();
     }
 }
 
