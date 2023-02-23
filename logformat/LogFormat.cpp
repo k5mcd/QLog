@@ -288,15 +288,24 @@ int LogFormat::runImport()
             }
         }
 
-        model.insertRecord(-1, record);
-
-        count++;
+        if ( !model.insertRecord(-1, record) )
+        {
+            qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
+            qCDebug(runtime) << record;
+        }
+        else
+        {
+            count++;
+        }
     }
 
     emit importPosition(stream.pos());
     emit finished(count);
 
-    model.submitAll();
+    if (! model.submitAll() )
+    {
+        qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
+    }
 
     this->importEnd();
 
@@ -433,8 +442,16 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
                     originalRecord.setValue("qsl_rcvd_via", "E");
 
-                    model.setRecord(0, originalRecord);
-                    model.submitAll();
+                    if ( !model.setRecord(0, originalRecord) )
+                    {
+                        qWarning() << "Cannot update a Contact record - " << model.lastError();
+                        qCDebug(runtime) << originalRecord;
+                    }
+
+                    if ( !model.submitAll() )
+                    {
+                        qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
+                    }
                     stats.qsos_updated++;
                     stats.newQSLs.append(QSLRecord.value("callsign").toString());
                 }
@@ -499,8 +516,16 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
                 originalRecord.setValue("qsl_rcvd_via", QSLRecord.value("qsl_sent_via"));
 
-                model.setRecord(0, originalRecord);
-                model.submitAll();
+                if ( !model.setRecord(0, originalRecord) )
+                {
+                    qWarning() << "Cannot update a Contact record - " << model.lastError();
+                    qCDebug(runtime) << originalRecord;
+                }
+
+                if ( !model.submitAll() )
+                {
+                    qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
+                }
                 stats.qsos_updated++;
                 stats.newQSLs.append(QSLRecord.value("callsign").toString());
             }

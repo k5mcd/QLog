@@ -1520,13 +1520,14 @@ void NewContactWidget::saveContact()
 
     if ( !model.insertRecord(-1, record) )
     {
-        qCDebug(runtime) << model.lastError();
+        qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
+        qCDebug(runtime) << record;
         return;
     }
 
     if ( !model.submitAll() )
     {
-        qCDebug(runtime) << model.lastError();
+        qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
         return;
     }
 
@@ -1580,13 +1581,14 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
 
     if ( !model.insertRecord(-1, record) )
     {
-        qCInfo(runtime) << model.lastError();
+        qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
+        qCDebug(runtime) << record;
         return;
     }
 
     if ( !model.submitAll() )
     {
-        qCInfo(runtime) << model.lastError();
+        qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
         return;
     }
 
