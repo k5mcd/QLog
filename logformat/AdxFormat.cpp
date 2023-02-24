@@ -127,7 +127,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("a_index", contact.take("a_index"));
     record.setValue("ant_az", contact.take("ant_az"));
     record.setValue("ant_el", contact.take("ant_el"));
-    record.setValue("ant_path", contact.take("ant_path"));
+    record.setValue("ant_path", contact.take("ant_path").toString().toUpper());
     record.setValue("arrl_sect", contact.take("arrl_sect"));
     record.setValue("award_submitted",contact.take("award_submitted"));
     record.setValue("award_granted",contact.take("award_granted"));
@@ -150,7 +150,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("eqsl_qsl_sent",AdiFormat::parseQslSent(contact.take("eqsl_qsl_sent").toString()));
     record.setValue("fists",contact.take("fists"));
     record.setValue("fists_cc",contact.take("fists_cc"));
-    record.setValue("force_init",contact.take("force_init").toString());
+    record.setValue("force_init",contact.take("force_init").toString().toUpper());
     record.setValue("freq_rx",contact.take("freq_rx"));
     record.setValue("gridsquare_ext",contact.take("gridsquare_ext"));
     record.setValue("guest_op",contact.take("guest_op"));
@@ -195,17 +195,17 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("public_key",contact.take("public_key"));
     record.setValue("qrzcom_qso_upload_date",AdiFormat::parseDate(contact.take("qrzcom_qso_upload_date").toString()));
     record.setValue("qrzcom_qso_upload_status",AdiFormat::parseUploadStatus(contact.take("qrzcom_qso_upload_status").toString()));
-    record.setValue("qsl_rcvd_via",contact.take("qsl_rcvd_via"));
-    record.setValue("qsl_sent_via",contact.take("qsl_sent_via"));
+    record.setValue("qsl_rcvd_via",contact.take("qsl_rcvd_via").toString().toUpper());
+    record.setValue("qsl_sent_via",contact.take("qsl_sent_via").toString().toUpper());
     record.setValue("qsl_via",contact.take("qsl_via"));
-    record.setValue("qso_complete",contact.take("qso_complete"));
-    record.setValue("qso_random",contact.take("qso_random").toString());
+    record.setValue("qso_complete",contact.take("qso_complete").toString().toUpper());
+    record.setValue("qso_random",contact.take("qso_random").toString().toUpper());
     record.setValue("region",contact.take("region"));
     record.setValue("rx_pwr",contact.take("rx_pwr"));
     record.setValue("sat_mode",contact.take("sat_mode"));
     record.setValue("sat_name",contact.take("sat_name"));
     record.setValue("sfi",contact.take("sfi"));
-    record.setValue("silent_key",contact.take("silent_key").toString().toUtf8());
+    record.setValue("silent_key",contact.take("silent_key").toString().toUpper());
     record.setValue("skcc",contact.take("skcc"));
     record.setValue("sota_ref",contact.take("sota_ref").toString().toUpper());
     record.setValue("srx",contact.take("srx"));
@@ -314,7 +314,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("cqz", record.value("cqz").toString());
     writeField("ituz", record.value("ituz").toString());
     writeField("freq", record.value("freq").toString());
-    writeField("band", record.value("band").toString());
+    writeField("band", record.value("band").toString().toLower());
     writeField("mode", record.value("mode").toString());
     writeField("submode", record.value("submode").toString());
     writeField("cont", record.value("cont").toString());
@@ -344,7 +344,7 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("arrl_sect", record.value("arrl_sect").toString());
     writeField("award_submitted", record.value("award_submitted").toString());
     writeField("award_granted", record.value("award_granted").toString());
-    writeField("band_rx", record.value("band_rx").toString());
+    writeField("band_rx", record.value("band_rx").toString().toLower());
     writeField("check", record.value("check").toString());
     writeField("class", record.value("class").toString());
     writeField("clublog_qso_upload_date", record.value("clublog_qso_upload_date").toDate().toString("yyyyMMdd"));
