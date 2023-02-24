@@ -138,12 +138,12 @@ int LogFormat::runImport()
                  || record.value("band").toString().isEmpty()
                  || record.value("mode").toString().isEmpty() )
             {
-                qCDebug(runtime) << "missing matching field";
+                qWarning() << "Import does not contain field start_time or call or band or mode ";
                 qCDebug(runtime) << record;
                 continue;
             }
 
-            QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
+            QString matchFilter = QString("upper(callsign)=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
                     .arg(record.value("callsign").toString(),
                          record.value("mode").toString(),
                          record.value("band").toString(),
@@ -344,13 +344,13 @@ void LogFormat::runQSLImport(QSLFrom fromService)
              || QSLRecord.value("band").toString().isEmpty()
              || QSLRecord.value("mode").toString().isEmpty() )
         {
-            qCDebug(runtime) << "missing matching field";
+            qWarning() << "Import does not contain field start_time or callsign or band or mode ";
             qCDebug(runtime) << QSLRecord;
             stats.qsos_errors++;
             continue;
         }
 
-        QString matchFilter = QString("callsign='%1' AND mode=upper('%2') AND band=lower('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
+        QString matchFilter = QString("upper(callsign)=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
                 .arg(QSLRecord.value("callsign").toString(),
                      QSLRecord.value("mode").toString(),
                      QSLRecord.value("band").toString(),
