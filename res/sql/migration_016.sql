@@ -233,3 +233,6 @@ UPDATE contacts SET hrdlog_qso_upload_status = NULL WHERE hrdlog_qso_upload_stat
 UPDATE contacts SET qrzcom_qso_upload_status = NULL WHERE qrzcom_qso_upload_status = 'N';
 UPDATE contacts SET hamlogeu_qso_upload_status = NULL WHERE hamlogeu_qso_upload_status = 'N';
 UPDATE contacts SET hamqth_qso_upload_status = NULL WHERE hamqth_qso_upload_status = 'N';
+UPDATE contacts SET altitude = NULL where altitude = 0.0;
+UPDATE contacts SET my_altitude = NULL where my_altitude = 0.0;
+UPDATE contacts SET tx_pwr = NULL where tx_pwr = 0.0;

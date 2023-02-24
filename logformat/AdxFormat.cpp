@@ -121,9 +121,9 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("lotw_qslrdate", AdiFormat::parseDate(contact.take("lotw_qslrdate").toString()));
     record.setValue("lotw_qsl_sent", AdiFormat::parseQslSent(contact.take("lotw_qsl_sent").toString()));
     record.setValue("lotw_qslsdate", AdiFormat::parseDate(contact.take("lotw_qslsdate").toString()));
-    record.setValue("tx_pwr", contact.take("tx_pwr").toDouble());
+    record.setValue("tx_pwr", contact.take("tx_pwr"));
     record.setValue("age", contact.take("age"));
-    record.setValue("altitude", contact.take("altitude").toDouble());
+    record.setValue("altitude", contact.take("altitude"));
     record.setValue("a_index", contact.take("a_index"));
     record.setValue("ant_az", contact.take("ant_az"));
     record.setValue("ant_el", contact.take("ant_el"));
@@ -166,7 +166,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("lon",contact.take("lon"));
     record.setValue("max_bursts",contact.take("max_bursts"));
     record.setValue("ms_shower",contact.take("ms_shower"));
-    record.setValue("my_altitude",contact.take("my_altitude").toDouble());
+    record.setValue("my_altitude",contact.take("my_altitude"));
     record.setValue("my_arrl_sect",contact.take("my_arrl_sect"));
     record.setValue("my_cnty",contact.take("my_cnty"));
     record.setValue("my_cq_zone",contact.take("my_cq_zone"));
