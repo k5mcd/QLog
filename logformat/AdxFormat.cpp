@@ -110,7 +110,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("cont", contact.take("cont").toString().toUpper());
     record.setValue("dxcc", contact.take("dxcc"));
     record.setValue("pfx", contact.take("pfx").toString().toUpper());
-    record.setValue("state", contact.take("state").toString());
+    record.setValue("state", contact.take("state"));
     record.setValue("cnty", contact.take("cnty"));
     record.setValue("iota", contact.take("iota").toString().toUpper());
     record.setValue("qsl_rcvd", AdiFormat::parseQslRcvd(contact.take("qsl_rcvd").toString()));
