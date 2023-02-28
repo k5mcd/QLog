@@ -107,7 +107,7 @@ void LotwDialog::upload() {
                            "       rst_sent, rst_rcvd, my_state, my_cnty, "
                            "       my_vucc_grids "
                            "FROM contacts ";
-    QString query_where =  "WHERE (lotw_qsl_sent <> 'Y' OR lotw_qsl_sent is NULL) "
+    QString query_where =  "WHERE (lotw_qsl_sent in ('R','Q') OR lotw_qsl_sent is NULL) "
                            "      AND (prop_mode NOT IN ('INTERNET', 'RPT', 'ECH', 'IRL') OR prop_mode IS NULL) ";
     QString query_order = " ORDER BY start_time ";
 

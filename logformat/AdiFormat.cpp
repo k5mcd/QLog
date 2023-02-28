@@ -650,8 +650,10 @@ QString AdiFormat::parseQslRcvd(const QString &value) {
 
     qCDebug(function_parameters)<<value;
 
-    if (!value.isEmpty()) {
-        switch (value.at(0).toLatin1()) {
+    if (!value.isEmpty())
+    {
+        switch (value.toUpper().at(0).toLatin1())
+        {
         case 'Y': return "Y";
         case 'N': return "N";
         case 'R': return "R";
@@ -660,9 +662,7 @@ QString AdiFormat::parseQslRcvd(const QString &value) {
         default: return "N";
         }
     }
-    else {
-        return "N";
-    }
+    return "N";
 }
 
 QString AdiFormat::parseQslSent(const QString &value) {
@@ -670,8 +670,10 @@ QString AdiFormat::parseQslSent(const QString &value) {
 
     qCDebug(function_parameters)<<value;
 
-    if (!value.isEmpty()) {
-        switch (value.at(0).toLatin1()) {
+    if (!value.isEmpty())
+    {
+        switch (value.toUpper().at(0).toLatin1())
+        {
         case 'Y': return "Y";
         case 'N': return "N";
         case 'R': return "R";
@@ -680,9 +682,7 @@ QString AdiFormat::parseQslSent(const QString &value) {
         default: return "N";
         }
     }
-    else {
-        return "N";
-    }
+    return "N";
 }
 
 QString AdiFormat::parseUploadStatus(const QString &value)
@@ -693,16 +693,13 @@ QString AdiFormat::parseUploadStatus(const QString &value)
 
     if (!value.isEmpty())
     {
-        switch (value.at(0).toLatin1())
+        switch (value.toUpper().at(0).toLatin1())
         {
         case 'Y': return "Y";
         case 'N': return "N";
         case 'M': return "M";
-        default: return "N";
+        default: QString();
         }
     }
-    else
-    {
-        return "N";
-    }
+    return QString();
 }

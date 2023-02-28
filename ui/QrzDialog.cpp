@@ -51,7 +51,7 @@ void QRZDialog::upload()
     /* ??? QRZ Support all ADIF Fields ??? */
     QString query_string = "SELECT * ";
     QString query_from   = "FROM contacts ";
-    QString query_where =  "WHERE (qrzcom_qso_upload_status <> 'Y' OR qrzcom_qso_upload_status is NULL) ";
+    QString query_where =  "WHERE (qrzcom_qso_upload_status = 'M' OR qrzcom_qso_upload_status is NULL) ";
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();

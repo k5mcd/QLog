@@ -61,7 +61,7 @@ void ClublogDialog::upload()
                            "       rst_sent, rst_rcvd, notes, "
                            "       gridsquare, vucc_grids, sat_name ";
     QString query_from   = "FROM contacts ";
-    QString query_where =  "WHERE (clublog_qso_upload_status <> 'Y' OR clublog_qso_upload_status is NULL) ";
+    QString query_where =  "WHERE (clublog_qso_upload_status = 'M' OR clublog_qso_upload_status is NULL) ";
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();

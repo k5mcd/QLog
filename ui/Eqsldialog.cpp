@@ -112,7 +112,7 @@ void EqslDialog::upload()
                            "       sat_mode, sat_name, "
                            "       my_cnty, my_gridsquare ";
     QString query_from   = "FROM contacts ";
-    QString query_where =  "WHERE (eqsl_qsl_sent <> 'Y' OR eqsl_qsl_sent is NULL) ";
+    QString query_where =  "WHERE (eqsl_qsl_sent in ('R', 'Q') OR eqsl_qsl_sent is NULL) ";
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();
