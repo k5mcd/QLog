@@ -177,13 +177,11 @@ void ImportDialog::runImport() {
 
     if (ui->rigCheckBox->isChecked())
     {
-        defaults["my_rig"] = Data::removeAccents(ui->rigSelect->currentText());
         defaults["my_rig_intl"] = ui->rigSelect->currentText();
     }
 
     if (ui->commentCheckBox->isChecked())
     {
-        defaults["comment"] = Data::removeAccents(ui->commentEdit->text());
         defaults["comment_intl"] = ui->commentEdit->text();
     }
 
