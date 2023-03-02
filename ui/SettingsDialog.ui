@@ -1410,6 +1410,9 @@
                    <property name="toolTip">
                     <string>Enter default PWR (ex. when Rig is disconnected)</string>
                    </property>
+                   <property name="specialValueText">
+                    <string>Blank</string>
+                   </property>
                    <property name="suffix">
                     <string> W</string>
                    </property>

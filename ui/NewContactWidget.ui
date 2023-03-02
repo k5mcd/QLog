@@ -2114,6 +2114,9 @@
            <property name="focusPolicy">
             <enum>Qt::ClickFocus</enum>
            </property>
+           <property name="specialValueText">
+            <string>Blank</string>
+           </property>
            <property name="suffix">
             <string> W</string>
            </property>
@@ -2124,7 +2127,7 @@
             <double>1000000.000000000000000</double>
            </property>
            <property name="value">
-            <double>100.000000000000000</double>
+            <double>0.000000000000000</double>
            </property>
           </widget>
          </item>

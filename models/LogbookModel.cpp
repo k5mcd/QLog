@@ -665,6 +665,14 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         {
             switch ( index.column() )
             {
+            case COLUMN_FREQUENCY:
+            case COLUMN_FREQ_RX:
+            case COLUMN_TX_POWER:
+                /* store NULL when 0.0MHz */
+                main_update_result = QSqlTableModel::setData(index, ( value.toDouble() == 0.0 ) ? QVariant()
+                                                                                                : value, role); // clazy:exclude=skipped-base-method
+                break;
+
             case COLUMN_SOTA_REF:
             case COLUMN_MY_SOTA_REF:
             case COLUMN_IOTA:
@@ -682,7 +690,8 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             case COLUMN_MY_GRIDSQUARE_EXT:
             case COLUMN_GRID_EXT:
             case COLUMN_STATION_CALLSIGN:
-                main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role);
+                main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? value.toString().toUpper()
+                                                                                                    : QVariant(), role);
                 break;
 
             case COLUMN_ADDRESS_INTL:
@@ -704,11 +713,13 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             case COLUMN_RIG_INTL:
             case COLUMN_SIG_INTL:
             case COLUMN_SIG_INFO_INTL:
-                main_update_result = QSqlTableModel::setData(index, value.toString(), role);
+                main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? value
+                                                                                                    : QVariant(), role);
                 break;
 
             default:
-                main_update_result = QSqlTableModel::setData(index, Data::removeAccents(value.toString()), role);
+                main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? Data::removeAccents(value.toString())
+                                                                                                    : QVariant(), role);
             }
         }
     }
