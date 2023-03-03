@@ -62,6 +62,32 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     ui->qslSentBox->addItem(tr("Queued"), QVariant("Q"));
     ui->qslSentBox->addItem(tr("Ignored"), QVariant("I"));
 
+    /**************************/
+    /* QSL Send LoTW Combo Content */
+    /**************************/
+    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
+     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+     * Ordering below is optimized for a new Contact Widget only
+     */
+    ui->eQSLSentBox->addItem(tr("No"), QVariant("N"));
+    ui->eQSLSentBox->addItem(tr("Yes"), QVariant("Y"));
+    ui->eQSLSentBox->addItem(tr("Requested"), QVariant("R"));
+    ui->eQSLSentBox->addItem(tr("Queued"), QVariant("Q"));
+    ui->eQSLSentBox->addItem(tr("Ignored"), QVariant("I"));
+
+    /**************************/
+    /* QSL Send eQSL Combo Content */
+    /**************************/
+    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
+     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+     * Ordering below is optimized for a new Contact Widget only
+     */
+    ui->lotwQslSentBox->addItem(tr("No"), QVariant("N"));
+    ui->lotwQslSentBox->addItem(tr("Yes"), QVariant("Y"));
+    ui->lotwQslSentBox->addItem(tr("Requested"), QVariant("R"));
+    ui->lotwQslSentBox->addItem(tr("Queued"), QVariant("Q"));
+    ui->lotwQslSentBox->addItem(tr("Ignored"), QVariant("I"));
+
     /*****************************/
     /* QSL SendVia Combo Content */
     /*****************************/
@@ -274,6 +300,17 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connectFieldChanged();
 }
 
+void NewContactWidget::setComboBaseData(QComboBox *combo, const QString &data)
+{
+    FCT_IDENTIFICATION;
+
+    int index =  combo->findData(data);
+    if ( index != -1 )
+    {
+       combo->setCurrentIndex(index);
+    }
+}
+
 void NewContactWidget::readWidgetSettings()
 {
     FCT_IDENTIFICATION;
@@ -284,11 +321,17 @@ void NewContactWidget::readWidgetSettings()
     realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
     double power = settings.value("newcontact/power", 100).toDouble();
     int tabIndex = settings.value("newcontact/tabindex", 0).toInt();
+    QString qslSent = settings.value("newcontact/qslsent", "Q").toString();
+    QString eqslQslSent = settings.value("newcontact/eqslqslsent", "Q").toString();
+    QString lotwQslSent = settings.value("newcontact/lotwqslsent", "Q").toString();
 
     ui->modeEdit->setCurrentText(mode);
     ui->submodeEdit->setCurrentText(submode);
     ui->powerEdit->setValue(power);
     ui->tabWidget_2->setCurrentIndex(tabIndex);
+    setComboBaseData(ui->qslSentBox, qslSent);
+    setComboBaseData(ui->lotwQslSentBox, lotwQslSent);
+    setComboBaseData(ui->eQSLSentBox, eqslQslSent);
 }
 
 void NewContactWidget::writeWidgetSetting()
@@ -301,6 +344,9 @@ void NewContactWidget::writeWidgetSetting()
     settings.setValue("newcontact/frequency", realRigFreq);
     settings.setValue("newcontact/power", ui->powerEdit->value());
     settings.setValue("newcontact/tabindex", ui->tabWidget_2->currentIndex());
+    settings.setValue("newcontact/qslsent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
+    settings.setValue("newcontact/eqslqslsent", ui->eQSLSentBox->itemData(ui->eQSLSentBox->currentIndex()));
+    settings.setValue("newcontact/eqslqslsent", ui->lotwQslSentBox->itemData(ui->lotwQslSentBox->currentIndex()));
 }
 
 /* function read global setting, called when starting or when Setting is reloaded */
@@ -879,7 +925,6 @@ void NewContactWidget::resetContact()
     ui->distanceInfo->clear();
     ui->bearingInfo->clear();
     ui->partnerLocTimeInfo->clear();
-    ui->qslSentBox->setCurrentIndex(0);
     ui->qslSentViaBox->setCurrentIndex(0);
     ui->cqEdit->clear();
     ui->ituEdit->clear();
@@ -926,14 +971,19 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
         record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
     }
 
+    if ( record.value("lotw_qsl_sent").toString().isEmpty() )
+    {
+        record.setValue("lotw_qsl_sent", ui->lotwQslSentBox->itemData(ui->lotwQslSentBox->currentIndex()));
+    }
+
+    if ( record.value("eqsl_qsl_sent").toString().isEmpty() )
+    {
+        record.setValue("eqsl_qsl_sent", ui->eQSLSentBox->itemData(ui->eQSLSentBox->currentIndex()));
+    }
+
     record.setValue("qsl_rcvd", "N");
-    record.setValue("lotw_qsl_sent", "N");
     record.setValue("lotw_qsl_rcvd", "N");
     record.setValue("eqsl_qsl_rcvd", "N");
-    record.setValue("eqsl_qsl_sent", "N");
-    record.setValue("hrdlog_qso_upload_status", "N");
-    record.setValue("qrzcom_qsoupload_status", "N");
-    record.setValue("clublog_qso_upload_status", "N");
 
     /* isNull is not necessary to use because NULL Text fields are empty */
     if ( record.value("my_gridsquare").toString().isEmpty()
@@ -1304,6 +1354,12 @@ void NewContactWidget::connectFieldChanged()
     connect(ui->qslSentBox, &QComboBox::currentTextChanged,
             this, &NewContactWidget::formFieldChangedString);
 
+    connect(ui->lotwQslSentBox, &QComboBox::currentTextChanged,
+            this, &NewContactWidget::formFieldChangedString);
+
+    connect(ui->eQSLSentBox, &QComboBox::currentTextChanged,
+            this, &NewContactWidget::formFieldChangedString);
+
     connect(ui->qslSentViaBox, &QComboBox::currentTextChanged,
             this, &NewContactWidget::formFieldChangedString);
 
@@ -1443,7 +1499,6 @@ void NewContactWidget::saveContact()
         record.setValue("sig_info_intl", ui->sigInfoEdit->text());
     }
 
-    record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
 
     if ( ! ui->qslSentViaBox->currentText().isEmpty() )
     {
@@ -1520,13 +1575,14 @@ void NewContactWidget::saveContact()
 
     if ( !model.insertRecord(-1, record) )
     {
-        qCDebug(runtime) << model.lastError();
+        qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
+        qCDebug(runtime) << record;
         return;
     }
 
     if ( !model.submitAll() )
     {
-        qCDebug(runtime) << model.lastError();
+        qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
         return;
     }
 
@@ -1580,13 +1636,14 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
 
     if ( !model.insertRecord(-1, record) )
     {
-        qCInfo(runtime) << model.lastError();
+        qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
+        qCDebug(runtime) << record;
         return;
     }
 
     if ( !model.submitAll() )
     {
-        qCInfo(runtime) << model.lastError();
+        qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
         return;
     }
 

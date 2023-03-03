@@ -101,14 +101,26 @@ void LotwDialog::upload() {
     QString QSOList;
     int count = 0;
 
+    QStringList qslSentStatuses = {"'R'", "'Q'"};
+
+    if ( ui->addlSentStatusI->isChecked() )
+    {
+        qslSentStatuses << "'I'";
+    }
+
+    if ( ui->addlSentStatusN->isChecked() )
+    {
+        qslSentStatuses << "'N'";
+    }
+
     QString query_string = "SELECT callsign, freq, band, freq_rx, "
                            "       mode, submode, start_time, prop_mode, "
                            "       sat_name, station_callsign, operator, "
                            "       rst_sent, rst_rcvd, my_state, my_cnty, "
                            "       my_vucc_grids "
                            "FROM contacts ";
-    QString query_where =  "WHERE (lotw_qsl_sent <> 'Y' OR lotw_qsl_sent is NULL) "
-                           "      AND (prop_mode NOT IN ('INTERNET', 'RPT', 'ECH', 'IRL') OR prop_mode IS NULL) ";
+    QString query_where =  QString("WHERE (upper(lotw_qsl_sent) in (%1) OR lotw_qsl_sent is NULL) "
+                           "               AND (upper(prop_mode) NOT IN ('INTERNET', 'RPT', 'ECH', 'IRL') OR prop_mode IS NULL) ").arg(qslSentStatuses.join(","));
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();

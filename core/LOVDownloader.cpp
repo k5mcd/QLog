@@ -254,7 +254,15 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
         entityRecord.setValue("lat", fields.at(6).toFloat());
         entityRecord.setValue("lon", -fields.at(7).toFloat());
         entityRecord.setValue("tz", fields.at(8).toFloat());
-        entityTableModel.insertRecord(-1, entityRecord);
+        if ( !entityTableModel.insertRecord(-1, entityRecord) )
+        {
+            qWarning() << "Cannot insert a record to Entity Table - " << entityTableModel.lastError();
+            qCDebug(runtime) << entityRecord;
+        }
+        else
+        {
+            count++;
+        }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
         QStringList prefixList = fields.at(9).split(CTYPrefixSeperatorRe, Qt::SkipEmptyParts);
@@ -275,7 +283,11 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
                 prefixRecord.setValue("cqz", matchExp.captured(3).toInt());
                 prefixRecord.setValue("ituz", matchExp.captured(4).toInt());
 
-                prefixTableModel.insertRecord(-1, prefixRecord);
+                if ( !prefixTableModel.insertRecord(-1, prefixRecord) )
+                {
+                    qWarning() << "Cannot insert a record to DXCC Table - " << prefixTableModel.lastError();
+                    qCDebug(runtime) << prefixRecord;
+                }
             }
             else
             {
@@ -285,8 +297,6 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
 
         emit progress(data.pos());
         QCoreApplication::processEvents();
-
-        count++;
     }
 
     if ( entityTableModel.submitAll()
@@ -298,7 +308,8 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
     }
     else
     {
-        qCWarning(runtime) << "DXCC update failed - rollback";
+        //can be a result of abort
+        qCWarning(runtime) << "DXCC update failed - rollback" << entityTableModel.lastError();
         QSqlDatabase::database().rollback();
     }
 }
@@ -345,11 +356,17 @@ void LOVDownloader::parseSATLIST(const SourceDefinition &sourceDef, QTextStream 
         entityRecord.setValue("callsign", fields.at(6));
         entityRecord.setValue("status", fields.at(7));
 
-        entityTableModel.insertRecord(-1, entityRecord);
+        if ( !entityTableModel.insertRecord(-1, entityRecord) )
+        {
+            qWarning() << "Cannot insert a record to SATList Table - " << entityTableModel.lastError();
+            qCDebug(runtime) << entityRecord;
+        }
+        else
+        {
+            count++;
+        }
         emit progress(data.pos());
         QCoreApplication::processEvents();
-
-        count++;
     }
 
     if ( entityTableModel.submitAll()
@@ -360,7 +377,8 @@ void LOVDownloader::parseSATLIST(const SourceDefinition &sourceDef, QTextStream 
     }
     else
     {
-        qCWarning(runtime) << "Satlist update failed - rollback";
+        //can be a result of abort
+        qCWarning(runtime) << "Satlist update failed - rollback" << entityTableModel.lastError();
         QSqlDatabase::database().rollback();
     }
 }

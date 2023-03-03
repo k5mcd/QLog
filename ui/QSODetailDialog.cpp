@@ -187,6 +187,28 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->qslPaperSentStatusBox->addItem(tr("Queued"), QVariant("Q"));
     ui->qslPaperSentStatusBox->addItem(tr("Ignored"), QVariant("I"));
 
+    /* Combo Mapping */
+    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
+     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+     * Ordering below is optimized for a new Contact Widget only
+     */
+    ui->qslLotwSentStatusBox->addItem(tr("No"), QVariant("N"));
+    ui->qslLotwSentStatusBox->addItem(tr("Yes"), QVariant("Y"));
+    ui->qslLotwSentStatusBox->addItem(tr("Requested"), QVariant("R"));
+    ui->qslLotwSentStatusBox->addItem(tr("Queued"), QVariant("Q"));
+    ui->qslLotwSentStatusBox->addItem(tr("Ignored"), QVariant("I"));
+
+    /* Combo Mapping */
+    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
+     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+     * Ordering below is optimized for a new Contact Widget only
+     */
+    ui->qslEqslSentStatusBox->addItem(tr("No"), QVariant("N"));
+    ui->qslEqslSentStatusBox->addItem(tr("Yes"), QVariant("Y"));
+    ui->qslEqslSentStatusBox->addItem(tr("Requested"), QVariant("R"));
+    ui->qslEqslSentStatusBox->addItem(tr("Queued"), QVariant("Q"));
+    ui->qslEqslSentStatusBox->addItem(tr("Ignored"), QVariant("I"));
+
     QMapIterator<QString, QString> iter(qslRcvdEnum);
 
     while( iter.hasNext() )
@@ -308,9 +330,9 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mapper->addMapping(ui->qslLotwReceiveDateLabel, LogbookModel::COLUMN_LOTW_RCVD_DATE);
     mapper->addMapping(ui->qslLotwSentDateLabel, LogbookModel::COLUMN_LOTW_SENT_DATE);
     mapper->addMapping(ui->qslEqslReceiveStatusLabel, LogbookModel::COLUMN_EQSL_QSL_RCVD);
-    mapper->addMapping(ui->qslEqslSentStatusLabel, LogbookModel::COLUMN_EQSL_QSL_SENT);
+    mapper->addMapping(ui->qslEqslSentStatusBox, LogbookModel::COLUMN_EQSL_QSL_SENT);
     mapper->addMapping(ui->qslLotwReceiveStatusLabel, LogbookModel::COLUMN_LOTW_RCVD);
-    mapper->addMapping(ui->qslLotwSentStatusLabel, LogbookModel::COLUMN_LOTW_SENT);
+    mapper->addMapping(ui->qslLotwSentStatusBox, LogbookModel::COLUMN_LOTW_SENT);
     mapper->addMapping(ui->qslReceivedMsgEdit, LogbookModel::COLUMN_QSLMSG, "text");
     mapper->addMapping(ui->qslSentViaBox, LogbookModel::COLUMN_QSL_SENT_VIA);
     mapper->addMapping(ui->qslViaEdit, LogbookModel::COLUMN_QSL_VIA);
@@ -900,6 +922,18 @@ bool QSODetailDialog::doValidation()
                                  && ui->myGridEdit->text().toUpper() != myPOTAGrid.getGrid().toUpper(),
                                  tr("Based on POTA record, my Grid does not match POTA Grid - expecting ")+ "<b> " + myPOTAGrid.getGrid() + "</b>");
 
+    allValid &= highlightInvalid(ui->lotwHeaderLabel,
+                                 ui->qslLotwSentDateLabel->text() != tr("-")
+                                 && ( ui->qslLotwSentStatusBox->currentData().toString() == 'N'
+                                      || ui->qslLotwSentStatusBox->currentData().toString() == 'I' ),
+                                 tr("LoTW Sent Status to <b>No</b> or <b>Ignore</b> does not make any sense if QSL has already been uploaded"));
+
+    allValid &= highlightInvalid(ui->eqslHeaderLabel,
+                                 ui->qslEqslSentDateLabel->text() != tr("-")
+                                 && ( ui->qslEqslSentStatusBox->currentData().toString() == 'N'
+                                      || ui->qslEqslSentStatusBox->currentData().toString() == 'I' ),
+                                 tr("eQSL Sent Status to <b>No</b> or <b>Ignore</b> does not make any sense if QSL has already been uploaded"));
+
     qCDebug(runtime) << "Validation result: " << allValid;
     return allValid;
 }
@@ -1410,6 +1444,8 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
          || editor->objectName() == "qslSentViaBox"
          || editor->objectName() == "qslPaperSentStatusBox"
          || editor->objectName() == "qslPaperReceiveStatusBox"
+         || editor->objectName() == "qslLotwSentStatusBox"
+         || editor->objectName() == "qslEqslSentStatusBox"
          )
     {
         QComboBox* combo = qobject_cast<QComboBox*>(editor);
@@ -1459,9 +1495,7 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
         return;
     }
     else if ( editor->objectName() == "qslEqslReceiveStatusLabel"
-              || editor->objectName() == "qslEqslSentStatusLabel"
               || editor->objectName() == "qslLotwReceiveStatusLabel"
-              || editor->objectName() == "qslLotwSentStatusLabel"
             )
     {
         QLabel* label = qobject_cast<QLabel*>(editor);
@@ -1539,6 +1573,8 @@ void QSOEditMapperDelegate::setModelData(QWidget *editor,
          || editor->objectName() == "qslSentViaBox"
          || editor->objectName() == "qslPaperSentStatusBox"
          || editor->objectName() == "qslPaperReceiveStatusBox"
+         || editor->objectName() == "qslLotwSentStatusBox"
+         || editor->objectName() == "qslEqslSentStatusBox"
        )
     {
         QComboBox* combo = static_cast<QComboBox*>(editor);
@@ -1615,11 +1651,9 @@ void QSOEditMapperDelegate::setModelData(QWidget *editor,
     else if (    editor->objectName() == "qslEqslReceiveDateLabel"
               || editor->objectName() == "qslEqslSentDateLabel"
               || editor->objectName() == "qslEqslReceiveStatusLabel"
-              || editor->objectName() == "qslEqslSentStatusLabel"
               || editor->objectName() == "qslLotwReceiveDateLabel"
               || editor->objectName() == "qslLotwSentDateLabel"
               || editor->objectName() == "qslLotwReceiveStatusLabel"
-              || editor->objectName() == "qslLotwSentStatusLabel"
               || editor->objectName() == "qslReceivedMsgEdit"
             )
     {

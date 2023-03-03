@@ -1572,54 +1572,187 @@
          <item row="0" column="0">
           <widget class="QLabel" name="qslSentLabel">
            <property name="text">
-            <string>QSL Sent</string>
+            <string>QSL Send Status</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="qslSentBox">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>50</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="paperQslSentLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Paper</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="qslSentBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::ClickFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>&lt;b&gt;Yes&lt;/b&gt; - an outgoing QSL card has been sent; the QSO has been uploaded to, and accepted by, the online service&lt;br/&gt;&lt;b&gt;No&lt;/b&gt; - do not send an outgoing QSL card; do not upload the QSO to the online service&lt;br/&gt;&lt;b&gt;Requested&lt;/b&gt; - the contacted station has requested a QSL card; the contacted station has requested the QSO be uploaded to the online service&lt;br/&gt;&lt;b&gt;Queued&lt;/b&gt; - an outgoing QSL card has been selected to be sent; a QSO has been selected to be uploaded to the online service&lt;br/&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lotwQslSentLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>LoTW</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="lotwQslSentBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::ClickFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>&lt;b&gt;Yes&lt;/b&gt; - an outgoing QSL card has been sent; the QSO has been uploaded to, and accepted by, the online service&lt;br/&gt;&lt;b&gt;No&lt;/b&gt; - do not send an outgoing QSL card; do not upload the QSO to the online service&lt;br/&gt;&lt;b&gt;Requested&lt;/b&gt; - the contacted station has requested a QSL card; the contacted station has requested the QSO be uploaded to the online service&lt;br/&gt;&lt;b&gt;Queued&lt;/b&gt; - an outgoing QSL card has been selected to be sent; a QSO has been selected to be uploaded to the online service&lt;br/&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="eQSLSentLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>eQSL</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="eQSLSentBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::ClickFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>&lt;b&gt;Yes&lt;/b&gt; - an outgoing QSL card has been sent; the QSO has been uploaded to, and accepted by, the online service&lt;br/&gt;&lt;b&gt;No&lt;/b&gt; - do not send an outgoing QSL card; do not upload the QSO to the online service&lt;br/&gt;&lt;b&gt;Requested&lt;/b&gt; - the contacted station has requested a QSL card; the contacted station has requested the QSO be uploaded to the online service&lt;br/&gt;&lt;b&gt;Queued&lt;/b&gt; - an outgoing QSL card has been selected to be sent; a QSO has been selected to be uploaded to the online service&lt;br/&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="qslSentViaLabel">
            <property name="text">
-            <string>QSLSent via</string>
+            <string>QSL Send via</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="qslSentViaBox">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>50</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QLabel" name="qslSentViaPaperLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Paper</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="qslSentViaBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::ClickFocus</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_10">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="qslViaLabel">
@@ -2220,6 +2353,7 @@
   <tabstop>commentEdit</tabstop>
   <tabstop>dateEdit</tabstop>
   <tabstop>timeOnEdit</tabstop>
+  <tabstop>timeOffEdit</tabstop>
   <tabstop>saveButton</tabstop>
   <tabstop>resetButton</tabstop>
   <tabstop>noteEdit</tabstop>
@@ -2252,7 +2386,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>540</x>
-     <y>152</y>
+     <y>138</y>
     </hint>
     <hint type="destinationlabel">
      <x>407</x>
@@ -2267,8 +2401,8 @@
    <slot>stopContactTimer()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>395</x>
-     <y>210</y>
+     <x>377</x>
+     <y>182</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
@@ -2299,8 +2433,8 @@
    <slot>modeChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>440</x>
-     <y>72</y>
+     <x>431</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
@@ -2315,8 +2449,8 @@
    <slot>resetContact()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>613</x>
-     <y>210</y>
+     <x>595</x>
+     <y>182</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
@@ -2331,8 +2465,8 @@
    <slot>saveContact()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>527</x>
-     <y>210</y>
+     <x>509</x>
+     <y>182</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
@@ -2363,8 +2497,8 @@
    <slot>startContactTimer()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>210</y>
+     <x>243</x>
+     <y>182</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
@@ -2379,8 +2513,8 @@
    <slot>qrz()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>735</x>
-     <y>210</y>
+     <x>726</x>
+     <y>182</y>
     </hint>
     <hint type="destinationlabel">
      <x>445</x>
@@ -2395,8 +2529,8 @@
    <slot>subModeChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>532</x>
-     <y>72</y>
+     <x>523</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>453</x>
@@ -2428,7 +2562,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>859</x>
-     <y>457</y>
+     <y>433</y>
     </hint>
     <hint type="destinationlabel">
      <x>562</x>
@@ -2443,8 +2577,8 @@
    <slot>stationProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>191</x>
-     <y>295</y>
+     <x>208</x>
+     <y>272</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2460,7 +2594,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>418</x>
-     <y>332</y>
+     <y>365</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2491,8 +2625,8 @@
    <slot>rigProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>191</x>
-     <y>326</y>
+     <x>208</x>
+     <y>303</y>
     </hint>
     <hint type="destinationlabel">
      <x>736</x>
@@ -2507,8 +2641,8 @@
    <slot>antProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>191</x>
-     <y>357</y>
+     <x>208</x>
+     <y>334</y>
     </hint>
     <hint type="destinationlabel">
      <x>736</x>
@@ -2523,8 +2657,8 @@
    <slot>sotaEditFinished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>347</x>
-     <y>293</y>
+     <x>418</x>
+     <y>365</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>
@@ -2539,8 +2673,8 @@
    <slot>wwffEditFinished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>347</x>
-     <y>448</y>
+     <x>418</x>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>
@@ -2555,8 +2689,8 @@
    <slot>wwffChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>347</x>
-     <y>448</y>
+     <x>418</x>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>

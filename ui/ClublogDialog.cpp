@@ -49,6 +49,13 @@ void ClublogDialog::upload()
     QString QSOList;
     int count = 0;
 
+    QStringList qslUploadStatuses = {"'M'"};
+
+    if ( ui->addlUploadStatusN->isChecked() )
+    {
+        qslUploadStatuses << "'N'";
+    }
+
     /* https://clublog.freshdesk.com/support/solutions/articles/54905-how-to-upload-logs-directly-into-club-log */
     /* https://clublog.freshdesk.com/support/solutions/articles/53202-which-adif-fields-does-club-log-use- */
     QString query_string = "SELECT start_time, "
@@ -61,7 +68,7 @@ void ClublogDialog::upload()
                            "       rst_sent, rst_rcvd, notes, "
                            "       gridsquare, vucc_grids, sat_name ";
     QString query_from   = "FROM contacts ";
-    QString query_where =  "WHERE (clublog_qso_upload_status <> 'Y' OR clublog_qso_upload_status is NULL) ";
+    QString query_where =  QString("WHERE (upper(clublog_qso_upload_status) in (%1) OR clublog_qso_upload_status is NULL) ").arg(qslUploadStatuses.join(","));
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();

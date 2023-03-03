@@ -47,11 +47,18 @@ void QRZDialog::upload()
     QString QSOList;
     int count = 0;
 
+    QStringList qslUploadStatuses = {"'M'"};
+
+    if ( ui->addlUploadStatusN->isChecked() )
+    {
+        qslUploadStatuses << "'N'";
+    }
+
     /* https://www.qrz.com/docs/logbook/QRZLogbookAPI.html */
     /* ??? QRZ Support all ADIF Fields ??? */
     QString query_string = "SELECT * ";
     QString query_from   = "FROM contacts ";
-    QString query_where =  "WHERE (qrzcom_qso_upload_status <> 'Y' OR qrzcom_qso_upload_status is NULL) ";
+    QString query_where =  QString("WHERE (upper(qrzcom_qso_upload_status) in (%1) OR qrzcom_qso_upload_status is NULL) ").arg(qslUploadStatuses.join(","));
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();

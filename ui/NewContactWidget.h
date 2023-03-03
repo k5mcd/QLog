@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSqlRecord>
 #include <QCompleter>
+#include <QComboBox>
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
@@ -135,6 +136,7 @@ private:
     void changeCallsignManually(const QString &, double);
     void __changeFrequency(VFOID, double vfoFreq, double ritFreq, double xitFreq);
     void showRXTXFreqs(bool);
+    void setComboBaseData(QComboBox *, const QString &);
 
 private:
     Rig* rig;
