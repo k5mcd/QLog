@@ -253,6 +253,7 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+
     bool stylePresent = false;
 
     /* Style option is deleted in QApplication constructor.

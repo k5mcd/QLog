@@ -1,3 +1,4 @@
+#include <QWebEngineSettings>
 #include "WebEnginePage.h"
 #include "core/debug.h"
 
@@ -6,7 +7,7 @@ MODULE_IDENTIFICATION("qlog.ui.webenginepage");
 WebEnginePage::WebEnginePage(QObject *parent)
     : QWebEnginePage{parent}
 {
-
+    QWebEngineSettings::defaultSettings()->setAttribute(QWebEngineSettings::ScreenCaptureEnabled, true);
 }
 
 void WebEnginePage::javaScriptConsoleMessage(JavaScriptConsoleMessageLevel level,

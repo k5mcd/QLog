@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>369</width>
-    <height>355</height>
+    <width>424</width>
+    <height>378</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="3">
+      <item row="4" column="0" colspan="3">
        <widget class="QPushButton" name="showButton">
         <property name="text">
          <string>Show Selection</string>
@@ -46,6 +46,37 @@
       </item>
       <item row="2" column="1" colspan="2">
        <widget class="QComboBox" name="myGridCombo"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="addlSentStatusLabel">
+        <property name="text">
+         <string>Include QSOs with Sent Status</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="addlSentStatusN">
+          <property name="toolTip">
+           <string>Under normal circumstances this status means &lt;b&gt;&quot;do not send&quot;&lt;/b&gt;.&lt;br/&gt;However, it may sometimes be wanted to ignore this setting when sending a QSL.</string>
+          </property>
+          <property name="text">
+           <string>&quot;No&quot;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="addlSentStatusI">
+          <property name="toolTip">
+           <string>Under normal circumstances this status means &lt;b&gt;&quot;Ignore/Invalid&quot;&lt;/b&gt;.&lt;br/&gt;However, it may sometimes be wanted to ignore this setting when sending a QSL.</string>
+          </property>
+          <property name="text">
+           <string>&quot;Ignore&quot;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

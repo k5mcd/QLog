@@ -106,13 +106,25 @@ void EqslDialog::upload()
     QString QSOList;
     int count = 0;
 
+    QStringList qslSentStatuses = {"'R'", "'Q'"};
+
+    if ( ui->addlSentStatusI->isChecked() )
+    {
+        qslSentStatuses << "'I'";
+    }
+
+    if ( ui->addlSentStatusN->isChecked() )
+    {
+        qslSentStatuses << "'N'";
+    }
+
     /* http://www.eqsl.cc/qslcard/ADIFContentSpecs.cfm */
     QString query_string = "SELECT start_time, callsign, mode, freq, band, "
                            "       prop_mode, rst_sent, submode, "
                            "       sat_mode, sat_name, "
                            "       my_cnty, my_gridsquare ";
     QString query_from   = "FROM contacts ";
-    QString query_where =  "WHERE (eqsl_qsl_sent in ('R', 'Q') OR eqsl_qsl_sent is NULL) ";
+    QString query_where =  QString("WHERE (upper(eqsl_qsl_sent) in (%1) OR eqsl_qsl_sent is NULL) ").arg(qslSentStatuses.join(","));
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();
