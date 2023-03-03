@@ -89,16 +89,6 @@ bool AdxFormat::importNext(QSqlRecord &record)
         return false;
     }
 
-    /* Set default values if not present */
-    if (defaults) {
-        auto keys = defaults->keys();
-        for (auto &key : qAsConst(keys))
-        {
-            if (contact.value(key).isNull()) {
-                contact.insert(key, defaults->value(key));
-            }
-        }
-    }
     record.setValue("callsign", contact.take("call"));
     record.setValue("rst_rcvd", contact.take("rst_rcvd"));
     record.setValue("rst_sent", contact.take("rst_sent"));
@@ -222,25 +212,7 @@ bool AdxFormat::importNext(QSqlRecord &record)
     record.setValue("web",contact.take("web"));
     record.setValue("wwff_ref",contact.take("wwff_ref").toString().toUpper());
 
-    AdiFormat::importIntlField("name", "name_intl", record, contact);
-    AdiFormat::importIntlField("address", "address_intl", record, contact);
-    AdiFormat::importIntlField("comment", "comment_intl", record, contact);
-    AdiFormat::importIntlField("country", "country_intl", record, contact);
-    AdiFormat::importIntlField("my_antenna", "my_antenna_intl", record, contact);
-    AdiFormat::importIntlField("my_city", "my_city_intl", record, contact);
-    AdiFormat::importIntlField("my_country", "my_country_intl", record, contact);
-    AdiFormat::importIntlField("my_name", "my_name_intl", record, contact);
-    AdiFormat::importIntlField("my_postal_code", "my_postal_code_intl", record, contact);
-    AdiFormat::importIntlField("my_rig", "my_rig_intl", record, contact);
-    AdiFormat::importIntlField("my_sig", "my_sig_intl", record, contact);
-    AdiFormat::importIntlField("my_sig_info", "my_sig_info_intl", record, contact);
-    AdiFormat::importIntlField("my_street", "my_street_intl", record, contact);
-    AdiFormat::importIntlField("notes", "notes_intl", record, contact);
-    AdiFormat::importIntlField("qslmsg", "qslmsg_intl", record, contact);
-    AdiFormat::importIntlField("qth", "qth_intl", record, contact);
-    AdiFormat::importIntlField("rig", "rig_intl", record, contact);
-    AdiFormat::importIntlField("sig", "sig_intl", record, contact);
-    AdiFormat::importIntlField("sig_info", "sig_info_intl", record, contact);
+    AdiFormat::fillIntlFields(record, contact);
 
     QString mode = contact.take("mode").toString().toUpper();
     QString submode = contact.take("submode").toString().toUpper();
@@ -280,6 +252,22 @@ bool AdxFormat::importNext(QSqlRecord &record)
 
     record.setValue("start_time", start_time);
     record.setValue("end_time", end_time);
+
+    /* Set default values if not present */
+    if (defaults)
+    {
+        auto keys = defaults->keys();
+
+        for ( auto &key : qAsConst(keys) )
+        {
+            if ( record.value(key).isNull() )
+            {
+                contact.insert(key, defaults->value(key));
+            }
+        }
+        // re-evaluate _INT fields
+        AdiFormat::fillIntlFields(record, contact);
+    }
 
     /* If we have something unparsed then stored it as JSON to Field column */
     if ( contact.count() > 0 )

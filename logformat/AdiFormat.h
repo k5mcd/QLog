@@ -21,8 +21,10 @@ public:
 
     static void importIntlField(const QString &sourceField,
                                 const QString &sourceFieldIntl,
-                                QSqlRecord& newQSORecord,
-                                QMap<QString, QVariant> &importedContact);
+                                QSqlRecord &,
+                                QMap<QString, QVariant> &);
+    static void fillIntlFields(QSqlRecord &,
+                               QMap<QString, QVariant> &);
 
 private:
     enum ParserState {
