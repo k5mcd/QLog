@@ -1959,15 +1959,10 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            {
            case COLUMN_FREQUENCY:
            case COLUMN_FREQ_RX:
-               if ( value.toDouble() == 0.0 )
-               {
-                   /* store NULL when 0.0MHz */
-                   main_update_result = QSqlTableModel::setData(index, QVariant(), role); // clazy:exclude=skipped-base-method
-               }
-               else
-               {
-                   main_update_result = QSqlTableModel::setData(index, value, role); // clazy:exclude=skipped-base-method
-               }
+           case COLUMN_TX_POWER:
+               /* store NULL when 0.0MHz */
+               main_update_result = QSqlTableModel::setData(index, ( value.toDouble() == 0.0 ) ? QVariant()
+                                                                                               : value, role); // clazy:exclude=skipped-base-method
                break;
 
            case COLUMN_SOTA_REF:
@@ -1984,7 +1979,8 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            case COLUMN_MY_WWFF_REF:
            case COLUMN_WWFF_REF:
            case COLUMN_STATION_CALLSIGN:
-               main_update_result = QSqlTableModel::setData(index, value.toString().toUpper(), role); // clazy:exclude=skipped-base-method
+               main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? value.toString().toUpper() // clazy:exclude=skipped-base-method
+                                                                                                   : QVariant(), role);
                break;
 
            case COLUMN_ADDRESS_INTL:
@@ -2006,7 +2002,8 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            case COLUMN_RIG_INTL:
            case COLUMN_SIG_INTL:
            case COLUMN_SIG_INFO_INTL:
-               main_update_result = QSqlTableModel::setData(index, value.toString(), role); // clazy:exclude=skipped-base-method
+               main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? value              // clazy:exclude=skipped-base-method
+                                                                                                   : QVariant(), role);
                break;
 
            default:
