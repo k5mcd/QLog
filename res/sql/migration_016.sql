@@ -226,8 +226,6 @@ CREATE INDEX "dxcc_idx" ON "contacts" ("dxcc");
 
 INSERT INTO contacts SELECT * FROM contacts_old;
 
-UPDATE contacts SET lotw_qsl_sent = 'Q' WHERE lotw_qsl_sent = 'N';
-UPDATE contacts SET eqsl_qsl_sent = 'Q' WHERE eqsl_qsl_sent = 'N';
 UPDATE contacts SET clublog_qso_upload_status = NULL WHERE clublog_qso_upload_status = 'N';
 UPDATE contacts SET hrdlog_qso_upload_status = NULL WHERE hrdlog_qso_upload_status = 'N';
 UPDATE contacts SET qrzcom_qso_upload_status = NULL WHERE qrzcom_qso_upload_status = 'N';
