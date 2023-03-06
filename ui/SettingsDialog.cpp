@@ -99,6 +99,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->modeTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->modeTableView->hideColumn(0);
     ui->modeTableView->hideColumn(2);
+    ui->modeTableView->setItemDelegateForColumn(4,new ComboFormatDelegate(QStringList()<<"CW"<< "PHONE" << "DIGITAL"));
     ui->modeTableView->setItemDelegateForColumn(5,new CheckBoxDelegate(ui->modeTableView));
     modeTableModel->select();
 
