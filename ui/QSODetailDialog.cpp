@@ -1256,7 +1256,7 @@ void QSODetailDialog::drawDXOnMap(const QString &label, const Gridsquare &dxGrid
                                  "grids_worked = [];"
                                  "drawPoints(%1);"
                                  "maidenheadConfWorked.redraw();"
-                                 "flyToPoint(%2[0]);").arg(stationString, stationString);
+                                 "flyToPoint(%2[0], 6);").arg(stationString, stationString);
 
     qCDebug(runtime) << javaScript;
 

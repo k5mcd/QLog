@@ -221,6 +221,17 @@ void OnlineMapWidget::finishLoading(bool)
     /* which layers will be active */
     postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true, true);
 
+    /* focus current location */
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
+
+    if ( myGrid.isValid() )
+    {
+        double my_lat = myGrid.getLatitude();
+        double my_lon = myGrid.getLongitude();
+        QString currentProfilePosition(QString("[\"\", %1, %2, yellowIcon]").arg(my_lat).arg(my_lon));
+        postponedScripts += QString("flyToPoint(%1, 4);").arg(currentProfilePosition);
+    }
+
     main_page->runJavaScript(postponedScripts);
     layerControlHandler.restoreControls(main_page);
     auroraDataUpdate();

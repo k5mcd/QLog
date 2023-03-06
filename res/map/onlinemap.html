@@ -146,8 +146,8 @@
         });
      }
 
-     function flyToPoint(point) {
-        map.flyTo([point[1], point[2]],6);
+     function flyToPoint(point, zoom) {
+        map.flyTo([point[1], point[2]],zoom);
      }
 
      var markersLayer2 = L.layerGroup().addTo(map);
