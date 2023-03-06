@@ -31,14 +31,14 @@
        <widget class="QComboBox" name="awardComboBox"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="myCallLabel">
+       <widget class="QLabel" name="myEntityLabel">
         <property name="text">
          <string>My DXCC Entity</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="myCallComboBox"/>
+       <widget class="QComboBox" name="myEntityComboBox"/>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="confirmedLabel">
@@ -222,7 +222,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>myCallComboBox</sender>
+   <sender>myEntityComboBox</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>AwardsDialog</receiver>
    <slot>refreshTable(int)</slot>

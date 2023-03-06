@@ -611,7 +611,7 @@ void MainWindow::showAwards()
     FCT_IDENTIFICATION;
 
     AwardsDialog dialog;
-    connect(&dialog, &AwardsDialog::DXCCSelected,
+    connect(&dialog, &AwardsDialog::AwardConditionSelected,
             ui->logbookWidget, &LogbookWidget::filterCountryBand);
     connect(&dialog, &AwardsDialog::finished,
             ui->logbookWidget, &LogbookWidget::restoreFilters);

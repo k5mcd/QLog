@@ -27,7 +27,7 @@ signals:
 public slots:
     void filterCallsign(QString call);
     void filterSelectedCallsign();
-    void filterCountryBand(QString, QString);
+    void filterCountryBand(QString, QString, QString);
     void lookupSelectedCallsign();
     void callsignFilterChanged();
     void bandFilterChanged();
@@ -62,6 +62,7 @@ private:
     Ui::LogbookWidget *ui;
     SqlListModel* countryModel;
     SqlListModel* userFilterModel;
+    QString externalFilter;
 };
 
 /* https://forum.qt.io/topic/90403/show-tooltip-immediatly/7/ */

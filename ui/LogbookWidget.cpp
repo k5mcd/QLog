@@ -199,7 +199,7 @@ void LogbookWidget::filterSelectedCallsign()
     }
 }
 
-void LogbookWidget::filterCountryBand(QString entity, QString band)
+void LogbookWidget::filterCountryBand(QString countryName, QString band, QString addlFilter)
 {
     FCT_IDENTIFICATION;
 
@@ -208,7 +208,14 @@ void LogbookWidget::filterCountryBand(QString entity, QString band)
     ui->userFilter->blockSignals(true);
     ui->modeFilter->blockSignals(true);
 
-    ui->countryFilter->setCurrentText(entity);
+    if ( ! countryName.isEmpty() )
+    {
+        ui->countryFilter->setCurrentText(countryName);
+    }
+    else
+    {
+        ui->countryFilter->setCurrentIndex(0);
+    }
 
     if ( !band.isEmpty() )
     {
@@ -222,6 +229,9 @@ void LogbookWidget::filterCountryBand(QString entity, QString band)
     //user wants to see only selected band and country
     ui->userFilter->setCurrentIndex(0); //suppress user-defined filter
     ui->modeFilter->setCurrentIndex(0); //suppress mode filter
+
+    // set additional filter
+    externalFilter = addlFilter;
 
     ui->userFilter->blockSignals(false);
     ui->modeFilter->blockSignals(false);
@@ -408,6 +418,7 @@ void LogbookWidget::restoreFilters()
     restoreBandFilter();
     restoreCountryFilter();
     restoreUserFilter();
+    externalFilter = QString();
     updateTable();
 }
 
@@ -572,6 +583,11 @@ void LogbookWidget::updateTable()
         {
             qInfo() << "User filter error - " << userFilterQuery.lastError().text();
         }
+    }
+
+    if ( !externalFilter.isEmpty() )
+    {
+        filterString.append(QString("( ") + externalFilter + ")");
     }
 
     qCDebug(runtime) << "SQL filter summary: " << filterString.join(" AND ");

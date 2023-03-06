@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSqlQueryModel>
+#include <QComboBox>
 #include "models/AwardsTableModel.h"
 #include "models/SqlListModel.h"
 
@@ -22,13 +23,15 @@ public slots:
     void awardTableDoubleClicked(QModelIndex);
 
 signals:
-    void DXCCSelected(QString entity, QString band);
+    void AwardConditionSelected(QString, QString, QString);
 
 private:
     Ui::AwardsDialog *ui;
     AwardsTableModel *detailedViewModel;
     SqlListModel* entityCallsignModel;
 
+    QString getSelectedEntity();
+    QString getSelectedAward();
 };
 
 #endif // AWARDSDIALOG_H

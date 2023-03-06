@@ -21,14 +21,14 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
                                            "THEN SUBSTR(GROUP_CONCAT(station_callsign, ', '), 0, 50) || '...' ELSE GROUP_CONCAT(station_callsign, ', ') END || ')' "
                                            "FROM(SELECT DISTINCT my_dxcc, my_country_intl, station_callsign FROM contacts) GROUP BY my_dxcc ORDER BY my_dxcc;", "", this);
 
-    ui->myCallComboBox->blockSignals(true);
+    ui->myEntityComboBox->blockSignals(true);
     while (entityCallsignModel->canFetchMore())
     {
         entityCallsignModel->fetchMore();
     }
-    ui->myCallComboBox->setModel(entityCallsignModel);
-    ui->myCallComboBox->setModelColumn(1);
-    ui->myCallComboBox->blockSignals(false);
+    ui->myEntityComboBox->setModel(entityCallsignModel);
+    ui->myEntityComboBox->setModelColumn(1);
+    ui->myEntityComboBox->blockSignals(false);
 
     ui->awardComboBox->addItem(tr("DXCC"), QVariant("dxcc"));
     ui->awardComboBox->addItem(tr("ITU"), QVariant("itu"));
@@ -57,20 +57,18 @@ void AwardsDialog::refreshTable(int)
 {
     FCT_IDENTIFICATION;
 
-    QString awardSelected = ui->awardComboBox->itemData(ui->awardComboBox->currentIndex()).toString();
     QStringList confirmed("1=2 ");
     QStringList modes("'NONE'");
     QString headersColumns;
     QString uniqColumns;
+    QString excludePart;
 
-    int row = ui->myCallComboBox->currentIndex();
-    QModelIndex idx = ui->myCallComboBox->model()->index(row,0);
-    QVariant data = ui->myCallComboBox->model()->data(idx);
+    QString awardSelected = getSelectedAward();
+    QString entitySelected = getSelectedEntity();
 
     QString sqlPart = "FROM contacts c, modes m  "
                       "WHERE c.mode = m.name"
-                      "      AND c.my_dxcc = '" + data.toString() + "' ";
-    QString excludePart;
+                      "      AND c.my_dxcc = '" + entitySelected + "' ";
 
     if ( ui->cwCheckBox->isChecked() )
     {
@@ -95,7 +93,7 @@ void AwardsDialog::refreshTable(int)
         sqlPart = " FROM dxcc_entities d "
                   "     LEFT OUTER JOIN contacts c ON d.id = c.dxcc "
                   "     LEFT OUTER JOIN modes m on c.mode = m.name "
-                  "WHERE (c.id is NULL or c.my_dxcc = '" + data.toString() + "') ";
+                  "WHERE (c.id is NULL or c.my_dxcc = '" + entitySelected + "') ";
     }
     else if ( awardSelected == "waz" )
     {
@@ -175,7 +173,7 @@ void AwardsDialog::refreshTable(int)
                     "       NULL 'EME' "
                     "FROM contacts c, modes m "
                     "WHERE c.mode = m.name "
-                    "      AND c.my_dxcc = '" + data.toString() + "' "
+                    "      AND c.my_dxcc = '" + entitySelected + "' "
                     "      AND m.dxcc IN (" + modes.join(",") + ") "
                     + excludePart +
                     "UNION ALL "
@@ -189,7 +187,7 @@ void AwardsDialog::refreshTable(int)
                     "WHERE (" + confirmed.join("or") + ") "
                     "      AND c.mode = m.name "
                     "      AND m.dxcc IN (" + modes.join(",") + ") "
-                    "      AND c.my_dxcc = '" + data.toString() + "' "
+                    "      AND c.my_dxcc = '" + entitySelected + "' "
                     + excludePart +
                     "UNION ALL "
                     "SELECT 1 column_idx, "
@@ -231,14 +229,62 @@ void AwardsDialog::awardTableDoubleClicked(QModelIndex idx)
 {
     FCT_IDENTIFICATION;
 
+    QString myEntitySelected = getSelectedEntity();
+    QString awardSelected = getSelectedAward();
+    QStringList addlFilters;
+    QString band;
+    QString country;
+
+    addlFilters << QString("my_dxcc='%1'").arg(myEntitySelected);
+
     if ( idx.row() > 3 )
     {
-        QString entity = detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString();
-        QString band;
+        if ( awardSelected == "dxcc" )
+        {
+            country = detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString();
+        }
+
+        if ( awardSelected == "itu" )
+        {
+            addlFilters << QString("ituz = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
+        }
+
+        if ( awardSelected == "iota" )
+        {
+            addlFilters << QString("upper(iota) = upper('%1')").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
+        }
+        if ( awardSelected == "wac" )
+        {
+            addlFilters << QString("cont = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
+        }
+
         if ( idx.column() > 2 )
         {
-             band = detailedViewModel->headerData( idx.column(), Qt::Horizontal ).toString();
+            band = detailedViewModel->headerData( idx.column(), Qt::Horizontal ).toString();
         }
-        emit DXCCSelected(entity, band);
+
+        emit AwardConditionSelected(country, band, QString("(") + addlFilters.join(" and ") + QString(")"));
     }
+}
+
+QString AwardsDialog::getSelectedEntity()
+{
+    FCT_IDENTIFICATION;
+
+    int row = ui->myEntityComboBox->currentIndex();
+    QModelIndex idx = ui->myEntityComboBox->model()->index(row,0);
+    QVariant comboData = ui->myEntityComboBox->model()->data(idx);
+
+    qCDebug(runtime) << comboData.toString();
+
+    return comboData.toString();
+}
+
+QString AwardsDialog::getSelectedAward()
+{
+    FCT_IDENTIFICATION;
+
+    QString ret = ui->awardComboBox->itemData(ui->awardComboBox->currentIndex()).toString();
+    qCDebug(runtime) << ret;
+    return ret;
 }
