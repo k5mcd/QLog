@@ -30,7 +30,8 @@ private:
     bool updateExternalResource();
     bool updateExternalResourceProgress(QProgressDialog&,
                                         LOVDownloader&,
-                                        const LOVDownloader::SourceType & sourceType);
+                                        const LOVDownloader::SourceType & sourceType,
+                                        const QString &counter);
     bool fixIntlFields();
     bool insertUUID();
     bool fillMyDXCC();

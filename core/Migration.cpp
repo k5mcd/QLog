@@ -207,17 +207,17 @@ bool Migration::updateExternalResource()
     connect(&progress, &QProgressDialog::canceled,
             &downloader, &LOVDownloader::abortRequest);
 
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::CTY) )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::CTY, "(1/6)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SATLIST) )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SATLIST, "(2/6)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SOTASUMMITS) )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SOTASUMMITS, "(3/6)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::WWFFDIRECTORY) )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::WWFFDIRECTORY, "(4/6)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::IOTALIST) )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::IOTALIST, "(5/6)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::POTADIRECTORY) )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::POTADIRECTORY, "(6/6)") )
         return false;
 
     return true;
@@ -225,7 +225,8 @@ bool Migration::updateExternalResource()
 
 bool Migration::updateExternalResourceProgress(QProgressDialog& progress,
                                                LOVDownloader& downloader,
-                                               const LOVDownloader::SourceType & sourceType)
+                                               const LOVDownloader::SourceType & sourceType,
+                                               const QString &counter)
 {
     FCT_IDENTIFICATION;
 
@@ -257,7 +258,7 @@ bool Migration::updateExternalResourceProgress(QProgressDialog& progress,
         stringInfo = tr("List of Values");
     }
 
-    progress.setLabelText(tr("Updating ") + stringInfo + "...");
+    progress.setLabelText(tr("Updating ") + stringInfo + " " + counter +" ...");
     progress.setMinimum(0);
 
     progress.show();
