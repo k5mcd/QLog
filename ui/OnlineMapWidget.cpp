@@ -57,7 +57,7 @@ void OnlineMapWidget::setTarget(double lat, double lon)
             my_lon = myGrid.getLongitude();
 
             QString path = computePath(my_lat,my_lon, lat, lon);
-            targetJavaScript = QString("drawPath(%1);").arg(path);
+            targetJavaScript += QString("drawPath(%1);").arg(path);
         }
     }
 
