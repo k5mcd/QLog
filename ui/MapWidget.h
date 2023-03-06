@@ -33,8 +33,8 @@ private:
 
     void pointToRad(const QPoint &point, double& lat, double& lon);
     void pointToCoord(const QPoint &point, double& lat, double& lon);
-    QPoint radToPoint(double lat, double lon);
-    QPoint coordToPoint(double lat, double lon);
+    QPoint radToPoint(const double lat, const double lon);
+    QPoint coordToPoint(const double lat, const double lon);
 
     int sunSize = 20;
 
