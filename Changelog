@@ -1,6 +1,7 @@
 TBC - 0.20.0
 - [NEW] - Added MUF Layer to online map
 - Fixed incorrect ADIF interpretation of _SENT fields (issue #176)
+- Fixed Awards Dialog, Table double click for ITU/CQZ/WAZ/IOTA shows incorrect QSOs (issue #177)
 - Fixed ADIF double-type fields when 0.0 is currently mapped to NULL (issue #178)
 - Fixed QSO Detail to save NULL instead of empty string (issue #179)
 - Fixed ADIF Import default _INTL values are now stored correctly (issue #183)
