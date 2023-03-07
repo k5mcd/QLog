@@ -13,6 +13,8 @@
 #include "data/StationProfile.h"
 #include "core/debug.h"
 #include "core/PropConditions.h"
+#include "data/Band.h"
+#include "data/Data.h"
 
 MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
@@ -24,6 +26,9 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   prop_cond(nullptr)
 {
     FCT_IDENTIFICATION;
+
+    QSettings settings;
+
     main_page->setWebChannel(&channel);
 
     setPage(main_page);
@@ -33,6 +38,12 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
     setFocusPolicy(Qt::ClickFocus);
     setContextMenuPolicy(Qt::NoContextMenu);
     channel.registerObject("layerControlHandler", &layerControlHandler);
+
+
+    double freq = settings.value("newcontact/frequency", 3.5).toDouble();
+    freq += RigProfilesManager::instance()->getCurProfile1().ritOffset;
+
+    setIBPBand(VFO1, 0.0, freq, 0.0);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
@@ -48,11 +59,10 @@ void OnlineMapWidget::setTarget(double lat, double lon)
         /* Draw a new path */
         Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
-        double my_lat=0;
-        double my_lon=0;
-
         if ( myGrid.isValid() )
         {
+            double my_lat=0;
+            double my_lon=0;
             my_lat = myGrid.getLatitude();
             my_lon = myGrid.getLongitude();
 
@@ -143,7 +153,6 @@ void OnlineMapWidget::mufDataUpdate()
 {
     FCT_IDENTIFICATION;
 
-    QString targetJavaScript = QString("drawMuf([]);");
     QStringList mapPoints;
 
     if ( !prop_cond )
@@ -163,9 +172,27 @@ void OnlineMapWidget::mufDataUpdate()
         }
     }
 
-    targetJavaScript = QString(" drawMuf([%1]);").arg(mapPoints.join(","));
+    QString targetJavaScript = QString(" drawMuf([%1]);").arg(mapPoints.join(","));
 
     qCDebug(runtime) << "MUF JS: "<< targetJavaScript;
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(targetJavaScript);
+    }
+    else
+    {
+        main_page->runJavaScript(targetJavaScript);
+    }
+}
+
+void OnlineMapWidget::setIBPBand(VFOID , double, double ritFreq, double)
+{
+    FCT_IDENTIFICATION;
+
+    Band newBand = Data::band(ritFreq);
+
+    QString targetJavaScript = QString("currentBand=\"%1\";").arg(newBand.name);
 
     if ( !isMainPageLoaded )
     {
@@ -219,7 +246,7 @@ void OnlineMapWidget::finishLoading(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true, true);
+    postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true, true, true);
 
     /* focus current location */
     Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);

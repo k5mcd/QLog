@@ -7,6 +7,7 @@
 #include "ui/MapLayerControlHandler.h"
 #include "core/PropConditions.h"
 #include "ui/WebEnginePage.h"
+#include "core/Rig.h"
 
 namespace Ui {
 class OnlineMapWidget;
@@ -27,6 +28,7 @@ public slots:
     void changeTheme(int);
     void auroraDataUpdate();
     void mufDataUpdate();
+    void setIBPBand(VFOID, double, double, double);
 
 protected slots:
     void finishLoading(bool);

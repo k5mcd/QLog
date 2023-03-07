@@ -14,7 +14,8 @@ public:
     QString injectMapMenuJS(bool gridLayer = true,
                             bool grayline = false,
                             bool aurora = false,
-                            bool muf = false);
+                            bool muf = false,
+                            bool ibp = false);
 
 public slots:
     void handleLayerSelectionChanged(const QVariant &data,

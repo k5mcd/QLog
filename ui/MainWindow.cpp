@@ -114,6 +114,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(Rig::instance(), &Rig::rigErrorPresent, this, &MainWindow::rigErrorHandler);
     connect(Rig::instance(), &Rig::rigCWKeyOpenRequest, this, &MainWindow::cwKeyerConnectProfile);
     connect(Rig::instance(), &Rig::rigCWKeyCloseRequest, this, &MainWindow::cwKeyerDisconnectProfile);
+    connect(Rig::instance(), &Rig::frequencyChanged, ui->onlineMapWidget, &OnlineMapWidget::setIBPBand);
 
     connect(Rotator::instance(), &Rotator::rotErrorPresent, this, &MainWindow::rotErrorHandler);
     connect(CWKeyer::instance(), &CWKeyer::cwKeyerError, this, &MainWindow::cwKeyerErrorHandler);
@@ -154,6 +155,7 @@ MainWindow::MainWindow(QWidget* parent) :
     //connect(ui->newContactWidget, &NewContactWidget::contactAdded, clublog, &ClubLog::uploadContact);
     connect(ui->newContactWidget, &NewContactWidget::filterCallsign, ui->logbookWidget, &LogbookWidget::filterCallsign);
     connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->bandmapWidget, &BandmapWidget::updateTunedFrequency);
+    connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->onlineMapWidget, &OnlineMapWidget::setIBPBand);
     connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, this, &MainWindow::stationProfileChanged);
     connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, ui->rotatorWidget, &RotatorWidget::redrawMap);
     connect(ui->newContactWidget, &NewContactWidget::markQSO, ui->bandmapWidget, &BandmapWidget::addSpot);

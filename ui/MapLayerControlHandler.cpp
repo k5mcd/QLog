@@ -46,6 +46,9 @@ void MapLayerControlHandler::connectChannel(QWebEnginePage *page)
           "     case '" + tr("MUF") + "': "
           "        foo.handleLayerSelectionChanged('mufLayer', 'on'); "
           "        break; "
+          "     case '" + tr("IBP") + "': "
+          "        foo.handleLayerSelectionChanged('IBPLayer', 'on'); "
+          "        break; "
           "  } "
           "});"
           "map.on('overlayremove', function(e){ "
@@ -62,6 +65,9 @@ void MapLayerControlHandler::connectChannel(QWebEnginePage *page)
           "        break; "
           "     case '" + tr("MUF") + "': "
           "        foo.handleLayerSelectionChanged('mufLayer', 'off'); "
+          "        break; "
+          "     case '" + tr("IBP") + "': "
+          "        foo.handleLayerSelectionChanged('IBPLayer', 'off'); "
           "        break; "
           "   } "
           "});";
@@ -102,7 +108,8 @@ void MapLayerControlHandler::restoreControls(QWebEnginePage *page)
 QString MapLayerControlHandler::injectMapMenuJS(bool gridLayer,
                                                 bool grayline,
                                                 bool aurora,
-                                                bool muf)
+                                                bool muf,
+                                                bool ibp)
 {
     FCT_IDENTIFICATION;
     QStringList options;
@@ -125,6 +132,11 @@ QString MapLayerControlHandler::injectMapMenuJS(bool gridLayer,
     if ( muf )
     {
         options << "\"" + tr("MUF") + "\": mufLayer";
+    }
+
+    if ( ibp )
+    {
+        options << "\"" + tr("IBP") + "\": IBPLayer";
     }
 
     QString ret = QString("var layerControl = new L.Control.Layers(null,"
