@@ -1,5 +1,6 @@
 TBC - 0.20.0
 - [NEW] - Added MUF Layer to online map
+- [NEW] - Added International Beacon Project (IBP) Beacons to online map
 - [NEW] - Centering the map on the current profile at start (issue #185)
 - Fixed incorrect ADIF interpretation of _SENT fields (issue #176)
 - Fixed Awards Dialog, Table double click for ITU/CQZ/WAZ/IOTA shows incorrect QSOs (issue #177)
