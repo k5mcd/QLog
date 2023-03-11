@@ -54,7 +54,7 @@ void OnlineMapWidget::setTarget(double lat, double lon)
 
     QString targetJavaScript = QString("drawPath([]);");
 
-    if ( lat != 0 || lon != 0 )
+    if ( ! qIsNaN(lat) && ! qIsNaN(lon) )
     {
         /* Draw a new path */
         Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);

@@ -465,7 +465,7 @@ void NewContactWidget::queryDxcc(QString callsign)
         ui->ituEdit->clear();
         ui->contEdit->setCurrentText("");
 
-        emit newTarget(0, 0);
+        emit newTarget(qQNaN(), qQNaN());
     }
 }
 
@@ -958,7 +958,7 @@ void NewContactWidget::resetContact()
     QSOFreq = 0.0;
 
     emit filterCallsign(QString());
-    emit newTarget(0, 0);
+    emit newTarget(qQNaN(), qQNaN());
 }
 
 void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &profile)

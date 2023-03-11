@@ -276,7 +276,7 @@ void MapWidget::setTarget(double lat, double lon)
 
     clear();
 
-    if (lat == 0.0 && lon == 0.0) return;
+    if ( qIsNaN(lat) || qIsNaN(lon) ) return;
 
     Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
