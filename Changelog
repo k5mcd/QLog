@@ -8,6 +8,7 @@ TBC - 0.20.0
 - Fixed QSO Detail to save NULL instead of empty string (issue #179)
 - Fixed ADIF Import default _INTL values are now stored correctly (issue #183)
 - Fixed Maps show an incorrect path if from/to grids are the same (issue #186)
+- Fixed Online Maps incorrect Bounds if Bandmap callsign double-click (issue #188)
 - Updated German translation (thx DL2KI)
 
 2023/02/17 - 0.19.0
