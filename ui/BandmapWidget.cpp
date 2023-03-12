@@ -640,7 +640,17 @@ void BandmapWidget::spotClicked(QString call, double freq)
 {
     FCT_IDENTIFICATION;
 
+    qCDebug(function_parameters) << call << freq;
+    qCDebug(runtime) << "Last Tuned DX" << lastTunedDX.callsign << lastTunedDX.freq;
+
+    /* Do not emit the Spot two times - double click*/
+    if ( lastTunedDX.callsign == call
+         && lastTunedDX.freq == freq )
+        return;
+
     emit tuneDx(call, freq);
+    lastTunedDX.callsign = call;
+    lastTunedDX.freq = freq;
 }
 
 void BandmapWidget::showContextMenu(QPoint point)

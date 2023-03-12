@@ -116,6 +116,13 @@ private:
     double zoomFreq;
     int zoomWidgetYOffset;
     bool bandmapAnimation;
+
+    struct LastTuneDx
+    {
+        QString callsign;
+        double freq;
+    };
+    LastTuneDx lastTunedDX;
 };
 
 Q_DECLARE_METATYPE(BandmapWidget::BandmapZoom)
