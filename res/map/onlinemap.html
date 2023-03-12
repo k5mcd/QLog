@@ -128,7 +128,7 @@
             var polyLine = new L.Polyline(points, {color: 'Fuchsia', weight: 3, opacity: 0.7, smoothFactor: 1 });
             pathLayer.addLayer(polyLine);
             var bounds = polyLine.getBounds();
-            map.fitBounds(bounds);
+            map.fitBounds(bounds, {animate:false});
             var center = bounds.getCenter();
             map.panTo(center);
         }
