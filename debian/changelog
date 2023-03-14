@@ -1,4 +1,4 @@
- qlog (0.20.0-1) UNRELEASED; urgency=low
+qlog (0.20.0-1) UNRELEASED; urgency=low
   * [NEW] - Added MUF Layer to online map
   * [NEW] - Added International Beacon Project (IBP) Beacons to online map
   * [NEW] - Centering the map on the current profile at start (issue #185)
