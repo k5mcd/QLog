@@ -42,6 +42,19 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Tue Mar 14 2023 Ladislav Foldyna - 0.20.0-1
+- [NEW] - Added MUF Layer to online map
+- [NEW] - Added International Beacon Project (IBP) Beacons to online map
+- [NEW] - Centering the map on the current profile at start (issue #185)
+- Fixed incorrect ADIF interpretation of _SENT fields (issue #176)
+- Fixed Awards Dialog, Table double click for ITU/CQZ/WAZ/IOTA shows incorrect QSOs (issue #177)
+- Fixed ADIF double-type fields when 0.0 is currently mapped to NULL (issue #178)
+- Fixed QSO Detail to save NULL instead of empty string (issue #179)
+- Fixed ADIF Import default _INTL values are now stored correctly (issue #183)
+- Fixed Maps show an incorrect path if from/to grids are the same (issue #186)
+- Fixed Online Maps incorrect Bounds if Bandmap callsign double-click (issue #188)
+- Updated German translation (thx DL2KI)
+
 * Fri Feb 17 2023 Ladislav Foldyna - 0.19.0-1
 - [NEW] - Added Aurora Layer to online map
 - [NEW] - Logbook - filter options are saved and restored
