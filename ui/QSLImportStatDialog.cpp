@@ -18,12 +18,12 @@ QSLImportStatDialog::QSLImportStatDialog(QSLMergeStat stats, QWidget *parent) :
     ui->errorsNumber->setText(QString::number(stats.qsos_errors));
 
     ui->detailsText->moveCursor(QTextCursor::End);
-    ui->detailsText->insertPlainText (tr("New QSLs: \n"));
+    ui->detailsText->insertPlainText (tr("New QSLs: ") + "\n");
     ui->detailsText->moveCursor(QTextCursor::End);
     ui->detailsText->insertPlainText (stats.newQSLs.join(", "));
     ui->detailsText->moveCursor (QTextCursor::End);
 
-    ui->detailsText->insertPlainText(tr("\nUnmatched QSLs: \n"));
+    ui->detailsText->insertPlainText("\n" + tr("Unmatched QSLs: ") + "\n");
     ui->detailsText->moveCursor(QTextCursor::End);
     ui->detailsText->insertPlainText (stats.unmatchedQSLs.join(", "));
     ui->detailsText->moveCursor (QTextCursor::End);
