@@ -13,7 +13,8 @@ MODULE_IDENTIFICATION("qlog.ui.cwconsolewidget");
 CWConsoleWidget::CWConsoleWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CWConsoleWidget),
-    cwKeyOnline(false)
+    cwKeyOnline(false),
+    contact(nullptr)
 {
     FCT_IDENTIFICATION;
 
@@ -453,21 +454,24 @@ void CWConsoleWidget::expandMacros(QString &text)
     static QRegularExpression myVUCCRE("<MYVUCC>");
     static QRegularExpression myPWRRE("<MYPWR>");
 
-    text.replace(callRE, contact->getCallsign().toUpper());
-    text.replace(nameRE, contact->getName().toUpper());
-    text.replace(rstRE, contact->getRST().toUpper());
-    text.replace(rstnRE, contact->getRST().replace('9', 'N'));
-    text.replace(greetingRE, contact->getGreeting().toUpper());
+    if ( contact )
+    {
+        text.replace(callRE, contact->getCallsign().toUpper());
+        text.replace(nameRE, contact->getName().toUpper());
+        text.replace(rstRE, contact->getRST().toUpper());
+        text.replace(rstnRE, contact->getRST().replace('9', 'N'));
+        text.replace(greetingRE, contact->getGreeting().toUpper());
 
-    text.replace(myCallRE, contact->getMyCallsign().toUpper());
-    text.replace(myNameRE, contact->getMyName().toUpper());
-    text.replace(myQTHRE, contact->getMyQTH().toUpper());
-    text.replace(myLocatorRE, contact->getMyLocator().toUpper());
-    text.replace(mySIGRE, contact->getMySIG().toUpper());
-    text.replace(mySIGInfoRE, contact->getMySIGInfo().toUpper());
-    text.replace(myIOTARE, contact->getMyIOTA().toUpper());
-    text.replace(mySOTARE, contact->getMySOTA().toUpper());
-    text.replace(myWWFTRE, contact->getMyWWFT().toUpper());
-    text.replace(myVUCCRE, contact->getMyVUCC().toUpper());
-    text.replace(myPWRRE, contact->getMyPWR().toUpper());
+        text.replace(myCallRE, contact->getMyCallsign().toUpper());
+        text.replace(myNameRE, contact->getMyName().toUpper());
+        text.replace(myQTHRE, contact->getMyQTH().toUpper());
+        text.replace(myLocatorRE, contact->getMyLocator().toUpper());
+        text.replace(mySIGRE, contact->getMySIG().toUpper());
+        text.replace(mySIGInfoRE, contact->getMySIGInfo().toUpper());
+        text.replace(myIOTARE, contact->getMyIOTA().toUpper());
+        text.replace(mySOTARE, contact->getMySOTA().toUpper());
+        text.replace(myWWFTRE, contact->getMyWWFT().toUpper());
+        text.replace(myVUCCRE, contact->getMyVUCC().toUpper());
+        text.replace(myPWRRE, contact->getMyPWR().toUpper());
+    }
 }
