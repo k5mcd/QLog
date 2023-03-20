@@ -452,10 +452,10 @@ void StatisticsWidget::mapLoaded(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += layerControlHandler.injectMapMenuJS();
+    postponedScripts += layerControlHandler.generateMapMenuJS();
     main_page->runJavaScript(postponedScripts);
 
-    layerControlHandler.restoreControls(main_page);
+    layerControlHandler.restoreLayerControlStates(main_page);
 }
 
 void StatisticsWidget::changeTheme(int theme)

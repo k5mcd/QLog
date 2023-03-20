@@ -246,7 +246,7 @@ void OnlineMapWidget::finishLoading(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += layerControlHandler.injectMapMenuJS(true, true, true, true, true);
+    postponedScripts += layerControlHandler.generateMapMenuJS(true, true, true, true, true);
 
     /* focus current location */
     Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
@@ -260,7 +260,7 @@ void OnlineMapWidget::finishLoading(bool)
     }
 
     main_page->runJavaScript(postponedScripts);
-    layerControlHandler.restoreControls(main_page);
+    layerControlHandler.restoreLayerControlStates(main_page);
     auroraDataUpdate();
 }
 

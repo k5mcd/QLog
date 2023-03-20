@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QWebEngineView>
 #include <QWebChannel>
-#include "ui/MapLayerControlHandler.h"
+#include "ui/MapWebChannelHandler.h"
 #include "core/PropConditions.h"
 #include "ui/WebEnginePage.h"
 #include "core/Rig.h"
@@ -39,7 +39,7 @@ private:
     bool isMainPageLoaded;
     QString postponedScripts;
     QWebChannel channel;
-    MapLayerControlHandler layerControlHandler;
+    MapWebChannelHandler layerControlHandler;
     PropConditions *prop_cond;
     QString computePath(double lat1, double lon1, double lat2, double lon2);
 };

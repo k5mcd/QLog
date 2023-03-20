@@ -12,7 +12,7 @@
 #include "models/LogbookModel.h"
 #include "core/Gridsquare.h"
 #include "core/CallbookManager.h"
-#include "ui/MapLayerControlHandler.h"
+#include "ui/MapWebChannelHandler.h"
 #include "ui/WebEnginePage.h"
 
 namespace Ui {
@@ -141,7 +141,7 @@ private:
     QCompleter *wwffCompleter;
     QCompleter *myWWFFCompleter;
     QWebChannel channel;
-    MapLayerControlHandler layerControlHandler;
+    MapWebChannelHandler layerControlHandler;
     static const QString SAVE_BUTTON_TEXT;
     static const QString EDIT_BUTTON_TEXT;
 };

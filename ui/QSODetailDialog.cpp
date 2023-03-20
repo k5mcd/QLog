@@ -957,7 +957,7 @@ void QSODetailDialog::mapLoaded(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += layerControlHandler.injectMapMenuJS();
+    postponedScripts += layerControlHandler.generateMapMenuJS();
 
     main_page->runJavaScript(postponedScripts);
 
@@ -969,7 +969,7 @@ void QSODetailDialog::mapLoaded(bool)
         main_page->runJavaScript(themeJavaScript);
     }
 
-    layerControlHandler.restoreControls(main_page);
+    layerControlHandler.restoreLayerControlStates(main_page);
 }
 
 void QSODetailDialog::myGridChanged(QString newGrid)

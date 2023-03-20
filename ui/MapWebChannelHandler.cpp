@@ -1,19 +1,19 @@
 #include <QFile>
 #include <QSettings>
 
-#include "MapLayerControlHandler.h"
+#include "MapWebChannelHandler.h"
 #include "core/debug.h"
 
 MODULE_IDENTIFICATION("qlog.ui.maplayercontrolhandler");
 
-MapLayerControlHandler::MapLayerControlHandler(const QString configID,
+MapWebChannelHandler::MapWebChannelHandler(const QString configID,
                                                QObject *parent)
     : QObject(parent),
       configID(configID)
 {
 }
 
-void MapLayerControlHandler::connectChannel(QWebEnginePage *page)
+void MapWebChannelHandler::connectWebChannel(QWebEnginePage *page)
 {
     FCT_IDENTIFICATION;
 
@@ -74,7 +74,7 @@ void MapLayerControlHandler::connectChannel(QWebEnginePage *page)
     page->runJavaScript(js);
 }
 
-void MapLayerControlHandler::restoreControls(QWebEnginePage *page)
+void MapWebChannelHandler::restoreLayerControlStates(QWebEnginePage *page)
 {
     FCT_IDENTIFICATION;
 
@@ -102,10 +102,10 @@ void MapLayerControlHandler::restoreControls(QWebEnginePage *page)
 
     page->runJavaScript(js);
 
-    connectChannel(page);
+    connectWebChannel(page);
 }
 
-QString MapLayerControlHandler::injectMapMenuJS(bool gridLayer,
+QString MapWebChannelHandler::generateMapMenuJS(bool gridLayer,
                                                 bool grayline,
                                                 bool aurora,
                                                 bool muf,
@@ -147,7 +147,7 @@ QString MapLayerControlHandler::injectMapMenuJS(bool gridLayer,
     return ret;
 }
 
-void MapLayerControlHandler::handleLayerSelectionChanged(const QVariant &data, const QVariant &state)
+void MapWebChannelHandler::handleLayerSelectionChanged(const QVariant &data, const QVariant &state)
 {
     FCT_IDENTIFICATION;
 

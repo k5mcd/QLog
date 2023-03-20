@@ -7,7 +7,7 @@
 #include <QComboBox>
 #include <QWebChannel>
 
-#include "ui/MapLayerControlHandler.h"
+#include "ui/MapWebChannelHandler.h"
 #include "ui/WebEnginePage.h"
 
 namespace Ui {
@@ -53,7 +53,7 @@ private:
     bool isMainPageLoaded;
     QString postponedScripts;
     QWebChannel channel;
-    MapLayerControlHandler layerControlHandler;
+    MapWebChannelHandler layerControlHandler;
 };
 
 #endif // STATISTICSWIDGET_H
