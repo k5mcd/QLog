@@ -39,9 +39,10 @@ private:
     bool isMainPageLoaded;
     QString postponedScripts;
     QWebChannel channel;
-    MapWebChannelHandler layerControlHandler;
+    MapWebChannelHandler webChannelHandler;
     PropConditions *prop_cond;
-    QString computePath(double lat1, double lon1, double lat2, double lon2);
+
+    void runJavaScript(QString &);
 };
 
 #endif // ONLINEMAPWIDGET_H

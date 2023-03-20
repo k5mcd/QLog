@@ -22,7 +22,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   QWebEngineView(parent),
   main_page(new WebEnginePage(this)),
   isMainPageLoaded(false),
-  layerControlHandler("onlinemap",parent),
+  webChannelHandler("onlinemap",parent),
   prop_cond(nullptr)
 {
     FCT_IDENTIFICATION;
@@ -37,8 +37,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
 
     setFocusPolicy(Qt::ClickFocus);
     setContextMenuPolicy(Qt::NoContextMenu);
-    channel.registerObject("layerControlHandler", &layerControlHandler);
-
+    channel.registerObject("layerControlHandler", &webChannelHandler);
 
     double freq = settings.value("newcontact/frequency", 3.5).toDouble();
     freq += RigProfilesManager::instance()->getCurProfile1().ritOffset;
@@ -52,7 +51,7 @@ void OnlineMapWidget::setTarget(double lat, double lon)
 
     qCDebug(function_parameters) << lat << " " << lon;
 
-    QString targetJavaScript = QString("drawPath([]);");
+    QString targetJavaScript;
 
     if ( ! qIsNaN(lat) && ! qIsNaN(lon) )
     {
@@ -66,19 +65,18 @@ void OnlineMapWidget::setTarget(double lat, double lon)
             my_lat = myGrid.getLatitude();
             my_lon = myGrid.getLongitude();
 
-            QString path = computePath(my_lat,my_lon, lat, lon);
-            targetJavaScript += QString("drawPath(%1);").arg(path);
+            targetJavaScript += QString("drawPath([{lat: %1, lng: %2}, {lat: %3, lng: %4}]);").arg(my_lat)
+                                                                                              .arg(my_lon)
+                                                                                              .arg(lat)
+                                                                                              .arg(lon);
         }
-    }
-
-    if ( !isMainPageLoaded )
-    {
-        postponedScripts.append(targetJavaScript);
     }
     else
     {
-        main_page->runJavaScript(targetJavaScript);
+        targetJavaScript = QString("drawPath([]);");
     }
+
+    runJavaScript(targetJavaScript);
 }
 
 void OnlineMapWidget::changeTheme(int theme)
@@ -98,14 +96,7 @@ void OnlineMapWidget::changeTheme(int theme)
         themeJavaScript = "map.getPanes().tilePane.style.webkitFilter=\"\";";
     }
 
-    if ( !isMainPageLoaded )
-    {
-        postponedScripts.append(themeJavaScript);
-    }
-    else
-    {
-        main_page->runJavaScript(themeJavaScript);
-    }
+    runJavaScript(themeJavaScript);
 }
 
 void OnlineMapWidget::auroraDataUpdate()
@@ -137,16 +128,7 @@ void OnlineMapWidget::auroraDataUpdate()
 
     targetJavaScript = QString(" auroraLayer.setData({max: 100, data:[%1]});").arg(mapPoints.join(","));
 
-    qCDebug(runtime) << "Aurora JS: "<< targetJavaScript;
-
-    if ( !isMainPageLoaded )
-    {
-        postponedScripts.append(targetJavaScript);
-    }
-    else
-    {
-        main_page->runJavaScript(targetJavaScript);
-    }
+    runJavaScript(targetJavaScript);
 }
 
 void OnlineMapWidget::mufDataUpdate()
@@ -174,16 +156,7 @@ void OnlineMapWidget::mufDataUpdate()
 
     QString targetJavaScript = QString(" drawMuf([%1]);").arg(mapPoints.join(","));
 
-    qCDebug(runtime) << "MUF JS: "<< targetJavaScript;
-
-    if ( !isMainPageLoaded )
-    {
-        postponedScripts.append(targetJavaScript);
-    }
-    else
-    {
-        main_page->runJavaScript(targetJavaScript);
-    }
+    runJavaScript(targetJavaScript);
 }
 
 void OnlineMapWidget::setIBPBand(VFOID , double, double ritFreq, double)
@@ -194,47 +167,7 @@ void OnlineMapWidget::setIBPBand(VFOID , double, double ritFreq, double)
 
     QString targetJavaScript = QString("currentBand=\"%1\";").arg(newBand.name);
 
-    if ( !isMainPageLoaded )
-    {
-        postponedScripts.append(targetJavaScript);
-    }
-    else
-    {
-        main_page->runJavaScript(targetJavaScript);
-    }
-}
-
-QString OnlineMapWidget::computePath(double lat1, double lon1, double lat2, double lon2)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << lat1 << " " << lon1 << " " << lat2 << " " << lon2;
-
-    QStringList result;
-
-    double latA = lat1  * M_PI / 180;
-    double latB = lat2  * M_PI / 180;
-    double lonA = lon1  * M_PI / 180;
-    double lonB = lon2  * M_PI / 180;
-
-    double d = 2*asin(sqrt(pow(sin(latA-latB)/2, 2) + cos(latA)* cos(latB) * pow(sin((lonA-lonB)/2), 2)));
-
-    double f = 0;
-
-    for (int i = 0; i < 1000; i++)
-    {
-        double A = sin((1-f)*d)/sin(d);
-        double B = sin(f*d)/sin(d);
-        double x = A*cos(latA)*cos(lonA) + B*cos(latB)*cos(lonB);
-        double y = A*cos(latA)*sin(lonA) + B*cos(latB)*sin(lonB);
-        double z = A*sin(latA)           + B*sin(latB);
-        double lat = atan2(z, sqrt(x*x + y*y));
-        double lon = atan2(y, x);
-        result.append(QString("[%1, %2]").arg(lat*(180/M_PI)).arg(lon*(180/M_PI)));
-
-        f += 0.001;
-    }
-    return "[" + result.join(",") + "]";
+    runJavaScript(targetJavaScript);
 }
 
 void OnlineMapWidget::finishLoading(bool)
@@ -246,7 +179,7 @@ void OnlineMapWidget::finishLoading(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += layerControlHandler.generateMapMenuJS(true, true, true, true, true);
+    postponedScripts += webChannelHandler.generateMapMenuJS(true, true, true, true, true);
 
     /* focus current location */
     Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
@@ -260,8 +193,24 @@ void OnlineMapWidget::finishLoading(bool)
     }
 
     main_page->runJavaScript(postponedScripts);
-    layerControlHandler.restoreLayerControlStates(main_page);
+    webChannelHandler.restoreLayerControlStates(main_page);
     auroraDataUpdate();
+}
+
+void OnlineMapWidget::runJavaScript(QString &js)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << js;
+
+    if ( !isMainPageLoaded )
+    {
+        postponedScripts.append(js);
+    }
+    else
+    {
+        main_page->runJavaScript(js);
+    }
 }
 
 OnlineMapWidget::~OnlineMapWidget()

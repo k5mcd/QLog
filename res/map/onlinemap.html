@@ -11,6 +11,7 @@
   <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
   <script src="https://foldynl.github.io/QLog/js/heatmap.js"></script>
   <script src="https://foldynl.github.io/QLog/js/leaflet-heatmap.js"></script>
+  <script src="https://unpkg.com/leaflet.geodesic@2.6.1/dist/leaflet.geodesic.umd.min.js"></script>
   <style>
     body {
       padding: 0;
@@ -121,17 +122,19 @@
     var auroraLayer = new HeatmapOverlay(auroraCfg);
 
     var pathLayer = L.layerGroup().addTo(map);
+    const geodesic = new L.Geodesic([],{ wrap: false, color: "Fuchsia"});
+    pathLayer.addLayer(geodesic);
 
     function drawPath(points) {
-        pathLayer.clearLayers();
-        if ( points.length > 0 ) {
-            var polyLine = new L.Polyline(points, {color: 'Fuchsia', weight: 3, opacity: 0.7, smoothFactor: 1 });
-            pathLayer.addLayer(polyLine);
-            var bounds = polyLine.getBounds();
-            map.fitBounds(bounds, {animate:false});
-            var center = bounds.getCenter();
-            map.panTo(center);
-        }
+        geodesic.setLatLngs([]);
+
+        if (points.length != 2)
+            return;
+        geodesic.setLatLngs([points[0], points[1]]);
+        var bounds = geodesic.getBounds();
+        map.fitBounds(bounds, {animate:false});
+        var center = bounds.getCenter();
+        map.panTo(center);
     }
 
     var markersLayer = L.layerGroup().addTo(map);
