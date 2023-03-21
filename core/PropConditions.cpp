@@ -150,7 +150,6 @@ void PropConditions::processReply(QNetworkReply* reply)
                         double longitute = obj[0].toDouble();
                         double latitude = obj[1].toDouble();
                         double prob = obj[2].toDouble();
-                        auroraMap.addPoint(longitute - 360, latitude, prob, &skipElement);
                         auroraMap.addPoint(longitute, latitude, prob, &skipElement);
                     }
                 }
@@ -176,7 +175,6 @@ void PropConditions::processReply(QNetworkReply* reply)
                     double longitute = station["longitude"].toString().toDouble();
                     double latitude = station["latitude"].toString().toDouble();
                     double muf = obj["mufd"].toDouble();
-                    mufMap.addPoint(longitute - 360, latitude, muf,&skipElement);
                     mufMap.addPoint(longitute, latitude, muf, &skipElement);
                 }
                 mufMap_last_update = QDateTime::currentDateTime();

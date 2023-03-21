@@ -48,18 +48,16 @@
   <div id="map"></div>
 
   <script>
-    var mapOptions = {
-             center: [0,0],
-             zoom: 2,
-             minZoom: 2,
-    }
 
-    var grids_worked = [];
-    var grids_confirmed = [];
-    var mylocations = [];
+    var grids_worked = [];    //field of Grids used for rendering Worked Grids
+    var grids_confirmed = []; //field of Grids used for rendering Confirmed Grids
+    var mylocations = [];     //field of My Locations
     var locations = [];
-    var map = L.map('map', mapOptions);
-    var greenIcon = new L.Icon({
+
+    var map = L.map('map', {center: [0,0], zoom: 2, minZoom: 2});
+
+    // green Icon definition. It is usually used for confirmed QSOs
+    const greenIcon = new L.Icon({
       iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
       shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
       iconSize: [25, 41],
@@ -68,7 +66,8 @@
       shadowSize: [41, 41]
     });
 
-    var yellowIcon = new L.Icon({
+    // yellow Icon definition. It is usually used for generic QSOs or generic point
+    const yellowIcon = new L.Icon({
       iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
       shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
       iconSize: [25, 41],
@@ -77,7 +76,8 @@
       shadowSize: [41, 41]
     });
 
-    var homeIcon = new L.Icon({
+    // home Icon definition. It is usually used for own location
+    const homeIcon = new L.Icon({
       iconUrl: 'https://img.icons8.com/officel/30/000000/radio-tower.png',
       iconSize: [50, 50],
       iconAnchor: [12, 41],
@@ -96,12 +96,13 @@
 
     function updateTerminator(grayline)
     {
-       var t2 = L.terminator({fillOpacity: 0.2});
+       let t2 = L.terminator({fillOpacity: 0.2});
        grayline.setLatLngs(t2.getLatLngs());
        grayline.redraw();
     }
 
-    var auroraCfg = {
+    // Configuration for Aurora Heatmap
+    const auroraCfg = {
       // radius should be small ONLY if scaleRadius is true (or small radius is intended)
       "radius": 2,
       "maxOpacity": .3,
@@ -121,6 +122,7 @@
 
     var auroraLayer = new HeatmapOverlay(auroraCfg);
 
+    // Path 1 - usually used for rendering Path between my station and QSO station
     var pathLayer = L.layerGroup().addTo(map);
     const geodesic = new L.Geodesic([],{ wrap: false, color: "Fuchsia"});
     pathLayer.addLayer(geodesic);
@@ -131,44 +133,47 @@
         if (points.length != 2)
             return;
         geodesic.setLatLngs([points[0], points[1]]);
-        var bounds = geodesic.getBounds();
-        map.fitBounds(bounds, {animate:false});
-        var center = bounds.getCenter();
-        map.panTo(center);
+        map.fitBounds(geodesic.getBounds(), {animate:false});
+        map.panTo(geodesic.getBounds().getCenter());
     }
 
     var markersLayer = L.layerGroup().addTo(map);
 
+    // generic function to render point on the map
     function drawPoints(points) {
         markersLayer.clearLayers();
         points.forEach(function(point) {
-           var marker = L.marker([point[1], point[2]], {
+           let marker = L.marker([point[1], point[2]], {
                         icon: point[3]})
                         .bindPopup(point[0]);
            markersLayer.addLayer(marker);
         });
      }
 
+     // generic function for flying to the point
      function flyToPoint(point, zoom) {
         map.flyTo([point[1], point[2]],zoom);
      }
 
      var markersLayer2 = L.layerGroup().addTo(map);
 
+     // generic function to render the sencond layer of the points
+     // It is usually used to render My QTHs
      function drawPointsGroup2(points) {
         markersLayer2.clearLayers();
         points.forEach(function(point) {
-           var marker = L.marker([point[1], point[2]], {
+           let marker = L.marker([point[1], point[2]], {
                         icon: point[3]})
                         .bindPopup(point[0]);
            markersLayer2.addLayer(marker);
         });
      }
 
+    // compute 3-color gradient
     function colorGradient(fadeFraction, rgbColor1, rgbColor2, rgbColor3) {
-      var color1 = rgbColor1;
-      var color2 = rgbColor2;
-      var fade = fadeFraction;
+      let color1 = rgbColor1;
+      let color2 = rgbColor2;
+      let fade = fadeFraction;
 
       if (rgbColor3) {
         fade = fade * 2;
@@ -180,11 +185,11 @@
         }
       }
 
-      var diffRed = color2.red - color1.red;
-      var diffGreen = color2.green - color1.green;
-      var diffBlue = color2.blue - color1.blue;
+      let diffRed = color2.red - color1.red;
+      let diffGreen = color2.green - color1.green;
+      let diffBlue = color2.blue - color1.blue;
 
-      var gradient = {
+      let gradient = {
         red: parseInt(Math.floor(color1.red + (diffRed * fade)), 10),
         green: parseInt(Math.floor(color1.green + (diffGreen * fade)), 10),
         blue: parseInt(Math.floor(color1.blue + (diffBlue * fade)), 10),
@@ -195,20 +200,26 @@
 
     var mufLayer = L.layerGroup();
 
+    // Render MUF points
     function drawMuf(points) {
-       var lowColor = {
+
+       // definition of the color used to render the MUF
+       // LOW Color for low frequency
+       const lowColor = {
             red: 0,
             green: 131,
             blue: 255
        };
 
-       var mediumColor = {
+       // MEDIUM Color for frequencies in the middle
+       const mediumColor = {
            red: 255,
            green: 162,
            blue: 0
        };
 
-       var highColor = {
+       // HIGH Color for high frequency
+       const highColor = {
            red: 255,
            green: 255,
            blue: 0
@@ -216,11 +227,15 @@
 
        mufLayer.clearLayers();
        points.forEach(function(point) {
-            var marker = new L.marker([point[1], point[2]], {opacity: 0.001 });
+            let marker = new L.marker([point[1], point[2]], {opacity: 0.001 });
             marker.bindTooltip(point[0], {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+            // color gradient is calculated for number interval 0 - 1.
+            // MUF value is a fgrequency. Threfore is it needed to recalculate Freq to interval 0 - 1
+            // QLog currently recalculate the interval 0 - 50 MHz. This is due to the fact that
+            // most of the values move in this interval and it is easy to see the individual frequency ranges
             const oldValue = parseFloat(point[0]);
-            const oldMin = 0; const oldMax = 50;
-            const newMin = 0; const newMax = 1;
+            const oldMin = 0; const oldMax = 50; //frequency input range (0 - 50MHz)
+            const newMin = 0; const newMax = 1; //mapped to range 0 - 1
             const newValue = (oldValue - oldMin) / (oldMax - oldMin) * (newMax - newMin) + newMin;
             const color = colorGradient(newValue, lowColor, mediumColor, highColor);
 
@@ -229,8 +244,9 @@
          });
      }
 
-    var band = ["20m", "17m","15m","12m","10m"];
-    var beacons = [{name: '4U1UN', lat: 40.7501,   lon: -73.9682,  active: true},
+    // Definition for IBP
+    const band = ["20m", "17m","15m","12m","10m"];
+    const beacons = [{name: '4U1UN', lat: 40.7501,   lon: -73.9682,  active: true},
                    {name: 'VE8AT', lat: 79.9949,   lon: -85.8451,  active: true},
                    {name: 'W6WX',  lat: 37.1599,   lon: -121.9083, active: true},
                    {name: 'KH6RS', lat: 20.7652,   lon: -156.3502, active: true},
@@ -248,10 +264,32 @@
                    {name: 'LU4AA', lat: -34.6439,  lon: -58.4138,  active: true},
                    {name: 'OA4B',  lat: -12.0940,  lon: -77.0165,  active: true},
                    {name: 'YV5B',  lat: 9.0964,    lon: -67.8239,  active: true}]
-    var currentBand="";
+    var currentBand=""; // to control which band is displayed
     var IBPLayer = L.layerGroup().addTo(map);
     var prevStationIndex = -1;
 
+    // render IPB Beacon Point
+    function beaconPoint(beacon, color) {
+       let pointColor = color
+       if ( !beacon.active ) {
+         pointColor = 'red';
+       }
+
+       let marker = new L.marker([beacon.lat, beacon.lon], {opacity: 0.001 });
+       let mirrorLon = beacon.lon - 360;
+       if ( mirrorLon < -360 ) {
+          mirrorLon = beacon.lon + 360;
+       }
+       let markerMirror = new L.marker([beacon.lat, mirrorLon], {opacity: 0.001 });
+       marker.bindTooltip(beacon.name, {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+       markerMirror.bindTooltip(beacon.name, {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+       marker.getTooltip().setContent(`<div style="background-color: ${pointColor};border-radius: 20px;padding: 5px;font-weight: bold;">${marker.getTooltip().getContent()}</div>`);
+       markerMirror.getTooltip().setContent(`<div style="background-color: ${pointColor};border-radius: 20px;padding: 5px;font-weight: bold;">${markerMirror.getTooltip().getContent()}</div>`);
+       IBPLayer.addLayer(marker);
+       IBPLayer.addLayer(markerMirror);
+    }
+
+    // Update IPB Beacon Points
     function updateBeacon() {
 
        currentBandIndex = band.indexOf(currentBand);
@@ -261,10 +299,10 @@
            return;
        }
 
-       var today = new Date();
-       var n = Math.floor(today.getTime()/10000) % 18;
-       var currentStationIndex = (18 + n - currentBandIndex) % 18;
-       var nextStationIndex = (19 + n - currentBandIndex) % 18;
+       let today = new Date();
+       let n = Math.floor(today.getTime()/10000) % 18;
+       let currentStationIndex = (18 + n - currentBandIndex) % 18;
+       let nextStationIndex = (19 + n - currentBandIndex) % 18;
 
        if ( currentStationIndex == prevStationIndex ) {
            return;
@@ -275,27 +313,12 @@
        prevStationIndex = currentStationIndex;
 
        // show current
-       var b = beacons[currentStationIndex]
-       var color = '#FFFF33';
-       if ( !b.active ) {
-           color = 'red';
-       }
-
-       var marker = new L.marker([b.lat, b.lon], {opacity: 0.001 });
-       marker.bindTooltip(b.name, {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
-       marker.getTooltip().setContent(`<div style="background-color: ${color};border-radius: 20px;padding: 5px;font-weight: bold;">${marker.getTooltip().getContent()}</div>`);
-       IBPLayer.addLayer(marker);
+       let b = beacons[currentStationIndex]
+       beaconPoint(b, '#FFFF33');
 
        // show next
        b = beacons[nextStationIndex]
-       color = '#1AA260';
-       if ( !b.active ) {
-          color = 'red';
-       }
-       marker = new L.marker([b.lat, b.lon], {opacity: 0.001 });
-       marker.bindTooltip(b.name, {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
-       marker.getTooltip().setContent(`<div style="background-color: ${color};border-radius: 20px;padding: 5px;font-weight: bold;">${marker.getTooltip().getContent()}</div>`);
-       IBPLayer.addLayer(marker);
+       beaconPoint(b, '#1AA260');
     }
 
     setInterval(function(){updateBeacon()}, 250);

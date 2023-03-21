@@ -121,6 +121,9 @@ void OnlineMapWidget::auroraDataUpdate()
             {
                 mapPoints << QString("{lat: %1, lng: %2, count: %3}").arg(point.latitude)
                                                                      .arg(point.longitude)
+                                                                     .arg(point.value)
+                          << QString("{lat: %1, lng: %2, count: %3}").arg(point.latitude)
+                                                                     .arg(point.longitude - 360)
                                                                      .arg(point.value);
             }
         }
@@ -150,7 +153,10 @@ void OnlineMapWidget::mufDataUpdate()
         {
             mapPoints << QString("['%1', %2, %3]").arg(QString::number(point.value,'f',0))
                                                 .arg(point.latitude)
-                                                .arg(point.longitude);
+                                                .arg(point.longitude)
+                      << QString("['%1', %2, %3]").arg(QString::number(point.value,'f',0))
+                                                .arg(point.latitude)
+                                                .arg(point.longitude - 360);
         }
     }
 
