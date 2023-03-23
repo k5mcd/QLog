@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->cwconsoleWidget->registerContactWidget(ui->newContactWidget);
     ui->rotatorWidget->registerContactWidget(ui->newContactWidget);
+    ui->onlineMapWidget->registerContactWidget(ui->newContactWidget);
 
     QSettings settings;
 
@@ -136,6 +137,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::reloadSettings);
     connect(this, &MainWindow::settingsChanged, ui->rigWidget, &RigWidget::reloadSettings);
     connect(this, &MainWindow::settingsChanged, ui->cwconsoleWidget, &CWConsoleWidget::reloadSettings);
+    connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::redrawMap);
+    connect(this, &MainWindow::settingsChanged, ui->onlineMapWidget, &OnlineMapWidget::flyToMyQTH);
     connect(this, &MainWindow::alertRulesChanged, &alertEvaluator, &AlertEvaluator::loadRules);
     connect(this, &MainWindow::altBackslash, Rig::instance(), &Rig::setPTT);
     connect(this, &MainWindow::manualMode, ui->newContactWidget, &NewContactWidget::setManualMode);
@@ -159,6 +162,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->onlineMapWidget, &OnlineMapWidget::setIBPBand);
     connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, this, &MainWindow::stationProfileChanged);
     connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, ui->rotatorWidget, &RotatorWidget::redrawMap);
+    connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, ui->onlineMapWidget, &OnlineMapWidget::flyToMyQTH);
     connect(ui->newContactWidget, &NewContactWidget::markQSO, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->newContactWidget, &NewContactWidget::rigProfileChanged, ui->rigWidget, &RigWidget::refreshRigProfileCombo);
 

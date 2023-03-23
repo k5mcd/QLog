@@ -374,6 +374,9 @@ void NewContactWidget::readGlobalSettings()
     refreshStationProfileCombo();
     refreshRigProfileCombo();
     refreshAntProfileCombo();
+
+    // recalculate all stats
+    queryDxcc(ui->callsignEdit->text().toUpper());
 }
 
 /* function is called when an operator change Callsign Edit */
@@ -2376,6 +2379,21 @@ double NewContactWidget::getQSOBearing() const
     return ret_bearing;
 }
 
+double NewContactWidget::getQSODistance() const
+{
+    FCT_IDENTIFICATION;
+
+    double ret_distance = qQNaN();
+
+    if ( !ui->distanceInfo->text().isEmpty() )
+    {
+        QString distanceString = ui->distanceInfo->text();
+        ret_distance = distanceString.mid(0,distanceString.length()-3).toDouble();
+    }
+
+    return ret_distance;
+}
+
 void NewContactWidget::propModeChanged(const QString &propModeText)
 {
     FCT_IDENTIFICATION;
@@ -2412,6 +2430,9 @@ void NewContactWidget::stationProfileComboChanged(QString profileName)
     StationProfilesManager::instance()->setCurProfile1(profileName);
 
     emit stationProfileChanged();
+
+    // recalculate all stats
+    queryDxcc(ui->callsignEdit->text().toUpper());
 }
 
 void NewContactWidget::rigProfileComboChanged(QString profileName)

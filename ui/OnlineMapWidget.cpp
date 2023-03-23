@@ -15,6 +15,7 @@
 #include "core/PropConditions.h"
 #include "data/Band.h"
 #include "data/Data.h"
+#include "core/Rotator.h"
 
 MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
@@ -23,7 +24,11 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   main_page(new WebEnginePage(this)),
   isMainPageLoaded(false),
   webChannelHandler("onlinemap",parent),
-  prop_cond(nullptr)
+  prop_cond(nullptr),
+  contact(nullptr),
+  lastSeenAzimuth(0),
+  lastSeenElevation(0),
+  isRotConnected(false)
 {
     FCT_IDENTIFICATION;
 
@@ -43,6 +48,10 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
     freq += RigProfilesManager::instance()->getCurProfile1().ritOffset;
 
     setIBPBand(VFO1, 0.0, freq, 0.0);
+
+    connect(Rotator::instance(), &Rotator::positionChanged, this, &OnlineMapWidget::antPositionChanged);
+    connect(Rotator::instance(), &Rotator::rotConnected, this, &OnlineMapWidget::rotConnected);
+    connect(Rotator::instance(), &Rotator::rotDisconnected, this, &OnlineMapWidget::rotDisconnected);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
@@ -77,6 +86,9 @@ void OnlineMapWidget::setTarget(double lat, double lon)
     }
 
     runJavaScript(targetJavaScript);
+
+    // redraw ant path because QSO distance can change
+    antPositionChanged(lastSeenAzimuth, lastSeenElevation);
 }
 
 void OnlineMapWidget::changeTheme(int theme)
@@ -176,6 +188,74 @@ void OnlineMapWidget::setIBPBand(VFOID , double, double ritFreq, double)
     runJavaScript(targetJavaScript);
 }
 
+void OnlineMapWidget::antPositionChanged(int in_azimuth, int in_elevation)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << in_azimuth << " " << in_elevation;
+
+    if ( ! isRotConnected )
+        return;
+
+    QString targetJavaScript;
+    lastSeenAzimuth = in_azimuth;
+    lastSeenElevation = in_elevation;
+
+    /* Draw a new path */
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
+
+    if ( myGrid.isValid() )
+    {
+        double my_lat=0;
+        double my_lon=0;
+        my_lat = myGrid.getLatitude();
+        my_lon = myGrid.getLongitude();
+
+        double beamLen = 3000; // in km
+        double angle = 20; // in degree
+        if ( contact )
+        {
+            double newBeamLen = contact->getQSODistance();
+            if ( !qIsNaN(newBeamLen) )
+            {
+                beamLen = newBeamLen;
+            }
+        }
+        targetJavaScript += QString("drawAntPath({lat: %1, lng: %2}, %3, %4, %5);").arg(my_lat)
+                                                                                   .arg(my_lon)
+                                                                                   .arg(beamLen)
+                                                                                   .arg(in_azimuth)
+                                                                                   .arg(angle);
+    }
+    else
+    {
+        // clean paths
+        targetJavaScript = QString("drawAntPath({}, 0, 0, 0);");
+    }
+
+    runJavaScript(targetJavaScript);
+}
+
+void OnlineMapWidget::rotConnected()
+{
+    FCT_IDENTIFICATION;
+
+    isRotConnected = true;
+    Rotator::instance()->sendState();
+}
+
+void OnlineMapWidget::rotDisconnected()
+{
+    FCT_IDENTIFICATION;
+
+    isRotConnected = false;
+
+    // clear the Ant Path
+    QString targetJavaScript = QString("drawAntPath({}, 0, 0, 0);");
+
+    runJavaScript(targetJavaScript);
+}
+
 void OnlineMapWidget::finishLoading(bool)
 {
     FCT_IDENTIFICATION;
@@ -185,21 +265,13 @@ void OnlineMapWidget::finishLoading(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += webChannelHandler.generateMapMenuJS(true, true, true, true, true);
-
-    /* focus current location */
-    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
-
-    if ( myGrid.isValid() )
-    {
-        double my_lat = myGrid.getLatitude();
-        double my_lon = myGrid.getLongitude();
-        QString currentProfilePosition(QString("[\"\", %1, %2, yellowIcon]").arg(my_lat).arg(my_lon));
-        postponedScripts += QString("flyToPoint(%1, 4);").arg(currentProfilePosition);
-    }
-
+    postponedScripts += webChannelHandler.generateMapMenuJS(true, true, true, true, true, true);
     main_page->runJavaScript(postponedScripts);
+    postponedScripts = QString();
+
     webChannelHandler.restoreLayerControlStates(main_page);
+
+    flyToMyQTH();
     auroraDataUpdate();
 }
 
@@ -219,6 +291,23 @@ void OnlineMapWidget::runJavaScript(QString &js)
     }
 }
 
+void OnlineMapWidget::flyToMyQTH()
+{
+    FCT_IDENTIFICATION;
+
+    /* focus current location */
+    Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
+
+    if ( myGrid.isValid() )
+    {
+        double my_lat = myGrid.getLatitude();
+        double my_lon = myGrid.getLongitude();
+        QString currentProfilePosition(QString("[\"\", %1, %2, yellowIcon]").arg(my_lat).arg(my_lon));
+        QString js = QString("flyToPoint(%1, 4);").arg(currentProfilePosition);
+        runJavaScript(js);
+    }
+}
+
 OnlineMapWidget::~OnlineMapWidget()
 {
     FCT_IDENTIFICATION;
@@ -231,4 +320,10 @@ void OnlineMapWidget::assignPropConditions(PropConditions *conditions)
     FCT_IDENTIFICATION;
 
     prop_cond = conditions;
+}
+
+void OnlineMapWidget::registerContactWidget(const NewContactWidget *contactWidget)
+{
+    FCT_IDENTIFICATION;
+    contact = contactWidget;
 }

@@ -49,6 +49,7 @@ public:
     QString getMyVUCC() const;
     QString getMyPWR() const;
     double getQSOBearing() const;
+    double getQSODistance() const;
 
 
 signals:

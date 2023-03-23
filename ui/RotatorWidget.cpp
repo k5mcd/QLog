@@ -16,7 +16,8 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
     QWidget(parent),
     waitingFirstValue(true),
     compassScene(nullptr),
-    ui(new Ui::RotatorWidget)
+    ui(new Ui::RotatorWidget),
+    contact(nullptr)
 {
     FCT_IDENTIFICATION;
 

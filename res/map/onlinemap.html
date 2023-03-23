@@ -54,7 +54,7 @@
     var mylocations = [];     //field of My Locations
     var locations = [];
 
-    var map = L.map('map', {center: [0,0], zoom: 2, minZoom: 2});
+    var map = L.map('map', {center: [0,0], zoom: 2, minZoom: 1});
 
     // green Icon definition. It is usually used for confirmed QSOs
     const greenIcon = new L.Icon({
@@ -124,8 +124,16 @@
 
     // Path 1 - usually used for rendering Path between my station and QSO station
     var pathLayer = L.layerGroup().addTo(map);
-    const geodesic = new L.Geodesic([],{ wrap: false, color: "Fuchsia"});
+    const geodesic = new L.Geodesic([],{ wrap: false, color: "Fuchsia", steps: 5});
     pathLayer.addLayer(geodesic);
+
+    var antPathLayer = L.layerGroup().addTo(map);
+    var antGeodesic1 = new L.Geodesic([],{ wrap: false, color: "orange", steps: 5,
+                                           dashArray: '10,10', dashOffset: '10'});
+    var antGeodesic2 = new L.Geodesic([],{ wrap: false, color: "orange", steps: 5,
+                                           dashArray: '10,10', dashOffset: '10'});
+    antPathLayer.addLayer(antGeodesic1);
+    antPathLayer.addLayer(antGeodesic2);
 
     function drawPath(points) {
         geodesic.setLatLngs([]);
@@ -134,7 +142,46 @@
             return;
         geodesic.setLatLngs([points[0], points[1]]);
         map.fitBounds(geodesic.getBounds(), {animate:false});
-        map.panTo(geodesic.getBounds().getCenter());
+        //map.panTo(geodesic.getBounds().getCenter(), {animate:false});
+    }
+
+    // function computes a destination point based on distance and azimuth
+    function beamEndPosition(fromPoint, distance, azimuth) {
+        const M_PI = Math.PI;
+        const d = distance / 6371;
+        let lat1 = fromPoint.lat * M_PI / 180;
+        let lon1 = fromPoint.lng * M_PI / 180;
+        const alpha1 = azimuth * M_PI / 180;
+
+        let lat2 = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(alpha1));
+        let lon2 = lon1 + Math.atan2(Math.sin(alpha1) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(lat2));
+
+        let newLat = lat2 * 180 / M_PI;
+        return {"lat": newLat, "lng": (lon2 * 180 / M_PI)};
+    }
+
+    // generic function to render Ant Path
+    function drawAntPath(fromPoint, distance, azimuth, antAngle) {
+        let line1 = []; // empty field means delete the line;
+        let line2 = []; // empty field means delete the line;
+        if (fromPoint && Object.keys(fromPoint).length != 0) {
+            line1 = [fromPoint, beamEndPosition(fromPoint, distance, azimuth - (antAngle/2))];
+            line2 = [fromPoint, beamEndPosition(fromPoint, distance, azimuth + (antAngle/2))];
+        }
+        antGeodesic1.setLatLngs(line1);
+        antGeodesic2.setLatLngs(line2);
+        // too many movements if focusing also antenna path, disable it
+        //fitQSOAnt();
+    }
+
+    function fitQSOAnt() {
+       let bound = geodesic.getBounds();
+       if ( map.hasLayer(antPathLayer) ) {
+          bound.extend(antGeodesic1.getBounds());
+          bound.extend(antGeodesic2.getBounds());
+       }
+       //map.fitBounds(bound, {animate:false});
+       map.panTo(bound.getCenter(), {animate:false});
     }
 
     var markersLayer = L.layerGroup().addTo(map);

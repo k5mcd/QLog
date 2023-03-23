@@ -48,6 +48,7 @@ int Rotator::getAzimuth()
 {
     FCT_IDENTIFICATION;
 
+    QMutexLocker locker(&rotLock);
     return azimuth;
 }
 
@@ -55,6 +56,7 @@ int Rotator::getElevation()
 {
     FCT_IDENTIFICATION;
 
+    QMutexLocker locker(&rotLock);
     return elevation;
 }
 
@@ -70,6 +72,17 @@ void Rotator::stopTimer()
     FCT_IDENTIFICATION;
     bool check = QMetaObject::invokeMethod(Rotator::instance(), &Rotator::stopTimerImplt, Qt::QueuedConnection);
     Q_ASSERT( check );
+}
+
+void Rotator::sendState()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! rot )
+        return;
+
+    QMutexLocker locker(&rotLock);
+    forceSendState = true;
 }
 
 bool Rotator::isNetworkRot(const rot_caps *caps)
@@ -104,6 +117,7 @@ void Rotator::update()
 
     if ( !isRotConnected() )
     {
+        forceSendState = false;
         /* rot is not connected, slow down */
         timer->start(SLOW_UPDATE_INTERVAL);
         return;
@@ -125,6 +139,7 @@ void Rotator::update()
         qCDebug(runtime) << "Reconnecting to a new RIG - " << currRotProfile.profileName << "; Old - " << connectedRotProfile.profileName;
         __openRot();
         timer->start(STARTING_UPDATE_INTERVAL); // fix time is correct, it is not necessary to change.
+        forceSendState = false;
         rotLock.unlock();
         return;
     }
@@ -143,7 +158,10 @@ void Rotator::update()
             int newAzimuth = static_cast<int>(az);
             int newElevation = static_cast<int>(el);
 
-            if (newAzimuth != this->azimuth || newElevation != this->elevation)  {
+            if ( newAzimuth != this->azimuth
+                 || newElevation != this->elevation
+                 || forceSendState)
+            {
                 this->azimuth = newAzimuth;
                 this->elevation = newElevation;
                 emit positionChanged(azimuth, elevation);
@@ -162,6 +180,7 @@ void Rotator::update()
     }
 
     timer->start(STARTING_UPDATE_INTERVAL);
+    forceSendState = false;
     rotLock.unlock();
 }
 void Rotator::open()

@@ -15,7 +15,8 @@ public:
                               bool grayline = false,
                               bool aurora = false,
                               bool muf = false,
-                              bool ibp = false);
+                              bool ibp = false,
+                              bool antpath = false);
 
 public slots:
     void handleLayerSelectionChanged(const QVariant &data,

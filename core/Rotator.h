@@ -17,7 +17,6 @@ public:
     int getAzimuth();
     int getElevation();
     bool isRotConnected();
-    void stopTimer();
 
     static bool isNetworkRot(const struct rot_caps *caps);
 
@@ -32,6 +31,8 @@ public slots:
     void update();
     void open();
     void close();
+    void stopTimer();
+    void sendState();
 
     void setPosition(int azimuth, int elevation);
 
@@ -56,6 +57,8 @@ private:
     RotProfile connectedRotProfile;
     QMutex rotLock;
     QTimer* timer;
+
+    bool forceSendState;
 };
 
 #endif // ROTATOR_H

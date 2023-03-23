@@ -40,6 +40,9 @@ void MapWebChannelHandler::connectWebChannel(QWebEnginePage *page)
           "     case '" + tr("Gray-Line") + "': "
           "        foo.handleLayerSelectionChanged('grayline', 'on'); "
           "        break; "
+          "     case '" + tr("Beam") + "': "
+          "        foo.handleLayerSelectionChanged('antPathLayer', 'on'); "
+          "        break; "
           "     case '" + tr("Aurora") + "': "
           "        foo.handleLayerSelectionChanged('auroraLayer', 'on'); "
           "        break; "
@@ -60,6 +63,9 @@ void MapWebChannelHandler::connectWebChannel(QWebEnginePage *page)
           "      case '" + tr("Gray-Line") + "': "
           "         foo.handleLayerSelectionChanged('grayline', 'off'); "
           "         break; "
+          "     case '" + tr("Beam") + "': "
+          "        foo.handleLayerSelectionChanged('antPathLayer', 'off'); "
+          "        break; "
           "     case '" + tr("Aurora") + "': "
           "        foo.handleLayerSelectionChanged('auroraLayer', 'off'); "
           "        break; "
@@ -109,10 +115,21 @@ QString MapWebChannelHandler::generateMapMenuJS(bool gridLayer,
                                                 bool grayline,
                                                 bool aurora,
                                                 bool muf,
-                                                bool ibp)
+                                                bool ibp,
+                                                bool antpath)
 {
     FCT_IDENTIFICATION;
     QStringList options;
+
+    if ( aurora )
+    {
+        options << "\"" + tr("Aurora") + "\": auroraLayer";
+    }
+
+    if ( antpath )
+    {
+        options << "\"" + tr("Beam") + "\": antPathLayer";
+    }
 
     if ( gridLayer )
     {
@@ -124,19 +141,14 @@ QString MapWebChannelHandler::generateMapMenuJS(bool gridLayer,
         options << "\"" + tr("Gray-Line") + "\": grayline";
     }
 
-    if ( aurora )
+    if ( ibp )
     {
-        options << "\"" + tr("Aurora") + "\": auroraLayer";
+        options << "\"" + tr("IBP") + "\": IBPLayer";
     }
 
     if ( muf )
     {
         options << "\"" + tr("MUF") + "\": mufLayer";
-    }
-
-    if ( ibp )
-    {
-        options << "\"" + tr("IBP") + "\": IBPLayer";
     }
 
     QString ret = QString("var layerControl = new L.Control.Layers(null,"

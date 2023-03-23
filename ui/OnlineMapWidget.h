@@ -8,6 +8,7 @@
 #include "core/PropConditions.h"
 #include "ui/WebEnginePage.h"
 #include "core/Rig.h"
+#include "ui/NewContactWidget.h"
 
 namespace Ui {
 class OnlineMapWidget;
@@ -22,6 +23,7 @@ public:
     ~OnlineMapWidget();
 
     void assignPropConditions(PropConditions *);
+    void registerContactWidget(const NewContactWidget*);
 
 public slots:
     void setTarget(double lat, double lon);
@@ -29,6 +31,10 @@ public slots:
     void auroraDataUpdate();
     void mufDataUpdate();
     void setIBPBand(VFOID, double, double, double);
+    void antPositionChanged(int in_azimuth, int in_elevation);
+    void rotConnected();
+    void rotDisconnected();
+    void flyToMyQTH();
 
 protected slots:
     void finishLoading(bool);
@@ -41,6 +47,9 @@ private:
     QWebChannel channel;
     MapWebChannelHandler webChannelHandler;
     PropConditions *prop_cond;
+    const NewContactWidget *contact;
+    int lastSeenAzimuth, lastSeenElevation;
+    bool isRotConnected;
 
     void runJavaScript(QString &);
 };

@@ -937,6 +937,9 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
 
     qCDebug(function_parameters) << callsign;
 
+    if ( callsign.isEmpty())
+        return  DxccEntity();
+
     DxccEntity dxccRet;
     DxccEntity * dxccCached = localCache.object(callsign);
 
