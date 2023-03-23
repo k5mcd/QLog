@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS rot_user_buttons_profiles(
         profile_name TEXT PRIMARY KEY,
         button1_short  TEXT,
-        button1_value  REAL,
+        button1_value  REAL DEFAULT '-1',
         button2_short  TEXT,
-        button2_value  REAL,
+        button2_value  REAL DEFAULT '-1',
         button3_short  TEXT,
-        button3_value  REAL,
+        button3_value  REAL DEFAULT '-1',
         button4_short  TEXT,
-        button4_value  REAL
+        button4_value  REAL DEFAULT '-1'
 );
 
 INSERT INTO rot_user_buttons_profiles(
