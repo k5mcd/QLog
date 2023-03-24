@@ -139,6 +139,7 @@ void Rig::sendState()
     if ( ! rig )
         return;
 
+    QMutexLocker locker(&rigLock);
     forceSendState = true;
 }
 
