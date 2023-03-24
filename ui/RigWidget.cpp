@@ -54,6 +54,7 @@ RigWidget::RigWidget(QWidget *parent) :
 
     resetRigInfo();
 
+    rigDisconnected();
 }
 
 RigWidget::~RigWidget()
@@ -293,6 +294,8 @@ void RigWidget::rigConnected()
 
     ui->rigProfilCombo->setStyleSheet("QComboBox {color: green}");
     rigOnline = true;
+    ui->bandComboBox->setEnabled(true);
+    ui->modeComboBox->setEnabled(true);
 }
 
 void RigWidget::rigDisconnected()
@@ -302,6 +305,8 @@ void RigWidget::rigDisconnected()
     ui->rigProfilCombo->setStyleSheet("QComboBox {color: red}");
     rigOnline = false;
     resetRigInfo();
+    ui->bandComboBox->setEnabled(false);
+    ui->modeComboBox->setEnabled(false);
 }
 
 void RigWidget::resetRigInfo()
