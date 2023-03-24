@@ -157,6 +157,8 @@ void Rotator::update()
         {
             int newAzimuth = static_cast<int>(az);
             int newElevation = static_cast<int>(el);
+            // Azimuth Normalization (-180,180) -> (0,360) - ADIF defined interval is 0-360
+            newAzimuth = (newAzimuth < 0 ) ? 360 + newAzimuth : newAzimuth;
 
             if ( newAzimuth != this->azimuth
                  || newElevation != this->elevation

@@ -24,3 +24,5 @@ VALUES (
 "W", 270,
 "E", 90
 );
+
+UPDATE contacts SET ant_az = 360 + ant_az WHERE ant_az < 0;
