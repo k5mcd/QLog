@@ -371,6 +371,24 @@
          </layout>
         </widget>
        </item>
+       <item>
+        <widget class="QGroupBox" name="memberGroupBox">
+         <property name="title">
+          <string>Member</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <layout class="QGridLayout" name="dxMemberGrid"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="Spotter">

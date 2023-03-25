@@ -3,12 +3,14 @@
 #include <QCheckBox>
 #include <QSqlRecord>
 #include <QLayoutItem>
+#include <QLabel>
 
 #include "DxFilterDialog.h"
 #include "ui_DxFilterDialog.h"
 #include "../models/SqlListModel.h"
 #include "core/debug.h"
 #include "data/Dxcc.h"
+#include "core/MembershipQE.h"
 
 MODULE_IDENTIFICATION("qlog.ui.dxfilterdialog");
 
@@ -100,6 +102,12 @@ DxFilterDialog::DxFilterDialog(QWidget *parent) :
     /*****************/
     bool deduplication = settings.value("dxc/filter_deduplication", false).toBool();
     ui->deduplicationcheckbox->setChecked(deduplication);
+
+    /**********/
+    /* MEMBER */
+    /**********/
+
+    generateMembershipCheckboxes();
 }
 
 void DxFilterDialog::accept()
@@ -178,7 +186,65 @@ void DxFilterDialog::accept()
     /*****************/
     settings.setValue("dxc/filter_deduplication", ui->deduplicationcheckbox->isChecked());
 
+    /**********/
+    /* MEMBER */
+    /**********/
+
+    QStringList memberList;
+
+    if ( ui->memberGroupBox->isChecked() )
+    {
+        memberList.append("DUMMYCLUB");
+
+        for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+        {
+            if ( item->isChecked() )
+            {
+                memberList.append(QString("%1").arg(item->text()));
+            }
+        }
+    }
+    settings.setValue("dxc/filter_dx_member_list", memberList);
+
     done(QDialog::Accepted);
+}
+
+void DxFilterDialog::generateMembershipCheckboxes()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QStringList currentFilter = settings.value("dxc/filter_dx_member_list", QStringList()).toStringList();
+    QStringList enabledLists = MembershipQE::getEnabledClubLists();
+
+    for ( int i = 0 ; i < enabledLists.size(); i++)
+    {
+        QCheckBox *columnCheckbox = new QCheckBox(this);
+
+        QString shortDesc = enabledLists.at(i);
+
+        columnCheckbox->setText(shortDesc);
+        columnCheckbox->setChecked(currentFilter.contains(shortDesc));
+        memberListCheckBoxes.append(columnCheckbox);
+    }
+
+    if ( memberListCheckBoxes.size() == 0 )
+    {
+        ui->dxMemberGrid->addWidget(new QLabel(tr("No Club List is enabled")));
+    }
+    else
+    {
+        int elementIndex = 0;
+
+        for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+        {
+            ui->dxMemberGrid->addWidget(item, elementIndex / 3, elementIndex % 3);
+            elementIndex++;
+        }
+    }
+
+    ui->memberGroupBox->setChecked((currentFilter.size() != 0));
 }
 
 DxFilterDialog::~DxFilterDialog()

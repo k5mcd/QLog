@@ -2,6 +2,7 @@
 #define DXFILTER_H
 
 #include <QDialog>
+#include <QCheckBox>
 
 namespace Ui {
 class DxFilterDialog;
@@ -18,6 +19,10 @@ public:
 
 private:
     Ui::DxFilterDialog *ui;
+    QList<QCheckBox*> memberListCheckBoxes;
+
+    void generateMembershipCheckboxes();
+
 };
 
 #endif // DXFILTER_H

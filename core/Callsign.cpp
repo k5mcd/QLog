@@ -6,7 +6,7 @@ MODULE_IDENTIFICATION("qlog.core.callsign");
 Callsign::Callsign(const QString &callsign,
                    QObject *parent)
     : QObject{parent},
-      fullCallsign(callsign),
+      fullCallsign(callsign.toUpper()),
       valid(false)
 {
     FCT_IDENTIFICATION;

@@ -10,7 +10,6 @@
 #include "../models/SqlListModel.h"
 #include "data/Data.h"
 #include "data/SpotAlert.h"
-#include "core/AlertEvaluator.h"
 
 MODULE_IDENTIFICATION("qlog.ui.alerruledetail");
 
@@ -118,8 +117,8 @@ AlertRuleDetail::AlertRuleDetail(const QString &ruleName, QWidget *parent) :
                 qInfo()<< "Cannot get filters names from DB" << ruleStmt.lastError();
             }
         }
+        generateMembershipCheckboxes();
     }
-
 }
 
 AlertRuleDetail::~AlertRuleDetail()
@@ -215,6 +214,28 @@ void AlertRuleDetail::save()
     }
 
     rule.dxCountry = data.toInt();
+
+    /*************
+     * DX Member *
+     *************/
+    QStringList dxMember;
+
+    if ( ui->memberGroupBox->isChecked() )
+    {
+        for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+        {
+            if ( item->isChecked() )
+            {
+                dxMember.append(QString("%1").arg(item->text()));
+            }
+        }
+    }
+    else
+    {
+        dxMember.append("*");
+    }
+
+    rule.dxMember = dxMember;
 
     /*****************
      * DX Log Status *
@@ -334,6 +355,8 @@ void AlertRuleDetail::save()
     }
 
     rule.spotterContinent = spotterContinentRE;
+
+    qCDebug(runtime) << rule;
 
     if ( ! rule.save() )
     {
@@ -456,6 +479,21 @@ void AlertRuleDetail::loadRule(const QString &ruleName)
             {
                 ui->countryCombo->setCurrentIndex(countryIndex.at(0).row());
             }
+        }
+
+        /*************
+         * DX Member *
+         *************/
+
+        generateMembershipCheckboxes(&rule);
+
+        if ( rule.dxMember == QStringList("*") )
+        {
+            ui->memberGroupBox->setChecked(false);
+        }
+        else
+        {
+            ui->memberGroupBox->setChecked(true);
         }
 
         /*****************
@@ -593,5 +631,38 @@ void AlertRuleDetail::loadRule(const QString &ruleName)
     else
     {
         qCDebug(runtime) << "Cannot load rule " << ruleName;
+    }
+}
+
+void AlertRuleDetail::generateMembershipCheckboxes(const AlertRule * rule)
+{
+    FCT_IDENTIFICATION;
+
+    QStringList enabledLists = MembershipQE::getEnabledClubLists();
+
+    for ( int i = 0 ; i < enabledLists.size(); i++)
+    {
+        QCheckBox *columnCheckbox = new QCheckBox(this);
+
+        QString shortDesc = enabledLists.at(i);
+
+        columnCheckbox->setText(shortDesc);
+        if ( rule ) columnCheckbox->setChecked(rule->dxMember.contains(shortDesc));
+        memberListCheckBoxes.append(columnCheckbox);
+    }
+
+    if ( memberListCheckBoxes.size() == 0 )
+    {
+        ui->dxMemberGrid->addWidget(new QLabel(tr("No Club List is enabled")));
+    }
+    else
+    {
+        int elementIndex = 0;
+
+        for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+        {
+            ui->dxMemberGrid->addWidget(item, elementIndex / 3, elementIndex % 3);
+            elementIndex++;
+        }
     }
 }

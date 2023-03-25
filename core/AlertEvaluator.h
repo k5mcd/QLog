@@ -30,6 +30,7 @@ public:
     int dxLogStatusMap;
     QString dxContinent;
     QString dxComment;
+    QStringList dxMember;
     QString mode;
     QString band;
     int spotterCountry;
@@ -38,6 +39,7 @@ private:
     bool ruleValid;
     QRegularExpression callsignRE;
     QRegularExpression commentRE;
+    QSet<QString> dxMemberSet;
 };
 
 class AlertEvaluator : public QObject

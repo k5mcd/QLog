@@ -18,7 +18,8 @@ public:
         WWFFDIRECTORY = 3,
         IOTALIST = 4,
         POTADIRECTORY = 5,
-        UNDEF = 6
+        MEMBERSHIPCONTENTLIST = 6,
+        UNDEF = 7
     };
 
 public:
@@ -96,7 +97,13 @@ private:
                                    "all_parks_ext.csv",
                                    "last_pota_update",
                                    "pota_directory",
-                                   30)}
+                                   30)},
+        {MEMBERSHIPCONTENTLIST, SourceDefinition(MEMBERSHIPCONTENTLIST,
+                                   "https://raw.githubusercontent.com/foldynl/hamradio-membeship-lists/main/lists/content.csv",
+                                   "content.csv",
+                                   "last_membershipcontent_update",
+                                   "membership_directory",
+                                   7)}
     };
 
     QNetworkAccessManager* nam;
@@ -118,6 +125,7 @@ private:
     void parseWWFFDirectory(const SourceDefinition &sourceDef, QTextStream& data);
     void parseIOTA(const SourceDefinition &sourceDef, QTextStream& data);
     void parsePOTA(const SourceDefinition &sourceDef, QTextStream& data);
+    void parseMembershipContent(const SourceDefinition &sourceDef, QTextStream& data);
 
 private slots:
     void processReply(QNetworkReply*);

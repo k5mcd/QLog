@@ -38,7 +38,7 @@ int DxTableModel::rowCount(const QModelIndex&) const {
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 9;
+    return 10;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const
@@ -66,6 +66,8 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
             return spot.dxcc_spotter.cont;
         case 8:
             return spot.band;
+        case 9:
+            return spot.memberList2StringList().join(", ");
         default:
             return QVariant();
         }
@@ -99,6 +101,7 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 6: return tr("Continent");
     case 7: return tr("Spotter Continent");
     case 8: return tr("Band");
+    case 9: return tr("Member");
 
     default: return QVariant();
     }
@@ -404,6 +407,7 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
+    ui->dxTable->hideColumn(9);  //Memberships
     ui->dxTable->horizontalHeader()->setSectionsMovable(true);
 
     ui->wcyTable->setModel(wcyTableModel);
@@ -429,6 +433,8 @@ DxWidget::DxWidget(QWidget *parent) :
     bandregexp.setPattern(bandFilterRegExp());
     dxccStatusFilter = dxccStatusFilterValue();
     deduplicateSpots = spotDedupValue();
+    QStringList tmp = dxMemberList();
+    dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
@@ -636,6 +642,14 @@ bool DxWidget::spotDedupValue()
     return settings.value("dxc/filter_deduplication", false).toBool();
 }
 
+QStringList DxWidget::dxMemberList()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("dxc/filter_dx_member_list", false).toStringList();
+}
+
 void DxWidget::sendCommand(const QString & command,
                            bool switchToConsole)
 {
@@ -772,6 +786,9 @@ void DxWidget::receive()
             ui->commandButton->setEnabled(true);
         }
 
+        /********************/
+        /* Received DX SPOT */
+        /********************/
         if ( line.startsWith("DX") )
         {
             dxSpotMatch = dxSpotRE.match(line);
@@ -798,6 +815,7 @@ void DxWidget::receive()
                 spot.dxcc = dxcc;
                 spot.dxcc_spotter = dxcc_spotter;
                 spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToDXCCMode(spot.freq));
+                spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
 
                 emit newSpot(spot);
 
@@ -805,7 +823,9 @@ void DxWidget::receive()
                      && spot.dxcc.cont.contains(contregexp)
                      && spot.dxcc_spotter.cont.contains(spottercontregexp)
                      && spot.band.contains(bandregexp)
-                     && ( spot.status & dxccStatusFilter )
+                     && ( spot.status & dxccStatusFilter)
+                     && ( dxMemberFilter.size() == 0
+                          || (dxMemberFilter.size() && spot.memberList2Set().intersects(dxMemberFilter)))
                     )
                 {
                     if ( dxTableModel->addEntry(spot, deduplicateSpots) )
@@ -813,6 +833,9 @@ void DxWidget::receive()
                 }
             }
         }
+        /************************/
+        /* Received WCY Info */
+        /************************/
         else if ( line.startsWith("WCY de") )
         {
             wcySpotMatch = wcySpotRE.match(line);
@@ -835,6 +858,9 @@ void DxWidget::receive()
                 wcyTableModel->addEntry(spot);
             }
         }
+        /*********************/
+        /* Received WWV Info */
+        /*********************/
         else if ( line.startsWith("WWV de") )
         {
             wwvSpotMatch = wwvSpotRE.match(line);
@@ -854,6 +880,9 @@ void DxWidget::receive()
                 wwvTableModel->addEntry(spot);
             }
         }
+        /*************************/
+        /* Received Generic Info */
+        /*************************/
         else if ( line.startsWith("To ALL de") )
         {
             toAllSpotMatch = toAllSpotRE.match(line);
@@ -1019,6 +1048,8 @@ void DxWidget::actionFilter()
       bandregexp.setPattern(bandFilterRegExp());
       dxccStatusFilter = dxccStatusFilterValue();
       deduplicateSpots = spotDedupValue();
+      QStringList tmp = dxMemberList();
+      dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
   }
 }
 

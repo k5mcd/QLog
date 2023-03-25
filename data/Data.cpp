@@ -640,6 +640,13 @@ QColor Data::statusToColor(const DxccStatus &status, const QColor &defaultColor)
     }
 }
 
+QString Data::colorToHTMLColor(const QColor &in_color)
+{
+    FCT_IDENTIFICATION;
+
+    return in_color.name(QColor::HexRgb);
+}
+
 QString Data::statusToText(const DxccStatus &status) {
     FCT_IDENTIFICATION;
 
@@ -728,6 +735,14 @@ int Data::getCQZMax()
     qCDebug(runtime) << 40;
 
     return 40;
+}
+
+QString Data::dbFilename()
+{
+    FCT_IDENTIFICATION;
+
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    return dir.filePath("qlog.db");
 }
 
 QPair<QString, QString> Data::legacyMode(const QString &mode) {

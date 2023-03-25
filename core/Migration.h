@@ -35,6 +35,7 @@ private:
     bool fixIntlFields();
     bool insertUUID();
     bool fillMyDXCC();
+    bool createTriggers();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
     static const int latestVersion = 17;

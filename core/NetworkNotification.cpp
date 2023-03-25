@@ -309,6 +309,7 @@ DXSpotNotificationMsg::DXSpotNotificationMsg(const DxSpot &spot, QObject *parent
     dxInfo["cqz"] = spot.dxcc.cqz;
     dxInfo["ituz"] = spot.dxcc.ituz;
     dxInfo["utcoffset"] = spot.dxcc.tz;
+    dxInfo["member"] = QJsonArray::fromStringList(spot.memberList2StringList());
 
     QJsonObject spotterInfo;
     spotterInfo["call"] = spot.spotter;
@@ -350,6 +351,7 @@ WSJTXCQSpotNotificationMsg::WSJTXCQSpotNotificationMsg(const WsjtxEntry &spot, Q
     dxInfo["ituz"] = spot.dxcc.ituz;
     dxInfo["utcoffset"] = spot.dxcc.tz;
     dxInfo["grid"] = spot.grid;
+    dxInfo["member"] = QJsonArray::fromStringList(spot.memberList2StringList());
 
     spotData["dx"] = dxInfo;
 

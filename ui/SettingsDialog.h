@@ -7,6 +7,8 @@
 #include <QCompleter>
 #include <hamlib/rig.h>
 #include <QLineEdit>
+#include <QComboBox>
+#include <QCheckBox>
 
 #include "data/StationProfile.h"
 #include "data/RigProfile.h"
@@ -112,6 +114,9 @@ private:
     void setUIBasedOnRigCaps(const struct rig_caps *caps);
     void refreshRigAssignedCWKeyCombo();
     void setValidationResultColor(QLineEdit *);
+    QString getMemberListComboValue(const QComboBox *);
+    void setMemberListComboValue(QComboBox *, const QString&);
+    void generateMembershipCheckboxes();
 
     QSqlTableModel* modeTableModel;
     QSqlTableModel* bandTableModel;
@@ -126,6 +131,7 @@ private:
     QCompleter *iotaCompleter;
     QCompleter *wwffCompleter;
     QCompleter *potaCompleter;
+    QList<QCheckBox*> memberListCheckBoxes;
     Ui::SettingsDialog *ui;
 };
 

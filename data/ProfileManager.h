@@ -171,7 +171,8 @@ public:
         }
         else
         {
-            qWarning() << "Profile " << profileName << " not found";
+            if ( !profileName.isEmpty() )
+                qWarning() << "Profile " << profileName << " not found";
             return T();
         }
     };

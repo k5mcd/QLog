@@ -23,6 +23,7 @@
 #include "ui/PaperQSLDialog.h"
 #include "core/NetworkNotification.h"
 #include "ui/QSODetailDialog.h"
+#include "core/MembershipQE.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -171,6 +172,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->countryFilter->setModelColumn(1);
     ui->countryFilter->blockSignals(false);
 
+    refreshClubFilter();
+
     ui->userFilter->blockSignals(true);
     userFilterModel = new SqlListModel("SELECT filter_name FROM qso_filters ORDER BY filter_name", tr("User Filter"), this);
     while (userFilterModel->canFetchMore())
@@ -207,6 +210,7 @@ void LogbookWidget::filterCountryBand(QString countryName, QString band, QString
     ui->bandFilter->blockSignals(true);
     ui->userFilter->blockSignals(true);
     ui->modeFilter->blockSignals(true);
+    ui->clubFilter->blockSignals(true);
 
     if ( ! countryName.isEmpty() )
     {
@@ -229,10 +233,12 @@ void LogbookWidget::filterCountryBand(QString countryName, QString band, QString
     //user wants to see only selected band and country
     ui->userFilter->setCurrentIndex(0); //suppress user-defined filter
     ui->modeFilter->setCurrentIndex(0); //suppress mode filter
+    ui->clubFilter->setCurrentIndex(0); //suppress club filter
 
     // set additional filter
     externalFilter = addlFilter;
 
+    ui->clubFilter->blockSignals(false);
     ui->userFilter->blockSignals(false);
     ui->modeFilter->blockSignals(false);
     ui->countryFilter->blockSignals(false);
@@ -410,6 +416,48 @@ void LogbookWidget::restoreUserFilter()
     ui->userFilter->blockSignals(false);
 }
 
+void LogbookWidget::clubFilterChanged()
+{
+    FCT_IDENTIFICATION;
+
+    saveClubFilter();
+    updateTable();
+}
+
+void LogbookWidget::refreshClubFilter()
+{
+    FCT_IDENTIFICATION;
+
+    ui->clubFilter->blockSignals(true);
+    QString member = ui->clubFilter->currentText();
+    ui->clubFilter->clear();
+    ui->clubFilter->addItems(QStringList(tr("Club")) << MembershipQE::instance()->getEnabledClubLists());
+    ui->clubFilter->setCurrentText(member);
+    ui->clubFilter->blockSignals(false);
+}
+
+void LogbookWidget::saveClubFilter()
+{
+    QSettings settings;
+    settings.setValue("logbook/filters/member", ui->clubFilter->currentText());
+}
+
+void LogbookWidget::restoreclubFilter()
+{
+    QSettings settings;
+    ui->clubFilter->blockSignals(true);
+    QString value = settings.value("logbook/filters/member").toString();
+    if ( !value.isEmpty() )
+    {
+        ui->clubFilter->setCurrentText(value);
+    }
+    else
+    {
+        ui->clubFilter->setCurrentIndex(0);
+    }
+    ui->clubFilter->blockSignals(false);
+}
+
 void LogbookWidget::restoreFilters()
 {
     FCT_IDENTIFICATION;
@@ -417,6 +465,7 @@ void LogbookWidget::restoreFilters()
     restoreModeFilter();
     restoreBandFilter();
     restoreCountryFilter();
+    restoreclubFilter();
     restoreUserFilter();
     externalFilter = QString();
     updateTable();
@@ -537,6 +586,11 @@ void LogbookWidget::updateTable()
         filterString.append(QString("dxcc = '%1'").arg(data.toInt()));
     }
 
+    if ( ui->clubFilter->currentIndex() != 0 )
+    {
+        filterString.append(QString("id in (SELECT contactid FROM contact_clubs_view WHERE clubid = '%1')").arg(ui->clubFilter->currentText()));
+    }
+
     /* Refresh dynamic User Filter selection combobox */
     /* block the signals !!! */
     ui->userFilter->blockSignals(true);
@@ -581,7 +635,7 @@ void LogbookWidget::updateTable()
         }
         else
         {
-            qInfo() << "User filter error - " << userFilterQuery.lastError().text();
+            qCDebug(runtime) << "User filter error - " << userFilterQuery.lastError().text();
         }
     }
 
@@ -591,9 +645,8 @@ void LogbookWidget::updateTable()
     }
 
     qCDebug(runtime) << "SQL filter summary: " << filterString.join(" AND ");
-
     model->setFilter(filterString.join(" AND "));
-
+    qCDebug(runtime) << model->query().lastQuery();
     model->select();
 
     ui->contactTable->resizeColumnsToContents();
@@ -717,6 +770,13 @@ void LogbookWidget::focusSearchCallsign()
     FCT_IDENTIFICATION;
 
     ui->callsignFilter->setFocus();
+}
+
+void LogbookWidget::reloadSetting()
+{
+    FCT_IDENTIFICATION;
+    /* Refresh dynamic Club selection combobox */
+    refreshClubFilter();
 }
 
 LogbookWidget::~LogbookWidget() {

@@ -152,6 +152,7 @@ private:
     QRegularExpression bandregexp;
     uint dxccStatusFilter;
     bool deduplicateSpots;
+    QSet<QString> dxMemberFilter;
     QSqlRecord lastQSO;
     quint8 reconnectAttempts;
     QTimer reconnectTimer;
@@ -165,6 +166,7 @@ private:
     QString bandFilterRegExp();
     uint dxccStatusFilterValue();
     bool spotDedupValue();
+    QStringList dxMemberList();
     void sendCommand(const QString&,
                      bool switchToConsole = false);
     void saveWidgetSetting();

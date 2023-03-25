@@ -40,6 +40,7 @@ private:
     QString contFilterRegExp();
     int getDistanceFilterValue();
     int getSNRFilterValue();
+    QStringList dxMemberList();
 
     WsjtxTableModel* wsjtxTableModel;
     WsjtxStatus status;
@@ -53,6 +54,7 @@ private:
     int distanceFilter;
     int snrFilter;
     uint dxccStatusFilter;
+    QSet<QString> dxMemberFilter;
     void saveTableHeaderState();
     void restoreTableHeaderState();
 };

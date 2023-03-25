@@ -98,6 +98,7 @@ private slots:
     void markContact();
     void editCallsignFinished();
     void callsignResult(const QMap<QString, QString>& data);
+    void clubQueryResult(QString, QMap<QString, ClubStatusQuery::ClubStatus>);
     void propModeChanged(const QString&);
     void sotaChanged(QString);
     void sotaEditFinished();
@@ -119,6 +120,7 @@ private:
     void fillFieldsFromLastQSO(QString callsign);
     void queryDxcc(QString callsign);
     void clearCallbookQueryFields();
+    void clearMemberQueryFields();
     void readWidgetSettings();
     void writeWidgetSetting();
     void __modeChanged(qint32);
@@ -140,6 +142,7 @@ private:
     void __changeFrequency(VFOID, double vfoFreq, double ritFreq, double xitFreq);
     void showRXTXFreqs(bool);
     void setComboBaseData(QComboBox *, const QString &);
+    void queryMemberList();
 
 private:
     Rig* rig;

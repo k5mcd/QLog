@@ -96,6 +96,9 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     connect(&callbookManager, &CallbookManager::lookupError,
             this, &QSODetailDialog::callbookError);
 
+    connect(MembershipQE::instance(), &MembershipQE::clubStatusResult,
+            this, &QSODetailDialog::clubQueryResult);
+
     /*******************/
     /* Main Screen GUI */
     /*******************/
@@ -362,6 +365,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 
     refreshDXCCTab();
 
+    queryMemberList();
+
     enableWidgetChangeHandlers();
 }
 
@@ -449,6 +454,8 @@ void QSODetailDialog::resetButtonPressed()
     blockMappedWidgetSignals(true);
     mapper->revert();
     blockMappedWidgetSignals(false);
+
+    queryMemberList();
 
     setReadOnlyMode(true);
     doValidation();
@@ -590,6 +597,8 @@ void QSODetailDialog::modeChanged(QString)
         model->setStringList(list);
         ui->submodeEdit->setEnabled(false);
     }
+
+    queryMemberList();
 }
 
 void QSODetailDialog::showPaperButton()
@@ -690,6 +699,9 @@ void QSODetailDialog::freqTXChanged(double)
     }
 
     ui->freqRXEdit->blockSignals(false);
+
+    // TODO: qlog should call queryMemberList but for saving time we will omit it.
+    // queryMemberList();
 }
 
 void QSODetailDialog::freqRXChanged(double)
@@ -747,6 +759,25 @@ void QSODetailDialog::callsignChanged(QString)
     FCT_IDENTIFICATION;
 
     refreshDXCCTab();
+}
+
+void QSODetailDialog::callsignEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    queryMemberList();
+}
+
+void QSODetailDialog::queryMemberList()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->callsignEdit->text().size() >= 3 )
+    {
+        MembershipQE::instance()->asyncQueryDetails(ui->callsignEdit->text(),
+                                                    Data::band(ui->freqTXEdit->value()).name,
+                                                    ui->modeEdit->currentText());
+    }
 }
 
 void QSODetailDialog::propagationModeChanged(const QString &propModeText)
@@ -1172,6 +1203,32 @@ void QSODetailDialog::myWWFFChanged(QString newWWFF)
     {
         ui->myWWFFEdit->setCompleter(nullptr);
     }
+}
+
+void QSODetailDialog::clubQueryResult(QString in_callsign, QMap<QString, ClubStatusQuery::ClubStatus> data)
+{
+    FCT_IDENTIFICATION;
+
+    if ( in_callsign != ui->callsignEdit->text().toUpper() )
+    {
+        // do not need this result
+        return;
+    }
+
+    QString memberText;
+
+    QMapIterator<QString, ClubStatusQuery::ClubStatus> clubs(data);
+
+    QPalette palette;
+
+    //"<font color='red'>Hello</font> <font color='green'>World</font>"
+    while ( clubs.hasNext() )
+    {
+        clubs.next();
+        QColor color = Data::statusToColor(static_cast<DxccStatus>(clubs.value()), palette.color(QPalette::Text));
+        memberText.append(QString("<font color='%1'>%2</font>&nbsp;&nbsp;&nbsp;").arg(Data::colorToHTMLColor(color)).arg(clubs.key()));
+    }
+    ui->memberListLabel->setText(memberText);
 }
 
 bool QSODetailDialog::highlightInvalid(QLabel *labelWidget, bool cond, const QString &toolTip)

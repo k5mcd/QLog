@@ -2,6 +2,7 @@
 #include "ui_WsjtxFilterDialog.h"
 #include "core/debug.h"
 #include "data/Dxcc.h"
+#include "core/MembershipQE.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxfilterdialog");
 
@@ -47,6 +48,12 @@ WsjtxFilterDialog::WsjtxFilterDialog(QWidget *parent) :
     /* SNR  */
     /********/
     ui->snrSpinBox->setValue(settings.value("wsjtx/filter_snr", -41).toInt());
+
+    /**********/
+    /* MEMBER */
+    /**********/
+
+    generateMembershipCheckboxes();
 }
 
 void WsjtxFilterDialog::accept()
@@ -92,7 +99,65 @@ void WsjtxFilterDialog::accept()
     /********/
     settings.setValue("wsjtx/filter_snr", ui->snrSpinBox->value());
 
+    /**********/
+    /* MEMBER */
+    /**********/
+
+    QStringList memberList;
+
+    if ( ui->memberGroupBox->isChecked() )
+    {
+        memberList.append("DUMMYCLUB");
+
+        for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+        {
+            if ( item->isChecked() )
+            {
+                memberList.append(QString("%1").arg(item->text()));
+            }
+        }
+    }
+    settings.setValue("wsjtx/filter_dx_member_list", memberList);
+
     done(QDialog::Accepted);
+}
+
+void WsjtxFilterDialog::generateMembershipCheckboxes()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    QStringList currentFilter = settings.value("wsjtx/filter_dx_member_list", QStringList()).toStringList();
+    QStringList enabledLists = MembershipQE::getEnabledClubLists();
+
+    for ( int i = 0 ; i < enabledLists.size(); i++)
+    {
+        QCheckBox *columnCheckbox = new QCheckBox(this);
+
+        QString shortDesc = enabledLists.at(i);
+
+        columnCheckbox->setText(shortDesc);
+        columnCheckbox->setChecked(currentFilter.contains(shortDesc));
+        memberListCheckBoxes.append(columnCheckbox);
+    }
+
+    if ( memberListCheckBoxes.size() == 0 )
+    {
+        ui->dxMemberGrid->addWidget(new QLabel(tr("No Club List is enabled")));
+    }
+    else
+    {
+        int elementIndex = 0;
+
+        for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+        {
+            ui->dxMemberGrid->addWidget(item, elementIndex / 3, elementIndex % 3);
+            elementIndex++;
+        }
+    }
+
+    ui->memberGroupBox->setChecked((currentFilter.size() != 0));
 }
 
 WsjtxFilterDialog::~WsjtxFilterDialog()

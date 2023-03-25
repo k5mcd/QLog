@@ -139,6 +139,8 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::settingsChanged, ui->cwconsoleWidget, &CWConsoleWidget::reloadSettings);
     connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::redrawMap);
     connect(this, &MainWindow::settingsChanged, ui->onlineMapWidget, &OnlineMapWidget::flyToMyQTH);
+    connect(this, &MainWindow::settingsChanged, ui->logbookWidget, &LogbookWidget::reloadSetting);
+
     connect(this, &MainWindow::alertRulesChanged, &alertEvaluator, &AlertEvaluator::loadRules);
     connect(this, &MainWindow::altBackslash, Rig::instance(), &Rig::setPTT);
     connect(this, &MainWindow::manualMode, ui->newContactWidget, &NewContactWidget::setManualMode);
@@ -199,6 +201,10 @@ MainWindow::MainWindow(QWidget* parent) :
     if ( StationProfilesManager::instance()->profileNameList().isEmpty() )
     {
         showSettings();
+    }
+    else
+    {
+        MembershipQE::instance()->updateLists();
     }
     /*************/
     /* SHORTCUTs */
@@ -516,6 +522,7 @@ void MainWindow::showSettings() {
         rigConnect();
         rotConnect();
         stationProfileChanged();
+        MembershipQE::instance()->updateLists();
         //Do not call settingsChange because stationProfileChanged does it
         //emit settingsChanged();
     }
@@ -790,5 +797,6 @@ MainWindow::~MainWindow() {
     callsignLabel->deleteLater();
     locatorLabel->deleteLater();
     operatorLabel->deleteLater();
+    QSqlDatabase::database().close();
     delete ui;
 }

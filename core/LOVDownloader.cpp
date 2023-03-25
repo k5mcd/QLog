@@ -186,6 +186,9 @@ void LOVDownloader::parseData(const SourceDefinition &sourceDef, QTextStream &da
     case POTADIRECTORY:
         parsePOTA(sourceDef, data);
         break;
+    case MEMBERSHIPCONTENTLIST:
+        parseMembershipContent(sourceDef, data);
+        break;
 
     default:
         qWarning() << "Unssorted type to download" << sourceDef.type << sourceDef.fileName;
@@ -853,6 +856,73 @@ void LOVDownloader::parsePOTA(const SourceDefinition &sourceDef, QTextStream &da
         qCWarning(runtime) << "POTA update failed - rollback";
         QSqlDatabase::database().rollback();
     }
+}
+
+void LOVDownloader::parseMembershipContent(const SourceDefinition &sourceDef, QTextStream &data)
+{
+    FCT_IDENTIFICATION;
+
+    QSqlDatabase::database().transaction();
+
+    if ( ! deleteTable(sourceDef.tableName) )
+    {
+        qCWarning(runtime) << "Membership Directory delete failed - rollback";
+        QSqlDatabase::database().rollback();
+        return;
+    }
+
+    QSqlTableModel entityTableModel;
+    entityTableModel.setTable(sourceDef.tableName);
+    QSqlRecord entityRecord = entityTableModel.record();
+
+    int count = 0;
+
+    while ( !data.atEnd() && !abortRequested )
+    {
+        QString line = data.readLine();
+        QStringList fields = line.split(',');
+
+        if ( fields.count() != 5 )
+        {
+            qCDebug(runtime) << "Invalid line in the input file " << line;
+            continue;
+        }
+
+        qCDebug(runtime) << fields;
+
+        entityRecord.clearValues();
+        entityRecord.setValue("short_desc", fields.at(0));
+        entityRecord.setValue("long_desc", fields.at(1));
+        entityRecord.setValue("filename", fields.at(2));
+        entityRecord.setValue("last_update", fields.at(3));
+        entityRecord.setValue("num_records", fields.at(4));
+
+        if ( !entityTableModel.insertRecord(-1, entityRecord) )
+        {
+            qWarning() << "Cannot insert a record to Membership Directory Table - " << entityTableModel.lastError();
+            qCDebug(runtime) << entityRecord;
+        }
+        else
+        {
+            count++;
+        }
+        emit progress(data.pos());
+        QCoreApplication::processEvents();
+    }
+
+    if ( entityTableModel.submitAll()
+         && !abortRequested )
+    {
+        QSqlDatabase::database().commit();
+        qCDebug(runtime) << "Membership Directory update finished:" << count << "entities loaded.";
+    }
+    else
+    {
+        //can be a result of abort
+        qCWarning(runtime) << "Membership Directory update failed - rollback" << entityTableModel.lastError();
+        QSqlDatabase::database().rollback();
+    }
+
 }
 
 void LOVDownloader::processReply(QNetworkReply *reply)

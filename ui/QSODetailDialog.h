@@ -14,6 +14,7 @@
 #include "core/CallbookManager.h"
 #include "ui/MapWebChannelHandler.h"
 #include "ui/WebEnginePage.h"
+#include "core/MembershipQE.h"
 
 namespace Ui {
 class QSODetailDialog;
@@ -66,6 +67,8 @@ private slots:
     void timeLockToggled(bool);
     void freqLockToggled(bool);
     void callsignChanged(QString);
+    void callsignEditFinished();
+    void queryMemberList();
     void propagationModeChanged(const QString &);
     bool doValidation();
     void doValidationDateTime(const QDateTime&);
@@ -84,6 +87,7 @@ private slots:
     void mySotaChanged(QString);
     void myPOTAChanged(QString);
     void myWWFFChanged(QString);
+    void clubQueryResult(QString in_callsign, QMap<QString, ClubStatusQuery::ClubStatus> data);
 
 private:
     /* It is modified logbook model when only basic

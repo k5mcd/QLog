@@ -32,6 +32,8 @@
 #include "core/LogParam.h"
 #include "core/Callsign.h"
 #include "core/CWKeyer.h"
+#include "core/MembershipQE.h"
+#include "models/SqlListModel.h"
 
 #define WIDGET_INDEX_SERIAL_RIG  0
 #define STACKED_WIDGET_NETWORK_RIG 1
@@ -211,6 +213,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     /* disable WSJTX Multicast by default */
     joinMulticastChanged(false);
+
+    generateMembershipCheckboxes();
 
     readSettings();
 }
@@ -1898,6 +1902,11 @@ void SettingsDialog::readSettings() {
     }
 
     /***********/
+    /* MEMBERS */
+    /***********/
+
+
+    /***********/
     /* NETWORK */
     /***********/
 
@@ -1988,6 +1997,21 @@ void SettingsDialog::writeSettings() {
     /* Paper QSL */
     /*************/
     PaperQSL::saveQSLImageFolder(ui->paperFolderPathEdit->text());
+
+    /***********/
+    /* MEMBERS */
+    /***********/
+
+    QStringList enabledLists;
+
+    for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+    {
+        if ( item->isChecked() )
+        {
+            enabledLists << item->text();
+        }
+    }
+    MembershipQE::saveEnabledClubLists(enabledLists);
 
     /***********/
     /* NETWORK */
@@ -2193,6 +2217,68 @@ void SettingsDialog::setValidationResultColor(QLineEdit *editBox)
         p.setColor(QPalette::Text,qApp->palette().text().color());
     }
     editBox->setPalette(p);
+}
+
+QString SettingsDialog::getMemberListComboValue(const QComboBox *combo)
+{
+    FCT_IDENTIFICATION;
+
+    QSqlTableModel *model = static_cast<QSqlTableModel*>(combo->model());
+    QModelIndex index = model->index(combo->currentIndex(), 0);
+    return model->data(index).toString();
+}
+
+void SettingsDialog::setMemberListComboValue(QComboBox *combo, const QString &value)
+{
+    FCT_IDENTIFICATION;
+    SqlListModel *model =  static_cast<SqlListModel*>(combo->model());
+    QModelIndexList indexList = model->match(model->index(0,0), Qt::DisplayRole, value);
+
+    if ( indexList.size() >= 1 )
+    {
+        combo->setCurrentIndex(indexList.at(0).row());
+    }
+}
+
+void SettingsDialog::generateMembershipCheckboxes()
+{
+    FCT_IDENTIFICATION;
+
+    QSqlTableModel membershipDirectoryModel;
+    membershipDirectoryModel.setTable("membership_directory");
+    membershipDirectoryModel.setSort(0, Qt::AscendingOrder);
+    membershipDirectoryModel.select();
+    QStringList currentlyEnabledLists = MembershipQE::getEnabledClubLists();
+
+    for ( int i = 0 ; i < membershipDirectoryModel.rowCount(); i++)
+    {
+        QCheckBox *columnCheckbox = new QCheckBox(this);
+
+        QString shortDesc = membershipDirectoryModel.data(membershipDirectoryModel.index(i, membershipDirectoryModel.fieldIndex("short_desc"))).toString();
+        QString longDesc = membershipDirectoryModel.data(membershipDirectoryModel.index(i, membershipDirectoryModel.fieldIndex("long_desc"))).toString();
+        QString records = membershipDirectoryModel.data(membershipDirectoryModel.index(i, membershipDirectoryModel.fieldIndex("num_records"))).toString();
+
+        columnCheckbox->setText(shortDesc);
+        columnCheckbox->setToolTip(longDesc + QString(" (" + tr("members") + ": %1)").arg(records));
+        columnCheckbox->setChecked(currentlyEnabledLists.contains(shortDesc));
+        memberListCheckBoxes.append(columnCheckbox);
+    }
+
+
+    if ( memberListCheckBoxes.size() == 0 )
+    {
+        ui->clubListGrig->addWidget(new QLabel(tr("Required internet connection during application start")));
+    }
+    else
+    {
+        int elementIndex = 0;
+
+        for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
+        {
+            ui->clubListGrig->addWidget(item, elementIndex / 6, elementIndex % 6);
+            elementIndex++;
+        }
+    }
 }
 
 SettingsDialog::~SettingsDialog() {

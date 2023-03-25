@@ -354,6 +354,21 @@
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="memberGroupBox">
+         <property name="title">
+          <string>Member</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <layout class="QGridLayout" name="dxMemberGrid"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

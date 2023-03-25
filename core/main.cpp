@@ -24,6 +24,7 @@
 #include "data/StationProfile.h"
 #include "core/zonedetect.h"
 #include "ui/SplashScreen.h"
+#include "core/MembershipQE.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
@@ -66,9 +67,8 @@ static bool openDatabase() {
     FCT_IDENTIFICATION;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-    QString path = dir.filePath("qlog.db");
-    db.setDatabaseName(path);
+    db.setDatabaseName(Data::dbFilename());
+    db.setConnectOptions("QSQLITE_ENABLE_REGEXP");
 
     if (!db.open()) {
         qCritical() << db.lastError();
@@ -82,10 +82,16 @@ static bool openDatabase() {
             return false;
         }
 
-        if ( !query.exec("PRAGMA journal_mode = WALL") )
+        if ( !query.exec("PRAGMA journal_mode = WAL") )
         {
             qCritical() << "Cannot set PRAGMA journal_mode";
             return false;
+        }
+
+        while ( query.next() )
+        {
+            QString pragma = query.value(0).toString();
+            qCDebug(runtime) << "Pragma result:" << pragma;
         }
 
         return true;
@@ -221,16 +227,19 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
     QString cat(context.category);
     if ( cat == "default" )
     {
-        cat = "[             ]\t";
+        cat = "[             ]";
     }
     else
     {
-        cat = "[" + cat + "]\t";
+        cat = "[" + cat + "]";
     }
 
-    fprintf(stderr, "%s %s%s=> %s [%s:%s:%u] \n",
+    QString idStr = QString::number(reinterpret_cast<quintptr>(QThread::currentThreadId()),16);
+
+    fprintf(stderr, "%s %s [0x%s] %50s => %s [%s:%s:%u] \n",
                                                  QTime::currentTime().toString("HH:mm:ss.zzz").toLocal8Bit().constData(),
                                                  severity_string.toLocal8Bit().constData(),
+                                                 idStr.toLocal8Bit().data(),
                                                  cat.toLocal8Bit().constData(),
                                                  localMsg.constData(),
                                                  context.function,
@@ -304,6 +313,8 @@ int main(int argc, char* argv[])
 
     qInstallMessageHandler(debugMessageOutput);
     qRegisterMetaType<VFOID>();
+    qRegisterMetaType<ClubStatusQuery::ClubStatus>();
+    qRegisterMetaType<QMap<QString, ClubStatusQuery::ClubStatus>>();
 
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)

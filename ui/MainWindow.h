@@ -8,6 +8,7 @@
 #include "core/AlertEvaluator.h"
 #include "ui/AlertWidget.h"
 #include "core/PropConditions.h"
+#include "core/MembershipQE.h"
 
 namespace Ui {
 class MainWindow;

@@ -83,12 +83,15 @@ public:
     static QString freqToDXCCMode(double freq);
     QString modeToDXCCMode(const QString &mode);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
+    static QString colorToHTMLColor(const QColor&);
     static QString statusToText(const DxccStatus &status);
     static QString removeAccents(const QString &input);
     static int getITUZMin();
     static int getITUZMax();
     static int getCQZMin();
     static int getCQZMax();
+    static QString dbFilename();
+
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
     QStringList propagationModesIDList() { return propagationModes.keys(); }

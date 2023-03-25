@@ -16,7 +16,7 @@ int WsjtxTableModel::rowCount(const QModelIndex&) const
 
 int WsjtxTableModel::columnCount(const QModelIndex&) const
 {
-    return 6;
+    return 7;
 }
 
 QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
@@ -33,6 +33,7 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
         case 3: return QString::number(entry.decode.snr);
         case 4: return entry.decode.time.toString();
         case 5: return entry.decode.message;
+        case 6: return entry.memberList2StringList().join(", ");
         default: return QVariant();
         }
     }
@@ -72,6 +73,7 @@ QVariant WsjtxTableModel::headerData(int section, Qt::Orientation orientation, i
     case 3: return tr("SNR");
     case 4: return tr("Last Activity");
     case 5: return tr("Last Message");
+    case 6: return tr("Member");
     default: return QVariant();
     }
 }
@@ -90,6 +92,7 @@ void WsjtxTableModel::addOrReplaceEntry(WsjtxEntry entry)
         wsjtxData[idx].status = entry.status;
         wsjtxData[idx].decode = entry.decode;
         wsjtxData[idx].receivedTime = entry.receivedTime;
+        // does not update club info
 
         emit dataChanged(createIndex(idx,0), createIndex(idx,4));
     }

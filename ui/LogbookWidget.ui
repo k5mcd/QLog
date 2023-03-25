@@ -107,6 +107,15 @@
         </widget>
        </item>
        <item>
+        <widget class="QComboBox" name="clubFilter">
+         <item>
+          <property name="text">
+           <string>Club</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
         <widget class="QComboBox" name="userFilter">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -472,6 +481,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>clubFilter</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>LogbookWidget</receiver>
+   <slot>clubFilterChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>469</x>
+     <y>14</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>deleteContact()</slot>
@@ -487,5 +512,6 @@
   <slot>userFilterChanged()</slot>
   <slot>doubleClickColumn(QModelIndex)</slot>
   <slot>exportContact()</slot>
+  <slot>clubFilterChanged()</slot>
  </slots>
 </ui>

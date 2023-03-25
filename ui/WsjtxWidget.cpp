@@ -40,6 +40,8 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     dxccStatusFilter = dxccStatusFilterValue();
     distanceFilter = getDistanceFilterValue();
     snrFilter = getSNRFilterValue();
+    QStringList tmp = dxMemberList();
+    dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
 }
 
 void WsjtxWidget::decodeReceived(WsjtxDecode decode)
@@ -72,6 +74,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
             entry.spotter = profile.callsign.toUpper();
             entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
             entry.distance = 0.0;
+            entry.callsign_member = MembershipQE::instance()->query(entry.callsign);
 
             if ( !profile.locator.isEmpty() )
             {
@@ -90,6 +93,8 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
                  && ( entry.status & dxccStatusFilter )
                  && entry.distance > distanceFilter
                  && entry.decode.snr > snrFilter
+                 && ( dxMemberFilter.size() == 0
+                      || (dxMemberFilter.size() && entry.memberList2Set().intersects(dxMemberFilter)))
                )
             {
                 wsjtxTableModel->addOrReplaceEntry(entry);
@@ -117,6 +122,8 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
                 entry.spotter = profile.callsign.toUpper();
                 entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
                 entry.distance = 0.0;
+                // it is not needed to update entry.callsign_clubs because addOrReplaceEntry does not
+                // update it. Only CQ provides the club membeship info
 
                 wsjtxTableModel->addOrReplaceEntry(entry);
             }
@@ -213,6 +220,8 @@ void WsjtxWidget::actionFilter()
         contregexp.setPattern(contFilterRegExp());
         distanceFilter = getDistanceFilterValue();
         snrFilter = getSNRFilterValue();
+        QStringList tmp = dxMemberList();
+        dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
         wsjtxTableModel->clear();
     }
 }
@@ -247,6 +256,14 @@ int WsjtxWidget::getSNRFilterValue()
 
     QSettings settings;
     return settings.value("wsjtx/filter_snr", 0).toInt();
+}
+
+QStringList WsjtxWidget::dxMemberList()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("wsjtx/filter_dx_member_list", false).toStringList();
 }
 
 void WsjtxWidget::saveTableHeaderState()

@@ -21,6 +21,7 @@
 #include "data/Data.h"
 #include "core/Callsign.h"
 #include "core/PropConditions.h"
+#include "core/MembershipQE.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -249,6 +250,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
 
+    connect(MembershipQE::instance(), &MembershipQE::clubStatusResult, this, &NewContactWidget::clubQueryResult);
+
     ui->rstSentEdit->installEventFilter(this);
 
     /**************/
@@ -308,6 +311,16 @@ void NewContactWidget::setComboBaseData(QComboBox *combo, const QString &data)
     if ( index != -1 )
     {
        combo->setCurrentIndex(index);
+    }
+}
+
+void NewContactWidget::queryMemberList()
+{
+    FCT_IDENTIFICATION;
+
+    if ( callsign.size() >= 3 )
+    {
+        MembershipQE::instance()->asyncQueryDetails(callsign, ui->bandRXLabel->text(), ui->modeEdit->currentText());
     }
 }
 
@@ -398,6 +411,7 @@ void NewContactWidget::callsignChanged()
     }
 
     clearCallbookQueryFields();
+    clearMemberQueryFields();
 
     if ( callsign.isEmpty() )
     {
@@ -422,6 +436,7 @@ void NewContactWidget::editCallsignFinished()
 
     if ( callsign.size() >= 3 )
     {
+        queryMemberList();
         callbookManager.queryCallsign(callsign);
     }
 }
@@ -654,6 +669,32 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
     lastCallbookQueryData = QMap<QString, QString>(data);
 }
 
+void NewContactWidget::clubQueryResult(QString in_callsign, QMap<QString, ClubStatusQuery::ClubStatus> data)
+{
+    FCT_IDENTIFICATION;
+
+    if ( in_callsign != callsign )
+    {
+        // do not need this result
+        return;
+    }
+
+    QString memberText;
+
+    QMapIterator<QString, ClubStatusQuery::ClubStatus> clubs(data);
+
+    QPalette palette;
+
+    //"<font color='red'>Hello</font> <font color='green'>World</font>"
+    while ( clubs.hasNext() )
+    {
+        clubs.next();
+        QColor color = Data::statusToColor(static_cast<DxccStatus>(clubs.value()), palette.color(QPalette::Text));
+        memberText.append(QString("<font color='%1'>%2</font>&nbsp;&nbsp;&nbsp;").arg(Data::colorToHTMLColor(color)).arg(clubs.key()));
+    }
+    ui->memberListLabel->setText(memberText);
+}
+
 void NewContactWidget::bandChanged()
 {
     FCT_IDENTIFICATION;
@@ -791,6 +832,7 @@ void NewContactWidget::__modeChanged(qint32 width)
 
     setDefaultReport();
     updateDxccStatus();
+    queryMemberList();
 }
 
 /* Mode is changed from GUI */
@@ -917,6 +959,13 @@ void NewContactWidget::clearCallbookQueryFields()
     ui->stateEdit->clear();
 }
 
+void NewContactWidget::clearMemberQueryFields()
+{
+    FCT_IDENTIFICATION;
+
+    ui->memberListLabel->clear();
+}
+
 void NewContactWidget::resetContact()
 {
     FCT_IDENTIFICATION;
@@ -944,6 +993,7 @@ void NewContactWidget::resetContact()
     ui->ageEdit->clear();
 
     clearCallbookQueryFields();
+    clearMemberQueryFields();
 
     ui->callsignEdit->setPalette(QPalette());
     ui->callsignEdit->setFocus();
@@ -1900,6 +1950,10 @@ void NewContactWidget::frequencyTXChanged()
                                      : realRigFreq + RigProfilesManager::instance()->getCurProfile1().ritOffset;
 
     __changeFrequency(VFO1, realRigFreq, ritFreq, xitFreq);
+
+    // TODO: qlog should call queryMemberList but for saving time we will omit it. and callsign is usually
+    // cleared
+    // queryMemberList();
 
     if ( ! isManualEnterMode )
     {

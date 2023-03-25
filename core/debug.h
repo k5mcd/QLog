@@ -12,7 +12,7 @@ Q_DECLARE_LOGGING_CATEGORY(logPlugin)
                                  static const QLoggingCategory runtime(m".runtime"); \
 
 #define FCT_IDENTIFICATION QString logging_cat(mod_name); logging_cat.append(".function.entered"); \
-                           qCDebug(QLoggingCategory(logging_cat.toLatin1().constData()))
+                           qCDebug(QLoggingCategory(logging_cat.toLatin1().constData()))<<"***"
 
 typedef enum debug_level
 {

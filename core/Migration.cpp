@@ -36,10 +36,21 @@ bool Migration::run() {
     QProgressDialog progress("Migrating the database...", nullptr, currentVersion, latestVersion);
     progress.show();
 
-    while ((currentVersion = getVersion()) < latestVersion) {
+    while ((currentVersion = getVersion()) < latestVersion)
+    {
         bool res = migrate(currentVersion+1);
-        if (!res || getVersion() == currentVersion) {
+        if ( !res || getVersion() == currentVersion )
+        {
             progress.close();
+            return false;
+        }
+        // sometimes (especially when DROP INDEX is called), it is needed to
+        // reopen database. (issue occurs between DB versions 15 and 16)
+        QSqlDatabase::database().close();
+
+        if ( !QSqlDatabase::database().open() )
+        {
+            qCritical() << QSqlDatabase::database().lastError();
             return false;
         }
         progress.setValue(currentVersion);
@@ -134,7 +145,7 @@ bool Migration::runSqlFile(QString filename) {
     QFile sqlFile(filename);
     sqlFile.open(QIODevice::ReadOnly | QIODevice::Text);
 
-    QStringList sqlQueries = QTextStream(&sqlFile).readAll().split('\n').join("").split(';');
+    QStringList sqlQueries = QTextStream(&sqlFile).readAll().split('\n').join(" ").split(';');
     qCDebug(runtime) << sqlQueries;
 
     foreach (QString sqlQuery, sqlQueries) {
@@ -172,6 +183,9 @@ bool Migration::functionMigration(int version)
     case 15:
         ret = fillMyDXCC();
         break;
+    case 17:
+        ret = createTriggers();
+        break;
     default:
         ret = true;
     }
@@ -207,17 +221,19 @@ bool Migration::updateExternalResource()
     connect(&progress, &QProgressDialog::canceled,
             &downloader, &LOVDownloader::abortRequest);
 
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::CTY, "(1/6)") )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::CTY, "(1/7)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SATLIST, "(2/6)") )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SATLIST, "(2/7)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SOTASUMMITS, "(3/6)") )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::SOTASUMMITS, "(3/7)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::WWFFDIRECTORY, "(4/6)") )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::WWFFDIRECTORY, "(4/7)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::IOTALIST, "(5/6)") )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::IOTALIST, "(5/7)") )
         return false;
-    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::POTADIRECTORY, "(6/6)") )
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::POTADIRECTORY, "(6/7)") )
+        return false;
+    if ( ! updateExternalResourceProgress(progress, downloader, LOVDownloader::MEMBERSHIPCONTENTLIST, "(7/7)") )
         return false;
 
     return true;
@@ -252,6 +268,9 @@ bool Migration::updateExternalResourceProgress(QProgressDialog& progress,
         break;
     case LOVDownloader::SourceType::POTADIRECTORY:
         stringInfo = tr("POTA Records");
+        break;
+    case LOVDownloader::SourceType::MEMBERSHIPCONTENTLIST:
+        stringInfo = tr("Membership Directory Records");
         break;
 
     default:
@@ -414,6 +433,55 @@ bool Migration::fillMyDXCC()
                 return false;
             }
         }
+    }
+
+    return true;
+}
+
+bool Migration::createTriggers()
+{
+    FCT_IDENTIFICATION;
+
+    // Migration procedure does not support to execute SQL code with Triggers.
+    // It will be safer to create triggers here than to fix the migration procedure
+
+    QSqlQuery query;
+
+    if ( ! query.exec(QString("CREATE TRIGGER update_callsign_contacts_autovalue "
+                              "AFTER UPDATE ON contacts "
+                              "FOR EACH ROW "
+                              "WHEN OLD.callsign <> NEW.callsign "
+                              "BEGIN "
+                              "  INSERT OR REPLACE INTO contacts_autovalue (contactid, base_callsign) "
+                              "  VALUES (NEW.id, (WITH tokenizedCallsign(word, csv) AS ( SELECT '', NEW.callsign||'/' "
+                              "                                                     UNION ALL "
+                              "                                                     SELECT substr(csv, 0, instr(csv, '/')), substr(csv, instr(csv, '/') + 1) "
+                              "                                                     FROM tokenizedCallsign "
+                              "                                                     WHERE csv != '' ) "
+                              "                   SELECT word FROM tokenizedCallsign "
+                              "                   WHERE word != '' AND word REGEXP '^([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)$' LIMIT 1));"
+                              "END;")))
+    {
+        qWarning() << "Cannot create trigger update_callsign_contacts_autovalue " << query.lastError().text();
+        return false;
+    }
+
+    if ( ! query.exec(QString("CREATE TRIGGER insert_contacts_autovalue "
+                              "AFTER INSERT ON contacts "
+                              "FOR EACH ROW "
+                              "BEGIN "
+                              "  INSERT OR REPLACE INTO contacts_autovalue (contactid, base_callsign) "
+                              "  VALUES (NEW.id, (WITH tokenizedCallsign(word, csv) AS ( SELECT '', NEW.callsign||'/' "
+                              "                                                UNION ALL "
+                              "                                                SELECT substr(csv, 0, instr(csv, '/')), substr(csv, instr(csv, '/') + 1) "
+                              "                                                FROM tokenizedCallsign "
+                              "                                                WHERE csv != '' ) "
+                              "                   SELECT word FROM tokenizedCallsign "
+                              "                   WHERE word != '' and word REGEXP '^([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)$' LIMIT 1)); "
+                              "END;")))
+    {
+        qWarning() << "Cannot create trigger update_callsign_contacts_autovalue " << query.lastError().text();
+        return false;
     }
 
     return true;

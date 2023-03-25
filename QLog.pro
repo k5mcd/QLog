@@ -62,6 +62,7 @@ SOURCES += \
         core/LOVDownloader.cpp \
         core/LogParam.cpp \
         core/Lotw.cpp \
+        core/MembershipQE.cpp \
         core/Migration.cpp \
         core/NetworkNotification.cpp \
         core/PaperQSL.cpp \
@@ -155,6 +156,7 @@ HEADERS += \
         core/LOVDownloader.h \
         core/LogParam.h \
         core/Lotw.h \
+        core/MembershipQE.h \
         core/Migration.h \
         core/NetworkNotification.h \
         core/PaperQSL.h \

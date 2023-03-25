@@ -2,6 +2,9 @@
 #define ALERTRULEDETAIL_H
 
 #include <QDialog>
+#include <QCheckBox>
+
+#include "core/AlertEvaluator.h"
 
 namespace Ui {
 class AlertRuleDetail;
@@ -25,11 +28,13 @@ private:
     Ui::AlertRuleDetail *ui;
     QString ruleName;
     QStringList ruleNamesList;
+    QList<QCheckBox*> memberListCheckBoxes;
 
 
 private:
     bool ruleExists(const QString &ruleName);
     void loadRule(const QString &ruleName);
+    void generateMembershipCheckboxes(const AlertRule * rule = nullptr);
 };
 
 #endif // ALERTRULEDETAIL_H

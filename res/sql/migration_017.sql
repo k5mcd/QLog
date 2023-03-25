@@ -26,3 +26,52 @@ VALUES (
 );
 
 UPDATE contacts SET ant_az = 360 + ant_az WHERE ant_az < 0;
+
+CREATE TABLE IF NOT EXISTS membership_directory(
+        short_desc  TEXT,
+        long_desc   TEXT,
+        filename    TEXT,
+        last_update TEXT,
+        num_records INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS membership (
+        callsign     TEXT,
+        member_id    TEXT,
+        valid_from   TEXT,
+        valid_to     TEXT,
+        clubid       TEXT
+);
+
+CREATE TABLE IF NOT EXISTS membership_versions (
+        clubid     TEXT PRIMARY KEY,
+        version    INTEGER
+);
+
+CREATE INDEX IF NOT EXISTS membership_callsign_idx ON membership(callsign);
+CREATE INDEX IF NOT EXISTS membership_clubid_idx ON membership(clubid);
+
+CREATE TABLE IF NOT EXISTS contacts_autovalue(
+   contactid INTEGER PRIMARY KEY REFERENCES contacts("id") ON DELETE CASCADE,
+   base_callsign TEXT
+);
+
+CREATE INDEX IF NOT EXISTS contacts_autovalue_call_idx on contacts_autovalue(base_callsign);
+
+CREATE VIEW IF NOT EXISTS contact_clubs_view AS
+SELECT contactid, clubid
+FROM contacts_autovalue c, membership m
+WHERE c.base_callsign = m.callsign;
+
+
+INSERT INTO contacts_autovalue SELECT ID, ((WITH tokenizedCallsign(word, csv) AS ( SELECT '', callsign||'/'
+                                                                             UNION ALL
+                                                                             SELECT substr(csv, 0, instr(csv, '/')), substr(csv, instr(csv, '/') + 1)
+                                                                             FROM tokenizedCallsign
+                                                                             WHERE csv != '' )
+                                           SELECT word FROM tokenizedCallsign
+                                           WHERE word != ''
+                                           AND word REGEXP '^([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+)$' LIMIT 1)
+                                           ) FROM contacts;
+
+ALTER TABLE alert_rules ADD dx_member TEXT DEFAULT '*';

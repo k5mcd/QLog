@@ -42,6 +42,10 @@ public slots:
     void userFilterChanged();
     void saveUserFilter();
     void restoreUserFilter();
+    void clubFilterChanged();
+    void refreshClubFilter();
+    void saveClubFilter();
+    void restoreclubFilter();
     void restoreFilters();
     void updateTable();
     void uploadClublog();
@@ -55,6 +59,7 @@ public slots:
     void handleBeforeUpdate(int, QSqlRecord&);
     void handleBeforeDelete(int);
     void focusSearchCallsign();
+    void reloadSetting();
 
 private:
     ClubLog* clublog;
