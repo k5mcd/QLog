@@ -413,10 +413,15 @@ bool Migration::fillMyDXCC()
         return false;
     }
 
+    // it is a hack because the migration is running before migration (start/stop database).
+    // It caused that SQL prepared in contructor are incorrectly created.
+    // Therefore, Data are create temporary here
+    Data tmp;
+
     while( query.next() )
     {
         QString myCallsign = query.value("station_callsign").toString();
-        DxccEntity dxccEntity = Data::instance()->lookupDxcc(myCallsign);
+        DxccEntity dxccEntity = tmp.lookupDxcc(myCallsign);
 
         if ( dxccEntity.dxcc )
         {

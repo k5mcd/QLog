@@ -26,31 +26,32 @@ Data::Data(QObject *parent) :
     loadTZ();
 
     isDXCCQueryValid = queryDXCC.prepare(
-                "SELECT\n"
-                "    dxcc_entities.id,\n"
-                "    dxcc_entities.name,\n"
-                "    dxcc_entities.prefix,\n"
-                "    dxcc_entities.cont,\n"
-                "    CASE\n"
-                "        WHEN (dxcc_prefixes.cqz != 0)\n"
-                "        THEN dxcc_prefixes.cqz\n"
-                "        ELSE dxcc_entities.cqz\n"
-                "    END AS cqz,\n"
-                "    CASE\n"
-                "        WHEN (dxcc_prefixes.ituz != 0)\n"
-                "        THEN dxcc_prefixes.ituz\n"
-                "        ELSE dxcc_entities.ituz\n"
-                "    END AS ituz\n,"
-                "    dxcc_entities.lat,\n"
-                "    dxcc_entities.lon,\n"
-                "    dxcc_entities.tz\n"
-                "FROM dxcc_prefixes\n"
-                "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id)\n"
-                "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true)\n"
-                "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%')\n"
-                "ORDER BY dxcc_prefixes.prefix\n"
-                "DESC LIMIT 1\n"
+                "SELECT "
+                "    dxcc_entities.id, "
+                "    dxcc_entities.name, "
+                "    dxcc_entities.prefix, "
+                "    dxcc_entities.cont, "
+                "    CASE "
+                "        WHEN (dxcc_prefixes.cqz != 0) "
+                "        THEN dxcc_prefixes.cqz "
+                "        ELSE dxcc_entities.cqz "
+                "    END AS cqz, "
+                "    CASE "
+                "        WHEN (dxcc_prefixes.ituz != 0) "
+                "        THEN dxcc_prefixes.ituz "
+                "        ELSE dxcc_entities.ituz "
+                "    END AS ituz , "
+                "    dxcc_entities.lat, "
+                "    dxcc_entities.lon, "
+                "    dxcc_entities.tz "
+                "FROM dxcc_prefixes "
+                "INNER JOIN dxcc_entities ON (dxcc_prefixes.dxcc = dxcc_entities.id) "
+                "WHERE (dxcc_prefixes.prefix = :callsign and dxcc_prefixes.exact = true) "
+                "    OR (dxcc_prefixes.exact = false and :callsign LIKE dxcc_prefixes.prefix || '%') "
+                "ORDER BY dxcc_prefixes.prefix "
+                "DESC LIMIT 1 "
                 );
+
     isSOTAQueryValid = querySOTA.prepare(
                 "SELECT summit_code,"
                 "       association_name,"
@@ -983,7 +984,7 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
 
         if ( ! queryDXCC.exec() )
         {
-            qWarning() << "Cannot execte Select statement" << queryDXCC.lastError();
+            qWarning() << "Cannot execute Select statement" << queryDXCC.lastError() << queryDXCC.lastQuery();
             return DxccEntity();
         }
         if (queryDXCC.next())
