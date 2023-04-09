@@ -219,10 +219,12 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
 
     QSqlTableModel entityTableModel;
     entityTableModel.setTable(sourceDef.tableName);
+    entityTableModel.setEditStrategy(QSqlTableModel::OnManualSubmit);
     QSqlRecord entityRecord = entityTableModel.record();
 
     QSqlTableModel prefixTableModel;
     prefixTableModel.setTable("dxcc_prefixes");
+    prefixTableModel.setEditStrategy(QSqlTableModel::OnManualSubmit);
     prefixTableModel.removeColumn(prefixTableModel.fieldIndex("id"));
     QSqlRecord prefixRecord = prefixTableModel.record();
 
@@ -332,6 +334,7 @@ void LOVDownloader::parseSATLIST(const SourceDefinition &sourceDef, QTextStream 
 
     QSqlTableModel entityTableModel;
     entityTableModel.setTable(sourceDef.tableName);
+    entityTableModel.setEditStrategy(QSqlTableModel::OnManualSubmit);
     QSqlRecord entityRecord = entityTableModel.record();
 
     int count = 0;
@@ -873,6 +876,7 @@ void LOVDownloader::parseMembershipContent(const SourceDefinition &sourceDef, QT
 
     QSqlTableModel entityTableModel;
     entityTableModel.setTable(sourceDef.tableName);
+    entityTableModel.setEditStrategy(QSqlTableModel::OnManualSubmit);
     QSqlRecord entityRecord = entityTableModel.record();
 
     int count = 0;
