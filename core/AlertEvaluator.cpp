@@ -234,7 +234,11 @@ bool AlertRule::load(const QString &in_ruleName)
         dxContinent      = record.value("dx_continent").toString();
         dxComment        = record.value("spot_comment").toString();
         dxMember         = record.value("dx_member").toString().split(",");
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
         dxMemberSet      = QSet<QString>(dxMember.begin(), dxMember.end());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+        dxMemberSet      = QSet<QString>(QSet<QString>::fromList(dxMember));
+#endif
         mode             = record.value("mode").toString();
         band             = record.value("band").toString();
         spotterCountry   = record.value("spotter_country").toInt();

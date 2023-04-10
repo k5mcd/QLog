@@ -322,7 +322,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
     QSqlTableModel model;
     model.setTable("contacts");
-    model.setEditStrategy(QSqlTableModel::OnManualSubmit);
+    //model.setEditStrategy(QSqlTableModel::OnManualSubmit);
     QSqlRecord QSLRecord = model.record(0);
 
     while ( true )

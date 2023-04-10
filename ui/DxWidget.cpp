@@ -434,7 +434,12 @@ DxWidget::DxWidget(QWidget *parent) :
     dxccStatusFilter = dxccStatusFilterValue();
     deduplicateSpots = spotDedupValue();
     QStringList tmp = dxMemberList();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
     dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+    dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
+#endif
+
 
     QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
     ui->serverSelect->addItems(DXCservers);
@@ -1049,7 +1054,11 @@ void DxWidget::actionFilter()
       dxccStatusFilter = dxccStatusFilterValue();
       deduplicateSpots = spotDedupValue();
       QStringList tmp = dxMemberList();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
       dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+      dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
+#endif
   }
 }
 

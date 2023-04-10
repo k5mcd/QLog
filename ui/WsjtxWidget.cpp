@@ -41,7 +41,11 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     distanceFilter = getDistanceFilterValue();
     snrFilter = getSNRFilterValue();
     QStringList tmp = dxMemberList();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
     dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+    dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
+#endif
 }
 
 void WsjtxWidget::decodeReceived(WsjtxDecode decode)
@@ -221,7 +225,11 @@ void WsjtxWidget::actionFilter()
         distanceFilter = getDistanceFilterValue();
         snrFilter = getSNRFilterValue();
         QStringList tmp = dxMemberList();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
         dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+        dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
+#endif
         wsjtxTableModel->clear();
     }
 }
