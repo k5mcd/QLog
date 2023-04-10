@@ -3,7 +3,10 @@ TBC - 0.21.0
 - [NEW] - Rotator - Added Destination Azimuth Needle
 - [NEW] - Online Map - Added Antenna Beam Path
 - [NEW] - Rig - Combos are disbled when disconnected
+- [NEW] - Club Member Lists (issue #60)
+- [NEW] - Alert Table shows rule names
 - Fixed Antenna Azimuth Negative Value (issue #191)
+- Fixed CTY file is not loaded when duplicate record (issue #193)
 
 2023/03/14 - 0.20.0
 - [NEW] - Added MUF Layer to online map
