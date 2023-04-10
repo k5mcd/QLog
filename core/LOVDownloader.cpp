@@ -276,22 +276,36 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
 #endif
         qCDebug(runtime) << prefixList;
 
+        QStringList dup;
+
         for (auto &prefix : qAsConst(prefixList))
         {
             matchExp = CTYPrefixFormatRe.match(prefix);
             if ( matchExp.hasMatch() )
             {
-                prefixRecord.clearValues();
-                prefixRecord.setValue("dxcc", dxcc_id);
-                prefixRecord.setValue("exact", !matchExp.captured(1).isEmpty());
-                prefixRecord.setValue("prefix", matchExp.captured(2));
-                prefixRecord.setValue("cqz", matchExp.captured(3).toInt());
-                prefixRecord.setValue("ituz", matchExp.captured(4).toInt());
+                // removing duplicities in CTY file.
+                QString pfx = matchExp.captured(2);
 
-                if ( !prefixTableModel.insertRecord(-1, prefixRecord) )
+                if ( !dup.contains(pfx))
                 {
-                    qWarning() << "Cannot insert a record to DXCC Table - " << prefixTableModel.lastError();
-                    qCDebug(runtime) << prefixRecord;
+                    dup << pfx;
+
+                    prefixRecord.clearValues();
+                    prefixRecord.setValue("dxcc", dxcc_id);
+                    prefixRecord.setValue("exact", !matchExp.captured(1).isEmpty());
+                    prefixRecord.setValue("prefix", pfx);
+                    prefixRecord.setValue("cqz", matchExp.captured(3).toInt());
+                    prefixRecord.setValue("ituz", matchExp.captured(4).toInt());
+
+                    if ( !prefixTableModel.insertRecord(-1, prefixRecord) )
+                    {
+                        qWarning() << "Cannot insert a record to DXCC Table - " << prefixTableModel.lastError();
+                        qCDebug(runtime) << prefixRecord;
+                    }
+                }
+                else
+                {
+                    qCDebug(runtime) << "Removing non-unique prefix" << pfx;
                 }
             }
             else
@@ -305,7 +319,7 @@ void LOVDownloader::parseCTY(const SourceDefinition &sourceDef, QTextStream &dat
     }
 
     if ( entityTableModel.submitAll()
-         && entityTableModel.submitAll()
+         && prefixTableModel.submitAll()
          && !abortRequested )
     {
         qCDebug(runtime) << "DXCC update finished:" << count << "entities loaded.";
