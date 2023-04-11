@@ -16,6 +16,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - **LotW**, **eQSL** **QRZ.com** and **Clublog** integration (**eQSL includes QSL pictures download**)
 - **Secure Password Storage** for all services with password
 - **Online** and **Offline** map
+- Club Member lookup
 - Bandmap
 - CW Console
 - WSJT-X integration
