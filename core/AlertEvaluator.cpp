@@ -52,6 +52,7 @@ void AlertEvaluator::dxSpot(const DxSpot & spot)
         alert.source = SpotAlert::ALERTSOURCETYPE::DXSPOT;
         alert.ruleName = matchedRules;
         alert.callsign = spot.callsign;
+        alert.callsign_member = spot.callsign_member;
         alert.freq = spot.freq;
         alert.band = spot.band;
         alert.mode = spot.mode;
@@ -90,6 +91,7 @@ void AlertEvaluator::WSJTXCQSpot(const WsjtxEntry &wsjtx)
         alert.source = SpotAlert::ALERTSOURCETYPE::WSJTXCQSPOT;
         alert.ruleName = matchedRules;
         alert.callsign = wsjtx.callsign;
+        alert.callsign_member = wsjtx.callsign_member;
         alert.freq = wsjtx.freq;
         alert.band = wsjtx.band;
         alert.mode = Data::freqToDXCCMode(wsjtx.freq);

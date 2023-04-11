@@ -388,6 +388,7 @@ SpotAlertNotificationMsg::SpotAlertNotificationMsg(const SpotAlert &spot, QObjec
     dxInfo["cqz"] = spot.dxcc.cqz;
     dxInfo["ituz"] = spot.dxcc.ituz;
     dxInfo["utcoffset"] = spot.dxcc.tz;
+    dxInfo["member"] = QJsonArray::fromStringList(spot.memberList2StringList());
 
     QJsonObject spotterInfo;
     spotterInfo["call"] = spot.spotter;
