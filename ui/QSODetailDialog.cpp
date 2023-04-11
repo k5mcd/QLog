@@ -2018,8 +2018,8 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
            case COLUMN_FREQ_RX:
            case COLUMN_TX_POWER:
                /* store NULL when 0.0MHz */
-               main_update_result = QSqlTableModel::setData(index, ( value.toDouble() == 0.0 ) ? QVariant()
-                                                                                               : value, role); // clazy:exclude=skipped-base-method
+               main_update_result = QSqlTableModel::setData(index, ( value.toDouble() == 0.0 ) ? QVariant() // clazy:exclude=skipped-base-method
+                                                                                               : value, role);
                break;
 
            case COLUMN_SOTA_REF:

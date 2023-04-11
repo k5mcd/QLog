@@ -22,7 +22,8 @@ MODULE_IDENTIFICATION("qlog.core.rotator");
 
 Rotator::Rotator(QObject *parent) :
     SerialPort(parent),
-    timer(nullptr)
+    timer(nullptr),
+    forceSendState(false)
 {
     FCT_IDENTIFICATION;
 
