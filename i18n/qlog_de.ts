@@ -64,7 +64,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="147"/>
         <source>Log Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Log Status</translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="157"/>
@@ -84,7 +84,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="227"/>
         <source>CW</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CW</translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="240"/>
@@ -337,7 +337,7 @@
     <message>
         <location filename="../ui/AwardsDialog.ui" line="96"/>
         <source>CW</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CW</translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.ui" line="106"/>
@@ -352,7 +352,7 @@
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="33"/>
         <source>DXCC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">DXCC</translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="34"/>
@@ -503,8 +503,12 @@
         <location filename="../core/CWCatKey.cpp" line="102"/>
         <location filename="../core/CWCatKey.cpp" line="132"/>
         <location filename="../core/CWCatKey.cpp" line="157"/>
-        <source>Key is not connected</source>
+        <source>Keyer is not connected</source>
         <translation>Keyer nicht verbunden</translation>
+    </message>
+    <message>
+        <source>Key is not connected</source>
+        <translation type="vanished">Keyer nicht verbunden</translation>
     </message>
     <message>
         <location filename="../core/CWCatKey.cpp" line="109"/>
@@ -516,8 +520,12 @@
     <message>
         <location filename="../core/CWCatKey.cpp" line="132"/>
         <location filename="../core/CWCatKey.cpp" line="139"/>
-        <source>Cannot set Key Speed</source>
+        <source>Cannot set Keyer Speed</source>
         <translation>Kann Keyer-WPM nicht einstellen</translation>
+    </message>
+    <message>
+        <source>Cannot set Key Speed</source>
+        <translation type="vanished">Kann Keyer-WPM nicht einstellen</translation>
     </message>
     <message>
         <location filename="../core/CWCatKey.cpp" line="157"/>
@@ -535,9 +543,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="40"/>
         <source>CW Key Profile</source>
-        <translation>CW-Keyer Profil</translation>
+        <translation type="vanished">CW-Keyer Profil</translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="94"/>
@@ -590,6 +597,11 @@
         <translation>Funktionstasten Profile</translation>
     </message>
     <message>
+        <location filename="../ui/CWConsoleWidget.ui" line="40"/>
+        <source>CW Keyer Profile</source>
+        <translation>CW-Keyer Profil</translation>
+    </message>
+    <message>
         <location filename="../ui/CWConsoleWidget.ui" line="137"/>
         <source>Sent text</source>
         <translation>Gesendeter Text</translation>
@@ -638,8 +650,12 @@
 <context>
     <name>CWKeyer</name>
     <message>
-        <location filename="../core/CWKeyer.cpp" line="100"/>
         <source>No CW Key Profile selected</source>
+        <translation type="vanished">Kein CW-Keyer Profil ausgewählt</translation>
+    </message>
+    <message>
+        <location filename="../core/CWKeyer.cpp" line="100"/>
+        <source>No CW Keyer Profile selected</source>
         <translation>Kein CW-Keyer Profil ausgewählt</translation>
     </message>
     <message>
@@ -679,8 +695,17 @@
         <location filename="../core/CWWinKey.cpp" line="232"/>
         <location filename="../core/CWWinKey.cpp" line="395"/>
         <location filename="../core/CWWinKey.cpp" line="434"/>
-        <source>Key is not connected</source>
+        <source>Keyer is not connected</source>
         <translation>Kein Keyer verbunden</translation>
+    </message>
+    <message>
+        <location filename="../core/CWWinKey.cpp" line="395"/>
+        <source>Cannot set Keyer Speed</source>
+        <translation>Kann Keyer-WPM nicht einstellen</translation>
+    </message>
+    <message>
+        <source>Key is not connected</source>
+        <translation type="vanished">Kein Keyer verbunden</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="369"/>
@@ -688,9 +713,8 @@
         <translation>Kommunikationsfehler</translation>
     </message>
     <message>
-        <location filename="../core/CWWinKey.cpp" line="395"/>
         <source>Cannot set Key Speed</source>
-        <translation>Kann Keyer-WPM nicht einstellen</translation>
+        <translation type="vanished">Kann Keyer-WPM nicht einstellen</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="434"/>
@@ -1060,7 +1084,7 @@
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="112"/>
         <source>CW</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CW</translation>
     </message>
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="125"/>
@@ -1075,7 +1099,7 @@
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="212"/>
         <source>Log Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Log Status</translation>
     </message>
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="220"/>
@@ -1435,9 +1459,8 @@
         <translation>Hochladen</translation>
     </message>
     <message>
-        <location filename="../ui/Eqsldialog.ui" line="26"/>
         <source>My Gridsquare</source>
-        <translation>Eigenes Gitterfeld</translation>
+        <translation type="vanished">Eigenes Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/Eqsldialog.ui" line="43"/>
@@ -1479,6 +1502,11 @@
         <location filename="../ui/Eqsldialog.ui" line="33"/>
         <source>Show Selection</source>
         <translation>Auswahl anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../ui/Eqsldialog.ui" line="26"/>
+        <source>My Grigsquare</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/Eqsldialog.ui" line="50"/>
@@ -1631,7 +1659,7 @@
     <message>
         <location filename="../core/HamQTH.cpp" line="84"/>
         <source>HamQTH</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HamQTH</translation>
     </message>
 </context>
 <context>
@@ -1883,7 +1911,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="151"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QTH</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="27"/>
@@ -1894,7 +1922,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="28"/>
         <source>DXCC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">DXCC</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="68"/>
@@ -2495,7 +2523,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="154"/>
         <source>Rig</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rig</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="155"/>
@@ -3189,7 +3217,7 @@
         <location filename="../ui/MainWindow.ui" line="226"/>
         <location filename="../ui/MainWindow.ui" line="397"/>
         <source>Rig</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rig</translation>
     </message>
     <message>
         <source>Help</source>
@@ -3723,7 +3751,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2082"/>
         <source>Rig</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rig</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="429"/>
@@ -3737,12 +3765,12 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="422"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QTH</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1240"/>
         <source>CQ</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CQ</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1211"/>
@@ -3772,7 +3800,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="366"/>
         <source>80m</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">80m</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1134"/>
@@ -4171,7 +4199,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="202"/>
         <source>59</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">59</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="415"/>
@@ -4527,18 +4555,30 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="890"/>
-        <source>CW Key port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
+        <source>CW Keyer port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>CW Keyer Port muss ein gültiger COM-Port sein.&lt;br&gt;Für Windows verwenden Sie COMxx, für unix-ähnliche Betriebssysteme verwenden Sie einen Pfad zum Gerät</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="938"/>
-        <source>Cannot change the CW Key Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
+        <source>Cannot change the CW Keyer Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Kann das CW-Keyer Modell nicht zu &lt;b&gt;CW-über-CAT&lt;/b&gt; ändern.&lt;br&gt;Keine CW-über-CAT Unterstützung für Rig(s) &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="984"/>
-        <source>Cannot delete the CW Key Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
+        <source>Cannot delete the CW Keyer Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Kann das CW-Keyer Profil nicht löschen.&lt;br&gt;Das Profil wird verwendet von Rig(s): &lt;b&gt;%1&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>CW Key port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
+        <translation type="vanished">CW Keyer Port muss ein gültiger COM-Port sein.&lt;br&gt;Für Windows verwenden Sie COMxx, für unix-ähnliche Betriebssysteme verwenden Sie einen Pfad zum Gerät</translation>
+    </message>
+    <message>
+        <source>Cannot change the CW Key Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
+        <translation type="vanished">Kann das CW-Keyer Modell nicht zu &lt;b&gt;CW-über-CAT&lt;/b&gt; ändern.&lt;br&gt;Keine CW-über-CAT Unterstützung für Rig(s) &lt;b&gt;%1&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Cannot delete the CW Key Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
+        <translation type="vanished">Kann das CW-Keyer Profil nicht löschen.&lt;br&gt;Das Profil wird verwendet von Rig(s): &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="1224"/>
@@ -4911,7 +4951,7 @@ Unmatched QSLs:
         <location filename="../ui/QSODetailDialog.ui" line="524"/>
         <location filename="../ui/QSODetailDialog.ui" line="1275"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QTH</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="531"/>
@@ -4962,7 +5002,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="757"/>
         <source>CQ</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">CQ</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="786"/>
@@ -5118,7 +5158,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1285"/>
         <source>Rig</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rig</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1295"/>
@@ -5203,7 +5243,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1601"/>
         <source>QSL via</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QSL via</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1664"/>
@@ -5693,27 +5733,27 @@ Unmatched QSLs:
 <context>
     <name>Rotator</name>
     <message>
-        <location filename="../core/Rotator.cpp" line="175"/>
+        <location filename="../core/Rotator.cpp" line="176"/>
         <source>Get Position Error</source>
         <translation>Fehler bei der Positionsabfrage</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="214"/>
+        <location filename="../core/Rotator.cpp" line="215"/>
         <source>No Rotator Profile selected</source>
         <translation>Kein Rotor-Profil ausgewählt</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="226"/>
+        <location filename="../core/Rotator.cpp" line="227"/>
         <source>Initialization Error</source>
         <translation>Initialisierungsfehler</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="253"/>
+        <location filename="../core/Rotator.cpp" line="254"/>
         <source>Open Connection Error</source>
         <translation>Verbindungsfehler</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="336"/>
+        <location filename="../core/Rotator.cpp" line="337"/>
         <source>Set Possition Error</source>
         <translation>Fehler beim Einstellen der Position</translation>
     </message>
@@ -5880,7 +5920,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/SettingsDialog.ui" line="129"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QTH</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="174"/>
@@ -5918,55 +5958,55 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="633"/>
         <location filename="../ui/SettingsDialog.ui" line="2096"/>
         <source>1200</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1200</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="628"/>
         <location filename="../ui/SettingsDialog.ui" line="1694"/>
         <location filename="../ui/SettingsDialog.ui" line="2091"/>
         <source>2400</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2400</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="623"/>
         <location filename="../ui/SettingsDialog.ui" line="1689"/>
         <location filename="../ui/SettingsDialog.ui" line="2086"/>
         <source>4800</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">4800</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="618"/>
         <location filename="../ui/SettingsDialog.ui" line="1684"/>
         <location filename="../ui/SettingsDialog.ui" line="2081"/>
         <source>9600</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">9600</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="613"/>
         <location filename="../ui/SettingsDialog.ui" line="1679"/>
         <location filename="../ui/SettingsDialog.ui" line="2076"/>
         <source>19200</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">19200</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="608"/>
         <location filename="../ui/SettingsDialog.ui" line="1674"/>
         <location filename="../ui/SettingsDialog.ui" line="2071"/>
         <source>38400</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">38400</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="603"/>
         <location filename="../ui/SettingsDialog.ui" line="1669"/>
         <location filename="../ui/SettingsDialog.ui" line="2066"/>
         <source>57600</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">57600</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="598"/>
         <location filename="../ui/SettingsDialog.ui" line="2061"/>
         <source>115200</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">115200</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1707"/>
@@ -6065,25 +6105,25 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="1736"/>
         <location filename="../ui/SettingsDialog.ui" line="2127"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">5</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1731"/>
         <location filename="../ui/SettingsDialog.ui" line="2122"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">6</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1726"/>
         <location filename="../ui/SettingsDialog.ui" line="2117"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">7</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1721"/>
         <location filename="../ui/SettingsDialog.ui" line="2112"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">8</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1744"/>
@@ -6095,7 +6135,7 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="1758"/>
         <location filename="../ui/SettingsDialog.ui" line="2143"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1</translation>
     </message>
     <message>
         <source>1.5</source>
@@ -6105,7 +6145,7 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="1763"/>
         <location filename="../ui/SettingsDialog.ui" line="2148"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">2</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1783"/>
@@ -6141,7 +6181,7 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.cpp" line="187"/>
         <location filename="../ui/SettingsDialog.cpp" line="197"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nein</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="188"/>
@@ -6241,24 +6281,20 @@ Unmatched QSLs:
         <translation>PTT Status</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="423"/>
         <source>CW Keys</source>
-        <translation>CW-Keyer</translation>
+        <translation type="vanished">CW-Keyer</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="429"/>
         <source>Key Profiles</source>
-        <translation>Keyer Profile</translation>
+        <translation type="vanished">Keyer Profile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="447"/>
         <source>List of all available CW Keys</source>
-        <translation>Liste der verfügbaren CW Keyer</translation>
+        <translation type="vanished">Liste der verfügbaren CW Keyer</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="502"/>
         <source>Key Mode</source>
-        <translation>Keyer Modus</translation>
+        <translation type="vanished">Keyer Modus</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="519"/>
@@ -6386,14 +6422,12 @@ Unmatched QSLs:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1565"/>
         <source>CW Key Speed</source>
-        <translation>CW-Keyer WPM</translation>
+        <translation type="vanished">CW-Keyer WPM</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1440"/>
         <source>Assigned CW Key</source>
-        <translation>Zugeordneter CW-Keyer</translation>
+        <translation type="vanished">Zugeordneter CW-Keyer</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="71"/>
@@ -6457,6 +6491,36 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="3136"/>
         <source>Raw UDP Forward</source>
         <translation>UDP Rohdaten-Weiterleitung</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="423"/>
+        <source>CW Keyers</source>
+        <translation>CW-Keyer</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="429"/>
+        <source>Keyer Profiles</source>
+        <translation>Keyer Profile</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="447"/>
+        <source>List of all available CW Keyers</source>
+        <translation>Liste der verfügbaren CW Keyer</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="502"/>
+        <source>Keyer Mode</source>
+        <translation>Keyer Modus</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="1440"/>
+        <source>Assigned CW Keyer</source>
+        <translation>Zugeordneter CW-Keyer</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="1565"/>
+        <source>CW Keyer Speed</source>
+        <translation>CW-Keyer WPM</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2268"/>
@@ -6691,7 +6755,7 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="3094"/>
         <location filename="../ui/SettingsDialog.cpp" line="101"/>
         <source>DXCC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">DXCC</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3106"/>
@@ -6706,7 +6770,7 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.ui" line="2039"/>
         <location filename="../ui/SettingsDialog.ui" line="2205"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Port</translation>
     </message>
     <message>
         <source>/dev/tty1</source>
@@ -6767,7 +6831,7 @@ Unmatched QSLs:
         <location filename="../ui/SettingsDialog.cpp" line="177"/>
         <location filename="../ui/SettingsDialog.cpp" line="1768"/>
         <source>HamQTH</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HamQTH</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2677"/>
@@ -7378,12 +7442,12 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/WsjtxFilterDialog.ui" line="215"/>
         <source>Member</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mitglied</translation>
     </message>
     <message>
         <location filename="../ui/WsjtxFilterDialog.cpp" line="147"/>
         <source>No Club List is enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine Clubliste aktiviert</translation>
     </message>
 </context>
 <context>

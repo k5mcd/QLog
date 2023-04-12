@@ -99,7 +99,7 @@ bool CWCatKey::sendText(const QString &text)
     if ( !isKeyConnected )
     {
         qCDebug(runtime) << "Cannot sent ";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Key is not connected"));
+        emit keyError(tr("Cannot sent Text to Rig"), tr("Keyer is not connected"));
         return false;
     }
 
@@ -129,14 +129,14 @@ bool CWCatKey::setWPM(const qint16 wpm)
     if ( !isKeyConnected )
     {
         qCDebug(runtime) << "Cannot set WPM ";
-        emit keyError(tr("Cannot set Key Speed"), tr("Key is not connected"));
+        emit keyError(tr("Cannot set Keyer Speed"), tr("Keyer is not connected"));
         return false;
     }
 
     if ( !Rig::instance()->isRigConnected() )
     {
         qCDebug(runtime) << "Cannot set WPM";
-        emit keyError(tr("Cannot set Key Speed"), tr("Rig is not connected"));
+        emit keyError(tr("Cannot set Keyer Speed"), tr("Rig is not connected"));
         return false;
     }
 
@@ -154,7 +154,7 @@ bool CWCatKey::imediatellyStop()
     if ( !isKeyConnected )
     {
         qCDebug(runtime) << "Cannot stop";
-        emit keyError(tr("Cannot stop Text Sending"), tr("Key is not connected"));
+        emit keyError(tr("Cannot stop Text Sending"), tr("Keyer is not connected"));
         return false;
     }
 

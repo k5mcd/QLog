@@ -37,7 +37,7 @@
         <enum>Qt::ClickFocus</enum>
        </property>
        <property name="toolTip">
-        <string>CW Key Profile</string>
+        <string>CW Keyer Profile</string>
        </property>
        <property name="sizeAdjustPolicy">
         <enum>QComboBox::AdjustToContents</enum>

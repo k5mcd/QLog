@@ -527,8 +527,12 @@
         <location filename="../core/CWCatKey.cpp" line="102"/>
         <location filename="../core/CWCatKey.cpp" line="132"/>
         <location filename="../core/CWCatKey.cpp" line="157"/>
-        <source>Key is not connected</source>
+        <source>Keyer is not connected</source>
         <translation>Klíč není připojen</translation>
+    </message>
+    <message>
+        <source>Key is not connected</source>
+        <translation type="vanished">Klíč není připojen</translation>
     </message>
     <message>
         <location filename="../core/CWCatKey.cpp" line="109"/>
@@ -540,8 +544,12 @@
     <message>
         <location filename="../core/CWCatKey.cpp" line="132"/>
         <location filename="../core/CWCatKey.cpp" line="139"/>
-        <source>Cannot set Key Speed</source>
+        <source>Cannot set Keyer Speed</source>
         <translation>Nelze nastavit rychlost klíče</translation>
+    </message>
+    <message>
+        <source>Cannot set Key Speed</source>
+        <translation type="vanished">Nelze nastavit rychlost klíče</translation>
     </message>
     <message>
         <location filename="../core/CWCatKey.cpp" line="157"/>
@@ -559,9 +567,8 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/CWConsoleWidget.ui" line="40"/>
         <source>CW Key Profile</source>
-        <translation>Profil klíče</translation>
+        <translation type="vanished">Profil klíče</translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="94"/>
@@ -622,6 +629,11 @@
         <translation>Shortcut profil</translation>
     </message>
     <message>
+        <location filename="../ui/CWConsoleWidget.ui" line="40"/>
+        <source>CW Keyer Profile</source>
+        <translation>Profil klíče</translation>
+    </message>
+    <message>
         <location filename="../ui/CWConsoleWidget.ui" line="137"/>
         <source>Sent text</source>
         <translation>Odeslaný text</translation>
@@ -670,8 +682,12 @@
 <context>
     <name>CWKeyer</name>
     <message>
-        <location filename="../core/CWKeyer.cpp" line="100"/>
         <source>No CW Key Profile selected</source>
+        <translation type="vanished">Není vybrán žádný profil klíče</translation>
+    </message>
+    <message>
+        <location filename="../core/CWKeyer.cpp" line="100"/>
+        <source>No CW Keyer Profile selected</source>
         <translation>Není vybrán žádný profil klíče</translation>
     </message>
     <message>
@@ -711,8 +727,17 @@
         <location filename="../core/CWWinKey.cpp" line="232"/>
         <location filename="../core/CWWinKey.cpp" line="395"/>
         <location filename="../core/CWWinKey.cpp" line="434"/>
-        <source>Key is not connected</source>
+        <source>Keyer is not connected</source>
         <translation>Klíč není připojen</translation>
+    </message>
+    <message>
+        <location filename="../core/CWWinKey.cpp" line="395"/>
+        <source>Cannot set Keyer Speed</source>
+        <translation>Nelze nastavit rychlost klíče</translation>
+    </message>
+    <message>
+        <source>Key is not connected</source>
+        <translation type="vanished">Klíč není připojen</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="369"/>
@@ -720,9 +745,8 @@
         <translation>Chyba připojení</translation>
     </message>
     <message>
-        <location filename="../core/CWWinKey.cpp" line="395"/>
         <source>Cannot set Key Speed</source>
-        <translation>Nelze nastavit rychlost klíče</translation>
+        <translation type="vanished">Nelze nastavit rychlost klíče</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="434"/>
@@ -3658,7 +3682,7 @@
         <location filename="../ui/MapWebChannelHandler.cpp" line="66"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="131"/>
         <source>Beam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MapWebChannelHandler.cpp" line="46"/>
@@ -4570,18 +4594,30 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="890"/>
-        <source>CW Key port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
+        <source>CW Keyer port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>Port musí být platný COM port.&lt;br&gt;Použijte COMxx pro Windows, pro ostatní cestu k souboru zařízení</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="938"/>
-        <source>Cannot change the CW Key Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
+        <source>Cannot change the CW Keyer Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Nelze změnit Model klíče na &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;Nasledující zařízení nepodporuji Morse over CAT support &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="984"/>
-        <source>Cannot delete the CW Key Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
+        <source>Cannot delete the CW Keyer Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Nelze vymazat Profil Klíče&lt;br&gt;Profil je pouzívám temito zařízeními:&lt;b&gt;%1&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>CW Key port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
+        <translation type="vanished">Port musí být platný COM port.&lt;br&gt;Použijte COMxx pro Windows, pro ostatní cestu k souboru zařízení</translation>
+    </message>
+    <message>
+        <source>Cannot change the CW Key Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
+        <translation type="vanished">Nelze změnit Model klíče na &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;Nasledující zařízení nepodporuji Morse over CAT support &lt;b&gt;%1&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Cannot delete the CW Key Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
+        <translation type="vanished">Nelze vymazat Profil Klíče&lt;br&gt;Profil je pouzívám temito zařízeními:&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="1224"/>
@@ -5774,27 +5810,27 @@ Nesprárované:
         <translation type="vanished">Chyba v získání pozice - </translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="175"/>
+        <location filename="../core/Rotator.cpp" line="176"/>
         <source>Get Position Error</source>
         <translation>Chyba v získání pozice</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="214"/>
+        <location filename="../core/Rotator.cpp" line="215"/>
         <source>No Rotator Profile selected</source>
         <translation>Není vybrán žádný Rot profil</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="226"/>
+        <location filename="../core/Rotator.cpp" line="227"/>
         <source>Initialization Error</source>
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="253"/>
+        <location filename="../core/Rotator.cpp" line="254"/>
         <source>Open Connection Error</source>
         <translation>Chyba v navázání komunikace</translation>
     </message>
     <message>
-        <location filename="../core/Rotator.cpp" line="336"/>
+        <location filename="../core/Rotator.cpp" line="337"/>
         <source>Set Possition Error</source>
         <translation>Chyba v nastavení pozice</translation>
     </message>
@@ -6218,24 +6254,20 @@ Nesprárované:
         <translation>Popis</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="423"/>
         <source>CW Keys</source>
-        <translation>CW Klíče</translation>
+        <translation type="vanished">CW Klíče</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="429"/>
         <source>Key Profiles</source>
-        <translation>Profily</translation>
+        <translation type="vanished">Profily</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="447"/>
         <source>List of all available CW Keys</source>
-        <translation>Seznam všech dostupných klíčů</translation>
+        <translation type="vanished">Seznam všech dostupných klíčů</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="502"/>
         <source>Key Mode</source>
-        <translation>Režim klíče</translation>
+        <translation type="vanished">Režim klíče</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="519"/>
@@ -6575,14 +6607,12 @@ Nesprárované:
         <translation>Stav PTT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1565"/>
         <source>CW Key Speed</source>
-        <translation>Rychlost CW Klíče</translation>
+        <translation type="vanished">Rychlost CW Klíče</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1440"/>
         <source>Assigned CW Key</source>
-        <translation>Přirazený klíč</translation>
+        <translation type="vanished">Přirazený klíč</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="71"/>
@@ -6598,6 +6628,36 @@ Nesprárované:
         <location filename="../ui/SettingsDialog.ui" line="242"/>
         <source>SIG Info</source>
         <translation>SIG Info</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="423"/>
+        <source>CW Keyers</source>
+        <translation>CW Klíče</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="429"/>
+        <source>Keyer Profiles</source>
+        <translation>Profil klíče</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="447"/>
+        <source>List of all available CW Keyers</source>
+        <translation>Seznam všech dostupných klíčů</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="502"/>
+        <source>Keyer Mode</source>
+        <translation>Režim klíče</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="1440"/>
+        <source>Assigned CW Keyer</source>
+        <translation>Přiřazený klíč</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="1565"/>
+        <source>CW Keyer Speed</source>
+        <translation>Rychlost CW Klíče</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2268"/>

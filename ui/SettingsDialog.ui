@@ -420,13 +420,13 @@
          </widget>
          <widget class="QWidget" name="cwTab">
           <attribute name="title">
-           <string>CW Keys</string>
+           <string>CW Keyers</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
             <widget class="QGroupBox" name="cwProfileGroup">
              <property name="title">
-              <string>Key Profiles</string>
+              <string>Keyer Profiles</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_8">
               <property name="horizontalSpacing">
@@ -444,7 +444,7 @@
                  <enum>Qt::NoContextMenu</enum>
                 </property>
                 <property name="toolTip">
-                 <string>List of all available CW Keys</string>
+                 <string>List of all available CW Keyers</string>
                 </property>
                 <property name="editTriggers">
                  <set>QAbstractItemView::NoEditTriggers</set>
@@ -499,7 +499,7 @@
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_3">
                    <property name="text">
-                    <string>Key Mode</string>
+                    <string>Keyer Mode</string>
                    </property>
                   </widget>
                  </item>
@@ -1437,7 +1437,7 @@
                  <item row="7" column="0">
                   <widget class="QLabel" name="rigAssignedCWKeyLabel">
                    <property name="text">
-                    <string>Assigned CW Key</string>
+                    <string>Assigned CW Keyer</string>
                    </property>
                   </widget>
                  </item>
@@ -1562,7 +1562,7 @@
                    <item>
                     <widget class="QCheckBox" name="rigGetKeySpeedCheckBox">
                      <property name="text">
-                      <string>CW Key Speed</string>
+                      <string>CW Keyer Speed</string>
                      </property>
                     </widget>
                    </item>

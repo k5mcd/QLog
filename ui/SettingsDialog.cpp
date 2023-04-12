@@ -887,7 +887,7 @@ void SettingsDialog::addCWKeyProfile()
         if ( ! ui->cwPortEdit->hasAcceptableInput() )
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("CW Key port must be a valid COM port.<br>For Windows use COMxx, for unix-like OS use a path to device"));
+                                 QMessageBox::tr("CW Keyer port must be a valid COM port.<br>For Windows use COMxx, for unix-like OS use a path to device"));
             return;
         }
     }
@@ -935,7 +935,7 @@ void SettingsDialog::addCWKeyProfile()
     if ( ! noMorseCATSupportRigs.isEmpty() )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("Cannot change the CW Key Model to <b>Morse over CAT</b><br>No Morse over CAT support for Rig(s) <b>%1</b>").arg(noMorseCATSupportRigs.join(", ")));
+                             QMessageBox::tr("Cannot change the CW Keyer Model to <b>Morse over CAT</b><br>No Morse over CAT support for Rig(s) <b>%1</b>").arg(noMorseCATSupportRigs.join(", ")));
         return;
     }
 
@@ -981,7 +981,7 @@ void SettingsDialog::delCWKeyProfile()
         else
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("Cannot delete the CW Key Profile<br>The CW Key Profile is used by Rig(s): <b>%1</b>").arg(dependentRigs.join(", ")));
+                                 QMessageBox::tr("Cannot delete the CW Keyer Profile<br>The CW Key Profile is used by Rig(s): <b>%1</b>").arg(dependentRigs.join(", ")));
         }
 
         dependentRigs.clear();
