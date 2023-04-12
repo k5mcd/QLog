@@ -457,8 +457,8 @@ bool MembershipQE::importData(const QString &clubid, const QByteArray &data)
             continue;
         }
 
-        query.bindValue(":callsign", fields.at(0));
-        query.bindValue(":member_id", fields.at(1));
+        query.bindValue(":callsign", fields.at(0).toUpper().simplified());
+        query.bindValue(":member_id", fields.at(1).simplified());
         query.bindValue(":valid_from", fields.at(2));
         query.bindValue(":valid_to", fields.at(3));
 
