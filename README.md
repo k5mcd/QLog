@@ -1,9 +1,9 @@
 # QLog
 
 QLog is an Amateur Radio logging application for Linux, Windows and Mac OS. It
-is based on the Qt framework und uses SQLite as database backend.
+is based on the Qt framework and uses SQLite as database backend.
 
-QLogs aims to be as simple as possible, but to provide everything the operator expects from the log. This log is not currently focused on contests.
+QLogs aims to be as simple as possible, but to provide everything the operator expects from the log to be. This log is not currently focused on contests.
 
 ![Screenshot](https://foldynl.github.io/QLog/screens/qlog_main.png)
 
@@ -13,7 +13,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - Rig and rotator control via Hamlib
 - HamQTH and QRZ.com callbook integration
 - DX cluster integration
-- **LotW**, **eQSL** **QRZ.com** and **Clublog** integration (**eQSL includes QSL pictures download**)
+- **LotW**, **eQSL**, **QRZ.com** and **Clublog** integration (**eQSL includes QSL pictures download**)
 - **Secure Password Storage** for all services with password
 - **Online** and **Offline** map
 - Club Member lookup
