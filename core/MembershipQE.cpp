@@ -73,7 +73,7 @@ MembershipQE::MembershipQE(QObject *parent)
     connect(nam.data(), &QNetworkAccessManager::finished, this, &MembershipQE::onFinishedListDownload);
 
     // prepare SQL query to increase Club query function performance
-    idClubQueryValid = clubQuery.prepare("SELECT callsign, member_id, valid_from, valid_to, clubid FROM membership WHERE callsign = :callsign");
+    idClubQueryValid = clubQuery.prepare("SELECT DISTINCT callsign, member_id, valid_from, valid_to, clubid FROM membership WHERE callsign = :callsign ORDER BY clubid");
 }
 
 MembershipQE::~MembershipQE()
