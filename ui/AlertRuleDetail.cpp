@@ -661,7 +661,7 @@ void AlertRuleDetail::generateMembershipCheckboxes(const AlertRule * rule)
 
         for ( QCheckBox* item: qAsConst(memberListCheckBoxes) )
         {
-            ui->dxMemberGrid->addWidget(item, elementIndex / 3, elementIndex % 3);
+            ui->dxMemberGrid->addWidget(item, elementIndex / 6, elementIndex % 6);
             elementIndex++;
         }
     }
