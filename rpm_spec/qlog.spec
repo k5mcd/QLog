@@ -42,6 +42,17 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Apr 16 2023 Ladislav Foldyna - 0.21.0-1
+- [NEW] - Rotator - Added Used-Defined Buttons
+- [NEW] - Rotator - Added Destination Azimuth Needle
+- [NEW] - Online Map - Added Antenna Beam Path
+- [NEW] - Rig - Combos are disbled when disconnected
+- [NEW] - Club Member Lists (issue #60)
+- [NEW] - Alert Table shows rule names
+- [CHANGED] - Alerts, DXC and WSJTX Network Notifications
+- Fixed Antenna Azimuth Negative Value (issue #191)
+- Fixed CTY file is not loaded when duplicate record (issue #193)
+
 * Tue Mar 14 2023 Ladislav Foldyna - 0.20.0-1
 - [NEW] - Added MUF Layer to online map
 - [NEW] - Added International Beacon Project (IBP) Beacons to online map

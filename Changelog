@@ -1,11 +1,11 @@
-TBC - 0.21.0
+2023/04/16 - 0.21.0
 - [NEW] - Rotator - Added Used-Defined Buttons
 - [NEW] - Rotator - Added Destination Azimuth Needle
 - [NEW] - Online Map - Added Antenna Beam Path
 - [NEW] - Rig - Combos are disbled when disconnected
 - [NEW] - Club Member Lists (issue #60)
 - [NEW] - Alert Table shows rule names
-- [CHANGED] - DXC and WSJTX Network Notification
+- [CHANGED] - Alerts, DXC and WSJTX Network Notifications
 - Fixed Antenna Azimuth Negative Value (issue #191)
 - Fixed CTY file is not loaded when duplicate record (issue #193)
 
