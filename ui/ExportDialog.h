@@ -5,6 +5,8 @@
 #include <QSqlRecord>
 #include <QList>
 
+#include "core/LogLocale.h"
+
 namespace Ui {
 class ExportDialog;
 }
@@ -24,6 +26,7 @@ public slots:
 
 private:
     Ui::ExportDialog *ui;
+    LogLocale locale;
 
     const QList<QSqlRecord> qsos4export;
     void setProgress(float);

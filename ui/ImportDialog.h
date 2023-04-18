@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSqlRecord>
 #include <logformat/LogFormat.h>
+#include "core/LogLocale.h"
 
 namespace Ui {
 class ImportDialog;
@@ -29,6 +30,7 @@ public slots:
 private:
     Ui::ImportDialog *ui;
     qint64 size;
+    LogLocale locale;
 
     static LogFormat::duplicateQSOBehaviour showDuplicateDialog(QSqlRecord *, QSqlRecord *);
 };

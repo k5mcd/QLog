@@ -9,6 +9,7 @@
 
 #include "ui/MapWebChannelHandler.h"
 #include "ui/WebEnginePage.h"
+#include "core/LogLocale.h"
 
 namespace Ui {
 class StatisticsWidget;
@@ -54,6 +55,7 @@ private:
     QString postponedScripts;
     QWebChannel channel;
     MapWebChannelHandler layerControlHandler;
+    LogLocale locale;
 };
 
 #endif // STATISTICSWIDGET_H

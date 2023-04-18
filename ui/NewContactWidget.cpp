@@ -42,6 +42,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     CWKeyProfilesManager::instance(); //TODO remove, make it better - workaround
 
+    ui->dateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->timeOnEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
     ui->timeOffEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
     ui->timeDurationEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());

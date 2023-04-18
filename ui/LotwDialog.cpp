@@ -38,6 +38,7 @@ LotwDialog::LotwDialog(QWidget *parent) :
 
     ui->stationCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
 
+    ui->dateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     loadDialogState();
 }
 

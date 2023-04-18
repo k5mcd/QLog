@@ -71,8 +71,10 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     });    lookupButtonWaitingStyle(false);
 
     /* timeformat for DateTime */
-    ui->dateTimeOnEdit->setDisplayFormat(QString(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ()));
-    ui->dateTimeOffEdit->setDisplayFormat(QString(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ()));
+    ui->dateTimeOnEdit->setDisplayFormat(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ());
+    ui->dateTimeOffEdit->setDisplayFormat(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ());
+    ui->qslPaperReceiveDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
+    ui->qslPaperSentDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
 
     /* Mapper setting */
     mapper->setModel(model);

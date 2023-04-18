@@ -22,8 +22,10 @@ ImportDialog::ImportDialog(QWidget *parent) :
     QSettings settings;
 
     ui->allCheckBox->setChecked(true);
+    ui->startDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->startDateEdit->setDate(QDate::currentDate());
     ui->endDateEdit->setDate(QDate::currentDate());
+    ui->endDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->gridEdit->setText(StationProfilesManager::instance()->getCurProfile1().locator);
     ui->gridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
     ui->progressBar->setValue(0);

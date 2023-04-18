@@ -1,7 +1,7 @@
 #include "LogLocale.h"
 #include "core/debug.h"
 
-MODULE_IDENTIFICATION("qlog.ui.loglocale");
+MODULE_IDENTIFICATION("qlog.core.loglocale");
 
 LogLocale::LogLocale()
 {
