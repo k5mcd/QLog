@@ -214,7 +214,7 @@ void BandmapWidget::updateStations()
                                                   QPen(QColor(192,192,192))));
 
         QString callsignTmp = lower.value().callsign;
-        QString timeTmp = lower.value().time.toString(locale.timeFormat(QLocale::ShortFormat));
+        QString timeTmp = lower.value().time.toString(locale.formatTimeShort());
 
         QGraphicsTextItem* text = bandmapScene->addText(callsignTmp + " @ " + timeTmp);
         text->document()->setDocumentMargin(0);

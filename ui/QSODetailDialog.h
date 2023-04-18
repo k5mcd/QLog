@@ -15,6 +15,7 @@
 #include "ui/MapWebChannelHandler.h"
 #include "ui/WebEnginePage.h"
 #include "core/MembershipQE.h"
+#include "core/LogLocale.h"
 
 namespace Ui {
 class QSODetailDialog;
@@ -35,6 +36,7 @@ signals:
 
 private:
     bool eventFilter(QObject *object, QEvent *event) override;
+    LogLocale locale;
 };
 
 class QSODetailDialog : public QDialog
@@ -148,6 +150,7 @@ private:
     MapWebChannelHandler layerControlHandler;
     static const QString SAVE_BUTTON_TEXT;
     static const QString EDIT_BUTTON_TEXT;
+    LogLocale locale;
 };
 
 #endif // QSODETAILDIALOG_H

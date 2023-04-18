@@ -34,8 +34,6 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 {
     FCT_IDENTIFICATION;
 
-    QLocale locale;
-
     ui->setupUi(this);
 
     /* model setting */
@@ -73,8 +71,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     });    lookupButtonWaitingStyle(false);
 
     /* timeformat for DateTime */
-    ui->dateTimeOnEdit->setDisplayFormat(QString(locale.dateFormat(QLocale::ShortFormat) + " " + locale.timeFormat(QLocale::LongFormat)).remove(" t"));
-    ui->dateTimeOffEdit->setDisplayFormat(QString(locale.dateFormat(QLocale::ShortFormat) + " " + locale.timeFormat(QLocale::LongFormat)).remove(" t"));
+    ui->dateTimeOnEdit->setDisplayFormat(QString(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ()));
+    ui->dateTimeOffEdit->setDisplayFormat(QString(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ()));
 
     /* Mapper setting */
     mapper->setModel(model);
@@ -1543,10 +1541,9 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
 
         if ( label )
         {
-            QLocale locale;
             if ( !index.data().toString().isEmpty() )
             {
-                label->setText(index.data().toDate().toString(locale.dateFormat(QLocale::ShortFormat)));
+                label->setText(index.data().toDate().toString(locale.formatDateShortWithYYYY()));
             }
         }
         return;

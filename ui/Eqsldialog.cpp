@@ -102,7 +102,6 @@ void EqslDialog::upload()
     QTextStream stream(&data, QIODevice::ReadWrite);
 
     AdiFormat adi(stream);
-    QLocale locale;
     QString QSOList;
     int count = 0;
 
@@ -164,7 +163,7 @@ void EqslDialog::upload()
         QSqlRecord record = query.record();
 
         QSOList.append(" "
-                       + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat))
+                       + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateTimeShortWithYYYY())
                        + " " + record.value("callsign").toString()
                        + " " + record.value("mode").toString()
                        + "\n");

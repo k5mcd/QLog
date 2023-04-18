@@ -13,6 +13,7 @@
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QTextEdit>
+#include "core/LogLocale.h"
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -30,8 +31,11 @@ public:
     DateFormatDelegate(QObject* parent = 0) :
         QStyledItemDelegate(parent) { }
 
-    QString displayText(const QVariant& value, const QLocale& locale) const {
-        return value.toDate().toString(locale.dateFormat(QLocale::ShortFormat));
+    QString displayText(const QVariant& value, const QLocale&) const
+    {
+        // use own Locale Class
+        LogLocale locale;
+        return value.toDate().toString(locale.formatDateShortWithYYYY());
     }
 
     QWidget* createEditor(QWidget* parent,
@@ -72,8 +76,11 @@ public:
     TimeFormatDelegate(QObject* parent = 0) :
         QStyledItemDelegate(parent) { }
 
-    QString displayText(const QVariant& value, const QLocale& locale) const {
-        return value.toTime().toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC"); //hack: remove timezone from LongFormat
+    QString displayText(const QVariant& value, const QLocale&) const
+    {
+        // own Locale
+        LogLocale locale;
+        return value.toTime().toString(locale.formatTimeLongWithoutTZ());
     }
 };
 
@@ -82,9 +89,11 @@ public:
     TimestampFormatDelegate(QObject* parent = 0) :
         QStyledItemDelegate(parent) { }
 
-    QString displayText(const QVariant& value, const QLocale& locale) const {
-        //return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat));
-        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateFormat(QLocale::ShortFormat) + " " + locale.timeFormat(QLocale::LongFormat)).remove("UTC"); //hack: remove timezone from LongFormat
+    QString displayText(const QVariant& value, const QLocale&) const
+    {
+        // own Locale
+        LogLocale locale;
+        return value.toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ());
     }
 
     QWidget* createEditor(QWidget* parent,

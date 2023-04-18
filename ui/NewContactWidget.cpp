@@ -42,13 +42,9 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     CWKeyProfilesManager::instance(); //TODO remove, make it better - workaround
 
-    /*****************************************/
-    /* Hack, remove timezone from LongFormat */
-    /*****************************************/
-    QLocale locale;
-    ui->timeOnEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
-    ui->timeOffEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
-    ui->timeDurationEdit->setDisplayFormat(locale.timeFormat(QLocale::LongFormat).remove(" t"));
+    ui->timeOnEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
+    ui->timeOffEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
+    ui->timeDurationEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
 
     /**************************/
     /* QSL Send Combo Content */
@@ -1919,14 +1915,11 @@ void NewContactWidget::updatePartnerLocTime()
 {
     FCT_IDENTIFICATION;
 
-    QLocale locale;
-
     if ( partnerTimeZone.isValid() )
     {
-        ui->partnerLocTimeInfo->setText(QDateTime::currentDateTime().toTimeZone(partnerTimeZone).toString(locale.timeFormat(QLocale::LongFormat))
+        ui->partnerLocTimeInfo->setText(QDateTime::currentDateTime().toTimeZone(partnerTimeZone).toString(locale.formatTimeLong())
                                         + " (" + getGreeting() +")");
     }
-
 }
 
 /* the function is called when a newcontact frequency spinbox is changed */

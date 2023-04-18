@@ -18,8 +18,6 @@ int AlertTableModel::columnCount(const QModelIndex&) const
 
 QVariant AlertTableModel::data(const QModelIndex& index, int role) const
 {
-    QLocale locale;
-
     AlertTableRecord selectedRecord = alertList.at(index.row());
 
     if (role == Qt::DisplayRole)
@@ -31,7 +29,7 @@ QVariant AlertTableModel::data(const QModelIndex& index, int role) const
         case 2: return QString::number(selectedRecord.freq, 'f', 5);
         case 3: return selectedRecord.mode;
         case 4: return selectedRecord.counter;
-        case 5: return selectedRecord.dateTime.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+        case 5: return selectedRecord.dateTime.toString(locale.formatTimeLongWithoutTZ());
         case 6: return selectedRecord.comment;
         default: return QVariant();
         }

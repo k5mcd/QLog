@@ -7,6 +7,7 @@
 #include <QDateEdit>
 #include <QDateTimeEdit>
 #include "models/LogbookModel.h"
+#include "core/LogLocale.h"
 
 namespace Ui {
 class QSOFilterDetail;
@@ -49,6 +50,8 @@ private:
     QDateEdit* createDateEdit(const QString&, const int, const QSizePolicy&);
     QDateTimeEdit* createDateTimeEdit(const QString&, const int, const QSizePolicy&);
     QLineEdit* createLineEdit(const QString&, const int, const QSizePolicy&);
+
+    LogLocale locale;
 };
 
 #endif // QSOFILTERDETAIL_H

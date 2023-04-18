@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <data/SpotAlert.h>
 #include <QMutex>
+#include "core/LogLocale.h"
 
 class AlertTableModel : public QAbstractTableModel
 {
@@ -38,6 +39,7 @@ private:
         explicit AlertTableRecord(const SpotAlert&);
     };
 
+    LogLocale locale;
     QList<AlertTableRecord> alertList;
     QMutex alertListMutex;
 };

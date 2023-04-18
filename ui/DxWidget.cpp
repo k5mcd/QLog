@@ -43,13 +43,11 @@ int DxTableModel::columnCount(const QModelIndex&) const {
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const
 {
-    QLocale locale;
-
     if (role == Qt::DisplayRole) {
         DxSpot spot = dxData.at(index.row());
         switch (index.column()) {
         case 0:
-            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+            return spot.time.toString(locale.formatTimeLongWithoutTZ());
         case 1:
             return spot.callsign;
         case 2:
@@ -165,15 +163,13 @@ int WCYTableModel::columnCount(const QModelIndex&) const
 
 QVariant WCYTableModel::data(const QModelIndex& index, int role) const
 {
-    QLocale locale;
-
     if ( role == Qt::DisplayRole )
     {
         WCYSpot spot = wcyData.at(index.row());
 
         switch (index.column()) {
         case 0:
-            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+            return spot.time.toString(locale.formatTimeLongWithoutTZ());
         case 1:
             return spot.KIndex;
         case 2:
@@ -243,7 +239,6 @@ int WWVTableModel::columnCount(const QModelIndex&) const
 
 QVariant WWVTableModel::data(const QModelIndex& index, int role) const
 {
-    QLocale locale;
 
     if ( role == Qt::DisplayRole )
     {
@@ -251,7 +246,7 @@ QVariant WWVTableModel::data(const QModelIndex& index, int role) const
 
         switch (index.column()) {
         case 0:
-            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+            return spot.time.toString(locale.formatTimeLongWithoutTZ());
         case 1:
             return spot.SFI;
         case 2:
@@ -309,7 +304,6 @@ int ToAllTableModel::columnCount(const QModelIndex&) const
 
 QVariant ToAllTableModel::data(const QModelIndex& index, int role) const
 {
-    QLocale locale;
 
     if ( role == Qt::DisplayRole )
     {
@@ -317,7 +311,7 @@ QVariant ToAllTableModel::data(const QModelIndex& index, int role) const
 
         switch (index.column()) {
         case 0:
-            return spot.time.toString(locale.timeFormat(QLocale::LongFormat)).remove("UTC");
+            return spot.time.toString(locale.formatTimeLongWithoutTZ());
         case 1:
             return spot.spotter;
         case 2:

@@ -12,6 +12,7 @@
 #include "core/CallbookManager.h"
 #include "data/StationProfile.h"
 #include "core/PropConditions.h"
+#include "core/LogLocale.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -170,6 +171,7 @@ private:
     POTAEntity lastPOTA;
     WWFFEntity lastWWFF;
     bool isManualEnterMode;
+    LogLocale locale;
 };
 
 #endif // NEWCONTACTWIDGET_H
