@@ -1,28 +1,34 @@
 #ifndef ADXFORMAT_H
 #define ADXFORMAT_H
 
-#include "LogFormat.h"
+#include <QXmlStreamWriter>
 
-class QXmlStreamWriter;
+#include "AdiFormat.h"
 
-class AdxFormat : public LogFormat {
+class AdxFormat : public AdiFormat
+{
 public:
-    explicit AdxFormat(QTextStream& stream) : LogFormat(stream) {writer = nullptr; reader = nullptr;}
+    explicit AdxFormat(QTextStream& stream);
 
     virtual void importStart() override;
     virtual void importEnd() override;
-    virtual bool importNext(QSqlRecord &record) override;
 
-    void exportContact(const QSqlRecord& record,QMap<QString, QString> *) override;
-    void exportStart() override;
-    void exportEnd() override;
+    virtual void exportContact(const QSqlRecord& record,
+                               QMap<QString, QString> *applTags = nullptr) override;
+    virtual void exportStart() override;
+    virtual void exportEnd() override;
+
+protected:
+    virtual void writeField(const QString &name,
+                            const QString &value,
+                            const QString &type="") override;
+    virtual void writeSQLRecord(const QSqlRecord& record,
+                                QMap<QString, QString> *applTags) override;
+    virtual bool readContact(QVariantMap& ) override;
 
 private:
-    void writeField(QString name, QString value);
-    bool readContact(QVariantMap& );
-
-    QXmlStreamWriter* writer;
-    QXmlStreamReader* reader;
+    QXmlStreamWriter *writer;
+    QXmlStreamReader *reader;
 };
 
-#endif // ADIF3FORMAT_H
+#endif // ADXFORMAT_H

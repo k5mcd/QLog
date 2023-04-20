@@ -55,6 +55,8 @@ public:
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);
 
+    QString toHTMLString() const;
+
 private:
     friend QDataStream& operator<<(QDataStream& out, const RigProfile& v);
     friend QDataStream& operator>>(QDataStream& in, RigProfile& v);

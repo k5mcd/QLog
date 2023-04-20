@@ -6,7 +6,8 @@
 
 MODULE_IDENTIFICATION("qlog.logformat.adiformat");
 
-void AdiFormat::exportStart() {
+void AdiFormat::exportStart()
+{
     FCT_IDENTIFICATION;
 
     stream << "### QLog ADIF Export\n";
@@ -17,11 +18,42 @@ void AdiFormat::exportStart() {
     stream << "<EOH>\n\n";
 }
 
-void AdiFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *applTags)
+void AdiFormat::exportContact(const QSqlRecord& record,
+                              QMap<QString, QString> *applTags)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<record;
+
+    writeSQLRecord(record, applTags);
+
+    stream << "<eor>\n\n";
+}
+
+void AdiFormat::writeField(const QString &name, const QString &value, const QString &type)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<name<< " " << value << " " << type;
+
+    /* ADIF does not support UTF-8 characterset therefore the Accents are remove */
+    QString accentless(Data::removeAccents(value));
+
+    qCDebug(runtime) << "Accentless: " << accentless;
+
+    if ( value.isEmpty() || accentless.isEmpty() ) return;
+
+    stream << "<" << name << ":" << accentless.size();
+
+    if (!type.isEmpty()) stream << ":" << type;
+
+    stream << ">" << accentless << '\n';
+}
+
+void AdiFormat::writeSQLRecord(const QSqlRecord &record,
+                               QMap<QString, QString> *applTags)
+{
+    FCT_IDENTIFICATION;
 
     QDateTime time_start = record.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
     QDateTime time_end = record.value("end_time").toDateTime().toTimeSpec(Qt::UTC);
@@ -50,9 +82,9 @@ void AdiFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
     writeField("cnty", record.value("cnty").toString());
     writeField("iota", record.value("iota").toString().toUpper());
     writeField("qsl_rcvd", record.value("qsl_rcvd").toString());
-    writeField("qslrdate", record.value("qslrdate").toDate().toString("yyyyMMdd"));
-    writeField("qsl_sent", record.value("qsl_sent").toString());
-    writeField("qslsdate", record.value("qslsdate").toDate().toString("yyyyMMdd"));
+    writeField("qslrdate", record.value("qsl_rdate").toDate().toString("yyyyMMdd"));
+    writeField("qslsent", record.value("qsl_sent").toString());
+    writeField("qslsdate", record.value("qsl_sdate").toDate().toString("yyyyMMdd"));
     writeField("lotw_qsl_rcvd", record.value("lotw_qsl_rcvd").toString());
     writeField("lotw_qslrdate", record.value("lotw_qslrdate").toDate().toString("yyyyMMdd"));
     writeField("lotw_qsl_sent", record.value("lotw_qsl_sent").toString());
@@ -176,45 +208,25 @@ void AdiFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
 
     QJsonObject fields = QJsonDocument::fromJson(record.value("fields").toByteArray()).object();
 
-    auto keys = fields.keys();
-    for (auto &key : qAsConst(keys)) {
+    QStringList keys = fields.keys();
+    for (const QString &key : qAsConst(keys))
+    {
         writeField(key, fields.value(key).toString());
     }
 
     /* Add application-specific tags */
     if ( applTags )
     {
-       auto keys = applTags->keys();
-       for (auto &key : qAsConst(keys))
+       QStringList appKeys = applTags->keys();
+       for (const QString &appkey : qAsConst(appKeys))
        {
-           writeField(key, applTags->value(key));
+           writeField(appkey, applTags->value(appkey));
        }
     }
-
-    stream << "<eor>\n\n";
 }
 
-void AdiFormat::writeField(const QString &name, const QString &value, const QString &type)
+void AdiFormat::readField(QString& field, QString& value)
 {
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<name<< " " << value << " " << type;
-
-    /* ADIF does not support UTF-8 characterset therefore the Accents are remove */
-    QString accentless(Data::removeAccents(value));
-
-    qCDebug(runtime) << "Accentless: " << accentless;
-
-    if ( value.isEmpty() || accentless.isEmpty() ) return;
-
-    stream << "<" << name << ":" << accentless.size();
-
-    if (!type.isEmpty()) stream << ":" << type;
-
-    stream << ">" << accentless << '\n';
-}
-
-void AdiFormat::readField(QString& field, QString& value) {
     FCT_IDENTIFICATION;
 
     //qCDebug(function_parameters)<<field<< " " << value;
@@ -332,107 +344,42 @@ void AdiFormat::readField(QString& field, QString& value) {
     }
 }
 
-void AdiFormat::importIntlField(const QString &fieldName,
-                                const QString &fieldIntlName,
-                                QSqlRecord& newQSORecord,
-                                QMap<QString, QVariant> &importedContact)
+void AdiFormat::mapContact2SQLRecord(QMap<QString, QVariant> &contact,
+                                     QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
 
-    QVariant fld = importedContact.take(fieldName);
-    QVariant fldIntl = importedContact.take(fieldIntlName);
+    preprocessINTLFields(contact);
 
-    /* In general, it is a hack because ADI must not contain
-     * _INTL fields. But some applications generate _INTL fields in ADI files
-     * therefore it is needed to implement a logic how to convert INTL fields
-     * to standard
-     */
-    if ( !fld.isNull() && !fldIntl.isNull() )
+    /* Set default values if not present */
+    if ( defaults )
     {
-        /* ascii and intl are present */
-        newQSORecord.setValue(fieldName, fld);
-        newQSORecord.setValue(fieldIntlName, fldIntl);
-    }
-    else if ( !fld.isNull() && fldIntl.isNull() )
-    {
-        /* ascii is present but Intl is not present */
-        newQSORecord.setValue(fieldName, fld);
-        newQSORecord.setValue(fieldIntlName, fld);
-    }
-    else if ( fld.isNull() && !fldIntl.isNull() )
-    {
-        /* ascii is empty but Intl is present */
-        newQSORecord.setValue(fieldName, Data::removeAccents(fldIntl.toString()));
-        newQSORecord.setValue(fieldIntlName, fldIntl);
-    }
-    else
-    {
-        /* both are empty */
-        /* do nothing */
-    }
-}
+        QStringList keys = defaults->keys();
 
-void AdiFormat::fillIntlFields(QSqlRecord &record, QMap<QString, QVariant> &contact)
-{
-    FCT_IDENTIFICATION;
-
-    importIntlField("name", "name_intl", record, contact);
-    importIntlField("address", "address_intl", record, contact);
-    importIntlField("comment", "comment_intl", record, contact);
-    importIntlField("country", "country_intl", record, contact);
-    importIntlField("my_antenna", "my_antenna_intl", record, contact);
-    importIntlField("my_city", "my_city_intl", record, contact);
-    importIntlField("my_country", "my_country_intl", record, contact);
-    importIntlField("my_name", "my_name_intl", record, contact);
-    importIntlField("my_postal_code", "my_postal_code_intl", record, contact);
-    importIntlField("my_rig", "my_rig_intl", record, contact);
-    importIntlField("my_sig", "my_sig_intl", record, contact);
-    importIntlField("my_sig_info", "my_sig_info_intl", record, contact);
-    importIntlField("my_street", "my_street_intl", record, contact);
-    importIntlField("notes", "notes_intl", record, contact);
-    importIntlField("qslmsg", "qslmsg_intl", record, contact);
-    importIntlField("qth", "qth_intl", record, contact);
-    importIntlField("rig", "rig_intl", record, contact);
-    importIntlField("sig", "sig_intl", record, contact);
-    importIntlField("sig_info", "sig_info_intl", record, contact);
-}
-
-bool AdiFormat::readContact(QMap<QString, QVariant>& contact)
-{
-    FCT_IDENTIFICATION;
-
-    while (!stream.atEnd())
-    {
-        QString field;
-        QString value;
-
-        readField(field, value);
-        field = field.toLower();
-
-        if (field == "eor")
+        for ( const QString &key : qAsConst(keys) )
         {
-            return true;
+            if ( contact.value(key).isNull() )
+            {
+                contact.insert(key, defaults->value(key));
+            }
         }
-
-        if (!value.isEmpty())
-        {
-            contact[field] = QVariant(value);
-        }
+        // re-evaluate the fields
+        preprocessINTLFields(contact);
     }
 
-    return false;
+    contactFields2SQLRecord(contact, record);
+
+    /* If we have something unparsed then stored it as JSON to Field column */
+    if ( contact.count() > 0 )
+    {
+        QJsonDocument doc = QJsonDocument::fromVariant(QVariant(contact));
+        record.setValue("fields", QString(doc.toJson()));
+    }
 }
 
-bool AdiFormat::importNext(QSqlRecord& record) {
+void AdiFormat::contactFields2SQLRecord(QMap<QString, QVariant> &contact, QSqlRecord &record)
+{
     FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters)<<record;
-
-    QMap<QString, QVariant> contact;
-
-    if (!readContact(contact)) {
-        return false;
-    }
 
     record.setValue("callsign", contact.take("call"));
     record.setValue("rst_rcvd", contact.take("rst_rcvd"));
@@ -449,14 +396,16 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("cnty", contact.take("cnty"));
     record.setValue("iota", contact.take("iota").toString().toUpper());
     record.setValue("qsl_rcvd", parseQslRcvd(contact.take("qsl_rcvd").toString()));
-    record.setValue("qsl_rdate", parseDate(contact.take("qslrdate").toString()));
+    record.setValue("qsl_rdate", parseDate(contact.take("qslrdate").toString()));  //TODO: DIFF MAPPING
     record.setValue("qsl_sent", parseQslSent(contact.take("qsl_sent").toString()));
-    record.setValue("qsl_sdate", parseDate(contact.take("qslsdate").toString()));
+    record.setValue("qsl_sdate", parseDate(contact.take("qslsdate").toString()));   //TODO: DIFF MAPPING
     record.setValue("lotw_qsl_rcvd", parseQslRcvd(contact.take("lotw_qsl_rcvd").toString()));
     record.setValue("lotw_qslrdate", parseDate(contact.take("lotw_qslrdate").toString()));
     record.setValue("lotw_qsl_sent", parseQslSent(contact.take("lotw_qsl_sent").toString()));
     record.setValue("lotw_qslsdate", parseDate(contact.take("lotw_qslsdate").toString()));
     record.setValue("tx_pwr", contact.take("tx_pwr"));
+    record.setValue("address", contact.take("address"));
+    record.setValue("address_intl", contact.take("address_intl"));
     record.setValue("age", contact.take("age"));
     record.setValue("altitude", contact.take("altitude"));
     record.setValue("a_index", contact.take("a_index"));
@@ -472,7 +421,11 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("clublog_qso_upload_date",parseDate(contact.take("clublog_qso_upload_date").toString()));
     record.setValue("clublog_qso_upload_status",parseUploadStatus(contact.take("clublog_qso_upload_status").toString()));
     record.setValue("contacted_op",contact.take("contacted_op"));
+    record.setValue("comment",contact.take("comment"));
+    record.setValue("comment_intl",contact.take("comment_intl"));
     record.setValue("contest_id",contact.take("contest_id"));
+    record.setValue("country",contact.take("country"));
+    record.setValue("country_intl",contact.take("country_intl"));
     record.setValue("credit_submitted",contact.take("credit_submitted"));
     record.setValue("credit_granted",contact.take("credit_granted"));
     record.setValue("darc_dok",contact.take("darc_dok"));
@@ -501,8 +454,14 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("lon",contact.take("lon"));
     record.setValue("max_bursts",contact.take("max_bursts"));
     record.setValue("ms_shower",contact.take("ms_shower"));
+    record.setValue("my_antenna",contact.take("my_antenna"));
+    record.setValue("my_antenna_intl",contact.take("my_antenna_intl"));
     record.setValue("my_altitude",contact.take("my_altitude"));
     record.setValue("my_arrl_sect",contact.take("my_arrl_sect"));
+    record.setValue("my_city",contact.take("my_city"));
+    record.setValue("my_city_intl",contact.take("my_city_intl"));
+    record.setValue("my_country",contact.take("my_country"));
+    record.setValue("my_country_intl",contact.take("my_country_intl"));
     record.setValue("my_cnty",contact.take("my_cnty"));
     record.setValue("my_cq_zone",contact.take("my_cq_zone"));
     record.setValue("my_dxcc",contact.take("my_dxcc"));
@@ -514,12 +473,28 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("my_itu_zone",contact.take("my_itu_zone"));
     record.setValue("my_lat",contact.take("my_lat"));
     record.setValue("my_lon",contact.take("my_lon"));
+    record.setValue("my_name",contact.take("my_name"));
+    record.setValue("my_name_intl",contact.take("my_name_intl"));
+    record.setValue("my_postal_code",contact.take("my_postal_code"));
+    record.setValue("my_postal_code_intl",contact.take("my_postal_code_intl"));
     record.setValue("my_pota_ref",contact.take("my_pota_ref").toString().toUpper());
+    record.setValue("my_rig",contact.take("my_rig"));
+    record.setValue("my_rig_intl",contact.take("my_rig_intl"));
+    record.setValue("my_sig",contact.take("my_sig"));
+    record.setValue("my_sig_intl",contact.take("my_sig_intl"));
+    record.setValue("my_sig_info",contact.take("my_sig_info"));
+    record.setValue("my_sig_info_intl",contact.take("my_sig_info_intl"));
     record.setValue("my_sota_ref",contact.take("my_sota_ref").toString().toUpper());
     record.setValue("my_state",contact.take("my_state"));
+    record.setValue("my_street",contact.take("my_street"));
+    record.setValue("my_street_intl",contact.take("my_street_intl"));
     record.setValue("my_usaca_counties",contact.take("my_usaca_counties"));
     record.setValue("my_vucc_grids",contact.take("my_vucc_grids").toString().toUpper());
     record.setValue("my_wwff_ref",contact.take("my_wwff_ref").toString().toUpper());
+    record.setValue("name",contact.take("name"));
+    record.setValue("name_intl",contact.take("name_intl"));
+    record.setValue("notes",contact.take("notes"));
+    record.setValue("notes_intl",contact.take("notes_intl"));
     record.setValue("nr_bursts",contact.take("nr_bursts"));
     record.setValue("nr_pings",contact.take("nr_pings"));
     record.setValue("operator",contact.take("operator"));
@@ -535,11 +510,21 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("qsl_via",contact.take("qsl_via"));
     record.setValue("qso_complete",contact.take("qso_complete").toString().toUpper());
     record.setValue("qso_random",contact.take("qso_random").toString().toUpper());
+    record.setValue("qslmsg",contact.take("qslmsg"));
+    record.setValue("qslmsg_intl",contact.take("qslmsg_intl"));
+    record.setValue("qth",contact.take("qth"));
+    record.setValue("qth_intl",contact.take("qth_intl"));
     record.setValue("region",contact.take("region"));
+    record.setValue("rig",contact.take("rig"));
+    record.setValue("rig_intl",contact.take("rig_intl"));
     record.setValue("rx_pwr",contact.take("rx_pwr"));
     record.setValue("sat_mode",contact.take("sat_mode"));
     record.setValue("sat_name",contact.take("sat_name"));
     record.setValue("sfi",contact.take("sfi"));
+    record.setValue("sig",contact.take("sig"));
+    record.setValue("sig_intl",contact.take("sig_intl"));
+    record.setValue("sig_info",contact.take("sig_info"));
+    record.setValue("sig_info_intl",contact.take("sig_info_intl"));
     record.setValue("silent_key",contact.take("silent_key").toString().toUpper());
     record.setValue("skcc",contact.take("skcc"));
     record.setValue("sota_ref",contact.take("sota_ref").toString().toUpper());
@@ -557,13 +542,13 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     record.setValue("web",contact.take("web"));
     record.setValue("wwff_ref",contact.take("wwff_ref").toString().toUpper());
 
-    fillIntlFields(record, contact);
-
     QString mode = contact.take("mode").toString().toUpper();
     QString submode = contact.take("submode").toString().toUpper();
 
     QPair<QString, QString> legacy = Data::instance()->legacyMode(mode);
-    if (!legacy.first.isEmpty()) {
+
+    if ( !legacy.first.isEmpty() )
+    {
         mode = legacy.first;
         submode = legacy.second;
     }
@@ -574,52 +559,137 @@ bool AdiFormat::importNext(QSqlRecord& record) {
     QDate date_on = parseDate(contact.take("qso_date").toString());
     QDate date_off = parseDate(contact.take("qso_date_off").toString());
 
-    if (date_off.isNull() || !date_off.isValid()) {
+    if ( date_off.isNull() || !date_off.isValid() )
+    {
         date_off = date_on;
     }
 
     QTime time_on = parseTime(contact.take("time_on").toString());
     QTime time_off = parseTime(contact.take("time_off").toString());
 
-    if (time_on.isValid() && time_off.isNull()) {
+    if ( time_on.isValid() && time_off.isNull() )
+    {
         time_off = time_on;
     }
-    if (time_off.isValid() && time_on.isNull()) {
+
+    if ( time_off.isValid() && time_on.isNull() )
+    {
         time_on = time_off;
     }
 
     QDateTime start_time(date_on, time_on, Qt::UTC);
     QDateTime end_time(date_off, time_off, Qt::UTC);
 
-    if (end_time < start_time) {
+    if ( end_time < start_time )
+    {
         qCDebug(runtime) << "End time before start time!" << record;
     }
 
     record.setValue("start_time", start_time);
     record.setValue("end_time", end_time);
+}
 
-    /* Set default values if not present */
-    if (defaults)
+void AdiFormat::preprocessINTLFields(QMap<QString, QVariant> &contact)
+{
+    FCT_IDENTIFICATION;
+
+    preprocessINTLField("address", "address_intl", contact);
+    preprocessINTLField("comment", "comment_intl", contact);
+    preprocessINTLField("country", "country_intl", contact);
+    preprocessINTLField("my_antenna", "my_antenna_intl", contact);
+    preprocessINTLField("my_city", "my_city_intl", contact);
+    preprocessINTLField("my_country", "my_country_intl", contact);
+    preprocessINTLField("my_name", "my_name_intl", contact);
+    preprocessINTLField("my_postal_code", "my_postal_code_intl", contact);
+    preprocessINTLField("my_rig", "my_rig_intl", contact);
+    preprocessINTLField("my_sig", "my_sig_intl", contact);
+    preprocessINTLField("my_sig_info", "my_sig_info_intl", contact);
+    preprocessINTLField("my_street", "my_street_intl", contact);
+    preprocessINTLField("name", "name_intl", contact);
+    preprocessINTLField("notes", "notes_intl", contact);
+    preprocessINTLField("qslmsg", "qslmsg_intl", contact);
+    preprocessINTLField("qth", "qth_intl", contact);
+    preprocessINTLField("rig", "rig_intl", contact);
+    preprocessINTLField("sig", "sig_intl", contact);
+    preprocessINTLField("sig_info", "sig_info_intl", contact);
+}
+
+void AdiFormat::preprocessINTLField(const QString &fieldName,
+                                    const QString &fieldIntlName,
+                                    QMap<QString, QVariant> &contact)
+{
+    FCT_IDENTIFICATION;
+
+    QVariant fld = contact.value(fieldName);
+    QVariant fldIntl = contact.value(fieldIntlName);
+
+    /* In general, it is a hack because ADI must not contain
+     * _INTL fields. But some applications generate _INTL fields in ADI files
+     * therefore it is needed to implement a logic how to convert INTL fields
+     * to standard
+     */
+    if ( !fld.isNull() && !fldIntl.isNull() )
     {
-        auto keys = defaults->keys();
+        /* ascii and intl are present */
+        //no action
+    }
+    else if ( !fld.isNull() && fldIntl.isNull() )
+    {
+        /* ascii is present but Intl is not present */
+        contact[fieldIntlName] = fld;
+    }
+    else if ( fld.isNull() && !fldIntl.isNull() )
+    {
+        /* ascii is empty but Intl is present */
+        contact[fieldName] = Data::removeAccents(fldIntl.toString());
+    }
+    else
+    {
+        /* both are empty */
+        /* do nothing */
+    }
+}
 
-        for ( auto &key : qAsConst(keys) )
+bool AdiFormat::readContact(QMap<QString, QVariant>& contact)
+{
+    FCT_IDENTIFICATION;
+
+    while (!stream.atEnd())
+    {
+        QString field;
+        QString value;
+
+        readField(field, value);
+        field = field.toLower();
+
+        if (field == "eor")
         {
-            if ( record.value(key).isNull() )
-            {
-                contact.insert(key, defaults->value(key));
-            }
+            return true;
         }
-        // re-evaluate _INT fields
-        fillIntlFields(record, contact);
+
+        if (!value.isEmpty())
+        {
+            contact[field] = QVariant(value);
+        }
     }
 
-    /* If we have something unparsed then stored it as JSON to Field column */
-    if ( contact.count() > 0 )
+    return false;
+}
+
+bool AdiFormat::importNext(QSqlRecord& record)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<record;
+
+    QMap<QString, QVariant> contact;
+
+    if ( !readContact(contact) )
     {
-        QJsonDocument doc = QJsonDocument::fromVariant(QVariant(contact));
-        record.setValue("fields", QString(doc.toJson()));
+        return false;
     }
+
+    mapContact2SQLRecord(contact, record);
 
     return true;
 }
@@ -715,3 +785,5 @@ QString AdiFormat::parseUploadStatus(const QString &value)
     }
     return QString();
 }
+
+

@@ -159,3 +159,19 @@ bool StationProfile::operator!=(const StationProfile &profile)
 {
     return !operator==(profile);
 }
+
+QString StationProfile::toHTMLString() const
+{
+    QString ret = "<b>" + QObject::tr("Logging Station Callsign") + ":</b> " + callsign + "<br/>" +
+                  ((!locator.isEmpty()) ? "<b>" + QObject::tr("My Gridsquare") + ":</b> " + locator + "<br/>" : "") +
+                  ((!operatorName.isEmpty()) ? "<b>" + QObject::tr("My Name") + ":</b> " + operatorName + "<br/>" : "") +
+                  ((!qthName.isEmpty()) ? "<b>" + QObject::tr("My City") + ":</b> " + qthName + "<br/>" : "") +
+                  ((!iota.isEmpty()) ? "<b>" + QObject::tr("My IOTA") + ":</b> " + iota + "<br/>" : "") +
+                  ((!sota.isEmpty()) ? "<b>" + QObject::tr("My SOTA") + ":</b> " + sota + "<br/>" : "" ) +
+                  ((!sig.isEmpty()) ? "<b>" + QObject::tr("My Special Interest Activity") + ":</b> " + sig + "<br/>" : "" )+
+                  ((!sigInfo.isEmpty()) ? "<b>" + QObject::tr("My Spec. Interes Activity Info") + ":</b> " + sigInfo + "<br/>" : "" )+
+                  ((!vucc.isEmpty()) ? "<b>" + QObject::tr("My VUCC Grids") + ":</b> " + vucc + "<br/>" : "") +
+                  ((!wwff.isEmpty()) ? "<b>" + QObject::tr("My WWFF") + ":</b> " + wwff + "<br/>" : "") +
+                  ((!pota.isEmpty()) ? "<b>" + QObject::tr("My POTA Ref") + ":</b> " + pota : "");
+    return ret;
+}

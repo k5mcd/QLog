@@ -237,3 +237,12 @@ bool RigProfile::operator!=(const RigProfile &profile)
 {
     return !operator==(profile);
 }
+
+QString RigProfile::toHTMLString() const
+{
+    QString ret = "<b>" + QObject::tr("My Rig") + ":</b> " + profileName + "<br/>";
+
+    return ret;
+}
+
+

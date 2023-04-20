@@ -40,14 +40,16 @@ public:
         ACCEPT_ALL
     };
 
-    LogFormat(QTextStream& stream);
+    explicit LogFormat(QTextStream& stream);
 
     virtual ~LogFormat();
 
     static LogFormat* open(QString type, QTextStream& stream);
     static LogFormat* open(Type type, QTextStream& stream);
 
-    int runImport();
+    unsigned long runImport(QTextStream& errorLogStream,
+                            unsigned long *warnings,
+                            unsigned long *errors);
     void runQSLImport(QSLFrom fromService);
     int runExport();
     int runExport(const QList<QSqlRecord>&);
@@ -75,8 +77,26 @@ protected:
     QMap<QString, QString>* defaults;
 
 private:
+    enum ImportLogSeverity
+    {
+        INFO,
+        WARNING,
+        ERROR
+    };
+
     bool dateRangeSet();
     bool inDateRange(QDate date);
+
+    QString importLogSeverityToString(ImportLogSeverity);
+
+    void writeImportLog(QTextStream& errorLogStream,
+                        ImportLogSeverity severity,
+                        const QString &msg);
+    void writeImportLog(QTextStream& errorLogStream,
+                        ImportLogSeverity severity,
+                        const unsigned long recordNo,
+                        const QSqlRecord &record,
+                        const QString &msg);
     QDate startDate, endDate;
     bool updateDxcc = false;
     duplicateQSOBehaviour (*duplicateQSOFunc)(QSqlRecord *, QSqlRecord *);

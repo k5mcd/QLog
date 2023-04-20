@@ -19,13 +19,10 @@ ImportDialog::ImportDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
-    QSettings settings;
-
     ui->allCheckBox->setChecked(true);
     ui->startDateEdit->setDate(QDate::currentDate());
     ui->endDateEdit->setDate(QDate::currentDate());
-    ui->gridEdit->setText(StationProfilesManager::instance()->getCurProfile1().locator);
-    ui->gridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), this));
+
     ui->progressBar->setValue(0);
     ui->progressBar->setMinimum(0);
     ui->progressBar->setMaximum(100);
@@ -34,8 +31,19 @@ ImportDialog::ImportDialog(QWidget *parent) :
     QStringList rigs = RigProfilesManager::instance()->profileNameList();
     QStringListModel* rigModel = new QStringListModel(rigs, this);
     ui->rigSelect->setModel(rigModel);
-    if (!ui->rigSelect->currentText().isEmpty()) {
+    if (!ui->rigSelect->currentText().isEmpty())
+    {
         ui->rigCheckBox->setChecked(true);
+        ui->rigSelect->setCurrentText(RigProfilesManager::instance()->getCurProfile1().profileName);
+    }
+
+    QStringList profiles = StationProfilesManager::instance()->profileNameList();
+    QStringListModel* profileModel = new QStringListModel(profiles, this);
+    ui->profileSelect->setModel(profileModel);
+    if (!ui->profileSelect->currentText().isEmpty())
+    {
+        ui->profileSelect->setCurrentText(StationProfilesManager::instance()->getCurProfile1().profileName);
+        ui->profileCheckBox->setChecked(true);
     }
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Import"));
@@ -55,11 +63,11 @@ void ImportDialog::toggleAll() {
     ui->endDateEdit->setEnabled(!ui->allCheckBox->isChecked());
 }
 
-void ImportDialog::toggleMyGrid()
+void ImportDialog::toggleMyProfile()
 {
     FCT_IDENTIFICATION;
 
-    ui->gridEdit->setEnabled(ui->gridCheckBox->isChecked());
+    ui->profileSelect->setEnabled(ui->profileCheckBox->isChecked());
 }
 void ImportDialog::toggleMyRig()
 {
@@ -73,24 +81,8 @@ void ImportDialog::toggleComment()
     FCT_IDENTIFICATION;
 
     ui->commentEdit->setEnabled(ui->commentCheckBox->isChecked());
-}
-
-void ImportDialog::adjustLocatorTextColor()
-{
-    FCT_IDENTIFICATION;
-
-    QPalette p;
-
-    if ( ! ui->gridEdit->hasAcceptableInput() )
-    {
-        p.setColor(QPalette::Text,Qt::red);
-    }
-    else
-    {
-        p.setColor(QPalette::Text,qApp->palette().text().color());
-    }
-
-    ui->gridEdit->setPalette(p);
+    ui->commentEdit->setToolTip(tr("The value is used when an input record does not contain the value") + "<br/>"
+                                + "<b>" + tr("Comment") + ":</b> " + ui->commentEdit->text() + "<br/>");
 }
 
 void ImportDialog::computeProgress(qint64 position)
@@ -100,6 +92,22 @@ void ImportDialog::computeProgress(qint64 position)
     int progress = (int)(position * 100 / size);
     ui->progressBar->setValue(progress);
     QCoreApplication::processEvents();
+}
+
+void ImportDialog::stationProfileTextChanged(QString newProfileName)
+{
+    FCT_IDENTIFICATION;
+
+    selectedStationProfile = StationProfilesManager::instance()->getProfile(newProfileName);
+    ui->profileSelect->setToolTip(tr("The values below will be used when an input record does not contain the values") + "<br/>"
+                                  + selectedStationProfile.toHTMLString());
+}
+
+void ImportDialog::rigProfileTextChanged(QString newProfileName)
+{
+    FCT_IDENTIFICATION;
+    ui->rigSelect->setToolTip(tr("The values below will be used when an input record does not contain the values") + "<br/>"
+                                  + RigProfilesManager::instance()->getProfile(newProfileName).toHTMLString());
 }
 
 LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *imported, QSqlRecord *original)
@@ -149,13 +157,6 @@ LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *i
 void ImportDialog::runImport() {
     FCT_IDENTIFICATION;
 
-    if ( ui->gridCheckBox->isChecked() && ! ui->gridEdit->hasAcceptableInput() )
-    {
-        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("Grid has an invalid format"));
-        return;
-    }
-
     if ( ui->fileEdit->text().isEmpty() )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
@@ -171,10 +172,6 @@ void ImportDialog::runImport() {
 
     QMap<QString, QString> defaults;
 
-    if (ui->gridCheckBox->isChecked()) {
-        defaults["my_gridsquare"] = ui->gridEdit->text();
-    }
-
     if (ui->rigCheckBox->isChecked())
     {
         defaults["my_rig_intl"] = ui->rigSelect->currentText();
@@ -183,6 +180,65 @@ void ImportDialog::runImport() {
     if (ui->commentCheckBox->isChecked())
     {
         defaults["comment_intl"] = ui->commentEdit->text();
+    }
+
+    if ( ui->profileCheckBox->isChecked()
+         && selectedStationProfile != StationProfile() )
+    {
+        if ( !selectedStationProfile.callsign.isEmpty() )
+        {
+            defaults["station_callsign"] = selectedStationProfile.callsign.toUpper();
+        }
+
+        if ( !selectedStationProfile.locator.isEmpty() )
+        {
+            defaults["my_gridsquare"] = selectedStationProfile.locator.toUpper();
+        }
+
+        if ( !selectedStationProfile.operatorName.isEmpty() )
+        {
+            defaults["my_name_intl"] = selectedStationProfile.operatorName;
+        }
+
+        if ( !selectedStationProfile.qthName.isEmpty() )
+        {
+            defaults["my_city_intl"] = selectedStationProfile.qthName;
+        }
+
+        if ( !selectedStationProfile.iota.isEmpty() )
+        {
+            defaults["my_iota"] = Data::removeAccents(selectedStationProfile.iota.toUpper());
+        }
+
+        if ( !selectedStationProfile.sota.isEmpty() )
+        {
+            defaults["my_sota_ref"] = Data::removeAccents(selectedStationProfile.sota.toUpper());
+        }
+
+        if ( !selectedStationProfile.sig.isEmpty() )
+        {
+            defaults["my_sig_intl"] = Data::removeAccents(selectedStationProfile.sig);
+        }
+
+        if ( !selectedStationProfile.sigInfo.isEmpty() )
+        {
+            defaults["my_sig_info_intl"] = selectedStationProfile.sigInfo;
+        }
+
+        if ( !selectedStationProfile.vucc.isEmpty() )
+        {
+            defaults["my_vucc_grids"] = selectedStationProfile.vucc.toUpper();
+        }
+
+        if ( !selectedStationProfile.vucc.isEmpty() )
+        {
+            defaults["my_wwff_ref"] = Data::removeAccents(selectedStationProfile.vucc.toUpper());
+        }
+
+        if ( !selectedStationProfile.pota.isEmpty() )
+        {
+            defaults["my_pota_ref"] = Data::removeAccents(selectedStationProfile.pota.toUpper());
+        }
     }
 
     LogFormat* format = LogFormat::open(ui->typeSelect->currentText(), in);
@@ -210,19 +266,38 @@ void ImportDialog::runImport() {
     ui->startDateEdit->setEnabled(false);
     ui->endDateEdit->setEnabled(false);
     ui->allCheckBox->setEnabled(false);
-    ui->gridCheckBox->setEnabled(false);
-    ui->gridEdit->setEnabled(false);
+    ui->profileCheckBox->setEnabled(false);
+    ui->profileSelect->setEnabled(false);
     ui->rigCheckBox->setEnabled(false);
     ui->rigSelect->setEnabled(false);
     ui->commentCheckBox->setEnabled(false);
     ui->commentEdit->setEnabled(false);
     ui->updateDxccCheckBox->setEnabled(false);
 
-    int count = format->runImport();
+    QString s;
+    QTextStream out(&s);
+    unsigned long errors = 0L;
+    unsigned long warnings = 0L;
 
-    QMessageBox::information(nullptr, QMessageBox::tr("QLog Information"),
-                         QMessageBox::tr("Imported %n contacts.", "", count));
+    int count = format->runImport(out, &warnings, &errors);
 
+    QString report = QObject::tr("<b>Imported</b>: %n contact(s)", "", count) + "<br/>" +
+                     QObject::tr("<b>Warning(s)</b>: %n", "", warnings) + "<br/>" +
+                     QObject::tr("<b>Error(s)</b>: %n", "", errors);
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("Import Result"));
+    msgBox.setText(report);
+    msgBox.setDetailedText(s);
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    QSpacerItem* horizontalSpacer = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    QGridLayout* layout = (QGridLayout*)msgBox.layout();
+    layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
+
+    msgBox.exec();
+
+    qCDebug(runtime).noquote() << Qt::endl << s;
 
     accept();
 }

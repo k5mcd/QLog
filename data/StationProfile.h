@@ -32,6 +32,8 @@ public:
     bool operator== (const StationProfile &profile);
     bool operator!= (const StationProfile &profile);
 
+    QString toHTMLString() const;
+
 private:
     friend QDataStream& operator<<(QDataStream& out, const StationProfile& v);
     friend QDataStream& operator>>(QDataStream& in, StationProfile& v);
