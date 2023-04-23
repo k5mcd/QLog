@@ -297,7 +297,7 @@ void ImportDialog::runImport() {
 
     msgBox.exec();
 
-    qCDebug(runtime).noquote() << Qt::endl << s;
+    qCDebug(runtime).noquote() << s;
 
     accept();
 }
