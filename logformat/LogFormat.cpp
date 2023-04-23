@@ -734,7 +734,7 @@ void LogFormat::writeImportLog(QTextStream &errorLogStream, ImportLogSeverity se
 {
     FCT_IDENTIFICATION;
 
-    errorLogStream << importLogSeverityToString(severity) << msg << Qt::endl;
+    errorLogStream << importLogSeverityToString(severity) << msg << "\n";
 }
 
 void LogFormat::writeImportLog(QTextStream& errorLogStream, ImportLogSeverity severity,
@@ -751,6 +751,6 @@ void LogFormat::writeImportLog(QTextStream& errorLogStream, ImportLogSeverity se
                    << QString(" (%1; %2; %3)").arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat)))
                                               .arg(record.value("callsign").toString())
                                               .arg(record.value("mode").toString())
-                   << Qt::endl;
+                   << "\n";
 }
 
