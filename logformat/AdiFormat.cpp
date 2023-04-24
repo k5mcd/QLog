@@ -593,25 +593,11 @@ void AdiFormat::preprocessINTLFields(QMap<QString, QVariant> &contact)
 {
     FCT_IDENTIFICATION;
 
-    preprocessINTLField("address", "address_intl", contact);
-    preprocessINTLField("comment", "comment_intl", contact);
-    preprocessINTLField("country", "country_intl", contact);
-    preprocessINTLField("my_antenna", "my_antenna_intl", contact);
-    preprocessINTLField("my_city", "my_city_intl", contact);
-    preprocessINTLField("my_country", "my_country_intl", contact);
-    preprocessINTLField("my_name", "my_name_intl", contact);
-    preprocessINTLField("my_postal_code", "my_postal_code_intl", contact);
-    preprocessINTLField("my_rig", "my_rig_intl", contact);
-    preprocessINTLField("my_sig", "my_sig_intl", contact);
-    preprocessINTLField("my_sig_info", "my_sig_info_intl", contact);
-    preprocessINTLField("my_street", "my_street_intl", contact);
-    preprocessINTLField("name", "name_intl", contact);
-    preprocessINTLField("notes", "notes_intl", contact);
-    preprocessINTLField("qslmsg", "qslmsg_intl", contact);
-    preprocessINTLField("qth", "qth_intl", contact);
-    preprocessINTLField("rig", "rig_intl", contact);
-    preprocessINTLField("sig", "sig_intl", contact);
-    preprocessINTLField("sig_info", "sig_info_intl", contact);
+    QStringList fieldMappingList = fieldname2INTLNameMapping.keys();
+    for ( const QString& fieldName :  qAsConst(fieldMappingList) )
+    {
+        preprocessINTLField(fieldName, fieldname2INTLNameMapping.value(fieldName), contact);
+    }
 }
 
 void AdiFormat::preprocessINTLField(const QString &fieldName,
@@ -787,3 +773,25 @@ QString AdiFormat::parseUploadStatus(const QString &value)
 }
 
 
+QMap<QString, QString> AdiFormat::fieldname2INTLNameMapping =
+{
+    {"address", "address_intl"},
+    {"comment", "comment_intl"},
+    {"country", "country_intl"},
+    {"my_antenna", "my_antenna_intl"},
+    {"my_city", "my_city_intl"},
+    {"my_country", "my_country_intl"},
+    {"my_name", "my_name_intl"},
+    {"my_postal_code", "my_postal_code_intl"},
+    {"my_rig", "my_rig_intl"},
+    {"my_sig", "my_sig_intl"},
+    {"my_sig_info", "my_sig_info_intl"},
+    {"my_street", "my_street_intl"},
+    {"name", "name_intl"},
+    {"notes", "notes_intl"},
+    {"qslmsg", "qslmsg_intl"},
+    {"qth", "qth_intl"},
+    {"rig", "rig_intl"},
+    {"sig", "sig_intl"},
+    {"sig_info", "sig_info_intl"}
+};

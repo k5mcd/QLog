@@ -14,6 +14,8 @@ public:
                                QMap<QString, QString> *applTags = nullptr) override;
     virtual void exportStart() override;
 
+    static QMap<QString, QString> fieldname2INTLNameMapping;
+
 protected:
     virtual void writeField(const QString &name,
                             const QString &value,
