@@ -17,6 +17,7 @@
 #include "data/CWKeyProfile.h"
 #include "data/CWShortcutProfile.h"
 #include "data/RotUsrButtonsProfile.h"
+#include "core/LogLocale.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -133,6 +134,7 @@ private:
     QCompleter *potaCompleter;
     QList<QCheckBox*> memberListCheckBoxes;
     Ui::SettingsDialog *ui;
+    LogLocale locale;
 };
 
 #endif // SETTINGSDIALOG_H

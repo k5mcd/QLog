@@ -418,14 +418,13 @@ QDateEdit *QSOFilterDetail::createDateEdit(const QString &value, const int ident
 {
     FCT_IDENTIFICATION;
 
-    QLocale locale;
 
     QDateEdit* valueDate = new QDateEdit();
     valueDate->setObjectName(QString::fromUtf8("valueDateEdit%1").arg(identified));
     valueDate->setFocusPolicy(Qt::ClickFocus);
     valueDate->setCalendarPopup(true);
     valueDate->setTimeSpec(Qt::UTC);
-    valueDate->setDisplayFormat(locale.dateFormat(QLocale::ShortFormat ));
+    valueDate->setDisplayFormat(locale.formatDateShortWithYYYY());
     valueDate->setSizePolicy(sizepolicy);
     if ( !value.isEmpty() )
     {
@@ -439,15 +438,13 @@ QDateTimeEdit *QSOFilterDetail::createDateTimeEdit(const QString &value, const i
 {
     FCT_IDENTIFICATION;
 
-    QLocale locale;
-
     QDateTimeEdit* valueDateTime = new QDateTimeEdit();
     valueDateTime->setObjectName(QString::fromUtf8("valueDateTimeEdit%1").arg(identified));
     valueDateTime->setFocusPolicy(Qt::ClickFocus);
     valueDateTime->setCalendarPopup(true);
     valueDateTime->setTimeSpec(Qt::UTC);
-    valueDateTime->setDisplayFormat(locale.dateFormat(QLocale::ShortFormat )
-                                    + " " + locale.timeFormat(QLocale::LongFormat));
+    valueDateTime->setDisplayFormat(locale.formatDateShortWithYYYY()
+                                    + " " + locale.formatTimeLongWithoutTZ());
     valueDateTime->setSizePolicy(sizepolicy);
     valueDateTime->setDateTime(QDateTime::fromString(value, "yyyy-MM-ddTHH:mm:ss"));
     return valueDateTime;

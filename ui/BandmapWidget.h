@@ -13,6 +13,7 @@
 #include "data/DxSpot.h"
 #include "data/Band.h"
 #include "core/Rig.h"
+#include "core/LogLocale.h"
 
 namespace Ui {
 class BandmapWidget;
@@ -110,7 +111,7 @@ private:
     QGraphicsPolygonItem* rxMark;
     QGraphicsPolygonItem* txMark;
     bool keepRXCenter;
-    QLocale locale;
+    LogLocale locale;
     quint32 pendingSpots;
     qint64 lastStationUpdate;
     double zoomFreq;

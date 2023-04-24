@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTime>
+#include "core/LogLocale.h"
 
 namespace Ui {
 class ClockWidget;
@@ -28,6 +29,7 @@ private:
 
     QGraphicsScene* sunScene;
 
+    LogLocale locale;
     QTime sunrise;
     QTime sunset;
 };

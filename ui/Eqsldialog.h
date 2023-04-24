@@ -2,6 +2,7 @@
 #define EQSLDIALOG_H
 
 #include <QDialog>
+#include "core/LogLocale.h"
 
 namespace Ui {
 class EqslDialog;
@@ -25,6 +26,7 @@ private:
 
     void saveDialogState();
     void loadDialogState();
+    LogLocale locale;
 };
 
 #endif // EQSLDIALOG_H

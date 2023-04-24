@@ -25,7 +25,9 @@ ExportDialog::ExportDialog(const QList<QSqlRecord>& qsos, QWidget *parent) :
     ui->setupUi(this);
 
     ui->allCheckBox->setChecked(true);
+    ui->startDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->startDateEdit->setDate(QDate::currentDate());
+    ui->endDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->endDateEdit->setDate(QDate::currentDate().addDays(1));
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Export"));

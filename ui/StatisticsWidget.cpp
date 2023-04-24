@@ -513,6 +513,9 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
     ui->bandCombo->setModel(new QStringListModel(this));
     refreshBandCombo();
 
+    ui->startDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
+    ui->endDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
+
     ui->graphView->setRenderHint(QPainter::Antialiasing);
     ui->graphView->setChart(new QChart());
 

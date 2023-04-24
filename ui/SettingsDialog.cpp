@@ -211,6 +211,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->cwKeyModeSelect->addItem(tr("Ultimate"), CWKey::ULTIMATE);
     ui->cwKeyModeSelect->setCurrentIndex(ui->cwKeyModeSelect->findData(CWKey::IAMBIC_B));
 
+    ui->dxccStartDate->setDisplayFormat(locale.formatDateShortWithYYYY());
     /* disable WSJTX Multicast by default */
     joinMulticastChanged(false);
 

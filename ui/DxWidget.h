@@ -13,6 +13,7 @@
 #include "data/WWVSpot.h"
 #include "data/ToAllSpot.h"
 #include "ui/SwitchButton.h"
+#include "core/LogLocale.h"
 
 #define DEDUPLICATION_TIME 3
 #define DEDUPLICATION_FREQ_TOLERANCE 0.005
@@ -41,6 +42,7 @@ public:
 
 private:
     QList<DxSpot> dxData;
+    LogLocale locale;
 };
 
 class WCYTableModel : public QAbstractTableModel {
@@ -58,6 +60,7 @@ public:
 
 private:
     QList<WCYSpot> wcyData;
+    LogLocale locale;
 };
 
 class WWVTableModel : public QAbstractTableModel {
@@ -75,6 +78,7 @@ public:
 
 private:
     QList<WWVSpot> wwvData;
+    LogLocale locale;
 };
 
 class ToAllTableModel : public QAbstractTableModel {
@@ -92,6 +96,7 @@ public:
 
 private:
     QList<ToAllSpot> toAllData;
+    LogLocale locale;
 };
 
 class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject

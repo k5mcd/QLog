@@ -38,6 +38,7 @@ LotwDialog::LotwDialog(QWidget *parent) :
 
     ui->stationCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
 
+    ui->dateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     loadDialogState();
 }
 
@@ -97,7 +98,6 @@ void LotwDialog::upload() {
     QTextStream stream(&data, QIODevice::ReadWrite);
 
     AdiFormat adi(stream);
-    QLocale locale;
     QString QSOList;
     int count = 0;
 
@@ -146,7 +146,7 @@ void LotwDialog::upload() {
         QSqlRecord record = query.record();
 
         QSOList.append(" "
-                       + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat))
+                       + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateTimeShortWithYYYY())
                        + " " + record.value("callsign").toString()
                        + " " + record.value("mode").toString()
                        + "\n");

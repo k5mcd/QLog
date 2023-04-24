@@ -20,9 +20,10 @@ ImportDialog::ImportDialog(QWidget *parent) :
     ui->setupUi(this);
 
     ui->allCheckBox->setChecked(true);
+    ui->startDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->startDateEdit->setDate(QDate::currentDate());
     ui->endDateEdit->setDate(QDate::currentDate());
-
+    ui->endDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->progressBar->setValue(0);
     ui->progressBar->setMinimum(0);
     ui->progressBar->setMaximum(100);

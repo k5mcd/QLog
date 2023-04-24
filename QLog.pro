@@ -60,6 +60,7 @@ SOURCES += \
         core/HamQTH.cpp \
         core/HostsPortString.cpp \
         core/LOVDownloader.cpp \
+        core/LogLocale.cpp \
         core/LogParam.cpp \
         core/Lotw.cpp \
         core/MembershipQE.cpp \
@@ -154,6 +155,7 @@ HEADERS += \
         core/HamQTH.h \
         core/HostsPortString.h \
         core/LOVDownloader.h \
+        core/LogLocale.h \
         core/LogParam.h \
         core/Lotw.h \
         core/MembershipQE.h \
