@@ -1,4 +1,10 @@
 TBC - 0.22.0
+- [NEW] - ADIF Import - My Profile is used to define default values
+- [NEW] - ADIF Import - Checking a minimal set of input fields (start_time, call, band, mode, station_callsign)
+- [NEW] - ADIF Import - Added Import Result Summary + Import Detail Info
+- Fixed Some anomalies in the input and processing of QSLr Date (issue #192)
+- Fixed ADIF import (issue #196)
+- Fixed if ADIF record is missing band info, add this from freq field (thx DJ5CW)
 
 2023/04/16 - 0.21.0
 - [NEW] - Rotator - Added Used-Defined Buttons
