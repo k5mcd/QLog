@@ -349,7 +349,7 @@ void AdiFormat::mapContact2SQLRecord(QMap<QString, QVariant> &contact,
 {
     FCT_IDENTIFICATION;
 
-    preprocessINTLFields(contact);
+    preprocessINTLFields<QMap<QString, QVariant>>(contact);
 
     /* Set default values if not present */
     if ( defaults )
@@ -364,7 +364,7 @@ void AdiFormat::mapContact2SQLRecord(QMap<QString, QVariant> &contact,
             }
         }
         // re-evaluate the fields
-        preprocessINTLFields(contact);
+        preprocessINTLFields<QMap<QString, QVariant>>(contact);
     }
 
     contactFields2SQLRecord(contact, record);
@@ -589,22 +589,13 @@ void AdiFormat::contactFields2SQLRecord(QMap<QString, QVariant> &contact, QSqlRe
     record.setValue("end_time", end_time);
 }
 
-void AdiFormat::preprocessINTLFields(QMap<QString, QVariant> &contact)
-{
-    FCT_IDENTIFICATION;
-
-    QStringList fieldMappingList = fieldname2INTLNameMapping.keys();
-    for ( const QString& fieldName :  qAsConst(fieldMappingList) )
-    {
-        preprocessINTLField(fieldName, fieldname2INTLNameMapping.value(fieldName), contact);
-    }
-}
-
 void AdiFormat::preprocessINTLField(const QString &fieldName,
                                     const QString &fieldIntlName,
                                     QMap<QString, QVariant> &contact)
 {
     FCT_IDENTIFICATION;
+
+    // NOTE: If modify this, modify also function below!!!!
 
     QVariant fld = contact.value(fieldName);
     QVariant fldIntl = contact.value(fieldIntlName);
@@ -628,6 +619,43 @@ void AdiFormat::preprocessINTLField(const QString &fieldName,
     {
         /* ascii is empty but Intl is present */
         contact[fieldName] = Data::removeAccents(fldIntl.toString());
+    }
+    else
+    {
+        /* both are empty */
+        /* do nothing */
+    }
+}
+
+void AdiFormat::preprocessINTLField(const QString &fieldName,
+                                    const QString &fieldIntlName,
+                                    QSqlRecord &contact)
+{
+    FCT_IDENTIFICATION;
+
+    // NOTE: If modify this, modify also function above!!!!
+    QVariant fld = contact.value(fieldName);
+    QVariant fldIntl = contact.value(fieldIntlName);
+
+    /* In general, it is a hack because ADI must not contain
+     * _INTL fields. But some applications generate _INTL fields in ADI files
+     * therefore it is needed to implement a logic how to convert INTL fields
+     * to standard
+     */
+    if ( !fld.isNull() && !fldIntl.isNull() )
+    {
+        /* ascii and intl are present */
+        //no action
+    }
+    else if ( !fld.isNull() && fldIntl.isNull() )
+    {
+        /* ascii is present but Intl is not present */
+        contact.setValue(fieldIntlName, fld);
+    }
+    else if ( fld.isNull() && !fldIntl.isNull() )
+    {
+        /* ascii is empty but Intl is present */
+        contact.setValue(fieldName, Data::removeAccents(fldIntl.toString()));
     }
     else
     {

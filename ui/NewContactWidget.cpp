@@ -22,6 +22,7 @@
 #include "core/Callsign.h"
 #include "core/PropConditions.h"
 #include "core/MembershipQE.h"
+#include "logformat/AdiFormat.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -1110,34 +1111,16 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
         record.setValue("sat_name", Data::removeAccents(ui->satNameEdit->text().toUpper()));
     }
 
-    if ( record.value("my_rig").toString().isEmpty()
-         && !ui->rigEdit->currentText().isEmpty() )
-    {
-       record.setValue("my_rig", Data::removeAccents(ui->rigEdit->currentText()));
-    }
-
     if ( record.value("my_rig_intl").toString().isEmpty()
          && !ui->rigEdit->currentText().isEmpty() )
     {
        record.setValue("my_rig_intl", ui->rigEdit->currentText());
     }
 
-    if ( record.value("my_antenna").toString().isEmpty()
-         && !ui->antennaEdit->currentText().isEmpty())
-    {
-       record.setValue("my_antenna", Data::removeAccents(ui->antennaEdit->currentText()));
-    }
-
     if ( record.value("my_antenna_intl").toString().isEmpty()
          && !ui->antennaEdit->currentText().isEmpty())
     {
        record.setValue("my_antenna_intl", ui->antennaEdit->currentText());
-    }
-
-    if ( record.value("my_city").toString().isEmpty()
-         && !profile.qthName.isEmpty())
-    {
-       record.setValue("my_city", Data::removeAccents(profile.qthName));
     }
 
     if ( record.value("my_city_intl").toString().isEmpty()
@@ -1177,17 +1160,12 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
         {
             record.setValue("my_country_intl", dxccEntity.country);
         }
-
-        if ( record.value("my_country").toString().isEmpty() )
-        {
-            record.setValue("my_country", Data::removeAccents(dxccEntity.country));
-        }
     }
 
-    if ( record.value("operator").toString().isEmpty()
+    if ( record.value("my_name_intl").toString().isEmpty()
          && !profile.operatorName.isEmpty() )
     {
-       record.setValue("operator", Data::removeAccents(profile.operatorName));
+       record.setValue("my_name_intl", profile.operatorName);
     }
 
     if ( record.value("my_iota").toString().isEmpty()
@@ -1218,22 +1196,10 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
        record.setValue("my_pota_ref", Data::removeAccents(profile.pota.toUpper()));
     }
 
-    if ( record.value("my_sig").toString().isEmpty()
-         && !profile.sig.isEmpty())
-    {
-       record.setValue("my_sig", Data::removeAccents(profile.sig));
-    }
-
     if ( record.value("my_sig_intl").toString().isEmpty()
          && !profile.sig.isEmpty())
     {
        record.setValue("my_sig_intl", profile.sig);
-    }
-
-    if ( record.value("my_sig_info").toString().isEmpty()
-         && !profile.sigInfo.isEmpty())
-    {
-       record.setValue("my_sig_info", Data::removeAccents(profile.sigInfo));
     }
 
     if ( record.value("my_sig_info_intl").toString().isEmpty()
@@ -1433,7 +1399,6 @@ void NewContactWidget::saveContact()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
     StationProfile profile = StationProfilesManager::instance()->getProfile(ui->stationProfileCombo->currentText());
 
     if ( profile.callsign.isEmpty() )
@@ -1481,13 +1446,11 @@ void NewContactWidget::saveContact()
     if ( ! ui->nameEdit->text().isEmpty() )
     {
         record.setValue("name_intl", ui->nameEdit->text());
-        record.setValue("name", Data::removeAccents(ui->nameEdit->text()));
     }
 
     if ( ! ui->qthEdit->text().isEmpty() )
     {
         record.setValue("qth_intl", ui->qthEdit->text());
-        record.setValue("qth", Data::removeAccents(ui->qthEdit->text()));
     }
 
     if ( ! ui->gridEdit->text().isEmpty() )
@@ -1539,13 +1502,11 @@ void NewContactWidget::saveContact()
 
     if ( ! ui->sigEdit->text().isEmpty() )
     {
-        record.setValue("sig", Data::removeAccents(ui->sigEdit->text()));
         record.setValue("sig_intl", ui->sigEdit->text());
     }
 
     if ( ! ui->sigInfoEdit->text().isEmpty() )
     {
-        record.setValue("sig_info", Data::removeAccents(ui->sigInfoEdit->text()));
         record.setValue("sig_info_intl", ui->sigInfoEdit->text());
     }
 
@@ -1590,18 +1551,18 @@ void NewContactWidget::saveContact()
         record.setValue("wwff_ref", ui->wwffEdit->text().toUpper());
     }
 
-    if (!ui->commentEdit->text().isEmpty()) {
+    if (!ui->commentEdit->text().isEmpty())
+    {
         record.setValue("comment_intl", ui->commentEdit->text());
-        record.setValue("comment", Data::removeAccents(ui->commentEdit->text()));
     }
 
     if (!ui->noteEdit->toPlainText().isEmpty())
     {
         record.setValue("notes_intl", ui->noteEdit->toPlainText());
-        record.setValue("notes", Data::removeAccents(ui->noteEdit->toPlainText()));
     }
 
-    if (!ui->qslViaEdit->text().isEmpty()) {
+    if (!ui->qslViaEdit->text().isEmpty())
+    {
         record.setValue("qsl_via", Data::removeAccents(ui->qslViaEdit->text().toUpper()));
     }
 
@@ -1617,9 +1578,13 @@ void NewContactWidget::saveContact()
 
     if (!ui->urlEdit->text().isEmpty()) {
         record.setValue("web", Data::removeAccents(ui->urlEdit->text()));
-    }    
+    }
+
+    AdiFormat::preprocessINTLFields<QSqlRecord>(record);
 
     addAddlFields(record, profile);
+
+    AdiFormat::preprocessINTLFields<QSqlRecord>(record);
 
     qCDebug(runtime) << record;
 
@@ -1680,7 +1645,11 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
 
     StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
 
+    AdiFormat::preprocessINTLFields<QSqlRecord>(record);
+
     addAddlFields(record, profile);
+
+    AdiFormat::preprocessINTLFields<QSqlRecord>(record);
 
     qCDebug(runtime) << record;
 
