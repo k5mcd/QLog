@@ -94,14 +94,18 @@ void LogFormat::setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord
     duplicateQSOFunc = func;
 }
 
-int LogFormat::runImport()
+unsigned long LogFormat::runImport(QTextStream& importLogStream,
+                                   unsigned long *warnings,
+                                   unsigned long *errors)
 {
     FCT_IDENTIFICATION;
 
     this->importStart();
 
-    int count = 0;
-    int processedRec = 0;
+    unsigned long count = 0L;
+    *errors = 0L;
+    *warnings = 0L;
+    unsigned long processedRec = 0;
 
     QSqlTableModel model;
     model.setTable("contacts");
@@ -117,6 +121,24 @@ int LogFormat::runImport()
 
         processedRec++;
 
+        /* checking matching fields if they are not empty */
+        if ( ! record.value("start_time").toDateTime().isValid()
+             || record.value("callsign").toString().isEmpty()
+             || record.value("band").toString().isEmpty()
+             || record.value("mode").toString().isEmpty()
+             || record.value("station_callsign").toString().isEmpty() )
+        {
+            writeImportLog(importLogStream,
+                           ERROR,
+                           processedRec,
+                           record,
+                           tr("A minimal set of fields not present (start_time, call, band, mode, station_callsign)"));
+            qWarning() << "Import does not contain minimal set of fields (start_time, call, band, mode, station_callsign)";
+            qCDebug(runtime) << record;
+            (*errors)++;
+            continue;
+        }
+
         if ( processedRec % 10 == 0)
         {
             emit importPosition(stream.pos());
@@ -126,6 +148,12 @@ int LogFormat::runImport()
         {
             if (!inDateRange(record.value("start_time").toDateTime().date()))
             {
+                writeImportLog(importLogStream,
+                               WARNING,
+                               processedRec,
+                               record,
+                               tr("Outside the selected Date Range"));
+                (*warnings)++;
                 continue;
             }
         }
@@ -139,17 +167,6 @@ int LogFormat::runImport()
 
         if ( dupSetting != ACCEPT_ALL )
         {
-            /* checking matching fields if they are not empty */
-            if ( ! record.value("start_time").toDateTime().isValid()
-                 || record.value("callsign").toString().isEmpty()
-                 || record.value("band").toString().isEmpty()
-                 || record.value("mode").toString().isEmpty() )
-            {
-                qWarning() << "Import does not contain field start_time or call or band or mode ";
-                qCDebug(runtime) << record;
-                continue;
-            }
-
             QString matchFilter = QString("upper(callsign)=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
                     .arg(record.value("callsign").toString(),
                          record.value("mode").toString(),
@@ -164,6 +181,12 @@ int LogFormat::runImport()
             {
                 if ( dupSetting == SKIP_ALL)
                 {
+                    writeImportLog(importLogStream,
+                                   WARNING,
+                                   processedRec,
+                                   record,
+                                   tr("Duplicate"));
+                    (*warnings)++;
                     continue;
                 }
 
@@ -183,6 +206,12 @@ int LogFormat::runImport()
 
                 case SKIP_ONE:
                 case SKIP_ALL:
+                    writeImportLog(importLogStream,
+                                   WARNING,
+                                   processedRec,
+                                   record,
+                                   tr("Duplicate"));
+                    (*warnings)++;
                     continue;
                     break;
                 }
@@ -191,8 +220,18 @@ int LogFormat::runImport()
 
         DxccEntity entity = Data::instance()->lookupDxcc(record.value("callsign").toString());
 
-        if ( (record.value("dxcc").isNull()
-              || updateDxcc) && entity.dxcc)
+        if ( entity.dxcc == 0 )
+        {
+            writeImportLog(importLogStream,
+                           ERROR,
+                           processedRec,
+                           record,
+                           tr("Cannot find DXCC Entity Info"));
+            (*errors)++;
+            continue;
+        }
+        else if ( (record.value("dxcc").isNull()
+                  || updateDxcc) && entity.dxcc)
         {
             record.setValue("dxcc", entity.dxcc);
             record.setValue("country", Data::removeAccents(entity.country));
@@ -286,15 +325,36 @@ int LogFormat::runImport()
                     record.setValue("my_country", Data::removeAccents(dxccEntity.country));
                 }
             }
+            else
+            {
+                writeImportLog(importLogStream,
+                               ERROR,
+                               processedRec,
+                               record,
+                               tr("Cannot find own DXCC Entity Info"));
+                (*errors)++;
+                continue;
+            }
         }
 
         if ( !model.insertRecord(-1, record) )
         {
+            writeImportLog(importLogStream,
+                           ERROR,
+                           processedRec,
+                           record,
+                           tr("Cannot insert to database ") + " - " + model.lastError().text());
             qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
             qCDebug(runtime) << record;
+            (*errors)++;
         }
         else
         {
+            writeImportLog(importLogStream,
+                           INFO,
+                           processedRec,
+                           record,
+                           tr("Imported"));
             count++;
         }
     }
@@ -305,6 +365,10 @@ int LogFormat::runImport()
     if (! model.submitAll() )
     {
         qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
+        writeImportLog(importLogStream,
+                       ERROR,
+                       tr("Cannot commit the changes to database") + " - " + model.lastError().text());
+        (*errors)++;
     }
 
     this->importEnd();
@@ -646,5 +710,47 @@ bool LogFormat::inDateRange(QDate date) {
     qCDebug(function_parameters)<<date;
 
     return date >= startDate && date <= endDate;
+}
+
+QString LogFormat::importLogSeverityToString(ImportLogSeverity severity)
+{
+    switch ( severity )
+    {
+    case ERROR:
+        return tr("Error") + " - ";
+        break;
+    case WARNING:
+        return tr("Warning") + " - ";
+        break;
+    case INFO:
+    default: //NOTHING
+        ;
+    }
+
+    return QString();
+}
+
+void LogFormat::writeImportLog(QTextStream &errorLogStream, ImportLogSeverity severity, const QString &msg)
+{
+    FCT_IDENTIFICATION;
+
+    errorLogStream << importLogSeverityToString(severity) << msg << "\n";
+}
+
+void LogFormat::writeImportLog(QTextStream& errorLogStream, ImportLogSeverity severity,
+                               const unsigned long recordNo,
+                               const QSqlRecord &record,
+                               const QString &msg)
+{
+    FCT_IDENTIFICATION;
+
+    QLocale locale; // TODO transfer to LogLocale - dending commit
+    errorLogStream << QString("[QSO#%1]: ").arg(recordNo)
+                   << importLogSeverityToString(severity)
+                   << msg
+                   << QString(" (%1; %2; %3)").arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat)))
+                                              .arg(record.value("callsign").toString())
+                                              .arg(record.value("mode").toString())
+                   << "\n";
 }
 

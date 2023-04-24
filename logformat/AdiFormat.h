@@ -3,30 +3,41 @@
 
 #include "LogFormat.h"
 
-class AdiFormat : public LogFormat {
+class AdiFormat : public LogFormat
+{
 public:
     explicit AdiFormat(QTextStream& stream) : LogFormat(stream) {}
 
-    bool readContact(QVariantMap& );
+    virtual bool importNext(QSqlRecord& ) override;
 
-    bool importNext(QSqlRecord& ) override;
-    void exportContact(const QSqlRecord&, QMap<QString, QString> * applTags = nullptr) override;
-    void exportStart() override;
+    virtual void exportContact(const QSqlRecord&,
+                               QMap<QString, QString> *applTags = nullptr) override;
+    virtual void exportStart() override;
 
-    static QDate parseDate(const QString &date);
-    static QTime parseTime(const QString &time);
-    static QString parseQslRcvd(const QString &value);
-    static QString parseQslSent(const QString &value);
-    static QString parseUploadStatus(const QString &value);
-
-    static void importIntlField(const QString &sourceField,
-                                const QString &sourceFieldIntl,
-                                QSqlRecord &,
-                                QMap<QString, QVariant> &);
-    static void fillIntlFields(QSqlRecord &,
-                               QMap<QString, QVariant> &);
-
+protected:
+    virtual void writeField(const QString &name,
+                            const QString &value,
+                            const QString &type="");
+    virtual void writeSQLRecord(const QSqlRecord& record,
+                                QMap<QString, QString> *applTags);
+    virtual bool readContact(QVariantMap &);
+    void mapContact2SQLRecord(QMap<QString, QVariant> &contact,
+                              QSqlRecord &record);
+    void contactFields2SQLRecord(QMap<QString, QVariant> &contact,
+                              QSqlRecord &record);
 private:
+
+    void readField(QString& field,
+                   QString& value);
+    QDate parseDate(const QString &date);
+    QTime parseTime(const QString &time);
+    QString parseQslRcvd(const QString &value);
+    QString parseQslSent(const QString &value);
+    QString parseUploadStatus(const QString &value);
+    void preprocessINTLFields(QMap<QString, QVariant> &contact);
+    void preprocessINTLField(const QString &sourceField,
+                             const QString &sourceFieldIntl,
+                             QMap<QString, QVariant> &);
     enum ParserState {
         START,
         FIELD,
@@ -35,9 +46,6 @@ private:
         DATA_TYPE,
         VALUE
     };
-
-    void writeField(const QString &name, const QString &value, const QString &type="");
-    void readField(QString& field,QString& value);
 
     ParserState state = START;
     bool inHeader = false;

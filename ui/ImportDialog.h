@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSqlRecord>
 #include <logformat/LogFormat.h>
+#include "data/StationProfile.h"
 
 namespace Ui {
 class ImportDialog;
@@ -16,19 +17,21 @@ public:
     explicit ImportDialog(QWidget *parent = 0);
     ~ImportDialog();
 
-public slots:
+private slots:
     void browse();
     void toggleAll();
-    void toggleMyGrid();
-    void toggleMyRig();
     void toggleComment();
-    void adjustLocatorTextColor();
     void runImport();
     void computeProgress(qint64 position);
+    void stationProfileTextChanged(QString);
+    void rigProfileTextChanged(QString);
+    void toggleMyProfile();
+    void toggleMyRig();
 
 private:
     Ui::ImportDialog *ui;
     qint64 size;
+    StationProfile selectedStationProfile;
 
     static LogFormat::duplicateQSOBehaviour showDuplicateDialog(QSqlRecord *, QSqlRecord *);
 };
