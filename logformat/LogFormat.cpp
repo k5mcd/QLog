@@ -744,11 +744,10 @@ void LogFormat::writeImportLog(QTextStream& errorLogStream, ImportLogSeverity se
 {
     FCT_IDENTIFICATION;
 
-    QLocale locale; // TODO transfer to LogLocale - dending commit
     errorLogStream << QString("[QSO#%1]: ").arg(recordNo)
                    << importLogSeverityToString(severity)
                    << msg
-                   << QString(" (%1; %2; %3)").arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.dateTimeFormat(QLocale::ShortFormat)))
+                   << QString(" (%1; %2; %3)").arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateShortWithYYYY()))
                                               .arg(record.value("callsign").toString())
                                               .arg(record.value("mode").toString())
                    << "\n";

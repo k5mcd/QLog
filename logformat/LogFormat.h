@@ -4,6 +4,8 @@
 #include <QtCore>
 #include <QMap>
 
+#include "core/LogLocale.h"
+
 class QSqlRecord;
 
 struct QSLMergeStat {
@@ -100,6 +102,7 @@ private:
     QDate startDate, endDate;
     bool updateDxcc = false;
     duplicateQSOBehaviour (*duplicateQSOFunc)(QSqlRecord *, QSqlRecord *);
+    LogLocale locale;
 };
 
 #endif // LOGFORMAT_H
