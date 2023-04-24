@@ -130,6 +130,13 @@ int LogFormat::runImport()
             }
         }
 
+        if (record.value("band").toString().isEmpty()
+            && !record.value("freq").toString().isEmpty() )
+        {
+            double freq = record.value("freq").toDouble();
+            record.setValue("band", Data::band(freq).name);
+        }
+
         if ( dupSetting != ACCEPT_ALL )
         {
             /* checking matching fields if they are not empty */
@@ -205,13 +212,6 @@ int LogFormat::runImport()
         if ( record.value("cqz").isNull() && entity.dxcc )
         {
             record.setValue("cqz", QString::number(entity.cqz));
-        }
-
-        if (record.value("band").isNull()
-            && !record.value("frequency").isNull() )
-        {
-            double freq = record.value("frequency").toDouble();
-            record.setValue("band", Data::band(freq).name);
         }
 
         QString gridsquare = record.value("gridsquare").toString();
