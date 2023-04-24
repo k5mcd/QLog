@@ -349,7 +349,7 @@ void AdiFormat::mapContact2SQLRecord(QMap<QString, QVariant> &contact,
 {
     FCT_IDENTIFICATION;
 
-    preprocessINTLFields(contact);
+    preprocessINTLFields<QMap<QString, QVariant>>(contact);
 
     /* Set default values if not present */
     if ( defaults )
@@ -364,7 +364,7 @@ void AdiFormat::mapContact2SQLRecord(QMap<QString, QVariant> &contact,
             }
         }
         // re-evaluate the fields
-        preprocessINTLFields(contact);
+        preprocessINTLFields<QMap<QString, QVariant>>(contact);
     }
 
     contactFields2SQLRecord(contact, record);
@@ -589,36 +589,13 @@ void AdiFormat::contactFields2SQLRecord(QMap<QString, QVariant> &contact, QSqlRe
     record.setValue("end_time", end_time);
 }
 
-void AdiFormat::preprocessINTLFields(QMap<QString, QVariant> &contact)
-{
-    FCT_IDENTIFICATION;
-
-    preprocessINTLField("address", "address_intl", contact);
-    preprocessINTLField("comment", "comment_intl", contact);
-    preprocessINTLField("country", "country_intl", contact);
-    preprocessINTLField("my_antenna", "my_antenna_intl", contact);
-    preprocessINTLField("my_city", "my_city_intl", contact);
-    preprocessINTLField("my_country", "my_country_intl", contact);
-    preprocessINTLField("my_name", "my_name_intl", contact);
-    preprocessINTLField("my_postal_code", "my_postal_code_intl", contact);
-    preprocessINTLField("my_rig", "my_rig_intl", contact);
-    preprocessINTLField("my_sig", "my_sig_intl", contact);
-    preprocessINTLField("my_sig_info", "my_sig_info_intl", contact);
-    preprocessINTLField("my_street", "my_street_intl", contact);
-    preprocessINTLField("name", "name_intl", contact);
-    preprocessINTLField("notes", "notes_intl", contact);
-    preprocessINTLField("qslmsg", "qslmsg_intl", contact);
-    preprocessINTLField("qth", "qth_intl", contact);
-    preprocessINTLField("rig", "rig_intl", contact);
-    preprocessINTLField("sig", "sig_intl", contact);
-    preprocessINTLField("sig_info", "sig_info_intl", contact);
-}
-
 void AdiFormat::preprocessINTLField(const QString &fieldName,
                                     const QString &fieldIntlName,
                                     QMap<QString, QVariant> &contact)
 {
     FCT_IDENTIFICATION;
+
+    // NOTE: If modify this, modify also function below!!!!
 
     QVariant fld = contact.value(fieldName);
     QVariant fldIntl = contact.value(fieldIntlName);
@@ -642,6 +619,43 @@ void AdiFormat::preprocessINTLField(const QString &fieldName,
     {
         /* ascii is empty but Intl is present */
         contact[fieldName] = Data::removeAccents(fldIntl.toString());
+    }
+    else
+    {
+        /* both are empty */
+        /* do nothing */
+    }
+}
+
+void AdiFormat::preprocessINTLField(const QString &fieldName,
+                                    const QString &fieldIntlName,
+                                    QSqlRecord &contact)
+{
+    FCT_IDENTIFICATION;
+
+    // NOTE: If modify this, modify also function above!!!!
+    QVariant fld = contact.value(fieldName);
+    QVariant fldIntl = contact.value(fieldIntlName);
+
+    /* In general, it is a hack because ADI must not contain
+     * _INTL fields. But some applications generate _INTL fields in ADI files
+     * therefore it is needed to implement a logic how to convert INTL fields
+     * to standard
+     */
+    if ( !fld.isNull() && !fldIntl.isNull() )
+    {
+        /* ascii and intl are present */
+        //no action
+    }
+    else if ( !fld.isNull() && fldIntl.isNull() )
+    {
+        /* ascii is present but Intl is not present */
+        contact.setValue(fieldIntlName, fld);
+    }
+    else if ( fld.isNull() && !fldIntl.isNull() )
+    {
+        /* ascii is empty but Intl is present */
+        contact.setValue(fieldName, Data::removeAccents(fldIntl.toString()));
     }
     else
     {
@@ -787,3 +801,25 @@ QString AdiFormat::parseUploadStatus(const QString &value)
 }
 
 
+QMap<QString, QString> AdiFormat::fieldname2INTLNameMapping =
+{
+    {"address", "address_intl"},
+    {"comment", "comment_intl"},
+    {"country", "country_intl"},
+    {"my_antenna", "my_antenna_intl"},
+    {"my_city", "my_city_intl"},
+    {"my_country", "my_country_intl"},
+    {"my_name", "my_name_intl"},
+    {"my_postal_code", "my_postal_code_intl"},
+    {"my_rig", "my_rig_intl"},
+    {"my_sig", "my_sig_intl"},
+    {"my_sig_info", "my_sig_info_intl"},
+    {"my_street", "my_street_intl"},
+    {"name", "name_intl"},
+    {"notes", "notes_intl"},
+    {"qslmsg", "qslmsg_intl"},
+    {"qth", "qth_intl"},
+    {"rig", "rig_intl"},
+    {"sig", "sig_intl"},
+    {"sig_info", "sig_info_intl"}
+};

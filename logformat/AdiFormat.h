@@ -14,6 +14,19 @@ public:
                                QMap<QString, QString> *applTags = nullptr) override;
     virtual void exportStart() override;
 
+    static QMap<QString, QString> fieldname2INTLNameMapping;
+    template<typename T>
+    static void preprocessINTLFields(T &contact)
+    {
+        {
+            QStringList fieldMappingList = fieldname2INTLNameMapping.keys();
+            for ( const QString& fieldName :  qAsConst(fieldMappingList) )
+            {
+                preprocessINTLField(fieldName, fieldname2INTLNameMapping.value(fieldName), contact);
+            }
+        }
+    }
+
 protected:
     virtual void writeField(const QString &name,
                             const QString &value,
@@ -34,10 +47,6 @@ private:
     QString parseQslRcvd(const QString &value);
     QString parseQslSent(const QString &value);
     QString parseUploadStatus(const QString &value);
-    void preprocessINTLFields(QMap<QString, QVariant> &contact);
-    void preprocessINTLField(const QString &sourceField,
-                             const QString &sourceFieldIntl,
-                             QMap<QString, QVariant> &);
     enum ParserState {
         START,
         FIELD,
@@ -46,6 +55,13 @@ private:
         DATA_TYPE,
         VALUE
     };
+
+    static void preprocessINTLField(const QString &sourceField,
+                                    const QString &sourceFieldIntl,
+                                    QMap<QString, QVariant> &);
+    static void preprocessINTLField(const QString &sourceField,
+                                    const QString &sourceFieldIntl,
+                                    QSqlRecord &);
 
     ParserState state = START;
     bool inHeader = false;

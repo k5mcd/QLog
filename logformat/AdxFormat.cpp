@@ -133,25 +133,12 @@ void AdxFormat::writeSQLRecord(const QSqlRecord &record, QMap<QString, QString> 
     AdiFormat::writeSQLRecord(record, applTags);
 
     // Add _INTL fields
-    writeField("address_intl", record.value("address").toString());
-    writeField("comment_intl", record.value("comment_intl").toString());
-    writeField("country_intl", record.value("country_intl").toString());
-    writeField("my_antenna_intl", record.value("my_antenna_intl").toString());
-    writeField("my_city_intl", record.value("my_city_intl").toString());
-    writeField("my_country_intl", record.value("my_country_intl").toString());
-    writeField("my_name_intl", record.value("my_name_intl").toString());
-    writeField("my_postal_code_intl", record.value("my_postal_code_intl").toString());
-    writeField("my_rig_intl", record.value("my_rig_intl").toString());
-    writeField("my_sig_intl", record.value("my_sig_intl").toString());
-    writeField("my_sig_info_intl", record.value("my_sig_info_intl").toString());
-    writeField("my_street_intl", record.value("my_street_intl").toString());
-    writeField("name_intl", record.value("name_intl").toString());
-    writeField("notes_intl", record.value("notes_intl").toString());
-    writeField("qslmsg_intl", record.value("qslmsg_intl").toString());
-    writeField("qth_intl", record.value("qth_intl").toString());
-    writeField("rig_intl", record.value("rig_intl").toString());
-    writeField("sig_intl", record.value("sig_intl").toString());
-    writeField("sig_info_intl", record.value("sig_info_intl").toString());
+
+    QStringList fieldMappingList = fieldname2INTLNameMapping.values();
+    for ( const QString& value :  qAsConst(fieldMappingList) )
+    {
+        writeField(value, record.value(value).toString());
+    }
 }
 
 bool AdxFormat::readContact(QVariantMap & contact)
