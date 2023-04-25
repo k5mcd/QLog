@@ -98,6 +98,7 @@
     </property>
     <addaction name="actionWikiHelp"/>
     <addaction name="actionReportBug"/>
+    <addaction name="actionMailingList"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -499,6 +500,11 @@
    </property>
    <property name="toolTip">
     <string>Switch New Contact dialog to the manually entry mode&lt;br/&gt;(time, freq, profiles etc. are not taken from their common sources)</string>
+   </property>
+  </action>
+  <action name="actionMailingList">
+   <property name="text">
+    <string>Mailing List...</string>
    </property>
   </action>
  </widget>
@@ -1133,6 +1139,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionMailingList</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showMailingList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>312</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1159,5 +1181,6 @@
   <slot>showWikiHelp()</slot>
   <slot>showReportBug()</slot>
   <slot>setManualContact(bool)</slot>
+  <slot>showMailingList()</slot>
  </slots>
 </ui>

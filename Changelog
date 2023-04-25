@@ -2,6 +2,7 @@ TBC - 0.22.0
 - [NEW] - ADIF Import - My Profile is used to define default values
 - [NEW] - ADIF Import - Checking a minimal set of input fields (start_time, call, band, mode, station_callsign)
 - [NEW] - ADIF Import - Added Import Result Summary + Import Detail Info
+- [NEW] - Main Menu - Added Help -> Mailing List.
 - Fixed Some anomalies in the input and processing of QSLr Date (issue #192)
 - Fixed User unfriedly CW Keyer Error (issue #194)
 - Fixed ADIF import (issue #196)

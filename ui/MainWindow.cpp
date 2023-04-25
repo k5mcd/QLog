@@ -674,6 +674,13 @@ void MainWindow::showWikiHelp()
     QDesktopServices::openUrl(QString("https://github.com/foldynl/QLog/wiki"));
 }
 
+void MainWindow::showMailingList()
+{
+    FCT_IDENTIFICATION;
+
+    QDesktopServices::openUrl(QString("https://groups.io/g/qlog"));
+}
+
 void MainWindow::showReportBug()
 {
     FCT_IDENTIFICATION;
