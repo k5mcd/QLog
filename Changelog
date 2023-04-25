@@ -3,6 +3,7 @@ TBC - 0.22.0
 - [NEW] - ADIF Import - Checking a minimal set of input fields (start_time, call, band, mode, station_callsign)
 - [NEW] - ADIF Import - Added Import Result Summary + Import Detail Info
 - Fixed Some anomalies in the input and processing of QSLr Date (issue #192)
+- Fixed User unfriedly CW Keyer Error (issue #194)
 - Fixed ADIF import (issue #196)
 - Fixed Operator field is incorrectly used  (issue #197)
 - Fixed Crash if an unknown POTA & SOTA/WWFF Setting is entered (issue #198)

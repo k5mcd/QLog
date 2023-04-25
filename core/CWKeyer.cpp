@@ -138,7 +138,8 @@ void CWKeyer::__openCWKey()
     if ( !cwKey->open() )
     {
         emit cwKeyerError(tr("Connection Error"),
-                          cwKey->lastError());
+                          tr("Cannot open the Keyer connection"));
+        qWarning() << cwKey->lastError();
         __closeCWKey();
         return;
     }
