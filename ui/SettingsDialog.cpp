@@ -53,7 +53,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     cwKeyProfManager(CWKeyProfilesManager::instance()),
     cwShortcutProfManager(CWShortcutProfilesManager::instance()),
     rotUsrButtonsProfManager(RotUsrButtonsProfilesManager::instance()),
-    ui(new Ui::SettingsDialog)
+    ui(new Ui::SettingsDialog),
+    sotaFallback(false),
+    potaFallback(false),
+    wwffFallback(false)
 {
     FCT_IDENTIFICATION;
 
@@ -1623,6 +1626,7 @@ void SettingsDialog::sotaEditFinished()
     if ( sotaInfo.summitCode.toUpper() == ui->stationSOTAEdit->text().toUpper()
          && !sotaInfo.summitName.isEmpty() )
     {
+        sotaFallback = false;
         ui->stationQTHEdit->setText(sotaInfo.summitName);
         Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
         if ( SOTAGrid.isValid() )
@@ -1630,12 +1634,14 @@ void SettingsDialog::sotaEditFinished()
             ui->stationLocatorEdit->setText(SOTAGrid.getGrid());
         }
     }
-    else if ( !ui->stationPOTAEdit->text().isEmpty() )
+    else if ( !ui->stationPOTAEdit->text().isEmpty() && !potaFallback )
     {
+        potaFallback = true;
         potaEditFinished();
     }
-    else if ( !ui->stationWWFFEdit->text().isEmpty() )
+    else if ( !ui->stationWWFFEdit->text().isEmpty() && !wwffFallback )
     {
+        wwffFallback = true;
         wwffEditFinished();
     }
 }
@@ -1678,6 +1684,7 @@ void SettingsDialog::potaEditFinished()
     if ( potaInfo.reference.toUpper() == potaString.toUpper()
          && !potaInfo.name.isEmpty() )
     {
+        potaFallback = false;
         ui->stationQTHEdit->setText(potaInfo.name);
         Gridsquare POTAGrid(potaInfo.grid);
         if ( POTAGrid.isValid() )
@@ -1685,11 +1692,11 @@ void SettingsDialog::potaEditFinished()
             ui->stationLocatorEdit->setText(POTAGrid.getGrid());
         }
     }
-    else if ( !ui->stationSOTAEdit->text().isEmpty() )
+    else if ( !ui->stationSOTAEdit->text().isEmpty() && !sotaFallback )
     {
         sotaEditFinished();
     }
-    else if ( !ui->stationWWFFEdit->text().isEmpty() )
+    else if ( !ui->stationWWFFEdit->text().isEmpty() && !wwffFallback )
     {
         wwffEditFinished();
     }
@@ -1726,16 +1733,17 @@ void SettingsDialog::wwffEditFinished()
          && !wwffInfo.name.isEmpty()
          && ui->stationQTHEdit->text().isEmpty() )
     {
+        wwffFallback = false;
         ui->stationQTHEdit->setText(wwffInfo.name);
         if ( ! wwffInfo.iota.isEmpty()
              && wwffInfo.iota != "-" )
         ui->stationIOTAEdit->setText(wwffInfo.iota.toUpper());
     }
-    else if ( !ui->stationSOTAEdit->text().isEmpty() )
+    else if ( !ui->stationSOTAEdit->text().isEmpty() && !sotaFallback )
     {
         sotaEditFinished();
     }
-    else if ( !ui->stationPOTAEdit->text().isEmpty() )
+    else if ( !ui->stationPOTAEdit->text().isEmpty() && !potaFallback )
     {
         potaEditFinished();
     }

@@ -5,6 +5,7 @@ TBC - 0.22.0
 - Fixed Some anomalies in the input and processing of QSLr Date (issue #192)
 - Fixed ADIF import (issue #196)
 - Fixed Operator field is incorrectly used  (issue #197)
+- Fixed Crash if an unknown POTA & SOTA/WWFF Setting is entered (issue #198)
 - Fixed if ADIF record is missing band info, add this from freq field (thx DJ5CW)
 
 2023/04/16 - 0.21.0

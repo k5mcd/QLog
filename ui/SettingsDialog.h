@@ -135,6 +135,9 @@ private:
     QList<QCheckBox*> memberListCheckBoxes;
     Ui::SettingsDialog *ui;
     LogLocale locale;
+    bool sotaFallback;
+    bool potaFallback;
+    bool wwffFallback;
 };
 
 #endif // SETTINGSDIALOG_H
