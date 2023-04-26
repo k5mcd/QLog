@@ -68,7 +68,7 @@ QVariant WsjtxTableModel::headerData(int section, Qt::Orientation orientation, i
     switch (section)
     {
     case 0: return tr("Callsign");
-    case 1: return tr("Grid");
+    case 1: return tr("Gridsquare");
     case 2: return tr("Distance");
     case 3: return tr("SNR");
     case 4: return tr("Last Activity");

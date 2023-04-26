@@ -446,6 +446,7 @@ void CWConsoleWidget::expandMacros(QString &text)
     static QRegularExpression myNameRE("<MYNAME>");
     static QRegularExpression myQTHRE("<MYQTH>");
     static QRegularExpression myLocatorRE("<MYLOCATOR>");
+    static QRegularExpression myGridRE("<MYGRID>");
     static QRegularExpression mySIGRE("<MYSIG>");
     static QRegularExpression mySIGInfoRE("<MYSIGINFO>");
     static QRegularExpression myIOTARE("<MYIOTA>");
@@ -466,6 +467,7 @@ void CWConsoleWidget::expandMacros(QString &text)
         text.replace(myNameRE, contact->getMyName().toUpper());
         text.replace(myQTHRE, contact->getMyQTH().toUpper());
         text.replace(myLocatorRE, contact->getMyLocator().toUpper());
+        text.replace(myGridRE, contact->getMyLocator().toUpper());
         text.replace(mySIGRE, contact->getMySIG().toUpper());
         text.replace(mySIGInfoRE, contact->getMySIGInfo().toUpper());
         text.replace(myIOTARE, contact->getMyIOTA().toUpper());

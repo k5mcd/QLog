@@ -1232,7 +1232,7 @@ void SettingsDialog::addStationProfile()
     if ( ! ui->stationLocatorEdit->hasAcceptableInput() )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                             QMessageBox::tr("Locator has an invalid format"));
+                             QMessageBox::tr("Gridsquare has an invalid format"));
         return;
     }
 
@@ -1241,7 +1241,7 @@ void SettingsDialog::addStationProfile()
         if ( ! ui->stationVUCCEdit->hasAcceptableInput() )
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
-                                 QMessageBox::tr("VUCC Locator has an invalid format (must be 2 or 4 locators separated by ',')"));
+                                 QMessageBox::tr("VUCC Grids have an invalid format (must be 2 or 4 Gridsquares separated by ',')"));
             return;
         }
     }

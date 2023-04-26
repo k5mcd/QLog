@@ -535,7 +535,7 @@
      <item row="0" column="2">
       <widget class="QLabel" name="gridLabel">
        <property name="text">
-        <string>Locator</string>
+        <string>Gridsquare</string>
        </property>
       </widget>
      </item>
@@ -930,7 +930,7 @@
             <enum>Qt::StrongFocus</enum>
            </property>
            <property name="toolTip">
-            <string>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</string>
+            <string>two or four adjacent Gridsquares, each four characters long, (ex. EN98,FM08,EM97,FM07)</string>
            </property>
           </widget>
          </item>
@@ -1262,7 +1262,7 @@
          <item row="2" column="0">
           <widget class="QLabel" name="myGridLabel">
            <property name="text">
-            <string>Locator</string>
+            <string>Gridsquare</string>
            </property>
           </widget>
          </item>

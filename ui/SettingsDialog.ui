@@ -171,7 +171,7 @@
           <item row="0" column="2" colspan="3">
            <widget class="QLineEdit" name="stationProfileNameEdit">
             <property name="toolTip">
-             <string>Profile name that is used as the alias for the call sign, locator, operator name, and QTH (required parameter) </string>
+             <string>Profile name that is used as the alias for the Callsign, Gridsquare, Operator name, and QTH (required parameter) </string>
             </property>
            </widget>
           </item>
@@ -843,21 +843,22 @@
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="cwShortcutF1MacroEdit">
                    <property name="toolTip">
-                    <string>&lt;DXCALL&gt; = DX Callsign 
-&lt;NAME&gt; = DX Operator Name 
-&lt;RST&gt; = Report 599 
-&lt;RSTN&gt; = Report 5NN 
-&lt;GREETING&gt; = Greenting GM/GA/GE 
-&lt;MYCALL&gt; = My Callsign 
-&lt;MYNAME&gt; = My Name 
-&lt;MYQTH&gt; = My QTH 
-&lt;MYLOCATOR&gt; = My Locator 
-&lt;MYSIG&gt; = My SIG 
-&lt;MYSIGINFO&gt; = My SIG Information 
-&lt;MYIOTA&gt; = My IOTA 
-&lt;MYSOTA&gt; = MY SOTA 
-&lt;MYWWFT&gt; = My WWFT 
-&lt;MYVUCC&gt; = MY VUCC 
+                    <string>&lt;DXCALL&gt; = DX Callsign
+&lt;NAME&gt; = DX Operator Name
+&lt;RST&gt; = Report 599
+&lt;RSTN&gt; = Report 5NN
+&lt;GREETING&gt; = Greenting GM/GA/GE
+&lt;MYCALL&gt; = My Callsign
+&lt;MYNAME&gt; = My Name
+&lt;MYQTH&gt; = My QTH
+&lt;MYLOCATOR&gt; = My Gridsquare
+&lt;MYGRID&gt; = My Gridsquare
+&lt;MYSIG&gt; = My SIG
+&lt;MYSIGINFO&gt; = My SIG Information
+&lt;MYIOTA&gt; = My IOTA
+&lt;MYSOTA&gt; = MY SOTA
+&lt;MYWWFT&gt; = My WWFT
+&lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</string>
                    </property>
                    <property name="inputMask">
@@ -907,21 +908,22 @@
                  <item row="2" column="1">
                   <widget class="QLineEdit" name="cwShortcutF2MacroEdit">
                    <property name="toolTip">
-                    <string>&lt;DXCALL&gt; = DX Callsign 
-&lt;NAME&gt; = DX Operator Name 
-&lt;RST&gt; = Report 599 
-&lt;RSTN&gt; = Report 5NN 
-&lt;GREETING&gt; = Greenting GM/GA/GE 
-&lt;MYCALL&gt; = My Callsign 
-&lt;MYNAME&gt; = My Name 
-&lt;MYQTH&gt; = My QTH 
-&lt;MYLOCATOR&gt; = My Locator 
-&lt;MYSIG&gt; = My SIG 
-&lt;MYSIGINFO&gt; = My SIG Information 
-&lt;MYIOTA&gt; = My IOTA 
-&lt;MYSOTA&gt; = MY SOTA 
-&lt;MYWWFT&gt; = My WWFT 
-&lt;MYVUCC&gt; = MY VUCC 
+                    <string>&lt;DXCALL&gt; = DX Callsign
+&lt;NAME&gt; = DX Operator Name
+&lt;RST&gt; = Report 599
+&lt;RSTN&gt; = Report 5NN
+&lt;GREETING&gt; = Greenting GM/GA/GE
+&lt;MYCALL&gt; = My Callsign
+&lt;MYNAME&gt; = My Name
+&lt;MYQTH&gt; = My QTH
+&lt;MYLOCATOR&gt; = My Gridsquare
+&lt;MYGRID&gt; = My Gridsquare
+&lt;MYSIG&gt; = My SIG
+&lt;MYSIGINFO&gt; = My SIG Information
+&lt;MYIOTA&gt; = My IOTA
+&lt;MYSOTA&gt; = MY SOTA
+&lt;MYWWFT&gt; = My WWFT
+&lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</string>
                    </property>
                   </widget>
@@ -929,21 +931,22 @@
                  <item row="3" column="1">
                   <widget class="QLineEdit" name="cwShortcutF3MacroEdit">
                    <property name="toolTip">
-                    <string>&lt;DXCALL&gt; = DX Callsign 
-&lt;NAME&gt; = DX Operator Name 
-&lt;RST&gt; = Report 599 
-&lt;RSTN&gt; = Report 5NN 
-&lt;GREETING&gt; = Greenting GM/GA/GE 
-&lt;MYCALL&gt; = My Callsign 
-&lt;MYNAME&gt; = My Name 
-&lt;MYQTH&gt; = My QTH 
-&lt;MYLOCATOR&gt; = My Locator 
-&lt;MYSIG&gt; = My SIG 
-&lt;MYSIGINFO&gt; = My SIG Information 
-&lt;MYIOTA&gt; = My IOTA 
-&lt;MYSOTA&gt; = MY SOTA 
-&lt;MYWWFT&gt; = My WWFT 
-&lt;MYVUCC&gt; = MY VUCC 
+                    <string>&lt;DXCALL&gt; = DX Callsign
+&lt;NAME&gt; = DX Operator Name
+&lt;RST&gt; = Report 599
+&lt;RSTN&gt; = Report 5NN
+&lt;GREETING&gt; = Greenting GM/GA/GE
+&lt;MYCALL&gt; = My Callsign
+&lt;MYNAME&gt; = My Name
+&lt;MYQTH&gt; = My QTH
+&lt;MYLOCATOR&gt; = My Gridsquare
+&lt;MYGRID&gt; = My Gridsquare
+&lt;MYSIG&gt; = My SIG
+&lt;MYSIGINFO&gt; = My SIG Information
+&lt;MYIOTA&gt; = My IOTA
+&lt;MYSOTA&gt; = MY SOTA
+&lt;MYWWFT&gt; = My WWFT
+&lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</string>
                    </property>
                   </widget>
@@ -951,21 +954,22 @@
                  <item row="4" column="1">
                   <widget class="QLineEdit" name="cwShortcutF4MacroEdit">
                    <property name="toolTip">
-                    <string>&lt;DXCALL&gt; = DX Callsign 
-&lt;NAME&gt; = DX Operator Name 
-&lt;RST&gt; = Report 599 
-&lt;RSTN&gt; = Report 5NN 
-&lt;GREETING&gt; = Greenting GM/GA/GE 
-&lt;MYCALL&gt; = My Callsign 
-&lt;MYNAME&gt; = My Name 
-&lt;MYQTH&gt; = My QTH 
-&lt;MYLOCATOR&gt; = My Locator 
-&lt;MYSIG&gt; = My SIG 
-&lt;MYSIGINFO&gt; = My SIG Information 
-&lt;MYIOTA&gt; = My IOTA 
-&lt;MYSOTA&gt; = MY SOTA 
-&lt;MYWWFT&gt; = My WWFT 
-&lt;MYVUCC&gt; = MY VUCC 
+                    <string>&lt;DXCALL&gt; = DX Callsign
+&lt;NAME&gt; = DX Operator Name
+&lt;RST&gt; = Report 599
+&lt;RSTN&gt; = Report 5NN
+&lt;GREETING&gt; = Greenting GM/GA/GE
+&lt;MYCALL&gt; = My Callsign
+&lt;MYNAME&gt; = My Name
+&lt;MYQTH&gt; = My QTH
+&lt;MYLOCATOR&gt; = My Gridsquare
+&lt;MYGRID&gt; = My Gridsquare
+&lt;MYSIG&gt; = My SIG
+&lt;MYSIGINFO&gt; = My SIG Information
+&lt;MYIOTA&gt; = My IOTA
+&lt;MYSOTA&gt; = MY SOTA
+&lt;MYWWFT&gt; = My WWFT
+&lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</string>
                    </property>
                   </widget>
@@ -973,21 +977,22 @@
                  <item row="5" column="1">
                   <widget class="QLineEdit" name="cwShortcutF5MacroEdit">
                    <property name="toolTip">
-                    <string>&lt;DXCALL&gt; = DX Callsign 
-&lt;NAME&gt; = DX Operator Name 
-&lt;RST&gt; = Report 599 
-&lt;RSTN&gt; = Report 5NN 
-&lt;GREETING&gt; = Greenting GM/GA/GE 
-&lt;MYCALL&gt; = My Callsign 
-&lt;MYNAME&gt; = My Name 
-&lt;MYQTH&gt; = My QTH 
-&lt;MYLOCATOR&gt; = My Locator 
-&lt;MYSIG&gt; = My SIG 
-&lt;MYSIGINFO&gt; = My SIG Information 
-&lt;MYIOTA&gt; = My IOTA 
-&lt;MYSOTA&gt; = MY SOTA 
-&lt;MYWWFT&gt; = My WWFT 
-&lt;MYVUCC&gt; = MY VUCC 
+                    <string>&lt;DXCALL&gt; = DX Callsign
+&lt;NAME&gt; = DX Operator Name
+&lt;RST&gt; = Report 599
+&lt;RSTN&gt; = Report 5NN
+&lt;GREETING&gt; = Greenting GM/GA/GE
+&lt;MYCALL&gt; = My Callsign
+&lt;MYNAME&gt; = My Name
+&lt;MYQTH&gt; = My QTH
+&lt;MYLOCATOR&gt; = My Gridsquare
+&lt;MYGRID&gt; = My Gridsquare
+&lt;MYSIG&gt; = My SIG
+&lt;MYSIGINFO&gt; = My SIG Information
+&lt;MYIOTA&gt; = My IOTA
+&lt;MYSOTA&gt; = MY SOTA
+&lt;MYWWFT&gt; = My WWFT
+&lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</string>
                    </property>
                   </widget>
@@ -995,21 +1000,22 @@
                  <item row="6" column="1">
                   <widget class="QLineEdit" name="cwShortcutF6MacroEdit">
                    <property name="toolTip">
-                    <string>&lt;DXCALL&gt; = DX Callsign 
-&lt;NAME&gt; = DX Operator Name 
-&lt;RST&gt; = Report 599 
-&lt;RSTN&gt; = Report 5NN 
-&lt;GREETING&gt; = Greenting GM/GA/GE 
-&lt;MYCALL&gt; = My Callsign 
-&lt;MYNAME&gt; = My Name 
-&lt;MYQTH&gt; = My QTH 
-&lt;MYLOCATOR&gt; = My Locator 
-&lt;MYSIG&gt; = My SIG 
-&lt;MYSIGINFO&gt; = My SIG Information 
-&lt;MYIOTA&gt; = My IOTA 
-&lt;MYSOTA&gt; = MY SOTA 
-&lt;MYWWFT&gt; = My WWFT 
-&lt;MYVUCC&gt; = MY VUCC 
+                    <string>&lt;DXCALL&gt; = DX Callsign
+&lt;NAME&gt; = DX Operator Name
+&lt;RST&gt; = Report 599
+&lt;RSTN&gt; = Report 5NN
+&lt;GREETING&gt; = Greenting GM/GA/GE
+&lt;MYCALL&gt; = My Callsign
+&lt;MYNAME&gt; = My Name
+&lt;MYQTH&gt; = My QTH
+&lt;MYLOCATOR&gt; = My Gridsquare
+&lt;MYGRID&gt; = My Gridsquare
+&lt;MYSIG&gt; = My SIG
+&lt;MYSIGINFO&gt; = My SIG Information
+&lt;MYIOTA&gt; = My IOTA
+&lt;MYSOTA&gt; = MY SOTA
+&lt;MYWWFT&gt; = My WWFT
+&lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</string>
                    </property>
                   </widget>
@@ -1017,21 +1023,22 @@
                  <item row="7" column="1">
                   <widget class="QLineEdit" name="cwShortcutF7MacroEdit">
                    <property name="toolTip">
-                    <string>&lt;DXCALL&gt; = DX Callsign 
-&lt;NAME&gt; = DX Operator Name 
-&lt;RST&gt; = Report 599 
-&lt;RSTN&gt; = Report 5NN 
-&lt;GREETING&gt; = Greenting GM/GA/GE 
-&lt;MYCALL&gt; = My Callsign 
-&lt;MYNAME&gt; = My Name 
-&lt;MYQTH&gt; = My QTH 
-&lt;MYLOCATOR&gt; = My Locator 
-&lt;MYSIG&gt; = My SIG 
-&lt;MYSIGINFO&gt; = My SIG Information 
-&lt;MYIOTA&gt; = My IOTA 
-&lt;MYSOTA&gt; = MY SOTA 
-&lt;MYWWFT&gt; = My WWFT 
-&lt;MYVUCC&gt; = MY VUCC 
+                    <string>&lt;DXCALL&gt; = DX Callsign
+&lt;NAME&gt; = DX Operator Name
+&lt;RST&gt; = Report 599
+&lt;RSTN&gt; = Report 5NN
+&lt;GREETING&gt; = Greenting GM/GA/GE
+&lt;MYCALL&gt; = My Callsign
+&lt;MYNAME&gt; = My Name
+&lt;MYQTH&gt; = My QTH
+&lt;MYLOCATOR&gt; = My Gridsquare
+&lt;MYGRID&gt; = My Gridsquare
+&lt;MYSIG&gt; = My SIG
+&lt;MYSIGINFO&gt; = My SIG Information
+&lt;MYIOTA&gt; = My IOTA
+&lt;MYSOTA&gt; = MY SOTA
+&lt;MYWWFT&gt; = My WWFT
+&lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</string>
                    </property>
                   </widget>

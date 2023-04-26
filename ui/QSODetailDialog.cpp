@@ -865,7 +865,7 @@ bool QSODetailDialog::doValidation()
 
     allValid &= highlightInvalid(ui->myVUCCLabel,
                                  !ui->myVUCCEdit->text().isEmpty() && !ui->myVUCCEdit->hasAcceptableInput(),
-                                 tr("Own VUCC Grid has an incorrect format"));
+                                 tr("Own VUCC Grids have an incorrect format"));
 
     SOTAEntity sotaInfo;
     POTAEntity potaInfo;
