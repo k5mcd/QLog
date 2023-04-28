@@ -71,12 +71,28 @@ void LogFormat::setDefaults(QMap<QString, QString>& defaults) {
     this->defaults = &defaults;
 }
 
-void LogFormat::setDateRange(QDate start, QDate end) {
+void LogFormat::setFilterDateRange(const QDate &start, const QDate &end)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<start << " " << end;
-    this->startDate = start;
-    this->endDate = end;
+    this->filterStartDate = start;
+    this->filterEndDate = end;
+}
+
+void LogFormat::setFilterMyCallsign(const QString &myCallsing)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << myCallsing;
+    this->filterMyCallsign = myCallsing;
+}
+
+void LogFormat::setFilterMyGridsquare(const QString &myGridsquare)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << myGridsquare;
+    this->filterMyGridsquare = myGridsquare;
 }
 
 void LogFormat::setUpdateDxcc(bool updateDxcc) {
@@ -144,7 +160,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             emit importPosition(stream.pos());
         }
 
-        if ( dateRangeSet() )
+        if ( isDateRange() )
         {
             if (!inDateRange(record.value("start_time").toDateTime().date()))
             {
@@ -609,37 +625,70 @@ void LogFormat::runQSLImport(QSLFrom fromService)
     emit QSLMergeFinished(stats);
 }
 
-int LogFormat::runExport()
+long LogFormat::runExport()
 {
     FCT_IDENTIFICATION;
 
     this->exportStart();
 
+    QStringList filters;
+
     QSqlQuery query;
-    if (dateRangeSet())
+
+
+    /************** FILTERS  **************/
+    filters << "1 = 1"; //generic filter
+
+    if ( isDateRange() )
     {
-        if ( ! query.prepare("SELECT * FROM contacts"
-                      " WHERE (start_time BETWEEN :start_date AND :end_date)"
-                      " ORDER BY start_time ASC") )
-        {
-            qWarning() << "Cannot prepare select statement";
-            return 0;
-        }
+        filters << "(start_time BETWEEN :start_date AND :end_date)";
+    }
+
+    if ( !filterMyCallsign.isEmpty() )
+    {
+        filters << "upper(station_callsign) = upper(:stationCallsign)";
+    }
+
+    if ( !filterMyGridsquare.isEmpty() )
+    {
+        filters << "upper(my_gridsquare) = upper(:myGridsquare)";
+    }
+
+    /************** END OF FILTERS  **************/
+
+    QString queryStmt = QString("SELECT * FROM contacts WHERE %1 ORDER BY start_time ASC").arg(filters.join(" AND "));
+
+    qCDebug(runtime) << queryStmt;
+
+    if ( ! query.prepare(queryStmt) )
+    {
+        qWarning() << "Cannot prepare select statement";
+        return 0;
+    }
+
+    /************** BIND VALUES **************/
+    if ( isDateRange() )
+    {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-        query.bindValue(":start_date", startDate.startOfDay());
-        query.bindValue(":end_date", endDate.endOfDay());
+        query.bindValue(":start_date", filterStartDate.startOfDay());
+        query.bindValue(":end_date", filterEndDate.endOfDay());
 #else /* Due to ubuntu 20.04 where qt5.12 is present */
-        query.bindValue(":start_date", QDateTime(startDate));
-        query.bindValue(":end_date", QDateTime(endDate));
+        query.bindValue(":start_date", QDateTime(filterStartDate));
+        query.bindValue(":end_date", QDateTime(filterEndDate));
 #endif
     }
-    else {
-        if ( ! query.prepare("SELECT * FROM contacts ORDER BY start_time ASC") )
-        {
-            qWarning() << "Cannot prepare select statement";
-            return 0;
-        }
+
+    if ( !filterMyCallsign.isEmpty() )
+    {
+        query.bindValue(":stationCallsign", filterMyCallsign);
     }
+
+    if ( !filterMyGridsquare.isEmpty() )
+    {
+        query.bindValue(":myGridsquare", filterMyGridsquare);
+    }
+
+    /*********** END OF BIND VALUES ************/
 
     if ( ! query.exec() )
     {
@@ -647,7 +696,7 @@ int LogFormat::runExport()
         return 0;
     }
 
-    int count = 0;
+    long count = 0L;
 
     /* following 3 lines are a workaround - SQLite does not
      * return a correct value for QSqlQuery.size
@@ -673,13 +722,13 @@ int LogFormat::runExport()
     return count;
 }
 
-int LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
+long LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
 {
     FCT_IDENTIFICATION;
 
     this->exportStart();
 
-    int count = 0;
+    long count = 0L;
     for (const QSqlRecord &qso: selectedQSOs)
     {
         this->exportContact(qso);
@@ -698,10 +747,10 @@ int LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
     return count;
 }
 
-bool LogFormat::dateRangeSet() {
+bool LogFormat::isDateRange() {
     FCT_IDENTIFICATION;
 
-    return !startDate.isNull() && !endDate.isNull();
+    return !filterStartDate.isNull() && !filterEndDate.isNull();
 }
 
 bool LogFormat::inDateRange(QDate date) {
@@ -709,7 +758,7 @@ bool LogFormat::inDateRange(QDate date) {
 
     qCDebug(function_parameters)<<date;
 
-    return date >= startDate && date <= endDate;
+    return date >= filterStartDate && date <= filterEndDate;
 }
 
 QString LogFormat::importLogSeverityToString(ImportLogSeverity severity)

@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>384</width>
-    <height>248</height>
+    <width>465</width>
+    <height>285</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>465</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Export Selected QSOs</string>
@@ -16,116 +22,13 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="toolTip">
-      <string>Export only QSOs from the given period</string>
-     </property>
-     <property name="title">
-      <string>Date Range</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="startDateLabel">
-        <property name="text">
-         <string>Start</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QDateEdit" name="startDateEdit">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="endDateLabel">
-        <property name="text">
-         <string>End</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QDateEdit" name="endDateEdit">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QCheckBox" name="allCheckBox">
-        <property name="text">
-         <string>All</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>File</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLineEdit" name="fileEdit">
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="browseButton">
-        <property name="text">
-         <string>Browse</string>
-        </property>
-        <property name="icon">
-         <iconset theme="folder-open">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2">
        <widget class="QComboBox" name="typeSelect">
         <property name="sizePolicy">
@@ -151,7 +54,181 @@
         </item>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QLineEdit" name="fileEdit">
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="browseButton">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+        <property name="icon">
+         <iconset theme="folder-open">
+          <normaloff>.</normaloff>.</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="filterGroup">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="toolTip">
+      <string>Export only QSOs from the given period</string>
+     </property>
+     <property name="title">
+      <string>Filters</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <property name="formAlignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <property name="horizontalSpacing">
+       <number>4</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>4</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="dateRangeCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Date Range</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QDateEdit" name="startDateEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="endDateLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string notr="true">-</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="endDateEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="myCallsignCheckBox">
+        <property name="text">
+         <string>My Callsign</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="myCallsignComboBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="myGridComboBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="myGridCheckBox">
+        <property name="text">
+         <string>My Gridsquare</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
+     </property>
     </widget>
    </item>
   </layout>
@@ -207,10 +284,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>allCheckBox</sender>
+   <sender>dateRangeCheckBox</sender>
    <signal>stateChanged(int)</signal>
    <receiver>ExportDialog</receiver>
-   <slot>toggleAll()</slot>
+   <slot>toggleDateRange()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>279</x>
@@ -222,10 +299,61 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>myCallsignCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>toggleMyCallsign()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>72</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>142</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myGridCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>toggleMyGridsquare()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>82</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>142</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>myCallsignComboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>myCallsignChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>160</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>142</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>toggleAll()</slot>
+  <slot>toggleDateRange()</slot>
   <slot>browse()</slot>
   <slot>runExport()</slot>
+  <slot>toggleMyCallsign()</slot>
+  <slot>toggleMyGridsquare()</slot>
+  <slot>myCallsignChanged(QString)</slot>
  </slots>
 </ui>

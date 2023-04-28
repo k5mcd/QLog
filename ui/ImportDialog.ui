@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>413</width>
+    <width>430</width>
     <height>437</height>
    </rect>
   </property>
@@ -23,6 +23,104 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="0">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>24</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="toolTip">
+      <string>Import only QSOs from the given period</string>
+     </property>
+     <property name="title">
+      <string>Date Range</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="allCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>All</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="startDateEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="endDateLabel">
+        <property name="text">
+         <string notr="true"> - </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="endDateEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
+       </property>
+       <property name="centerButtons">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
@@ -73,26 +171,24 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>24</number>
+   <item row="3" column="0">
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>Options</string>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="updateDxccCheckBox">
+        <property name="toolTip">
+         <string>Recalculate DXCC Entity Information (DXCC, Country name, Continent etc.)</string>
+        </property>
+        <property name="text">
+         <string>Update DXCC Entity Information</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
-   </item>
-   <item row="7" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
-       </property>
-       <property name="centerButtons">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
    <item row="2" column="0">
     <widget class="QGroupBox" name="groupBox_2">
@@ -181,109 +277,6 @@
        <widget class="QComboBox" name="profileSelect">
         <property name="enabled">
          <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="toolTip">
-      <string>Import only QSOs from the given period</string>
-     </property>
-     <property name="title">
-      <string>Date Range</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QCheckBox" name="allCheckBox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>All</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="startDateLabel">
-        <property name="text">
-         <string>Start</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDateEdit" name="startDateEdit">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="endDateLabel">
-        <property name="text">
-         <string>End</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDateEdit" name="endDateEdit">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>Options</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QCheckBox" name="updateDxccCheckBox">
-        <property name="toolTip">
-         <string>Recalculate DXCC Entity Information (DXCC, Country name, Continent etc.)</string>
-        </property>
-        <property name="text">
-         <string>Update DXCC Entity Information</string>
         </property>
        </widget>
       </item>
@@ -387,38 +380,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>rigCheckBox</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>ImportDialog</receiver>
-   <slot>toggleMyRig()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>56</x>
-     <y>341</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>239</x>
-     <y>279</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>commentCheckBox</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>ImportDialog</receiver>
-   <slot>toggleComment()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>66</x>
-     <y>379</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>239</x>
-     <y>279</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>rigSelect</sender>
    <signal>currentTextChanged(QString)</signal>
    <receiver>ImportDialog</receiver>
@@ -435,6 +396,22 @@
    </hints>
   </connection>
   <connection>
+   <sender>rigCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ImportDialog</receiver>
+   <slot>toggleMyRig()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>341</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>profileSelect</sender>
    <signal>currentTextChanged(QString)</signal>
    <receiver>ImportDialog</receiver>
@@ -447,6 +424,22 @@
     <hint type="destinationlabel">
      <x>206</x>
      <y>218</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>commentCheckBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ImportDialog</receiver>
+   <slot>toggleComment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>66</x>
+     <y>379</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>279</y>
     </hint>
    </hints>
   </connection>

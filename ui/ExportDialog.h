@@ -21,8 +21,11 @@ public:
 
 public slots:
     void browse();
-    void toggleAll();
+    void toggleDateRange();
+    void toggleMyCallsign();
+    void toggleMyGridsquare();
     void runExport();
+    void myCallsignChanged(const QString &myCallsign);
 
 private:
     Ui::ExportDialog *ui;

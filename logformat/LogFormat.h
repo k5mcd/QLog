@@ -53,10 +53,12 @@ public:
                             unsigned long *warnings,
                             unsigned long *errors);
     void runQSLImport(QSLFrom fromService);
-    int runExport();
-    int runExport(const QList<QSqlRecord>&);
+    long runExport();
+    long runExport(const QList<QSqlRecord>&);
     void setDefaults(QMap<QString, QString>& defaults);
-    void setDateRange(QDate start, QDate end);
+    void setFilterDateRange(const QDate &start, const QDate &end);
+    void setFilterMyCallsign(const QString &myCallsing);
+    void setFilterMyGridsquare(const QString &myGridsquare);
     void setUpdateDxcc(bool updateDxcc);
     void setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord *, QSqlRecord *));
 
@@ -86,7 +88,7 @@ private:
         ERROR
     };
 
-    bool dateRangeSet();
+    bool isDateRange();
     bool inDateRange(QDate date);
 
     QString importLogSeverityToString(ImportLogSeverity);
@@ -99,7 +101,9 @@ private:
                         const unsigned long recordNo,
                         const QSqlRecord &record,
                         const QString &msg);
-    QDate startDate, endDate;
+    QDate filterStartDate, filterEndDate;
+    QString filterMyCallsign;
+    QString filterMyGridsquare;
     bool updateDxcc = false;
     duplicateQSOBehaviour (*duplicateQSOFunc)(QSqlRecord *, QSqlRecord *);
     LogLocale locale;

@@ -253,7 +253,7 @@ void ImportDialog::runImport() {
     format->setUpdateDxcc(ui->updateDxccCheckBox->isChecked());
 
     if (!ui->allCheckBox->isChecked()) {
-        format->setDateRange(ui->startDateEdit->date(), ui->endDateEdit->date());
+        format->setFilterDateRange(ui->startDateEdit->date(), ui->endDateEdit->date());
     }
 
     format->setDuplicateQSOCallback(showDuplicateDialog);

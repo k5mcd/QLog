@@ -303,7 +303,7 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>&amp;Export All</string>
+    <string>&amp;Export</string>
    </property>
   </action>
   <action name="actionConnectRig">
