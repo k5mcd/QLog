@@ -145,7 +145,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
              || record.value("station_callsign").toString().isEmpty() )
         {
             writeImportLog(importLogStream,
-                           ERROR,
+                           ERROR_SEVERITY,
                            processedRec,
                            record,
                            tr("A minimal set of fields not present (start_time, call, band, mode, station_callsign)"));
@@ -165,7 +165,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             if (!inDateRange(record.value("start_time").toDateTime().date()))
             {
                 writeImportLog(importLogStream,
-                               WARNING,
+                               WARNING_SEVERITY,
                                processedRec,
                                record,
                                tr("Outside the selected Date Range"));
@@ -198,7 +198,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                 if ( dupSetting == SKIP_ALL)
                 {
                     writeImportLog(importLogStream,
-                                   WARNING,
+                                   WARNING_SEVERITY,
                                    processedRec,
                                    record,
                                    tr("Duplicate"));
@@ -223,7 +223,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                 case SKIP_ONE:
                 case SKIP_ALL:
                     writeImportLog(importLogStream,
-                                   WARNING,
+                                   WARNING_SEVERITY,
                                    processedRec,
                                    record,
                                    tr("Duplicate"));
@@ -239,7 +239,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
         if ( entity.dxcc == 0 )
         {
             writeImportLog(importLogStream,
-                           ERROR,
+                           ERROR_SEVERITY,
                            processedRec,
                            record,
                            tr("Cannot find DXCC Entity Info"));
@@ -344,7 +344,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             else
             {
                 writeImportLog(importLogStream,
-                               ERROR,
+                               ERROR_SEVERITY,
                                processedRec,
                                record,
                                tr("Cannot find own DXCC Entity Info"));
@@ -356,7 +356,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
         if ( !model.insertRecord(-1, record) )
         {
             writeImportLog(importLogStream,
-                           ERROR,
+                           ERROR_SEVERITY,
                            processedRec,
                            record,
                            tr("Cannot insert to database") + " - " + model.lastError().text());
@@ -367,7 +367,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
         else
         {
             writeImportLog(importLogStream,
-                           INFO,
+                           INFO_SEVERITY,
                            processedRec,
                            record,
                            tr("Imported"));
@@ -382,7 +382,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
     {
         qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
         writeImportLog(importLogStream,
-                       ERROR,
+                       ERROR_SEVERITY,
                        tr("Cannot commit the changes to database") + " - " + model.lastError().text());
         (*errors)++;
     }
@@ -765,13 +765,13 @@ QString LogFormat::importLogSeverityToString(ImportLogSeverity severity)
 {
     switch ( severity )
     {
-    case ERROR:
+    case ERROR_SEVERITY:
         return tr("Error") + " - ";
         break;
-    case WARNING:
+    case WARNING_SEVERITY:
         return tr("Warning") + " - ";
         break;
-    case INFO:
+    case INFO_SEVERITY:
     default: //NOTHING
         ;
     }

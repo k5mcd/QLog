@@ -83,9 +83,9 @@ protected:
 private:
     enum ImportLogSeverity
     {
-        INFO,
-        WARNING,
-        ERROR
+        INFO_SEVERITY,
+        WARNING_SEVERITY,
+        ERROR_SEVERITY
     };
 
     bool isDateRange();
