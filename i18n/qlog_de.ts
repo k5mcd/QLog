@@ -1865,7 +1865,7 @@
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="362"/>
-        <source>Cannot insert to database </source>
+        <source>Cannot insert to database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

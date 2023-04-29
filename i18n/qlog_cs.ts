@@ -1890,8 +1890,12 @@
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="362"/>
+        <source>Cannot insert to database</source>
+        <translation>Nelze vložit do databáze</translation>
+    </message>
+    <message>
         <source>Cannot insert to database </source>
-        <translation>Nelze vložit do databáze </translation>
+        <translation type="vanished">Nelze vložit do databáze </translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="373"/>

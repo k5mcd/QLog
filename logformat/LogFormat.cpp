@@ -359,7 +359,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                            ERROR,
                            processedRec,
                            record,
-                           tr("Cannot insert to database ") + " - " + model.lastError().text());
+                           tr("Cannot insert to database") + " - " + model.lastError().text());
             qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
             qCDebug(runtime) << record;
             (*errors)++;
