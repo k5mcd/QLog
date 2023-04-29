@@ -82,7 +82,7 @@ void ImportDialog::toggleComment()
     FCT_IDENTIFICATION;
 
     ui->commentEdit->setEnabled(ui->commentCheckBox->isChecked());
-    ui->commentEdit->setToolTip(tr("The value is used when an input record does not contain the value") + "<br/>"
+    ui->commentEdit->setToolTip(tr("The value is used when an input record does not contain the ADIF value") + "<br/>"
                                 + "<b>" + tr("Comment") + ":</b> " + ui->commentEdit->text() + "<br/>");
 }
 
@@ -100,14 +100,14 @@ void ImportDialog::stationProfileTextChanged(QString newProfileName)
     FCT_IDENTIFICATION;
 
     selectedStationProfile = StationProfilesManager::instance()->getProfile(newProfileName);
-    ui->profileSelect->setToolTip(tr("The values below will be used when an input record does not contain the values") + "<br/>"
+    ui->profileSelect->setToolTip(tr("The values below will be used when an input record does not contain the ADIF values") + "<br/>"
                                   + selectedStationProfile.toHTMLString());
 }
 
 void ImportDialog::rigProfileTextChanged(QString newProfileName)
 {
     FCT_IDENTIFICATION;
-    ui->rigSelect->setToolTip(tr("The values below will be used when an input record does not contain the values") + "<br/>"
+    ui->rigSelect->setToolTip(tr("The values below will be used when an input record does not contain the ADIF values") + "<br/>"
                                   + RigProfilesManager::instance()->getProfile(newProfileName).toHTMLString());
 }
 

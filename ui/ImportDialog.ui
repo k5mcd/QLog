@@ -269,7 +269,7 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>The value will be used when an input record does not contain the value of &lt;b&gt;Comment&lt;/b&gt;</string>
+         <string/>
         </property>
        </widget>
       </item>
