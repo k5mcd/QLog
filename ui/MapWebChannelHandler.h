@@ -8,7 +8,7 @@ class MapWebChannelHandler : public QObject
 {
     Q_OBJECT
 public:
-    explicit MapWebChannelHandler(const QString configID,
+    explicit MapWebChannelHandler(const QString &configID,
                                     QObject *parent = nullptr);
     void restoreLayerControlStates(QWebEnginePage *page);
     QString generateMapMenuJS(bool gridLayer = true,

@@ -796,9 +796,9 @@ void LogFormat::writeImportLog(QTextStream& errorLogStream, ImportLogSeverity se
     errorLogStream << QString("[QSO#%1]: ").arg(recordNo)
                    << importLogSeverityToString(severity)
                    << msg
-                   << QString(" (%1; %2; %3)").arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateShortWithYYYY()))
-                                              .arg(record.value("callsign").toString())
-                                              .arg(record.value("mode").toString())
+                   << QString(" (%1; %2; %3)").arg(record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateShortWithYYYY()),
+                                                   record.value("callsign").toString(),
+                                                   record.value("mode").toString())
                    << "\n";
 }
 

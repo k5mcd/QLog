@@ -1226,7 +1226,7 @@ void QSODetailDialog::clubQueryResult(QString in_callsign, QMap<QString, ClubSta
     {
         clubs.next();
         QColor color = Data::statusToColor(static_cast<DxccStatus>(clubs.value()), palette.color(QPalette::Text));
-        memberText.append(QString("<font color='%1'>%2</font>&nbsp;&nbsp;&nbsp;").arg(Data::colorToHTMLColor(color)).arg(clubs.key()));
+        memberText.append(QString("<font color='%1'>%2</font>&nbsp;&nbsp;&nbsp;").arg(Data::colorToHTMLColor(color), clubs.key()));
     }
     ui->memberListLabel->setText(memberText);
 }

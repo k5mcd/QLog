@@ -6,7 +6,7 @@
 
 MODULE_IDENTIFICATION("qlog.ui.maplayercontrolhandler");
 
-MapWebChannelHandler::MapWebChannelHandler(const QString configID,
+MapWebChannelHandler::MapWebChannelHandler(const QString &configID,
                                                QObject *parent)
     : QObject(parent),
       configID(configID)
