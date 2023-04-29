@@ -193,7 +193,7 @@
    <item row="2" column="0">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="toolTip">
-      <string>The values are used when an input record does not contain the value</string>
+      <string>The values are used when an input record does not contain the ADIF value</string>
      </property>
      <property name="title">
       <string>Defaults</string>

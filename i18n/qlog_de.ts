@@ -1691,6 +1691,11 @@
         <translation>Importieren</translation>
     </message>
     <message>
+        <location filename="../ui/ImportDialog.ui" line="196"/>
+        <source>The values are used when an input record does not contain the ADIF value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/ImportDialog.ui" line="199"/>
         <source>Defaults</source>
         <translation>Voreinstellung</translation>
@@ -1730,9 +1735,8 @@
         <translation>Durchsuchen</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="196"/>
         <source>The values are used when an input record does not contain the value</source>
-        <translation>Diese Werte verwenden, wenn der Eintrag die Werte nicht enthält</translation>
+        <translation type="vanished">Diese Werte verwenden, wenn der Eintrag die Werte nicht enthält</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.ui" line="211"/>

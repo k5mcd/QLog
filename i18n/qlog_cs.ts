@@ -1733,9 +1733,8 @@
         <translation>Procházet</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="196"/>
         <source>The values are used when an input record does not contain the value</source>
-        <translation>Hodnoty jsou použity v případě, když importovaný záznam má danou položku prázdnou</translation>
+        <translation type="obsolete">Hodnoty jsou použity v případě, když importovaný záznam má danou ADIF položku prázdnou</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.ui" line="199"/>
@@ -1756,6 +1755,11 @@
         <location filename="../ui/ImportDialog.ui" line="186"/>
         <source>Update DXCC Entity Information</source>
         <translation>Aktualizovat DXCC Informace</translation>
+    </message>
+    <message>
+        <location filename="../ui/ImportDialog.ui" line="196"/>
+        <source>The values are used when an input record does not contain the ADIF value</source>
+        <translation>Hodnoty jsou použity v případě, když importovaný záznam má danou ADIF položku prázdnou</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.ui" line="211"/>
