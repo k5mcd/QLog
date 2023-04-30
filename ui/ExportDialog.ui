@@ -84,7 +84,7 @@
       <bool>true</bool>
      </property>
      <property name="toolTip">
-      <string>Export only QSOs from the given period</string>
+      <string>Export only QSOs that match the active filters</string>
      </property>
      <property name="title">
       <string>Filters</string>
@@ -107,6 +107,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="toolTip">
+         <string>Export only QSOs that match the selected date range</string>
+        </property>
         <property name="text">
          <string>Date Range</string>
         </property>
@@ -127,6 +130,9 @@
           </property>
           <property name="focusPolicy">
            <enum>Qt::ClickFocus</enum>
+          </property>
+          <property name="toolTip">
+           <string>Export only QSOs that match the selected date range</string>
           </property>
           <property name="calendarPopup">
            <bool>true</bool>
@@ -163,6 +169,9 @@
           <property name="focusPolicy">
            <enum>Qt::ClickFocus</enum>
           </property>
+          <property name="toolTip">
+           <string>Export only QSOs that match the selected date range</string>
+          </property>
           <property name="calendarPopup">
            <bool>true</bool>
           </property>
@@ -185,6 +194,9 @@
       </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="myCallsignCheckBox">
+        <property name="toolTip">
+         <string>Export only QSOs that match the selected My Callsign</string>
+        </property>
         <property name="text">
          <string>My Callsign</string>
         </property>
@@ -195,6 +207,9 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="toolTip">
+         <string>Export only QSOs that match the selected My Callsign</string>
+        </property>
        </widget>
       </item>
       <item row="2" column="1">
@@ -202,10 +217,16 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="toolTip">
+         <string>Export only QSOs that match the selected My Gridsquare</string>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
        <widget class="QCheckBox" name="myGridCheckBox">
+        <property name="toolTip">
+         <string>Export only QSOs that match the selected My Gridsquare</string>
+        </property>
         <property name="text">
          <string>My Gridsquare</string>
         </property>
@@ -233,6 +254,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>browseButton</tabstop>
+  <tabstop>typeSelect</tabstop>
+  <tabstop>dateRangeCheckBox</tabstop>
+  <tabstop>myCallsignCheckBox</tabstop>
+  <tabstop>myCallsignComboBox</tabstop>
+  <tabstop>myGridCheckBox</tabstop>
+  <tabstop>myGridComboBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

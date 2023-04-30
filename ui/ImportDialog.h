@@ -11,7 +11,8 @@ namespace Ui {
 class ImportDialog;
 }
 
-class ImportDialog : public QDialog {
+class ImportDialog : public QDialog
+{
     Q_OBJECT
 
 public:
@@ -24,10 +25,11 @@ private slots:
     void toggleComment();
     void runImport();
     void computeProgress(qint64 position);
-    void stationProfileTextChanged(QString);
-    void rigProfileTextChanged(QString);
+    void stationProfileTextChanged(const QString&);
+    void rigProfileTextChanged(const QString&);
     void toggleMyProfile();
     void toggleMyRig();
+    void commentChanged(const QString&);
 
 private:
     Ui::ImportDialog *ui;

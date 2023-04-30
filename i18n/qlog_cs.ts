@@ -1628,9 +1628,13 @@
         <translation type="vanished">Export</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="87"/>
         <source>Export only QSOs from the given period</source>
-        <translation>Exportovat pouze QSO z daného období</translation>
+        <translation type="vanished">Exportovat pouze QSO z daného období</translation>
+    </message>
+    <message>
+        <location filename="../ui/ExportDialog.ui" line="87"/>
+        <source>Export only QSOs that match the active filters</source>
+        <translation>Exportovat pouze QSO, která splňují nastavené filtry</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="90"/>
@@ -1639,16 +1643,35 @@
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="111"/>
+        <location filename="../ui/ExportDialog.ui" line="135"/>
+        <location filename="../ui/ExportDialog.ui" line="173"/>
+        <source>Export only QSOs that match the selected date range</source>
+        <translation>Exportovat pouze QSO, která splnují zadaný časový interval</translation>
+    </message>
+    <message>
+        <location filename="../ui/ExportDialog.ui" line="114"/>
         <source>Date Range</source>
         <translation>Časové období</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="189"/>
+        <location filename="../ui/ExportDialog.ui" line="198"/>
+        <location filename="../ui/ExportDialog.ui" line="211"/>
+        <source>Export only QSOs that match the selected My Callsign</source>
+        <translation>Exportovat pouze QSO, která mají vybrabou Moji značku</translation>
+    </message>
+    <message>
+        <location filename="../ui/ExportDialog.ui" line="201"/>
         <source>My Callsign</source>
         <translation>Moje značka</translation>
     </message>
     <message>
-        <location filename="../ui/ExportDialog.ui" line="210"/>
+        <location filename="../ui/ExportDialog.ui" line="221"/>
+        <location filename="../ui/ExportDialog.ui" line="228"/>
+        <source>Export only QSOs that match the selected My Gridsquare</source>
+        <translation>Exportovat pouze QSO, která mají vybraný Můj lokátor</translation>
+    </message>
+    <message>
+        <location filename="../ui/ExportDialog.ui" line="231"/>
         <source>My Gridsquare</source>
         <translation>Můj lokátor</translation>
     </message>
@@ -1723,12 +1746,17 @@
         <translation>Import</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="127"/>
+        <location filename="../ui/ImportDialog.ui" line="51"/>
+        <source>Import all or only QSOs from the given period</source>
+        <translation>Importovat vše nebo vybraná QSO z vybraného časového období</translation>
+    </message>
+    <message>
+        <location filename="../ui/ImportDialog.ui" line="130"/>
         <source>File</source>
         <translation>Soubor</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="163"/>
+        <location filename="../ui/ImportDialog.ui" line="166"/>
         <source>Browse</source>
         <translation>Procházet</translation>
     </message>
@@ -1737,7 +1765,7 @@
         <translation type="obsolete">Hodnoty jsou použity v případě, když importovaný záznam má danou ADIF položku prázdnou</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="199"/>
+        <location filename="../ui/ImportDialog.ui" line="202"/>
         <source>Defaults</source>
         <translation>Výchozí</translation>
     </message>
@@ -1746,33 +1774,32 @@
         <translation type="vanished">Můj Lokátor</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="256"/>
-        <location filename="../ui/ImportDialog.cpp" line="86"/>
+        <location filename="../ui/ImportDialog.ui" line="259"/>
+        <location filename="../ui/ImportDialog.cpp" line="83"/>
         <source>Comment</source>
         <translation>Komentář</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="186"/>
+        <location filename="../ui/ImportDialog.ui" line="189"/>
         <source>Update DXCC Entity Information</source>
         <translation>Aktualizovat DXCC Informace</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="196"/>
         <source>The values are used when an input record does not contain the ADIF value</source>
-        <translation>Hodnoty jsou použity v případě, když importovaný záznam má danou ADIF položku prázdnou</translation>
+        <translation type="vanished">Hodnoty jsou použity v případě, když importovaný záznam má danou ADIF položku prázdnou</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="211"/>
+        <location filename="../ui/ImportDialog.ui" line="214"/>
         <source>My Profile</source>
         <translation>Můj profil</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="227"/>
+        <location filename="../ui/ImportDialog.ui" line="230"/>
         <source>My Rig</source>
         <translation>Můj Rig</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="145"/>
+        <location filename="../ui/ImportDialog.ui" line="148"/>
         <source>ADX</source>
         <translation>ADX</translation>
     </message>
@@ -1781,9 +1808,8 @@
         <translation type="vanished">Hodnota je použita v případě, když importovaný záznam má danou položku prázdnou</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="36"/>
         <source>Import only QSOs from the given period</source>
-        <translation>Importovat pouze QSO z daného období</translation>
+        <translation type="vanished">Importovat pouze QSO z daného období</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.ui" line="39"/>
@@ -1799,17 +1825,17 @@
         <translation type="vanished">Start</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="51"/>
+        <location filename="../ui/ImportDialog.ui" line="54"/>
         <source>All</source>
         <translation>vše</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="177"/>
+        <location filename="../ui/ImportDialog.ui" line="180"/>
         <source>Options</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.ui" line="183"/>
+        <location filename="../ui/ImportDialog.ui" line="186"/>
         <source>Recalculate DXCC Entity Information (DXCC, Country name, Continent etc.)</source>
         <translation>Přepočítat DXCC Informace (DXCC, jméno země, kontinent atd.)</translation>
     </message>
@@ -1828,38 +1854,39 @@
         <translation>Vybrat soubor</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="85"/>
+        <location filename="../ui/ImportDialog.ui" line="199"/>
+        <location filename="../ui/ImportDialog.cpp" line="82"/>
         <source>The value is used when an input record does not contain the ADIF value</source>
         <translation>Hodnota je použita v případě, když importovaný záznam má příslušné ADIF pole prázdné</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="103"/>
-        <location filename="../ui/ImportDialog.cpp" line="110"/>
+        <location filename="../ui/ImportDialog.cpp" line="111"/>
+        <location filename="../ui/ImportDialog.cpp" line="120"/>
         <source>The values below will be used when an input record does not contain the ADIF values</source>
         <translation>Hodnoty jsou použity v případě, když importovaný záznam má příslušné ADIF pole prázdné</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="124"/>
+        <location filename="../ui/ImportDialog.cpp" line="136"/>
         <source>&lt;p&gt;&lt;b&gt;In-Log QSO:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;QSO v logu:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="128"/>
+        <location filename="../ui/ImportDialog.cpp" line="140"/>
         <source>&lt;p&gt;&lt;b&gt;Importing:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Importováno:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="133"/>
+        <location filename="../ui/ImportDialog.cpp" line="145"/>
         <source>Duplicate QSO</source>
         <translation>Duplicitní QSO</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="134"/>
+        <location filename="../ui/ImportDialog.cpp" line="146"/>
         <source>&lt;p&gt;Do you want to import duplicate QSO?&lt;/p&gt;%1 %2</source>
         <translation>&lt;p&gt;Přejete si importovat toto duplicitní QSO?&lt;/p&gt;%1 %2</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="290"/>
+        <location filename="../ui/ImportDialog.cpp" line="302"/>
         <source>Import Result</source>
         <translation>Výsledek Importu</translation>
     </message>
@@ -4496,7 +4523,7 @@
         <location filename="../core/MembershipQE.cpp" line="346"/>
         <location filename="../core/Migration.cpp" line="295"/>
         <location filename="../ui/ExportDialog.cpp" line="83"/>
-        <location filename="../ui/ImportDialog.cpp" line="163"/>
+        <location filename="../ui/ImportDialog.cpp" line="175"/>
         <location filename="../ui/MainWindow.cpp" line="274"/>
         <location filename="../ui/MainWindow.cpp" line="284"/>
         <location filename="../ui/MainWindow.cpp" line="294"/>
@@ -4760,7 +4787,7 @@
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="84"/>
-        <location filename="../ui/ImportDialog.cpp" line="164"/>
+        <location filename="../ui/ImportDialog.cpp" line="176"/>
         <source>Filename is empty</source>
         <translation>Jméno souboru je zprázdné</translation>
     </message>
@@ -4937,7 +4964,7 @@
         <translation>Má POTA</translation>
     </message>
     <message numerus="yes">
-        <location filename="../ui/ImportDialog.cpp" line="285"/>
+        <location filename="../ui/ImportDialog.cpp" line="297"/>
         <source>&lt;b&gt;Imported&lt;/b&gt;: %n contact(s)</source>
         <translation>
             <numerusform>&lt;b&gt;Importován&lt;/b&gt;: %n kontakt</numerusform>
@@ -4946,7 +4973,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../ui/ImportDialog.cpp" line="286"/>
+        <location filename="../ui/ImportDialog.cpp" line="298"/>
         <source>&lt;b&gt;Warning(s)&lt;/b&gt;: %n</source>
         <translation>
             <numerusform>&lt;b&gt;Upozornění&lt;/b&gt;: %n</numerusform>
@@ -4955,7 +4982,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../ui/ImportDialog.cpp" line="287"/>
+        <location filename="../ui/ImportDialog.cpp" line="299"/>
         <source>&lt;b&gt;Error(s)&lt;/b&gt;: %n</source>
         <translation>
             <numerusform>&lt;b&gt;Chyb&lt;/b&gt;: %n</numerusform>

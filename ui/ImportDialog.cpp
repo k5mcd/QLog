@@ -77,13 +77,21 @@ void ImportDialog::toggleMyRig()
     ui->rigSelect->setEnabled(ui->rigCheckBox->isChecked());
 }
 
+void ImportDialog::commentChanged(const QString &comment)
+{
+    QString toolTip = tr("The value is used when an input record does not contain the ADIF value") + "<br/>"
+            + "<b>" + tr("Comment") + ":</b> " + comment + "<br/>";
+
+    ui->commentEdit->setToolTip(toolTip);
+    ui->commentCheckBox->setToolTip(toolTip);
+}
+
 void ImportDialog::toggleComment()
 {
     FCT_IDENTIFICATION;
 
     ui->commentEdit->setEnabled(ui->commentCheckBox->isChecked());
-    ui->commentEdit->setToolTip(tr("The value is used when an input record does not contain the ADIF value") + "<br/>"
-                                + "<b>" + tr("Comment") + ":</b> " + ui->commentEdit->text() + "<br/>");
+    commentChanged(ui->commentEdit->text());
 }
 
 void ImportDialog::computeProgress(qint64 position)
@@ -95,20 +103,24 @@ void ImportDialog::computeProgress(qint64 position)
     QCoreApplication::processEvents();
 }
 
-void ImportDialog::stationProfileTextChanged(QString newProfileName)
+void ImportDialog::stationProfileTextChanged(const QString &newProfileName)
 {
     FCT_IDENTIFICATION;
 
     selectedStationProfile = StationProfilesManager::instance()->getProfile(newProfileName);
-    ui->profileSelect->setToolTip(tr("The values below will be used when an input record does not contain the ADIF values") + "<br/>"
-                                  + selectedStationProfile.toHTMLString());
+    QString toolTip = tr("The values below will be used when an input record does not contain the ADIF values") + "<br/>"
+                         + selectedStationProfile.toHTMLString();
+    ui->profileSelect->setToolTip(toolTip);
+    ui->profileCheckBox->setToolTip(toolTip);
 }
 
-void ImportDialog::rigProfileTextChanged(QString newProfileName)
+void ImportDialog::rigProfileTextChanged(const QString &newProfileName)
 {
     FCT_IDENTIFICATION;
-    ui->rigSelect->setToolTip(tr("The values below will be used when an input record does not contain the ADIF values") + "<br/>"
-                                  + RigProfilesManager::instance()->getProfile(newProfileName).toHTMLString());
+    QString toolTip = tr("The values below will be used when an input record does not contain the ADIF values") + "<br/>"
+            + RigProfilesManager::instance()->getProfile(newProfileName).toHTMLString();
+    ui->rigSelect->setToolTip(toolTip);
+    ui->rigCheckBox->setToolTip(toolTip);
 }
 
 LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *imported, QSqlRecord *original)
