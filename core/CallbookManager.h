@@ -25,8 +25,8 @@ public slots:
     void abortQuery();
 
 private slots:
-    void primaryCallbookCallsignNotFound(QString);
-    void secondaryCallbookCallsignNotFound(QString);
+    void primaryCallbookCallsignNotFound(const QString&);
+    void secondaryCallbookCallsignNotFound(const QString&);
     void processCallsignResult(const QMap<QString, QString>& data);
 
 private:

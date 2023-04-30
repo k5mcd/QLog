@@ -202,7 +202,7 @@ void PropConditions::repeateRequest(const QUrl &url)
         int resendInterval = RESEND_BASE_INTERVAL * failedRequests[url];
         qCDebug(runtime) << "Scheduled URL request resend" << resendInterval << "; URL:" << url.toString();
 
-        QTimer::singleShot(1000 * RESEND_BASE_INTERVAL * failedRequests[url], [this,url]()
+        QTimer::singleShot(1000 * RESEND_BASE_INTERVAL * failedRequests[url], this, [this, url]()
         {
             qCDebug(runtime) << "Resending request" << url.toString();
             nam->get(QNetworkRequest(url));

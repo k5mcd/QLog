@@ -53,7 +53,9 @@ public:
     };
 
 public slots:
-    void getClubStatus(QString callsign, QString band, QString mode);
+    void getClubStatus(const QString &callsign,
+                       const QString &band,
+                       const QString &mode);
 
 signals:
     void status(QString, QMap<QString, ClubStatusQuery::ClubStatus>);
@@ -95,7 +97,8 @@ private:
     ~MembershipQE();
 
 private slots:
-    void statusQueryFinished(QString, QMap<QString, ClubStatusQuery::ClubStatus>);
+    void statusQueryFinished(const QString &,
+                             QMap<QString, ClubStatusQuery::ClubStatus>);
     void onFinishedListDownload(QNetworkReply *);
 
 private:

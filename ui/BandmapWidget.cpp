@@ -435,7 +435,7 @@ void BandmapWidget::updateStationTimer()
     }
 }
 
-DxSpot BandmapWidget::nearestSpot(double freq) const
+DxSpot BandmapWidget::nearestSpot(const double freq) const
 {
     FCT_IDENTIFICATION;
 
@@ -496,7 +496,7 @@ void BandmapWidget::setBandmapAnimation(bool isEnable)
     bandmapAnimation = isEnable;
 }
 
-void BandmapWidget::setBand(Band newBand, bool savePrevBandZoom)
+void BandmapWidget::setBand(const Band &newBand, bool savePrevBandZoom)
 {
     FCT_IDENTIFICATION;
 
@@ -636,7 +636,8 @@ void BandmapWidget::focusZoomFreq(int, int)
     }
 }
 
-void BandmapWidget::spotClicked(QString call, double freq)
+void BandmapWidget::spotClicked(const QString &call,
+                                double freq)
 {
     FCT_IDENTIFICATION;
 
@@ -653,7 +654,7 @@ void BandmapWidget::spotClicked(QString call, double freq)
     lastTunedDX.freq = freq;
 }
 
-void BandmapWidget::showContextMenu(QPoint point)
+void BandmapWidget::showContextMenu(const QPoint &point)
 {
     FCT_IDENTIFICATION;
 
@@ -842,7 +843,7 @@ void BandmapWidget::centerRXFreqPosition()
     anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-QPointF BandmapWidget::Freq2ScenePos(double freq) const
+QPointF BandmapWidget::Freq2ScenePos(const double freq) const
 {
     FCT_IDENTIFICATION;
 

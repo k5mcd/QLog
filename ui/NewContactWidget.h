@@ -68,14 +68,15 @@ public slots:
     void refreshRigProfileCombo();
     void saveExternalContact(QSqlRecord record);
     void readGlobalSettings();
-    void tuneDx(QString callsign, double frequency);
-    void showDx(QString callsign, QString grid);
+    void tuneDx(const QString &callsign, double frequency);
+    void showDx(const QString &callsign, const QString &grid);
     void resetContact();
     void saveContact();
 
     // to receive RIG instructions
     void changeFrequency(VFOID, double, double, double);
-    void changeMode(VFOID, QString rawMode, QString mode, QString subMode, qint32 width);
+    void changeMode(VFOID, const QString &rawMode, const QString &mode,
+                    const QString &subMode, qint32 width);
     void changePower(VFOID, double power);
     void rigConnected();
     void rigDisconnected();
@@ -99,27 +100,27 @@ private slots:
     void markContact();
     void editCallsignFinished();
     void callsignResult(const QMap<QString, QString>& data);
-    void clubQueryResult(QString, QMap<QString, ClubStatusQuery::ClubStatus>);
+    void clubQueryResult(const QString&, QMap<QString, ClubStatusQuery::ClubStatus>);
     void propModeChanged(const QString&);
-    void sotaChanged(QString);
+    void sotaChanged(const QString&);
     void sotaEditFinished();
-    void potaChanged(QString);
+    void potaChanged(const QString&);
     void potaEditFinished();
     void wwffEditFinished();
-    void wwffChanged(QString);
+    void wwffChanged(const QString&);
     void formFieldChangedString(const QString&);
     void formFieldChanged();
     void useNearestCallsign();
     void timeOnChanged();
 
-    void stationProfileComboChanged(QString);
-    void rigProfileComboChanged(QString);
-    void antProfileComboChanged(QString);
+    void stationProfileComboChanged(const QString&);
+    void rigProfileComboChanged(const QString&);
+    void antProfileComboChanged(const QString&);
     void qrz();
 
 private:
-    void fillFieldsFromLastQSO(QString callsign);
-    void queryDxcc(QString callsign);
+    void fillFieldsFromLastQSO(const QString &callsign);
+    void queryDxcc(const QString &callsign);
     void clearCallbookQueryFields();
     void clearMemberQueryFields();
     void readWidgetSettings();

@@ -21,15 +21,16 @@ signals:
 
 public slots:
     void updateFrequency(VFOID, double, double, double);
-    void updateMode(VFOID, QString, QString, QString, qint32);
+    void updateMode(VFOID, const QString&, const QString&,
+                    const QString&, qint32);
     void updatePWR(VFOID, double);
-    void updateVFO(VFOID, QString);
+    void updateVFO(VFOID, const QString&);
     void updateXIT(VFOID, double);
     void updateRIT(VFOID, double);
     void updatePTT(VFOID, bool);
-    void bandComboChanged(QString);
-    void modeComboChanged(QString);
-    void rigProfileComboChanged(QString);
+    void bandComboChanged(const QString&);
+    void modeComboChanged(const QString&);
+    void rigProfileComboChanged(const QString&);
     void refreshRigProfileCombo();
     void refreshBandCombo();
     void refreshModeCombo();

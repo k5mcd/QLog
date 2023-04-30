@@ -25,9 +25,9 @@ signals:
     void contactDeleted(QSqlRecord&);
 
 public slots:
-    void filterCallsign(QString call);
+    void filterCallsign(const QString &call);
     void filterSelectedCallsign();
-    void filterCountryBand(QString, QString, QString);
+    void filterCountryBand(const QString&, const QString&, const QString&);
     void lookupSelectedCallsign();
     void callsignFilterChanged();
     void bandFilterChanged();

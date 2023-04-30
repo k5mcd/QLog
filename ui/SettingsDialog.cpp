@@ -1600,7 +1600,7 @@ void SettingsDialog::cancelled()
     reject();
 }
 
-void SettingsDialog::sotaChanged(QString newSOTA)
+void SettingsDialog::sotaChanged(const QString &newSOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -1646,7 +1646,7 @@ void SettingsDialog::sotaEditFinished()
     }
 }
 
-void SettingsDialog::potaChanged(QString newPOTA)
+void SettingsDialog::potaChanged(const QString &newPOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -1702,7 +1702,7 @@ void SettingsDialog::potaEditFinished()
     }
 }
 
-void SettingsDialog::wwffChanged(QString newWWFF)
+void SettingsDialog::wwffChanged(const QString &newWWFF)
 {
     FCT_IDENTIFICATION;
 

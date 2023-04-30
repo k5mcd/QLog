@@ -80,19 +80,19 @@ private:
     void resizeEvent(QResizeEvent * event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
     void centerRXFreqPosition();
-    QPointF Freq2ScenePos(double) const;
+    QPointF Freq2ScenePos(const double) const;
     double ScenePos2Freq(const QPointF &point) const;
-    DxSpot nearestSpot(double) const;
+    DxSpot nearestSpot(const double) const;
     void updateNearestSpot();
     void setBandmapAnimation(bool);
-    void setBand(Band newBand, bool savePrevBandZoom = true);
+    void setBand(const Band &newBand, bool savePrevBandZoom = true);
     void saveCurrentZoom();
     BandmapWidget::BandmapZoom savedZoom(Band);
 
 private slots:
     void centerRXActionChecked(bool);
-    void spotClicked(QString, double);
-    void showContextMenu(QPoint);
+    void spotClicked(const QString&, double);
+    void showContextMenu(const QPoint&);
     void updateStationTimer();
     void focusZoomFreq(int, int);
 

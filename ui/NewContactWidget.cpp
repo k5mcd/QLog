@@ -440,7 +440,7 @@ void NewContactWidget::editCallsignFinished()
 }
 
 /* Obtain DXCC info from local database */
-void NewContactWidget::queryDxcc(QString callsign)
+void NewContactWidget::queryDxcc(const QString &callsign)
 {
     FCT_IDENTIFICATION;
 
@@ -485,7 +485,7 @@ void NewContactWidget::queryDxcc(QString callsign)
     }
 }
 
-void NewContactWidget::fillFieldsFromLastQSO(QString callsign)
+void NewContactWidget::fillFieldsFromLastQSO(const QString &callsign)
 {
     FCT_IDENTIFICATION;
 
@@ -667,7 +667,7 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
     lastCallbookQueryData = QMap<QString, QString>(data);
 }
 
-void NewContactWidget::clubQueryResult(QString in_callsign, QMap<QString, ClubStatusQuery::ClubStatus> data)
+void NewContactWidget::clubQueryResult(const QString &in_callsign, QMap<QString, ClubStatusQuery::ClubStatus> data)
 {
     FCT_IDENTIFICATION;
 
@@ -851,7 +851,8 @@ void NewContactWidget::modeChanged()
 
 /* mode is changed from RIG */
 /* Receveived from RIG */
-void NewContactWidget::changeMode(VFOID, QString, QString mode, QString subMode, qint32 width)
+void NewContactWidget::changeMode(VFOID, const QString &, const QString &mode,
+                                  const QString &subMode, qint32 width)
 {
     FCT_IDENTIFICATION;
 
@@ -2187,7 +2188,7 @@ void NewContactWidget::exitManualMode()
 }
 
 
-void NewContactWidget::tuneDx(QString callsign, double frequency)
+void NewContactWidget::tuneDx(const QString &callsign, double frequency)
 {
     FCT_IDENTIFICATION;
 
@@ -2204,7 +2205,7 @@ void NewContactWidget::tuneDx(QString callsign, double frequency)
     changeCallsignManually(callsign, frequency);
 }
 
-void NewContactWidget::showDx(QString callsign, QString grid)
+void NewContactWidget::showDx(const QString &callsign, const QString &grid)
 {
     FCT_IDENTIFICATION;
 
@@ -2430,7 +2431,7 @@ void NewContactWidget::propModeChanged(const QString &propModeText)
     }
 }
 
-void NewContactWidget::stationProfileComboChanged(QString profileName)
+void NewContactWidget::stationProfileComboChanged(const QString &profileName)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
@@ -2452,7 +2453,7 @@ void NewContactWidget::stationProfileComboChanged(QString profileName)
     queryDxcc(ui->callsignEdit->text().toUpper());
 }
 
-void NewContactWidget::rigProfileComboChanged(QString profileName)
+void NewContactWidget::rigProfileComboChanged(const QString &profileName)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
@@ -2474,7 +2475,7 @@ void NewContactWidget::rigProfileComboChanged(QString profileName)
     emit rigProfileChanged();
 }
 
-void NewContactWidget::antProfileComboChanged(QString profileName)
+void NewContactWidget::antProfileComboChanged(const QString &profileName)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
@@ -2490,7 +2491,7 @@ void NewContactWidget::antProfileComboChanged(QString profileName)
     emit antProfileChanged();
 }
 
-void NewContactWidget::sotaChanged(QString newSOTA)
+void NewContactWidget::sotaChanged(const QString &newSOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -2545,7 +2546,7 @@ void NewContactWidget::sotaEditFinished()
     } 
 }
 
-void NewContactWidget::potaChanged(QString newPOTA)
+void NewContactWidget::potaChanged(const QString &newPOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -2638,7 +2639,7 @@ void NewContactWidget::wwffEditFinished()
     }
 }
 
-void NewContactWidget::wwffChanged(QString newWWFF)
+void NewContactWidget::wwffChanged(const QString &newWWFF)
 {
     FCT_IDENTIFICATION;
 

@@ -128,7 +128,7 @@ void CallbookManager::abortQuery()
     if ( ! secondaryCallbook.isNull() ) secondaryCallbook->abortQuery();
 }
 
-void CallbookManager::primaryCallbookCallsignNotFound(QString notFoundCallsign)
+void CallbookManager::primaryCallbookCallsignNotFound(const QString &notFoundCallsign)
 {
     FCT_IDENTIFICATION;
 
@@ -147,7 +147,7 @@ void CallbookManager::primaryCallbookCallsignNotFound(QString notFoundCallsign)
     secondaryCallbook->queryCallsign(notFoundCallsign);
 }
 
-void CallbookManager::secondaryCallbookCallsignNotFound(QString notFoundCallsign)
+void CallbookManager::secondaryCallbookCallsignNotFound(const QString &notFoundCallsign)
 {
     FCT_IDENTIFICATION;
 

@@ -754,7 +754,7 @@ void QSODetailDialog::freqLockToggled(bool toggled)
     }
 }
 
-void QSODetailDialog::callsignChanged(QString)
+void QSODetailDialog::callsignChanged(const QString &)
 {
     FCT_IDENTIFICATION;
 
@@ -1003,7 +1003,7 @@ void QSODetailDialog::mapLoaded(bool)
     layerControlHandler.restoreLayerControlStates(main_page);
 }
 
-void QSODetailDialog::myGridChanged(QString newGrid)
+void QSODetailDialog::myGridChanged(const QString &newGrid)
 {
     FCT_IDENTIFICATION;
 
@@ -1012,7 +1012,7 @@ void QSODetailDialog::myGridChanged(QString newGrid)
     return;
 }
 
-void QSODetailDialog::DXGridChanged(QString newGrid)
+void QSODetailDialog::DXGridChanged(const QString &newGrid)
 {
     FCT_IDENTIFICATION;
 
@@ -1090,7 +1090,7 @@ void QSODetailDialog::callsignFound(const QMap<QString, QString> &data)
     }
 }
 
-void QSODetailDialog::callsignNotFound(QString)
+void QSODetailDialog::callsignNotFound(const QString &)
 {
     FCT_IDENTIFICATION;
 
@@ -1098,7 +1098,7 @@ void QSODetailDialog::callsignNotFound(QString)
     callbookLookupFinished();
 }
 
-void QSODetailDialog::callbookLoginFailed(QString)
+void QSODetailDialog::callbookLoginFailed(const QString&)
 {
     FCT_IDENTIFICATION;
 
@@ -1107,7 +1107,7 @@ void QSODetailDialog::callbookLoginFailed(QString)
     //QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
 }
 
-void QSODetailDialog::callbookError(QString error)
+void QSODetailDialog::callbookError(const QString &error)
 {
     FCT_IDENTIFICATION;
 
@@ -1121,7 +1121,7 @@ void QSODetailDialog::handleBeforeUpdate(int, QSqlRecord &record)
     emit contactUpdated(record);
 }
 
-void QSODetailDialog::sotaChanged(QString newSOTA)
+void QSODetailDialog::sotaChanged(const QString &newSOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -1135,7 +1135,7 @@ void QSODetailDialog::sotaChanged(QString newSOTA)
     }
 }
 
-void QSODetailDialog::potaChanged(QString newPOTA)
+void QSODetailDialog::potaChanged(const QString &newPOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -1149,7 +1149,7 @@ void QSODetailDialog::potaChanged(QString newPOTA)
     }
 }
 
-void QSODetailDialog::wwffChanged(QString newWWFF)
+void QSODetailDialog::wwffChanged(const QString &newWWFF)
 {
     FCT_IDENTIFICATION;
 
@@ -1163,7 +1163,7 @@ void QSODetailDialog::wwffChanged(QString newWWFF)
     }
 }
 
-void QSODetailDialog::mySotaChanged(QString newSOTA)
+void QSODetailDialog::mySotaChanged(const QString &newSOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -1177,7 +1177,7 @@ void QSODetailDialog::mySotaChanged(QString newSOTA)
     }
 }
 
-void QSODetailDialog::myPOTAChanged(QString newPOTA)
+void QSODetailDialog::myPOTAChanged(const QString &newPOTA)
 {
     FCT_IDENTIFICATION;
 
@@ -1191,7 +1191,7 @@ void QSODetailDialog::myPOTAChanged(QString newPOTA)
     }
 }
 
-void QSODetailDialog::myWWFFChanged(QString newWWFF)
+void QSODetailDialog::myWWFFChanged(const QString &newWWFF)
 {
     FCT_IDENTIFICATION;
 
@@ -1205,7 +1205,8 @@ void QSODetailDialog::myWWFFChanged(QString newWWFF)
     }
 }
 
-void QSODetailDialog::clubQueryResult(QString in_callsign, QMap<QString, ClubStatusQuery::ClubStatus> data)
+void QSODetailDialog::clubQueryResult(const QString &in_callsign,
+                                      QMap<QString, ClubStatusQuery::ClubStatus> data)
 {
     FCT_IDENTIFICATION;
 

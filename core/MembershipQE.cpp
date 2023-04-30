@@ -85,7 +85,8 @@ MembershipQE::~MembershipQE()
 }
 
 // this function is called when async club status returns a result
-void MembershipQE::statusQueryFinished(QString callsign, QMap<QString, ClubStatusQuery::ClubStatus> statuses)
+void MembershipQE::statusQueryFinished(const QString &callsign,
+                                       QMap<QString, ClubStatusQuery::ClubStatus> statuses)
 {
     FCT_IDENTIFICATION;
 
@@ -177,7 +178,9 @@ QList<ClubInfo> MembershipQE::query(const QString &in_callsign)
 // it is a async query function to obtain club statuses for an input callsign.
 // the result is returned via signal MembershipStatusQuery::status
 // it can take some time to obtain a result therefore it is solved in an isolated thread
-void MembershipQE::asyncQueryDetails(const QString &callsign, const QString &band, const QString &mode)
+void MembershipQE::asyncQueryDetails(const QString &callsign,
+                                     const QString &band,
+                                     const QString &mode)
 {
     FCT_IDENTIFICATION;
 
@@ -498,7 +501,9 @@ ClubStatusQuery::~ClubStatusQuery()
     QSqlDatabase::removeDatabase(dbConnectionName);
 }
 
-void ClubStatusQuery::getClubStatus(QString in_callsign, QString in_band, QString in_mode)
+void ClubStatusQuery::getClubStatus(const QString &in_callsign,
+                                    const QString &in_band,
+                                    const QString &in_mode)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << in_callsign << in_band << in_mode;

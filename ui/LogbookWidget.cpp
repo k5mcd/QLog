@@ -202,7 +202,8 @@ void LogbookWidget::filterSelectedCallsign()
     }
 }
 
-void LogbookWidget::filterCountryBand(QString countryName, QString band, QString addlFilter)
+void LogbookWidget::filterCountryBand(const QString &countryName, const QString &band,
+                                      const QString &addlFilter)
 {
     FCT_IDENTIFICATION;
 
@@ -259,7 +260,7 @@ void LogbookWidget::lookupSelectedCallsign() {
     }
 }
 
-void LogbookWidget::filterCallsign(QString call)
+void LogbookWidget::filterCallsign(const QString &call)
 {
     FCT_IDENTIFICATION;
 

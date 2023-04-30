@@ -68,7 +68,7 @@ private slots:
     void freqRXChanged(double);
     void timeLockToggled(bool);
     void freqLockToggled(bool);
-    void callsignChanged(QString);
+    void callsignChanged(const QString&);
     void callsignEditFinished();
     void queryMemberList();
     void propagationModeChanged(const QString &);
@@ -76,20 +76,21 @@ private slots:
     void doValidationDateTime(const QDateTime&);
     void doValidationDouble(double);
     void mapLoaded(bool);
-    void myGridChanged(QString);
-    void DXGridChanged(QString);
+    void myGridChanged(const QString&);
+    void DXGridChanged(const QString&);
     void callsignFound(const QMap<QString, QString>& data);
-    void callsignNotFound(QString);
-    void callbookLoginFailed(QString);
-    void callbookError(QString);
+    void callsignNotFound(const QString&);
+    void callbookLoginFailed(const QString&);
+    void callbookError(const QString&);
     void handleBeforeUpdate(int, QSqlRecord&);
-    void sotaChanged(QString);
-    void potaChanged(QString);
-    void wwffChanged(QString);
-    void mySotaChanged(QString);
-    void myPOTAChanged(QString);
-    void myWWFFChanged(QString);
-    void clubQueryResult(QString in_callsign, QMap<QString, ClubStatusQuery::ClubStatus> data);
+    void sotaChanged(const QString&);
+    void potaChanged(const QString&);
+    void wwffChanged(const QString&);
+    void mySotaChanged(const QString&);
+    void myPOTAChanged(const QString&);
+    void myWWFFChanged(const QString&);
+    void clubQueryResult(const QString &in_callsign,
+                         QMap<QString, ClubStatusQuery::ClubStatus> data);
 
 private:
     /* It is modified logbook model when only basic

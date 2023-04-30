@@ -96,11 +96,11 @@ public slots:
     void eqslDirBrowse();
     void paperDirBrowse();
     void cancelled();
-    void sotaChanged(QString);
+    void sotaChanged(const QString&);
     void sotaEditFinished();
-    void potaChanged(QString);
+    void potaChanged(const QString&);
     void potaEditFinished();
-    void wwffChanged(QString);
+    void wwffChanged(const QString&);
     void wwffEditFinished();
     void primaryCallbookChanged(int);
     void secondaryCallbookChanged(int);

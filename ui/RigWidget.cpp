@@ -84,7 +84,8 @@ void RigWidget::updateFrequency(VFOID vfoid, double vfoFreq, double ritFreq, dou
     lastSeenFreq = vfoFreq;
 }
 
-void RigWidget::updateMode(VFOID vfoid, QString rawMode, QString mode, QString submode, qint32)
+void RigWidget::updateMode(VFOID vfoid, const QString &rawMode, const QString &mode,
+                           const QString &submode, qint32)
 {
     FCT_IDENTIFICATION;
 
@@ -115,7 +116,7 @@ void RigWidget::updatePWR(VFOID vfoid, double pwr)
     ui->pwrLabel->setText(QString(tr("PWR: %1W")).arg(pwr));
 }
 
-void RigWidget::updateVFO(VFOID vfoid, QString vfo)
+void RigWidget::updateVFO(VFOID vfoid, const QString &vfo)
 {
     FCT_IDENTIFICATION;
 
@@ -173,7 +174,7 @@ void RigWidget::updatePTT(VFOID, bool ptt)
 
 }
 
-void RigWidget::bandComboChanged(QString newBand)
+void RigWidget::bandComboChanged(const QString &newBand)
 {
     FCT_IDENTIFICATION;
 
@@ -196,14 +197,14 @@ void RigWidget::bandComboChanged(QString newBand)
     Rig::instance()->setFrequency(MHz(newFreq));
 }
 
-void RigWidget::modeComboChanged(QString newMode)
+void RigWidget::modeComboChanged(const QString &newMode)
 {
     FCT_IDENTIFICATION;
 
     Rig::instance()->setMode(newMode);
 }
 
-void RigWidget::rigProfileComboChanged(QString profileName)
+void RigWidget::rigProfileComboChanged(const QString &profileName)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << profileName;
