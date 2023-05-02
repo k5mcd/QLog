@@ -492,12 +492,12 @@
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="666"/>
+        <location filename="../ui/BandmapWidget.cpp" line="667"/>
         <source>Show Band</source>
         <translation>Zobrazit pásmo</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="679"/>
+        <location filename="../ui/BandmapWidget.cpp" line="680"/>
         <source>Center RX</source>
         <translation>Centrovat RX</translation>
     </message>
@@ -2972,7 +2972,7 @@
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="113"/>
-        <location filename="../ui/LogbookWidget.cpp" line="434"/>
+        <location filename="../ui/LogbookWidget.cpp" line="435"/>
         <source>Club</source>
         <translation>Klub</translation>
     </message>
@@ -2984,7 +2984,7 @@
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="203"/>
-        <location filename="../ui/LogbookWidget.cpp" line="496"/>
+        <location filename="../ui/LogbookWidget.cpp" line="497"/>
         <source>Delete</source>
         <translation>Vymazat</translation>
     </message>
@@ -3103,27 +3103,27 @@
         <translation type="vanished">Nejistý</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="496"/>
+        <location filename="../ui/LogbookWidget.cpp" line="497"/>
         <source>Delete the selected contacts?</source>
         <translation>Vymazat vybraný kontakt?</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="697"/>
+        <location filename="../ui/LogbookWidget.cpp" line="698"/>
         <source>Downloading eQSL Image</source>
         <translation>Stahování eQSL obrázku</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="697"/>
+        <location filename="../ui/LogbookWidget.cpp" line="698"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="715"/>
+        <location filename="../ui/LogbookWidget.cpp" line="716"/>
         <source>QLog Error</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="715"/>
+        <location filename="../ui/LogbookWidget.cpp" line="716"/>
         <source>eQSL Download Image failed: </source>
         <translation>Stažení eQSL obrázku selhalo: </translation>
     </message>
@@ -4412,57 +4412,57 @@
         <translation>Selhalo přihlášení do Callbooku</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1854"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1855"/>
         <source>New Entity!</source>
         <translation>Nová země!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1857"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1858"/>
         <source>New Band!</source>
         <translation>Nové pásmo!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1860"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1861"/>
         <source>New Mode!</source>
         <translation>Nový druh provozu!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1863"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1864"/>
         <source>New Band &amp; Mode!</source>
         <translation>Nové pásmo &amp; druh!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1866"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1867"/>
         <source>New Slot!</source>
         <translation>Nový slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1869"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1870"/>
         <source>Worked</source>
         <translation>Pracováno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1872"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1873"/>
         <source>Confirmed</source>
         <translation>Potvrzeno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2266"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2267"/>
         <source>GE</source>
         <translation>GE</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2276"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2277"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2282"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2283"/>
         <source>GA</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2535"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2536"/>
         <source> m</source>
         <translation> m</translation>
     </message>
@@ -4517,10 +4517,10 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="206"/>
-        <location filename="../core/MembershipQE.cpp" line="213"/>
-        <location filename="../core/MembershipQE.cpp" line="339"/>
-        <location filename="../core/MembershipQE.cpp" line="346"/>
+        <location filename="../core/MembershipQE.cpp" line="209"/>
+        <location filename="../core/MembershipQE.cpp" line="216"/>
+        <location filename="../core/MembershipQE.cpp" line="342"/>
+        <location filename="../core/MembershipQE.cpp" line="349"/>
         <location filename="../core/Migration.cpp" line="295"/>
         <location filename="../ui/ExportDialog.cpp" line="83"/>
         <location filename="../ui/ImportDialog.cpp" line="175"/>
@@ -4549,32 +4549,32 @@
         <translation>Upozornění QLog</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="207"/>
+        <location filename="../core/MembershipQE.cpp" line="210"/>
         <source>Club List Update failed. Cannot remove old records</source>
         <translation>Nepovedlo se aktualizovat Club List. Není možné odstranit staré záznamy</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="214"/>
+        <location filename="../core/MembershipQE.cpp" line="217"/>
         <source>Club List Update failed. Cannot plan new downloads</source>
         <translation>Nepovedlo se aktualizovat Club List. Není možné naplánovat stažení listů</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="324"/>
+        <location filename="../core/MembershipQE.cpp" line="327"/>
         <source>QLog Critical</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="325"/>
+        <location filename="../core/MembershipQE.cpp" line="328"/>
         <source>Unexpected Club List download. Canceling next downloads</source>
         <translation>Neočekávaná odpověď Club Listu. Ruším aktualizaci</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="340"/>
+        <location filename="../core/MembershipQE.cpp" line="343"/>
         <source>Unexpected Club List content for</source>
         <translation>Neočekávaný obsah Club List pro</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="347"/>
+        <location filename="../core/MembershipQE.cpp" line="350"/>
         <source>Network error. Cannot download Club List for</source>
         <translation>Síťová chyba. Nepovedlo se stáhnout Club List pro</translation>
     </message>
@@ -4593,8 +4593,8 @@
         <location filename="../core/main.cpp" line="368"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="363"/>
         <location filename="../ui/ExportDialog.cpp" line="92"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1406"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1416"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1407"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1417"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="589"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="600"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="609"/>
@@ -4647,12 +4647,12 @@
         <translation type="vanished">Chyba Rotátoru: &lt;p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1407"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1408"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>Vaše značka není vyplněna. Prosím, nastavte Profil Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1417"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1418"/>
         <source>&lt;b&gt;Time Off&lt;/b&gt; must not be younger than &lt;b&gt;Time On&lt;/b&gt;</source>
         <translation>&lt;b&gt;Čas konce&lt;/b&gt; nesmí být mladší než &lt;b&gt;čas začátku&lt;/b&gt;</translation>
     </message>
@@ -5833,28 +5833,28 @@ Nesprárované:
         <translation>Chyba Callbooku: </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1248"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="1253"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1249"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1254"/>
         <source>&lt;b&gt;Warning: &lt;/b&gt;</source>
         <translation>&lt;b&gt;Upozornění: &lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1441"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1442"/>
         <source>Validation</source>
         <translation>Kontrola</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1441"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1442"/>
         <source>Yellow marked fields are invalid.&lt;p&gt;Nevertheless, save the changes?&lt;/p&gt;</source>
         <translation>Žlutě vyznačená pole obsahují neplatné hodnoty&lt;p&gt;I přes to uložit změny?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2074"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2075"/>
         <source>&amp;Save</source>
         <translation>&amp;Uložit</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2075"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2076"/>
         <source>&amp;Edit</source>
         <translation>U&amp;pravit</translation>
     </message>
@@ -6058,7 +6058,7 @@ Nesprárované:
         <translation type="vanished">0.000 MHz</translation>
     </message>
     <message>
-        <location filename="../ui/RigWidget.cpp" line="115"/>
+        <location filename="../ui/RigWidget.cpp" line="116"/>
         <source>PWR: %1W</source>
         <translation>PWR: %1W</translation>
     </message>

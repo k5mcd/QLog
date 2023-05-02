@@ -468,12 +468,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="666"/>
+        <location filename="../ui/BandmapWidget.cpp" line="667"/>
         <source>Show Band</source>
         <translation>Band anzeigen</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="679"/>
+        <location filename="../ui/BandmapWidget.cpp" line="680"/>
         <source>Center RX</source>
         <translation>RX zentrieren</translation>
     </message>
@@ -2817,7 +2817,7 @@
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="113"/>
-        <location filename="../ui/LogbookWidget.cpp" line="434"/>
+        <location filename="../ui/LogbookWidget.cpp" line="435"/>
         <source>Club</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2829,7 +2829,7 @@
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="203"/>
-        <location filename="../ui/LogbookWidget.cpp" line="496"/>
+        <location filename="../ui/LogbookWidget.cpp" line="497"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
@@ -3007,27 +3007,27 @@
         <translation type="obsolete">Direkt</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="496"/>
+        <location filename="../ui/LogbookWidget.cpp" line="497"/>
         <source>Delete the selected contacts?</source>
         <translation>Die ausgewählten Kontakte löschen?</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="697"/>
+        <location filename="../ui/LogbookWidget.cpp" line="698"/>
         <source>Downloading eQSL Image</source>
         <translation>eQSL-Bild herunterladen</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="697"/>
+        <location filename="../ui/LogbookWidget.cpp" line="698"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="715"/>
+        <location filename="../ui/LogbookWidget.cpp" line="716"/>
         <source>QLog Error</source>
         <translation>QLog Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="715"/>
+        <location filename="../ui/LogbookWidget.cpp" line="716"/>
         <source>eQSL Download Image failed: </source>
         <translation>eQSL-Bild download fehlgeschlagen: </translation>
     </message>
@@ -4377,57 +4377,57 @@
         <translation>Callbook-Anmeldung fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1854"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1855"/>
         <source>New Entity!</source>
         <translation>Neuer Eintrag!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1857"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1858"/>
         <source>New Band!</source>
         <translation>Neues Band!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1860"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1861"/>
         <source>New Mode!</source>
         <translation>Neue Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1863"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1864"/>
         <source>New Band &amp; Mode!</source>
         <translation>Neues Band &amp; Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1866"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1867"/>
         <source>New Slot!</source>
         <translation>Neuer Slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1869"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1870"/>
         <source>Worked</source>
         <translation>Gearbeitet</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1872"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1873"/>
         <source>Confirmed</source>
         <translation>Bestätigt</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2266"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2267"/>
         <source>GE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2276"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2277"/>
         <source>GM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2282"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2283"/>
         <source>GA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2535"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2536"/>
         <source> m</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4488,8 +4488,8 @@
         <location filename="../core/main.cpp" line="368"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="363"/>
         <location filename="../ui/ExportDialog.cpp" line="92"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1406"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1416"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1407"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1417"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="589"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="600"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="609"/>
@@ -4519,10 +4519,10 @@
         <translation>Migration der Datenbank fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="206"/>
-        <location filename="../core/MembershipQE.cpp" line="213"/>
-        <location filename="../core/MembershipQE.cpp" line="339"/>
-        <location filename="../core/MembershipQE.cpp" line="346"/>
+        <location filename="../core/MembershipQE.cpp" line="209"/>
+        <location filename="../core/MembershipQE.cpp" line="216"/>
+        <location filename="../core/MembershipQE.cpp" line="342"/>
+        <location filename="../core/MembershipQE.cpp" line="349"/>
         <location filename="../core/Migration.cpp" line="295"/>
         <location filename="../ui/ExportDialog.cpp" line="83"/>
         <location filename="../ui/ImportDialog.cpp" line="175"/>
@@ -4551,32 +4551,32 @@
         <translation>QLog Warnung</translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="207"/>
+        <location filename="../core/MembershipQE.cpp" line="210"/>
         <source>Club List Update failed. Cannot remove old records</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="214"/>
+        <location filename="../core/MembershipQE.cpp" line="217"/>
         <source>Club List Update failed. Cannot plan new downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="324"/>
+        <location filename="../core/MembershipQE.cpp" line="327"/>
         <source>QLog Critical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="325"/>
+        <location filename="../core/MembershipQE.cpp" line="328"/>
         <source>Unexpected Club List download. Canceling next downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="340"/>
+        <location filename="../core/MembershipQE.cpp" line="343"/>
         <source>Unexpected Club List content for</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/MembershipQE.cpp" line="347"/>
+        <location filename="../core/MembershipQE.cpp" line="350"/>
         <source>Network error. Cannot download Club List for</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4600,12 +4600,12 @@
         <translation>DXC Server Verbindungsfehler</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1407"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1408"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>Ihr Rufzeichen ist nicht angegeben. Bitte richten Sie Ihr Stationsprofil ein</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1417"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1418"/>
         <source>&lt;b&gt;Time Off&lt;/b&gt; must not be younger than &lt;b&gt;Time On&lt;/b&gt;</source>
         <translation>&lt;b&gt;Time Off&lt;/b&gt; darf nicht früher sein als &lt;b&gt;Time On&lt;/b&gt;</translation>
     </message>
@@ -5768,28 +5768,28 @@ Unmatched QSLs:
         <translation>Callbook-Fehler: </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1248"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="1253"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1249"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1254"/>
         <source>&lt;b&gt;Warning: &lt;/b&gt;</source>
         <translation>&lt;b&gt;Warnung: &lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1441"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1442"/>
         <source>Validation</source>
         <translation>Überprüfung</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1441"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1442"/>
         <source>Yellow marked fields are invalid.&lt;p&gt;Nevertheless, save the changes?&lt;/p&gt;</source>
         <translation>Gelb markierte Felder sind ungültig.&lt;p&gt;Dennoch die Änderungen speichern?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2074"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2075"/>
         <source>&amp;Save</source>
         <translation>&amp;Speichern</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2075"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2076"/>
         <source>&amp;Edit</source>
         <translation>B&amp;earbeiten</translation>
     </message>
@@ -5973,7 +5973,7 @@ Unmatched QSLs:
         <translation type="vanished">0.000 MHz</translation>
     </message>
     <message>
-        <location filename="../ui/RigWidget.cpp" line="115"/>
+        <location filename="../ui/RigWidget.cpp" line="116"/>
         <source>PWR: %1W</source>
         <translation type="unfinished"></translation>
     </message>
