@@ -23,7 +23,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="myGridLabel">
         <property name="text">
-         <string>My Grigsquare</string>
+         <string>My Gridsquare</string>
         </property>
        </widget>
       </item>

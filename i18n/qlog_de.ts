@@ -676,7 +676,7 @@
     <message>
         <location filename="../core/CWKeyer.cpp" line="141"/>
         <source>Cannot open the Keyer connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann die Keyer-Verbindung nicht herstellen</translation>
     </message>
 </context>
 <context>
@@ -1104,7 +1104,7 @@
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="212"/>
         <source>Log Status</source>
-        <translation type="unfinished">Log Status</translation>
+        <translation>Log Status</translation>
     </message>
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="220"/>
@@ -1234,7 +1234,7 @@
     <message>
         <location filename="../ui/DxWidget.ui" line="40"/>
         <source>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;CTRL + DEL&lt;/b&gt; to delete a highlighted DXC server.</source>
-        <translation type="unfinished">Füge &lt;b&gt;hostname:port&lt;/b&gt; eines DXC Servers ein. Drücke &lt;b&gt;Strg + DEL&lt;/b&gt; um einen markierten DXC-Server zu löschen.</translation>
+        <translation>Füge &lt;b&gt;hostname:port&lt;/b&gt; eines DXC Servers ein. Drücke &lt;b&gt;Strg + DEL&lt;/b&gt; um einen markierten DXC-Server zu löschen.</translation>
     </message>
     <message>
         <source>Raw</source>
@@ -1464,8 +1464,9 @@
         <translation>Hochladen</translation>
     </message>
     <message>
+        <location filename="../ui/Eqsldialog.ui" line="26"/>
         <source>My Gridsquare</source>
-        <translation type="vanished">Eigenes Gitterfeld</translation>
+        <translation>Eigenes Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/Eqsldialog.ui" line="43"/>
@@ -1509,9 +1510,8 @@
         <translation>Auswahl anzeigen</translation>
     </message>
     <message>
-        <location filename="../ui/Eqsldialog.ui" line="26"/>
         <source>My Grigsquare</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Eigenes Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/Eqsldialog.ui" line="50"/>
@@ -1603,19 +1603,19 @@
     <message>
         <location filename="../ui/ExportDialog.ui" line="87"/>
         <source>Export only QSOs that match the active filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur QSOs exportieren, die mit den aktiven Filtern übereinstimmen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="90"/>
         <source>Filters</source>
-        <translation type="unfinished">Filter</translation>
+        <translation>Filter</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="111"/>
         <location filename="../ui/ExportDialog.ui" line="135"/>
         <location filename="../ui/ExportDialog.ui" line="173"/>
         <source>Export only QSOs that match the selected date range</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur QSOs exportieren, die dem ausgewählten Datumsbereich entsprechen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="114"/>
@@ -1626,23 +1626,23 @@
         <location filename="../ui/ExportDialog.ui" line="198"/>
         <location filename="../ui/ExportDialog.ui" line="211"/>
         <source>Export only QSOs that match the selected My Callsign</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur QSOs exportieren, die mit dem ausgewählten eigenen Rufzeichen übereinstimmen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="201"/>
         <source>My Callsign</source>
-        <translation type="unfinished">Eigenes Rufzeichen</translation>
+        <translation>Eigenes Rufzeichen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="221"/>
         <location filename="../ui/ExportDialog.ui" line="228"/>
         <source>Export only QSOs that match the selected My Gridsquare</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur QSOs exportieren, die mit dem ausgewählten eigenen Gitterfeld übereinstimmen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="231"/>
         <source>My Gridsquare</source>
-        <translation type="unfinished">Eigenes Gitterfeld</translation>
+        <translation>Eigenes Gitterfeld</translation>
     </message>
     <message>
         <source>Start</source>
@@ -1683,7 +1683,7 @@
     <message>
         <location filename="../ui/ExportDialog.cpp" line="18"/>
         <source>Export QSOs</source>
-        <translation type="unfinished"></translation>
+        <translation>QSOs exportieren</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="40"/>
@@ -1740,7 +1740,7 @@
     <message>
         <location filename="../ui/ImportDialog.ui" line="51"/>
         <source>Import all or only QSOs from the given period</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle oder nur QSOs aus dem angegebenen Zeitraum importieren</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.ui" line="130"/>
@@ -1764,7 +1764,7 @@
     <message>
         <location filename="../ui/ImportDialog.ui" line="214"/>
         <source>My Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigenes Profil</translation>
     </message>
     <message>
         <source>Import only QSOs from the given period</source>
@@ -1828,13 +1828,13 @@
         <location filename="../ui/ImportDialog.ui" line="199"/>
         <location filename="../ui/ImportDialog.cpp" line="82"/>
         <source>The value is used when an input record does not contain the ADIF value</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Wert wird verwendet, wenn ein importierter Datensatz den ADIF-Wert nicht enthält</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.cpp" line="111"/>
         <location filename="../ui/ImportDialog.cpp" line="120"/>
         <source>The values below will be used when an input record does not contain the ADIF values</source>
-        <translation type="unfinished"></translation>
+        <translation>Die folgenden Werte werden verwendet, wenn ein importierter Datensatz die ADIF-Werte nicht enthält</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.cpp" line="136"/>
@@ -1859,7 +1859,7 @@
     <message>
         <location filename="../ui/ImportDialog.cpp" line="302"/>
         <source>Import Result</source>
-        <translation type="unfinished"></translation>
+        <translation>Ergebnis des Imports</translation>
     </message>
 </context>
 <context>
@@ -1867,53 +1867,53 @@
     <message>
         <location filename="../logformat/LogFormat.cpp" line="151"/>
         <source>A minimal set of fields not present (start_time, call, band, mode, station_callsign)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein minimaler Satz von Datenfeldern, die nicht vorhanden sind (start_time, call, band, mode, station_callsign)</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="171"/>
         <source>Outside the selected Date Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Außerhalb des gewählten Datumsbereichs</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="204"/>
         <location filename="../logformat/LogFormat.cpp" line="229"/>
         <source>Duplicate</source>
-        <translation type="unfinished"></translation>
+        <translation>Duplikate</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="245"/>
         <source>Cannot find DXCC Entity Info</source>
-        <translation type="unfinished"></translation>
+        <translation>DXCC Entity Info nicht gefunden</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="350"/>
         <source>Cannot find own DXCC Entity Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene DXCC-Entity-Infos nicht gefunden</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="362"/>
         <source>Cannot insert to database</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfügen in die Datenbank nicht möglich</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="373"/>
         <source>Imported</source>
-        <translation type="unfinished"></translation>
+        <translation>Importiert</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="386"/>
         <source>Cannot commit the changes to database</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen können nicht in die Datenbank übertragen werden</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="769"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../logformat/LogFormat.cpp" line="772"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Warnung</translation>
     </message>
 </context>
 <context>
@@ -3457,7 +3457,7 @@
     <message>
         <location filename="../ui/MainWindow.ui" line="306"/>
         <source>&amp;Export</source>
-        <translation type="unfinished">&amp;Exportieren</translation>
+        <translation>&amp;Exportieren</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="507"/>
@@ -3793,22 +3793,22 @@
     <message>
         <location filename="../core/Migration.cpp" line="261"/>
         <source>SOTA Summits</source>
-        <translation type="unfinished"></translation>
+        <translation>SOTA Gipfel</translation>
     </message>
     <message>
         <location filename="../core/Migration.cpp" line="264"/>
         <source>WWFF Records</source>
-        <translation type="unfinished"></translation>
+        <translation>WWFF Datensätze</translation>
     </message>
     <message>
         <location filename="../core/Migration.cpp" line="267"/>
         <source>IOTA Records</source>
-        <translation type="unfinished"></translation>
+        <translation>IOTA Datensätze</translation>
     </message>
     <message>
         <location filename="../core/Migration.cpp" line="270"/>
         <source>POTA Records</source>
-        <translation type="unfinished"></translation>
+        <translation>POTA Datensätze</translation>
     </message>
     <message>
         <location filename="../core/Migration.cpp" line="273"/>
@@ -4033,7 +4033,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="415"/>
         <source>Gridsquare</source>
-        <translation type="unfinished"></translation>
+        <translation>Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="875"/>
@@ -4093,7 +4093,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1369"/>
         <source>two or four adjacent Gridsquares, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
-        <translation type="unfinished"></translation>
+        <translation>zwei oder vier nebeneinander liegende, jeweils vier Zeichen lange Gitterfelder (z. B. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1412"/>
@@ -4414,17 +4414,17 @@
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="2267"/>
         <source>GE</source>
-        <translation type="unfinished"></translation>
+        <translation>GA</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="2277"/>
         <source>GM</source>
-        <translation type="unfinished"></translation>
+        <translation>GM</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="2283"/>
         <source>GA</source>
-        <translation type="unfinished"></translation>
+        <translation>GT</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="2536"/>
@@ -4553,32 +4553,32 @@
     <message>
         <location filename="../core/MembershipQE.cpp" line="210"/>
         <source>Club List Update failed. Cannot remove old records</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisierung der Clubliste fehlgeschlagen. Alte Datensätze können nicht entfernt werden</translation>
     </message>
     <message>
         <location filename="../core/MembershipQE.cpp" line="217"/>
         <source>Club List Update failed. Cannot plan new downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisierung der Clubliste fehlgeschlagen. Kann keine neuen Downloads durchführen</translation>
     </message>
     <message>
         <location filename="../core/MembershipQE.cpp" line="327"/>
         <source>QLog Critical</source>
-        <translation type="unfinished"></translation>
+        <translation>QLog kritischer Fehler</translation>
     </message>
     <message>
         <location filename="../core/MembershipQE.cpp" line="328"/>
         <source>Unexpected Club List download. Canceling next downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Unerwartete Clubliste herunterladen. Nächste Downloads beenden</translation>
     </message>
     <message>
         <location filename="../core/MembershipQE.cpp" line="343"/>
         <source>Unexpected Club List content for</source>
-        <translation type="unfinished"></translation>
+        <translation>Unerwarteter Inhalt der Clubliste für</translation>
     </message>
     <message>
         <location filename="../core/MembershipQE.cpp" line="350"/>
         <source>Network error. Cannot download Club List for</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkfehler. Clubliste kann nicht heruntergeladen werden für</translation>
     </message>
     <message>
         <source>DXCC update failed.</source>
@@ -4615,7 +4615,7 @@
         <location filename="../ui/AlertRuleDetail.cpp" line="160"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="475"/>
         <source>QLog Info</source>
-        <translation type="unfinished"></translation>
+        <translation>QLog Info</translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.cpp" line="144"/>
@@ -4706,12 +4706,12 @@
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="1235"/>
         <source>Gridsquare has an invalid format</source>
-        <translation type="unfinished"></translation>
+        <translation>Gitterfeld hat ein falsches Format</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="1244"/>
         <source>VUCC Grids have an invalid format (must be 2 or 4 Gridsquares separated by &apos;,&apos;)</source>
-        <translation type="unfinished"></translation>
+        <translation>VUCC Gitterfeld hat ein falsches Format (es müssen 2 oder 4 Gitterfelder sein, getrennt durch &apos;,&apos;)</translation>
     </message>
     <message>
         <source>CW Key port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
@@ -4747,7 +4747,7 @@
     <message>
         <location filename="../ui/ExportDialog.cpp" line="93"/>
         <source>Cannot write to the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann nicht in die Datei schreiben</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="149"/>
@@ -4757,8 +4757,8 @@
     <message numerus="yes">
         <location filename="../ui/ExportDialog.cpp" line="150"/>
         <source>Exported %n contact(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Kontakt(e) exportiert.</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -4880,84 +4880,84 @@
     <message>
         <location filename="../data/RigProfile.cpp" line="243"/>
         <source>My Rig</source>
-        <translation type="unfinished">Eigener Rig</translation>
+        <translation>Eigener Rig</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="165"/>
         <source>Logging Station Callsign</source>
-        <translation type="unfinished">Logging Station Rufzeichen</translation>
+        <translation>Logging-Station Rufzeichen</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="166"/>
         <source>My Gridsquare</source>
-        <translation type="unfinished">Eigenes Gitterfeld</translation>
+        <translation>Eigenes Gitterfeld</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="167"/>
         <source>My Name</source>
-        <translation type="unfinished">Eigener Name</translation>
+        <translation>Eigener Name</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="168"/>
         <source>My City</source>
-        <translation type="unfinished">Eigene Stadt</translation>
+        <translation>Eigene Stadt</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="169"/>
         <source>My IOTA</source>
-        <translation type="unfinished">Eigene IOTA Nummer</translation>
+        <translation>Eigene IOTA Nummer</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="170"/>
         <source>My SOTA</source>
-        <translation type="unfinished">Eigene SOTA Nummer</translation>
+        <translation>Eigene SOTA Nummer</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="171"/>
         <source>My Special Interest Activity</source>
-        <translation type="unfinished">Eigene spezielle Interessenaktivität</translation>
+        <translation>Eigene spezielle Interessenaktivität</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="172"/>
         <source>My Spec. Interes Activity Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigene spezielle Interessenaktivität Info</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="173"/>
         <source>My VUCC Grids</source>
-        <translation type="unfinished">Eigenes VUCC Gitterfeld</translation>
+        <translation>Eigenes VUCC Gitterfeld</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="174"/>
         <source>My WWFF</source>
-        <translation type="unfinished">Eigener WWFF</translation>
+        <translation>Eigener WWFF</translation>
     </message>
     <message>
         <location filename="../data/StationProfile.cpp" line="175"/>
         <source>My POTA Ref</source>
-        <translation type="unfinished">Eigene POTA Ref</translation>
+        <translation>Eigene POTA Ref</translation>
     </message>
     <message numerus="yes">
         <location filename="../ui/ImportDialog.cpp" line="297"/>
         <source>&lt;b&gt;Imported&lt;/b&gt;: %n contact(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Kontakt(e) &lt;b&gt;importiert&lt;/b&gt;.</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../ui/ImportDialog.cpp" line="298"/>
         <source>&lt;b&gt;Warning(s)&lt;/b&gt;: %n</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>&lt;b&gt;Warnungen &lt;/b&gt;: %n</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../ui/ImportDialog.cpp" line="299"/>
         <source>&lt;b&gt;Error(s)&lt;/b&gt;: %n</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>&lt;b&gt;Fehler &lt;/b&gt;: %n</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -5291,7 +5291,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="933"/>
         <source>two or four adjacent Gridsquares, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
-        <translation type="unfinished"></translation>
+        <translation>zwei oder vier nebeneinander liegende, jeweils vier Zeichen lange Gitterfelder (z. B. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="970"/>
@@ -5336,7 +5336,7 @@ Unmatched QSLs:
         <location filename="../ui/QSODetailDialog.ui" line="538"/>
         <location filename="../ui/QSODetailDialog.ui" line="1265"/>
         <source>Gridsquare</source>
-        <translation type="unfinished"></translation>
+        <translation>Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="963"/>
@@ -5706,7 +5706,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="868"/>
         <source>Own VUCC Grids have an incorrect format</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigenes VUCC Gitterfeld hat ein fehlerhaftes Format</translation>
     </message>
     <message>
         <source>Own VUCC Grid has an incorrect format</source>
@@ -6735,7 +6735,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/SettingsDialog.ui" line="174"/>
         <source>Profile name that is used as the alias for the Callsign, Gridsquare, Operator name, and QTH (required parameter) </source>
-        <translation type="unfinished"></translation>
+        <translation>Profilname, der als Alias für Rufzeichen, QTH-Locator, Operator-Name und QTH verwendet wird (erforderlich) </translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="423"/>
@@ -6782,7 +6782,22 @@ Unmatched QSLs:
 &lt;MYWWFT&gt; = My WWFT
 &lt;MYVUCC&gt; = MY VUCC
 &lt;MYPWR&gt; = My Power in W</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;DXCALL&gt; = DX Rufzeichen 
+&lt;NAME&gt; = DX Operator Name 
+&lt;RST&gt; = Report 599 
+&lt;RSTN&gt; = Report 5NN 
+&lt;GREETING&gt; = Grussformel GM/GA/GE 
+&lt;MYCALL&gt; = Eigenes Rufzeichen 
+&lt;MYNAME&gt; = Eigener Name 
+&lt;MYQTH&gt; = Eigenes QTH 
+&lt;MYLOCATOR&gt; = Eigenes Gitterfeld 
+&lt;MYSIG&gt; = Eigenes SIG 
+&lt;MYSIGINFO&gt; = Eigene SIG Information 
+&lt;MYIOTA&gt; = Eigenes IOTA 
+&lt;MYSOTA&gt; = Eigenes SOTA 
+&lt;MYWWFT&gt; = Eigenes WWFT 
+&lt;MYVUCC&gt; = Eigenes VUCC 
+&lt;MYPWR&gt; = Eigene Leistung in W</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1447"/>
@@ -7142,12 +7157,12 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="120"/>
         <source>Start (MHz)</source>
-        <translation type="unfinished"></translation>
+        <translation>Beginn (MHz)</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="121"/>
         <source>End (MHz)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ende (MHz)</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="179"/>
@@ -7283,7 +7298,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/StatisticsWidget.ui" line="64"/>
         <source>My Gridsquare</source>
-        <translation type="unfinished">Eigenes Gitterfeld</translation>
+        <translation>Eigenes Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/StatisticsWidget.ui" line="117"/>
@@ -7482,7 +7497,7 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/StatisticsWidget.cpp" line="216"/>
         <source>Sat</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/StatisticsWidget.cpp" line="262"/>
@@ -7718,12 +7733,12 @@ Unmatched QSLs:
     <message>
         <location filename="../ui/WsjtxFilterDialog.ui" line="215"/>
         <source>Member</source>
-        <translation type="unfinished">Mitglied</translation>
+        <translation>Mitglied</translation>
     </message>
     <message>
         <location filename="../ui/WsjtxFilterDialog.cpp" line="147"/>
         <source>No Club List is enabled</source>
-        <translation type="unfinished">Keine Clubliste aktiviert</translation>
+        <translation>Keine Clubliste aktiviert</translation>
     </message>
 </context>
 <context>
@@ -7765,7 +7780,7 @@ Unmatched QSLs:
     <message>
         <location filename="../models/WsjtxTableModel.cpp" line="71"/>
         <source>Gridsquare</source>
-        <translation type="unfinished"></translation>
+        <translation>Gitterfeld</translation>
     </message>
     <message>
         <location filename="../models/WsjtxTableModel.cpp" line="72"/>

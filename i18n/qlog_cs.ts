@@ -1478,8 +1478,12 @@
         <translation>Nahrát</translation>
     </message>
     <message>
-        <location filename="../ui/Eqsldialog.ui" line="26"/>
         <source>My Grigsquare</source>
+        <translation type="vanished">Můj lokátor</translation>
+    </message>
+    <message>
+        <location filename="../ui/Eqsldialog.ui" line="26"/>
+        <source>My Gridsquare</source>
         <translation>Můj lokátor</translation>
     </message>
     <message>
