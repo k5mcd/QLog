@@ -42,6 +42,21 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun May 7 2023 Ladislav Foldyna - 0.22.0-1
+- [NEW] - ADIF Import - My Profile is used to define default values
+- [NEW] - ADIF Import - Checking a minimal set of input fields (start_time, call, band, mode, station_callsign)
+- [NEW] - ADIF Import - Added Import Result Summary + Import Detail Info
+- [NEW] - Main Menu - Added Help -> Mailing List.
+- [NEW] - Export - Filter for the exported QSOs
+- [CHANGE] - Renamed Locator to Gridsquare
+- Fixed Some anomalies in the input and processing of QSLr Date (issue #192)
+- Fixed User unfriedly CW Keyer Error (issue #194)
+- Fixed ADIF import (issue #196)
+- Fixed Operator field is incorrectly used  (issue #197)
+- Fixed Crash if an unknown POTA & SOTA/WWFF Setting is entered (issue #198)
+- Fixed FLDIGI cannot connect QLog (issue #199)
+- Fixed if ADIF record is missing band info, add this from freq field (thx DJ5CW)
+
 * Sun Apr 16 2023 Ladislav Foldyna - 0.21.0-1
 - [NEW] - Rotator - Added Used-Defined Buttons
 - [NEW] - Rotator - Added Destination Azimuth Needle
