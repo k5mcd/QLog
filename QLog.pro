@@ -109,6 +109,7 @@ SOURCES += \
         ui/DxFilterDialog.cpp \
         ui/DxWidget.cpp \
         ui/DxccTableWidget.cpp \
+        ui/EditLine.cpp \
         ui/Eqsldialog.cpp \
         ui/ExportDialog.cpp \
         ui/ImportDialog.cpp \
@@ -215,6 +216,7 @@ HEADERS += \
         ui/DxFilterDialog.h \
         ui/DxWidget.h \
         ui/DxccTableWidget.h \
+        ui/EditLine.h \
         ui/Eqsldialog.h \
         ui/ExportDialog.h \
         ui/ImportDialog.h \

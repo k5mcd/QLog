@@ -37,7 +37,7 @@
      <item row="1" column="5">
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
-        <widget class="QLineEdit" name="rstSentEdit">
+        <widget class="NewContactEditLine" name="rstSentEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -64,7 +64,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="rstRcvdEdit">
+        <widget class="NewContactEditLine" name="rstRcvdEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -349,7 +349,7 @@
       </layout>
      </item>
      <item row="1" column="3">
-      <widget class="QLineEdit" name="callsignEdit">
+      <widget class="NewContactEditLine" name="callsignEdit">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -509,7 +509,7 @@
       <number>0</number>
      </property>
      <item row="1" column="3">
-      <widget class="QLineEdit" name="commentEdit">
+      <widget class="NewContactEditLine" name="commentEdit">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -540,7 +540,7 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QLineEdit" name="gridEdit">
+      <widget class="NewContactEditLine" name="gridEdit">
        <property name="maximumSize">
         <size>
          <width>120</width>
@@ -569,7 +569,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLineEdit" name="nameEdit">
+      <widget class="NewContactEditLine" name="nameEdit">
        <property name="maximumSize">
         <size>
          <width>180</width>
@@ -582,7 +582,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="qthEdit">
+      <widget class="NewContactEditLine" name="qthEdit">
        <property name="maximumSize">
         <size>
          <width>250</width>
@@ -730,7 +730,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="ituEdit">
+          <widget class="NewContactEditLine" name="ituEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -759,7 +759,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="cqEdit">
+          <widget class="NewContactEditLine" name="cqEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -788,7 +788,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="stateEdit">
+          <widget class="NewContactEditLine" name="stateEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -814,7 +814,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="countyEdit">
+          <widget class="NewContactEditLine" name="countyEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -840,7 +840,7 @@
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="QLineEdit" name="ageEdit">
+          <widget class="NewContactEditLine" name="ageEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -925,7 +925,7 @@
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QLineEdit" name="vuccEdit">
+          <widget class="NewContactEditLine" name="vuccEdit">
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
            </property>
@@ -955,7 +955,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="dokEdit">
+          <widget class="NewContactEditLine" name="dokEdit">
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
            </property>
@@ -972,7 +972,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="iotaEdit">
+          <widget class="NewContactEditLine" name="iotaEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -998,7 +998,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="potaEdit"/>
+          <widget class="NewContactEditLine" name="potaEdit"/>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="sotaLabel">
@@ -1008,7 +1008,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="sotaEdit">
+          <widget class="NewContactEditLine" name="sotaEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1028,7 +1028,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="wwffEdit"/>
+          <widget class="NewContactEditLine" name="wwffEdit"/>
          </item>
          <item row="5" column="0">
           <widget class="QLabel" name="sigLabel">
@@ -1038,7 +1038,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="sigEdit">
+          <widget class="NewContactEditLine" name="sigEdit">
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
            </property>
@@ -1052,7 +1052,7 @@
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="QLineEdit" name="sigInfoEdit">
+          <widget class="NewContactEditLine" name="sigInfoEdit">
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
            </property>
@@ -1076,7 +1076,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="emailEdit">
+          <widget class="NewContactEditLine" name="emailEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1096,7 +1096,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="urlEdit">
+          <widget class="NewContactEditLine" name="urlEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1247,7 +1247,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="myCallsignEdit"/>
+          <widget class="NewContactEditLine" name="myCallsignEdit"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="myOperatorNameLabel">
@@ -1257,7 +1257,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="myOperatorNameEdit"/>
+          <widget class="NewContactEditLine" name="myOperatorNameEdit"/>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="myGridLabel">
@@ -1267,7 +1267,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="myGridEdit"/>
+          <widget class="NewContactEditLine" name="myGridEdit"/>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="myQTHLabel">
@@ -1277,7 +1277,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="myQTHEdit"/>
+          <widget class="NewContactEditLine" name="myQTHEdit"/>
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="myRigLabel">
@@ -1287,7 +1287,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="myRigEdit"/>
+          <widget class="NewContactEditLine" name="myRigEdit"/>
          </item>
          <item row="5" column="0">
           <widget class="QLabel" name="myAntLabel">
@@ -1297,7 +1297,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="myAntEdit"/>
+          <widget class="NewContactEditLine" name="myAntEdit"/>
          </item>
          <item row="6" column="0">
           <widget class="QLabel" name="powerLabel">
@@ -1352,7 +1352,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="myIOTAEdit"/>
+          <widget class="NewContactEditLine" name="myIOTAEdit"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="myPOTALabel">
@@ -1362,7 +1362,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="myPOTAEdit"/>
+          <widget class="NewContactEditLine" name="myPOTAEdit"/>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="mySOTALabel">
@@ -1372,7 +1372,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="mySOTAEdit"/>
+          <widget class="NewContactEditLine" name="mySOTAEdit"/>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="myWWFFLabel">
@@ -1382,7 +1382,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="myWWFFEdit"/>
+          <widget class="NewContactEditLine" name="myWWFFEdit"/>
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="mySIGLabel">
@@ -1392,7 +1392,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="mySIGEdit"/>
+          <widget class="NewContactEditLine" name="mySIGEdit"/>
          </item>
          <item row="5" column="0">
           <widget class="QLabel" name="mySIGInfoLabel">
@@ -1402,10 +1402,10 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="mySIGInfoEdit"/>
+          <widget class="NewContactEditLine" name="mySIGInfoEdit"/>
          </item>
          <item row="6" column="1">
-          <widget class="QLineEdit" name="myVUCCEdit"/>
+          <widget class="NewContactEditLine" name="myVUCCEdit"/>
          </item>
          <item row="6" column="0">
           <widget class="QLabel" name="myVUCCLabel">
@@ -1689,7 +1689,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="qslViaEdit">
+          <widget class="NewContactEditLine" name="qslViaEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1864,7 +1864,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="contestIDEdit"/>
+            <widget class="NewContactEditLine" name="contestIDEdit"/>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="srxLabel">
@@ -1874,7 +1874,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="srxEdit">
+            <widget class="NewContactEditLine" name="srxEdit">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -1888,7 +1888,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="srxStringEdit">
+            <widget class="NewContactEditLine" name="srxStringEdit">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -1902,7 +1902,7 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QLineEdit" name="stxEdit">
+            <widget class="NewContactEditLine" name="stxEdit">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -1916,7 +1916,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QLineEdit" name="stxStringEdit">
+            <widget class="NewContactEditLine" name="stxStringEdit">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -2020,6 +2020,11 @@
    <class>DxccTableWidget</class>
    <extends>QTableView</extends>
    <header>ui/DxccTableWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NewContactEditLine</class>
+   <extends>QLineEdit</extends>
+   <header>ui/EditLine.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
