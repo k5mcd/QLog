@@ -1,3 +1,5 @@
+TBC - 0.23.0
+
 2023/05/07 - 0.22.0
 - [NEW] - ADIF Import - My Profile is used to define default values
 - [NEW] - ADIF Import - Checking a minimal set of input fields (start_time, call, band, mode, station_callsign)
