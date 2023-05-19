@@ -1619,6 +1619,16 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
     }
 
     QItemDelegate::setEditorData(editor, index);
+
+    // Hack: all NewContactEditLines should display
+    // an initial part of the line.
+    // Do not insert this functionality to NewContactEditLines because
+    // this function is wanted only for the QSODetail Widget.
+    NewContactEditLine* lineEdit = qobject_cast<NewContactEditLine*>(editor);
+    if ( lineEdit )
+    {
+        lineEdit->home(false);
+    }
 }
 
 void QSOEditMapperDelegate::setModelData(QWidget *editor,
