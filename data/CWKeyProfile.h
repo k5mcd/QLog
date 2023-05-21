@@ -30,6 +30,8 @@ public:
     CWKey::CWKeyModeID keyMode;
     QString portPath;
     quint32 baudrate;
+    QString hostname;
+    quint16 netport;
 
     bool operator== (const CWKeyProfile &profile);
     bool operator!= (const CWKeyProfile &profile);

@@ -1,3 +1,4 @@
+#include <QHostInfo>
 #include "CWKey.h"
 #include "core/debug.h"
 
@@ -12,6 +13,16 @@ CWKey::CWKey(CWKeyModeID mode, qint32 defaultWPM, QObject *parent) :
     rigMustConnectedCap(false)
 {
     FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << mode << defaultWPM;
+}
+
+void CWKey::printKeyCaps()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << "stopSendingCap" << stopSendingCap;
+    qCDebug(runtime) << "echoCharsCap" << echoCharsCap;
+    qCDebug(runtime) << "rigMustConnectedCap" << rigMustConnectedCap;
 }
 
 CWKey::CWKeyTypeID CWKey::intToTypeID(int i)
@@ -36,6 +47,13 @@ CWKey::CWKeyModeID CWKey::intToModeID(int i)
         return LAST_MODE;
     }
     return static_cast<CWKey::CWKeyModeID>(i);
+}
+
+bool CWKey::isNetworkKey(const CWKeyTypeID &type)
+{
+    FCT_IDENTIFICATION;
+
+    return (type == CWDAEMON_KEYER);
 }
 
 QDataStream& operator>>(QDataStream &in, CWKey::CWKeyModeID &v)
@@ -72,6 +90,8 @@ CWKeySerialInterface::CWKeySerialInterface(const QString &portName,
     timeout(timeout)
 {
     FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << portName << baudrate << timeout;
 
     serial.setPortName(portName);
 
@@ -184,4 +204,49 @@ qint64 CWKeySerialInterface::writeAsyncData(const QByteArray &data)
     }
 
     return ret;
+}
+
+CWKeyUDPInterface::CWKeyUDPInterface(const QString &hostname,
+                                     const quint16 port) :
+    CWKeyIPInterface(hostname, port)
+{
+    FCT_IDENTIFICATION;
+}
+
+qint64 CWKeyUDPInterface::sendData(const QByteArray &data)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << "\t<<<<<< SND: " << data << "(" << serverName << "port:" << port << ")";
+
+    return socket.writeDatagram(data, serverName, port);
+}
+
+bool CWKeyUDPInterface::isSocketReady()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << hasIPAddress;
+
+    return hasIPAddress;
+}
+
+CWKeyIPInterface::CWKeyIPInterface(const QString &hostname,
+                                   const quint16 port) :
+    serverName(QHostAddress()),
+    port(port),
+    hasIPAddress(false)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << hostname << port;
+
+    QHostInfo info = QHostInfo::fromName(hostname);
+
+    if (info.error() == QHostInfo::NoError)
+    {
+        serverName = QHostAddress(info.addresses().at(0));
+        qCDebug(runtime) << "Using IP address" << serverName;
+        hasIPAddress = true;
+    }
 }

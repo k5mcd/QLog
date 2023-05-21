@@ -35,14 +35,15 @@
 #include "core/MembershipQE.h"
 #include "models/SqlListModel.h"
 
-#define WIDGET_INDEX_SERIAL_RIG  0
-#define STACKED_WIDGET_NETWORK_RIG 1
+#define STACKED_WIDGET_SERIAL_SETTING  0
+#define STACKED_WIDGET_NETWORK_SETTING 1
 #define EMPTY_CWKEY_PROFILE " "
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
 #define RIG_NET_DEFAULT_PORT 4532
 #define ROT_NET_DEFAULT_PORT 4533
+#define CW_NET_DEFAULT_PORT 6789
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -206,6 +207,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->cwModelSelect->addItem(tr("Dummy"), CWKey::DUMMY_KEYER);
     ui->cwModelSelect->addItem(tr("Morse Over CAT"), CWKey::MORSEOVERCAT);
     ui->cwModelSelect->addItem(tr("WinKey v2"), CWKey::WINKEY2_KEYER);
+    ui->cwModelSelect->addItem(tr("CWDaemon"), CWKey::CWDAEMON_KEYER);
     ui->cwModelSelect->setCurrentIndex(ui->cwModelSelect->findData(DEFAULT_CWKEY_MODEL));
 
     ui->cwKeyModeSelect->addItem(tr("Single Paddle"), CWKey::SINGLE_PADDLE);
@@ -356,35 +358,35 @@ void SettingsDialog::addRigProfile()
     profile.txFreqStart = ui->rigTXFreqMinSpinBox->value();
     profile.txFreqEnd = ui->rigTXFreqMaxSpinBox->value();
 
-    profile.hostname = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.hostname = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 QString() :
                 ui->rigHostNameEdit->text();
 
-    profile.netport = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.netport = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 0 :
                 ui->rigNetPortSpin->value();
 
-    profile.portPath = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.portPath = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rigPortEdit->text() :
                 QString();
 
-    profile.baudrate = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.baudrate = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rigBaudSelect->currentText().toInt() :
                 0;
 
-    profile.databits = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.databits = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rigDataBitsSelect->currentText().toInt():
                 0;
 
-    profile.stopbits = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.stopbits = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rigStopBitsSelect->currentText().toFloat() :
                 0;
 
-    profile.flowcontrol = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.flowcontrol = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rigFlowControlSelect->currentData().toString() :
                 QString();
 
-    profile.parity = ( ui->rigStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.parity = ( ui->rigStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rigParitySelect->currentData().toString():
                 QString();
 
@@ -578,35 +580,35 @@ void SettingsDialog::addRotProfile()
 
     profile.model = ui->rotModelSelect->currentData().toInt();
 
-    profile.hostname = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.hostname = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 QString() :
                 ui->rotHostNameEdit->text();
 
-    profile.netport = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.netport = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 0 :
                 ui->rotNetPortSpin->value();
 
-    profile.portPath = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.portPath = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rotPortEdit->text() :
                 QString();
 
-    profile.baudrate = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.baudrate = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rotBaudSelect->currentText().toInt() :
                 0;
 
-    profile.databits = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.databits = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rotDataBitsSelect->currentText().toInt():
                 0;
 
-    profile.stopbits = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.stopbits = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rotStopBitsSelect->currentText().toFloat() :
                 0;
 
-    profile.flowcontrol = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.flowcontrol = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rotFlowControlSelect->currentData().toString() :
                 QString();
 
-    profile.parity = ( ui->rotStackedWidget->currentIndex() == WIDGET_INDEX_SERIAL_RIG ) ?
+    profile.parity = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
                 ui->rotParitySelect->currentData().toString():
                 QString();
 
@@ -902,8 +904,22 @@ void SettingsDialog::addCWKeyProfile()
     cwKeyNewProfile.profileName = ui->cwProfileNameEdit->text();
     cwKeyNewProfile.defaultSpeed = ui->cwDefaulSpeed->value();
     cwKeyNewProfile.keyMode = CWKey::intToModeID(ui->cwKeyModeSelect->currentData().toInt());
-    cwKeyNewProfile.portPath = ui->cwPortEdit->text();
-    cwKeyNewProfile.baudrate = ui->cwBaudSelect->currentText().toInt();
+
+    cwKeyNewProfile.hostname = ( ui->cwStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
+                QString() :
+                ui->cwHostNameEdit->text();
+
+    cwKeyNewProfile.netport = ( ui->cwStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
+                0 :
+                ui->cwNetPortSpin->value();
+
+    cwKeyNewProfile.portPath = ( ui->cwStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
+                ui->cwPortEdit->text() :
+                QString();
+
+    cwKeyNewProfile.baudrate = ( ui->cwStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
+                ui->cwBaudSelect->currentText().toInt() :
+                0;
 
     QStringList noMorseCATSupportRigs;
 
@@ -1022,6 +1038,8 @@ void SettingsDialog::doubleClickCWKeyProfile(QModelIndex i)
     ui->cwKeyModeSelect->setCurrentIndex(ui->cwKeyModeSelect->findData(profile.keyMode));
     ui->cwPortEdit->setText(profile.portPath);
     ui->cwBaudSelect->setCurrentText(QString::number(profile.baudrate));
+    ui->cwHostNameEdit->setText(profile.hostname);
+    ui->cwNetPortSpin->setValue(profile.netport);
 
     ui->cwAddProfileButton->setText(tr("Modify"));
 }
@@ -1037,6 +1055,8 @@ void SettingsDialog::clearCWKeyProfileForm()
     ui->cwDefaulSpeed->setValue(20);
     ui->cwPortEdit->clear();
     ui->cwBaudSelect->setCurrentIndex(0);
+    ui->cwHostNameEdit->clear();
+    ui->cwNetPortSpin->setValue(CW_NET_DEFAULT_PORT);
 
     ui->cwAddProfileButton->setText(tr("Add"));
 }
@@ -1438,7 +1458,19 @@ void SettingsDialog::cwKeyChanged(int)
 {
     FCT_IDENTIFICATION;
 
-    if ( ui->cwModelSelect->currentData().toInt() == CWKey::MORSEOVERCAT )
+    const CWKey::CWKeyTypeID currentType = CWKey::intToTypeID(ui->cwModelSelect->currentData().toInt());
+
+    if ( CWKey::isNetworkKey(currentType) )
+    {
+        ui->cwStackedWidget->setCurrentIndex(STACKED_WIDGET_NETWORK_SETTING);
+    }
+    else
+    {
+        ui->cwStackedWidget->setCurrentIndex(STACKED_WIDGET_SERIAL_SETTING);
+    }
+
+    if ( currentType == CWKey::MORSEOVERCAT
+         || currentType == CWKey::CWDAEMON_KEYER )
     {
         ui->cwBaudSelect->setEnabled(false);
         ui->cwPortEdit->setEnabled(false);
@@ -1453,7 +1485,7 @@ void SettingsDialog::cwKeyChanged(int)
         ui->cwKeyModeSelect->setEnabled(true);
     }
 
-    if ( ui->cwModelSelect->currentData().toInt() == CWKey::WINKEY2_KEYER )
+    if ( currentType == CWKey::WINKEY2_KEYER )
     {
         ui->cwBaudSelect->setCurrentText("1200");
     }

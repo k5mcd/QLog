@@ -3,6 +3,7 @@
 #include "CWDummyKey.h"
 #include "CWWinKey.h"
 #include "CWCatKey.h"
+#include "CWDaemonKey.h"
 #include "core/debug.h"
 #include "data/CWKeyProfile.h"
 #include "core/Rig.h"
@@ -121,6 +122,13 @@ void CWKeyer::__openCWKey()
         cwKey = new CWCatKey(newProfile.keyMode,
                              newProfile.defaultSpeed,
                              this);
+        break;
+     case CWKey::CWDAEMON_KEYER:
+        cwKey = new CWDaemonKey(newProfile.hostname,
+                                newProfile.netport,
+                                newProfile.keyMode,
+                                newProfile.defaultSpeed,
+                                this);
         break;
     default:
         cwKey = nullptr;

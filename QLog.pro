@@ -45,6 +45,7 @@ SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
         core/CWCatKey.cpp \
+        core/CWDaemonKey.cpp \
         core/CWDummyKey.cpp \
         core/CWKey.cpp \
         core/CWKeyer.cpp \
@@ -141,6 +142,7 @@ HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
         core/CWCatKey.h \
+        core/CWDaemonKey.h \
         core/CWDummyKey.h \
         core/CWKey.h \
         core/CWKeyer.h \

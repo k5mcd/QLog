@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QtSerialPort>
+#include <QUdpSocket>
 
 class CWKeySerialInterface
 {
@@ -22,6 +23,35 @@ protected:
     qint32 timeout;
     QMutex portMutex;
 };
+class CWKeyIPInterface
+{
+public:
+    explicit CWKeyIPInterface(const QString &hostname,
+                               const quint16 port);
+    ~CWKeyIPInterface() {};
+
+protected:
+    virtual qint64 sendData(const QByteArray &data) = 0;
+    virtual bool isSocketReady() = 0;
+
+    QHostAddress serverName;
+    quint16 port;
+    bool hasIPAddress;
+};
+
+class CWKeyUDPInterface : public CWKeyIPInterface
+{
+public:
+    explicit CWKeyUDPInterface(const QString &hostname,
+                               const quint16 port);
+    ~CWKeyUDPInterface() {};
+
+protected:
+    virtual qint64 sendData(const QByteArray &data) override;
+    virtual bool isSocketReady() override;
+
+    QUdpSocket socket;
+};
 
 class CWKey : public QObject
 {
@@ -33,7 +63,8 @@ public:
         DUMMY_KEYER = 0,
         WINKEY2_KEYER = 1,
         MORSEOVERCAT = 2,
-        LAST_MODEL = 2
+        CWDAEMON_KEYER = 3,
+        LAST_MODEL = 3
     };
 
     enum CWKeyModeID
@@ -64,8 +95,11 @@ public:
     virtual bool canEchoChar() { return echoCharsCap;}
     virtual bool mustRigConnected() { return rigMustConnectedCap;}
 
+    void printKeyCaps();
+
     static CWKeyTypeID intToTypeID(int);
     static CWKeyModeID intToModeID(int);
+    static bool isNetworkKey(const CWKeyTypeID &type);
 
     friend QDataStream& operator<<(QDataStream& out, const CWKeyTypeID& v);
     friend QDataStream& operator>>(QDataStream& in, CWKeyTypeID& v);

@@ -674,13 +674,13 @@
                         <string>HamLib does not support to change a destination port.</string>
                        </property>
                        <property name="minimum">
-                        <number>4533</number>
+                        <number>1024</number>
                        </property>
                        <property name="maximum">
                         <number>65535</number>
                        </property>
                        <property name="value">
-                        <number>4533</number>
+                        <number>6789</number>
                        </property>
                       </widget>
                      </item>
