@@ -208,6 +208,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->cwModelSelect->addItem(tr("Morse Over CAT"), CWKey::MORSEOVERCAT);
     ui->cwModelSelect->addItem(tr("WinKey v2"), CWKey::WINKEY2_KEYER);
     ui->cwModelSelect->addItem(tr("CWDaemon"), CWKey::CWDAEMON_KEYER);
+    ui->cwModelSelect->addItem(tr("FLDigi"), CWKey::FLDIGI_KEYER);
     ui->cwModelSelect->setCurrentIndex(ui->cwModelSelect->findData(DEFAULT_CWKEY_MODEL));
 
     ui->cwKeyModeSelect->addItem(tr("Single Paddle"), CWKey::SINGLE_PADDLE);
@@ -1483,6 +1484,15 @@ void SettingsDialog::cwKeyChanged(int)
         ui->cwBaudSelect->setEnabled(true);
         ui->cwPortEdit->setEnabled(true);
         ui->cwKeyModeSelect->setEnabled(true);
+    }
+
+    if ( currentType == CWKey::CWDAEMON_KEYER )
+    {
+        ui->cwNetPortSpin->setValue(6789);
+    }
+    else if ( currentType == CWKey::FLDIGI_KEYER )
+    {
+        ui->cwNetPortSpin->setValue(7362);
     }
 
     if ( currentType == CWKey::WINKEY2_KEYER )

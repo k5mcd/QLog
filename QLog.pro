@@ -47,6 +47,7 @@ SOURCES += \
         core/CWCatKey.cpp \
         core/CWDaemonKey.cpp \
         core/CWDummyKey.cpp \
+        core/CWFldigiKey.cpp \
         core/CWKey.cpp \
         core/CWKeyer.cpp \
         core/CWWinKey.cpp \
@@ -144,6 +145,7 @@ HEADERS += \
         core/CWCatKey.h \
         core/CWDaemonKey.h \
         core/CWDummyKey.h \
+        core/CWFldigiKey.h \
         core/CWKey.h \
         core/CWKeyer.h \
         core/CWWinKey.h \

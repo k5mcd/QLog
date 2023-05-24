@@ -53,6 +53,19 @@ protected:
     QUdpSocket socket;
 };
 
+class CWKeyWebServiceInterface : public CWKeyIPInterface
+{
+public:
+    explicit CWKeyWebServiceInterface(const QString &hostname,
+                               const quint16 port);
+    ~CWKeyWebServiceInterface() {};
+
+protected:
+    virtual qint64 sendData(const QByteArray &data) override;
+    virtual bool isSocketReady() override;
+
+};
+
 class CWKey : public QObject
 {
     Q_OBJECT;
@@ -64,7 +77,8 @@ public:
         WINKEY2_KEYER = 1,
         MORSEOVERCAT = 2,
         CWDAEMON_KEYER = 3,
-        LAST_MODEL = 3
+        FLDIGI_KEYER = 4,
+        LAST_MODEL = 4
     };
 
     enum CWKeyModeID
@@ -94,6 +108,7 @@ public:
     virtual bool canStopSending() { return stopSendingCap;}
     virtual bool canEchoChar() { return echoCharsCap;}
     virtual bool mustRigConnected() { return rigMustConnectedCap;}
+    virtual bool canSetSpeed() { return canSetKeySpeed; };
 
     void printKeyCaps();
 
@@ -114,6 +129,7 @@ protected:
     bool stopSendingCap;
     bool echoCharsCap;
     bool rigMustConnectedCap;
+    bool canSetKeySpeed;
 };
 
 #endif // CWKEY_H

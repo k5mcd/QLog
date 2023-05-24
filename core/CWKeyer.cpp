@@ -4,6 +4,7 @@
 #include "CWWinKey.h"
 #include "CWCatKey.h"
 #include "CWDaemonKey.h"
+#include "CWFldigiKey.h"
 #include "core/debug.h"
 #include "data/CWKeyProfile.h"
 #include "core/Rig.h"
@@ -130,6 +131,13 @@ void CWKeyer::__openCWKey()
                                 newProfile.defaultSpeed,
                                 this);
         break;
+    case CWKey::FLDIGI_KEYER:
+       cwKey = new CWFldigiKey(newProfile.hostname,
+                               newProfile.netport,
+                               newProfile.keyMode,
+                               newProfile.defaultSpeed,
+                               this);
+        break;
     default:
         cwKey = nullptr;
         qWarning() << "Unsupported Key Model " << newProfile.model;
@@ -224,6 +232,26 @@ bool CWKeyer::rigMustConnected()
 
 
     bool ret = cwKey->mustRigConnected();
+
+    return ret;
+}
+
+bool CWKeyer::canSetSpeed()
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(runtime) << "Waiting for cwkey mutex";
+
+    QMutexLocker locker(&cwKeyLock);
+
+    qCDebug(runtime) << "Using Key";
+
+    if ( !cwKey )
+    {
+        return false;
+    }
+
+    bool ret = cwKey->canSetSpeed();
 
     return ret;
 }
@@ -370,4 +398,9 @@ CWKeyer::CWKeyer(QObject *parent ) :
 CWKeyer::~CWKeyer()
 {
     FCT_IDENTIFICATION;
+
+    if ( cwKey )
+    {
+        cwKey->deleteLater();
+    }
 }

@@ -27,6 +27,7 @@ CWWinKey2::CWWinKey2(const QString &portName,
 
     stopSendingCap = true;
     echoCharsCap = true;
+    canSetKeySpeed = true;
 }
 
 CWWinKey2::~CWWinKey2()

@@ -29,6 +29,7 @@ public slots:
     bool canStopSending();
     bool canEchoChar();
     bool rigMustConnected();
+    bool canSetSpeed();
 
     void setSpeed(const qint16 wpm);
     void sendText(const QString&);

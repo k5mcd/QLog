@@ -9,6 +9,7 @@ CWDummyKey::CWDummyKey(QObject *parent)
       isUsed(false)
 {
     FCT_IDENTIFICATION;
+    canSetKeySpeed = true;
 }
 
 bool CWDummyKey::open()

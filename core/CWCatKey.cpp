@@ -69,6 +69,7 @@ bool CWCatKey::open()
 #endif
     rigMustConnectedCap = true;
     isKeyConnected = true;
+    canSetKeySpeed = true;
     lastErrorText = QString();
 
     connect(Rig::instance(), &Rig::keySpeedChanged, this, &CWCatKey::rigKeySpeedChanged);

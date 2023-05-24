@@ -10,7 +10,8 @@ CWKey::CWKey(CWKeyModeID mode, qint32 defaultWPM, QObject *parent) :
     defaultWPMSpeed(defaultWPM),
     stopSendingCap(false),
     echoCharsCap(false),
-    rigMustConnectedCap(false)
+    rigMustConnectedCap(false),
+    canSetKeySpeed(false)
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << mode << defaultWPM;
@@ -23,6 +24,7 @@ void CWKey::printKeyCaps()
     qCDebug(runtime) << "stopSendingCap" << stopSendingCap;
     qCDebug(runtime) << "echoCharsCap" << echoCharsCap;
     qCDebug(runtime) << "rigMustConnectedCap" << rigMustConnectedCap;
+    qCDebug(runtime) << "canSetKeySpeed" << canSetKeySpeed;
 }
 
 CWKey::CWKeyTypeID CWKey::intToTypeID(int i)
@@ -53,7 +55,11 @@ bool CWKey::isNetworkKey(const CWKeyTypeID &type)
 {
     FCT_IDENTIFICATION;
 
-    return (type == CWDAEMON_KEYER);
+    bool ret = (type == CWDAEMON_KEYER
+                || type == FLDIGI_KEYER );
+
+    qCDebug(runtime) << ret;
+    return ret;
 }
 
 QDataStream& operator>>(QDataStream &in, CWKey::CWKeyModeID &v)

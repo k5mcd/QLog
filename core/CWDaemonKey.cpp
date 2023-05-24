@@ -16,7 +16,7 @@ CWDaemonKey::CWDaemonKey(const QString &hostname,
     FCT_IDENTIFICATION;
 
     stopSendingCap = true;
-
+    canSetKeySpeed = true;
     printKeyCaps();
 }
 
@@ -58,7 +58,7 @@ bool CWDaemonKey::sendText(const QString &text)
     if ( !isOpen )
     {
         qCWarning(runtime) << "Key is not opened";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Keyer is not connected"));
+        emit keyError(tr("Cannot sent text"), tr("Keyer is not connected"));
         return false;
     }
 
@@ -75,7 +75,7 @@ bool CWDaemonKey::setWPM(const qint16 wpm)
     if ( !isOpen )
     {
         qCWarning(runtime) << "Key is not opened";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Keyer is not connected"));
+        emit keyError(tr("Cannot set Key Speed"), tr("Keyer is not connected"));
         return false;
     }
 
@@ -91,7 +91,7 @@ bool CWDaemonKey::imediatellyStop()
     if ( !isOpen )
     {
         qCWarning(runtime) << "Key is not opened";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Keyer is not connected"));
+        emit keyError(tr("Cannot Stop Sending"), tr("Keyer is not connected"));
         return false;
     }
 

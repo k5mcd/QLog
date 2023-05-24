@@ -154,13 +154,14 @@ void CWConsoleWidget::allowMorseSending(bool allow)
     {
         ui->cwEchoConsoleText->setEnabled(CWKeyer::instance()->canEchoChar());
         ui->haltButton->setEnabled(CWKeyer::instance()->canStopSending());
+        ui->cwKeySpeedSpinBox->setEnabled(CWKeyer::instance()->canSetSpeed());
     }
     else
     {
         ui->cwEchoConsoleText->setEnabled(allow);
         ui->haltButton->setEnabled(allow);
+        ui->cwKeySpeedSpinBox->setEnabled(allow);
     }
-    ui->cwKeySpeedSpinBox->setEnabled(allow);
     ui->cwConsoleText->setEnabled(allow);
     ui->cwSendEdit->setEnabled(allow);
     ui->cwShortcutProfileCombo->setEnabled(allow);
