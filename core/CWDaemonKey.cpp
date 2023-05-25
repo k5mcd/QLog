@@ -57,8 +57,9 @@ bool CWDaemonKey::sendText(const QString &text)
 
     if ( !isOpen )
     {
-        qCWarning(runtime) << "Key is not opened";
-        emit keyError(tr("Cannot sent text"), tr("Keyer is not connected"));
+        qCWarning(runtime) << "Key is not connected";
+        lastLogicalError = tr("Keyer is not connected");
+        emit keyError(tr("Cannot sent text"), lastLogicalError);
         return false;
     }
 
@@ -74,8 +75,9 @@ bool CWDaemonKey::setWPM(const qint16 wpm)
 
     if ( !isOpen )
     {
-        qCWarning(runtime) << "Key is not opened";
-        emit keyError(tr("Cannot set Key Speed"), tr("Keyer is not connected"));
+        qCWarning(runtime) << "Key is not connected";
+        lastLogicalError = tr("Keyer is not connected");
+        emit keyError(tr("Cannot set Key Speed"), lastLogicalError);
         return false;
     }
 
@@ -90,8 +92,9 @@ bool CWDaemonKey::imediatellyStop()
 
     if ( !isOpen )
     {
-        qCWarning(runtime) << "Key is not opened";
-        emit keyError(tr("Cannot Stop Sending"), tr("Keyer is not connected"));
+        qCWarning(runtime) << "Key is not connected";
+        lastLogicalError = tr("Keyer is not connected");
+        emit keyError(tr("Cannot Stop Sending"), lastLogicalError);
         return false;
     }
 
