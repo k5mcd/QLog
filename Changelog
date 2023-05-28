@@ -1,6 +1,9 @@
 TBC - 0.23.0
+- [NEW] - Added CWDaemon Keyer Support
+- [NEW] - Added FLDigi Keyer Support
 - [NEW] - Online Map - based on locale, the map language is selected (Only EN, FR, GE supported - issue #180)
 - Fixed After entering longer QTH, the field content is not left-aligned (issue #157)
+- Fixed wrong QSO Time in case of JTDX (issue #204)
 
 2023/05/07 - 0.22.0
 - [NEW] - ADIF Import - My Profile is used to define default values
