@@ -311,6 +311,18 @@ void Wsjtx::readPendingDatagrams()
             decode.mode = QString(mode);
             decode.message = QString(message);
 
+            if ( id.contains("JTDX") )
+            {
+                /* It's a workaround for JTDX only.
+                 * JTDX sends the time without a time zone. Which is
+                 * interpreted by QLog as time in the local zone and
+                 * it is therefore recalculated, incorrectly, to UTC.
+                 * Therefore it is needed to add timezone to date information
+                 * received from JTDX
+                 */
+                // it is not needed to convert it here?
+            }
+
             qCDebug(runtime) << decode;
 
             emit decodeReceived(decode);
@@ -342,6 +354,19 @@ void Wsjtx::readPendingDatagrams()
             log.exch_rcvd = QString(exch_rcvd);
             log.prop_mode = QString(prop_mode);
 
+            if ( id.contains("JTDX") )
+            {
+                /* It's a workaround for JTDX only.
+                 * JTDX sends the time without a time zone. Which is
+                 * interpreted by QLog as time in the local zone and
+                 * it is therefore recalculated, incorrectly, to UTC.
+                 * Therefore it is needed to add timezone to date information
+                 * received from JTDX
+                 */
+                qCDebug(runtime) << "JTDX detected - adding Timezone information";
+                log.time_on.setTimeZone(QTimeZone::utc());
+                log.time_off.setTimeZone(QTimeZone::utc());
+            }
             qCDebug(runtime) << log;
 
             insertContact(log);
