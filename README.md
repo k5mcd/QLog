@@ -40,6 +40,12 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 ### Supported Rotators
 * all supported by [Hamlib](https://hamlib.github.io/)
 
+### Supported Keyers
+* [CWDaemon](https://cwdaemon.sourceforge.net/)
+* [FLDigi](http://www.w1hkj.com/)
+* Morse Over CAT
+* WinKey v2 compatible hardware
+
 ### Third-party software
 * [TQSL](http://www.arrl.org/tqsl-download) – optional, needed for LoTW support
 
