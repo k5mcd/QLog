@@ -528,11 +528,14 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="specialValueText">
+                    <string>N/A</string>
+                   </property>
                    <property name="suffix">
                     <string> WPM</string>
                    </property>
                    <property name="minimum">
-                    <number>1</number>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
                     <number>999</number>

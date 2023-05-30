@@ -43,7 +43,10 @@ MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
 #define RIG_NET_DEFAULT_PORT 4532
 #define ROT_NET_DEFAULT_PORT 4533
-#define CW_NET_DEFAULT_PORT 6789
+#define CW_NET_CWDAEMON_PORT 6789
+#define CW_NET_FLDIGI_PORT 7362
+#define CW_DEFAULT_KEY_SPEED 20
+#define CW_KEY_SPEED_DISABLED 0
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -1053,11 +1056,11 @@ void SettingsDialog::clearCWKeyProfileForm()
     ui->cwProfileNameEdit->clear();
     ui->cwModelSelect->setCurrentIndex(ui->cwModelSelect->findData(DEFAULT_CWKEY_MODEL));
     ui->cwKeyModeSelect->setCurrentIndex(ui->cwKeyModeSelect->findData(CWKey::IAMBIC_B));
-    ui->cwDefaulSpeed->setValue(20);
+    ui->cwDefaulSpeed->setValue(CW_DEFAULT_KEY_SPEED);
     ui->cwPortEdit->clear();
     ui->cwBaudSelect->setCurrentIndex(0);
     ui->cwHostNameEdit->clear();
-    ui->cwNetPortSpin->setValue(CW_NET_DEFAULT_PORT);
+    ui->cwNetPortSpin->setValue(CW_NET_CWDAEMON_PORT);
 
     ui->cwAddProfileButton->setText(tr("Add"));
 }
@@ -1461,6 +1464,8 @@ void SettingsDialog::cwKeyChanged(int)
 
     const CWKey::CWKeyTypeID currentType = CWKey::intToTypeID(ui->cwModelSelect->currentData().toInt());
 
+    ui->cwDefaulSpeed->setValue(CW_DEFAULT_KEY_SPEED);
+
     if ( CWKey::isNetworkKey(currentType) )
     {
         ui->cwStackedWidget->setCurrentIndex(STACKED_WIDGET_NETWORK_SETTING);
@@ -1471,12 +1476,26 @@ void SettingsDialog::cwKeyChanged(int)
     }
 
     if ( currentType == CWKey::MORSEOVERCAT
-         || currentType == CWKey::CWDAEMON_KEYER )
+         || currentType == CWKey::CWDAEMON_KEYER
+         || currentType == CWKey::FLDIGI_KEYER )
     {
         ui->cwBaudSelect->setEnabled(false);
         ui->cwPortEdit->setEnabled(false);
         ui->cwPortEdit->clear();
         ui->cwKeyModeSelect->setEnabled(false);
+        ui->cwDefaulSpeed->setEnabled(true);
+
+        if ( currentType == CWKey::CWDAEMON_KEYER )
+        {
+            ui->cwNetPortSpin->setValue(CW_NET_CWDAEMON_PORT);
+        }
+        else if ( currentType == CWKey::FLDIGI_KEYER )
+        {
+            ui->cwDefaulSpeed->setEnabled(false);
+            ui->cwNetPortSpin->setValue(CW_NET_FLDIGI_PORT);
+            ui->cwDefaulSpeed->setValue(CW_KEY_SPEED_DISABLED);
+        }
+
         return;
     }
     else
@@ -1484,15 +1503,7 @@ void SettingsDialog::cwKeyChanged(int)
         ui->cwBaudSelect->setEnabled(true);
         ui->cwPortEdit->setEnabled(true);
         ui->cwKeyModeSelect->setEnabled(true);
-    }
-
-    if ( currentType == CWKey::CWDAEMON_KEYER )
-    {
-        ui->cwNetPortSpin->setValue(6789);
-    }
-    else if ( currentType == CWKey::FLDIGI_KEYER )
-    {
-        ui->cwNetPortSpin->setValue(7362);
+        ui->cwDefaulSpeed->setEnabled(true);
     }
 
     if ( currentType == CWKey::WINKEY2_KEYER )

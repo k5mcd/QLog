@@ -295,6 +295,7 @@ void CWConsoleWidget::cwKeySpeedIncrease()
 {
     FCT_IDENTIFICATION;
 
+    if ( !CWKeyer::instance()->canSetSpeed() ) return;
     ui->cwKeySpeedSpinBox->setValue(ui->cwKeySpeedSpinBox->value() + 2);
 }
 
@@ -302,6 +303,7 @@ void CWConsoleWidget::cwKeySpeedDecrease()
 {
     FCT_IDENTIFICATION;
 
+    if ( !CWKeyer::instance()->canSetSpeed() ) return;
     ui->cwKeySpeedSpinBox->setValue(ui->cwKeySpeedSpinBox->value() - 2);
 }
 

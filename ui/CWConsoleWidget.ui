@@ -93,6 +93,9 @@
        <property name="toolTip">
         <string>Speed</string>
        </property>
+       <property name="specialValueText">
+        <string>N/A</string>
+       </property>
        <property name="keyboardTracking">
         <bool>false</bool>
        </property>
@@ -103,7 +106,7 @@
         <string> WPM</string>
        </property>
        <property name="minimum">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="maximum">
         <number>99</number>
