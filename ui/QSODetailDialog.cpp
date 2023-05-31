@@ -75,6 +75,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->dateTimeOffEdit->setDisplayFormat(locale.formatDateShortWithYYYY() + " " + locale.formatTimeLongWithoutTZ());
     ui->qslPaperReceiveDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->qslPaperSentDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
+    ui->qslEqslSentDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
+    ui->qslLotwSentDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
 
     /* Mapper setting */
     mapper->setModel(model);
@@ -329,9 +331,9 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mapper->addMapping(ui->qslPaperSentStatusBox, LogbookModel::COLUMN_QSL_SENT);
     mapper->addMapping(ui->qslPaperReceiveStatusBox, LogbookModel::COLUMN_QSL_RCVD);
     mapper->addMapping(ui->qslEqslReceiveDateLabel, LogbookModel::COLUMN_EQSL_QSLRDATE);
-    mapper->addMapping(ui->qslEqslSentDateLabel, LogbookModel::COLUMN_EQSL_QSLSDATE);
+    mapper->addMapping(ui->qslEqslSentDateEdit, LogbookModel::COLUMN_EQSL_QSLSDATE);
     mapper->addMapping(ui->qslLotwReceiveDateLabel, LogbookModel::COLUMN_LOTW_RCVD_DATE);
-    mapper->addMapping(ui->qslLotwSentDateLabel, LogbookModel::COLUMN_LOTW_SENT_DATE);
+    mapper->addMapping(ui->qslLotwSentDateEdit, LogbookModel::COLUMN_LOTW_SENT_DATE);
     mapper->addMapping(ui->qslEqslReceiveStatusLabel, LogbookModel::COLUMN_EQSL_QSL_RCVD);
     mapper->addMapping(ui->qslEqslSentStatusBox, LogbookModel::COLUMN_EQSL_QSL_SENT);
     mapper->addMapping(ui->qslLotwReceiveStatusLabel, LogbookModel::COLUMN_LOTW_RCVD);
@@ -954,16 +956,43 @@ bool QSODetailDialog::doValidation()
                                  tr("Based on POTA record, my Grid does not match POTA Grid - expecting ")+ "<b> " + myPOTAGrid.getGrid() + "</b>");
 
     allValid &= highlightInvalid(ui->lotwHeaderLabel,
-                                 ui->qslLotwSentDateLabel->text() != tr("-")
-                                 && ( ui->qslLotwSentStatusBox->currentData().toString() == 'N'
-                                      || ui->qslLotwSentStatusBox->currentData().toString() == 'I' ),
-                                 tr("LoTW Sent Status to <b>No</b> or <b>Ignore</b> does not make any sense if QSL has already been uploaded"));
+                                 ui->qslLotwSentDateEdit->date() != ui->qslLotwSentDateEdit->minimumDate()
+                                 && ui->qslLotwSentStatusBox->currentData().toString() == "N",
+                                 tr("LoTW Sent Status to <b>No</b> does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank"));
+
+    allValid &= highlightInvalid(ui->lotwHeaderLabel,
+                                 ui->qslLotwSentDateEdit->date() == ui->qslLotwSentDateEdit->minimumDate()
+                                 && ( ui->qslLotwSentStatusBox->currentData().toString() == "Y"
+                                 //     || ui->qslLotwSentStatusBox->currentData().toString() == "Q" // QLog does not set date for Q state
+                                 //     || ui->qslLotwSentStatusBox->currentData().toString() == "I" // QLog does not set date for I state
+                                 ),
+                                 tr("Date should be present for LoTW Sent Status <b>Yes</b>"));
 
     allValid &= highlightInvalid(ui->eqslHeaderLabel,
-                                 ui->qslEqslSentDateLabel->text() != tr("-")
-                                 && ( ui->qslEqslSentStatusBox->currentData().toString() == 'N'
-                                      || ui->qslEqslSentStatusBox->currentData().toString() == 'I' ),
-                                 tr("eQSL Sent Status to <b>No</b> or <b>Ignore</b> does not make any sense if QSL has already been uploaded"));
+                                 ui->qslEqslSentDateEdit->date() != ui->qslEqslSentDateEdit->minimumDate()
+                                 && ui->qslEqslSentStatusBox->currentData().toString() == "N",
+                                 tr("eQSL Sent Status to <b>No</b> does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank"));
+
+    allValid &= highlightInvalid(ui->eqslHeaderLabel,
+                                 ui->qslEqslSentDateEdit->date() == ui->qslEqslSentDateEdit->minimumDate()
+                                 && ( ui->qslEqslSentStatusBox->currentData().toString() == "Y"
+                                 //     || ui->qslEqslSentStatusBox->currentData().toString() == "Q" // QLog does not set date for Q state
+                                 //     || ui->qslEqslSentStatusBox->currentData().toString() == "I" // QLog does not set date for I state
+                                 ),
+                                 tr("Date should be present for eQSL Sent Status <b>Yes</b>"));
+
+    allValid &= highlightInvalid(ui->qslSentLabel,
+                                 ui->qslPaperSentDateEdit->date() != ui->qslPaperSentDateEdit->minimumDate()
+                                 && ui->qslPaperSentStatusBox->currentData().toString() == "N",
+                                 tr("Paper Sent Status to <b>No</b> does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank"));
+
+    allValid &= highlightInvalid(ui->qslSentLabel,
+                                 ui->qslPaperSentDateEdit->date() == ui->qslPaperSentDateEdit->minimumDate()
+                                 && ( ui->qslPaperSentStatusBox->currentData().toString() == "Y"
+                                 //     || ui->qslPaperSentStatusBox->currentData().toString() == "Q" // QLog does not set date for Q state
+                                 //     || ui->qslPaperSentStatusBox->currentData().toString() == "I" // QLog does not set date for I state
+                                 ),
+                                 tr("Date should be present for Paper Sent Status <b>Yes</b>"));
 
     qCDebug(runtime) << "Validation result: " << allValid;
     return allValid;
@@ -1535,10 +1564,7 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
         return;
     }
     else if ( editor->objectName() == "qslEqslReceiveDateLabel"
-              || editor->objectName() == "qslEqslSentDateLabel"
-              || editor->objectName() == "qslLotwReceiveDateLabel"
-              || editor->objectName() == "qslLotwSentDateLabel"
-            )
+              || editor->objectName() == "qslLotwReceiveDateLabel" )
     {
         QLabel* label = qobject_cast<QLabel*>(editor);
 
@@ -1604,7 +1630,9 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
         }
     }
     else if ( editor->objectName() == "qslPaperReceiveDateEdit"
-              || editor->objectName() == "qslPaperSentDateEdit")
+              || editor->objectName() == "qslPaperSentDateEdit"
+              || editor->objectName() == "qslLotwSentDateEdit"
+              || editor->objectName() == "qslEqslSentDateEdit" )
     {
         QDateEdit *dateEdit = qobject_cast<QDateEdit*>(editor);
 
@@ -1683,7 +1711,9 @@ void QSOEditMapperDelegate::setModelData(QWidget *editor,
         }
     }
     else if ( editor->objectName() == "qslPaperReceiveDateEdit"
-              || editor->objectName() == "qslPaperSentDateEdit" )
+              || editor->objectName() == "qslPaperSentDateEdit"
+              || editor->objectName() == "qslLotwSentDateEdit"
+              || editor->objectName() == "qslEqslSentDateEdit" )
     {
         QDateEdit *dateEdit = qobject_cast<QDateEdit*>(editor);
 
@@ -1716,10 +1746,8 @@ void QSOEditMapperDelegate::setModelData(QWidget *editor,
         return;
     }
     else if (    editor->objectName() == "qslEqslReceiveDateLabel"
-              || editor->objectName() == "qslEqslSentDateLabel"
               || editor->objectName() == "qslEqslReceiveStatusLabel"
               || editor->objectName() == "qslLotwReceiveDateLabel"
-              || editor->objectName() == "qslLotwSentDateLabel"
               || editor->objectName() == "qslLotwReceiveStatusLabel"
               || editor->objectName() == "qslReceivedMsgEdit"
             )

@@ -1020,17 +1020,32 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
 
     if ( record.value("qsl_sent").toString().isEmpty() )
     {
-        record.setValue("qsl_sent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
+        QVariant sentState = ui->qslSentBox->itemData(ui->qslSentBox->currentIndex());
+        record.setValue("qsl_sent", sentState);
+        if ( sentState == QVariant("Y") )
+        {
+            record.setValue("qsl_sdate", QDate::currentDate());
+        }
     }
 
     if ( record.value("lotw_qsl_sent").toString().isEmpty() )
     {
-        record.setValue("lotw_qsl_sent", ui->lotwQslSentBox->itemData(ui->lotwQslSentBox->currentIndex()));
+        QVariant sentState = ui->lotwQslSentBox->itemData(ui->lotwQslSentBox->currentIndex());
+        record.setValue("lotw_qsl_sent", sentState);
+        if ( sentState == QVariant("Y") )
+        {
+            record.setValue("lotw_qslsdate", QDate::currentDate());
+        }
     }
 
     if ( record.value("eqsl_qsl_sent").toString().isEmpty() )
     {
-        record.setValue("eqsl_qsl_sent", ui->eQSLSentBox->itemData(ui->eQSLSentBox->currentIndex()));
+        QVariant sentState = ui->eQSLSentBox->itemData(ui->eQSLSentBox->currentIndex());
+        record.setValue("eqsl_qsl_sent", sentState);
+        if ( sentState == QVariant("Y") )
+        {
+            record.setValue("eqsl_qslsdate", QDate::currentDate());
+        }
     }
 
     record.setValue("qsl_rcvd", "N");
