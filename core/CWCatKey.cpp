@@ -99,22 +99,22 @@ bool CWCatKey::sendText(const QString &text)
 
     if ( !isKeyConnected )
     {
-        qCDebug(runtime) << "Cannot sent ";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Keyer is not connected"));
+        qCDebug(runtime) << "Cannot send ";
+        emit keyError(tr("Cannot send Text to Rig"), tr("Keyer is not connected"));
         return false;
     }
 
     if ( !Rig::instance()->isRigConnected() )
     {
-        qCDebug(runtime) << "Cannot sent";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Rig is not connected"));
+        qCDebug(runtime) << "Cannot send";
+        emit keyError(tr("Cannot send Text to Rig"), tr("Rig is not connected"));
         return false;
     }
 
     if ( !Rig::instance()->isMorseOverCatSupported() )
     {
-        qCDebug(runtime) << "Cannot sent";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Rig does not support Morse over CAT"));
+        qCDebug(runtime) << "Cannot send";
+        emit keyError(tr("Cannot send Text to Rig"), tr("Rig does not support Morse over CAT"));
         return false;
     }
 

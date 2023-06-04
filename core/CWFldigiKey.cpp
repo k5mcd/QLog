@@ -107,7 +107,7 @@ bool CWFldigiKey::sendText(const QString &text)
     {
         qCWarning(runtime) << "Key is not connected";
         lastLogicalError = tr("Keyer is not connected");
-        emit keyError(tr("Cannot send text to FLDigi"), lastLogicalError);
+        emit keyError(tr("Cannot send Text to FLDigi"), lastLogicalError);
         return false;
     }
 
@@ -173,7 +173,7 @@ bool CWFldigiKey::imediatellyStop()
 
     if ( !sendXMLRPCCall("text.clear_tx", resp) )
     {
-        emit keyError(tr("Cannot send Clear command to FLDigi"), lastError());
+        emit keyError(tr("Cannot send the Clear command to FLDigi"), lastError());
         return false;
     }
 

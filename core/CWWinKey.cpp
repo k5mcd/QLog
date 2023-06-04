@@ -115,7 +115,7 @@ bool CWWinKey2::open()
     if ( (unsigned char)cmd.at(0) != 0xF1 )
     {
         qWarning() << "Connected device is not the Winkey type";
-        lastLogicalError = tr("Connected devices is not WinKey");
+        lastLogicalError = tr("Connected device is not WinKey");
         __close();
         return false;
     }
@@ -154,7 +154,7 @@ bool CWWinKey2::open()
     if ( (unsigned char)cmd.at(0) < 20 )
     {
         qWarning() << "Winkey version < 2.0 is not supported";
-        lastLogicalError = tr("Connected devices is not WinKey v2 or newer");
+        lastLogicalError = tr("Connected device is not WinKey v2 or newer");
         __close();
         return false;
     }
@@ -230,7 +230,7 @@ bool CWWinKey2::sendText(const QString &text)
     if ( !isInHostMode )
     {
         qCWarning(runtime) << "Key is not in Host Mode";
-        emit keyError(tr("Cannot sent Text to Rig"), tr("Keyer is not connected"));
+        emit keyError(tr("Cannot send Text to Rig"), tr("Keyer is not connected"));
         return false;
     }
 
@@ -432,7 +432,7 @@ bool CWWinKey2::imediatellyStop()
     if ( !isInHostMode )
     {
         qCWarning(runtime) << "Key is not in Host Mode";
-        emit keyError(tr("Cannot Stop Text Sending"), tr("Keyer is not connected"));
+        emit keyError(tr("Cannot stop Text Sending"), tr("Keyer is not connected"));
         return false;
     }
 

@@ -7,6 +7,7 @@
 
 class CWFldigiKey : public CWKey
 {
+
 public:
     CWFldigiKey(const QString &hostname,
                 const quint16 port,

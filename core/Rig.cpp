@@ -997,7 +997,7 @@ void Rig::__setKeySpeed(qint16 wpm)
 
     if ( status != RIG_OK )
     {
-        qWarning() << "Cannot set Key Speed";
+        qWarning() << "Cannot set Keyer Speed";
     }
 
     // wait a moment because Rigs are slow and they are not possible to set and get

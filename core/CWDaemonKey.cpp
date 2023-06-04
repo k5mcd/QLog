@@ -59,7 +59,7 @@ bool CWDaemonKey::sendText(const QString &text)
     {
         qCWarning(runtime) << "Key is not connected";
         lastLogicalError = tr("Keyer is not connected");
-        emit keyError(tr("Cannot sent text"), lastLogicalError);
+        emit keyError(tr("Cannot send Text"), lastLogicalError);
         return false;
     }
 
@@ -77,7 +77,7 @@ bool CWDaemonKey::setWPM(const qint16 wpm)
     {
         qCWarning(runtime) << "Key is not connected";
         lastLogicalError = tr("Keyer is not connected");
-        emit keyError(tr("Cannot set Key Speed"), lastLogicalError);
+        emit keyError(tr("Cannot set Keyer Speed"), lastLogicalError);
         return false;
     }
 
@@ -94,7 +94,7 @@ bool CWDaemonKey::imediatellyStop()
     {
         qCWarning(runtime) << "Key is not connected";
         lastLogicalError = tr("Keyer is not connected");
-        emit keyError(tr("Cannot Stop Sending"), lastLogicalError);
+        emit keyError(tr("Cannot stop Text Sending"), lastLogicalError);
         return false;
     }
 
