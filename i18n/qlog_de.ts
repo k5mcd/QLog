@@ -64,7 +64,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="147"/>
         <source>Log Status</source>
-        <translation type="unfinished">Log Status</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="157"/>
@@ -84,7 +84,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="227"/>
         <source>CW</source>
-        <translation type="unfinished">CW</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="240"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../ui/AwardsDialog.ui" line="96"/>
         <source>CW</source>
-        <translation type="unfinished">CW</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.ui" line="106"/>
@@ -344,7 +344,7 @@
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="33"/>
         <source>DXCC</source>
-        <translation type="unfinished">DXCC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="34"/>
@@ -627,22 +627,22 @@
         <location filename="../core/CWDaemonKey.cpp" line="79"/>
         <location filename="../core/CWDaemonKey.cpp" line="96"/>
         <source>Keyer is not connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Keyer nicht verbunden</translation>
     </message>
     <message>
         <location filename="../core/CWDaemonKey.cpp" line="62"/>
         <source>Cannot send Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Text nicht senden</translation>
     </message>
     <message>
         <location filename="../core/CWDaemonKey.cpp" line="80"/>
         <source>Cannot set Keyer Speed</source>
-        <translation type="unfinished">Kann Keyer-WPM nicht einstellen</translation>
+        <translation>Kann Keyer-WPM nicht einstellen</translation>
     </message>
     <message>
         <location filename="../core/CWDaemonKey.cpp" line="97"/>
         <source>Cannot stop Text Sending</source>
-        <translation type="unfinished">Kann Textübertragung nicht beenden</translation>
+        <translation>Kann Textübertragung nicht beenden</translation>
     </message>
 </context>
 <context>
@@ -650,64 +650,64 @@
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="56"/>
         <source>Connected device is not FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbundenes Programm ist nicht FLDigi</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="109"/>
         <location filename="../core/CWFldigiKey.cpp" line="161"/>
         <source>Keyer is not connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Keyer nicht verbunden</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="110"/>
         <source>Cannot send Text to FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Text nicht an FLDigi senden</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="118"/>
         <location filename="../core/CWFldigiKey.cpp" line="176"/>
         <source>Cannot send the Clear command to FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann das Kommando Clear nicht an FLDigi senden</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="124"/>
         <source>Cannot send the TX command to FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann das Kommando TX nicht an FLDigi senden</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="133"/>
         <source>Cannot send the Text command to FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann das Text-Kommando nicht an FLDigi senden</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="162"/>
         <source>Cannot send the Stop command to FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann das Kommando Stop nicht an FLDigi senden</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="170"/>
         <source>Cannot send the Abort command to FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann das Kommando Abort nicht an FLDigi senden</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="204"/>
         <source>Cannot receive data from FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann keine Daten von FLDigi empfangen</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="282"/>
         <source>FLDigi connection timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeitüberschreitung der FLDigi-Verbindung</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="297"/>
         <source>FLDigi connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>FLDigi Verbindungsfehler</translation>
     </message>
     <message>
         <location filename="../core/CWFldigiKey.cpp" line="309"/>
         <source>FLDigi command error</source>
-        <translation type="unfinished"></translation>
+        <translation>FLDigi Kommandofehler</translation>
     </message>
 </context>
 <context>
@@ -743,12 +743,12 @@
     <message>
         <location filename="../core/CWWinKey.cpp" line="118"/>
         <source>Connected device is not WinKey</source>
-        <translation type="unfinished"></translation>
+        <translation>Angeschlossenes Gerät ist kein WinKey</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="157"/>
         <source>Connected device is not WinKey v2 or newer</source>
-        <translation type="unfinished"></translation>
+        <translation>Angeschlossenes Gerät ist kein WinKey v2 oder neuer</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="233"/>
@@ -760,7 +760,7 @@
     <message>
         <location filename="../core/CWWinKey.cpp" line="233"/>
         <source>Cannot send Text to Rig</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Text nicht an Rig senden</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="396"/>
@@ -770,7 +770,7 @@
     <message>
         <location filename="../core/CWWinKey.cpp" line="435"/>
         <source>Cannot stop Text Sending</source>
-        <translation type="unfinished">Kann Textübertragung nicht beenden</translation>
+        <translation>Kann Textübertragung nicht beenden</translation>
     </message>
     <message>
         <location filename="../core/CWWinKey.cpp" line="370"/>
@@ -809,7 +809,7 @@
     <message>
         <location filename="../ui/ClockWidget.ui" line="40"/>
         <source>12:00:00</source>
-        <translation type="unfinished">12:00:00</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/ClockWidget.ui" line="116"/>
@@ -1101,7 +1101,7 @@
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="112"/>
         <source>CW</source>
-        <translation type="unfinished">CW</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/DxFilterDialog.ui" line="125"/>
@@ -1652,7 +1652,7 @@
     <message>
         <location filename="../core/HamQTH.cpp" line="84"/>
         <source>HamQTH</source>
-        <translation type="unfinished">HamQTH</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1943,7 +1943,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="151"/>
         <source>QTH</source>
-        <translation type="unfinished">QTH</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="27"/>
@@ -1954,7 +1954,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="28"/>
         <source>DXCC</source>
-        <translation type="unfinished">DXCC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="68"/>
@@ -3054,7 +3054,7 @@
         <location filename="../ui/MainWindow.ui" line="227"/>
         <location filename="../ui/MainWindow.ui" line="398"/>
         <source>Rig</source>
-        <translation type="unfinished">Rig</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="178"/>
@@ -3467,7 +3467,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2085"/>
         <source>Rig</source>
-        <translation type="unfinished">Rig</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="429"/>
@@ -3477,12 +3477,12 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="422"/>
         <source>QTH</source>
-        <translation type="unfinished">QTH</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1243"/>
         <source>CQ</source>
-        <translation type="unfinished">CQ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1214"/>
@@ -3512,7 +3512,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="366"/>
         <source>80m</source>
-        <translation type="unfinished">80m</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1137"/>
@@ -3844,7 +3844,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="202"/>
         <source>59</source>
-        <translation type="unfinished">59</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="74"/>
@@ -4372,7 +4372,7 @@
         <location filename="../ui/ImportDialog.cpp" line="297"/>
         <source>&lt;b&gt;Imported&lt;/b&gt;: %n contact(s)</source>
         <translation>
-            <numerusform>%n Kontakt(e) &lt;b&gt;importiert&lt;/b&gt;.</numerusform>
+            <numerusform>&lt;b&gt;Importiert&lt;/b&gt;: %n Kontakt(e)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -4380,7 +4380,7 @@
         <location filename="../ui/ImportDialog.cpp" line="298"/>
         <source>&lt;b&gt;Warning(s)&lt;/b&gt;: %n</source>
         <translation>
-            <numerusform>&lt;b&gt;Warnungen &lt;/b&gt;: %n</numerusform>
+            <numerusform>&lt;b&gt;Warnungen&lt;/b&gt;: %n</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -4388,7 +4388,7 @@
         <location filename="../ui/ImportDialog.cpp" line="299"/>
         <source>&lt;b&gt;Error(s)&lt;/b&gt;: %n</source>
         <translation>
-            <numerusform>&lt;b&gt;Fehler &lt;/b&gt;: %n</numerusform>
+            <numerusform>&lt;b&gt;Fehler&lt;/b&gt;: %n</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -4411,7 +4411,7 @@
     <message>
         <location filename="../ui/QrzDialog.ui" line="14"/>
         <source>QRZ.com</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QrzDialog.ui" line="20"/>
@@ -4609,7 +4609,7 @@
         <location filename="../ui/QSODetailDialog.ui" line="524"/>
         <location filename="../ui/QSODetailDialog.ui" line="1275"/>
         <source>QTH</source>
-        <translation type="unfinished">QTH</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="531"/>
@@ -4654,7 +4654,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="757"/>
         <source>CQ</source>
-        <translation type="unfinished">CQ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="786"/>
@@ -4816,7 +4816,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1285"/>
         <source>Rig</source>
-        <translation type="unfinished">Rig</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1295"/>
@@ -4897,7 +4897,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1816"/>
         <source>QSL via</source>
-        <translation type="unfinished">QSL via</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1453"/>
@@ -5374,7 +5374,7 @@
     <message>
         <location filename="../ui/RigWidget.ui" line="169"/>
         <source>0.00000 MHz</source>
-        <translation type="unfinished">0.000 MHz {0.00000 ?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/RigWidget.ui" line="186"/>
@@ -5566,7 +5566,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="129"/>
         <source>QTH</source>
-        <translation type="unfinished">QTH</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="232"/>
@@ -5599,55 +5599,55 @@
         <location filename="../ui/SettingsDialog.ui" line="636"/>
         <location filename="../ui/SettingsDialog.ui" line="2106"/>
         <source>1200</source>
-        <translation type="unfinished">1200</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="631"/>
         <location filename="../ui/SettingsDialog.ui" line="1704"/>
         <location filename="../ui/SettingsDialog.ui" line="2101"/>
         <source>2400</source>
-        <translation type="unfinished">2400</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="626"/>
         <location filename="../ui/SettingsDialog.ui" line="1699"/>
         <location filename="../ui/SettingsDialog.ui" line="2096"/>
         <source>4800</source>
-        <translation type="unfinished">4800</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="621"/>
         <location filename="../ui/SettingsDialog.ui" line="1694"/>
         <location filename="../ui/SettingsDialog.ui" line="2091"/>
         <source>9600</source>
-        <translation type="unfinished">9600</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="616"/>
         <location filename="../ui/SettingsDialog.ui" line="1689"/>
         <location filename="../ui/SettingsDialog.ui" line="2086"/>
         <source>19200</source>
-        <translation type="unfinished">19200</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="611"/>
         <location filename="../ui/SettingsDialog.ui" line="1684"/>
         <location filename="../ui/SettingsDialog.ui" line="2081"/>
         <source>38400</source>
-        <translation type="unfinished">38400</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="606"/>
         <location filename="../ui/SettingsDialog.ui" line="1679"/>
         <location filename="../ui/SettingsDialog.ui" line="2076"/>
         <source>57600</source>
-        <translation type="unfinished">57600</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="601"/>
         <location filename="../ui/SettingsDialog.ui" line="2071"/>
         <source>115200</source>
-        <translation type="unfinished">115200</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1717"/>
@@ -5746,25 +5746,25 @@
         <location filename="../ui/SettingsDialog.ui" line="1746"/>
         <location filename="../ui/SettingsDialog.ui" line="2137"/>
         <source>5</source>
-        <translation type="unfinished">5</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1741"/>
         <location filename="../ui/SettingsDialog.ui" line="2132"/>
         <source>6</source>
-        <translation type="unfinished">6</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1736"/>
         <location filename="../ui/SettingsDialog.ui" line="2127"/>
         <source>7</source>
-        <translation type="unfinished">7</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1731"/>
         <location filename="../ui/SettingsDialog.ui" line="2122"/>
         <source>8</source>
-        <translation type="unfinished">8</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1754"/>
@@ -5776,13 +5776,13 @@
         <location filename="../ui/SettingsDialog.ui" line="1768"/>
         <location filename="../ui/SettingsDialog.ui" line="2153"/>
         <source>1</source>
-        <translation type="unfinished">1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1773"/>
         <location filename="../ui/SettingsDialog.ui" line="2158"/>
         <source>2</source>
-        <translation type="unfinished">2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1793"/>
@@ -5818,7 +5818,7 @@
         <location filename="../ui/SettingsDialog.cpp" line="194"/>
         <location filename="../ui/SettingsDialog.cpp" line="204"/>
         <source>No</source>
-        <translation type="unfinished">Nein</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="195"/>
@@ -6375,7 +6375,7 @@
         <location filename="../ui/SettingsDialog.ui" line="3104"/>
         <location filename="../ui/SettingsDialog.cpp" line="108"/>
         <source>DXCC</source>
-        <translation type="unfinished">DXCC</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3116"/>
@@ -6390,7 +6390,7 @@
         <location filename="../ui/SettingsDialog.ui" line="2049"/>
         <location filename="../ui/SettingsDialog.ui" line="2215"/>
         <source>Port</source>
-        <translation type="unfinished">Port</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="274"/>
@@ -6443,7 +6443,7 @@
         <location filename="../ui/SettingsDialog.cpp" line="184"/>
         <location filename="../ui/SettingsDialog.cpp" line="1830"/>
         <source>HamQTH</source>
-        <translation type="unfinished">HamQTH</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2687"/>
@@ -7100,7 +7100,7 @@
     <message>
         <location filename="../ui/WsjtxWidget.ui" line="32"/>
         <source>0.000 MHz</source>
-        <translation type="unfinished">0.000 MHz</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/WsjtxWidget.ui" line="117"/>
