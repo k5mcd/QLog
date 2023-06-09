@@ -1,3 +1,13 @@
+qlog (0.23.0-1) UNRELEASED; urgency=low
+  * [NEW] - Added CWDaemon Keyer Support
+  * [NEW] - Added FLDigi Keyer Support
+  * [NEW] - Online Map - based on locale, the map language is selected (Only EN, FR, GE supported - issue #180)
+  * Fixed After entering longer QTH, the field content is not left-aligned (issue #157)
+  * Fixed wrong QSO Time in case of JTDX (issue #204)
+  * Fixed QSL Sent Date fields are not filled if QSL Sent Status fields are Y (issue #207)
+
+ -- foldynl <foldyna@gmail.com>  Fri, 9 Jun 2023 12:00:00 +0200
+
 qlog (0.22.0-1) UNRELEASED; urgency=low
   * [NEW] - ADIF Import - My Profile is used to define default values
   * [NEW] - ADIF Import - Checking a minimal set of input fields (start_time, call, band, mode, station_callsign)

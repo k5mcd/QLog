@@ -42,6 +42,14 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Jun 9 2023 Ladislav Foldyna - 0.23.0-1
+- [NEW] - Added CWDaemon Keyer Support
+- [NEW] - Added FLDigi Keyer Support
+- [NEW] - Online Map - based on locale, the map language is selected (Only EN, FR, GE supported - issue #180)
+- Fixed After entering longer QTH, the field content is not left-aligned (issue #157)
+- Fixed wrong QSO Time in case of JTDX (issue #204)
+- Fixed QSL Sent Date fields are not filled if QSL Sent Status fields are Y (issue #207)
+
 * Sun May 7 2023 Ladislav Foldyna - 0.22.0-1
 - [NEW] - ADIF Import - My Profile is used to define default values
 - [NEW] - ADIF Import - Checking a minimal set of input fields (start_time, call, band, mode, station_callsign)

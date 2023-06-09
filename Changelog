@@ -1,4 +1,4 @@
-TBC - 0.23.0
+2023/06/09 - 0.23.0
 - [NEW] - Added CWDaemon Keyer Support
 - [NEW] - Added FLDigi Keyer Support
 - [NEW] - Online Map - based on locale, the map language is selected (Only EN, FR, GE supported - issue #180)
