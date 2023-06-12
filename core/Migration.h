@@ -38,7 +38,7 @@ private:
     bool createTriggers();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
-    static const int latestVersion = 18;
+    static const int latestVersion = 19;
 };
 
 #endif // MIGRATION_H
