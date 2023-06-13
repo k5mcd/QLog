@@ -5,6 +5,7 @@
 #include <qt6keychain/keychain.h>
 #endif
 #include <QApplication>
+#include <QMessageBox>
 #include "CredentialStore.h"
 #include "core/debug.h"
 
@@ -60,8 +61,12 @@ int CredentialStore::savePassword(const QString &storage_key, const QString &use
     job.start();
     loop.exec();
 
-    if (job.error())
+    if ( job.error() )
     {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Critical"),
+                              QMessageBox::tr("Cannot save a password to the Secure Store.")
+                              + "<p>"
+                              + job.errorString());
         qWarning() << "Cannot save a password. Error " << job.errorString();
         return 1;
     }
@@ -108,6 +113,10 @@ QString CredentialStore::getPassword(const QString &storage_key, const QString &
 
     if ( job.error() )
     {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Critical"),
+                              QMessageBox::tr("Cannot get a password from the Secure Store.")
+                              + "<p>"
+                              + job.errorString());
         qCDebug(runtime) << "Cannot get a password. Error " << job.errorString();
         return QString();
     }
