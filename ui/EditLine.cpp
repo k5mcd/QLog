@@ -1,3 +1,4 @@
+#include <QFocusEvent>
 #include "EditLine.h"
 
 NewContactEditLine::NewContactEditLine(QWidget *parent) :
@@ -21,5 +22,12 @@ void NewContactEditLine::focusInEvent(QFocusEvent *event)
 void NewContactEditLine::focusOutEvent(QFocusEvent *event)
 {
     QLineEdit::focusOutEvent(event);
-    home(false);
+
+    Qt::FocusReason reason = event->reason();
+
+    if ( reason != Qt::ActiveWindowFocusReason &&
+         reason != Qt::PopupFocusReason )
+    {
+        home(false);
+    }
 }
