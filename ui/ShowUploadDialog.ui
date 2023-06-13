@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LotwShowUploadDialog</class>
- <widget class="QDialog" name="LotwShowUploadDialog">
+ <class>ShowUploadDialog</class>
+ <widget class="QDialog" name="ShowUploadDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -56,7 +56,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>LotwShowUploadDialog</receiver>
+   <receiver>ShowUploadDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -72,7 +72,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>LotwShowUploadDialog</receiver>
+   <receiver>ShowUploadDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

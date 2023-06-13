@@ -11,7 +11,7 @@
 #include "core/Eqsl.h"
 #include "models/SqlListModel.h"
 #include "logformat/AdiFormat.h"
-#include "ui/LotwShowUploadDialog.h"
+#include "ui/ShowUploadDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.eqsldialog");
 
@@ -181,8 +181,7 @@ void EqslDialog::upload()
 
     if (count > 0)
     {
-        /* TODO: rename it to ShowUploadDialog */
-        LotwShowUploadDialog showDialog(QSOList);
+        ShowUploadDialog showDialog(QSOList);
 
         if ( showDialog.exec() == QDialog::Accepted )
         {

@@ -10,7 +10,7 @@
 #include "core/debug.h"
 #include "core/QRZ.h"
 #include "models/SqlListModel.h"
-#include "ui/LotwShowUploadDialog.h"
+#include "ui/ShowUploadDialog.h"
 #include "logformat/AdiFormat.h"
 
 MODULE_IDENTIFICATION("qlog.ui.qrzdialog");
@@ -97,8 +97,7 @@ void QRZDialog::upload()
 
     if (count > 0)
     {
-        /* TODO: rename it to ShowUploadDialog */
-        LotwShowUploadDialog showDialog(QSOList);
+        ShowUploadDialog showDialog(QSOList);
 
         if ( showDialog.exec() == QDialog::Accepted )
         {

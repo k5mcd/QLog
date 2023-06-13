@@ -14,7 +14,7 @@
 #include "core/debug.h"
 #include "ui/QSLImportStatDialog.h"
 #include "models/SqlListModel.h"
-#include "ui/LotwShowUploadDialog.h"
+#include "ui/ShowUploadDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.lotwdialog");
 
@@ -159,7 +159,7 @@ void LotwDialog::upload() {
 
     if (count > 0)
     {
-        LotwShowUploadDialog showDialog(QSOList);
+        ShowUploadDialog showDialog(QSOList);
 
         if ( showDialog.exec() == QDialog::Accepted )
         {

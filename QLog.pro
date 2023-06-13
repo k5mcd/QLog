@@ -117,7 +117,6 @@ SOURCES += \
         ui/ImportDialog.cpp \
         ui/LogbookWidget.cpp \
         ui/LotwDialog.cpp \
-        ui/LotwShowUploadDialog.cpp \
         ui/MainWindow.cpp \
         ui/MapWebChannelHandler.cpp \
         ui/MapWidget.cpp \
@@ -133,6 +132,7 @@ SOURCES += \
         ui/RigWidget.cpp \
         ui/RotatorWidget.cpp \
         ui/SettingsDialog.cpp \
+        ui/ShowUploadDialog.cpp \
         ui/StatisticsWidget.cpp \
         ui/SwitchButton.cpp \
         ui/WebEnginePage.cpp \
@@ -226,7 +226,6 @@ HEADERS += \
         ui/ImportDialog.h \
         ui/LogbookWidget.h \
         ui/LotwDialog.h \
-        ui/LotwShowUploadDialog.h \
         ui/MainWindow.h \
         ui/MapWebChannelHandler.h \
         ui/MapWidget.h \
@@ -239,6 +238,7 @@ HEADERS += \
         ui/QSOFilterDialog.h \
         ui/QTableQSOView.h \
         ui/QrzDialog.h \
+        ui/ShowUploadDialog.h \
         ui/SplashScreen.h \
         ui/StyleItemDelegate.h \
         ui/RigWidget.h \
@@ -268,7 +268,6 @@ FORMS += \
         ui/ImportDialog.ui \
         ui/LogbookWidget.ui \
         ui/LotwDialog.ui \
-        ui/LotwShowUploadDialog.ui \
         ui/MainWindow.ui \
         ui/NewContactWidget.ui \
         ui/PaperQSLDialog.ui \
@@ -280,6 +279,7 @@ FORMS += \
         ui/RigWidget.ui \
         ui/RotatorWidget.ui \
         ui/SettingsDialog.ui \
+        ui/ShowUploadDialog.ui \
         ui/StatisticsWidget.ui \
         ui/WsjtxFilterDialog.ui \
         ui/WsjtxWidget.ui
