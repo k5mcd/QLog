@@ -61,10 +61,10 @@ int CredentialStore::savePassword(const QString &storage_key, const QString &use
     job.start();
     loop.exec();
 
-    if ( job.error() )
+    if ( job.error() && job.error() != EntryNotFound )
     {
         QMessageBox::critical(nullptr, QMessageBox::tr("QLog Critical"),
-                              QMessageBox::tr("Cannot save a password to the Secure Store.")
+                              QMessageBox::tr("Cannot save a password for %1 to the Credential Store.").arg(storage_key)
                               + "<p>"
                               + job.errorString());
         qWarning() << "Cannot save a password. Error " << job.errorString();
@@ -111,10 +111,10 @@ QString CredentialStore::getPassword(const QString &storage_key, const QString &
 
     pass = job.textData();
 
-    if ( job.error() )
+    if ( job.error() && job.error() != EntryNotFound )
     {
         QMessageBox::critical(nullptr, QMessageBox::tr("QLog Critical"),
-                              QMessageBox::tr("Cannot get a password from the Secure Store.")
+                              QMessageBox::tr("Cannot get a password for %1 from the Credential Store.").arg(storage_key)
                               + "<p>"
                               + job.errorString());
         qCDebug(runtime) << "Cannot get a password. Error " << job.errorString();
