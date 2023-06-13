@@ -147,8 +147,8 @@ void LotwDialog::upload() {
 
         QSOList.append(" "
                        + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateTimeShortWithYYYY())
-                       + " " + record.value("callsign").toString()
-                       + " " + record.value("mode").toString()
+                       + "\t" + record.value("callsign").toString()
+                       + "\t" + record.value("mode").toString()
                        + "\n");
 
         adi.exportContact(record);
