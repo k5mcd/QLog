@@ -1,7 +1,14 @@
 name: CI Linux/macOS
 
-on: [push, pull_request]
-
+on:
+  push:
+    branches:
+      - 'testing_*'
+      - master
+  pull_request:
+    branches:
+      - 'testing_*'
+      - master
 jobs:
   ubuntu-build-qt5:
     name: Ubuntu CI QT5
