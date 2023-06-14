@@ -315,6 +315,7 @@ int main(int argc, char* argv[])
     qRegisterMetaType<VFOID>();
     qRegisterMetaType<ClubStatusQuery::ClubStatus>();
     qRegisterMetaType<QMap<QString, ClubStatusQuery::ClubStatus>>();
+    qRegisterMetaTypeStreamOperators<QSet<int>>("QSet<int>");
 
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)

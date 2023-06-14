@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <QMap>
+#include <QSqlQuery>
 
 #include "core/LogLocale.h"
 
@@ -25,7 +26,8 @@ public:
         ADI,
         ADX,
         CABRILLO,
-        JSON
+        JSON,
+        CSV
     };
 
     enum QSLFrom {
@@ -59,6 +61,11 @@ public:
     void setFilterDateRange(const QDate &start, const QDate &end);
     void setFilterMyCallsign(const QString &myCallsing);
     void setFilterMyGridsquare(const QString &myGridsquare);
+    void setFilterSentPaperQSL(bool includeNo, bool includeIgnore, bool includeAlreadySent);
+    void setFilterSendVia(const QString &value);
+    QString getWhereClause();
+    void bindWhereClause(QSqlQuery &);
+    void setExportedFields(const QStringList& fieldsList);
     void setUpdateDxcc(bool updateDxcc);
     void setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord *, QSqlRecord *));
 
@@ -104,6 +111,10 @@ private:
     QDate filterStartDate, filterEndDate;
     QString filterMyCallsign;
     QString filterMyGridsquare;
+    QStringList filterSentPaperQSL;
+    QString filterSendVia;
+    QStringList whereClause;
+    QStringList exportedFields;
     bool updateDxcc = false;
     duplicateQSOBehaviour (*duplicateQSOFunc)(QSqlRecord *, QSqlRecord *);
     LogLocale locale;

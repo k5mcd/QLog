@@ -115,14 +115,19 @@ void AdxFormat::exportContact(const QSqlRecord& record, QMap<QString, QString> *
 }
 
 void AdxFormat::writeField(const QString &name,
+                           bool presenceCondition,
                            const QString &value,
-                           const QString &)
+                           const QString &type)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<name << " " << value;
+    qCDebug(function_parameters)<< name
+                                << presenceCondition
+                                << value
+                                << type;
 
-    if (value.isEmpty()) return;
+    if (value.isEmpty() || !presenceCondition ) return;
+
     writer->writeTextElement(name.toUpper(), value);
 }
 
@@ -137,7 +142,8 @@ void AdxFormat::writeSQLRecord(const QSqlRecord &record, QMap<QString, QString> 
     QStringList fieldMappingList = fieldname2INTLNameMapping.values();
     for ( const QString& value :  qAsConst(fieldMappingList) )
     {
-        writeField(value, record.value(value).toString());
+        writeField(value, record.value(value).isValid(),
+                   record.value(value).toString());
     }
 }
 

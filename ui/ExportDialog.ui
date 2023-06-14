@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>465</width>
-    <height>285</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -29,31 +29,6 @@
       <string>File</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
-       <widget class="QComboBox" name="typeSelect">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <item>
-         <property name="text">
-          <string notr="true">ADI</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ADX</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>JSON</string>
-         </property>
-        </item>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QLineEdit" name="fileEdit">
         <property name="focusPolicy">
@@ -75,6 +50,121 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="2">
+       <widget class="QComboBox" name="typeSelect">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string notr="true">ADI</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>ADX</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>CSV</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>JSON</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="settingGroup">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Export Type</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="exportTypeCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="exportedColumnsLabel">
+        <property name="text">
+         <string>Exported Columns</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="exportedColumnsCombo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Select one of the pre-defined sets of columns or define your own set of columns</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exportedColumnsButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Edit current set of columns</string>
+          </property>
+          <property name="text">
+           <string>Edit</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="markAsSentCheckbox">
+        <property name="text">
+         <string>Mark exported QSOs As Sent</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -90,15 +180,6 @@
       <string>Filters</string>
      </property>
      <layout class="QFormLayout" name="formLayout">
-      <property name="formAlignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-      </property>
-      <property name="horizontalSpacing">
-       <number>4</number>
-      </property>
-      <property name="verticalSpacing">
-       <number>4</number>
-      </property>
       <item row="0" column="0">
        <widget class="QCheckBox" name="dateRangeCheckBox">
         <property name="sizePolicy">
@@ -212,6 +293,16 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="myGridCheckBox">
+        <property name="toolTip">
+         <string>Export only QSOs that match the selected My Gridsquare</string>
+        </property>
+        <property name="text">
+         <string>My Gridsquare</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="1">
        <widget class="QComboBox" name="myGridComboBox">
         <property name="enabled">
@@ -222,15 +313,135 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="myGridCheckBox">
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="qslSendViaCheckbox">
         <property name="toolTip">
-         <string>Export only QSOs that match the selected My Gridsquare</string>
+         <string>Export only QSOs that match the selected QSL Send Via value</string>
         </property>
         <property name="text">
-         <string>My Gridsquare</string>
+         <string>QSL Send via</string>
         </property>
        </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="qslSendViaComboBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Export only QSOs that match the selected QSL Send Via value</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="addlSentStatusCheckbox">
+        <property name="toolTip">
+         <string>Include unusual QSO Sent statuses</string>
+        </property>
+        <property name="text">
+         <string>Include Sent Status</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <layout class="QHBoxLayout" name="sentStatusLayout">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="rightMargin">
+             <number>10</number>
+            </property>
+            <item>
+             <widget class="QCheckBox" name="addlSentStatusICheckBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Under normal circumstances this status means &lt;b&gt;&quot;Ignore/Invalid&quot;&lt;/b&gt;.&lt;br/&gt;However, it may sometimes be wanted to ignore this setting when sending a QSL.</string>
+              </property>
+              <property name="text">
+               <string>&quot;Ignore&quot;</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="addlSentStatusNCheckBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Under normal circumstances this status means &lt;b&gt;&quot;do not send&quot;&lt;/b&gt;.&lt;br/&gt;However, it may sometimes be wanted to ignore this setting when sending a QSL.</string>
+              </property>
+              <property name="text">
+               <string>&quot;No&quot;</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QCheckBox" name="addlSentStatusAlreadySentCheckBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Resend already sent QSOs</string>
+              </property>
+              <property name="text">
+               <string>Already Sent</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -257,11 +468,21 @@
  <tabstops>
   <tabstop>browseButton</tabstop>
   <tabstop>typeSelect</tabstop>
+  <tabstop>exportTypeCombo</tabstop>
+  <tabstop>exportedColumnsCombo</tabstop>
+  <tabstop>exportedColumnsButton</tabstop>
+  <tabstop>markAsSentCheckbox</tabstop>
   <tabstop>dateRangeCheckBox</tabstop>
   <tabstop>myCallsignCheckBox</tabstop>
   <tabstop>myCallsignComboBox</tabstop>
   <tabstop>myGridCheckBox</tabstop>
   <tabstop>myGridComboBox</tabstop>
+  <tabstop>qslSendViaCheckbox</tabstop>
+  <tabstop>qslSendViaComboBox</tabstop>
+  <tabstop>addlSentStatusCheckbox</tabstop>
+  <tabstop>addlSentStatusICheckBox</tabstop>
+  <tabstop>addlSentStatusNCheckBox</tabstop>
+  <tabstop>addlSentStatusAlreadySentCheckBox</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -272,8 +493,8 @@
    <slot>runExport()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>461</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -288,8 +509,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>461</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -304,8 +525,8 @@
    <slot>browse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>194</x>
-     <y>43</y>
+     <x>441</x>
+     <y>65</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -320,8 +541,8 @@
    <slot>toggleDateRange()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>279</x>
-     <y>103</y>
+     <x>124</x>
+     <y>258</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -336,8 +557,8 @@
    <slot>toggleMyCallsign()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>159</y>
+     <x>93</x>
+     <y>292</y>
     </hint>
     <hint type="destinationlabel">
      <x>232</x>
@@ -352,8 +573,8 @@
    <slot>toggleMyGridsquare()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>82</x>
-     <y>188</y>
+     <x>103</x>
+     <y>323</y>
     </hint>
     <hint type="destinationlabel">
      <x>232</x>
@@ -368,12 +589,92 @@
    <slot>myCallsignChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>296</x>
-     <y>160</y>
+     <x>515</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel">
      <x>232</x>
      <y>142</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exportedColumnsButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>showColumnsSetting()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>495</x>
+     <y>155</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>179</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qslSendViaCheckbox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>toggleQslSendVia()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>98</x>
+     <y>354</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>212</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exportTypeCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>exportTypeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>448</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>212</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exportedColumnsCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>exportedColumnsComboChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>428</x>
+     <y>155</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addlSentStatusCheckbox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>ExportDialog</receiver>
+   <slot>toggleSentStatus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>153</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>237</x>
+     <y>220</y>
     </hint>
    </hints>
   </connection>
@@ -385,5 +686,10 @@
   <slot>toggleMyCallsign()</slot>
   <slot>toggleMyGridsquare()</slot>
   <slot>myCallsignChanged(QString)</slot>
+  <slot>showColumnsSetting()</slot>
+  <slot>toggleQslSendVia()</slot>
+  <slot>exportTypeChanged(int)</slot>
+  <slot>exportedColumnsComboChanged(int)</slot>
+  <slot>toggleSentStatus()</slot>
  </slots>
 </ui>

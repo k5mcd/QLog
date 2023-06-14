@@ -89,6 +89,7 @@ SOURCES += \
         data/StationProfile.cpp \
         logformat/AdiFormat.cpp \
         logformat/AdxFormat.cpp \
+        logformat/CSVFormat.cpp \
         logformat/JsonFormat.cpp \
         logformat/LogFormat.cpp \
         models/AlertTableModel.cpp \
@@ -197,6 +198,7 @@ HEADERS += \
         data/WsjtxEntry.h \
         logformat/AdiFormat.h \
         logformat/AdxFormat.h \
+        logformat/CSVFormat.h \
         logformat/JsonFormat.h \
         logformat/LogFormat.h \
         models/AlertTableModel.h \

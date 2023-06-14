@@ -1,20 +1,31 @@
 #ifndef JSONFORMAT_H
 #define JSONFORMAT_H
 
-#include "LogFormat.h"
+#include <QJsonArray>
+#include "AdxFormat.h"
 
-class QJsonArray;
-
-class JsonFormat : public LogFormat {
+class JsonFormat : public AdxFormat
+{
 public:
-    explicit JsonFormat(QTextStream& stream) : LogFormat(stream) {}
+    explicit JsonFormat(QTextStream& stream) : AdxFormat(stream) {}
 
-    bool importNext(QSqlRecord& contact) override;
-    void exportContact(const QSqlRecord& record, QMap<QString, QString> *) override;
-    void exportEnd() override;
+    virtual bool importNext(QSqlRecord& contact) override;
+    virtual void importStart() override {};
+    virtual void importEnd() override {};
+
+    virtual void exportStart() override;
+    virtual void exportContact(const QSqlRecord& record, QMap<QString, QString> *) override;
+    virtual void exportEnd() override;
+
+protected:
+    virtual void writeField(const QString &name,
+                            bool presenceCondition,
+                            const QString &value,
+                            const QString &type="") override;
 
 private:
    QJsonArray data;
+   QJsonObject contact;
 };
 
 #endif // JSONFORMAT_H

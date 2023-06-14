@@ -179,7 +179,7 @@ void LotwDialog::upload() {
                 QSqlQuery query_update(query_string);
                 if ( ! query_update.exec() )
                 {
-                    qWarning() << "Cannot execute update query" << query.lastError().text();
+                    qWarning() << "Cannot execute update query" << query_update.lastError().text();
                     return;
                 }
             }

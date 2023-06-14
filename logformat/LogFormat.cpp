@@ -3,13 +3,19 @@
 #include "AdiFormat.h"
 #include "AdxFormat.h"
 #include "JsonFormat.h"
+#include "CSVFormat.h"
 #include "data/Data.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
-LogFormat::LogFormat(QTextStream& stream) : QObject(nullptr), stream(stream), duplicateQSOFunc(nullptr) {
+LogFormat::LogFormat(QTextStream& stream) :
+    QObject(nullptr),
+    stream(stream),
+    exportedFields("*"),
+    duplicateQSOFunc(nullptr)
+{
     FCT_IDENTIFICATION;
     this->defaults = nullptr;
 }
@@ -34,6 +40,9 @@ LogFormat* LogFormat::open(QString type, QTextStream& stream) {
     else if (type == "json") {
         return open(LogFormat::JSON, stream);
     }
+    else if (type == "csv") {
+        return open(LogFormat::CSV, stream);
+    }
     else if (type == "cabrillo") {
         return open(LogFormat::JSON, stream);
     }
@@ -56,6 +65,9 @@ LogFormat* LogFormat::open(LogFormat::Type type, QTextStream& stream) {
 
     case LogFormat::JSON:
         return new JsonFormat(stream);
+
+    case LogFormat::CSV:
+        return new CSVFormat(stream);
 
     case LogFormat::CABRILLO:
         return nullptr;
@@ -93,6 +105,116 @@ void LogFormat::setFilterMyGridsquare(const QString &myGridsquare)
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << myGridsquare;
     this->filterMyGridsquare = myGridsquare;
+}
+
+void LogFormat::setFilterSentPaperQSL(bool includeNo, bool includeIgnore, bool includeAlreadySent)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << includeNo << includeIgnore << includeAlreadySent;
+
+    this->filterSentPaperQSL << "'R'" << "'Q'";
+
+    if ( includeNo )
+    {
+        this->filterSentPaperQSL << "'N'";
+    }
+    if ( includeIgnore )
+    {
+        this->filterSentPaperQSL << "'I'";
+    }
+    if ( includeAlreadySent )
+    {
+        this->filterSentPaperQSL << "'Y'";
+    }
+}
+
+void LogFormat::setFilterSendVia(const QString &value)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << value;
+
+    this->filterSendVia = value;
+}
+
+QString LogFormat::getWhereClause()
+{
+    FCT_IDENTIFICATION;
+
+    whereClause.clear();
+
+    whereClause << "1 = 1"; //generic filter
+
+    if ( isDateRange() )
+    {
+        whereClause << "(start_time BETWEEN :start_date AND :end_date)";
+    }
+
+    if ( !filterMyCallsign.isEmpty() )
+    {
+        whereClause << "upper(station_callsign) = upper(:stationCallsign)";
+    }
+
+    if ( !filterMyGridsquare.isEmpty() )
+    {
+        whereClause << "upper(my_gridsquare) = upper(:myGridsquare)";
+    }
+
+    if ( !filterSentPaperQSL.isEmpty() )
+    {
+        whereClause << QString("upper(qsl_sent) in  (%1)").arg(filterSentPaperQSL.join(", "));
+    }
+
+    if ( !filterSendVia.isEmpty() )
+    {
+        whereClause << ( ( filterSendVia == " " ) ? "qsl_sent_via is NULL"
+                                                  : "upper(qsl_sent_via) = upper(:qsl_sent_via)");
+    }
+
+    return whereClause.join(" AND ");
+}
+
+void LogFormat::bindWhereClause(QSqlQuery &query)
+{
+    FCT_IDENTIFICATION;
+
+    if ( isDateRange() )
+    {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+        query.bindValue(":start_date", filterStartDate.startOfDay());
+        query.bindValue(":end_date", filterEndDate.endOfDay());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+        query.bindValue(":start_date", QDateTime(filterStartDate));
+        query.bindValue(":end_date", QDateTime(filterEndDate));
+#endif
+    }
+
+    if ( !filterMyCallsign.isEmpty() )
+    {
+        query.bindValue(":stationCallsign", filterMyCallsign);
+    }
+
+    if ( !filterMyGridsquare.isEmpty() )
+    {
+        query.bindValue(":myGridsquare", filterMyGridsquare);
+    }
+
+    if ( !filterSendVia.isEmpty() )
+    {
+        if ( filterSendVia != " " )
+        {
+            query.bindValue(":qsl_sent_via", filterSendVia);
+        }
+    }
+}
+
+void LogFormat::setExportedFields(const QStringList &fieldsList)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << fieldsList;
+    exportedFields = fieldsList;
 }
 
 void LogFormat::setUpdateDxcc(bool updateDxcc) {
@@ -631,32 +753,9 @@ long LogFormat::runExport()
 
     this->exportStart();
 
-    QStringList filters;
-
     QSqlQuery query;
 
-
-    /************** FILTERS  **************/
-    filters << "1 = 1"; //generic filter
-
-    if ( isDateRange() )
-    {
-        filters << "(start_time BETWEEN :start_date AND :end_date)";
-    }
-
-    if ( !filterMyCallsign.isEmpty() )
-    {
-        filters << "upper(station_callsign) = upper(:stationCallsign)";
-    }
-
-    if ( !filterMyGridsquare.isEmpty() )
-    {
-        filters << "upper(my_gridsquare) = upper(:myGridsquare)";
-    }
-
-    /************** END OF FILTERS  **************/
-
-    QString queryStmt = QString("SELECT * FROM contacts WHERE %1 ORDER BY start_time ASC").arg(filters.join(" AND "));
+    QString queryStmt = QString("SELECT %1 FROM contacts WHERE %2 ORDER BY start_time ASC").arg(exportedFields.join(", "), getWhereClause());
 
     qCDebug(runtime) << queryStmt;
 
@@ -666,29 +765,7 @@ long LogFormat::runExport()
         return 0;
     }
 
-    /************** BIND VALUES **************/
-    if ( isDateRange() )
-    {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-        query.bindValue(":start_date", filterStartDate.startOfDay());
-        query.bindValue(":end_date", filterEndDate.endOfDay());
-#else /* Due to ubuntu 20.04 where qt5.12 is present */
-        query.bindValue(":start_date", QDateTime(filterStartDate));
-        query.bindValue(":end_date", QDateTime(filterEndDate));
-#endif
-    }
-
-    if ( !filterMyCallsign.isEmpty() )
-    {
-        query.bindValue(":stationCallsign", filterMyCallsign);
-    }
-
-    if ( !filterMyGridsquare.isEmpty() )
-    {
-        query.bindValue(":myGridsquare", filterMyGridsquare);
-    }
-
-    /*********** END OF BIND VALUES ************/
+    bindWhereClause(query);
 
     if ( ! query.exec() )
     {
@@ -731,18 +808,29 @@ long LogFormat::runExport(const QList<QSqlRecord> &selectedQSOs)
     long count = 0L;
     for (const QSqlRecord &qso: selectedQSOs)
     {
-        this->exportContact(qso);
+        QSqlRecord contactRecord;
+
+        if ( exportedFields.first() != "*" )
+        {
+            for ( const QString& fieldName : qAsConst(exportedFields) )
+            {
+                contactRecord.append(qso.field(fieldName));
+            }
+        }
+        else
+        {
+            contactRecord = qso;
+        }
+        this->exportContact(contactRecord);
         count++;
-        if (count % 10 == 0)
+        if ( count % 10 == 0 )
         {
             emit exportProgress((int)(count * 100 / selectedQSOs.size()));
         }
     }
 
     emit exportProgress(100);
-
     emit finished(count);
-
     this->exportEnd();
     return count;
 }

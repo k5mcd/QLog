@@ -19,13 +19,17 @@ class ColumnSettingGenericDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ColumnSettingGenericDialog(QTableView *table, QWidget *parent = nullptr);
+    explicit ColumnSettingGenericDialog(const QAbstractItemModel *model,
+                                        QWidget *parent = nullptr);
     ~ColumnSettingGenericDialog(){};
+
+signals:
+    void columnChanged(int index, bool state);
 
 protected:
     void addSortedCheckboxes(QGridLayout *grid, QList<QCheckBox*> &checkboxlist, int elementsPerRow);
     void addSelectUnselect(QGridLayout *, int);
-    QTableView table;
+    const QAbstractItemModel *model;
 };
 
 class ColumnSettingSimpleDialog : public ColumnSettingGenericDialog
@@ -38,6 +42,7 @@ public:
 
 private:
     Ui::ColumnSettingSimpleDialog *ui;
+    QTableView *table;
 };
 
 class ColumnSettingDialog : public ColumnSettingGenericDialog
@@ -46,11 +51,16 @@ class ColumnSettingDialog : public ColumnSettingGenericDialog
 
 public:
     explicit ColumnSettingDialog(QTableView *table, QWidget *parent = nullptr);
+    explicit ColumnSettingDialog(const QAbstractItemModel *model,
+                                 const QSet<int> &defaultSetting,
+                                 QWidget *parent = nullptr);
     ~ColumnSettingDialog();
 
 private:
-
+    void setupDialog();
     Ui::ColumnSettingDialog *ui;
+    QTableView *table;
+    QSet<int> defaultColumnsState;
 };
 
 #endif // COLUMNSETTINGDIALOG_H

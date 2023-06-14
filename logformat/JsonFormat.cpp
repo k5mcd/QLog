@@ -1,4 +1,3 @@
-#include <QJsonArray>
 #include <QJsonDocument>
 #include <QSqlRecord>
 #include "JsonFormat.h"
@@ -6,31 +5,59 @@
 
 MODULE_IDENTIFICATION("qlog.logformat.jsonformat");
 
-void JsonFormat::exportContact(const QSqlRecord& record, QMap<QString, QString>*)
+void JsonFormat::exportStart()
+{
+    FCT_IDENTIFICATION;
+
+    data = QJsonArray();
+}
+
+void JsonFormat::exportContact(const QSqlRecord& record, QMap<QString, QString>*applTags)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<record;
 
-    QJsonObject contact;
-    int fieldCount = record.count();
-    for (int i = 0; i < fieldCount; i++) {
-        QString fieldName = record.fieldName(i);
-        QVariant fieldValue = record.value(i);
-        if (fieldValue.isNull()) continue;
-        contact[fieldName] = QJsonValue::fromVariant(fieldValue);
-    }
+    contact = QJsonObject();
+    writeSQLRecord(record, applTags);
     data.append(contact);
 }
 
-void JsonFormat::exportEnd() {
+void JsonFormat::exportEnd()
+{
     FCT_IDENTIFICATION;
 
-    QJsonDocument doc(data);
-    QByteArray json = doc.toJson();
-    stream << json;
+    QJsonObject msg;
+    QJsonObject headerData;
+    headerData["adif_ver"] = ADIF_VERSION_STRING;
+    headerData["programid"] = PROGRAMID_STRING;
+    headerData["programversion"] = VERSION;
+    headerData["created_timestamp"] = QDateTime::currentDateTimeUtc().toString("yyyyMMdd hhmmss");
+    msg["header"] = headerData;
+    msg["records"] = data;
+    QJsonDocument doc(msg);
+    stream << doc.toJson();
 }
 
-bool JsonFormat::importNext(QSqlRecord&) {
+void JsonFormat::writeField(const QString &name,
+                            bool presenceCondition,
+                            const QString &value,
+                            const QString &type)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<< name
+                                << presenceCondition
+                                << value
+                                << type;
+
+    if (value.isEmpty() || !presenceCondition) return;
+
+    contact[name] = value;
+}
+
+bool JsonFormat::importNext(QSqlRecord&)
+{
     return false;
 }
+
