@@ -1,4 +1,6 @@
 TBC - 0.24.0
+- Fixed Incorrect FT4 mode/submode (issue #212)
+- Fixed CONTESTIA mode should be CONTESTI (issue #213)
 - Fixed Context menu deselects NewContactEditLine (issue #215)
 - FIxed incorrect WSJTX Filter initialization (issue #218)
 
