@@ -42,6 +42,12 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Jun 16 2023 Ladislav Foldyna - 0.24.0-1
+- Fixed Incorrect FT4 mode-submode (issue #212)
+- Fixed CONTESTIA mode should be CONTESTI (issue #213)
+- Fixed Context menu deselects NewContactEditLine (issue #215)
+- Fixed incorrect WSJTX Filter initialization (issue #218)
+
 * Fri Jun 9 2023 Ladislav Foldyna - 0.23.0-1
 - [NEW] - Added CWDaemon Keyer Support
 - [NEW] - Added FLDigi Keyer Support

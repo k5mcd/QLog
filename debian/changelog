@@ -1,3 +1,11 @@
+qlog (0.24.0-1) UNRELEASED; urgency=low
+  * Fixed Incorrect FT4 mode-submode (issue #212)
+  * Fixed CONTESTIA mode should be CONTESTI (issue #213)
+  * Fixed Context menu deselects NewContactEditLine (issue #215)
+  * Fixed incorrect WSJTX Filter initialization (issue #218)
+
+ -- foldynl <foldyna@gmail.com>  Fri, 16 Jun 2023 12:20:54 +0200
+
 qlog (0.23.0-1) UNRELEASED; urgency=low
   * [NEW] - Added CWDaemon Keyer Support
   * [NEW] - Added FLDigi Keyer Support
