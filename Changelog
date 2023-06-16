@@ -1,5 +1,6 @@
 TBC - 0.24.0
 - Fixed Context menu deselects NewContactEditLine (issue #215)
+- FIxed incorrect WSJTX Filter initialization (issue #218)
 
 2023/06/09 - 0.23.0
 - [NEW] - Added CWDaemon Keyer Support
