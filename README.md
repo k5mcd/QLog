@@ -46,6 +46,11 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 * Morse Over CAT
 * WinKey v2 compatible hardware
 
+### Supported Secure Password Storage
+* Linux: LibSecretKeyring, GnomeKeyring, Kwallet4, Kwallet5
+* Windows: Windows Credential Store
+* MacOS: macOS Keychain
+
 ### Third-party software
 * [TQSL](http://www.arrl.org/tqsl-download) – optional, needed for LoTW support
 
