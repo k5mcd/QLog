@@ -36,16 +36,8 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     restoreTableHeaderState();
 
     contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    contregexp.setPattern(contFilterRegExp());
-    dxccStatusFilter = dxccStatusFilterValue();
-    distanceFilter = getDistanceFilterValue();
-    snrFilter = getSNRFilterValue();
-    QStringList tmp = dxMemberList();
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-    dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
-#else /* Due to ubuntu 20.04 where qt5.12 is present */
-    dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
-#endif
+
+    reloadSetting();
 }
 
 void WsjtxWidget::decodeReceived(WsjtxDecode decode)
@@ -93,10 +85,22 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
             emit CQSpot(entry);
 
+            qCDebug(runtime)
+                    << "Continent" << entry.dxcc.cont.contains(contregexp)
+                    << "Continent RegExp" << contregexp
+                    << "DX Status" << (entry.status & dxccStatusFilter)
+                    << "Distance" << (entry.distance >= distanceFilter)
+                    << "Curr Distance" << entry.distance << distanceFilter
+                    << "SNR"<< (entry.decode.snr >= snrFilter )
+                    << "Current SNR" << snrFilter
+                    << "Member" << ( dxMemberFilter.size() == 0
+                         || (dxMemberFilter.size()
+                             && entry.memberList2Set().intersects(dxMemberFilter)));
+
             if ( entry.dxcc.cont.contains(contregexp)
                  && ( entry.status & dxccStatusFilter )
-                 && entry.distance > distanceFilter
-                 && entry.decode.snr > snrFilter
+                 && entry.distance >= distanceFilter
+                 && entry.decode.snr >= snrFilter
                  && ( dxMemberFilter.size() == 0
                       || (dxMemberFilter.size() && entry.memberList2Set().intersects(dxMemberFilter)))
                )
@@ -220,16 +224,7 @@ void WsjtxWidget::actionFilter()
 
     if (dialog.exec() == QDialog::Accepted)
     {
-        dxccStatusFilter = dxccStatusFilterValue();
-        contregexp.setPattern(contFilterRegExp());
-        distanceFilter = getDistanceFilterValue();
-        snrFilter = getSNRFilterValue();
-        QStringList tmp = dxMemberList();
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-        dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
-#else /* Due to ubuntu 20.04 where qt5.12 is present */
-        dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
-#endif
+        reloadSetting();
         wsjtxTableModel->clear();
     }
 }
@@ -263,7 +258,7 @@ int WsjtxWidget::getSNRFilterValue()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    return settings.value("wsjtx/filter_snr", 0).toInt();
+    return settings.value("wsjtx/filter_snr", -41).toInt();
 }
 
 QStringList WsjtxWidget::dxMemberList()
@@ -271,7 +266,23 @@ QStringList WsjtxWidget::dxMemberList()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    return settings.value("wsjtx/filter_dx_member_list", false).toStringList();
+    return settings.value("wsjtx/filter_dx_member_list").toStringList();
+}
+
+void WsjtxWidget::reloadSetting()
+{
+    FCT_IDENTIFICATION;
+
+    contregexp.setPattern(contFilterRegExp());
+    dxccStatusFilter = dxccStatusFilterValue();
+    distanceFilter = getDistanceFilterValue();
+    snrFilter = getSNRFilterValue();
+    QStringList tmp = dxMemberList();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    dxMemberFilter = QSet<QString>(tmp.begin(), tmp.end());
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+    dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
+#endif
 }
 
 void WsjtxWidget::saveTableHeaderState()

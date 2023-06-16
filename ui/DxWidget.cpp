@@ -646,7 +646,7 @@ QStringList DxWidget::dxMemberList()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    return settings.value("dxc/filter_dx_member_list", false).toStringList();
+    return settings.value("dxc/filter_dx_member_list").toStringList();
 }
 
 void DxWidget::sendCommand(const QString & command,

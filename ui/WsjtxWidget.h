@@ -41,6 +41,7 @@ private:
     int getDistanceFilterValue();
     int getSNRFilterValue();
     QStringList dxMemberList();
+    void reloadSetting();
 
     WsjtxTableModel* wsjtxTableModel;
     WsjtxStatus status;
