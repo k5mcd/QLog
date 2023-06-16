@@ -437,7 +437,19 @@ void Wsjtx::insertContact(WsjtxLog log)
 
     if ( !log.mode.isEmpty() )
     {
-        record.setValue("mode", log.mode);
+        QString mode = log.mode.toUpper();
+        QString submode;
+
+        QPair<QString, QString> legacy = Data::instance()->legacyMode(mode);
+
+        if ( !legacy.first.isEmpty() )
+        {
+            mode = legacy.first;
+            submode = legacy.second;
+        }
+
+        record.setValue("mode", mode);
+        record.setValue("submode", submode);
     }
 
     if ( log.time_on.isValid() )

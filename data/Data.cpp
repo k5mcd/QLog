@@ -746,8 +746,12 @@ QString Data::dbFilename()
     return dir.filePath("qlog.db");
 }
 
-QPair<QString, QString> Data::legacyMode(const QString &mode) {
+QPair<QString, QString> Data::legacyMode(const QString &mode)
+{
     FCT_IDENTIFICATION;
+
+    // used in the case of external programs that generate an invalid ADIF modes.
+    // Database Mode Table cannot be used because these programs have different mode-strings.
 
     qCDebug(function_parameters) << mode;
     return legacyModes.value(mode);
@@ -810,8 +814,13 @@ void Data::loadPropagationModes() {
     }
 }
 
-void Data::loadLegacyModes() {
+void Data::loadLegacyModes()
+{
     FCT_IDENTIFICATION;
+
+    // Load conversion table from non-ADIF mode to ADIF mode/submode
+    // used in the case of external programs that generate an invalid ADIF modes.
+    // Database Mode Table cannot be used because these programs have different mode-strings.
 
     QFile file(":/res/data/legacy_modes.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);

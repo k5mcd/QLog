@@ -160,5 +160,8 @@
   "TOR": { "mode": "SITORB", "submode": "SITORB" },
   "USB": { "mode": "SSB", "submode": "USB" },
   "LSB": { "mode": "SSB", "submode": "LSB" },
-  "FT4": { "mode": "MFSK", "submode": "FT4" }
+  "FT4": { "mode": "MFSK", "submode": "FT4" },
+  "FST4": { "mode": "MFSK", "submode": "FST4"},
+  "FST4W": { "mode": "MFSK", "submode": "FST4W"},
+  "Q65": { "mode": "MFSK", "submode": "Q65"}
 }
