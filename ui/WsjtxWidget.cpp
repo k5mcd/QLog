@@ -263,7 +263,7 @@ int WsjtxWidget::getSNRFilterValue()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    return settings.value("wsjtx/filter_snr", 0).toInt();
+    return settings.value("wsjtx/filter_snr", -41).toInt();
 }
 
 QStringList WsjtxWidget::dxMemberList()
