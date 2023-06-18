@@ -17,6 +17,9 @@
 
 MODULE_IDENTIFICATION("qlog.ui.statisticswidget");
 
+// default statistics interval [in days]
+#define DEFAULT_STAT_RANGE -1
+
 void StatisticsWidget::mainStatChanged(int idx)
 {
      FCT_IDENTIFICATION;
@@ -514,7 +517,9 @@ StatisticsWidget::StatisticsWidget(QWidget *parent) :
     refreshBandCombo();
 
     ui->startDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
+    ui->startDateEdit->setDate(QDate::currentDate().addDays(DEFAULT_STAT_RANGE));
     ui->endDateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
+    ui->endDateEdit->setDate(QDate::currentDate());
 
     ui->graphView->setRenderHint(QPainter::Antialiasing);
     ui->graphView->setChart(new QChart());
