@@ -1,4 +1,5 @@
 TBC - 0.25.0
+- Fixed RX/TX Bands are uneditable when RX/TX freqs are missing (issue #220)
 
 2023/06/16 - 0.24.0
 - Fixed Incorrect FT4 mode-submode (issue #212)
