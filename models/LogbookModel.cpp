@@ -357,9 +357,23 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
             break;
         }
 
+        case COLUMN_BAND:
+        {
+            double freq = QSqlTableModel::data(this->index(index.row(), COLUMN_FREQUENCY), Qt::DisplayRole).toDouble();
+            depend_update_result = ( freq == 0.0 && !value.toString().isEmpty() );
+            break;
+        }
+
         case COLUMN_FREQ_RX:
         {
             depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND_RX), QVariant(Data::band(value.toDouble()).name), role );
+            break;
+        }
+
+        case COLUMN_BAND_RX:
+        {
+            double freq = QSqlTableModel::data(this->index(index.row(), COLUMN_FREQ_RX), Qt::DisplayRole).toDouble();
+            depend_update_result = ( freq == 0.0 && !value.toString().isEmpty() );
             break;
         }
 
@@ -483,8 +497,6 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
         case COLUMN_ID: /* it is the primary key, do not update */
         case COLUMN_COUNTRY:  /* it is a computed value, do not update */
         case COLUMN_DISTANCE: /* it is a computed value, do not update */
-        case COLUMN_BAND: /* it is a computed value, do not update */
-        case COLUMN_BAND_RX: /* it is a computed value, do not update */
         {
             /* Do not allow to edit them */
             depend_update_result = false;
@@ -734,6 +746,7 @@ void LogbookModel::updateExternalServicesUploadStatus(const QModelIndex &index, 
     case COLUMN_TIME_ON:
     case COLUMN_CALL:
     case COLUMN_FREQUENCY:
+    case COLUMN_BAND:
     case COLUMN_PROP_MODE:
     case COLUMN_SAT_MODE:
     case COLUMN_SAT_NAME:

@@ -261,6 +261,15 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->countryCombo->setModel(countryModel);
     ui->countryCombo->setModelColumn(1);
 
+    /* Band Combos */
+    SqlListModel* bandModel = new SqlListModel("SELECT name FROM bands ORDER BY start_freq;", tr("Blank"), this);
+    while ( bandModel->canFetchMore() )
+    {
+        bandModel->fetchMore();
+    }
+    ui->bandTXCombo->setModel(bandModel);
+    ui->bandRXCombo->setModel(bandModel);
+
     /* Assign Validators */
     ui->callsignEdit->setValidator(new QRegularExpressionValidator(Callsign::callsignRegEx(), this));
     ui->myCallsignEdit->setValidator(new QRegularExpressionValidator(Callsign::callsignRegEx(), this));
@@ -283,6 +292,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     mapper->addMapping(ui->submodeEdit, LogbookModel::COLUMN_SUBMODE, "currentText");
     mapper->addMapping(ui->freqRXEdit, LogbookModel::COLUMN_FREQ_RX);
     mapper->addMapping(ui->freqTXEdit, LogbookModel::COLUMN_FREQUENCY);
+    mapper->addMapping(ui->bandRXCombo, LogbookModel::COLUMN_BAND_RX);
+    mapper->addMapping(ui->bandTXCombo, LogbookModel::COLUMN_BAND);
     mapper->addMapping(ui->nameEdit, LogbookModel::COLUMN_NAME_INTL);
     mapper->addMapping(ui->qthEdit, LogbookModel::COLUMN_QTH_INTL);
     mapper->addMapping(ui->gridEdit, LogbookModel::COLUMN_GRID);
@@ -824,8 +835,24 @@ bool QSODetailDialog::doValidation()
                                  tr("DX callsign has an incorrect format"));
 
     allValid &= highlightInvalid(ui->freqTXLabel,
-                                 ui->freqTXEdit->value() == 0.0,
-                                 tr("TX Frequency must not be 0"));
+                                 ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
+                                 tr("TX Frequency or TX Band must be filled"));
+
+    QString bandString = Data::band(ui->freqTXEdit->value()).name;
+
+    allValid &= highlightInvalid(ui->bandLabel,
+                                 ui->freqTXEdit->value() != 0.0 && ui->bandTXCombo->currentText() != bandString,
+                                 tr("TX Band should be ") + "<b>" + (bandString.isEmpty() ? "OOB" : bandString) + "</b>");
+
+    allValid &= highlightInvalid(ui->bandLabel,
+                                 ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
+                                 tr("TX Frequency or TX Band must be filled"));
+
+    bandString = Data::band(ui->freqRXEdit->value()).name;
+
+    allValid &= highlightInvalid(ui->bandLabel,
+                                 ui->freqRXEdit->value() != 0.0 && ui->bandRXCombo->currentText() != bandString,
+                                 tr("RX Band should be ") + "<b>" + (bandString.isEmpty() ? "OOB" : bandString) + "</b>");
 
     allValid &= highlightInvalid(ui->gridLabel,
                                  !ui->gridEdit->text().isEmpty() && !ui->gridEdit->hasAcceptableInput(),
@@ -1755,6 +1782,24 @@ void QSOEditMapperDelegate::setModelData(QWidget *editor,
         /* do not save */
         return;
     }
+    else if ( editor->objectName() == "bandRXCombo"
+              || editor->objectName() == "bandTXCombo" )
+    {
+        QComboBox* combo = static_cast<QComboBox*>(editor);
+
+        if ( combo )
+        {
+            if ( combo->currentIndex() == 0 )
+            {
+                model->setData(index, QVariant());
+            }
+            else
+            {
+                model->setData(index, combo->currentText());
+            }
+        }
+        return;
+    }
 
     QItemDelegate::setModelData(editor, model, index);
 }
@@ -1798,18 +1843,6 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
     {
         switch ( index.column() )
         {
-
-        case COLUMN_FREQUENCY:
-        {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND), QVariant(Data::band(value.toDouble()).name), role ); // clazy:exclude=skipped-base-method
-            break;
-        }
-
-        case COLUMN_FREQ_RX:
-        {
-            depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_BAND_RX), QVariant(Data::band(value.toDouble()).name), role ); // clazy:exclude=skipped-base-method
-            break;
-        }
 
         case COLUMN_GRID:
         {
@@ -2102,7 +2135,8 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
                break;
 
            default:
-               main_update_result = QSqlTableModel::setData(index, Data::removeAccents(value.toString()), role); // clazy:exclude=skipped-base-method
+               main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? Data::removeAccents(value.toString())
+                                                                                                   : QVariant(), role); // clazy:exclude=skipped-base-method
            }
        }
     }
