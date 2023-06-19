@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QDateEdit>
 #include <QDateTimeEdit>
+#include <QPointer>
 #include "models/LogbookModel.h"
 #include "core/LogLocale.h"
 
@@ -30,7 +31,7 @@ private:
     Ui::QSOFilterDetail *ui;
     QString filterName;
     int condCount;
-    LogbookModel* logbookmodel;
+    QPointer<LogbookModel> logbookmodel;
     QStringList filterNamesList;
 
 private:

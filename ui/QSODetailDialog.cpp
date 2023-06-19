@@ -124,56 +124,56 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     modeModel->select();
 
     /* IOTA Completer */
-    iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
+    iotaCompleter.reset(new QCompleter(Data::instance()->iotaIDList(), this));
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     iotaCompleter->setFilterMode(Qt::MatchContains);
     iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-    ui->iotaEdit->setCompleter(iotaCompleter);
+    ui->iotaEdit->setCompleter(iotaCompleter.data());
 
     /* SOTA Completer */
-    sotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
+    sotaCompleter.reset(new QCompleter(Data::instance()->sotaIDList(), this));
     sotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     sotaCompleter->setFilterMode(Qt::MatchStartsWith);
     sotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->sotaEdit->setCompleter(nullptr);
 
     /* POTA Completer */
-    potaCompleter = new QCompleter(Data::instance()->potaIDList(), this);
+    potaCompleter.reset(new QCompleter(Data::instance()->potaIDList(), this));
     potaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     potaCompleter->setFilterMode(Qt::MatchStartsWith);
     potaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->potaEdit->setCompleter(nullptr);
 
     /* WWFF Completer */
-    wwffCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
+    wwffCompleter.reset(new QCompleter(Data::instance()->wwffIDList(), this));
     wwffCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     wwffCompleter->setFilterMode(Qt::MatchStartsWith);
     wwffCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->wwffEdit->setCompleter(nullptr);
 
     /* MyIOTA Completer */
-    myIotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
+    myIotaCompleter.reset(new QCompleter(Data::instance()->iotaIDList(), this));
     myIotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     myIotaCompleter->setFilterMode(Qt::MatchContains);
     myIotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-    ui->myIOTAEdit->setCompleter(myIotaCompleter);
+    ui->myIOTAEdit->setCompleter(myIotaCompleter.data());
 
     /* MySOTA Completer */
-    mySotaCompleter = new QCompleter(Data::instance()->sotaIDList(), this);
+    mySotaCompleter.reset(new QCompleter(Data::instance()->sotaIDList(), this));
     mySotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     mySotaCompleter->setFilterMode(Qt::MatchStartsWith);
     mySotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->mySOTAEdit->setCompleter(nullptr);
 
     /* MyPOTA Completer */
-    myPotaCompleter = new QCompleter(Data::instance()->potaIDList(), this);
+    myPotaCompleter.reset(new QCompleter(Data::instance()->potaIDList(), this));
     myPotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     myPotaCompleter->setFilterMode(Qt::MatchStartsWith);
     myPotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->myPOTAEdit->setCompleter(nullptr);
 
     /* MyWWFF Completer */
-    myWWFFCompleter = new QCompleter(Data::instance()->wwffIDList(), this);
+    myWWFFCompleter.reset(new QCompleter(Data::instance()->wwffIDList(), this));
     myWWFFCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     myWWFFCompleter->setFilterMode(Qt::MatchStartsWith);
     myWWFFCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
@@ -1183,7 +1183,7 @@ void QSODetailDialog::sotaChanged(const QString &newSOTA)
 
     if ( newSOTA.length() >= 3 )
     {
-        ui->sotaEdit->setCompleter(sotaCompleter);
+        ui->sotaEdit->setCompleter(sotaCompleter.data());
     }
     else
     {
@@ -1197,7 +1197,7 @@ void QSODetailDialog::potaChanged(const QString &newPOTA)
 
     if ( newPOTA.length() >= 3 )
     {
-        ui->potaEdit->setCompleter(potaCompleter);
+        ui->potaEdit->setCompleter(potaCompleter.data());
     }
     else
     {
@@ -1211,7 +1211,7 @@ void QSODetailDialog::wwffChanged(const QString &newWWFF)
 
     if ( newWWFF.length() >= 3 )
     {
-        ui->wwffEdit->setCompleter(wwffCompleter);
+        ui->wwffEdit->setCompleter(wwffCompleter.data());
     }
     else
     {
@@ -1225,7 +1225,7 @@ void QSODetailDialog::mySotaChanged(const QString &newSOTA)
 
     if ( newSOTA.length() >= 3 )
     {
-        ui->mySOTAEdit->setCompleter(sotaCompleter);
+        ui->mySOTAEdit->setCompleter(sotaCompleter.data());
     }
     else
     {
@@ -1239,7 +1239,7 @@ void QSODetailDialog::myPOTAChanged(const QString &newPOTA)
 
     if ( newPOTA.length() >= 3 )
     {
-        ui->myPOTAEdit->setCompleter(potaCompleter);
+        ui->myPOTAEdit->setCompleter(potaCompleter.data());
     }
     else
     {
@@ -1253,7 +1253,7 @@ void QSODetailDialog::myWWFFChanged(const QString &newWWFF)
 
     if ( newWWFF.length() >= 3 )
     {
-        ui->myWWFFEdit->setCompleter(wwffCompleter);
+        ui->myWWFFEdit->setCompleter(wwffCompleter.data());
     }
     else
     {
