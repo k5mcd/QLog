@@ -20,6 +20,7 @@ public:
 
 protected:
     virtual void writeField(const QString &name,
+                            bool presenceCondition,
                             const QString &value,
                             const QString &type="") override;
     virtual void writeSQLRecord(const QSqlRecord& record,

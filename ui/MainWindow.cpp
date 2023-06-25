@@ -551,6 +551,7 @@ void MainWindow::exportLog() {
 
     ExportDialog dialog;
     dialog.exec();
+    ui->logbookWidget->updateTable();
 }
 
 void MainWindow::showLotw()

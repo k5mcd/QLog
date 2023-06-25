@@ -10,7 +10,7 @@
 #include "core/ClubLog.h"
 #include "models/SqlListModel.h"
 #include "logformat/AdiFormat.h"
-#include "ui/LotwShowUploadDialog.h"
+#include "ui/ShowUploadDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.clublogdialog");
 
@@ -97,8 +97,8 @@ void ClublogDialog::upload()
 
         QSOList.append(" "
                        + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateTimeShortWithYYYY())
-                       + " " + record.value("callsign").toString()
-                       + " " + record.value("mode").toString()
+                       + "\t" + record.value("callsign").toString()
+                       + "\t" + record.value("mode").toString()
                        + "\n");
 
         adi.exportContact(record);
@@ -109,8 +109,7 @@ void ClublogDialog::upload()
 
     if (count > 0)
     {
-        /* TODO: rename it to ShowUploadDialog */
-        LotwShowUploadDialog showDialog(QSOList);
+        ShowUploadDialog showDialog(QSOList);
 
         if ( showDialog.exec() == QDialog::Accepted )
         {

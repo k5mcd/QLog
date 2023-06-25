@@ -11,8 +11,30 @@
 MODULE_IDENTIFICATION("qlog.ui.ColumnSettingDialog");
 
 ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
-    ColumnSettingGenericDialog(table, parent),
-    ui(new Ui::ColumnSettingDialog)
+    ColumnSettingGenericDialog(table->model(), parent),
+    ui(new Ui::ColumnSettingDialog),
+    table(table)
+{
+    FCT_IDENTIFICATION;
+
+    setupDialog();
+}
+
+ColumnSettingDialog::ColumnSettingDialog(const QAbstractItemModel *model,
+                                         const QSet<int> &defaultStates,
+                                         QWidget *parent) :
+    ColumnSettingGenericDialog(model, parent),
+    ui(new Ui::ColumnSettingDialog),
+    table(nullptr),
+    defaultColumnsState(defaultStates)
+{
+    FCT_IDENTIFICATION;
+
+    setupDialog();
+}
+
+
+void ColumnSettingDialog::setupDialog()
 {
     FCT_IDENTIFICATION;
 
@@ -30,16 +52,19 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table, QWidget *parent) :
     QList<QCheckBox*> contestCheckboxList;
 
     int columnIndex = 0;
-    while ( columnIndex < table->model()->columnCount() )
+    while ( columnIndex < model->columnCount() )
     {
-        QCheckBox *columnCheckbox=new QCheckBox();
-        QString columnNameString = table->model()->headerData(columnIndex, Qt::Horizontal).toString();
+        QCheckBox *columnCheckbox = new QCheckBox();
+        QString columnNameString = model->headerData(columnIndex, Qt::Horizontal).toString();
 
-        columnCheckbox->setChecked(!table->isColumnHidden(columnIndex));
+        columnCheckbox->setChecked(((!table) ? defaultColumnsState.contains(columnIndex)
+                                             : !table->isColumnHidden(columnIndex)));
         columnCheckbox->setText(columnNameString);
 
-        connect(columnCheckbox, &QCheckBox::stateChanged, this, [columnIndex, table]() {
-            table->setColumnHidden(columnIndex, !table->isColumnHidden(columnIndex));
+        connect(columnCheckbox, &QCheckBox::stateChanged, this, [columnIndex, this](int state)
+        {
+            emit columnChanged(columnIndex, state);
+            if ( table ) table->setColumnHidden(columnIndex, !table->isColumnHidden(columnIndex));
         });
 
         switch ( columnIndex )
@@ -213,9 +238,10 @@ ColumnSettingDialog::~ColumnSettingDialog()
     delete ui;
 }
 
-ColumnSettingGenericDialog::ColumnSettingGenericDialog(QTableView *table, QWidget *parent) :
+ColumnSettingGenericDialog::ColumnSettingGenericDialog(const QAbstractItemModel *model,
+                                                       QWidget *parent) :
     QDialog(parent),
-    table(table)
+    model(model)
 {
     FCT_IDENTIFICATION;
 }
@@ -293,8 +319,9 @@ void ColumnSettingGenericDialog::addSelectUnselect(QGridLayout *grid, int elemen
 
 
 ColumnSettingSimpleDialog::ColumnSettingSimpleDialog(QTableView *table, QWidget *parent) :
-    ColumnSettingGenericDialog(table, parent),
-    ui(new Ui::ColumnSettingSimpleDialog)
+    ColumnSettingGenericDialog(table->model(), parent),
+    ui(new Ui::ColumnSettingSimpleDialog),
+    table(table)
 {
     FCT_IDENTIFICATION;
 
@@ -305,15 +332,17 @@ ColumnSettingSimpleDialog::ColumnSettingSimpleDialog(QTableView *table, QWidget 
     QList<QCheckBox*> checkboxList;
 
     int columnIndex = 0;
-    while ( columnIndex < table->model()->columnCount() )
+    while ( columnIndex < model->columnCount() )
     {
         QCheckBox *columnCheckbox=new QCheckBox();
-        QString columnNameString = table->model()->headerData(columnIndex, Qt::Horizontal).toString();
+        QString columnNameString = model->headerData(columnIndex, Qt::Horizontal).toString();
 
         columnCheckbox->setChecked(!table->isColumnHidden(columnIndex));
         columnCheckbox->setText(columnNameString);
 
-        connect(columnCheckbox, &QCheckBox::stateChanged, this, [columnIndex, table]() {
+        connect(columnCheckbox, &QCheckBox::stateChanged, this, [columnIndex, table, this](int state)
+        {
+            emit columnChanged(columnIndex, state);
             table->setColumnHidden(columnIndex, !table->isColumnHidden(columnIndex));
         });
 

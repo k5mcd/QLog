@@ -2,6 +2,8 @@
 #define ADIFORMAT_H
 
 #include "LogFormat.h"
+#define ADIF_VERSION_STRING "3.1.4"
+#define PROGRAMID_STRING "QLog"
 
 class AdiFormat : public LogFormat
 {
@@ -29,6 +31,7 @@ public:
 
 protected:
     virtual void writeField(const QString &name,
+                            bool presenceCondition,
                             const QString &value,
                             const QString &type="");
     virtual void writeSQLRecord(const QSqlRecord& record,

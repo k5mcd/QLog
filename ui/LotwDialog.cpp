@@ -14,7 +14,7 @@
 #include "core/debug.h"
 #include "ui/QSLImportStatDialog.h"
 #include "models/SqlListModel.h"
-#include "ui/LotwShowUploadDialog.h"
+#include "ui/ShowUploadDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.lotwdialog");
 
@@ -147,8 +147,8 @@ void LotwDialog::upload() {
 
         QSOList.append(" "
                        + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateTimeShortWithYYYY())
-                       + " " + record.value("callsign").toString()
-                       + " " + record.value("mode").toString()
+                       + "\t" + record.value("callsign").toString()
+                       + "\t" + record.value("mode").toString()
                        + "\n");
 
         adi.exportContact(record);
@@ -159,7 +159,7 @@ void LotwDialog::upload() {
 
     if (count > 0)
     {
-        LotwShowUploadDialog showDialog(QSOList);
+        ShowUploadDialog showDialog(QSOList);
 
         if ( showDialog.exec() == QDialog::Accepted )
         {
@@ -179,7 +179,7 @@ void LotwDialog::upload() {
                 QSqlQuery query_update(query_string);
                 if ( ! query_update.exec() )
                 {
-                    qWarning() << "Cannot execute update query" << query.lastError().text();
+                    qWarning() << "Cannot execute update query" << query_update.lastError().text();
                     return;
                 }
             }

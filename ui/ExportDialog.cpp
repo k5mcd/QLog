@@ -1,12 +1,15 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QMessageBox>
+#include <QSqlError>
 #include "ui/ExportDialog.h"
 #include "ui_ExportDialog.h"
-#include "logformat/LogFormat.h"
+
 #include "core/debug.h"
 #include "models/SqlListModel.h"
 #include "data/StationProfile.h"
+#include "ui/ColumnSettingDialog.h"
+#include "data/Data.h"
 
 MODULE_IDENTIFICATION("qlog.ui.exportdialog");
 
@@ -42,8 +45,17 @@ ExportDialog::ExportDialog(const QList<QSqlRecord>& qsos, QWidget *parent) :
     if ( qsos4export.size() > 0 )
     {
         ui->filterGroup->setVisible(false);
+        ui->addlSentStatusCheckbox->setVisible(false);
+        ui->addlSentStatusICheckBox->setVisible(false);
+        ui->addlSentStatusNCheckBox->setVisible(false);
+        ui->addlSentStatusAlreadySentCheckBox->setVisible(false);
         adjustSize();
     }
+
+    fillQSLSendViaCombo();
+    fillExportTypeCombo();
+    fillExportedColumnsCombo();
+    // not posibility to define Exported Columns here
 }
 
 void ExportDialog::browse()
@@ -72,6 +84,20 @@ void ExportDialog::toggleMyGridsquare()
 {
     FCT_IDENTIFICATION;
     ui->myGridComboBox->setEnabled(ui->myGridCheckBox->isChecked());
+}
+
+void ExportDialog::toggleQslSendVia()
+{
+    FCT_IDENTIFICATION;
+    ui->qslSendViaComboBox->setEnabled(ui->qslSendViaCheckbox->isChecked());
+}
+
+void ExportDialog::toggleSentStatus()
+{
+    FCT_IDENTIFICATION;
+    ui->addlSentStatusICheckBox->setEnabled(ui->addlSentStatusCheckbox->isChecked());
+    ui->addlSentStatusNCheckBox->setEnabled(ui->addlSentStatusCheckbox->isChecked());
+    ui->addlSentStatusAlreadySentCheckBox->setEnabled(ui->addlSentStatusCheckbox->isChecked());
 }
 
 void ExportDialog::runExport()
@@ -119,6 +145,19 @@ void ExportDialog::runExport()
         format->setFilterMyGridsquare(ui->myGridComboBox->currentText());
     }
 
+    if ( ui->exportTypeCombo->currentData() == "qsl"
+         && ui->qslSendViaCheckbox->isChecked() )
+    {
+        format->setFilterSendVia(ui->qslSendViaComboBox->currentData().toString());
+    }
+
+    if ( ui->exportTypeCombo->currentData() == "qsl" )
+    {
+        format->setFilterSentPaperQSL((ui->addlSentStatusCheckbox->isChecked()) ? ui->addlSentStatusNCheckBox->isChecked() : false,
+                                      (ui->addlSentStatusCheckbox->isChecked()) ? ui->addlSentStatusICheckBox->isChecked() : false,
+                                      (ui->addlSentStatusCheckbox->isChecked()) ? ui->addlSentStatusAlreadySentCheckBox->isChecked() : false);
+    }
+
     long count = 0L;
 
     connect(format, &LogFormat::exportProgress, this, &ExportDialog::setProgress);
@@ -134,6 +173,29 @@ void ExportDialog::runExport()
     ui->myCallsignComboBox->setEnabled(false);
     ui->myGridCheckBox->setEnabled(false);
     ui->myGridComboBox->setEnabled(false);
+    ui->addlSentStatusICheckBox->setEnabled(false);
+    ui->addlSentStatusNCheckBox->setEnabled(false);
+    ui->addlSentStatusCheckbox->setEnabled(false);
+    ui->addlSentStatusAlreadySentCheckBox->setEnabled(false);
+    ui->exportedColumnsButton->setEnabled(false);
+    ui->exportTypeCombo->setEnabled(false);
+    ui->qslSendViaCheckbox->setEnabled(false);
+    ui->qslSendViaComboBox->setEnabled(false);
+    ui->markAsSentCheckbox->setEnabled(false);
+    ui->exportedColumnsCombo->setEnabled(false);
+
+    if ( exportedColumns.count() > 0 )
+    {
+        //translate column indexes to SQL column names
+        QSetIterator<int> i(exportedColumns);
+        QSqlRecord record = logbookmodel.record();
+        QStringList fields;
+        while ( i.hasNext() )
+        {
+            fields << record.fieldName(i.next());
+        }
+        format->setExportedFields(fields);
+    }
 
     if ( qsos4export.size() > 0 )
     {
@@ -142,6 +204,18 @@ void ExportDialog::runExport()
     else
     {
         count = format->runExport();
+
+        if ( count > 0
+             && ui->exportTypeCombo->currentData() == "qsl"
+             && ui->markAsSentCheckbox->isChecked() )
+        {
+            if ( ! markQSOAsSent(format) )
+            {
+                QMessageBox::warning(this,
+                                    tr("QLog Error"),
+                                    tr("Cannot mark exported QSOs as Sent"));
+            }
+        }
     }
 
     delete format;
@@ -160,12 +234,177 @@ void ExportDialog::myCallsignChanged(const QString &myCallsign)
                                                   + myCallsign + "' ORDER BY my_gridsquare", ""));
 }
 
+void ExportDialog::showColumnsSetting()
+{
+    FCT_IDENTIFICATION;
+
+    ColumnSettingDialog dialog(&logbookmodel, exportedColumns);
+    connect(&dialog, &ColumnSettingDialog::columnChanged,
+            this, &ExportDialog::exportedColumnStateChanged);
+    dialog.exec();
+}
+
+void ExportDialog::exportedColumnStateChanged(int index, bool state)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << index << state;
+
+    if ( state )
+    {
+        exportedColumns.insert(index);
+    }
+    else
+    {
+        exportedColumns.remove(index);
+    }
+    QString comboValue = ui->exportedColumnsCombo->itemData(ui->exportedColumnsCombo->currentIndex()).toString();
+    settings.setValue("export/" + comboValue, QVariant::fromValue(exportedColumns));
+}
+void ExportDialog::fillExportTypeCombo()
+{
+    FCT_IDENTIFICATION;
+
+    ui->exportTypeCombo->addItem(tr("Generic"), "generic");
+
+    if ( qsos4export.size() == 0 )
+    {
+        ui->exportTypeCombo->addItem(tr("Paper QSL"), "qsl");
+    }
+}
+
+void ExportDialog::exportTypeChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    QString comboValue = ui->exportTypeCombo->itemData(index).toString();
+
+    if ( comboValue != "qsl" )
+    {
+        ui->addlSentStatusCheckbox->setVisible(false);
+        ui->addlSentStatusICheckBox->setVisible(false);
+        ui->addlSentStatusNCheckBox->setVisible(false);
+        ui->addlSentStatusAlreadySentCheckBox->setVisible(false);
+        ui->qslSendViaCheckbox->setVisible(false);
+        ui->qslSendViaComboBox->setVisible(false);
+        ui->markAsSentCheckbox->setVisible(false);
+        ui->exportedColumnsCombo->setCurrentIndex(ui->exportedColumnsCombo->findData("all"));
+
+    }
+    else
+    {
+        ui->addlSentStatusCheckbox->setVisible(true);
+        ui->addlSentStatusICheckBox->setVisible(true);
+        ui->addlSentStatusNCheckBox->setVisible(true);
+        ui->addlSentStatusAlreadySentCheckBox->setVisible(true);
+        ui->qslSendViaCheckbox->setVisible(true);
+        ui->qslSendViaComboBox->setVisible(true);
+        ui->markAsSentCheckbox->setVisible(true);
+        ui->exportedColumnsCombo->setCurrentIndex(ui->exportedColumnsCombo->findData("qsl"));
+    }
+
+    adjustSize();
+}
+
+void ExportDialog::fillExportedColumnsCombo()
+{
+    FCT_IDENTIFICATION;
+
+    ui->exportedColumnsCombo->addItem(tr("All"), "all");
+    ui->exportedColumnsCombo->addItem(tr("Minimal"), "min");
+    ui->exportedColumnsCombo->addItem(tr("QSL"), "qsl");
+    ui->exportedColumnsCombo->addItem(tr("Custom 1"), "c1");
+    ui->exportedColumnsCombo->addItem(tr("Custom 2"), "c2");
+    ui->exportedColumnsCombo->addItem(tr("Custom 3"), "c3");
+}
+
+bool ExportDialog::markQSOAsSent(LogFormat *format)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !format )
+    {
+        return false;
+    }
+
+    QString updateQuery = "UPDATE contacts "
+                          "SET qsl_sent='Y', qsl_sdate = strftime('%Y-%m-%d',DATETIME('now', 'utc')) WHERE "
+                          + format->getWhereClause();
+
+    qCDebug(runtime) << updateQuery ;
+
+    QSqlQuery query_update;
+
+    if ( ! query_update.prepare(updateQuery) )
+    {
+        qWarning() << "Cannot mark exported QSO as Sent - prepare error " << query_update.lastError().text();
+        return false;
+    }
+
+    format->bindWhereClause(query_update);
+
+    if ( ! query_update.exec() )
+    {
+        qWarning() << "Cannot mark exported QSO as Sent - execute error " << query_update.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
+void ExportDialog::exportedColumnsComboChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    QString comboValue = ui->exportedColumnsCombo->itemData(index).toString();
+
+    //empty set means all values exported
+    exportedColumns = QSet<int>();
+
+    if ( comboValue == "all" )
+    {
+        ui->exportedColumnsButton->setEnabled(false);
+    }
+    else
+    {
+        ui->exportedColumnsButton->setEnabled(true);
+
+        if ( comboValue == "min"
+             || comboValue == "c1"
+             || comboValue == "c2"
+             || comboValue == "c3" )
+        {
+            exportedColumns = settings.value("export/" + comboValue, QVariant::fromValue(minColumns)).value<QSet<int>>();
+        }
+        else if ( comboValue == "qsl" )
+        {
+            exportedColumns = settings.value("export/" + comboValue, QVariant::fromValue(qslColumns)).value<QSet<int>>();
+        }
+    }
+}
+
 void ExportDialog::setProgress(float progress)
 {
     FCT_IDENTIFICATION;
 
     ui->progressBar->setValue(progress);
     QCoreApplication::processEvents();
+}
+
+void ExportDialog::fillQSLSendViaCombo()
+{
+    FCT_IDENTIFICATION;
+
+    DEFINE_CONTACT_FIELDS_ENUMS;
+
+    QMapIterator<QString, QString> iter(qslSentViaEnum);
+    int iter_index = 0;
+    while ( iter.hasNext() )
+    {
+        iter.next();
+        ui->qslSendViaComboBox->addItem(iter.value(), iter.key());
+        iter_index++;
+    }
 }
 
 ExportDialog::~ExportDialog()

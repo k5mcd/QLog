@@ -55,7 +55,7 @@ QString LogLocale::formatDateTimeShortWithYYYY() const
 {
     FCT_IDENTIFICATION;
 
-    QString ret = formatDateShortWithYYYY() + formatTimeShort();
+    QString ret = formatDateShortWithYYYY() + " " +formatTimeShort();
 
     qCDebug(runtime) << "format:" << ret;
     return ret;

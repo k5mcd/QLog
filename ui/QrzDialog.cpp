@@ -10,7 +10,7 @@
 #include "core/debug.h"
 #include "core/QRZ.h"
 #include "models/SqlListModel.h"
-#include "ui/LotwShowUploadDialog.h"
+#include "ui/ShowUploadDialog.h"
 #include "logformat/AdiFormat.h"
 
 MODULE_IDENTIFICATION("qlog.ui.qrzdialog");
@@ -86,8 +86,8 @@ void QRZDialog::upload()
 
         QSOList.append(" "
                        + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateTimeShortWithYYYY())
-                       + " " + record.value("callsign").toString()
-                       + " " + record.value("mode").toString()
+                       + "\t" + record.value("callsign").toString()
+                       + "\t" + record.value("mode").toString()
                        + "\n");
 
         qsos.append(record);
@@ -97,8 +97,7 @@ void QRZDialog::upload()
 
     if (count > 0)
     {
-        /* TODO: rename it to ShowUploadDialog */
-        LotwShowUploadDialog showDialog(QSOList);
+        ShowUploadDialog showDialog(QSOList);
 
         if ( showDialog.exec() == QDialog::Accepted )
         {
