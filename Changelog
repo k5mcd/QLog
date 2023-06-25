@@ -1,4 +1,9 @@
 TBC - 0.25.0
+- [NEW] - Export - Added CSV Format
+- [NEW] - Export - Added Type of Export Generic/QSL Paper (issue #209)
+- [NEW] - Export - Added Exported Columns Setting
+- [NEW] - Export - All export formats use the ADIF field name convention
+- [CHANGED] - Export - JSON format contains a header - JSON format change
 - [CHANGED] - Default Statistics Interval is curr_date-1 and curr_day
 - Fixed RX/TX Bands are uneditable when RX/TX freqs are missing (issue #220)
 
