@@ -5,6 +5,7 @@ TBC - 0.25.0
 - [NEW] - Export - All export formats use the ADIF field name convention
 - [CHANGED] - Export - JSON format contains a header - JSON format change
 - [CHANGED] - Default Statistics Interval is curr_date-1 and curr_day
+- Fixed Errors from Secure Storage are not shown (issue #216)
 - Fixed RX/TX Bands are uneditable when RX/TX freqs are missing (issue #220)
 
 2023/06/16 - 0.24.0
