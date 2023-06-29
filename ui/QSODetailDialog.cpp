@@ -2135,8 +2135,8 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
                break;
 
            default:
-               main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? Data::removeAccents(value.toString())
-                                                                                                   : QVariant(), role); // clazy:exclude=skipped-base-method
+               main_update_result = QSqlTableModel::setData(index, ( !value.toString().isEmpty() ) ? Data::removeAccents(value.toString()) // clazy:exclude=skipped-base-method
+                                                                                                   : QVariant(), role);
            }
        }
     }
