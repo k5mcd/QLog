@@ -22,7 +22,7 @@
     qslSentViaEnum["B"] = tr("Bureau"); \
     qslSentViaEnum["D"] = tr("Direct"); \
     qslSentViaEnum["E"] = tr("Electronic"); \
-    qslSentViaEnum[" "] = tr("No Value"); \
+    qslSentViaEnum[" "] = tr("Blank"); \
 \
     QMap<QString, QString> qslRcvdEnum; \
     qslRcvdEnum["Y"] = tr("Yes"); \
@@ -34,26 +34,26 @@
     uploadStatusEnum["Y"] = tr("Yes"); \
     uploadStatusEnum["N"] = tr("No"); \
     uploadStatusEnum["M"] = tr("Modified"); \
-    uploadStatusEnum[" "] = tr("No Value"); \
+    uploadStatusEnum[" "] = tr("Blank"); \
 \
     QMap<QString, QString> antPathEnum; \
     antPathEnum["G"] = tr("Grayline"); \
     antPathEnum["O"] = tr("Other"); \
     antPathEnum["S"] = tr("Short Path"); \
     antPathEnum["L"] = tr("Long Path"); \
-    antPathEnum[" "] = tr("No Value"); \
+    antPathEnum[" "] = tr("Blank"); \
 \
     QMap<QString, QString> boolEnum; \
     boolEnum["Y"] = tr("Yes"); \
     boolEnum["N"] = tr("No"); \
-    boolEnum[" "] = tr("No Value"); \
+    boolEnum[" "] = tr("Blank"); \
 \
     QMap<QString, QString> qsoCompleteEnum; \
     qsoCompleteEnum["Y"] = tr("Yes"); \
     qsoCompleteEnum["N"] = tr("No"); \
     qsoCompleteEnum["Nil"] = tr("Not Heard"); \
-    qsoCompleteEnum["?"] = tr("uncertain"); \
-    qsoCompleteEnum[" "] = tr("No Value")
+    qsoCompleteEnum["?"] = tr("Uncertain"); \
+    qsoCompleteEnum[" "] = tr("Blank")
 
 class Data : public QObject
 {
