@@ -836,7 +836,7 @@ bool QSODetailDialog::doValidation()
 
     allValid &= highlightInvalid(ui->freqTXLabel,
                                  ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
-                                 tr("TX Frequency or TX Band must be filled"));
+                                 tr("TX Frequency or Band must be filled"));
 
     QString bandString = Data::band(ui->freqTXEdit->value()).name;
 
@@ -846,7 +846,7 @@ bool QSODetailDialog::doValidation()
 
     allValid &= highlightInvalid(ui->bandLabel,
                                  ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
-                                 tr("TX Frequency or TX Band must be filled"));
+                                 tr("TX Frequency or Band must be filled"));
 
     bandString = Data::band(ui->freqRXEdit->value()).name;
 
