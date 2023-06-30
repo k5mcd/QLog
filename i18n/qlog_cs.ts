@@ -4528,6 +4528,26 @@
             <numerusform>&lt;b&gt;Chyb&lt;/b&gt;: %n</numerusform>
         </translation>
     </message>
+    <message>
+        <location filename="../data/Data.h" line="22"/>
+        <source>Bureau</source>
+        <translation type="unfinished">Bureau</translation>
+    </message>
+    <message>
+        <location filename="../data/Data.h" line="23"/>
+        <source>Direct</source>
+        <translation type="unfinished">Direct</translation>
+    </message>
+    <message>
+        <location filename="../data/Data.h" line="24"/>
+        <source>Electronic</source>
+        <translation type="unfinished">Elektronicky</translation>
+    </message>
+    <message>
+        <location filename="../data/Data.h" line="25"/>
+        <source>No Value</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QRZ</name>
