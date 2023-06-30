@@ -119,8 +119,6 @@ void QSOFilterDetail::addCondition(int fieldIdx, int operatorId, QString value)
     /* Value Edit */
     /**************/
 
-    DEFINE_CONTACT_FIELDS_ENUMS;
-
     QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
@@ -135,13 +133,13 @@ void QSOFilterDetail::addCondition(int fieldIdx, int operatorId, QString value)
     stacked->addWidget(createLineEdit(value, condCount, sizePolicy));
     stacked->addWidget(createDateEdit(value, condCount, sizePolicy));
     stacked->addWidget(createDateTimeEdit(value, condCount, sizePolicy));
-    stacked->addWidget(createComboBox(qslSentEnum, value, condCount, sizePolicy));
-    stacked->addWidget(createComboBox(qslSentViaEnum, value, condCount, sizePolicy));
-    stacked->addWidget(createComboBox(qslRcvdEnum, value, condCount, sizePolicy));
-    stacked->addWidget(createComboBox(uploadStatusEnum, value, condCount, sizePolicy));
-    stacked->addWidget(createComboBox(antPathEnum, value, condCount, sizePolicy));
-    stacked->addWidget(createComboBox(boolEnum, value, condCount, sizePolicy));
-    stacked->addWidget(createComboBox(qsoCompleteEnum, value, condCount, sizePolicy));
+    stacked->addWidget(createComboBox(Data::instance()->qslSentEnum, value, condCount, sizePolicy));
+    stacked->addWidget(createComboBox(Data::instance()->qslSentViaEnum, value, condCount, sizePolicy));
+    stacked->addWidget(createComboBox(Data::instance()->qslRcvdEnum, value, condCount, sizePolicy));
+    stacked->addWidget(createComboBox(Data::instance()->uploadStatusEnum, value, condCount, sizePolicy));
+    stacked->addWidget(createComboBox(Data::instance()->antPathEnum, value, condCount, sizePolicy));
+    stacked->addWidget(createComboBox(Data::instance()->boolEnum, value, condCount, sizePolicy));
+    stacked->addWidget(createComboBox(Data::instance()->qsoCompleteEnum, value, condCount, sizePolicy));
 
     conditionLayout->addWidget(stacked);
 

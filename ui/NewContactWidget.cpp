@@ -51,8 +51,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     /**************************/
     /* QSL Send Combo Content */
     /**************************/
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::qslSentBox for it because
+     * Data::qslSentBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->qslSentBox->addItem(tr("No"), QVariant("N"));
@@ -64,8 +64,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     /**************************/
     /* QSL Send LoTW Combo Content */
     /**************************/
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::eQSLSentBox for it because
+     * Data::eQSLSentBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->eQSLSentBox->addItem(tr("No"), QVariant("N"));
@@ -77,8 +77,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     /**************************/
     /* QSL Send eQSL Combo Content */
     /**************************/
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::lotwQslSentBox for it because
+     * Data::lotwQslSentBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->lotwQslSentBox->addItem(tr("No"), QVariant("N"));
@@ -90,8 +90,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     /*****************************/
     /* QSL SendVia Combo Content */
     /*****************************/
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::qslSentViaBox for it because
+     * Data::qslSentViaBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->qslSentViaBox->addItem("", QVariant(""));

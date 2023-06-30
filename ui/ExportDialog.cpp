@@ -269,7 +269,7 @@ void ExportDialog::fillExportTypeCombo()
 
     if ( qsos4export.size() == 0 )
     {
-        ui->exportTypeCombo->addItem(tr("Paper QSL"), "qsl");
+        ui->exportTypeCombo->addItem(tr("QSLs"), "qsl");
     }
 }
 
@@ -312,7 +312,7 @@ void ExportDialog::fillExportedColumnsCombo()
 
     ui->exportedColumnsCombo->addItem(tr("All"), "all");
     ui->exportedColumnsCombo->addItem(tr("Minimal"), "min");
-    ui->exportedColumnsCombo->addItem(tr("QSL"), "qsl");
+    ui->exportedColumnsCombo->addItem(tr("QSL-specific"), "qsl");
     ui->exportedColumnsCombo->addItem(tr("Custom 1"), "c1");
     ui->exportedColumnsCombo->addItem(tr("Custom 2"), "c2");
     ui->exportedColumnsCombo->addItem(tr("Custom 3"), "c3");
@@ -395,9 +395,7 @@ void ExportDialog::fillQSLSendViaCombo()
 {
     FCT_IDENTIFICATION;
 
-    DEFINE_CONTACT_FIELDS_ENUMS;
-
-    QMapIterator<QString, QString> iter(qslSentViaEnum);
+    QMapIterator<QString, QString> iter(Data::instance()->qslSentViaEnum);
     int iter_index = 0;
     while ( iter.hasNext() )
     {

@@ -179,11 +179,9 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     myWWFFCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->myWWFFEdit->setCompleter(nullptr);
 
-    DEFINE_CONTACT_FIELDS_ENUMS;
-
     /* Combo Mapping */
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::qslPaperSentStatusBox for it because
+     * Data::qslPaperSentStatusBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->qslPaperSentStatusBox->addItem(tr("No"), QVariant("N"));
@@ -193,8 +191,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->qslPaperSentStatusBox->addItem(tr("Ignored"), QVariant("I"));
 
     /* Combo Mapping */
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::qslLotwSentStatusBox for it because
+     * Data::qslLotwSentStatusBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->qslLotwSentStatusBox->addItem(tr("No"), QVariant("N"));
@@ -204,8 +202,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->qslLotwSentStatusBox->addItem(tr("Ignored"), QVariant("I"));
 
     /* Combo Mapping */
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::qslEqslSentStatusBox for it because
+     * Data::qslEqslSentStatusBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->qslEqslSentStatusBox->addItem(tr("No"), QVariant("N"));
@@ -214,7 +212,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->qslEqslSentStatusBox->addItem(tr("Queued"), QVariant("Q"));
     ui->qslEqslSentStatusBox->addItem(tr("Ignored"), QVariant("I"));
 
-    QMapIterator<QString, QString> iter(qslRcvdEnum);
+    QMapIterator<QString, QString> iter(Data::instance()->qslRcvdEnum);
 
     while( iter.hasNext() )
     {
@@ -222,8 +220,8 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
         ui->qslPaperReceiveStatusBox->addItem(iter.value(), iter.key());
     }
 
-    /* do no use DEFINE_CONTACT_FIELDS_ENUMS for it because
-     * DEFINE_CONTACT_FIELDS_ENUMS has a different ordering.
+    /* do no use Data::qslSentViaBox for it because
+     * Data::qslSentViaBox has a different ordering.
      * Ordering below is optimized for a new Contact Widget only
      */
     ui->qslSentViaBox->addItem("", QVariant(""));

@@ -115,7 +115,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="exportedColumnsLabel">
         <property name="text">
-         <string>Exported Columns</string>
+         <string>Column set</string>
         </property>
        </widget>
       </item>

@@ -10,51 +10,6 @@
 #include "Band.h"
 #include "core/zonedetect.h"
 
-#define DEFINE_CONTACT_FIELDS_ENUMS \
-    QMap<QString, QString> qslSentEnum; \
-    qslSentEnum["Y"] = tr("Yes"); \
-    qslSentEnum["N"] = tr("No"); \
-    qslSentEnum["R"] = tr("Requested"); \
-    qslSentEnum["Q"] = tr("Queued"); \
-    qslSentEnum["I"] = tr("Invalid");\
-\
-    QMap<QString, QString> qslSentViaEnum; \
-    qslSentViaEnum["B"] = tr("Bureau"); \
-    qslSentViaEnum["D"] = tr("Direct"); \
-    qslSentViaEnum["E"] = tr("Electronic"); \
-    qslSentViaEnum[" "] = tr("Blank"); \
-\
-    QMap<QString, QString> qslRcvdEnum; \
-    qslRcvdEnum["Y"] = tr("Yes"); \
-    qslRcvdEnum["N"] = tr("No"); \
-    qslRcvdEnum["R"] = tr("Requested"); \
-    qslRcvdEnum["I"] = tr("Invalid"); \
-\
-    QMap<QString, QString> uploadStatusEnum; \
-    uploadStatusEnum["Y"] = tr("Yes"); \
-    uploadStatusEnum["N"] = tr("No"); \
-    uploadStatusEnum["M"] = tr("Modified"); \
-    uploadStatusEnum[" "] = tr("Blank"); \
-\
-    QMap<QString, QString> antPathEnum; \
-    antPathEnum["G"] = tr("Grayline"); \
-    antPathEnum["O"] = tr("Other"); \
-    antPathEnum["S"] = tr("Short Path"); \
-    antPathEnum["L"] = tr("Long Path"); \
-    antPathEnum[" "] = tr("Blank"); \
-\
-    QMap<QString, QString> boolEnum; \
-    boolEnum["Y"] = tr("Yes"); \
-    boolEnum["N"] = tr("No"); \
-    boolEnum[" "] = tr("Blank"); \
-\
-    QMap<QString, QString> qsoCompleteEnum; \
-    qsoCompleteEnum["Y"] = tr("Yes"); \
-    qsoCompleteEnum["N"] = tr("No"); \
-    qsoCompleteEnum["Nil"] = tr("Not Heard"); \
-    qsoCompleteEnum["?"] = tr("Uncertain"); \
-    qsoCompleteEnum[" "] = tr("Blank")
-
 class Data : public QObject
 {
     Q_OBJECT
@@ -65,6 +20,51 @@ public:
     static const QString MODE_LSB; // use just generic label SSB
     static const QString MODE_USB; // use just generic label SSB
     static const QString MODE_PHONE;
+
+    const QMap<QString, QString> qslSentEnum = {
+        {"Y", tr("Yes")},
+        {"N", tr("No")},
+        {"R", tr("Requested")},
+        {"Q", tr("Queued")},
+        {"I", tr("Invalid")}
+    };
+    const QMap<QString, QString> qslSentViaEnum = {
+        {"B", tr("Bureau")},
+        {"D", tr("Direct")},
+        {"E", tr("Electronic")},
+        {" ", tr("Blank")}
+    };
+    const QMap<QString, QString> qslRcvdEnum = {
+        {"Y", tr("Yes")},
+        {"N", tr("No")},
+        {"R", tr("Requested")},
+        {"I", tr("Invalid")}
+    };
+    const QMap<QString, QString> uploadStatusEnum = {
+        {"Y", tr("Yes")},
+        {"N", tr("No")},
+        {"M", tr("Modified")},
+        {" ", tr("Blank")}
+    };
+    const QMap<QString, QString> antPathEnum = {
+        {"G", tr("Grayline")},
+        {"O", tr("Other")},
+        {"S", tr("Short Path")},
+        {"L", tr("Long Path")},
+        {" ", tr("Blank")}
+    };
+    const QMap<QString, QString> boolEnum = {
+        {"Y", tr("Yes")},
+        {"N", tr("No")},
+        {" ", tr("Blank")}
+    };
+    const QMap<QString, QString> qsoCompleteEnum = {
+        {"Y", tr("Yes")},
+        {"N", tr("No")},
+        {"Nil", tr("Not Heard")},
+        {"?", tr("Uncertain")},
+        {" ", tr("Blank")}
+    };
 
     explicit Data(QObject *parent = nullptr);
     ~Data();
@@ -114,7 +114,6 @@ public:
     QStringList wwffIDList() { return wwffRefID.keys();}
     QStringList potaIDList() { return potaRefID.keys();}
     QString getIANATimeZone(double, double);
-
 
 signals:
 
