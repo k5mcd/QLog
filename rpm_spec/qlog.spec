@@ -42,6 +42,16 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Tue Jul 4 2023 Ladislav Foldyna - 0.25.0-1
+- [NEW] - Export - Added CSV Format
+- [NEW] - Export - Added Type of Export Generic/QSLs (issue #209)
+- [NEW] - Export - Added Exported Columns Setting
+- [NEW] - Export - All export formats use the ADIF field name convention
+- [CHANGED] - Export - JSON format contains a header - JSON format change
+- [CHANGED] - Default Statistics Interval is curr_date-1 and curr_day
+- Fixed Errors from Secure Storage are not shown (issue #216)
+- Fixed RX/TX Bands are uneditable when RX/TX freqs are missing (issue #220)
+
 * Fri Jun 16 2023 Ladislav Foldyna - 0.24.0-1
 - Fixed Incorrect FT4 mode-submode (issue #212)
 - Fixed CONTESTIA mode should be CONTESTI (issue #213)
