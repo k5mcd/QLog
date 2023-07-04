@@ -60,6 +60,7 @@ jobs:
      steps:
      - name: Install dependencies
        run: |
+         unset HOMEBREW_NO_INSTALL_FROM_API
          brew update
          brew upgrade || true
          brew install qt6
