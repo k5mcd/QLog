@@ -371,8 +371,14 @@ void NewContactWidget::readGlobalSettings()
     /* Refresh mode combobox */
     /*************************/
     QString current_mode = ui->modeEdit->currentText();
+    QString current_submode = ui->submodeEdit->currentText();
+    ui->modeEdit->blockSignals(true);
+    ui->submodeEdit->blockSignals(true);
     dynamic_cast<QSqlTableModel*>(ui->modeEdit->model())->select();
+    ui->modeEdit->blockSignals(false);
+    ui->submodeEdit->blockSignals(false);
     ui->modeEdit->setCurrentText(current_mode);
+    ui->submodeEdit->setCurrentText(current_submode);
 
     /********************/
     /* Reload Callbooks */
@@ -842,9 +848,9 @@ void NewContactWidget::modeChanged()
     __modeChanged(RIG_PASSBAND_NORMAL);
     ui->submodeEdit->blockSignals(false);
 
+    // if manual mode is not enabled then change the mode
     if ( !isManualEnterMode )
     {
-        qCDebug(runtime) << "Manual mode enabled - ignore event";
         rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
     }
 }
