@@ -23,6 +23,7 @@
 #include "core/PropConditions.h"
 #include "core/MembershipQE.h"
 #include "logformat/AdiFormat.h"
+#include "data/NewContactLayoutProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -40,6 +41,13 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    fieldIndex2Widget[LogbookModel::COLUMN_NAME_INTL] = ui->nameWidget;
+    fieldIndex2Widget[LogbookModel::COLUMN_QTH_INTL] = ui->qthWidget;
+    fieldIndex2Widget[LogbookModel::COLUMN_GRID] = ui->gridWidget;
+    fieldIndex2Widget[LogbookModel::COLUMN_COMMENT_INTL] = ui->commentWidget;
+
+    setupCustomUi();
 
     CWKeyProfilesManager::instance(); //TODO remove, make it better - workaround
 
@@ -364,8 +372,6 @@ void NewContactWidget::writeWidgetSetting()
 void NewContactWidget::readGlobalSettings()
 {
     FCT_IDENTIFICATION;
-
-    QSettings settings;
 
     /*************************/
     /* Refresh mode combobox */
@@ -1722,6 +1728,7 @@ void NewContactWidget::startContactTimer()
     }
 
     ui->timeStackedWidget->setCurrentIndex(1);
+    ui->timeLabelStackedWidget->setCurrentIndex(1);
 }
 
 void NewContactWidget::stopContactTimer()
@@ -1729,6 +1736,7 @@ void NewContactWidget::stopContactTimer()
     FCT_IDENTIFICATION;
 
     ui->timeStackedWidget->setCurrentIndex(0);
+    ui->timeLabelStackedWidget->setCurrentIndex(0);
 
     if ( isManualEnterMode )
     {
@@ -2164,6 +2172,8 @@ void NewContactWidget::setManualMode(bool isEnabled)
         ui->timeOnEdit->setFocusPolicy(Qt::StrongFocus);
         ui->dateEdit->setFocusPolicy(Qt::StrongFocus);
         ui->timeOffEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->thirdLineWidget->setTabOrder(ui->dateEdit, ui->timeOnEdit);
+        ui->thirdLineWidget->setTabOrder(ui->timeOnEdit, ui->timeOffEdit);
     }
 
     QString styleString = (isManualEnterMode) ? "background-color: orange;"
@@ -2216,6 +2226,104 @@ void NewContactWidget::exitManualMode()
     refreshStationProfileCombo();
 }
 
+void NewContactWidget::setupCustomUi()
+{
+    FCT_IDENTIFICATION;
+
+    // Clear Custom Lines
+    QList<QHBoxLayout *> customUiRows = ui->customLayout->findChildren<QHBoxLayout *>();
+    for ( auto &rowLayout : qAsConst(customUiRows) )
+    {
+        qCDebug(runtime) << rowLayout->objectName();
+
+        QLayoutItem *rowItem;
+        while ( (rowItem = rowLayout->takeAt(0)) != nullptr )
+        {
+            if ( rowItem->widget() != nullptr)
+            {
+                qCDebug(runtime) << "Removing widget" << rowItem->widget()->objectName();
+                rowItem->widget()->setHidden(true);
+            }
+        }
+    }
+
+    // get Profile and build the Custom Lines
+    NewContactLayoutProfile layoutProfile = NewContactLayoutProfilesManager::instance()->getCurProfile1();
+
+    QList<QWidget *> addedWidgets;
+
+    // Empty Profile means Classic Layout
+    if ( layoutProfile == NewContactLayoutProfile() )
+    {
+        addedWidgets << setupCustomUiRow(ui->customRowALayout, classicLayoutFirstLine);
+    }
+    else
+    {    
+        addedWidgets << setupCustomUiRow(ui->customRowALayout, layoutProfile.rowA);
+        addedWidgets << setupCustomUiRow(ui->customRowBLayout, layoutProfile.rowB);
+    }
+
+    setupCustomUiRowsTabOrder(addedWidgets);
+    update();
+}
+
+QList<QWidget *> NewContactWidget::setupCustomUiRow(QHBoxLayout *row, const QList<int>& widgetsList)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << row->objectName() << widgetsList;
+
+    QWidget *currCustomWidget = nullptr;
+    QList<QWidget *> ret;
+
+    for ( int widgetID : widgetsList )
+    {
+        currCustomWidget = fieldIndex2Widget[widgetID];
+
+        if ( !currCustomWidget )
+        {
+            qWarning() << "Missing fieldIndex2WidgetMapping for index" << widgetID;
+            continue;
+        }
+
+        qCDebug(runtime) << "Adding widget" << currCustomWidget->objectName();
+        currCustomWidget->setHidden(false);
+        row->addWidget(currCustomWidget);
+        ret << currCustomWidget;
+
+        // Currently, GRID Widget has a fixed length. If the widget is alone
+        // on the row, it does not look good. That's why spacer is inserted.
+        if ( widgetID == LogbookModel::COLUMN_GRID
+             && widgetsList.size() == 1 )
+        {
+            QSpacerItem *spacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+            row->addItem(spacer);
+        }
+    }
+    return ret;
+}
+
+void NewContactWidget::setupCustomUiRowsTabOrder(const QList<QWidget *> customWidgets)
+{
+    FCT_IDENTIFICATION;
+
+    QWidget *prevCustomWidget = nullptr;
+
+    for ( QWidget *currentWidget : customWidgets )
+    {
+        if ( prevCustomWidget )
+        {
+            NewContactEditLine *fromWidget = prevCustomWidget->findChild<NewContactEditLine*>();
+            NewContactEditLine *toWidget = currentWidget->findChild<NewContactEditLine*>();
+
+            if ( fromWidget && toWidget )
+            {
+                ui->customLayoutWidget->setTabOrder(fromWidget, toWidget);
+            }
+        }
+        prevCustomWidget = currentWidget;
+    }
+}
 
 void NewContactWidget::tuneDx(const QString &callsign, double frequency)
 {
@@ -2752,3 +2860,11 @@ void NewContactWidget::changeCallsignManually(const QString &callsign, double fr
     editCallsignFinished();
     stopContactTimer();
 }
+
+const QList<int> NewContactWidget::customizableFields =
+{
+    LogbookModel::COLUMN_NAME_INTL,
+    LogbookModel::COLUMN_QTH_INTL,
+    LogbookModel::COLUMN_GRID,
+    LogbookModel::COLUMN_COMMENT_INTL
+};

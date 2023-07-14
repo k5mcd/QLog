@@ -5,6 +5,7 @@
 #include <QSqlRecord>
 #include <QCompleter>
 #include <QComboBox>
+#include <QHBoxLayout>
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
@@ -13,6 +14,7 @@
 #include "data/StationProfile.h"
 #include "core/PropConditions.h"
 #include "core/LogLocale.h"
+#include "models/LogbookModel.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -52,6 +54,7 @@ public:
     double getQSOBearing() const;
     double getQSODistance() const;
 
+    static const QList<int> customizableFields;
 
 signals:
     void contactAdded(QSqlRecord record);
@@ -84,6 +87,8 @@ public slots:
     void setNearestSpotColor(const QString &call);
     void setManualMode(bool);
     void exitManualMode();
+
+    void setupCustomUi();
 
 private slots:
     void callsignChanged();
@@ -145,6 +150,8 @@ private:
     void showRXTXFreqs(bool);
     void setComboBaseData(QComboBox *, const QString &);
     void queryMemberList();
+    QList<QWidget*> setupCustomUiRow(QHBoxLayout *row, const QList<int>& widgetsList);
+    void setupCustomUiRowsTabOrder(const QList<QWidget *> customWidgets);
 
 private:
     Rig* rig;
@@ -173,6 +180,17 @@ private:
     WWFFEntity lastWWFF;
     bool isManualEnterMode;
     LogLocale locale;
+    QMap<int, QWidget*> fieldIndex2Widget;
+
+    const  QList<int> classicLayoutFirstLine =
+    {
+        LogbookModel::COLUMN_NAME_INTL,
+        LogbookModel::COLUMN_QTH_INTL,
+        LogbookModel::COLUMN_GRID,
+        LogbookModel::COLUMN_COMMENT_INTL
+    };
+
+
 };
 
 #endif // NEWCONTACTWIDGET_H

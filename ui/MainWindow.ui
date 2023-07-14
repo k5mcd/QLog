@@ -125,11 +125,24 @@
     <addaction name="actionLotw"/>
     <addaction name="actionQRZ_com"/>
    </widget>
+   <widget class="QMenu" name="menuLayout">
+    <property name="title">
+     <string>La&amp;yout</string>
+    </property>
+    <widget class="QMenu" name="menuNewContact">
+     <property name="title">
+      <string>New QSO</string>
+     </property>
+    </widget>
+    <addaction name="menuNewContact"/>
+    <addaction name="actionLayoutEdit"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLogbook"/>
    <addaction name="menuServices"/>
    <addaction name="menuRig"/>
    <addaction name="menuWindow"/>
+   <addaction name="menuLayout"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -505,6 +518,11 @@
   <action name="actionMailingList">
    <property name="text">
     <string>Mailing List...</string>
+   </property>
+  </action>
+  <action name="actionLayoutEdit">
+   <property name="text">
+    <string>Edit</string>
    </property>
   </action>
  </widget>
@@ -1155,6 +1173,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionLayoutEdit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showEditLayout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>312</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1182,5 +1216,6 @@
   <slot>showReportBug()</slot>
   <slot>setManualContact(bool)</slot>
   <slot>showMailingList()</slot>
+  <slot>showEditLayout()</slot>
  </slots>
 </ui>
