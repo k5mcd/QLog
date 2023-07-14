@@ -521,6 +521,9 @@
          </item>
          <item row="1" column="6">
           <widget class="QPushButton" name="saveButton">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="text">
             <string>Save</string>
            </property>
@@ -574,6 +577,9 @@
          </item>
          <item row="1" column="7">
           <widget class="QPushButton" name="resetButton">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="text">
             <string>Reset</string>
            </property>
@@ -586,7 +592,10 @@
          <item row="1" column="1">
           <widget class="QTimeEdit" name="timeOnEdit">
            <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
+            <enum>Qt::ClickFocus</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
            <property name="displayFormat">
             <string notr="true">hh:mm:ss</string>
@@ -657,7 +666,10 @@
             </size>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
+            <enum>Qt::ClickFocus</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
            <property name="calendarPopup">
             <bool>true</bool>
@@ -676,7 +688,7 @@
             </sizepolicy>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="timeOffPage">
             <property name="sizePolicy">
@@ -710,7 +722,10 @@
                 </sizepolicy>
                </property>
                <property name="focusPolicy">
-                <enum>Qt::StrongFocus</enum>
+                <enum>Qt::ClickFocus</enum>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
                <property name="displayFormat">
                 <string notr="true">hh:mm:ss</string>
@@ -754,7 +769,7 @@
                 </sizepolicy>
                </property>
                <property name="focusPolicy">
-                <enum>Qt::NoFocus</enum>
+                <enum>Qt::ClickFocus</enum>
                </property>
                <property name="readOnly">
                 <bool>true</bool>
@@ -2446,7 +2461,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>540</x>
-     <y>138</y>
+     <y>133</y>
     </hint>
     <hint type="destinationlabel">
      <x>407</x>
@@ -2461,8 +2476,8 @@
    <slot>stopContactTimer()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>377</x>
-     <y>182</y>
+     <x>381</x>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
@@ -2477,8 +2492,8 @@
    <slot>frequencyRXChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>731</x>
-     <y>56</y>
+     <x>727</x>
+     <y>53</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
@@ -2493,8 +2508,8 @@
    <slot>modeChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>74</y>
+     <x>427</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
@@ -2509,8 +2524,8 @@
    <slot>resetContact()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>595</x>
-     <y>182</y>
+     <x>599</x>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
@@ -2525,8 +2540,8 @@
    <slot>saveContact()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>509</x>
-     <y>182</y>
+     <x>513</x>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
@@ -2541,8 +2556,8 @@
    <slot>callsignChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>108</x>
-     <y>80</y>
+     <x>115</x>
+     <y>77</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
@@ -2557,8 +2572,8 @@
    <slot>startContactTimer()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>243</x>
-     <y>182</y>
+     <x>247</x>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
@@ -2574,7 +2589,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>726</x>
-     <y>182</y>
+     <y>177</y>
     </hint>
     <hint type="destinationlabel">
      <x>445</x>
@@ -2589,8 +2604,8 @@
    <slot>subModeChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>523</x>
-     <y>74</y>
+     <x>519</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>453</x>
@@ -2621,8 +2636,8 @@
    <slot>propModeChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>859</x>
-     <y>433</y>
+     <x>863</x>
+     <y>424</y>
     </hint>
     <hint type="destinationlabel">
      <x>562</x>
@@ -2637,8 +2652,8 @@
    <slot>stationProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>208</x>
-     <y>272</y>
+     <x>212</x>
+     <y>263</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2653,8 +2668,8 @@
    <slot>sotaChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>365</y>
+     <x>422</x>
+     <y>356</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2669,8 +2684,8 @@
    <slot>frequencyTXChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>731</x>
-     <y>90</y>
+     <x>727</x>
+     <y>87</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2685,8 +2700,8 @@
    <slot>rigProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>208</x>
-     <y>303</y>
+     <x>212</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel">
      <x>736</x>
@@ -2701,8 +2716,8 @@
    <slot>antProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>208</x>
-     <y>334</y>
+     <x>212</x>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
      <x>736</x>
@@ -2717,8 +2732,8 @@
    <slot>sotaEditFinished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>365</y>
+     <x>422</x>
+     <y>356</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>
@@ -2733,8 +2748,8 @@
    <slot>wwffEditFinished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>396</y>
+     <x>422</x>
+     <y>387</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>
@@ -2749,8 +2764,8 @@
    <slot>wwffChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>396</y>
+     <x>422</x>
+     <y>387</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>

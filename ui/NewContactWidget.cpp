@@ -1720,9 +1720,7 @@ void NewContactWidget::startContactTimer()
     if (!contactTimer->isActive()) {
         contactTimer->start(500);
     }
-    ui->dateEdit->setReadOnly(true);
-    ui->timeOnEdit->setReadOnly(true);
-    ui->timeOffEdit->setReadOnly(true);
+
     ui->timeStackedWidget->setCurrentIndex(1);
 }
 
@@ -1742,9 +1740,6 @@ void NewContactWidget::stopContactTimer()
         contactTimer->stop();
     }
     updateTimeOff();
-    ui->dateEdit->setReadOnly(false);
-    ui->timeOnEdit->setReadOnly(false);
-    ui->timeOffEdit->setReadOnly(false);
 }
 
 void NewContactWidget::markContact()
@@ -2163,6 +2158,12 @@ void NewContactWidget::setManualMode(bool isEnabled)
         realFreqForManualExit = realRigFreq;
         resetContact();
         showRXTXFreqs(true);
+        ui->dateEdit->setReadOnly(false);
+        ui->timeOnEdit->setReadOnly(false);
+        ui->timeOffEdit->setReadOnly(false);
+        ui->timeOnEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->dateEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->timeOffEdit->setFocusPolicy(Qt::StrongFocus);
     }
 
     QString styleString = (isManualEnterMode) ? "background-color: orange;"
@@ -2188,6 +2189,13 @@ void NewContactWidget::exitManualMode()
     // set date/time
     // clear form
     resetContact();
+
+    ui->dateEdit->setReadOnly(true);
+    ui->timeOnEdit->setReadOnly(true);
+    ui->timeOffEdit->setReadOnly(true);
+    ui->timeOnEdit->setFocusPolicy(Qt::ClickFocus);
+    ui->dateEdit->setFocusPolicy(Qt::ClickFocus);
+    ui->timeOffEdit->setFocusPolicy(Qt::ClickFocus);
 
     //rig connected/disconnected
     if ( rig->isRigConnected() )
