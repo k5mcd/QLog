@@ -117,7 +117,7 @@ void AdiFormat::writeSQLRecord(const QSqlRecord &record,
                record.value("qsl_rcvd").toString());
     writeField("qslrdate", record.value("qsl_rdate").isValid(),
                record.value("qsl_rdate").toDate().toString("yyyyMMdd"));
-    writeField("qslsent", record.value("qsl_sent").isValid(),
+    writeField("qsl_sent", record.value("qsl_sent").isValid(),
                record.value("qsl_sent").toString());
     writeField("qslsdate", record.value("qsl_sdate").isValid(),
                record.value("qsl_sdate").toDate().toString("yyyyMMdd"));
