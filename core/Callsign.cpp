@@ -21,6 +21,7 @@ Callsign::Callsign(const QString &callsign,
         hostPrefixWithDelimiter = match.captured(1);
         hostPrefix              = match.captured(2);
         base                    = match.captured(3);
+        basePrefix              = match.captured(4);
         suffixWithDelimiter     = match.captured(7);
         suffix                  = match.captured(8);
 
@@ -71,6 +72,13 @@ QString Callsign::getBase() const
     FCT_IDENTIFICATION;
 
     return base;
+}
+
+QString Callsign::getBasePrefix() const
+{
+    FCT_IDENTIFICATION;
+
+    return basePrefix;
 }
 
 QString Callsign::getSuffix() const

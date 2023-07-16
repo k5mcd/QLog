@@ -3,6 +3,7 @@
 #include <QSqlError>
 #include <QColor>
 #include "Data.h"
+#include "core/Callsign.h"
 #include "core/debug.h"
 
 MODULE_IDENTIFICATION("qlog.data.data");
@@ -989,7 +990,23 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
             return DxccEntity();
         }
 
-        queryDXCC.bindValue(":callsign", callsign);
+        QString lookupPrefix = callsign; // use the callsign with optional prefix as default to find the dxcc
+
+        Callsign parsedCallsign(callsign); // use Callsign to split the callsign into its parts
+        if ( parsedCallsign.isValid() ) {
+            QString suffix = parsedCallsign.getSuffix();
+            if ( suffix.length() == 1 ) { // some countries add single numbers as suffix to designate a call area, e.g. /4
+                bool isNumber = false;
+                int number = suffix.toInt(&isNumber);
+                if ( isNumber ) {
+                    lookupPrefix = parsedCallsign.getBasePrefix() + suffix; // use the call prefix and the number from the suffix to find the dxcc
+                }
+            } else if ( suffix.length() > 1 ) { // if there is more than one character we definitely have a call prefix as suffix
+                lookupPrefix = suffix;
+            }
+        }
+
+        queryDXCC.bindValue(":callsign", lookupPrefix);
 
         if ( ! queryDXCC.exec() )
         {

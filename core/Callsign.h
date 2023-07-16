@@ -17,6 +17,7 @@ public:
     QString getHostPrefix() const;
     QString getHostPrefixWithDelimiter() const;
     QString getBase() const;
+    QString getBasePrefix() const;
     QString getSuffix() const;
     QString getSuffixWithDelimiter() const;
     bool isValid() const;
@@ -26,6 +27,7 @@ private:
     QString hostPrefix;
     QString hostPrefixWithDelimiter;
     QString base;
+    QString basePrefix;
     QString suffix;
     QString suffixWithDelimiter;
     bool valid;
