@@ -1,3 +1,7 @@
+TBC - 0.25.1
+- Fixed Unexpected mode change when Setting Dialog is saved (issue #222)
+- Fixed QSL_SENT field has an incorrect ADIF name (issue #225)
+
 2023/07/04 - 0.25.0
 - [NEW] - Export - Added CSV Format
 - [NEW] - Export - Added Type of Export Generic/QSLs (issue #209)
