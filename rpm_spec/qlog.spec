@@ -42,6 +42,10 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Mon Jul 17 2023 Ladislav Foldyna 0.25.1-1
+- Fixed Unexpected mode change when Setting Dialog is saved (issue #222)
+- Fixed QSL_SENT field has an incorrect ADIF name (issue #225)
+
 * Tue Jul 4 2023 Ladislav Foldyna - 0.25.0-1
 - [NEW] - Export - Added CSV Format
 - [NEW] - Export - Added Type of Export Generic/QSLs (issue #209)

@@ -1,3 +1,9 @@
+qlog (0.25.1-1) UNRELEASED; urgency=low
+  * Fixed Unexpected mode change when Setting Dialog is saved (issue #222)
+  * Fixed QSL_SENT field has an incorrect ADIF name (issue #225)
+
+ -- foldynl <foldyna@gmail.com>  Mon, 17 Jul 2023 13:49:01 +0200
+
 qlog (0.25.0-1) UNRELEASED; urgency=low
   * [NEW] - Export - Added CSV Format
   * [NEW] - Export - Added Type of Export Generic/QSLs (issue #209)
