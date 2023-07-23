@@ -991,6 +991,7 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
         }
 
         QString lookupPrefix = callsign; // use the callsign with optional prefix as default to find the dxcc
+        QStringList specialSuffixes = { "AM", "MM", "QRP" }; // a list of suffixes that have a special meaning
 
         Callsign parsedCallsign(callsign); // use Callsign to split the callsign into its parts
         if ( parsedCallsign.isValid() ) {
@@ -1001,7 +1002,7 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
                 if ( isNumber ) {
                     lookupPrefix = parsedCallsign.getBasePrefix() + suffix; // use the call prefix and the number from the suffix to find the dxcc
                 }
-            } else if ( suffix.length() > 1 ) { // if there is more than one character we definitely have a call prefix as suffix
+            } else if ( suffix.length() > 1 && !specialSuffixes.contains(suffix) ) { // if there is more than one character and it is not one of the special suffixes, we definitely have a call prefix as suffix
                 lookupPrefix = suffix;
             }
         }
