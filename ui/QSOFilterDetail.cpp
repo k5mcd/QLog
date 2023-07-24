@@ -468,6 +468,12 @@ void QSOFilterDetail::save()
     QString valueString;
     QSqlQuery filterInsertStmt, deleteFilterStmt, updateStmt;
 
+    if ( ui->filterLineEdit->text().isEmpty() )
+    {
+        ui->filterLineEdit->setPlaceholderText(tr("Must not be empty"));
+        return;
+    }
+
     if ( filterExists(ui->filterLineEdit->text()) )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Info"),
