@@ -10,13 +10,15 @@ class Callsign : public QObject
 public:
     explicit Callsign(const QString &callsign,
                       QObject *parent = nullptr);
-    static QRegularExpression callsignRegEx();
-    static QString callsignRegExString();
+    static const QRegularExpression callsignRegEx();
+    static const QString callsignRegExString();
+    static const QStringList secondarySpecialSuffixes;
 
     QString getCallsign() const;
     QString getHostPrefix() const;
     QString getHostPrefixWithDelimiter() const;
     QString getBase() const;
+    QString getBasePrefix() const;
     QString getSuffix() const;
     QString getSuffixWithDelimiter() const;
     bool isValid() const;
@@ -26,6 +28,7 @@ private:
     QString hostPrefix;
     QString hostPrefixWithDelimiter;
     QString base;
+    QString basePrefix;
     QString suffix;
     QString suffixWithDelimiter;
     bool valid;
