@@ -1645,7 +1645,9 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
 {
     FCT_IDENTIFICATION;
 
-    if ( record.value("callsign").toString().isEmpty() ) return;
+    QString savedCallsign = record.value("callsign").toString();
+
+    if ( savedCallsign.isEmpty() ) return;
 
     QSqlTableModel model;
 
@@ -1663,6 +1665,15 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
         record.setValue("ituz", dxcc.ituz);
         record.setValue("cont", dxcc.cont);
         record.setValue("dxcc", dxcc.dxcc);
+    }
+
+    // add information from callbook if it is a known callsign
+    if ( record.value("name_intl").toString().isEmpty()
+         && record.value("name").toString().isEmpty()
+         && savedCallsign == ui->callsignEdit->text()
+         && !ui->nameEdit->text().isEmpty() )
+    {
+       record.setValue("name_intl", ui->nameEdit->text());
     }
 
     StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
