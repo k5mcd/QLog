@@ -1,4 +1,5 @@
 TBC - 0.26.0
+- Fixed WSJTX QSOs should have an Operator Name (QTH?) from Callbook (issue #223)
 - Fixed US call area suffixes not handled correctly (issue #226 thanks Florian)
 - Fixed QSO Filter Detail allows to save an empty Filter Name (issue #228)
 
