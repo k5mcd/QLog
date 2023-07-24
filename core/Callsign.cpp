@@ -34,13 +34,13 @@ Callsign::Callsign(const QString &callsign,
     }
 }
 
-QRegularExpression Callsign::callsignRegEx()
+const QRegularExpression Callsign::callsignRegEx()
 {
     FCT_IDENTIFICATION;
     return QRegularExpression(callsignRegExString(), QRegularExpression::CaseInsensitiveOption);
 }
 
-QString Callsign::callsignRegExString()
+const QString Callsign::callsignRegExString()
 {
     FCT_IDENTIFICATION;
     return QString("^(([A-Z0-9]+)[\\/])?(([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+))([\\/]([A-Z0-9]+))?");
@@ -102,3 +102,16 @@ bool Callsign::isValid() const
     return valid;
 }
 
+// Based on wiki information
+// https://en.wikipedia.org/wiki/Amateur_radio_call_signs
+const QStringList Callsign::secondarySpecialSuffixes =
+{
+    "A",   // operator at a secondary location registered with the licensing authorities
+    "AM",  // aeronautical mobile
+    "M",   // mobile operation
+    "MM",  // marine mobile
+    "P",   // portable operation
+    "QRP",  // QRP - unofficial
+    "R",    // repeaters
+    "B"     // beacon
+};

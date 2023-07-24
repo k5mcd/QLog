@@ -10,8 +10,9 @@ class Callsign : public QObject
 public:
     explicit Callsign(const QString &callsign,
                       QObject *parent = nullptr);
-    static QRegularExpression callsignRegEx();
-    static QString callsignRegExString();
+    static const QRegularExpression callsignRegEx();
+    static const QString callsignRegExString();
+    static const QStringList secondarySpecialSuffixes;
 
     QString getCallsign() const;
     QString getHostPrefix() const;
