@@ -1,3 +1,6 @@
+TBC - 0.26.0
+- Fixed US call area suffixes not handled correctly (issue #226 thanks Florian)
+
 2023/07/17 - 0.25.1
 - Fixed Unexpected mode change when Setting Dialog is saved (issue #222)
 - Fixed QSL_SENT field has an incorrect ADIF name (issue #225)
