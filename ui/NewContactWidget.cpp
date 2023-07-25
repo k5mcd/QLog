@@ -145,15 +145,6 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     ui->modeEdit->setModelColumn(modeModel->fieldIndex("name"));
     modeModel->select();
 
-    /****************/
-    /* Contest Combo*/
-    /* DISABLED     */
-    /****************/
-    QStringList contestList = Data::instance()->contestList();
-    contestList.prepend("");
-    QStringListModel* contestModel = new QStringListModel(contestList, this);
-    ui->contestEdit->setModel(contestModel);
-
     /**********************/
     /* Propagation Combo  */
     /**********************/
@@ -270,13 +261,6 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     new QShortcut(QKeySequence(Qt::Key_F8), this, SLOT(startContactTimer()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_M), this, SLOT(markContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Return), this, SLOT(useNearestCallsign()), nullptr, Qt::ApplicationShortcut);
-
-    /*
-     * qlog is not a contest log. There is missing many contest features so that it can compete at least a little
-     * with the contest logs . Therefore, for now, we will deactivate the tab with the contest information.
-     * Maybe later
-     * */
-    ui->tabWidget_2->removeTab(4);
 
     /****************************/
     /* Set Visiable for widgets */
