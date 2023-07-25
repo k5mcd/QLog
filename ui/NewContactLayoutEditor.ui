@@ -115,9 +115,6 @@
           </property>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_5">
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
             <item>
              <spacer name="verticalSpacer_4">
               <property name="orientation">
@@ -149,7 +146,11 @@
                <string>Move selected fields to the row</string>
               </property>
               <property name="text">
-               <string notr="true">➡</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
               </property>
              </widget>
             </item>
@@ -171,7 +172,11 @@
                <string>Remove selected field from the row</string>
               </property>
               <property name="text">
-               <string notr="true">⬅</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
               </property>
              </widget>
             </item>
@@ -211,12 +216,6 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_3">
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
             <item>
              <spacer name="verticalSpacer_6">
               <property name="orientation">
@@ -248,7 +247,11 @@
                <string>Move selected field up</string>
               </property>
               <property name="text">
-               <string notr="true">⬆</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
               </property>
              </widget>
             </item>
@@ -270,7 +273,11 @@
                <string>Move selected field down</string>
               </property>
               <property name="text">
-               <string notr="true">⬇</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
               </property>
              </widget>
             </item>
@@ -315,9 +322,6 @@
           </property>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_4">
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
             <item>
              <spacer name="verticalSpacer_8">
               <property name="orientation">
@@ -349,7 +353,11 @@
                <string>Move selected fields to the row</string>
               </property>
               <property name="text">
-               <string notr="true">➡</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
               </property>
              </widget>
             </item>
@@ -371,7 +379,11 @@
                <string>Remove selected field from the row</string>
               </property>
               <property name="text">
-               <string notr="true">⬅</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
               </property>
              </widget>
             </item>
@@ -445,12 +457,22 @@
                <string>Move selected field up</string>
               </property>
               <property name="text">
-               <string notr="true">⬆</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="rowBDownButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>30</width>
@@ -461,7 +483,11 @@
                <string>Move selected field up</string>
               </property>
               <property name="text">
-               <string notr="true">⬇</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../res/icons/icons.qrc">
+                <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
               </property>
              </widget>
             </item>
@@ -515,7 +541,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../res/icons/icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
