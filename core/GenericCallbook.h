@@ -15,6 +15,10 @@ public:
     const static QString CONFIG_PRIMARY_CALLBOOK_KEY;
     const static QString CONFIG_SECONDARY_CALLBOOK_KEY;
     const static QString CALLBOOK_NAME;
+    const static QString CONFIG_WEB_LOOKUP_URL;
+    static const QString getWebLookupURL(const QString &callsign,
+                                         const QString URL = QString(),
+                                         const bool replaceMacros = true);
 
     virtual QString getDisplayName() = 0;
 

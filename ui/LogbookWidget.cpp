@@ -24,6 +24,7 @@
 #include "core/NetworkNotification.h"
 #include "ui/QSODetailDialog.h"
 #include "core/MembershipQE.h"
+#include "core/GenericCallbook.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
@@ -256,7 +257,7 @@ void LogbookWidget::lookupSelectedCallsign() {
     {
         QSqlRecord record = model->record(modeList.first().row());
         QString callsign = record.value("callsign").toString();
-        QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
+        QDesktopServices::openUrl(GenericCallbook::getWebLookupURL(callsign));
     }
 }
 

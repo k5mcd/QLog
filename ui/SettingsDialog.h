@@ -105,7 +105,7 @@ public slots:
     void primaryCallbookChanged(int);
     void secondaryCallbookChanged(int);
     void assignedKeyChanged(int);
-
+    void testWebLookupURL();
     void joinMulticastChanged(int);
     void adjustWSJTXMulticastAddrTextColor();
 

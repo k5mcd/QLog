@@ -2370,10 +2370,12 @@ void NewContactWidget::setDefaultReport() {
     ui->rstSentEdit->setText(defaultReport);
 }
 
-void NewContactWidget::qrz() {
+void NewContactWidget::webLookup()
+{
     FCT_IDENTIFICATION;
 
-    QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
+    if ( !callsign.isEmpty() )
+        QDesktopServices::openUrl(GenericCallbook::getWebLookupURL(callsign));
 }
 
 QString NewContactWidget::getCallsign() const

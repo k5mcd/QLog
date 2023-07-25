@@ -682,12 +682,15 @@
            <number>0</number>
           </property>
           <item row="1" column="9">
-           <widget class="QPushButton" name="qrzButton">
+           <widget class="QPushButton" name="webLookupButton">
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="toolTip">
+             <string>Lookup the call on the web</string>
+            </property>
             <property name="text">
-             <string>QRZ</string>
+             <string>Web</string>
             </property>
             <property name="icon">
              <iconset resource="../res/icons/icons.qrc">
@@ -2897,6 +2900,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>webLookupButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>webLookup()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>686</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -2907,7 +2926,7 @@
   <slot>frequencyTXChanged()</slot>
   <slot>modeChanged()</slot>
   <slot>updateTime()</slot>
-  <slot>qrz()</slot>
+  <slot>webLookup()</slot>
   <slot>startContactTimer()</slot>
   <slot>updateTimeStop()</slot>
   <slot>subModeChanged()</slot>

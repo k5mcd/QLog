@@ -121,7 +121,7 @@ private slots:
     void stationProfileComboChanged(const QString&);
     void rigProfileComboChanged(const QString&);
     void antProfileComboChanged(const QString&);
-    void qrz();
+    void webLookup();
 
 private:
     void fillFieldsFromLastQSO(const QString &callsign);
