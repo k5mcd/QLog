@@ -138,12 +138,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Move selected fields to the row</string>
+               <string>Move selected fields from the Available Fields List to the Row A</string>
               </property>
               <property name="text">
                <string notr="true"/>
@@ -164,12 +164,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Remove selected field from the row</string>
+               <string>Remove selected field from the Row A</string>
               </property>
               <property name="text">
                <string notr="true"/>
@@ -239,12 +239,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Move selected field up</string>
+               <string>Change the order. Move selected field up</string>
               </property>
               <property name="text">
                <string notr="true"/>
@@ -265,12 +265,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Move selected field down</string>
+               <string>Change the order. Move selected field down</string>
               </property>
               <property name="text">
                <string notr="true"/>
@@ -345,12 +345,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Move selected fields to the row</string>
+               <string>Move selected fields from the Available Fields List to the Row B</string>
               </property>
               <property name="text">
                <string notr="true"/>
@@ -371,12 +371,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Remove selected field from the row</string>
+               <string>Remove selected field from the Row B</string>
               </property>
               <property name="text">
                <string notr="true"/>
@@ -449,12 +449,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Move selected field up</string>
+               <string>Change the order. Move selected field up</string>
               </property>
               <property name="text">
                <string notr="true"/>
@@ -475,12 +475,12 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>30</height>
+                <width>24</width>
+                <height>24</height>
                </size>
               </property>
               <property name="toolTip">
-               <string>Move selected field up</string>
+               <string>Change the order. Move selected field down</string>
               </property>
               <property name="text">
                <string notr="true"/>
