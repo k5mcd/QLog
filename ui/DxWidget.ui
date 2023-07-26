@@ -93,6 +93,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <item>
         <property name="text">
          <string>Spots</string>

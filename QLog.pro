@@ -83,6 +83,7 @@ SOURCES += \
         data/CWShortcutProfile.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
+        data/NewContactLayoutProfile.cpp \
         data/RigProfile.cpp \
         data/RotProfile.cpp \
         data/RotUsrButtonsProfile.cpp \
@@ -112,6 +113,7 @@ SOURCES += \
         ui/DxFilterDialog.cpp \
         ui/DxWidget.cpp \
         ui/DxccTableWidget.cpp \
+        ui/EditLayoutDialog.cpp \
         ui/EditLine.cpp \
         ui/Eqsldialog.cpp \
         ui/ExportDialog.cpp \
@@ -121,6 +123,7 @@ SOURCES += \
         ui/MainWindow.cpp \
         ui/MapWebChannelHandler.cpp \
         ui/MapWidget.cpp \
+        ui/NewContactLayoutEditor.cpp \
         ui/NewContactWidget.cpp \
         ui/OnlineMapWidget.cpp \
         ui/PaperQSLDialog.cpp \
@@ -183,6 +186,7 @@ HEADERS += \
         data/Data.h \
         data/DxSpot.h \
         data/Dxcc.h \
+        data/NewContactLayoutProfile.h \
         data/POTAEntity.h \
         data/ProfileManager.h \
         data/RigProfile.h \
@@ -222,6 +226,7 @@ HEADERS += \
         ui/DxFilterDialog.h \
         ui/DxWidget.h \
         ui/DxccTableWidget.h \
+        ui/EditLayoutDialog.h \
         ui/EditLine.h \
         ui/Eqsldialog.h \
         ui/ExportDialog.h \
@@ -231,6 +236,7 @@ HEADERS += \
         ui/MainWindow.h \
         ui/MapWebChannelHandler.h \
         ui/MapWidget.h \
+        ui/NewContactLayoutEditor.h \
         ui/NewContactWidget.h \
         ui/OnlineMapWidget.h \
         ui/PaperQSLDialog.h \
@@ -265,12 +271,14 @@ FORMS += \
         ui/ColumnSettingSimpleDialog.ui \
         ui/DxFilterDialog.ui \
         ui/DxWidget.ui \
+        ui/EditLayoutDialog.ui \
         ui/Eqsldialog.ui \
         ui/ExportDialog.ui \
         ui/ImportDialog.ui \
         ui/LogbookWidget.ui \
         ui/LotwDialog.ui \
         ui/MainWindow.ui \
+        ui/NewContactLayoutEditor.ui \
         ui/NewContactWidget.ui \
         ui/PaperQSLDialog.ui \
         ui/QSLImportStatDialog.ui \

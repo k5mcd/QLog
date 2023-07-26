@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QSOFilterDialog</class>
- <widget class="QDialog" name="QSOFilterDialog">
+ <class>EditLayoutDialog</class>
+ <widget class="QDialog" name="EditLayoutDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>386</width>
-    <height>290</height>
+    <width>357</width>
+    <height>258</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>QSO Filters</string>
+   <string>Edit Layout</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -19,11 +19,11 @@
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
-        <string>Filters</string>
+        <string>Layouts</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QListView" name="filtersListView">
+         <widget class="QListView" name="listView">
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -48,21 +48,21 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="addFilterButton">
+        <widget class="QPushButton" name="addButton">
          <property name="text">
           <string>Add</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="editFilterButton">
+        <widget class="QPushButton" name="editButton">
          <property name="text">
           <string>Edit</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="removeFilterButton">
+        <widget class="QPushButton" name="removeButton">
          <property name="text">
           <string>Remove</string>
          </property>
@@ -102,7 +102,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>QSOFilterDialog</receiver>
+   <receiver>EditLayoutDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -118,7 +118,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>QSOFilterDialog</receiver>
+   <receiver>EditLayoutDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -132,10 +132,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>addFilterButton</sender>
+   <sender>addButton</sender>
    <signal>clicked()</signal>
-   <receiver>QSOFilterDialog</receiver>
-   <slot>addFilter()</slot>
+   <receiver>EditLayoutDialog</receiver>
+   <slot>addButton()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>485</x>
@@ -148,10 +148,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>removeFilterButton</sender>
+   <sender>removeButton</sender>
    <signal>clicked()</signal>
-   <receiver>QSOFilterDialog</receiver>
-   <slot>removeFilter()</slot>
+   <receiver>EditLayoutDialog</receiver>
+   <slot>removeButton()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>485</x>
@@ -164,10 +164,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>filtersListView</sender>
+   <sender>listView</sender>
    <signal>doubleClicked(QModelIndex)</signal>
-   <receiver>QSOFilterDialog</receiver>
-   <slot>editFilter(QModelIndex)</slot>
+   <receiver>EditLayoutDialog</receiver>
+   <slot>editEvent(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>224</x>
@@ -180,10 +180,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>editFilterButton</sender>
+   <sender>editButton</sender>
    <signal>clicked()</signal>
-   <receiver>QSOFilterDialog</receiver>
-   <slot>editFilterButton()</slot>
+   <receiver>EditLayoutDialog</receiver>
+   <slot>editButton()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>485</x>
@@ -197,9 +197,9 @@
   </connection>
  </connections>
  <slots>
-  <slot>addFilter()</slot>
-  <slot>removeFilter()</slot>
-  <slot>editFilter(QModelIndex)</slot>
-  <slot>editFilterButton()</slot>
+  <slot>addButton()</slot>
+  <slot>removeButton()</slot>
+  <slot>editEvent(QModelIndex)</slot>
+  <slot>editButton()</slot>
  </slots>
 </ui>

@@ -32,6 +32,7 @@ signals:
     void themeChanged(int);
     void altBackslash(bool active);
     void manualMode(bool);
+    void layoutChanged();
 
 public slots:
     void rigErrorHandler(const QString &error, const QString &errorDetail);
@@ -69,6 +70,7 @@ private slots:
     void beepSettingAlerts();
     void shortcutALTBackslash();
     void setManualContact(bool);
+    void showEditLayout();
 
 private:
     Ui::MainWindow* ui;
@@ -88,6 +90,8 @@ private:
 
     void setDarkMode();
     void setLightMode();
+
+    void setupLayoutMenu();
 };
 
 #endif // MAINWINDOW_H

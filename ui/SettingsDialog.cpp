@@ -5,6 +5,7 @@
 #include <hamlib/rotator.h>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 #include "SettingsDialog.h"
 #include "ui_SettingsDialog.h"
@@ -34,6 +35,7 @@
 #include "core/CWKeyer.h"
 #include "core/MembershipQE.h"
 #include "models/SqlListModel.h"
+#include "core/GenericCallbook.h"
 
 #define STACKED_WIDGET_SERIAL_SETTING  0
 #define STACKED_WIDGET_NETWORK_SETTING 1
@@ -1855,6 +1857,14 @@ void SettingsDialog::assignedKeyChanged(int index)
     setUIBasedOnRigCaps(caps);
 }
 
+void SettingsDialog::testWebLookupURL()
+{
+    FCT_IDENTIFICATION;
+
+    QDesktopServices::openUrl(GenericCallbook::getWebLookupURL(stationProfManager->getCurProfile1().callsign,
+                                                               ui->webLookupURLEdit->text()));
+}
+
 void SettingsDialog::joinMulticastChanged(int state)
 {
     FCT_IDENTIFICATION;
@@ -1919,6 +1929,8 @@ void SettingsDialog::readSettings() {
 
     ui->qrzUsernameEdit->setText(QRZ::getUsername());
     ui->qrzPasswordEdit->setText(QRZ::getPassword());
+
+    ui->webLookupURLEdit->setText(GenericCallbook::getWebLookupURL("", QString(), false));
 
     /********/
     /* LoTW */
@@ -2016,6 +2028,8 @@ void SettingsDialog::writeSettings() {
     settings.setValue(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY,
                       ui->secondaryCallbookCombo->itemData(ui->secondaryCallbookCombo->currentIndex()).toString());
 
+    settings.setValue(GenericCallbook::CONFIG_WEB_LOOKUP_URL,
+                      ui->webLookupURLEdit->text());
     /********/
     /* LoTW */
     /********/

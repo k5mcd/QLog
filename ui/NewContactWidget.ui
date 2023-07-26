@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>980</width>
-    <height>492</height>
+    <height>525</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -61,13 +61,47 @@
         <number>6</number>
        </property>
        <item>
-        <layout class="QGridLayout" name="gridLayout_6">
+        <layout class="QGridLayout" name="firstLineLayout">
          <property name="horizontalSpacing">
           <number>6</number>
          </property>
          <property name="verticalSpacing">
           <number>0</number>
          </property>
+         <item row="1" column="2">
+          <widget class="NewContactEditLine" name="rstRcvdEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string notr="true">59</string>
+           </property>
+           <property name="maxLength">
+            <number>25</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="rstRcvdLabel">
+           <property name="text">
+            <string>RSTr</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="3">
           <widget class="QLabel" name="modeLabel">
            <property name="text">
@@ -105,131 +139,36 @@
           </widget>
          </item>
          <item row="1" column="6">
-          <widget class="QComboBox" name="submodeEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
-           </property>
-           <property name="sizeAdjustPolicy">
-            <enum>QComboBox::AdjustToContents</enum>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QLabel" name="bandRXLabel">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string notr="true">80m</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="bandTXLabel">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>80m</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
-         <item row="0" column="10">
-          <widget class="QLabel" name="frequencyLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Frequency</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="6">
-          <widget class="QLabel" name="submodeLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Submode</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="NewContactEditLine" name="rstRcvdEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>65</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string notr="true">59</string>
-           </property>
-           <property name="maxLength">
-            <number>25</number>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="NewContactEditLine" name="rstSentEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>65</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>20</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>59</string>
-           </property>
-           <property name="maxLength">
-            <number>25</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="rstRcvdLabel">
-           <property name="text">
-            <string>RSTr</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="3">
-          <widget class="QComboBox" name="modeEdit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::ClickFocus</enum>
-           </property>
-           <property name="sizeAdjustPolicy">
-            <enum>QComboBox::AdjustToContents</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="10">
+         <item row="1" column="5">
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -332,42 +271,37 @@
            </item>
           </layout>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="rstSentLabel">
+         <item row="0" column="5">
+          <widget class="QLabel" name="frequencyLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
-            <string>RSTs</string>
+            <string>Frequency</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
-         <item row="1" column="11">
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <item>
-            <widget class="QLabel" name="bandRXLabel">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string notr="true">80m</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="bandTXLabel">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>80m</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+         <item row="0" column="4">
+          <widget class="QLabel" name="submodeLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Submode</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </item>
          <item row="0" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -399,488 +333,752 @@
            </item>
           </layout>
          </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <property name="horizontalSpacing">
-          <number>6</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="2">
-          <widget class="QLabel" name="gridLabel">
-           <property name="text">
-            <string>Gridsquare</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="qthLabel">
-           <property name="text">
-            <string>QTH</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="nameLabel">
-           <property name="text">
-            <string>Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="NewContactEditLine" name="nameEdit">
-           <property name="maximumSize">
-            <size>
-             <width>180</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="maxLength">
-            <number>50</number>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="1">
-          <widget class="NewContactEditLine" name="qthEdit">
-           <property name="maximumSize">
-            <size>
-             <width>250</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="maxLength">
-            <number>75</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="label_8">
+          <widget class="NewContactEditLine" name="rstSentEdit">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="maximumSize">
+            <size>
+             <width>65</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
            <property name="text">
-            <string>Comment</string>
+            <string>59</string>
+           </property>
+           <property name="maxLength">
+            <number>25</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="rstSentLabel">
+           <property name="text">
+            <string>RSTs</string>
            </property>
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="NewContactEditLine" name="commentEdit">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="NewContactEditLine" name="gridEdit">
-           <property name="maximumSize">
-            <size>
-             <width>120</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="maxLength">
-            <number>12</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="horizontalSpacing">
-          <number>6</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>0</number>
-         </property>
-         <item row="1" column="10">
-          <widget class="QPushButton" name="qrzButton">
-           <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="text">
-            <string>QRZ</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../res/icons/icons.qrc">
-             <normaloff>:/icons/baseline-search-24px.svg</normaloff>:/icons/baseline-search-24px.svg</iconset>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="7">
-          <widget class="QPushButton" name="saveButton">
-           <property name="text">
-            <string>Save</string>
-           </property>
-           <property name="icon">
-            <iconset theme="document-save">
-             <normaloff>.</normaloff>.</iconset>
-           </property>
-           <property name="autoDefault">
-            <bool>true</bool>
-           </property>
-           <property name="default">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="dateLabel">
+          <widget class="QComboBox" name="modeEdit">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text">
-            <string>Date</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QPushButton" name="startTimerButton">
            <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
+            <enum>Qt::ClickFocus</enum>
            </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="../res/icons/icons.qrc">
-             <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>24</width>
-             <height>16</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="11">
-          <spacer name="horizontalSpacer_7">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="timeOnLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Time On</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="8">
-          <widget class="QPushButton" name="resetButton">
-           <property name="text">
-            <string>Reset</string>
-           </property>
-           <property name="icon">
-            <iconset theme="document-revert">
-             <normaloff>.</normaloff>.</iconset>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="9">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Maximum</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="0">
-          <widget class="QDateEdit" name="dateEdit">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-           <property name="timeSpec">
-            <enum>Qt::UTC</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="6">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="1">
-          <widget class="QTimeEdit" name="timeOnEdit">
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="displayFormat">
-            <string notr="true">hh:mm:ss</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-           <property name="timeSpec">
-            <enum>Qt::UTC</enum>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
            </property>
           </widget>
          </item>
          <item row="1" column="4">
-          <widget class="QPushButton" name="stopTimerButton">
-           <property name="enabled">
-            <bool>true</bool>
+          <widget class="QComboBox" name="submodeEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
+            <enum>Qt::ClickFocus</enum>
            </property>
-           <property name="text">
-            <string/>
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
            </property>
-           <property name="icon">
-            <iconset resource="../res/icons/icons.qrc">
-             <normaloff>:/icons/baseline-stop-24px.svg</normaloff>:/icons/baseline-stop-24px.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>24</width>
-             <height>16</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="3">
-          <widget class="QStackedWidget" name="timeStackedWidget">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <widget class="QWidget" name="timeOffPage">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_10">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QTimeEdit" name="timeOffEdit">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="focusPolicy">
-                <enum>Qt::StrongFocus</enum>
-               </property>
-               <property name="displayFormat">
-                <string notr="true">hh:mm:ss</string>
-               </property>
-               <property name="timeSpec">
-                <enum>Qt::UTC</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="timeDurationPage">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_11">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QTimeEdit" name="timeDurationEdit">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="focusPolicy">
-                <enum>Qt::NoFocus</enum>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-               <property name="currentSection">
-                <enum>QDateTimeEdit::HourSection</enum>
-               </property>
-               <property name="displayFormat">
-                <string notr="true">HH:mm:ss</string>
-               </property>
-               <property name="timeSpec">
-                <enum>Qt::UTC</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QStackedWidget" name="timeLabelStackedWidget">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <widget class="QWidget" name="timeOffLabelPage">
-            <layout class="QVBoxLayout" name="verticalLayout_12">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="timeOffLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Time Off</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="durationLabelPage">
-            <layout class="QVBoxLayout" name="verticalLayout_13">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="durationLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Duration</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="customLayoutWidget" native="true">
+         <layout class="QVBoxLayout" name="customLayout">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="customRowALayout">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QWidget" name="qthWidget" native="true">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <layout class="QVBoxLayout" name="qthLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="qthLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>QTH</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="NewContactEditLine" name="qthEdit">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maxLength">
+                  <number>75</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="nameWidget" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <layout class="QVBoxLayout" name="nameLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="nameLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Name</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="NewContactEditLine" name="nameEdit">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maxLength">
+                  <number>50</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="gridWidget" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <layout class="QVBoxLayout" name="griLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="gridLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Gridsquare</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="NewContactEditLine" name="gridEdit">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="maxLength">
+                  <number>12</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="commentWidget" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <layout class="QVBoxLayout" name="commentLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="commentLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Comment</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="NewContactEditLine" name="commentEdit">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="customRowBLayout">
+            <property name="bottomMargin">
+             <number>3</number>
+            </property>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="thirdLineWidget" native="true">
+         <layout class="QGridLayout" name="thirdLineLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <item row="1" column="9">
+           <widget class="QPushButton" name="webLookupButton">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="toolTip">
+             <string>Lookup the call on the web. The query URL can be changed in Settings -&gt; Callbook</string>
+            </property>
+            <property name="text">
+             <string>Web</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../res/icons/icons.qrc">
+              <normaloff>:/icons/baseline-search-24px.svg</normaloff>:/icons/baseline-search-24px.svg</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <widget class="QPushButton" name="saveButton">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="text">
+             <string>Save</string>
+            </property>
+            <property name="icon">
+             <iconset theme="document-save">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="autoDefault">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="timeOnLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Time On</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QPushButton" name="stopTimerButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../res/icons/icons.qrc">
+              <normaloff>:/icons/baseline-stop-24px.svg</normaloff>:/icons/baseline-stop-24px.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="7">
+           <widget class="QPushButton" name="resetButton">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="text">
+             <string>Reset</string>
+            </property>
+            <property name="icon">
+             <iconset theme="document-revert">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QTimeEdit" name="timeOnEdit">
+            <property name="focusPolicy">
+             <enum>Qt::ClickFocus</enum>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="displayFormat">
+             <string notr="true">hh:mm:ss</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="timeSpec">
+             <enum>Qt::UTC</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="10">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="5">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="startTimerButton">
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../res/icons/icons.qrc">
+              <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QDateEdit" name="dateEdit">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::ClickFocus</enum>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="timeSpec">
+             <enum>Qt::UTC</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QStackedWidget" name="timeStackedWidget">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
+            <widget class="QWidget" name="timeOffPage">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QTimeEdit" name="timeOffEdit">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="focusPolicy">
+                 <enum>Qt::ClickFocus</enum>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="displayFormat">
+                 <string notr="true">hh:mm:ss</string>
+                </property>
+                <property name="timeSpec">
+                 <enum>Qt::UTC</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="timeDurationPage">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QTimeEdit" name="timeDurationEdit">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="focusPolicy">
+                 <enum>Qt::ClickFocus</enum>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+                <property name="currentSection">
+                 <enum>QDateTimeEdit::HourSection</enum>
+                </property>
+                <property name="displayFormat">
+                 <string notr="true">HH:mm:ss</string>
+                </property>
+                <property name="timeSpec">
+                 <enum>Qt::UTC</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="dateLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Date</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="8">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="3">
+           <widget class="QStackedWidget" name="timeLabelStackedWidget">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="timeOffLabelPage">
+             <layout class="QVBoxLayout" name="verticalLayout_12">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="timeOffLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Time Off</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="durationLabelPage">
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="durationLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Duration</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </item>
@@ -2224,106 +2422,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <attribute name="title">
-       <string>Contest</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_15">
-       <item row="0" column="2">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEdit_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::ClickFocus</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Tx Serial</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Rx Serial</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_3">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::ClickFocus</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Contest</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="contestEdit">
-         <property name="focusPolicy">
-          <enum>Qt::ClickFocus</enum>
-         </property>
-         <item>
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>LZ DX</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
        <string>My &amp;Notes</string>
@@ -2393,29 +2491,24 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>DxccTableWidget</class>
-   <extends>QTableView</extends>
-   <header>ui/DxccTableWidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>NewContactEditLine</class>
    <extends>QLineEdit</extends>
    <header>ui/EditLine.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DxccTableWidget</class>
+   <extends>QTableView</extends>
+   <header>ui/DxccTableWidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>callsignEdit</tabstop>
   <tabstop>rstSentEdit</tabstop>
   <tabstop>rstRcvdEdit</tabstop>
-  <tabstop>nameEdit</tabstop>
   <tabstop>qthEdit</tabstop>
+  <tabstop>nameEdit</tabstop>
   <tabstop>gridEdit</tabstop>
   <tabstop>commentEdit</tabstop>
-  <tabstop>dateEdit</tabstop>
-  <tabstop>timeOnEdit</tabstop>
-  <tabstop>timeOffEdit</tabstop>
-  <tabstop>saveButton</tabstop>
-  <tabstop>resetButton</tabstop>
   <tabstop>noteEdit</tabstop>
  </tabstops>
  <resources>
@@ -2439,46 +2532,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>gridEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>NewContactWidget</receiver>
-   <slot>gridChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>540</x>
-     <y>138</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>407</x>
-     <y>106</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>stopTimerButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactWidget</receiver>
-   <slot>stopContactTimer()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>377</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>516</x>
-     <y>217</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>freqRXEdit</sender>
    <signal>valueChanged(double)</signal>
    <receiver>NewContactWidget</receiver>
    <slot>frequencyRXChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>731</x>
-     <y>56</y>
+     <x>727</x>
+     <y>53</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
@@ -2493,44 +2554,12 @@
    <slot>modeChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>74</y>
+     <x>427</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
      <y>263</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>resetButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactWidget</receiver>
-   <slot>resetContact()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>595</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>352</x>
-     <y>212</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>saveButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactWidget</receiver>
-   <slot>saveContact()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>509</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>352</x>
-     <y>212</y>
     </hint>
    </hints>
   </connection>
@@ -2541,44 +2570,12 @@
    <slot>callsignChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>108</x>
-     <y>80</y>
+     <x>115</x>
+     <y>77</y>
     </hint>
     <hint type="destinationlabel">
      <x>352</x>
      <y>281</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>startTimerButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactWidget</receiver>
-   <slot>startContactTimer()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>243</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>352</x>
-     <y>252</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qrzButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactWidget</receiver>
-   <slot>qrz()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>726</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>445</x>
-     <y>210</y>
     </hint>
    </hints>
   </connection>
@@ -2589,8 +2586,8 @@
    <slot>subModeChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>523</x>
-     <y>74</y>
+     <x>519</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>453</x>
@@ -2621,8 +2618,8 @@
    <slot>propModeChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>859</x>
-     <y>433</y>
+     <x>863</x>
+     <y>424</y>
     </hint>
     <hint type="destinationlabel">
      <x>562</x>
@@ -2637,8 +2634,8 @@
    <slot>stationProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>208</x>
-     <y>272</y>
+     <x>212</x>
+     <y>263</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2653,8 +2650,8 @@
    <slot>sotaChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>365</y>
+     <x>422</x>
+     <y>356</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2669,8 +2666,8 @@
    <slot>frequencyTXChanged()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>731</x>
-     <y>90</y>
+     <x>727</x>
+     <y>87</y>
     </hint>
     <hint type="destinationlabel">
      <x>669</x>
@@ -2685,8 +2682,8 @@
    <slot>rigProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>208</x>
-     <y>303</y>
+     <x>212</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel">
      <x>736</x>
@@ -2701,8 +2698,8 @@
    <slot>antProfileComboChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>208</x>
-     <y>334</y>
+     <x>212</x>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
      <x>736</x>
@@ -2717,8 +2714,8 @@
    <slot>sotaEditFinished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>365</y>
+     <x>422</x>
+     <y>356</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>
@@ -2733,8 +2730,8 @@
    <slot>wwffEditFinished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>396</y>
+     <x>422</x>
+     <y>387</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>
@@ -2749,24 +2746,8 @@
    <slot>wwffChanged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>418</x>
-     <y>396</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>489</x>
-     <y>237</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>timeOnEdit</sender>
-   <signal>editingFinished()</signal>
-   <receiver>NewContactWidget</receiver>
-   <slot>timeOnChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>158</x>
-     <y>177</y>
+     <x>422</x>
+     <y>387</y>
     </hint>
     <hint type="destinationlabel">
      <x>489</x>
@@ -2823,18 +2804,114 @@
    </hints>
   </connection>
   <connection>
-   <sender>timeStackedWidget</sender>
-   <signal>currentChanged(int)</signal>
-   <receiver>timeLabelStackedWidget</receiver>
-   <slot>setCurrentIndex(int)</slot>
+   <sender>webLookupButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>webLookup()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>292</x>
-     <y>177</y>
+     <x>686</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
-     <x>292</x>
-     <y>152</y>
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gridEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>gridChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>493</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopTimerButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>stopContactTimer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>362</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>resetContact()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>558</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>saveContact()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>472</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startTimerButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>startContactTimer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>timeOnEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>timeOnChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
     </hint>
    </hints>
   </connection>
@@ -2848,7 +2925,7 @@
   <slot>frequencyTXChanged()</slot>
   <slot>modeChanged()</slot>
   <slot>updateTime()</slot>
-  <slot>qrz()</slot>
+  <slot>webLookup()</slot>
   <slot>startContactTimer()</slot>
   <slot>updateTimeStop()</slot>
   <slot>subModeChanged()</slot>

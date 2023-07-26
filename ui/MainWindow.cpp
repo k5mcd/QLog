@@ -31,6 +31,8 @@
 #include "core/CredentialStore.h"
 #include "AlertSettingDialog.h"
 #include "core/PropConditions.h"
+#include "data/NewContactLayoutProfile.h"
+#include "ui/EditLayoutDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -43,6 +45,8 @@ MainWindow::MainWindow(QWidget* parent) :
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    setupLayoutMenu();
 
     ui->cwconsoleWidget->registerContactWidget(ui->newContactWidget);
     ui->rotatorWidget->registerContactWidget(ui->newContactWidget);
@@ -140,7 +144,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::settingsChanged, ui->rotatorWidget, &RotatorWidget::redrawMap);
     connect(this, &MainWindow::settingsChanged, ui->onlineMapWidget, &OnlineMapWidget::flyToMyQTH);
     connect(this, &MainWindow::settingsChanged, ui->logbookWidget, &LogbookWidget::reloadSetting);
-
+    connect(this, &MainWindow::layoutChanged, ui->newContactWidget, &NewContactWidget::setupCustomUi);
     connect(this, &MainWindow::alertRulesChanged, &alertEvaluator, &AlertEvaluator::loadRules);
     connect(this, &MainWindow::altBackslash, Rig::instance(), &Rig::setPTT);
     connect(this, &MainWindow::manualMode, ui->newContactWidget, &NewContactWidget::setManualMode);
@@ -403,6 +407,16 @@ void MainWindow::setManualContact(bool isChecked)
     emit manualMode(isChecked);
 }
 
+void MainWindow::showEditLayout()
+{
+    FCT_IDENTIFICATION;
+
+    EditLayoutDialog dialog(this);
+    dialog.exec();
+    setupLayoutMenu();
+    emit layoutChanged();
+}
+
 void MainWindow::setDarkMode()
 {
     FCT_IDENTIFICATION;
@@ -433,6 +447,54 @@ void MainWindow::setLightMode()
     FCT_IDENTIFICATION;
 
     qApp->setPalette(this->style()->standardPalette());
+}
+
+void MainWindow::setupLayoutMenu()
+{
+    FCT_IDENTIFICATION;
+
+    const QList<QAction*> layoutActions = ui->menuNewContact->actions();
+
+    for ( auto action : layoutActions )
+    {
+        action->deleteLater();
+    }
+
+    QString currNewContactProfile = NewContactLayoutProfilesManager::instance()->getCurProfile1().profileName;
+
+    // The first position will be always the Classic Layout Profile
+    QAction *classicLayoutAction = new QAction(tr("Classic"), this);
+    classicLayoutAction->setCheckable(true);
+    classicLayoutAction->setChecked(currNewContactProfile == QString());
+    connect(classicLayoutAction, &QAction::triggered, this, [this]()
+    {
+        //save empty profile
+        NewContactLayoutProfilesManager::instance()->setCurProfile1("");
+        emit layoutChanged();
+    } );
+
+    ui->menuNewContact->addAction(classicLayoutAction);
+    QActionGroup *newContactMenuGroup = new QActionGroup(classicLayoutAction);
+    newContactMenuGroup->addAction(classicLayoutAction);
+
+    ui->menuNewContact->addSeparator();
+
+    // The rest of positions will be the Custom Layout Profiles
+    const QStringList layoutProfileNames = NewContactLayoutProfilesManager::instance()->profileNameList();
+
+    for ( const QString &profileName : layoutProfileNames )
+    {
+        QAction *layoutAction = new QAction(profileName, this);
+        layoutAction->setCheckable(true);
+        layoutAction->setChecked(currNewContactProfile == profileName);
+        connect(layoutAction, &QAction::triggered, this, [this, profileName]()
+        {
+            NewContactLayoutProfilesManager::instance()->setCurProfile1(profileName);
+            emit layoutChanged();
+        } );
+        ui->menuNewContact->addAction(layoutAction);
+        newContactMenuGroup->addAction(layoutAction);
+    }
 }
 
 void MainWindow::rotConnect() {

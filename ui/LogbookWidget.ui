@@ -108,6 +108,9 @@
        </item>
        <item>
         <widget class="QComboBox" name="clubFilter">
+         <property name="focusPolicy">
+          <enum>Qt::ClickFocus</enum>
+         </property>
          <item>
           <property name="text">
            <string>Club</string>
@@ -221,7 +224,10 @@
      <normaloff>:/icons/baseline-search-24px.svg</normaloff>:/icons/baseline-search-24px.svg</iconset>
    </property>
    <property name="text">
-    <string>Lookup on QRZ</string>
+    <string>Lookup on Web</string>
+   </property>
+   <property name="toolTip">
+    <string>Lookup on Web</string>
    </property>
   </action>
   <action name="actionFilter">

@@ -23,6 +23,7 @@
 #include "core/PropConditions.h"
 #include "core/MembershipQE.h"
 #include "logformat/AdiFormat.h"
+#include "data/NewContactLayoutProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -40,6 +41,13 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    fieldIndex2Widget[LogbookModel::COLUMN_NAME_INTL] = ui->nameWidget;
+    fieldIndex2Widget[LogbookModel::COLUMN_QTH_INTL] = ui->qthWidget;
+    fieldIndex2Widget[LogbookModel::COLUMN_GRID] = ui->gridWidget;
+    fieldIndex2Widget[LogbookModel::COLUMN_COMMENT_INTL] = ui->commentWidget;
+
+    setupCustomUi();
 
     CWKeyProfilesManager::instance(); //TODO remove, make it better - workaround
 
@@ -136,15 +144,6 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     ui->modeEdit->setModel(modeModel);
     ui->modeEdit->setModelColumn(modeModel->fieldIndex("name"));
     modeModel->select();
-
-    /****************/
-    /* Contest Combo*/
-    /* DISABLED     */
-    /****************/
-    QStringList contestList = Data::instance()->contestList();
-    contestList.prepend("");
-    QStringListModel* contestModel = new QStringListModel(contestList, this);
-    ui->contestEdit->setModel(contestModel);
 
     /**********************/
     /* Propagation Combo  */
@@ -263,13 +262,6 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_M), this, SLOT(markContact()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Return), this, SLOT(useNearestCallsign()), nullptr, Qt::ApplicationShortcut);
 
-    /*
-     * qlog is not a contest log. There is missing many contest features so that it can compete at least a little
-     * with the contest logs . Therefore, for now, we will deactivate the tab with the contest information.
-     * Maybe later
-     * */
-    ui->tabWidget_2->removeTab(4);
-
     /****************************/
     /* Set Visiable for widgets */
     /****************************/
@@ -365,8 +357,6 @@ void NewContactWidget::readGlobalSettings()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-
     /*************************/
     /* Refresh mode combobox */
     /*************************/
@@ -404,6 +394,25 @@ void NewContactWidget::callsignChanged()
     QString newCallsign = ui->callsignEdit->text().toUpper();
 
     qCDebug(runtime) << "newcallsign " << newCallsign << " old callsign " << callsign;
+
+    // if operator presses a spacebar at the end of callsign then begins QSO and skips RST Fields
+    if ( newCallsign.endsWith(" "))
+    {
+        newCallsign.chop(1);
+        ui->callsignEdit->blockSignals(true);
+        ui->callsignEdit->setText(newCallsign);
+        ui->callsignEdit->blockSignals(false);
+        if ( newCallsign.isEmpty() )
+            return;
+
+        QLineEdit *nextLineEdit = qobject_cast<QLineEdit*>(ui->rstRcvdEdit->nextInFocusChain());
+        if ( nextLineEdit )
+        {
+            nextLineEdit->setFocus();
+            nextLineEdit->selectAll();
+            startContactTimer();
+        }
+    }
 
     if ( newCallsign == callsign )
     {
@@ -1731,10 +1740,9 @@ void NewContactWidget::startContactTimer()
     if (!contactTimer->isActive()) {
         contactTimer->start(500);
     }
-    ui->dateEdit->setReadOnly(true);
-    ui->timeOnEdit->setReadOnly(true);
-    ui->timeOffEdit->setReadOnly(true);
+
     ui->timeStackedWidget->setCurrentIndex(1);
+    ui->timeLabelStackedWidget->setCurrentIndex(1);
 }
 
 void NewContactWidget::stopContactTimer()
@@ -1742,6 +1750,7 @@ void NewContactWidget::stopContactTimer()
     FCT_IDENTIFICATION;
 
     ui->timeStackedWidget->setCurrentIndex(0);
+    ui->timeLabelStackedWidget->setCurrentIndex(0);
 
     if ( isManualEnterMode )
     {
@@ -1753,9 +1762,6 @@ void NewContactWidget::stopContactTimer()
         contactTimer->stop();
     }
     updateTimeOff();
-    ui->dateEdit->setReadOnly(false);
-    ui->timeOnEdit->setReadOnly(false);
-    ui->timeOffEdit->setReadOnly(false);
 }
 
 void NewContactWidget::markContact()
@@ -2174,6 +2180,14 @@ void NewContactWidget::setManualMode(bool isEnabled)
         realFreqForManualExit = realRigFreq;
         resetContact();
         showRXTXFreqs(true);
+        ui->dateEdit->setReadOnly(false);
+        ui->timeOnEdit->setReadOnly(false);
+        ui->timeOffEdit->setReadOnly(false);
+        ui->timeOnEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->dateEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->timeOffEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->thirdLineWidget->setTabOrder(ui->dateEdit, ui->timeOnEdit);
+        ui->thirdLineWidget->setTabOrder(ui->timeOnEdit, ui->timeOffEdit);
     }
 
     QString styleString = (isManualEnterMode) ? "background-color: orange;"
@@ -2200,6 +2214,13 @@ void NewContactWidget::exitManualMode()
     // clear form
     resetContact();
 
+    ui->dateEdit->setReadOnly(true);
+    ui->timeOnEdit->setReadOnly(true);
+    ui->timeOffEdit->setReadOnly(true);
+    ui->timeOnEdit->setFocusPolicy(Qt::ClickFocus);
+    ui->dateEdit->setFocusPolicy(Qt::ClickFocus);
+    ui->timeOffEdit->setFocusPolicy(Qt::ClickFocus);
+
     //rig connected/disconnected
     if ( rig->isRigConnected() )
     {
@@ -2219,6 +2240,104 @@ void NewContactWidget::exitManualMode()
     refreshStationProfileCombo();
 }
 
+void NewContactWidget::setupCustomUi()
+{
+    FCT_IDENTIFICATION;
+
+    // Clear Custom Lines
+    QList<QHBoxLayout *> customUiRows = ui->customLayout->findChildren<QHBoxLayout *>();
+    for ( auto &rowLayout : qAsConst(customUiRows) )
+    {
+        qCDebug(runtime) << rowLayout->objectName();
+
+        QLayoutItem *rowItem;
+        while ( (rowItem = rowLayout->takeAt(0)) != nullptr )
+        {
+            if ( rowItem->widget() != nullptr)
+            {
+                qCDebug(runtime) << "Removing widget" << rowItem->widget()->objectName();
+                rowItem->widget()->setHidden(true);
+            }
+        }
+    }
+
+    // get Profile and build the Custom Lines
+    NewContactLayoutProfile layoutProfile = NewContactLayoutProfilesManager::instance()->getCurProfile1();
+
+    QList<QWidget *> addedWidgets;
+
+    // Empty Profile means Classic Layout
+    if ( layoutProfile == NewContactLayoutProfile() )
+    {
+        addedWidgets << setupCustomUiRow(ui->customRowALayout, classicLayoutFirstLine);
+    }
+    else
+    {    
+        addedWidgets << setupCustomUiRow(ui->customRowALayout, layoutProfile.rowA);
+        addedWidgets << setupCustomUiRow(ui->customRowBLayout, layoutProfile.rowB);
+    }
+
+    setupCustomUiRowsTabOrder(addedWidgets);
+    update();
+}
+
+QList<QWidget *> NewContactWidget::setupCustomUiRow(QHBoxLayout *row, const QList<int>& widgetsList)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << row->objectName() << widgetsList;
+
+    QWidget *currCustomWidget = nullptr;
+    QList<QWidget *> ret;
+
+    for ( int widgetID : widgetsList )
+    {
+        currCustomWidget = fieldIndex2Widget[widgetID];
+
+        if ( !currCustomWidget )
+        {
+            qWarning() << "Missing fieldIndex2WidgetMapping for index" << widgetID;
+            continue;
+        }
+
+        qCDebug(runtime) << "Adding widget" << currCustomWidget->objectName();
+        currCustomWidget->setHidden(false);
+        row->addWidget(currCustomWidget);
+        ret << currCustomWidget;
+
+        // Currently, GRID Widget has a fixed length. If the widget is alone
+        // on the row, it does not look good. That's why spacer is inserted.
+        if ( widgetID == LogbookModel::COLUMN_GRID
+             && widgetsList.size() == 1 )
+        {
+            QSpacerItem *spacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+            row->addItem(spacer);
+        }
+    }
+    return ret;
+}
+
+void NewContactWidget::setupCustomUiRowsTabOrder(const QList<QWidget *> customWidgets)
+{
+    FCT_IDENTIFICATION;
+
+    QWidget *prevCustomWidget = nullptr;
+
+    for ( QWidget *currentWidget : customWidgets )
+    {
+        if ( prevCustomWidget )
+        {
+            NewContactEditLine *fromWidget = prevCustomWidget->findChild<NewContactEditLine*>();
+            NewContactEditLine *toWidget = currentWidget->findChild<NewContactEditLine*>();
+
+            if ( fromWidget && toWidget )
+            {
+                ui->customLayoutWidget->setTabOrder(fromWidget, toWidget);
+            }
+        }
+        prevCustomWidget = currentWidget;
+    }
+}
 
 void NewContactWidget::tuneDx(const QString &callsign, double frequency)
 {
@@ -2265,10 +2384,12 @@ void NewContactWidget::setDefaultReport() {
     ui->rstSentEdit->setText(defaultReport);
 }
 
-void NewContactWidget::qrz() {
+void NewContactWidget::webLookup()
+{
     FCT_IDENTIFICATION;
 
-    QDesktopServices::openUrl(QString("https://www.qrz.com/lookup/%1").arg(callsign));
+    if ( !callsign.isEmpty() )
+        QDesktopServices::openUrl(GenericCallbook::getWebLookupURL(callsign));
 }
 
 QString NewContactWidget::getCallsign() const
@@ -2755,3 +2876,11 @@ void NewContactWidget::changeCallsignManually(const QString &callsign, double fr
     editCallsignFinished();
     stopContactTimer();
 }
+
+const QList<int> NewContactWidget::customizableFields =
+{
+    LogbookModel::COLUMN_NAME_INTL,
+    LogbookModel::COLUMN_QTH_INTL,
+    LogbookModel::COLUMN_GRID,
+    LogbookModel::COLUMN_COMMENT_INTL
+};
