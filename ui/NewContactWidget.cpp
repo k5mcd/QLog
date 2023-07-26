@@ -395,6 +395,25 @@ void NewContactWidget::callsignChanged()
 
     qCDebug(runtime) << "newcallsign " << newCallsign << " old callsign " << callsign;
 
+    // if operator presses a spacebar at the end of callsign then begins QSO and skips RST Fields
+    if ( newCallsign.endsWith(" "))
+    {
+        newCallsign.chop(1);
+        ui->callsignEdit->blockSignals(true);
+        ui->callsignEdit->setText(newCallsign);
+        ui->callsignEdit->blockSignals(false);
+        if ( newCallsign.isEmpty() )
+            return;
+
+        QLineEdit *nextLineEdit = qobject_cast<QLineEdit*>(ui->rstRcvdEdit->nextInFocusChain());
+        if ( nextLineEdit )
+        {
+            nextLineEdit->setFocus();
+            nextLineEdit->selectAll();
+            startContactTimer();
+        }
+    }
+
     if ( newCallsign == callsign )
     {
         return;
