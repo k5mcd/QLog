@@ -2819,6 +2819,102 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>gridEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>gridChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>493</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stopTimerButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>stopContactTimer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>362</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>resetContact()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>558</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>saveContact()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>472</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startTimerButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>startContactTimer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>timeOnEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>timeOnChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>489</x>
+     <y>262</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
