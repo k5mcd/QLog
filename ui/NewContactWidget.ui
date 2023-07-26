@@ -690,7 +690,7 @@
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="toolTip">
-             <string>Lookup the call on the web</string>
+             <string>Lookup the call on the web. The query URL can be changed in Settings -&gt; Callbook</string>
             </property>
             <property name="text">
              <string>Web</string>

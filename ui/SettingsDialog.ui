@@ -2773,7 +2773,7 @@
             <item>
              <widget class="QLineEdit" name="webLookupURLEdit">
               <property name="toolTip">
-               <string>Specify the URL to use for quick search. The &lt;CALL&gt; macro will be replaced by the current callsign</string>
+               <string>Specify the URL to use for quick search. The &lt;DXCALL&gt; macro will be replaced by the current callsign</string>
               </property>
              </widget>
             </item>

@@ -16,7 +16,7 @@ const QString GenericCallbook::getWebLookupURL(const QString &callsign,
 
     if ( URL.isEmpty() )
     {
-        url = setting.value(GenericCallbook::CONFIG_WEB_LOOKUP_URL, "https://www.qrz.com/lookup/<CALL>").toString();
+        url = setting.value(GenericCallbook::CONFIG_WEB_LOOKUP_URL, "https://www.qrz.com/lookup/<DXCALL>").toString();
     }
     else
     {
@@ -24,7 +24,7 @@ const QString GenericCallbook::getWebLookupURL(const QString &callsign,
     }
 
     if ( replaceMacro )
-        url.replace("<CALL>", callsign);
+        url.replace("<DXCALL>", callsign);
     return url;
 }
 
