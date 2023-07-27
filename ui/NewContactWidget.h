@@ -151,7 +151,7 @@ private:
     void setComboBaseData(QComboBox *, const QString &);
     void queryMemberList();
     QList<QWidget*> setupCustomUiRow(QHBoxLayout *row, const QList<int>& widgetsList);
-    void setupCustomUiRowsTabOrder(const QList<QWidget *> customWidgets);
+    void setupCustomUiRowsTabOrder(const QList<QWidget *> &customWidgets);
 
 private:
     Rig* rig;

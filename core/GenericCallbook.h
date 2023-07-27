@@ -17,7 +17,7 @@ public:
     const static QString CALLBOOK_NAME;
     const static QString CONFIG_WEB_LOOKUP_URL;
     static const QString getWebLookupURL(const QString &callsign,
-                                         const QString URL = QString(),
+                                         const QString &URL = QString(),
                                          const bool replaceMacros = true);
 
     virtual QString getDisplayName() = 0;

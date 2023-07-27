@@ -2317,7 +2317,7 @@ QList<QWidget *> NewContactWidget::setupCustomUiRow(QHBoxLayout *row, const QLis
     return ret;
 }
 
-void NewContactWidget::setupCustomUiRowsTabOrder(const QList<QWidget *> customWidgets)
+void NewContactWidget::setupCustomUiRowsTabOrder(const QList<QWidget *> &customWidgets)
 {
     FCT_IDENTIFICATION;
 

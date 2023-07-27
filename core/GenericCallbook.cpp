@@ -8,7 +8,7 @@ GenericCallbook::GenericCallbook(QObject *parent) :
 }
 
 const QString GenericCallbook::getWebLookupURL(const QString &callsign,
-                                               const QString URL,
+                                               const QString &URL,
                                                const bool replaceMacro )
 {
     QSettings setting;
