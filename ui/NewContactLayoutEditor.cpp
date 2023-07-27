@@ -59,7 +59,7 @@ void NewContactLayoutEditor::save()
     if ( layoutNameExists(ui->profileNameEdit->text()) )
     {
         QMessageBox::warning(nullptr, QMessageBox::tr("QLog Info"),
-                              QMessageBox::tr("Layout name is already exists"));
+                              QMessageBox::tr("Layout name is already exists."));
         return;
     }
 
