@@ -1,3 +1,13 @@
+qlog (0.26.0-1) UNRELEASED; urgency=low
+  * [NEW] - Added user-defined layout for New QSO widget
+  * [NEW] - Pressing Spacebar in Callsign field skips RST fields
+  * [NEW] - Added user-defined URL for web lookup (issue #230)
+  * Fixed WSJTX QSOs should have an Operator Name from Callbook (issue #223)
+  * Fixed US call area suffixes not handled correctly (issue #226 thanks Florian)
+  * Fixed QSO Filter Detail allows to save an empty Filter Name (issue #228)
+
+ -- foldynl <foldyna@gmail.com>  Sun, 30 Jul 2023 19:27:08 +0200
+
 qlog (0.25.1-1) UNRELEASED; urgency=low
   * Fixed Unexpected mode change when Setting Dialog is saved (issue #222)
   * Fixed QSL_SENT field has an incorrect ADIF name (issue #225)

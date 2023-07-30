@@ -42,6 +42,14 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Sun Jul 30 2023 Ladislav Foldyna - 0.26.0-1
+- [NEW] - Added user-defined layout for New QSO widget
+- [NEW] - Pressing Spacebar in Callsign field skips RST fields
+- [NEW] - Added user-defined URL for web lookup (issue #230)
+- Fixed WSJTX QSOs should have an Operator Name from Callbook (issue #223)
+- Fixed US call area suffixes not handled correctly (issue #226 thanks Florian)
+- Fixed QSO Filter Detail allows to save an empty Filter Name (issue #228)
+
 * Mon Jul 17 2023 Ladislav Foldyna 0.25.1-1
 - Fixed Unexpected mode change when Setting Dialog is saved (issue #222)
 - Fixed QSL_SENT field has an incorrect ADIF name (issue #225)
