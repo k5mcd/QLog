@@ -26,7 +26,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="60"/>
         <source>DX Cluster</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="70"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="109"/>
         <source>DX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="117"/>
@@ -53,7 +53,7 @@
         <location filename="../ui/AlertRuleDetail.ui" line="127"/>
         <location filename="../ui/AlertRuleDetail.ui" line="167"/>
         <source>.*</source>
-        <translation>.*</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="137"/>
@@ -64,7 +64,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="147"/>
         <source>Log Status</source>
-        <translation type="unfinished">Log Status</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="157"/>
@@ -157,7 +157,7 @@
     <message>
         <location filename="../ui/AlertRuleDetail.ui" line="396"/>
         <source>Spotter</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.cpp" line="55"/>
@@ -256,7 +256,7 @@
     <message>
         <location filename="../ui/AlertWidget.ui" line="14"/>
         <source>Alerts</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AlertWidget.ui" line="62"/>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../ui/AlertWidget.ui" line="72"/>
         <source> min(s)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AlertWidget.ui" line="98"/>
@@ -284,7 +284,7 @@
     <message>
         <location filename="../ui/AwardsDialog.ui" line="14"/>
         <source>Awards</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.ui" line="20"/>
@@ -294,7 +294,7 @@
     <message>
         <location filename="../ui/AwardsDialog.ui" line="26"/>
         <source>Award</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.ui" line="36"/>
@@ -309,12 +309,12 @@
     <message>
         <location filename="../ui/AwardsDialog.ui" line="55"/>
         <source>LoTW</source>
-        <translation type="unfinished">LoTW</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.ui" line="65"/>
         <source>eQSL</source>
-        <translation type="unfinished">eQSL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.ui" line="75"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../ui/AwardsDialog.ui" line="96"/>
         <source>CW</source>
-        <translation type="unfinished">CW</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.ui" line="106"/>
@@ -339,32 +339,32 @@
     <message>
         <location filename="../ui/AwardsDialog.ui" line="116"/>
         <source>Digi</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="33"/>
         <source>DXCC</source>
-        <translation type="unfinished">DXCC</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="34"/>
         <source>ITU</source>
-        <translation type="unfinished">ITU</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="35"/>
         <source>WAC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="36"/>
         <source>WAZ</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="37"/>
         <source>IOTA</source>
-        <translation type="unfinished">IOTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/AwardsDialog.cpp" line="39"/>
@@ -415,7 +415,7 @@
     <message>
         <location filename="../ui/BandmapWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/BandmapWidget.ui" line="136"/>
@@ -445,7 +445,7 @@
     <message>
         <location filename="../ui/BandmapWidget.ui" line="181"/>
         <source> min(s)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/BandmapWidget.cpp" line="667"/>
@@ -484,7 +484,7 @@
         <location filename="../core/CWCatKey.cpp" line="110"/>
         <location filename="../core/CWCatKey.cpp" line="117"/>
         <source>Cannot send Text to Rig</source>
-        <translation type="unfinished">Kann Text nicht an Rig senden</translation>
+        <translation>Kann Text nicht an Rig senden</translation>
     </message>
     <message>
         <location filename="../core/CWCatKey.cpp" line="110"/>
@@ -512,7 +512,7 @@
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="94"/>
@@ -522,7 +522,7 @@
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="106"/>
         <source> WPM</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="402"/>
@@ -537,7 +537,7 @@
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="170"/>
         <source>&amp;CW</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="183"/>
@@ -547,17 +547,17 @@
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="216"/>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="241"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="257"/>
         <source>F3</source>
-        <translation type="unfinished">F3</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="62"/>
@@ -572,7 +572,7 @@
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="97"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="140"/>
@@ -587,22 +587,22 @@
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="273"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="289"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="305"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="321"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/CWConsoleWidget.ui" line="373"/>
@@ -783,7 +783,7 @@
     <message>
         <location filename="../core/CallbookManager.cpp" line="103"/>
         <source>&lt;p&gt;The secondary callbook will be used&lt;/p&gt;</source>
-        <translation>Das sekundäre Callbook wird verwendet</translation>
+        <translation>&lt;p&gt;Das sekundäre Callbook wird verwendet&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -827,7 +827,7 @@
         <location filename="../ui/ClockWidget.cpp" line="93"/>
         <location filename="../ui/ClockWidget.cpp" line="94"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -932,7 +932,7 @@
     <message>
         <location filename="../ui/ColumnSettingDialog.ui" line="70"/>
         <source>QSL &amp;&amp; Callbooks</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/ColumnSettingDialog.ui" line="93"/>
@@ -1056,7 +1056,7 @@
         <location filename="../data/Data.h" line="29"/>
         <location filename="../data/Data.h" line="41"/>
         <source>Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültig</translation>
     </message>
     <message>
         <location filename="../data/Data.h" line="32"/>
@@ -1085,12 +1085,12 @@
     <message>
         <location filename="../data/Data.h" line="46"/>
         <source>Modified</source>
-        <translation type="unfinished">Geändert</translation>
+        <translation>Geändert</translation>
     </message>
     <message>
         <location filename="../data/Data.h" line="50"/>
         <source>Grayline</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/Data.h" line="51"/>
@@ -1100,22 +1100,22 @@
     <message>
         <location filename="../data/Data.h" line="52"/>
         <source>Short Path</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/Data.h" line="53"/>
         <source>Long Path</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/Data.h" line="64"/>
         <source>Not Heard</source>
-        <translation type="unfinished">Nicht gehört</translation>
+        <translation>Nicht gehört</translation>
     </message>
     <message>
         <location filename="../data/Data.h" line="65"/>
         <source>Uncertain</source>
-        <translation type="unfinished">Unsicher</translation>
+        <translation>Unsicher</translation>
     </message>
 </context>
 <context>
@@ -1303,7 +1303,7 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="97"/>
         <source>Spotter</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="98"/>
@@ -1351,7 +1351,7 @@
     <message>
         <location filename="../ui/DxWidget.ui" line="101"/>
         <source>Spots</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.ui" line="106"/>
@@ -1447,7 +1447,7 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="1112"/>
         <source>DX Spot</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="1113"/>
@@ -1475,12 +1475,12 @@
     <message>
         <location filename="../models/DxccTableModel.cpp" line="77"/>
         <source>eQSL</source>
-        <translation>eQSL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/DxccTableModel.cpp" line="81"/>
         <source>LoTW</source>
-        <translation>LoTW</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/DxccTableModel.cpp" line="85"/>
@@ -1534,27 +1534,27 @@
     <message>
         <location filename="../ui/EditLayoutDialog.ui" line="14"/>
         <source>Edit Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Layout bearbeiten</translation>
     </message>
     <message>
         <location filename="../ui/EditLayoutDialog.ui" line="22"/>
         <source>Layouts</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/EditLayoutDialog.ui" line="53"/>
         <source>Add</source>
-        <translation type="unfinished">Hinzufügen</translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/EditLayoutDialog.ui" line="60"/>
         <source>Edit</source>
-        <translation type="unfinished">Bearbeiten</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../ui/EditLayoutDialog.ui" line="67"/>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
 </context>
 <context>
@@ -1562,7 +1562,7 @@
     <message>
         <location filename="../ui/Eqsldialog.ui" line="14"/>
         <source>eQSL</source>
-        <translation>eQSL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Eqsldialog.ui" line="20"/>
@@ -1697,37 +1697,37 @@
     <message>
         <location filename="../ui/ExportDialog.ui" line="73"/>
         <source>CSV</source>
-        <translation>CSV</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="101"/>
         <source>Export Type</source>
-        <translation type="unfinished">Exporttyp</translation>
+        <translation>Export-Typ</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="118"/>
         <source>Column set</source>
-        <translation>Spaltensatz</translation>
+        <translation>Export-Felder</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="136"/>
         <source>Select one of the pre-defined sets of columns or define your own set of columns</source>
-        <translation type="unfinished">Wählen Sie einen der vordefinierten Spaltensätze aus oder definieren Sie Ihren eigenen Spaltensatz</translation>
+        <translation>Wählen Sie eine der vordefinierten Auswahl von ADIF-Feldern aus oder definieren Sie Ihre eigene Auswahl</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="149"/>
         <source>Edit current set of columns</source>
-        <translation type="unfinished">Bearbeiten Sie den aktuellen Spaltensatz</translation>
+        <translation>Bearbeiten Sie die aktuelle Auswahl von ADIF-Feldern</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="152"/>
         <source>Edit</source>
-        <translation type="unfinished">Bearbeiten</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="161"/>
         <source>Mark exported QSOs As Sent</source>
-        <translation type="unfinished">Markieren Sie exportierte QSOs als gesendet</translation>
+        <translation>Markieren Sie exportierte QSOs als gesendet</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="177"/>
@@ -1777,52 +1777,52 @@
         <location filename="../ui/ExportDialog.ui" line="319"/>
         <location filename="../ui/ExportDialog.ui" line="332"/>
         <source>Export only QSOs that match the selected QSL Send Via value</source>
-        <translation type="unfinished">Exportieren Sie nur QSOs, die dem ausgewählten QSL-Ausgang-Via-Wert entsprechen</translation>
+        <translation>Exportieren Sie nur QSOs, die der ausgewählten QSL-Ausgang-Via entsprechen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="322"/>
         <source>QSL Send via</source>
-        <translation type="unfinished">QSL Ausgang via</translation>
+        <translation>QSL Ausgang via</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="339"/>
         <source>Include unusual QSO Sent statuses</source>
-        <translation type="unfinished">Beziehen Sie ungewöhnliche QSO-Gesendet-Status ein</translation>
+        <translation>Unüblichen QSO Sent-Status einbeziehen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="342"/>
         <source>Include Sent Status</source>
-        <translation type="unfinished">QSOs mit Sendestatus einbeziehen</translation>
+        <translation>Send-Status mit einbeziehen</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="376"/>
         <source>Under normal circumstances this status means &lt;b&gt;&quot;Ignore/Invalid&quot;&lt;/b&gt;.&lt;br/&gt;However, it may sometimes be wanted to ignore this setting when sending a QSL.</source>
-        <translation type="unfinished">Unter normalen Umständen bedeutet dieser Status &lt;b&gt;&quot;ignorieren/fehlerhaft&quot;&lt;/b&gt;.&lt;br/&gt;Manchmal kann es jedoch sinnvoll sein, diese Einstellung beim Senden einer QSL zu ignorieren.</translation>
+        <translation>Unter normalen Umständen bedeutet dieser Status &lt;b&gt;&quot;ignorieren/fehlerhaft&quot;&lt;/b&gt;.&lt;br/&gt;Manchmal kann es jedoch sinnvoll sein, diese Einstellung beim Senden einer QSL zu ignorieren.</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="379"/>
         <source>&quot;Ignore&quot;</source>
-        <translation type="unfinished">&quot;Ignorieren&quot;</translation>
+        <translation>&quot;Ignorieren&quot;</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="398"/>
         <source>Under normal circumstances this status means &lt;b&gt;&quot;do not send&quot;&lt;/b&gt;.&lt;br/&gt;However, it may sometimes be wanted to ignore this setting when sending a QSL.</source>
-        <translation type="unfinished">Unter normalen Umständen bedeutet dieser Status &lt;b&gt;&quot;nicht senden&quot;&lt;/b&gt;.&lt;br/&gt;Manchmal kann es jedoch sinnvoll sein, diese Einstellung beim Senden einer QSL zu ignorieren.</translation>
+        <translation>Unter normalen Umständen bedeutet dieser Status &lt;b&gt;&quot;nicht senden&quot;&lt;/b&gt;.&lt;br/&gt;Manchmal kann es jedoch sinnvoll sein, diese Einstellung beim Senden einer QSL zu ignorieren.</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="401"/>
         <source>&quot;No&quot;</source>
-        <translation type="unfinished">&quot;Nein&quot;</translation>
+        <translation>&quot;Nein&quot;</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="430"/>
         <source>Resend already sent QSOs</source>
-        <translation type="unfinished">Bereits gesendete QSOs erneut senden</translation>
+        <translation>Bereits gesendete QSOs erneut senden</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="433"/>
         <source>Already Sent</source>
-        <translation type="unfinished">Bereits gesendet</translation>
+        <translation>Bereits gesendet</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.ui" line="29"/>
@@ -1857,17 +1857,17 @@
     <message>
         <location filename="../ui/ExportDialog.cpp" line="215"/>
         <source>QLog Error</source>
-        <translation type="unfinished">QLog Fehler</translation>
+        <translation>QLog Fehler</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="216"/>
         <source>Cannot mark exported QSOs as Sent</source>
-        <translation type="unfinished">Exportierte QSOs können nicht als gesendet markiert werden</translation>
+        <translation>Exportierte QSOs können nicht als gesendet markiert werden</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="268"/>
         <source>Generic</source>
-        <translation type="unfinished">Allgemein</translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="272"/>
@@ -1887,22 +1887,22 @@
     <message>
         <location filename="../ui/ExportDialog.cpp" line="314"/>
         <source>Minimal</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="316"/>
         <source>Custom 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefiniert 1</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="317"/>
         <source>Custom 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefiniert 2</translation>
     </message>
     <message>
         <location filename="../ui/ExportDialog.cpp" line="318"/>
         <source>Custom 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefiniert 3</translation>
     </message>
 </context>
 <context>
@@ -2201,7 +2201,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="151"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="27"/>
@@ -2243,7 +2243,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="26"/>
         <source>QTH (ASCII)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="29"/>
@@ -2409,7 +2409,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="71"/>
         <source>DARC DOK</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="73"/>
@@ -2430,7 +2430,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="80"/>
         <source>FISTS CC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="81"/>
@@ -2480,12 +2480,12 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="94"/>
         <source>Max Bursts</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="95"/>
         <source>MS Shower Name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="97"/>
@@ -2515,7 +2515,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="153"/>
         <source>Rig (ASCII)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="161"/>
@@ -2535,7 +2535,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="180"/>
         <source>WWFF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="261"/>
@@ -2747,22 +2747,22 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="134"/>
         <source>#MS Bursts</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="135"/>
         <source>#MS Pings</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="136"/>
         <source>Logging Operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Log-Operator</translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="138"/>
         <source>POTA Ref</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="139"/>
@@ -2798,7 +2798,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="148"/>
         <source>QSL Via</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="149"/>
@@ -2808,12 +2808,12 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="150"/>
         <source>QSO Random</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="154"/>
         <source>Rig</source>
-        <translation type="unfinished">Rig</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="155"/>
@@ -2833,7 +2833,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="158"/>
         <source>Solar Flux</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="159"/>
@@ -2913,7 +2913,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="175"/>
         <source>VE Prov</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="176"/>
@@ -2923,7 +2923,7 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="177"/>
         <source>Web URL</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="32"/>
@@ -2967,7 +2967,7 @@
         <location filename="../ui/LogbookWidget.ui" line="116"/>
         <location filename="../ui/LogbookWidget.cpp" line="436"/>
         <source>Club</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="137"/>
@@ -2995,7 +2995,7 @@
         <location filename="../ui/LogbookWidget.ui" line="227"/>
         <location filename="../ui/LogbookWidget.ui" line="230"/>
         <source>Lookup on Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachschlagen im Web</translation>
     </message>
     <message>
         <location filename="../ui/LogbookWidget.ui" line="239"/>
@@ -3295,7 +3295,7 @@
         <location filename="../ui/MainWindow.ui" line="240"/>
         <location filename="../ui/MainWindow.ui" line="411"/>
         <source>Rig</source>
-        <translation type="unfinished">Rig</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="191"/>
@@ -3336,17 +3336,17 @@
     <message>
         <location filename="../ui/MainWindow.ui" line="121"/>
         <source>Se&amp;rvice</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="130"/>
         <source>La&amp;yout</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="134"/>
         <source>New QSO</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="182"/>
@@ -3369,7 +3369,7 @@
         <location filename="../ui/MainWindow.ui" line="231"/>
         <location filename="../ui/MainWindow.ui" line="406"/>
         <source>Bandmap</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="249"/>
@@ -3381,7 +3381,7 @@
         <location filename="../ui/MainWindow.ui" line="258"/>
         <location filename="../ui/MainWindow.ui" line="490"/>
         <source>CW Console</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="271"/>
@@ -3416,12 +3416,12 @@
     <message>
         <location filename="../ui/MainWindow.ui" line="520"/>
         <source>Mailing List...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="525"/>
         <source>Edit</source>
-        <translation type="unfinished">Bearbeiten</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="327"/>
@@ -3461,7 +3461,7 @@
     <message>
         <location filename="../ui/MainWindow.ui" line="444"/>
         <source>&amp;Awards</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="449"/>
@@ -3476,7 +3476,7 @@
     <message>
         <location filename="../ui/MainWindow.ui" line="477"/>
         <source>Beep</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="485"/>
@@ -3542,7 +3542,7 @@
         <location filename="../ui/MainWindow.ui" line="204"/>
         <location filename="../ui/MainWindow.ui" line="360"/>
         <source>DX Cluster</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.cpp" line="280"/>
@@ -3554,7 +3554,7 @@
     <message>
         <location filename="../ui/MainWindow.cpp" line="466"/>
         <source>Classic</source>
-        <translation type="unfinished"></translation>
+        <translation>Klassisch</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.cpp" line="631"/>
@@ -3587,12 +3587,12 @@
     <message>
         <location filename="../ui/MainWindow.cpp" line="701"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2023 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Based on Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.cpp" line="774"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3609,35 +3609,35 @@
         <location filename="../ui/MapWebChannelHandler.cpp" line="63"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="141"/>
         <source>Gray-Line</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MapWebChannelHandler.cpp" line="43"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="66"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="131"/>
         <source>Beam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MapWebChannelHandler.cpp" line="46"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="69"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="126"/>
         <source>Aurora</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MapWebChannelHandler.cpp" line="49"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="72"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="151"/>
         <source>MUF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MapWebChannelHandler.cpp" line="52"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="75"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="146"/>
         <source>IBP</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3698,79 +3698,79 @@
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="14"/>
         <source>New QSO Layout Editor</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="24"/>
         <source>Layout Name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="53"/>
         <source>Available Fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Verfügbare Felder</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="71"/>
         <source>List of fields that can be used</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Felder, die verwendet werden können</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="101"/>
         <source>Row A</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeile A</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="146"/>
         <source>Move selected fields from the Available Fields List to the Row A</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewählte Felder aus der Liste der verfügbaren Felder in die Zeile A verschieben</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="172"/>
         <source>Remove selected field from the Row A</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewähltes Feld aus der Zeile A entfernen</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="201"/>
         <source>List of fields in the first variable row</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Felder in der ersten Variablenzeile</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="247"/>
         <location filename="../ui/NewContactLayoutEditor.ui" line="457"/>
         <source>Change the order. Move selected field up</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändern Sie die Reihenfolge. Ausgewähltes Feld nach oben verschieben</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="273"/>
         <location filename="../ui/NewContactLayoutEditor.ui" line="483"/>
         <source>Change the order. Move selected field down</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändern Sie die Reihenfolge. Ausgewähltes Feld nach unten verschieben</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="305"/>
         <source>Row B</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeile B</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="353"/>
         <source>Move selected fields from the Available Fields List to the Row B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewählte Felder aus der Liste der verfügbaren Felder in die Zeile B verschieben</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="379"/>
         <source>Remove selected field from the Row B</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewähltes Feld aus der Zeile B entfernen</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.ui" line="408"/>
         <source>List of fields in the second variable row</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Felder in der zweiten Variablenzeile</translation>
     </message>
     <message>
         <location filename="../ui/NewContactLayoutEditor.cpp" line="55"/>
         <source>Must not be empty</source>
-        <translation type="unfinished">Darf nicht leer sein</translation>
+        <translation>Darf nicht leer sein</translation>
     </message>
 </context>
 <context>
@@ -3803,12 +3803,12 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2325"/>
         <source> W</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2283"/>
         <source>Rig</source>
-        <translation type="unfinished">Rig</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="519"/>
@@ -3818,17 +3818,17 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="466"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1441"/>
         <source>CQ</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1412"/>
         <source>ITU</source>
-        <translation type="unfinished">ITU</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="101"/>
@@ -3838,12 +3838,12 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="232"/>
         <source>TX: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="184"/>
         <source>RX: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="366"/>
@@ -3853,7 +3853,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="165"/>
         <source>80m</source>
-        <translation type="unfinished">80m</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1335"/>
@@ -3863,27 +3863,27 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1639"/>
         <source>POTA</source>
-        <translation type="unfinished">POTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1665"/>
         <source>SOTA</source>
-        <translation type="unfinished">SOTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1720"/>
         <source>SIG</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1746"/>
         <source>SIG Info</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1584"/>
         <source>DOK</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1606"/>
@@ -3893,7 +3893,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1548"/>
         <source>VUCC</source>
-        <translation type="unfinished">VUCC</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2377"/>
@@ -3908,7 +3908,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1100"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="299"/>
@@ -3923,12 +3923,12 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="693"/>
         <source>Lookup the call on the web. The query URL can be changed in Settings -&gt; Callbook</source>
-        <translation type="unfinished"></translation>
+        <translation>Suchen Sie das Rufzeichen im Internet. Die Abfrage-URL kann unter Einstellungen -&gt; Callbook geändert werden.</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="696"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1072"/>
@@ -3943,37 +3943,37 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1374"/>
         <source>AF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1379"/>
         <source>AN</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1384"/>
         <source>AS</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1389"/>
         <source>EU</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1394"/>
         <source>NA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1399"/>
         <source>OC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1404"/>
         <source>SA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1470"/>
@@ -3993,17 +3993,17 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1613"/>
         <source>IOTA</source>
-        <translation type="unfinished">IOTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1691"/>
         <source>WWFF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1713"/>
         <source>World Wide Flora &amp; Fauna</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1779"/>
@@ -4026,12 +4026,12 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1829"/>
         <source>LoTW</source>
-        <translation type="unfinished">LoTW</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1864"/>
         <source>eQSL</source>
-        <translation type="unfinished">eQSL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="1908"/>
@@ -4061,12 +4061,12 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2077"/>
         <source>E-Mail</source>
-        <translation type="unfinished">E-Mail</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2097"/>
         <source>URL</source>
-        <translation type="unfinished">URL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="66"/>
@@ -4134,17 +4134,17 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="254"/>
         <source> MHz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2159"/>
         <source>S&amp;at</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2216"/>
         <source>D&amp;XCC</source>
-        <translation type="unfinished">D&amp;XCC</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="2275"/>
@@ -4169,7 +4169,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="356"/>
         <source>59</source>
-        <translation type="unfinished">59</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="108"/>
@@ -4251,7 +4251,7 @@
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="2689"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4591,7 +4591,7 @@
     <message>
         <location filename="../ui/NewContactLayoutEditor.cpp" line="62"/>
         <source>Layout name is already exists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Name des Layouts ist bereits vorhanden.</translation>
     </message>
 </context>
 <context>
@@ -4890,7 +4890,7 @@
         <location filename="../ui/QSODetailDialog.ui" line="54"/>
         <location filename="../ui/QSODetailDialog.ui" line="73"/>
         <source>dd/MM/yyyy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="209"/>
@@ -4905,17 +4905,17 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="392"/>
         <source>TX: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="417"/>
         <source> MHz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="449"/>
         <source>RX: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="411"/>
@@ -4953,13 +4953,13 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="528"/>
         <source>Band</source>
-        <translation type="unfinished">Band</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="557"/>
         <location filename="../ui/QSODetailDialog.ui" line="1308"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="564"/>
@@ -4979,7 +4979,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="702"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="727"/>
@@ -4999,12 +4999,12 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="761"/>
         <source>ITU</source>
-        <translation>ITU</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="790"/>
         <source>CQ</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="819"/>
@@ -5024,37 +5024,37 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="918"/>
         <source>AF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="923"/>
         <source>AN</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="928"/>
         <source>AS</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="933"/>
         <source>EU</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="938"/>
         <source>NA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="943"/>
         <source>OC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="948"/>
         <source>SA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="966"/>
@@ -5065,30 +5065,30 @@
         <location filename="../ui/QSODetailDialog.ui" line="1003"/>
         <location filename="../ui/QSODetailDialog.ui" line="1383"/>
         <source>IOTA</source>
-        <translation>IOTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1029"/>
         <location filename="../ui/QSODetailDialog.ui" line="1393"/>
         <source>POTA</source>
-        <translation>POTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1039"/>
         <location filename="../ui/QSODetailDialog.ui" line="1403"/>
         <source>SOTA</source>
-        <translation>SOTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1069"/>
         <location filename="../ui/QSODetailDialog.ui" line="1423"/>
         <source>SIG</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1083"/>
         <source>SIG Info</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="2039"/>
@@ -5098,7 +5098,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="986"/>
         <source>DOK</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="571"/>
@@ -5115,23 +5115,23 @@
         <location filename="../ui/QSODetailDialog.ui" line="956"/>
         <location filename="../ui/QSODetailDialog.ui" line="1446"/>
         <source>VUCC</source>
-        <translation type="unfinished">VUCC</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1059"/>
         <location filename="../ui/QSODetailDialog.ui" line="1413"/>
         <source>WWFF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1107"/>
         <source>E-Mail</source>
-        <translation>E-Mail</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1127"/>
         <source>URL</source>
-        <translation>URL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1147"/>
@@ -5151,7 +5151,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1241"/>
         <source>D&amp;XCC</source>
-        <translation>D&amp;XCC</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1267"/>
@@ -5181,12 +5181,12 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1357"/>
         <source> W</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1433"/>
         <source>Sig Info</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1469"/>
@@ -5200,7 +5200,7 @@
         <location filename="../ui/QSODetailDialog.ui" line="1527"/>
         <location filename="../ui/QSODetailDialog.ui" line="1559"/>
         <source>-</source>
-        <translation>-</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1539"/>
@@ -5247,7 +5247,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1849"/>
         <source>QSL via</source>
-        <translation type="unfinished">QSL via</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1486"/>
@@ -5267,7 +5267,7 @@
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1919"/>
         <source>&amp;Contest</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1935"/>
@@ -5472,32 +5472,32 @@
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="986"/>
         <source>LoTW Sent Status to &lt;b&gt;No&lt;/b&gt; does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank</source>
-        <translation type="unfinished"></translation>
+        <translation>LoTW Sent Status &lt;b&gt;Nein&lt;/b&gt; macht keinen Sinn, wenn ein QSL Sent Datum gesetzt ist. Setzen Sie das Datum auf 1.1.1900, um das Datumsfeld leer zu lassen</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="994"/>
         <source>Date should be present for LoTW Sent Status &lt;b&gt;Yes&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Datum sollte für LoTW Sent Status &lt;b&gt;Ja&lt;/b&gt; angegeben werden</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="999"/>
         <source>eQSL Sent Status to &lt;b&gt;No&lt;/b&gt; does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank</source>
-        <translation type="unfinished"></translation>
+        <translation>eQSL Sent Status &lt;b&gt;Nein&lt;/b&gt; macht keinen Sinn, wenn ein QSL Sent Datum eingestellt ist. Setzen Sie Datum auf 1.1.1900, um das Datumsfeld leer zu lassen</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="1007"/>
         <source>Date should be present for eQSL Sent Status &lt;b&gt;Yes&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Datum sollte für eQSL Sent Status &lt;b&gt;Ja&lt;/b&gt; angegeben werden</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="1012"/>
         <source>Paper Sent Status to &lt;b&gt;No&lt;/b&gt; does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank</source>
-        <translation type="unfinished"></translation>
+        <translation>Papier Sent Status &lt;b&gt;Nein&lt;/b&gt; macht keinen Sinn, wenn ein QSL Sent Datum gesetzt ist. Setzen Sie das Datum auf 1.1.1900, um das Datumsfeld leer zu lassen</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="1020"/>
         <source>Date should be present for Paper Sent Status &lt;b&gt;Yes&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Datum sollte für Papier Sent Status &lt;b&gt;Ja&lt;/b&gt; angegeben werden</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="914"/>
@@ -5656,7 +5656,7 @@
     <message>
         <location filename="../ui/QSOFilterDetail.cpp" line="473"/>
         <source>Must not be empty</source>
-        <translation type="unfinished">Darf nicht leer sein</translation>
+        <translation>Darf nicht leer sein</translation>
     </message>
 </context>
 <context>
@@ -5730,32 +5730,32 @@
     <message>
         <location filename="../ui/RigWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RigWidget.ui" line="153"/>
         <source>RX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RigWidget.ui" line="169"/>
         <source>0.00000 MHz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RigWidget.ui" line="186"/>
         <source>RIT: 0.00000 MHz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RigWidget.ui" line="193"/>
         <source>XIT: 0.00000 MHz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RigWidget.cpp" line="116"/>
         <source>PWR: %1W</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5791,27 +5791,27 @@
     <message>
         <location filename="../ui/RotatorWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RotatorWidget.ui" line="64"/>
         <source>Az:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RotatorWidget.ui" line="83"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RotatorWidget.ui" line="102"/>
         <source>Goto</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/RotatorWidget.ui" line="163"/>
         <source>QSO</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5824,7 +5824,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="115"/>
         <source>Operator</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="34"/>
@@ -5840,7 +5840,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1224"/>
         <source>Rigs</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="258"/>
@@ -5891,17 +5891,17 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="122"/>
         <source>SOTA</source>
-        <translation>SOTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="78"/>
         <source>SIG</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="204"/>
         <source>IOTA</source>
-        <translation>IOTA</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="211"/>
@@ -5927,12 +5927,12 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="218"/>
         <source>VUCC</source>
-        <translation>VUCC</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="129"/>
         <source>QTH</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="232"/>
@@ -5959,7 +5959,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1434"/>
         <source> W</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="636"/>
@@ -6091,7 +6091,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1357"/>
         <source>RX Offset</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1370"/>
@@ -6101,7 +6101,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1392"/>
         <source>TX Offset</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1399"/>
@@ -6136,7 +6136,7 @@
         <location filename="../ui/SettingsDialog.ui" line="1754"/>
         <location filename="../ui/SettingsDialog.ui" line="2145"/>
         <source>Stop Bits</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1768"/>
@@ -6154,78 +6154,78 @@
         <location filename="../ui/SettingsDialog.ui" line="1793"/>
         <location filename="../ui/SettingsDialog.ui" line="2166"/>
         <source>Flow Control</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="192"/>
         <location filename="../ui/SettingsDialog.cpp" line="202"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="193"/>
         <location filename="../ui/SettingsDialog.cpp" line="203"/>
         <source>Hardware</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="194"/>
         <location filename="../ui/SettingsDialog.cpp" line="204"/>
         <source>Software</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1810"/>
         <location filename="../ui/SettingsDialog.ui" line="2176"/>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="196"/>
         <location filename="../ui/SettingsDialog.cpp" line="206"/>
         <source>No</source>
-        <translation type="unfinished">Nein</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="197"/>
         <location filename="../ui/SettingsDialog.cpp" line="207"/>
         <source>Even</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="198"/>
         <location filename="../ui/SettingsDialog.cpp" line="208"/>
         <source>Odd</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="200"/>
         <location filename="../ui/SettingsDialog.cpp" line="210"/>
         <source>Space</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="199"/>
         <location filename="../ui/SettingsDialog.cpp" line="209"/>
         <source>Mark</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1908"/>
         <source>Poll Interval</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1892"/>
         <source> ms</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="660"/>
         <location filename="../ui/SettingsDialog.ui" line="1849"/>
         <location filename="../ui/SettingsDialog.ui" line="2205"/>
         <source>Host Name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="677"/>
@@ -6240,18 +6240,18 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1485"/>
         <source>VFO</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1561"/>
         <source>RX Offset (RIT)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1373"/>
         <location filename="../ui/SettingsDialog.ui" line="1405"/>
         <source> MHz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="64"/>
@@ -6261,7 +6261,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="146"/>
         <source>WWFF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1475"/>
@@ -6276,7 +6276,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1554"/>
         <source>TX Offset (XIT)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1536"/>
@@ -6291,7 +6291,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="535"/>
         <source> WPM</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="730"/>
@@ -6365,7 +6365,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1512"/>
         <source>QSY Wiping</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="71"/>
@@ -6380,7 +6380,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="242"/>
         <source>SIG Info</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1582"/>
@@ -6458,7 +6458,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="532"/>
         <source>N/A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="849"/>
@@ -6543,37 +6543,37 @@
         <location filename="../ui/SettingsDialog.ui" line="2561"/>
         <location filename="../ui/SettingsDialog.ui" line="2586"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2761"/>
         <source>Web Lookup Button</source>
-        <translation type="unfinished"></translation>
+        <translation>Schaltfläche Web Suche</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2767"/>
         <source>URL</source>
-        <translation type="unfinished">URL</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2776"/>
         <source>Specify the URL to use for quick search. The &lt;DXCALL&gt; macro will be replaced by the current callsign</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie die URL an, die für die Schnellsuche verwendet werden soll. Das Makro &lt;DXCALL&gt; wird durch das aktuelle Rufzeichen ersetzt</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2783"/>
         <source>Test URL with your Callsign</source>
-        <translation type="unfinished"></translation>
+        <translation>Prüfen Sie die URL mit Ihrem Rufzeichen</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2786"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2812"/>
         <source>Clubs</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2818"/>
@@ -6623,7 +6623,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3337"/>
         <source>DX Spots</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3344"/>
@@ -6643,7 +6643,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3388"/>
         <source>Wsjtx CQ Spots</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3395"/>
@@ -6653,7 +6653,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3354"/>
         <source>Spot Alerts</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3361"/>
@@ -6663,7 +6663,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3314"/>
         <source>LogID</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3324"/>
@@ -6677,7 +6677,7 @@
         <location filename="../ui/SettingsDialog.ui" line="3381"/>
         <location filename="../ui/SettingsDialog.ui" line="3398"/>
         <source>ex. 192.168.1.1:1234 192.168.2.1:1234</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2916"/>
@@ -6730,7 +6730,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3200"/>
         <source>Port </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2873"/>
@@ -6745,12 +6745,12 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2856"/>
         <source>Log API Key  </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2844"/>
         <source>Sync &amp;&amp; QSL</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3095"/>
@@ -6766,7 +6766,7 @@
         <location filename="../ui/SettingsDialog.ui" line="3141"/>
         <location filename="../ui/SettingsDialog.cpp" line="110"/>
         <source>DXCC</source>
-        <translation type="unfinished">DXCC</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3153"/>
@@ -6781,7 +6781,7 @@
         <location filename="../ui/SettingsDialog.ui" line="2049"/>
         <location filename="../ui/SettingsDialog.ui" line="2215"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="274"/>
@@ -6827,7 +6827,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2642"/>
         <source>Callbook</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2681"/>
@@ -6890,7 +6890,7 @@
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="212"/>
         <source>Dummy</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="213"/>
@@ -6900,37 +6900,37 @@
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="214"/>
         <source>WinKey v2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="215"/>
         <source>CWDaemon</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="216"/>
         <source>FLDigi</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="219"/>
         <source>Single Paddle</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="220"/>
         <source>IAMBIC A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="221"/>
         <source>IAMBIC B</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="222"/>
         <source>Ultimate</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="244"/>
@@ -7070,7 +7070,7 @@
     <message>
         <location filename="../ui/StatisticsWidget.ui" line="407"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/StatisticsWidget.ui" line="147"/>
@@ -7090,7 +7090,7 @@
     <message>
         <location filename="../ui/StatisticsWidget.ui" line="107"/>
         <source>Top 10</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/StatisticsWidget.ui" line="112"/>
@@ -7176,7 +7176,7 @@
     <message>
         <location filename="../ui/StatisticsWidget.cpp" line="74"/>
         <source>QSOs</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/StatisticsWidget.cpp" line="75"/>
@@ -7216,7 +7216,7 @@
     <message>
         <location filename="../ui/StatisticsWidget.cpp" line="218"/>
         <source>Fri</source>
-        <translation type="unfinished">Fre</translation>
+        <translation>Fre</translation>
     </message>
     <message>
         <location filename="../ui/StatisticsWidget.cpp" line="219"/>
@@ -7254,7 +7254,7 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="333"/>
         <source>Spotter</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="334"/>
@@ -7272,42 +7272,42 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="203"/>
         <source>K</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="204"/>
         <source>expK</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="205"/>
         <source>A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="206"/>
         <source>R</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="207"/>
         <source>SFI</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="208"/>
         <source>SA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="209"/>
         <source>GMF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="210"/>
         <source>Au</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -7320,22 +7320,22 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="272"/>
         <source>SFI</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="273"/>
         <source>A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="274"/>
         <source>K</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="275"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -7433,7 +7433,7 @@
     <message>
         <location filename="../ui/WsjtxFilterDialog.ui" line="156"/>
         <source> km</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/WsjtxFilterDialog.ui" line="173"/>
@@ -7504,12 +7504,12 @@
     <message>
         <location filename="../ui/WsjtxWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/WsjtxWidget.ui" line="32"/>
         <source>0.000 MHz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/WsjtxWidget.ui" line="117"/>
