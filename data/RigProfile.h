@@ -14,6 +14,12 @@
 class RigProfile
 {
 public:
+    enum rigPortType
+    {
+        SERIAL_ATTACHED,
+        NETWORK_ATTACHED
+    };
+
     RigProfile() {
                    model = DEFAULT_RIG_MODEL; netport = 0; baudrate = 0;
                    databits = 0; stopbits = 0.0; pollInterval = 0;
@@ -56,6 +62,7 @@ public:
     bool operator!= (const RigProfile &profile);
 
     QString toHTMLString() const;
+    rigPortType getPortType() const;
 
 private:
     friend QDataStream& operator<<(QDataStream& out, const RigProfile& v);

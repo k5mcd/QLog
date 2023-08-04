@@ -43,6 +43,7 @@ public slots:
     void rigRXOffsetChanged(int);
     void rigTXOffsetChanged(int);
     void rigGetFreqChanged(int);
+    void rigPortTypeChanged(int);
 
     void addRotProfile();
     void delRotProfile();

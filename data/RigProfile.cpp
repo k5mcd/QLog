@@ -245,4 +245,14 @@ QString RigProfile::toHTMLString() const
     return ret;
 }
 
+RigProfile::rigPortType RigProfile::getPortType() const
+{
+    FCT_IDENTIFICATION;
 
+    if ( !hostname.isEmpty()
+         && portPath.isEmpty() )
+    {
+        return RigProfile::NETWORK_ATTACHED;
+    }
+    return RigProfile::SERIAL_ATTACHED;
+}

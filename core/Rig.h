@@ -84,9 +84,8 @@ class Rig : public SerialPort
 
 public:
     static Rig* instance();
-
-    static bool isNetworkRig(const struct rig_caps *caps);
     static qint32 getNormalBandwidth(const QString &, const QString &);
+
     bool isRigConnected();
     bool isMorseOverCatSupported();
 
