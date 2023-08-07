@@ -1,4 +1,7 @@
 TBC - 0.27.0
+- Fixed Text field alignment (issue #233)
+- Fixed Rig connection to pihpsdr and linhpsdr using TCP in hamlib (issue #235)
+- Fixed Incorrect Distance Value in WSJTX Widget (issue #236)
 
 2023/07/30 - 0.26.0
 - [NEW] - Added user-defined layout for New QSO widget
