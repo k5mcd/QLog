@@ -10,6 +10,7 @@ class NewContactEditLine : public QLineEdit
 
 public:
     explicit NewContactEditLine(QWidget *parent = nullptr);
+    void setText(const QString & text);
 
 protected:
     void focusInEvent(QFocusEvent* event) override;

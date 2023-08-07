@@ -31,3 +31,9 @@ void NewContactEditLine::focusOutEvent(QFocusEvent *event)
         home(false);
     }
 }
+
+void NewContactEditLine::setText(const QString &text)
+{
+    QLineEdit::setText(text);
+    home(false);
+}
