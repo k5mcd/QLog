@@ -39,6 +39,9 @@
 
 #define STACKED_WIDGET_SERIAL_SETTING  0
 #define STACKED_WIDGET_NETWORK_SETTING 1
+#define RIGPORT_SERIAL_INDEX 0
+#define RIGPORT_NETWORK_INDEX 1
+
 #define EMPTY_CWKEY_PROFILE " "
 
 MODULE_IDENTIFICATION("qlog.ui.settingdialog");
@@ -445,6 +448,8 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
 
     ui->rigProfileNameEdit->setText(profile.profileName);
 
+    ui->rigPortTypeCombo->setCurrentIndex( (profile.getPortType() == RigProfile::SERIAL_ATTACHED) ? RIGPORT_SERIAL_INDEX
+                                                                                                  : RIGPORT_NETWORK_INDEX);
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(profile.model));
 
     ui->rigPortEdit->setText(profile.portPath);
@@ -453,8 +458,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigBaudSelect->setCurrentText(QString::number(profile.baudrate));
     ui->rigDataBitsSelect->setCurrentText(QString::number(profile.databits));
     ui->rigStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
-    ui->rigFlowControlSelect->setCurrentIndex(ui->rigFlowControlSelect->findData(profile.flowcontrol.toLower()));
-    ui->rigParitySelect->setCurrentIndex(ui->rigParitySelect->findData(profile.parity.toLower()));
+
     ui->rigPollIntervalSpinBox->setValue(profile.pollInterval);
     ui->rigTXFreqMinSpinBox->setValue(profile.txFreqStart);
     ui->rigTXFreqMaxSpinBox->setValue(profile.txFreqEnd);
@@ -473,6 +477,12 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigGetKeySpeedCheckBox->setChecked(profile.getKeySpeed);
     ui->rigKeySpeedSyncCheckBox->setChecked(profile.keySpeedSync);
 
+    int flowControlIndex = ui->rigFlowControlSelect->findData(profile.flowcontrol.toLower());
+    ui->rigFlowControlSelect->setCurrentIndex((flowControlIndex < 0) ? 0 : flowControlIndex);
+
+    int parityIndex = ui->rigParitySelect->findData(profile.parity.toLower());
+    ui->rigParitySelect->setCurrentIndex((parityIndex < 0) ? 0 : parityIndex);
+
     setUIBasedOnRigCaps(rig_get_caps(profile.model));
 
     ui->rigAddProfileButton->setText(tr("Modify"));
@@ -484,6 +494,7 @@ void SettingsDialog::clearRigProfileForm()
 
     ui->rigProfileNameEdit->setPlaceholderText(QString());
     ui->rigPortEdit->setPlaceholderText(QString());
+    ui->rigPortTypeCombo->setCurrentIndex(RIGPORT_SERIAL_INDEX);
     ui->rigHostNameEdit->setPlaceholderText(QString());
 
     ui->rigProfileNameEdit->clear();
@@ -552,6 +563,37 @@ void SettingsDialog::rigGetFreqChanged(int)
 
     ui->rigQSYWipingCheckBox->setEnabled(ui->rigGetFreqCheckBox->isChecked());
     ui->rigQSYWipingCheckBox->setChecked(ui->rigGetFreqCheckBox->isChecked());
+}
+
+void SettingsDialog::rigPortTypeChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    int rigID = ui->rigModelSelect->currentData().toInt();
+    const struct rig_caps *caps = rig_get_caps(rigID);
+
+    switch (index)
+    {
+    // Serial
+    case RIGPORT_SERIAL_INDEX:
+        ui->rigStackedWidget->setCurrentIndex(0);
+        if ( caps )
+        {
+            ui->rigDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
+            ui->rigStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
+        }
+        ui->rigHostNameEdit->clear();
+        break;
+
+    // Network
+    case RIGPORT_NETWORK_INDEX:
+        ui->rigStackedWidget->setCurrentIndex(1);
+        ui->rigPortEdit->clear();
+        ui->rigNetPortSpin->setValue(RIG_NET_DEFAULT_PORT);
+        break;
+    default:
+        qWarning() << "Unsupported Rig Port" << index;
+    }
 }
 
 void SettingsDialog::addRotProfile()
@@ -1379,17 +1421,22 @@ void SettingsDialog::rigChanged(int index)
     refreshRigAssignedCWKeyCombo();
 
     int rigID = ui->rigModelSelect->currentData().toInt();
+
+    if ( rigID == RIG_MODEL_NETRIGCTL )
+    {
+        ui->rigPortTypeCombo->setCurrentIndex(RIGPORT_NETWORK_INDEX);
+        ui->rigPortTypeCombo->setEnabled(false);
+    }
+    else
+    {
+        ui->rigPortTypeCombo->setEnabled(true);
+    }
     caps = rig_get_caps(rigID);
 
     if ( caps )
     {
-        if ( Rig::isNetworkRig(caps) )
+        if ( ui->rigPortTypeCombo->currentIndex() == RIGPORT_SERIAL_INDEX )
         {
-            ui->rigStackedWidget->setCurrentIndex(1);
-        }
-        else
-        {
-            ui->rigStackedWidget->setCurrentIndex(0);
             ui->rigDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
             ui->rigStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
         }
@@ -1426,10 +1473,6 @@ void SettingsDialog::rigChanged(int index)
         ui->rigKeySpeedSyncCheckBox->setChecked(false);
 
         setUIBasedOnRigCaps(caps);
-    }
-    else
-    {
-        ui->rigStackedWidget->setCurrentIndex(0);
     }
 }
 
@@ -2120,7 +2163,7 @@ void SettingsDialog::setUIBasedOnRigCaps(const struct rig_caps *caps)
          * under Win / Lin / Mac , then I'll be happy to change it
          */
 
-        if ( Rig::isNetworkRig(caps)
+        if ( caps->rig_model == RIG_MODEL_NETRIGCTL
 #if !defined(Q_OS_WIN)
              && ( QString(hamlib_version).contains("4.2.")
                   || QString(hamlib_version).contains("4.3.") )

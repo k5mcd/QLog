@@ -28,23 +28,6 @@ Rig* Rig::instance() {
     return &instance;
 }
 
-bool Rig::isNetworkRig(const struct rig_caps *caps)
-{
-    FCT_IDENTIFICATION;
-
-    bool ret = false;
-
-    if ( caps )
-    {
-        ret = caps->port_type == RIG_PORT_NETWORK
-               || caps->port_type == RIG_PORT_UDP_NETWORK;
-    }
-
-    qCDebug(runtime) << ret;
-
-    return ret;
-}
-
 qint32 Rig::getNormalBandwidth(const QString &mode, const QString &subMode)
 {
     FCT_IDENTIFICATION;
@@ -670,7 +653,7 @@ void Rig::__openRig()
 
     rig_set_debug(RIG_DEBUG_BUG);
 
-    if ( isNetworkRig(rig->caps) )
+    if ( newRigProfile.getPortType() == RigProfile::NETWORK_ATTACHED )
     {
         //handling Network Radio
         QString portString = newRigProfile.hostname + ":" + QString::number(newRigProfile.netport);
@@ -1066,7 +1049,7 @@ QStringList Rig::getAvailableModes()
     {
         rmode_t localRigModes = RIG_MODE_NONE;
 
-        if ( isNetworkRig(localRig->caps) )
+        if ( localRig->caps->rig_model == RIG_MODEL_NETRIGCTL )
         {
             /* Limit a set of modes for network rig */
             localRigModes = static_cast<rmode_t>(RIG_MODE_CW|RIG_MODE_SSB|RIG_MODE_FM|RIG_MODE_AM);
