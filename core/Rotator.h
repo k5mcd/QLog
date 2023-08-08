@@ -18,8 +18,6 @@ public:
     int getElevation();
     bool isRotConnected();
 
-    static bool isNetworkRot(const struct rot_caps *caps);
-
 signals:
     void positionChanged(int azimuth, int elevation);
     void rotErrorPresent(QString, QString);

@@ -41,6 +41,8 @@
 #define STACKED_WIDGET_NETWORK_SETTING 1
 #define RIGPORT_SERIAL_INDEX 0
 #define RIGPORT_NETWORK_INDEX 1
+#define ROTPORT_SERIAL_INDEX 0
+#define ROTPORT_NETWORK_INDEX 1
 
 #define EMPTY_CWKEY_PROFILE " "
 
@@ -702,15 +704,23 @@ void SettingsDialog::doubleClickRotProfile(QModelIndex i)
 
     ui->rotProfileNameEdit->setText(profile.profileName);
 
+    ui->rotPortTypeCombo->setCurrentIndex( (profile.getPortType() == RotProfile::SERIAL_ATTACHED) ? ROTPORT_SERIAL_INDEX
+                                                                                                  : ROTPORT_NETWORK_INDEX);
     ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(profile.model));
+
     ui->rotPortEdit->setText(profile.portPath);
     ui->rotHostNameEdit->setText(profile.hostname);
     ui->rotNetPortSpin->setValue(profile.netport);
     ui->rotBaudSelect->setCurrentText(QString::number(profile.baudrate));
     ui->rotDataBitsSelect->setCurrentText(QString::number(profile.databits));
     ui->rotStopBitsSelect->setCurrentText(QString::number(profile.stopbits));
-    ui->rotFlowControlSelect->setCurrentIndex(ui->rotFlowControlSelect->findData(profile.flowcontrol.toLower()));
-    ui->rotParitySelect->setCurrentIndex(ui->rotParitySelect->findData(profile.parity.toLower()));
+
+    int flowControlIndex = ui->rotFlowControlSelect->findData(profile.flowcontrol.toLower());
+    ui->rotFlowControlSelect->setCurrentIndex((flowControlIndex < 0) ? 0 : flowControlIndex);
+
+    int parityIndex = ui->rotParitySelect->findData(profile.parity.toLower());
+    ui->rotParitySelect->setCurrentIndex((parityIndex < 0) ? 0 : parityIndex);
+
     ui->rotAddProfileButton->setText(tr("Modify"));
 }
 
@@ -732,8 +742,41 @@ void SettingsDialog::clearRotProfileForm()
     ui->rotStopBitsSelect->setCurrentIndex(0);
     ui->rotFlowControlSelect->setCurrentIndex(0);
     ui->rotParitySelect->setCurrentIndex(0);
+    ui->rotPortTypeCombo->setCurrentIndex(RIGPORT_SERIAL_INDEX);
 
     ui->rotAddProfileButton->setText(tr("Add"));
+}
+
+void SettingsDialog::rotPortTypeChanged(int index)
+{
+    FCT_IDENTIFICATION;
+
+    int rotID = ui->rotModelSelect->currentData().toInt();
+    const struct rot_caps *caps = rot_get_caps(rotID);
+
+    switch (index)
+    {
+    // Serial
+    case ROTPORT_SERIAL_INDEX:
+        ui->rotStackedWidget->setCurrentIndex(0);
+        if ( caps )
+        {
+            ui->rotDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
+            ui->rotStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
+        }
+        ui->rotHostNameEdit->clear();
+        break;
+
+        // Network
+    case RIGPORT_NETWORK_INDEX:
+        ui->rotStackedWidget->setCurrentIndex(1);
+        ui->rotPortEdit->clear();
+        ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
+        break;
+    default:
+        qWarning() << "Unsupported Rot Port" << index;
+    }
+
 }
 
 void SettingsDialog::addRotUsrButtonsProfile()
@@ -1483,24 +1526,28 @@ void SettingsDialog::rotChanged(int index)
     const struct rot_caps *caps;
 
     QModelIndex rot_index = ui->rotModelSelect->model()->index(index, 0);
-    caps = rot_get_caps(rot_index.internalId());    
+    int rotID = rot_index.internalId();
 
-    if ( caps )
+    if ( rotID == ROT_MODEL_NETROTCTL )
     {
-        if ( Rotator::isNetworkRot(caps) )
-        {
-            ui->rotStackedWidget->setCurrentIndex(1);
-        }
-        else
-        {
-            ui->rotStackedWidget->setCurrentIndex(0);
-        }
+        ui->rotPortTypeCombo->setCurrentIndex(ROTPORT_NETWORK_INDEX);
+        ui->rotPortTypeCombo->setEnabled(false);
     }
     else
     {
-        ui->rotStackedWidget->setCurrentIndex(0);
+        ui->rotPortTypeCombo->setEnabled(true);
     }
 
+    caps = rot_get_caps(rotID);
+
+    if ( caps )
+    {
+        if ( ui->rotPortTypeCombo->currentIndex() == RIGPORT_SERIAL_INDEX )
+        {
+            ui->rotDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
+            ui->rotStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
+        }
+    }
 }
 
 void SettingsDialog::cwKeyChanged(int)

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>725</width>
+    <width>745</width>
     <height>768</height>
    </rect>
   </property>
@@ -2062,6 +2062,13 @@
                  <property name="verticalSpacing">
                   <number>2</number>
                  </property>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="rotProfileNameLabel">
+                   <property name="text">
+                    <string>Profile Name</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="rotProfileNameEdit">
                    <property name="toolTip">
@@ -2070,6 +2077,37 @@
                    <property name="maxLength">
                     <number>25</number>
                    </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="rotModelLabel">
+                   <property name="text">
+                    <string>Rot Model</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="rotModelSelect"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="rotPortTypeLabel">
+                   <property name="text">
+                    <string>Port Type</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QComboBox" name="rotPortTypeCombo">
+                   <item>
+                    <property name="text">
+                     <string>Serial</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Network</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item row="4" column="0" colspan="2">
@@ -2089,13 +2127,13 @@
                    <widget class="QWidget" name="rotSerialPage">
                     <layout class="QFormLayout" name="formLayout_19">
                      <property name="verticalSpacing">
-                      <number>2</number>
+                      <number>4</number>
                      </property>
                      <property name="leftMargin">
                       <number>0</number>
                      </property>
                      <property name="topMargin">
-                      <number>0</number>
+                      <number>2</number>
                      </property>
                      <property name="rightMargin">
                       <number>0</number>
@@ -2175,51 +2213,6 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="1">
-                      <widget class="QComboBox" name="rotDataBitsSelect">
-                       <item>
-                        <property name="text">
-                         <string>8</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>7</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>6</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>5</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
-                     <item row="3" column="0">
-                      <widget class="QLabel" name="rotStopBitsLabel">
-                       <property name="text">
-                        <string>Stop Bits</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="1">
-                      <widget class="QComboBox" name="rotStopBitsSelect">
-                       <item>
-                        <property name="text">
-                         <string>1</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>2</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
                      <item row="4" column="0">
                       <widget class="QLabel" name="rotFlowControlLabel">
                        <property name="text">
@@ -2227,18 +2220,83 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="4" column="1">
-                      <widget class="QComboBox" name="rotFlowControlSelect"/>
-                     </item>
-                     <item row="5" column="0">
-                      <widget class="QLabel" name="rotParityLabel">
-                       <property name="text">
-                        <string>Parity</string>
+                     <item row="2" column="1">
+                      <layout class="QHBoxLayout" name="horizontalLayout_29">
+                       <property name="spacing">
+                        <number>6</number>
                        </property>
-                      </widget>
+                       <item>
+                        <widget class="QComboBox" name="rotDataBitsSelect">
+                         <item>
+                          <property name="text">
+                           <string>8</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>7</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>6</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>5</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="rotStopBitsLabel">
+                         <property name="text">
+                          <string>Stop Bits</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="rotStopBitsSelect">
+                         <item>
+                          <property name="text">
+                           <string>1</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>2</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                      </layout>
                      </item>
-                     <item row="5" column="1">
-                      <widget class="QComboBox" name="rotParitySelect"/>
+                     <item row="4" column="1">
+                      <layout class="QHBoxLayout" name="horizontalLayout_30">
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <item>
+                        <widget class="QComboBox" name="rotFlowControlSelect"/>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="rotParityLabel">
+                         <property name="text">
+                          <string>Parity</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="rotParitySelect"/>
+                       </item>
+                      </layout>
                      </item>
                     </layout>
                    </widget>
@@ -2305,36 +2363,6 @@
                     </layout>
                    </widget>
                   </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="rotProfileNameLabel">
-                   <property name="text">
-                    <string>Profile Name</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="rotModelLabel">
-                   <property name="text">
-                    <string>Rot Model</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QComboBox" name="rotModelSelect"/>
-                 </item>
-                 <item row="3" column="1">
-                  <spacer name="verticalSpacer_9">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                  </spacer>
                  </item>
                 </layout>
                </widget>
@@ -3568,12 +3596,15 @@
   <tabstop>rigDelProfileButton</tabstop>
   <tabstop>rotProfileNameEdit</tabstop>
   <tabstop>rotModelSelect</tabstop>
+  <tabstop>rotPortTypeCombo</tabstop>
   <tabstop>rotPortEdit</tabstop>
   <tabstop>rotBaudSelect</tabstop>
   <tabstop>rotDataBitsSelect</tabstop>
   <tabstop>rotStopBitsSelect</tabstop>
   <tabstop>rotFlowControlSelect</tabstop>
   <tabstop>rotParitySelect</tabstop>
+  <tabstop>rotHostNameEdit</tabstop>
+  <tabstop>rotNetPortSpin</tabstop>
   <tabstop>rotAddProfileButton</tabstop>
   <tabstop>rotDelProfileButton</tabstop>
   <tabstop>rotUsrButtonProfileNameEdit</tabstop>
@@ -3626,8 +3657,6 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>cwHostNameEdit</tabstop>
   <tabstop>equipmentTabWidget</tabstop>
-  <tabstop>rotHostNameEdit</tabstop>
-  <tabstop>rotNetPortSpin</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -3686,8 +3715,8 @@
    <slot>rotStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>452</x>
-     <y>116</y>
+     <x>689</x>
+     <y>313</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3718,8 +3747,8 @@
    <slot>addCWKeyProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>478</x>
-     <y>351</y>
+     <x>79</x>
+     <y>97</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3798,8 +3827,8 @@
    <slot>cwKeyChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>625</x>
-     <y>183</y>
+     <x>452</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3815,7 +3844,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>473</x>
-     <y>685</y>
+     <y>681</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3862,8 +3891,8 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>452</x>
-     <y>120</y>
+     <x>689</x>
+     <y>185</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3878,8 +3907,8 @@
    <slot>doubleClickRotProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>58</x>
-     <y>116</y>
+     <x>83</x>
+     <y>215</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3894,8 +3923,8 @@
    <slot>delCWShortcutProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>681</x>
-     <y>687</y>
+     <x>100</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3958,8 +3987,8 @@
    <slot>doubleClickCWKeyProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>83</x>
-     <y>215</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3990,8 +4019,8 @@
    <slot>addRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>79</x>
-     <y>106</y>
+     <x>363</x>
+     <y>389</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4038,8 +4067,8 @@
    <slot>addCWShortcutProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>478</x>
-     <y>687</y>
+     <x>87</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4055,7 +4084,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>681</x>
-     <y>685</y>
+     <y>681</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4070,8 +4099,8 @@
    <slot>doubleClickCWShortcutProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>98</x>
-     <y>515</y>
+     <x>73</x>
+     <y>125</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4118,8 +4147,8 @@
    <slot>delRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>100</x>
-     <y>106</y>
+     <x>587</x>
+     <y>389</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4134,8 +4163,8 @@
    <slot>delCWKeyProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>681</x>
-     <y>351</y>
+     <x>100</x>
+     <y>97</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4150,8 +4179,8 @@
    <slot>cwKeyStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>669</x>
-     <y>312</y>
+     <x>452</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4246,8 +4275,8 @@
    <slot>adjustCWKeyCOMPortTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>669</x>
-     <y>280</y>
+     <x>452</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4262,8 +4291,8 @@
    <slot>adjustRotCOMPortTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>452</x>
-     <y>116</y>
+     <x>689</x>
+     <y>241</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4422,8 +4451,8 @@
    <slot>addRotUsrButtonsProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>79</x>
-     <y>112</y>
+     <x>363</x>
+     <y>638</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -4438,8 +4467,8 @@
    <slot>delRotUsrButtonsProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>100</x>
-     <y>112</y>
+     <x>587</x>
+     <y>638</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -4454,8 +4483,8 @@
    <slot>doubleClickRotUsrButtonsProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>58</x>
-     <y>122</y>
+     <x>83</x>
+     <y>538</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -4488,6 +4517,22 @@
     <hint type="sourcelabel">
      <x>543</x>
      <y>502</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>362</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotPortTypeCombo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>rotPortTypeChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>529</x>
+     <y>200</y>
     </hint>
     <hint type="destinationlabel">
      <x>362</x>
@@ -4551,5 +4596,6 @@
   <slot>addRotUsrButtonsProfile()</slot>
   <slot>testWebLookupURL()</slot>
   <slot>rigPortTypeChanged(int)</slot>
+  <slot>rotPortTypeChanged(int)</slot>
  </slots>
 </ui>
