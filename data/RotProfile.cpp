@@ -153,3 +153,15 @@ bool RotProfile::operator!=(const RotProfile &profile)
 {
     return !operator==(profile);
 }
+
+RotProfile::rotPortType RotProfile::getPortType() const
+{
+    FCT_IDENTIFICATION;
+
+    if ( !hostname.isEmpty()
+         && portPath.isEmpty() )
+    {
+        return RotProfile::NETWORK_ATTACHED;
+    }
+    return RotProfile::SERIAL_ATTACHED;
+}

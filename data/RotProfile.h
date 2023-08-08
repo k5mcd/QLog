@@ -13,6 +13,12 @@
 class RotProfile
 {
 public:
+    enum rotPortType
+    {
+        SERIAL_ATTACHED,
+        NETWORK_ATTACHED
+    };
+
     RotProfile() { model = DEFAULT_ROT_MODEL; netport = 0;
                    baudrate = 0; databits = 0; stopbits = 0.0;};
 
@@ -29,6 +35,9 @@ public:
 
     bool operator== (const RotProfile &profile);
     bool operator!= (const RotProfile &profile);
+
+    rotPortType getPortType() const;
+
 
 private:
     friend QDataStream& operator<<(QDataStream& out, const RotProfile& v);

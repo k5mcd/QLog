@@ -50,6 +50,7 @@ public slots:
     void refreshRotProfilesView();
     void doubleClickRotProfile(QModelIndex);
     void clearRotProfileForm();
+    void rotPortTypeChanged(int);
 
     void addRotUsrButtonsProfile();
     void delRotUsrButtonsProfile();
