@@ -17,6 +17,7 @@
 #include "../core/Lotw.h"
 #include "../core/ClubLog.h"
 #include "../core/Eqsl.h"
+#include "../core/HRDLog.h"
 #include "../ui/StyleItemDelegate.h"
 #include "core/debug.h"
 #include "core/CredentialStore.h"
@@ -1972,6 +1973,19 @@ void SettingsDialog::adjustWSJTXMulticastAddrTextColor()
     setValidationResultColor(ui->wsjtMulticastAddressEdit);
 }
 
+void SettingsDialog::hrdlogSettingChanged()
+{
+    FCT_IDENTIFICATION;
+
+
+    ui->hrdlogOnAirCheckBox->setEnabled(!ui->hrdlogCallsignEdit->text().isEmpty()
+                                         && !ui->hrdlogUploadCodeEdit->text().isEmpty());
+    if ( !ui->hrdlogOnAirCheckBox->isEnabled() )
+    {
+        ui->hrdlogOnAirCheckBox->setChecked(false);
+    }
+}
+
 void SettingsDialog::readSettings() {
     FCT_IDENTIFICATION;
 
@@ -2042,6 +2056,13 @@ void SettingsDialog::readSettings() {
     ui->eqslUsernameEdit->setText(EQSL::getUsername());
     ui->eqslPasswordEdit->setText(EQSL::getPassword());
     ui->eqslFolderPathEdit->setText(EQSL::getQSLImageFolder());
+
+    /**********/
+    /* HRDLog */
+    /**********/
+    ui->hrdlogCallsignEdit->setText(HRDLog::getRegisteredCallsign());
+    ui->hrdlogUploadCodeEdit->setText(HRDLog::getUploadCode());
+    ui->hrdlogOnAirCheckBox->setChecked(HRDLog::getOnAirEnabled());
 
     /***********/
     /* QRZ.COM */
@@ -2142,6 +2163,13 @@ void SettingsDialog::writeSettings() {
     EQSL::saveUsernamePassword(ui->eqslUsernameEdit->text(),
                                ui->eqslPasswordEdit->text());
     EQSL::saveQSLImageFolder(ui->eqslFolderPathEdit->text());
+
+    /**********/
+    /* HRDLog */
+    /**********/
+    HRDLog::saveUploadCode(ui->hrdlogCallsignEdit->text(),
+                           ui->hrdlogUploadCodeEdit->text());
+    HRDLog::saveOnAirEnabled(ui->hrdlogOnAirCheckBox->isChecked());
 
     /***********/
     /* QRZ.COM */

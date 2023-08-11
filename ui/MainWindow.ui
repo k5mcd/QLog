@@ -122,6 +122,7 @@
     </property>
     <addaction name="actionClublog"/>
     <addaction name="actioneQSL"/>
+    <addaction name="actionHRDLog"/>
     <addaction name="actionLotw"/>
     <addaction name="actionQRZ_com"/>
    </widget>
@@ -523,6 +524,11 @@
   <action name="actionLayoutEdit">
    <property name="text">
     <string>Edit</string>
+   </property>
+  </action>
+  <action name="actionHRDLog">
+   <property name="text">
+    <string>HRDLog</string>
    </property>
   </action>
  </widget>
@@ -1189,6 +1195,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionHRDLog</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showHRDLog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>312</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1217,5 +1239,6 @@
   <slot>setManualContact(bool)</slot>
   <slot>showMailingList()</slot>
   <slot>showEditLayout()</slot>
+  <slot>showHRDLog()</slot>
  </slots>
 </ui>

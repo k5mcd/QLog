@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>745</width>
-    <height>768</height>
+    <height>802</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -2942,73 +2942,7 @@
        <string>Sync &amp;&amp; QSL</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="3" column="0">
-        <widget class="QGroupBox" name="groupBox_14">
-         <property name="title">
-          <string>QRZ.com</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_13">
-          <item row="0" column="0">
-           <widget class="QLabel" name="qrzApiKeyLabel">
-            <property name="text">
-             <string>Log API Key  </string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="qrzApiKeyEdit">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="1" column="0">
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>ClubLog</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_5">
-          <item row="1" column="0">
-           <widget class="QLabel" name="clublogEmailLabel">
-            <property name="text">
-             <string>E-Mail</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="clublogEmailEdit"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="clublogCallsignEdit"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="clublogCallsignLabel">
-            <property name="text">
-             <string>Callsign</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="clublogPasswordLabel">
-            <property name="text">
-             <string>Password</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="clublogPasswordEdit">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="2" column="0">
         <widget class="QGroupBox" name="groupBox_9">
          <property name="title">
           <string>eQSL</string>
@@ -3070,7 +3004,111 @@
          </layout>
         </widget>
        </item>
+       <item row="8" column="0">
+        <widget class="QGroupBox" name="groupBox_16">
+         <property name="title">
+          <string>Paper QSL</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_15">
+          <item row="0" column="0">
+           <widget class="QLabel" name="paperImageFolderLabel">
+            <property name="text">
+             <string>Save QSLs to</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLineEdit" name="paperFolderPathEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="paperFolderPathButton">
+              <property name="text">
+               <string>Browse</string>
+              </property>
+              <property name="icon">
+               <iconset theme="folder-open">
+                <normaloff>.</normaloff>.</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>ClubLog</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_5">
+          <item row="1" column="0">
+           <widget class="QLabel" name="clublogEmailLabel">
+            <property name="text">
+             <string>E-Mail</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="clublogEmailEdit"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="clublogCallsignEdit"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="clublogCallsignLabel">
+            <property name="text">
+             <string>Callsign</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="clublogPasswordLabel">
+            <property name="text">
+             <string>Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="clublogPasswordEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QGroupBox" name="groupBox_14">
+         <property name="title">
+          <string>QRZ.com</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_13">
+          <item row="0" column="0">
+           <widget class="QLabel" name="qrzApiKeyLabel">
+            <property name="text">
+             <string>Log API Key  </string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="qrzApiKeyEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0">
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
           <string>LoTW</string>
@@ -3135,7 +3173,7 @@
          </layout>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="9" column="0">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -3148,40 +3186,64 @@
          </property>
         </spacer>
        </item>
-       <item row="4" column="0">
-        <widget class="QGroupBox" name="groupBox_16">
+       <item row="2" column="0">
+        <widget class="QGroupBox" name="groupBox_6">
          <property name="title">
-          <string>Paper QSL</string>
+          <string>HRDLog</string>
          </property>
-         <layout class="QFormLayout" name="formLayout_15">
+         <layout class="QFormLayout" name="formLayout_11">
           <item row="0" column="0">
-           <widget class="QLabel" name="paperImageFolderLabel">
+           <widget class="QLabel" name="hrdlogCallsignLabel">
             <property name="text">
-             <string>Save QSLs to</string>
+             <string>Callsign</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QLineEdit" name="paperFolderPathEdit">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="paperFolderPathButton">
-              <property name="text">
-               <string>Browse</string>
-              </property>
-              <property name="icon">
-               <iconset theme="folder-open">
-                <normaloff>.</normaloff>.</iconset>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QLineEdit" name="hrdlogCallsignEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="hrdlogUploadCodeLabel">
+            <property name="toolTip">
+             <string>It is not a password. It is the upload code received via email after the registration to HRDLOG..net</string>
+            </property>
+            <property name="text">
+             <string>Upload Code</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="hrdlogUploadCodeEdit">
+            <property name="toolTip">
+             <string>It is not a password. It is the upload code received via email after the registration to HRDLOG..net</string>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="hrdlogOnAirLabel">
+            <property name="toolTip">
+             <string>If it is enabled and Rig is connected then QLog periodically sends On-Air messages to HRDLog</string>
+            </property>
+            <property name="text">
+             <string>Send On-Air</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="hrdlogOnAirCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>If it is enabled and Rig is connected then QLog periodically sends On-Air messages to HRDLog</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -3626,10 +3688,6 @@
   <tabstop>qrzPasswordEdit</tabstop>
   <tabstop>webLookupURLEdit</tabstop>
   <tabstop>webLookupURLTestButton</tabstop>
-  <tabstop>lotwUsernameEdit</tabstop>
-  <tabstop>lotwPasswordEdit</tabstop>
-  <tabstop>tqslPathEdit</tabstop>
-  <tabstop>tqslPathButton</tabstop>
   <tabstop>clublogEmailEdit</tabstop>
   <tabstop>clublogCallsignEdit</tabstop>
   <tabstop>clublogPasswordEdit</tabstop>
@@ -3637,6 +3695,13 @@
   <tabstop>eqslPasswordEdit</tabstop>
   <tabstop>eqslFolderPathEdit</tabstop>
   <tabstop>eqslFolderPathButton</tabstop>
+  <tabstop>hrdlogCallsignEdit</tabstop>
+  <tabstop>hrdlogUploadCodeEdit</tabstop>
+  <tabstop>hrdlogOnAirCheckBox</tabstop>
+  <tabstop>lotwUsernameEdit</tabstop>
+  <tabstop>lotwPasswordEdit</tabstop>
+  <tabstop>tqslPathEdit</tabstop>
+  <tabstop>tqslPathButton</tabstop>
   <tabstop>qrzApiKeyEdit</tabstop>
   <tabstop>paperFolderPathEdit</tabstop>
   <tabstop>paperFolderPathButton</tabstop>
@@ -3683,8 +3748,8 @@
    <slot>rigTXOffsetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>540</x>
-     <y>431</y>
+     <x>333</x>
+     <y>117</y>
     </hint>
     <hint type="destinationlabel">
      <x>347</x>
@@ -3715,8 +3780,8 @@
    <slot>rotStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>689</x>
-     <y>313</y>
+     <x>452</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3763,8 +3828,8 @@
    <slot>adjustRigCOMPortTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>625</x>
-     <y>524</y>
+     <x>462</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -3843,8 +3908,8 @@
    <slot>addRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>473</x>
-     <y>681</y>
+     <x>79</x>
+     <y>110</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3859,8 +3924,8 @@
    <slot>rigChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>669</x>
-     <y>183</y>
+     <x>462</x>
+     <y>127</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -3891,8 +3956,8 @@
    <slot>rotChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>689</x>
-     <y>185</y>
+     <x>452</x>
+     <y>120</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3907,8 +3972,8 @@
    <slot>doubleClickRotProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>83</x>
-     <y>215</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -3971,8 +4036,8 @@
    <slot>rigGetFreqChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>540</x>
-     <y>377</y>
+     <x>333</x>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4003,8 +4068,8 @@
    <slot>paperDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>647</x>
-     <y>600</y>
+     <x>711</x>
+     <y>698</y>
     </hint>
     <hint type="destinationlabel">
      <x>298</x>
@@ -4019,8 +4084,8 @@
    <slot>addRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>363</x>
-     <y>389</y>
+     <x>79</x>
+     <y>106</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4035,8 +4100,8 @@
    <slot>rigStackWidgetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>625</x>
-     <y>601</y>
+     <x>462</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4083,8 +4148,8 @@
    <slot>delRigProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>681</x>
-     <y>681</y>
+     <x>100</x>
+     <y>110</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4147,8 +4212,8 @@
    <slot>delRotProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>587</x>
-     <y>389</y>
+     <x>100</x>
+     <y>106</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4195,8 +4260,8 @@
    <slot>eqslDirBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>647</x>
-     <y>448</y>
+     <x>711</x>
+     <y>287</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -4211,8 +4276,8 @@
    <slot>rigRXOffsetChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>668</x>
-     <y>431</y>
+     <x>461</x>
+     <y>117</y>
     </hint>
     <hint type="destinationlabel">
      <x>347</x>
@@ -4243,8 +4308,8 @@
    <slot>tqslPathBrowse()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>637</x>
-     <y>166</y>
+     <x>711</x>
+     <y>546</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -4291,8 +4356,8 @@
    <slot>adjustRotCOMPortTextColor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>689</x>
-     <y>241</y>
+     <x>452</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -4323,8 +4388,8 @@
    <slot>doubleClickRigProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>83</x>
-     <y>215</y>
+     <x>58</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4371,8 +4436,8 @@
    <slot>assignedKeyChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>483</x>
-     <y>315</y>
+     <x>462</x>
+     <y>121</y>
     </hint>
     <hint type="destinationlabel">
      <x>333</x>
@@ -4451,8 +4516,8 @@
    <slot>addRotUsrButtonsProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>363</x>
-     <y>638</y>
+     <x>79</x>
+     <y>112</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -4467,8 +4532,8 @@
    <slot>delRotUsrButtonsProfile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>587</x>
-     <y>638</y>
+     <x>100</x>
+     <y>112</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -4483,8 +4548,8 @@
    <slot>doubleClickRotUsrButtonsProfile(QModelIndex)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>83</x>
-     <y>538</y>
+     <x>58</x>
+     <y>122</y>
     </hint>
     <hint type="destinationlabel">
      <x>340</x>
@@ -4515,8 +4580,8 @@
    <slot>rigPortTypeChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>543</x>
-     <y>502</y>
+     <x>462</x>
+     <y>116</y>
     </hint>
     <hint type="destinationlabel">
      <x>362</x>
@@ -4531,11 +4596,43 @@
    <slot>rotPortTypeChanged(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>529</x>
-     <y>200</y>
+     <x>452</x>
+     <y>117</y>
     </hint>
     <hint type="destinationlabel">
      <x>362</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hrdlogCallsignEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>hrdlogSettingChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>431</x>
+     <y>351</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hrdlogUploadCodeEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>hrdlogSettingChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>431</x>
+     <y>382</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
      <y>383</y>
     </hint>
    </hints>
@@ -4597,5 +4694,6 @@
   <slot>testWebLookupURL()</slot>
   <slot>rigPortTypeChanged(int)</slot>
   <slot>rotPortTypeChanged(int)</slot>
+  <slot>hrdlogSettingChanged()</slot>
  </slots>
 </ui>

@@ -9,6 +9,10 @@
 #include "core/debug.h"
 #include "models/SqlListModel.h"
 #include "data/Data.h"
+#include "core/HRDLog.h"
+
+// On AIR pinging to HRDLog [in sec]
+#define ONAIR_INTERVAL (1 * 60)
 
 MODULE_IDENTIFICATION("qlog.ui.rigwidget");
 
@@ -16,7 +20,8 @@ RigWidget::RigWidget(QWidget *parent) :
     QWidget(parent),
     lastSeenFreq(0.0),
     rigOnline(false),
-    ui(new Ui::RigWidget)
+    ui(new Ui::RigWidget),
+    hrdlog(new HRDLog(this))
 {
     FCT_IDENTIFICATION;
 
@@ -52,6 +57,10 @@ RigWidget::RigWidget(QWidget *parent) :
     connect(rig, &Rig::ritChanged, this, &RigWidget::updateRIT);
     connect(rig, &Rig::pttChanged, this, &RigWidget::updatePTT);
 
+    QTimer *onAirTimer = new QTimer(this);
+    connect(onAirTimer, &QTimer::timeout, this, &RigWidget::sendOnAirState);
+    onAirTimer->start(ONAIR_INTERVAL * 1000);
+
     resetRigInfo();
 
     rigDisconnected();
@@ -62,6 +71,7 @@ RigWidget::~RigWidget()
     FCT_IDENTIFICATION;
 
     saveLastSeenFreq();
+    hrdlog->deleteLater();
     delete ui;
 }
 
@@ -91,7 +101,6 @@ void RigWidget::updateMode(VFOID vfoid, const QString &rawMode, const QString &m
 
     qCDebug(function_parameters)<<mode;
 
-    Q_UNUSED(mode)
     Q_UNUSED(submode)
     Q_UNUSED(vfoid)
 
@@ -103,6 +112,8 @@ void RigWidget::updateMode(VFOID vfoid, const QString &rawMode, const QString &m
         ui->modeComboBox->setCurrentText(rawMode);
         ui->modeComboBox->blockSignals(false);
     }
+
+    lastSeenMode = mode;
 }
 
 void RigWidget::updatePWR(VFOID vfoid, double pwr)
@@ -308,6 +319,16 @@ void RigWidget::rigDisconnected()
     resetRigInfo();
     ui->bandComboBox->setEnabled(false);
     ui->modeComboBox->setEnabled(false);
+}
+
+void RigWidget::sendOnAirState()
+{
+    FCT_IDENTIFICATION;
+
+    if ( rigOnline && hrdlog->getOnAirEnabled() )
+    {
+        hrdlog->sendOnAir(lastSeenFreq, lastSeenMode);
+    }
 }
 
 void RigWidget::resetRigInfo()

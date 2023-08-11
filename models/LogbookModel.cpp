@@ -772,6 +772,9 @@ void LogbookModel::updateExternalServicesUploadStatus(const QModelIndex &index, 
 
     /* QRZ consumes all ADIF Fields */
     updateUploadToModified(index, role, COLUMN_QRZCOM_QSO_UPLOAD_STATUS, updateResult);
+
+    /* HRDLOG consumes all ADIF Fields */
+    updateUploadToModified(index, role, COLUMN_HRDLOG_QSO_UPLOAD_STATUS, updateResult);
 }
 
 void LogbookModel::updateUploadToModified(const QModelIndex &index, int role, int column, bool &updateResult)

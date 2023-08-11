@@ -1,28 +1,26 @@
-#include <QSettings>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QProgressDialog>
 #include <QMessageBox>
 #include <QSqlError>
 
-#include "QrzDialog.h"
-#include "ui_QrzDialog.h"
-#include "core/debug.h"
-#include "core/QRZ.h"
+#include "HRDLogDialog.h"
+#include "ui_HRDLogDialog.h"
 #include "models/SqlListModel.h"
-#include "ui/ShowUploadDialog.h"
 #include "logformat/AdiFormat.h"
+#include "core/debug.h"
+#include "ui/ShowUploadDialog.h"
+#include "core/HRDLog.h"
 
-MODULE_IDENTIFICATION("qlog.ui.qrzdialog");
+MODULE_IDENTIFICATION("qlog.ui.hrdlogdialog");
 
-QRZDialog::QRZDialog(QWidget *parent) :
+HRDLogDialog::HRDLogDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::QRZDialog)
+    ui(new Ui::HRDLogDialog)
 {
+    FCT_IDENTIFICATION;
+
     ui->setupUi(this);
-
-    /* Upload */
-
     ui->myCallsignCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(station_callsign) FROM contacts ORDER BY station_callsign", ""));
     ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='"
                                                 + ui->myCallsignCombo->currentText()
@@ -30,12 +28,12 @@ QRZDialog::QRZDialog(QWidget *parent) :
     loadDialogState();
 }
 
-QRZDialog::~QRZDialog()
+HRDLogDialog::~HRDLogDialog()
 {
     delete ui;
 }
 
-void QRZDialog::upload()
+void HRDLogDialog::upload()
 {
     FCT_IDENTIFICATION;
 
@@ -48,11 +46,12 @@ void QRZDialog::upload()
         qslUploadStatuses << "'N'";
     }
 
-    /* https://www.qrz.com/docs/logbook/QRZLogbookAPI.html */
-    /* ??? QRZ Support all ADIF Fields ??? */
+    // http://www.iw1qlh.net/projects/hrdlog/HRDLognet_4.pdf
+    // It is not clear what QLog should send to HRDLog. Therefore it will
+    // send all ADIF-fields
     QString query_string = "SELECT * ";
     QString query_from   = "FROM contacts ";
-    QString query_where =  QString("WHERE (upper(qrzcom_qso_upload_status) in (%1) OR qrzcom_qso_upload_status is NULL) ").arg(qslUploadStatuses.join(","));
+    QString query_where =  QString("WHERE (upper(hrdlog_qso_upload_status) in (%1) OR hrdlog_qso_upload_status is NULL) ").arg(qslUploadStatuses.join(","));
     QString query_order = " ORDER BY start_time ";
 
     saveDialogState();
@@ -95,7 +94,7 @@ void QRZDialog::upload()
 
         if ( showDialog.exec() == QDialog::Accepted )
         {
-            QProgressDialog* dialog = new QProgressDialog(tr("Uploading to QRZ.com"),
+            QProgressDialog* dialog = new QProgressDialog(tr("Uploading to HRDLOG"),
                                                           tr("Cancel"),
                                                           0, count, this);
             dialog->setWindowModality(Qt::WindowModal);
@@ -103,12 +102,12 @@ void QRZDialog::upload()
             dialog->setAttribute(Qt::WA_DeleteOnClose, true);
             dialog->show();
 
-            QRZ *qrz = new QRZ(dialog);
+            HRDLog *hrdlog = new HRDLog(dialog);
 
-            connect(qrz, &QRZ::uploadedQSO, this, [qrz, dialog](int qsoID)
+            connect(hrdlog, &HRDLog::uploadedQSO, this, [hrdlog, dialog](int qsoID)
             {
                 QString query_string = "UPDATE contacts "
-                                       "SET qrzcom_qso_upload_status='Y', qrzcom_qso_upload_date = strftime('%Y-%m-%d',DATETIME('now', 'utc')) "
+                                       "SET hrdlog_qso_upload_status='Y', hrdlog_qso_upload_date = strftime('%Y-%m-%d',DATETIME('now', 'utc')) "
                                        "WHERE id = :qsoID";
 
                 qCDebug(runtime) << query_string;
@@ -120,66 +119,64 @@ void QRZDialog::upload()
 
                 if ( ! query_update.exec() )
                 {
-                    qInfo() << "Cannot Update QRZCOM status for QSO number " << qsoID << " " << query_update.lastError().text();
-                    qrz->abortQuery();
-                    qrz->deleteLater();
+                    qInfo() << "Cannot Update HRDLog status for QSO number " << qsoID << " " << query_update.lastError().text();
+                    hrdlog->abortRequest();
+                    hrdlog->deleteLater();
                 }
                 dialog->setValue(dialog->value() + 1);
             });
 
-            connect(qrz, &QRZ::uploadFinished, this, [this, qrz, dialog, count](bool)
+            connect(hrdlog, &HRDLog::uploadFinished, this, [this, hrdlog, dialog, count](bool)
             {
                 dialog->done(QDialog::Accepted);
                 QMessageBox::information(this, tr("QLog Information"),
                                          tr("%n QSO(s) uploaded.", "", count));
-                qrz->deleteLater();
+                hrdlog->deleteLater();
             });
 
-            connect(qrz, &QRZ::uploadError, this, [this, qrz, dialog](QString msg)
+            connect(hrdlog, &HRDLog::uploadError, this, [this, hrdlog, dialog](QString msg)
             {
                 dialog->done(QDialog::Accepted);
-                qCInfo(runtime) << "QRZ.com Upload Error: " << msg;
+                qCInfo(runtime) << "HRDLog.com Upload Error: " << msg;
                 QMessageBox::warning(this, tr("QLog Warning"),
                                      tr("Cannot upload the QSO(s): ") + msg);
-                qrz->deleteLater();
+                hrdlog->deleteLater();
             });
 
-            connect(dialog, &QProgressDialog::canceled, qrz, &QRZ::abortQuery);
+            connect(dialog, &QProgressDialog::canceled, hrdlog, &HRDLog::abortRequest);
 
-            qrz->uploadContacts(qsos);
+            hrdlog->uploadContacts(qsos);
         }
     }
     else
     {
         QMessageBox::information(this, tr("QLog Information"), tr("No QSOs found to upload."));
     }
-
 }
 
-void QRZDialog::uploadCallsignChanged(const QString &my_callsign)
+void HRDLogDialog::uploadCallsignChanged(const QString &my_callsign)
 {
     FCT_IDENTIFICATION;
 
     ui->myGridCombo->setModel(new SqlListModel("SELECT DISTINCT UPPER(my_gridsquare) FROM contacts WHERE station_callsign ='" + my_callsign + "' ORDER BY my_gridsquare", ""));
-
 }
 
-void QRZDialog::saveDialogState()
+void HRDLogDialog::saveDialogState()
 {
     FCT_IDENTIFICATION;
 
     QSettings settings;
 
-    settings.setValue("qrzcom/last_mycallsign", ui->myCallsignCombo->currentText());
-    settings.setValue("qrzcom/last_mygrid", ui->myGridCombo->currentText());
+    settings.setValue("hrdlog/last_mycallsign", ui->myCallsignCombo->currentText());
+    settings.setValue("hrdlog/last_mygrid", ui->myGridCombo->currentText());
 }
 
-void QRZDialog::loadDialogState()
+void HRDLogDialog::loadDialogState()
 {
     FCT_IDENTIFICATION;
 
     QSettings settings;
 
-    ui->myCallsignCombo->setCurrentText(settings.value("qrzcom/last_mycallsign").toString());
-    ui->myGridCombo->setCurrentText(settings.value("qrzcom/last_mygrid").toString());
+    ui->myCallsignCombo->setCurrentText(settings.value("hrdlog/last_mycallsign").toString());
+    ui->myGridCombo->setCurrentText(settings.value("hrdlog/last_mygrid").toString());
 }

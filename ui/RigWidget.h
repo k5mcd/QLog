@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "core/Rig.h"
+#include "core/HRDLog.h"
 
 namespace Ui {
 class RigWidget;
@@ -38,14 +39,19 @@ public slots:
     void rigConnected();
     void rigDisconnected();
 
+private slots:
+    void sendOnAirState();
+
 private:
 
     void resetRigInfo();
     void saveLastSeenFreq();
     double lastSeenFreq;
+    QString lastSeenMode;
     bool rigOnline;
 
     Ui::RigWidget *ui;
+    HRDLog *hrdlog;
 };
 
 #endif // RIGWIDGET_H

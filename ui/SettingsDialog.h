@@ -110,6 +110,7 @@ public slots:
     void testWebLookupURL();
     void joinMulticastChanged(int);
     void adjustWSJTXMulticastAddrTextColor();
+    void hrdlogSettingChanged();
 
 private:
     void readSettings();

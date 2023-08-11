@@ -33,6 +33,8 @@
 #include "core/PropConditions.h"
 #include "data/NewContactLayoutProfile.h"
 #include "ui/EditLayoutDialog.h"
+#include "core/HRDLog.h"
+#include "ui/HRDLogDialog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -661,6 +663,22 @@ void MainWindow::showClublog()
     else
     {
         QMessageBox::warning(this, tr("QLog Warning"), tr("Clublog is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
+    }
+}
+
+void MainWindow::showHRDLog()
+{
+    FCT_IDENTIFICATION;
+
+    if ( ! HRDLog::getRegisteredCallsign().isEmpty() )
+    {
+        HRDLogDialog dialog;
+        dialog.exec();
+        ui->logbookWidget->updateTable();
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("QLog Warning"), tr("HRDLog is not configured properly.<p> Please, use <b>Settings</b> dialog to configure it.</p>"));
     }
 }
 

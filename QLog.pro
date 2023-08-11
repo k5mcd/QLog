@@ -59,6 +59,7 @@ SOURCES += \
         core/Fldigi.cpp \
         core/GenericCallbook.cpp \
         core/Gridsquare.cpp \
+        core/HRDLog.cpp \
         core/HamQTH.cpp \
         core/HostsPortString.cpp \
         core/LOVDownloader.cpp \
@@ -117,6 +118,7 @@ SOURCES += \
         ui/EditLine.cpp \
         ui/Eqsldialog.cpp \
         ui/ExportDialog.cpp \
+        ui/HRDLogDialog.cpp \
         ui/ImportDialog.cpp \
         ui/LogbookWidget.cpp \
         ui/LotwDialog.cpp \
@@ -161,6 +163,7 @@ HEADERS += \
         core/Fldigi.h \
         core/GenericCallbook.h \
         core/Gridsquare.h \
+        core/HRDLog.h \
         core/HamQTH.h \
         core/HostsPortString.h \
         core/LOVDownloader.h \
@@ -230,6 +233,7 @@ HEADERS += \
         ui/EditLine.h \
         ui/Eqsldialog.h \
         ui/ExportDialog.h \
+        ui/HRDLogDialog.h \
         ui/ImportDialog.h \
         ui/LogbookWidget.h \
         ui/LotwDialog.h \
@@ -274,6 +278,7 @@ FORMS += \
         ui/EditLayoutDialog.ui \
         ui/Eqsldialog.ui \
         ui/ExportDialog.ui \
+        ui/HRDLogDialog.ui \
         ui/ImportDialog.ui \
         ui/LogbookWidget.ui \
         ui/LotwDialog.ui \
