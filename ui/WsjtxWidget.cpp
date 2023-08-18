@@ -161,6 +161,11 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
     {
         lastSelectedCallsign = newStatus.dx_call;
         setSelectedCallsign(lastSelectedCallsign);
+    }
+
+    if ( this->status.dx_call != newStatus.dx_call
+         || this->status.dx_grid != newStatus.dx_grid )
+    {
         emit showDxDetails(newStatus.dx_call, newStatus.dx_grid);
     }
 

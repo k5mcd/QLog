@@ -289,6 +289,7 @@ void Wsjtx::readPendingDatagrams()
             status.sub_mode = QString(sub_mode);
             status.report = QString(report);
             status.dx_call = QString(dx_call);
+            status.dx_grid = QString(dx_grid);
             status.de_call = QString(de_call);
             status.de_grid = QString(de_grid);
             status.conf_name = QString(conf_name);
