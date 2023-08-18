@@ -3,6 +3,7 @@ TBC - 0.27.0
 - Fixed Text field alignment (issue #233)
 - Fixed Rig/Rot Connection port type selection (issue #235)
 - Fixed Incorrect Distance Value in WSJTX Widget (issue #236)
+- Fixed Incorrect WSJTX locator target on the map (issue #237)
 
 2023/07/30 - 0.26.0
 - [NEW] - Added user-defined layout for New QSO widget
