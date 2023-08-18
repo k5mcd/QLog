@@ -259,7 +259,7 @@ void HRDLog::processReply(QNetworkReply *reply)
         if ( !doc.setContent(response) )
         {
             qWarning() << "Failed to parse XML document from HRDLog";
-            emit uploadError(tr("XML Data Error"));
+            emit uploadError(tr("Response message malformed"));
             cancelUpload = true;
         }
         else
