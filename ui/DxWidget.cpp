@@ -112,7 +112,7 @@ bool DxTableModel::addEntry(DxSpot entry, bool deduplicate,
 
     if ( deduplicate )
     {
-        for (auto record : qAsConst(dxData))
+        for (const DxSpot &record : qAsConst(dxData))
         {
             if ( record.time.secsTo(entry.time) > dedup_interval )
                 break;
