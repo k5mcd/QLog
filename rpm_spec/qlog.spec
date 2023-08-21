@@ -42,6 +42,13 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Mon Aug 21 2023 Ladislav Foldyna - 0.27.0-1
+- [NEW] - Added HRDLog Support
+- Fixed Text field alignment (issue #233)
+- Fixed Rig/Rot Connection port type selection (issue #235)
+- Fixed Incorrect Distance Value in WSJTX Widget (issue #236)
+- Fixed Incorrect WSJTX locator target on the map (issue #237)
+
 * Sun Jul 30 2023 Ladislav Foldyna - 0.26.0-1
 - [NEW] - Added user-defined layout for New QSO widget
 - [NEW] - Pressing Spacebar in Callsign field skips RST fields
