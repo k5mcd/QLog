@@ -13,7 +13,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - Rig and rotator control via Hamlib
 - HamQTH and QRZ.com callbook integration
 - DX cluster integration
-- **LotW**, **eQSL**, **QRZ.com**, **Clublog**, **HRDLog.net** integration (**eQSL includes QSL pictures download**)
+- **LoTW**, **eQSL**, **QRZ.com**, **Clublog**, **HRDLog.net** integration (**eQSL includes QSL pictures download**)
 - **Secure Password Storage** for all services with password or security token
 - **Online** and **Offline** map
 - Club Member lookup
