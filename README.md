@@ -17,7 +17,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - **Secure Password Storage** for all services with password or security token
 - **Online** and **Offline** map
 - Club Member lookup
-- CW Keyer Support - CWDaemon, FLDigi, Morse Over CAT, WinKey V2
+- CW Keyer Support - CWDaemon, FLDigi (all supported modes), Morse Over CAT, WinKey V2
 - Bandmap
 - CW Console
 - WSJT-X integration
