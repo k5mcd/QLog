@@ -11,6 +11,7 @@
 #include "core/debug.h"
 #include "core/Gridsquare.h"
 #include "data/StationProfile.h"
+#include "data/AntProfile.h"
 #include "core/debug.h"
 #include "core/PropConditions.h"
 #include "data/Band.h"
@@ -212,7 +213,7 @@ void OnlineMapWidget::antPositionChanged(int in_azimuth, int in_elevation)
         my_lon = myGrid.getLongitude();
 
         double beamLen = 3000; // in km
-        double angle = 20; // in degree
+        double azimuthBeamWidth = AntProfilesManager::instance()->getCurProfile1().azimuthBeamWidth;
         if ( contact )
         {
             double newBeamLen = contact->getQSODistance();
@@ -225,7 +226,7 @@ void OnlineMapWidget::antPositionChanged(int in_azimuth, int in_elevation)
                                                                                    .arg(my_lon)
                                                                                    .arg(beamLen)
                                                                                    .arg(in_azimuth)
-                                                                                   .arg(angle);
+                                                                                   .arg(azimuthBeamWidth);
     }
     else
     {
@@ -306,6 +307,8 @@ void OnlineMapWidget::flyToMyQTH()
         QString js = QString("flyToPoint(%1, 4);").arg(currentProfilePosition);
         runJavaScript(js);
     }
+    // redraw ant path because QSO distance can change
+    antPositionChanged(lastSeenAzimuth, lastSeenElevation);
 }
 
 OnlineMapWidget::~OnlineMapWidget()

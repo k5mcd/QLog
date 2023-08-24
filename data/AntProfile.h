@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QObject>
+#include <QDataStream>
 
 #include "data/ProfileManager.h"
 
@@ -12,9 +13,11 @@
 class AntProfile
 {
 public:
-    AntProfile(){};
+    AntProfile() : azimuthBeamWidth(0.0), azimuthOffset(0.0) {};
     QString profileName;
     QString description;
+    double azimuthBeamWidth;
+    double azimuthOffset;
 
     bool operator== (const AntProfile &profile);
     bool operator!= (const AntProfile &profile);

@@ -2,6 +2,7 @@
 #include "Rotator.h"
 #include "core/debug.h"
 #include "data/RotProfile.h"
+#include "data/AntProfile.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -141,6 +142,7 @@ void Rotator::update()
             int newAzimuth = static_cast<int>(az);
             int newElevation = static_cast<int>(el);
             // Azimuth Normalization (-180,180) -> (0,360) - ADIF defined interval is 0-360
+            newAzimuth += AntProfilesManager::instance()->getCurProfile1().azimuthOffset;
             newAzimuth = (newAzimuth < 0 ) ? 360 + newAzimuth : newAzimuth;
 
             if ( newAzimuth != this->azimuth
@@ -303,6 +305,8 @@ void Rotator::setPositionImpl(int azimuth, int elevation) {
     qCDebug(function_parameters)<<azimuth<< " " << elevation;
 
     if ( !isRotConnected() ) return;
+
+    azimuth -= AntProfilesManager::instance()->getCurProfile1().azimuthOffset;
 
     rotLock.lock();
 

@@ -911,6 +911,8 @@ void SettingsDialog::addAntProfile()
 
     profile.profileName = ui->antProfileNameEdit->text();
     profile.description = ui->antDescEdit->toPlainText();
+    profile.azimuthBeamWidth = ui->antAzBeamWidthSpinBox->value();
+    profile.azimuthOffset = ui->antAzOffsetSpinBox->value();
 
     antProfManager->addProfile(profile.profileName, profile);
 
@@ -953,6 +955,8 @@ void SettingsDialog::doubleClickAntProfile(QModelIndex i)
 
     ui->antProfileNameEdit->setText(profile.profileName);
     ui->antDescEdit->setPlainText(profile.description);
+    ui->antAzBeamWidthSpinBox->setValue(profile.azimuthBeamWidth);
+    ui->antAzOffsetSpinBox->setValue(profile.azimuthOffset);
 
     ui->antAddProfileButton->setText(tr("Modify"));
 
@@ -966,6 +970,8 @@ void SettingsDialog::clearAntProfileForm()
 
     ui->antProfileNameEdit->clear();
     ui->antDescEdit->clear();
+    ui->antAzBeamWidthSpinBox->setValue(0.0);
+    ui->antAzOffsetSpinBox->setValue(0.0);
 
     ui->antAddProfileButton->setText(tr("Add"));
 }

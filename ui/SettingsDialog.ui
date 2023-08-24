@@ -370,6 +370,67 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="antAzBeamWidthLabel">
+                   <property name="text">
+                    <string>Azimuth Beamwidth </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="antAzOffsetLabel">
+                   <property name="text">
+                    <string>Azimuth Offset</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QDoubleSpinBox" name="antAzBeamWidthSpinBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>Valid range value is 0° - 100° (0° Unspecified)</string>
+                   </property>
+                   <property name="specialValueText">
+                    <string>Unspecified</string>
+                   </property>
+                   <property name="suffix">
+                    <string>°</string>
+                   </property>
+                   <property name="decimals">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <double>100.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QDoubleSpinBox" name="antAzOffsetSpinBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="suffix">
+                    <string>°</string>
+                   </property>
+                   <property name="decimals">
+                    <number>1</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-180.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>180.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -3782,6 +3843,8 @@
   <tabstop>stationDelProfileButton</tabstop>
   <tabstop>antProfileNameEdit</tabstop>
   <tabstop>antDescEdit</tabstop>
+  <tabstop>antAzBeamWidthSpinBox</tabstop>
+  <tabstop>antAzOffsetSpinBox</tabstop>
   <tabstop>antAddProfileButton</tabstop>
   <tabstop>antDelProfileButton</tabstop>
   <tabstop>cwProfileNameEdit</tabstop>
