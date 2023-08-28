@@ -28,8 +28,8 @@ Rotator::Rotator(QObject *parent) :
 {
     FCT_IDENTIFICATION;
 
-    azimuth = 0;
-    elevation = 0;
+    azimuth = 0.0;
+    elevation = 0.0;
     rot = nullptr;
     rig_set_debug(RIG_DEBUG_ERR);
 }
@@ -46,7 +46,7 @@ Rotator* Rotator::instance() {
     return &instance;
 }
 
-int Rotator::getAzimuth()
+double Rotator::getAzimuth()
 {
     FCT_IDENTIFICATION;
 
@@ -54,7 +54,7 @@ int Rotator::getAzimuth()
     return azimuth;
 }
 
-int Rotator::getElevation()
+double Rotator::getElevation()
 {
     FCT_IDENTIFICATION;
 
@@ -139,11 +139,11 @@ void Rotator::update()
         int status = rot_get_position(rot, &az, &el);
         if ( status == RIG_OK )
         {
-            int newAzimuth = static_cast<int>(az);
-            int newElevation = static_cast<int>(el);
+            double newAzimuth = az;
+            double newElevation = el;
             // Azimuth Normalization (-180,180) -> (0,360) - ADIF defined interval is 0-360
             newAzimuth += AntProfilesManager::instance()->getCurProfile1().azimuthOffset;
-            newAzimuth = (newAzimuth < 0 ) ? 360 + newAzimuth : newAzimuth;
+            newAzimuth = (newAzimuth < 0.0 ) ? 360.0 + newAzimuth : newAzimuth;
 
             if ( newAzimuth != this->azimuth
                  || newElevation != this->elevation
@@ -270,8 +270,8 @@ void Rotator::__closeRot()
     FCT_IDENTIFICATION;
 
     connectedRotProfile = RotProfile();
-    azimuth = 0;
-    elevation = 0;
+    azimuth = 0.0;
+    elevation = 0.0;
 
     if (isRotConnected())
     {
@@ -299,7 +299,8 @@ void Rotator::closeImpl()
     rotLock.unlock();
 }
 
-void Rotator::setPositionImpl(int azimuth, int elevation) {
+void Rotator::setPositionImpl(double azimuth, double elevation)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<azimuth<< " " << elevation;
@@ -310,9 +311,9 @@ void Rotator::setPositionImpl(int azimuth, int elevation) {
 
     rotLock.lock();
 
-    if ( azimuth > 180 )
+    if ( azimuth > 180.0 )
     {
-        azimuth = azimuth - 360;
+        azimuth = azimuth - 360.0;
     }
 
     int status = rot_set_position(rot, static_cast<azimuth_t>(azimuth), static_cast<elevation_t>(elevation));
@@ -347,10 +348,10 @@ void Rotator::stopTimerImplt()
     }
 }
 
-void Rotator::setPosition(int azimuth, int elevation)
+void Rotator::setPosition(double azimuth, double elevation)
 {
     FCT_IDENTIFICATION;
 
     QMetaObject::invokeMethod(this, "setPositionImpl", Qt::QueuedConnection,
-                              Q_ARG(int,azimuth), Q_ARG(int,elevation));
+                              Q_ARG(double,azimuth), Q_ARG(double,elevation));
 }

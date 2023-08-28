@@ -27,8 +27,8 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
   webChannelHandler("onlinemap",parent),
   prop_cond(nullptr),
   contact(nullptr),
-  lastSeenAzimuth(0),
-  lastSeenElevation(0),
+  lastSeenAzimuth(0.0),
+  lastSeenElevation(0.0),
   isRotConnected(false)
 {
     FCT_IDENTIFICATION;
@@ -189,7 +189,7 @@ void OnlineMapWidget::setIBPBand(VFOID , double, double ritFreq, double)
     runJavaScript(targetJavaScript);
 }
 
-void OnlineMapWidget::antPositionChanged(int in_azimuth, int in_elevation)
+void OnlineMapWidget::antPositionChanged(double in_azimuth, double in_elevation)
 {
     FCT_IDENTIFICATION;
 
@@ -207,13 +207,14 @@ void OnlineMapWidget::antPositionChanged(int in_azimuth, int in_elevation)
 
     if ( myGrid.isValid() )
     {
-        double my_lat=0;
-        double my_lon=0;
+        double my_lat=0.0;
+        double my_lon=0.0;
         my_lat = myGrid.getLatitude();
         my_lon = myGrid.getLongitude();
 
         double beamLen = 3000; // in km
         double azimuthBeamWidth = AntProfilesManager::instance()->getCurProfile1().azimuthBeamWidth;
+
         if ( contact )
         {
             double newBeamLen = contact->getQSODistance();

@@ -14,12 +14,12 @@ class Rotator : public SerialPort
 
 public:
     static Rotator* instance();
-    int getAzimuth();
-    int getElevation();
+    double getAzimuth();
+    double getElevation();
     bool isRotConnected();
 
 signals:
-    void positionChanged(int azimuth, int elevation);
+    void positionChanged(double azimuth, double elevation);
     void rotErrorPresent(QString, QString);
     void rotDisconnected();
     void rotConnected();
@@ -32,10 +32,10 @@ public slots:
     void stopTimer();
     void sendState();
 
-    void setPosition(int azimuth, int elevation);
+    void setPosition(double azimuth, double elevation);
 
 private slots:
-    void setPositionImpl(int azimuth, int elevation);
+    void setPositionImpl(double azimuth, double elevation);
     void stopTimerImplt();
     void openImpl();
     void closeImpl();
@@ -48,8 +48,8 @@ private:
     void __openRot();
     QString hamlibErrorString(int);
 
-    int azimuth;
-    int elevation;
+    double azimuth;
+    double elevation;
 
     ROT* rot;
     RotProfile connectedRotProfile;

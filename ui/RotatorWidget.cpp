@@ -23,7 +23,7 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
-    azimuth = 0;
+    azimuth = 0.0;
 
     redrawMap();
 
@@ -47,7 +47,7 @@ void RotatorWidget::gotoPosition()
 {
     FCT_IDENTIFICATION;
 
-    setBearing(ui->gotoSpinBox->value());
+    setBearing(ui->gotoDoubleSpinBox->value());
 }
 
 void RotatorWidget::setBearing(double in_azimuth)
@@ -61,20 +61,21 @@ void RotatorWidget::setBearing(double in_azimuth)
     destinationAzimuthNeedle->setRotation(in_azimuth);
 }
 
-void RotatorWidget::positionChanged(int in_azimuth, int in_elevation) {
+void RotatorWidget::positionChanged(double in_azimuth, double in_elevation)
+{
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<<in_azimuth<<" "<<in_elevation;
-    azimuth = (in_azimuth < 0 ) ? 360 + in_azimuth : in_azimuth;
+    azimuth = (in_azimuth < 0.0 ) ? 360.0 + in_azimuth : in_azimuth;
     compassNeedle->setRotation(azimuth);
     if ( waitingFirstValue )
     {
         waitingFirstValue = false;
         destinationAzimuthNeedle->setRotation(in_azimuth);
     }
-    ui->gotoSpinBox->blockSignals(true);
-    ui->gotoSpinBox->setValue(azimuth);
-    ui->gotoSpinBox->blockSignals(false);
+    ui->gotoDoubleSpinBox->blockSignals(true);
+    ui->gotoDoubleSpinBox->setValue(azimuth);
+    ui->gotoDoubleSpinBox->blockSignals(false);
 }
 
 void RotatorWidget::showEvent(QShowEvent* event) {
@@ -346,7 +347,7 @@ void RotatorWidget::rotConnected()
     FCT_IDENTIFICATION;
 
     ui->rotProfileCombo->setStyleSheet("QComboBox {color: green}");
-    ui->gotoSpinBox->setEnabled(true);
+    ui->gotoDoubleSpinBox->setEnabled(true);
     ui->gotoButton->setEnabled(true);
     ui->qsoBearingButton->setEnabled(true);
     ui->userButtonsProfileCombo->setEnabled(true);
@@ -359,7 +360,7 @@ void RotatorWidget::rotDisconnected()
     FCT_IDENTIFICATION;
 
     ui->rotProfileCombo->setStyleSheet("QComboBox {color: red}");
-    ui->gotoSpinBox->setEnabled(false);
+    ui->gotoDoubleSpinBox->setEnabled(false);
     ui->gotoButton->setEnabled(false);
     ui->qsoBearingButton->setEnabled(false);
     ui->userButtonsProfileCombo->setEnabled(false);
