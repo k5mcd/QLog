@@ -16,11 +16,16 @@ public:
                               bool aurora = false,
                               bool muf = false,
                               bool ibp = false,
-                              bool antpath = false);
+                              bool antpath = false,
+                              bool chatStations = false);
+
+signals:
+    void chatCallsignPressed(QString);
 
 public slots:
     void handleLayerSelectionChanged(const QVariant &data,
                                      const QVariant &state);
+    void chatCallsignClicked(const QVariant &data);
 private:
     QString configID;
 

@@ -37,6 +37,7 @@
 #include "core/MembershipQE.h"
 #include "models/SqlListModel.h"
 #include "core/GenericCallbook.h"
+#include "core/KSTChat.h"
 
 #define STACKED_WIDGET_SERIAL_SETTING  0
 #define STACKED_WIDGET_NETWORK_SETTING 1
@@ -2074,6 +2075,12 @@ void SettingsDialog::readSettings() {
     /*************/
     ui->paperFolderPathEdit->setText(PaperQSL::getQSLImageFolder());
 
+    /***************/
+    /* ON4KST Chat */
+    /***************/
+    ui->kstUsernameEdit->setText(KSTChat::getUsername());
+    ui->kstPasswordEdit->setText(KSTChat::getPassword());
+
     /********/
     /* DXCC */
     /********/
@@ -2176,6 +2183,11 @@ void SettingsDialog::writeSettings() {
     /***********/
     QRZ::saveLogbookAPI(ui->qrzApiKeyEdit->text());
 
+    /***************/
+    /* ON4KST Chat */
+    /***************/
+    KSTChat::saveUsernamePassword(ui->kstUsernameEdit->text(),
+                                  ui->kstPasswordEdit->text());
 
     /*********/
     /* DXCC  */

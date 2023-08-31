@@ -25,6 +25,7 @@
 #include "core/zonedetect.h"
 #include "ui/SplashScreen.h"
 #include "core/MembershipQE.h"
+#include "core/KSTChat.h"
 
 MODULE_IDENTIFICATION("qlog.core.main");
 
@@ -315,6 +316,8 @@ int main(int argc, char* argv[])
     qRegisterMetaType<VFOID>();
     qRegisterMetaType<ClubStatusQuery::ClubStatus>();
     qRegisterMetaType<QMap<QString, ClubStatusQuery::ClubStatus>>();
+    qRegisterMetaType<KSTChatMsg>();
+    qRegisterMetaType<KSTUsersInfo>();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     qRegisterMetaTypeStreamOperators<QSet<int>>("QSet<int>");
 #endif

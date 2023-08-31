@@ -9,6 +9,7 @@
 #include "ui/WebEnginePage.h"
 #include "core/Rig.h"
 #include "ui/NewContactWidget.h"
+#include "core/KSTChat.h"
 
 namespace Ui {
 class OnlineMapWidget;
@@ -25,6 +26,9 @@ public:
     void assignPropConditions(PropConditions *);
     void registerContactWidget(const NewContactWidget*);
 
+signals:
+    void chatCallsignPressed(QString);
+
 public slots:
     void setTarget(double lat, double lon);
     void changeTheme(int);
@@ -35,9 +39,11 @@ public slots:
     void rotConnected();
     void rotDisconnected();
     void flyToMyQTH();
+    void drawChatUsers(QList<KSTUsersInfo> list);
 
 protected slots:
     void finishLoading(bool);
+    void chatCallsignTrigger(QString);
 
 private:
 

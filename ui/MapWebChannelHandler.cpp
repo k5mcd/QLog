@@ -52,6 +52,9 @@ void MapWebChannelHandler::connectWebChannel(QWebEnginePage *page)
           "     case '" + tr("IBP") + "': "
           "        foo.handleLayerSelectionChanged('IBPLayer', 'on'); "
           "        break; "
+          "     case '" + tr("Chat") + "': "
+          "        foo.handleLayerSelectionChanged('chatStationsLayer', 'on'); "
+          "        break; "
           "  } "
           "});"
           "map.on('overlayremove', function(e){ "
@@ -74,6 +77,9 @@ void MapWebChannelHandler::connectWebChannel(QWebEnginePage *page)
           "        break; "
           "     case '" + tr("IBP") + "': "
           "        foo.handleLayerSelectionChanged('IBPLayer', 'off'); "
+          "        break; "
+          "     case '" + tr("Chat") + "': "
+          "        foo.handleLayerSelectionChanged('chatStationsLayer', 'off'); "
           "        break; "
           "   } "
           "});";
@@ -116,7 +122,8 @@ QString MapWebChannelHandler::generateMapMenuJS(bool gridLayer,
                                                 bool aurora,
                                                 bool muf,
                                                 bool ibp,
-                                                bool antpath)
+                                                bool antpath,
+                                                bool chatStations)
 {
     FCT_IDENTIFICATION;
     QStringList options;
@@ -129,6 +136,11 @@ QString MapWebChannelHandler::generateMapMenuJS(bool gridLayer,
     if ( antpath )
     {
         options << "\"" + tr("Beam") + "\": antPathLayer";
+    }
+
+    if ( chatStations )
+    {
+        options << "\"" + tr("Chat") + "\": chatStationsLayer";
     }
 
     if ( gridLayer )
@@ -169,4 +181,11 @@ void MapWebChannelHandler::handleLayerSelectionChanged(const QVariant &data, con
 
     settings.setValue(QString("%1/layerstate/%2").arg(configID,data.toString()),
                       (state.toString().toLower() == "on") ? true : false);
+}
+
+void MapWebChannelHandler::chatCallsignClicked(const QVariant &data)
+{
+    FCT_IDENTIFICATION;
+
+    emit chatCallsignPressed(data.toString());
 }

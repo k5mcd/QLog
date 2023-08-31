@@ -2551,7 +2551,7 @@
    <sender>modeEdit</sender>
    <signal>currentTextChanged(QString)</signal>
    <receiver>NewContactWidget</receiver>
-   <slot>modeChanged()</slot>
+   <slot>changeMode()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>427</x>
@@ -2923,7 +2923,7 @@
   <slot>gridChanged()</slot>
   <slot>stopContactTimer()</slot>
   <slot>frequencyTXChanged()</slot>
-  <slot>modeChanged()</slot>
+  <slot>changeMode()</slot>
   <slot>updateTime()</slot>
   <slot>webLookup()</slot>
   <slot>startContactTimer()</slot>

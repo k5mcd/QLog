@@ -106,7 +106,7 @@ public:
         currentProfile1 = settings.value(this->configPrefix + "/profile1", QString()).toString();
     };
 
-    T getCurProfile1()
+    const T getCurProfile1()
     {
         QString logging_cat(MOD_NAME); logging_cat.append(".function.entered");
         qCDebug(QLoggingCategory(logging_cat.toLatin1().constData()));
@@ -157,7 +157,7 @@ public:
         currProfMutex.unlock();
     };
 
-    T getProfile(const QString &profileName)
+    const T getProfile(const QString &profileName)
     {
         QString logging_cat(MOD_NAME); logging_cat.append(".function.entered");
         qCDebug(QLoggingCategory(logging_cat.toLatin1().constData()));
@@ -209,7 +209,7 @@ public:
         return ret;
     };
 
-    QStringList profileNameList()
+    const QStringList profileNameList()
     {
         QString logging_cat(MOD_NAME); logging_cat.append(".function.entered");
         qCDebug(QLoggingCategory(logging_cat.toLatin1().constData()));

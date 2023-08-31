@@ -51,6 +51,8 @@ public:
     QString getMyWWFT() const;
     QString getMyVUCC() const;
     QString getMyPWR() const;
+    QString getBand() const;
+    QString getMode() const;
     double getQSOBearing() const;
     double getQSODistance() const;
 
@@ -72,13 +74,14 @@ public slots:
     void saveExternalContact(QSqlRecord record);
     void readGlobalSettings();
     void tuneDx(const QString &callsign, double frequency);
+    void fillCallsignGrid(const QString &callsign, const QString& grid);
     void showDx(const QString &callsign, const QString &grid);
     void resetContact();
     void saveContact();
 
     // to receive RIG instructions
     void changeFrequency(VFOID, double, double, double);
-    void changeMode(VFOID, const QString &rawMode, const QString &mode,
+    void changeModefromRig(VFOID, const QString &rawMode, const QString &mode,
                     const QString &subMode, qint32 width);
     void changePower(VFOID, double power);
     void rigConnected();
@@ -94,8 +97,7 @@ private slots:
     void callsignChanged();
     void frequencyTXChanged();
     void frequencyRXChanged();
-    void bandChanged();
-    void modeChanged();
+    void changeMode();
     void subModeChanged();
     void gridChanged();
     void updateTime();
@@ -152,7 +154,7 @@ private:
     void queryMemberList();
     QList<QWidget*> setupCustomUiRow(QHBoxLayout *row, const QList<int>& widgetsList);
     void setupCustomUiRowsTabOrder(const QList<QWidget *> &customWidgets);
-
+    void setBandLabel(const QString &);
 private:
     Rig* rig;
     double realRigFreq;

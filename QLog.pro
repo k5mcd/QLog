@@ -62,6 +62,7 @@ SOURCES += \
         core/HRDLog.cpp \
         core/HamQTH.cpp \
         core/HostsPortString.cpp \
+        core/KSTChat.cpp \
         core/LOVDownloader.cpp \
         core/LogLocale.cpp \
         core/LogParam.cpp \
@@ -108,6 +109,7 @@ SOURCES += \
         ui/AwardsDialog.cpp \
         ui/BandmapWidget.cpp \
         ui/CWConsoleWidget.cpp \
+        ui/ChatWidget.cpp \
         ui/ClockWidget.cpp \
         ui/ClublogDialog.cpp \
         ui/ColumnSettingDialog.cpp \
@@ -120,6 +122,9 @@ SOURCES += \
         ui/ExportDialog.cpp \
         ui/HRDLogDialog.cpp \
         ui/ImportDialog.cpp \
+        ui/KSTChatWidget.cpp \
+        ui/KSTHighlightRuleDetail.cpp \
+        ui/KSTHighlighterSettingDialog.cpp \
         ui/LogbookWidget.cpp \
         ui/LotwDialog.cpp \
         ui/MainWindow.cpp \
@@ -166,6 +171,7 @@ HEADERS += \
         core/HRDLog.h \
         core/HamQTH.h \
         core/HostsPortString.h \
+        core/KSTChat.h \
         core/LOVDownloader.h \
         core/LogLocale.h \
         core/LogParam.h \
@@ -223,6 +229,7 @@ HEADERS += \
         ui/BandmapWidget.h \
         ui/ButtonStyle.h \
         ui/CWConsoleWidget.h \
+        ui/ChatWidget.h \
         ui/ClockWidget.h \
         ui/ClublogDialog.h \
         ui/ColumnSettingDialog.h \
@@ -235,6 +242,9 @@ HEADERS += \
         ui/ExportDialog.h \
         ui/HRDLogDialog.h \
         ui/ImportDialog.h \
+        ui/KSTChatWidget.h \
+        ui/KSTHighlightRuleDetail.h \
+        ui/KSTHighlighterSettingDialog.h \
         ui/LogbookWidget.h \
         ui/LotwDialog.h \
         ui/MainWindow.h \
@@ -269,6 +279,7 @@ FORMS += \
         ui/AwardsDialog.ui \
         ui/BandmapWidget.ui \
         ui/CWConsoleWidget.ui \
+        ui/ChatWidget.ui \
         ui/ClockWidget.ui \
         ui/ClublogDialog.ui \
         ui/ColumnSettingDialog.ui \
@@ -280,6 +291,9 @@ FORMS += \
         ui/ExportDialog.ui \
         ui/HRDLogDialog.ui \
         ui/ImportDialog.ui \
+        ui/KSTChatWidget.ui \
+        ui/KSTHighlightRuleDetail.ui \
+        ui/KSTHighlighterSettingDialog.ui \
         ui/LogbookWidget.ui \
         ui/LotwDialog.ui \
         ui/MainWindow.ui \
