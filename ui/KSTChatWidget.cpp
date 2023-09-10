@@ -91,6 +91,9 @@ void KSTChatWidget::addChatMessage(KSTChatMsg msg)
 
     qCDebug(function_parameters) << msg.time << msg.sender << msg.message;
 
+    if ( msg.message.isEmpty() )
+        return;
+
     bool isMyCallsignPresent = msg.message.contains(userName,Qt::CaseInsensitive);
     bool isUser2User = msg.message.startsWith(" ("); //hack - how to easy to recognize Private Message
     bool shouldHighlight = ui->actionHighlight->isChecked() && isHighlightCandidate(msg);
