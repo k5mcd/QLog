@@ -147,10 +147,6 @@
        <property name="text">
         <string/>
        </property>
-       <property name="icon">
-        <iconset resource="../res/icons/icons.qrc">
-         <normaloff>:/icons/close-24px.svg</normaloff>:/icons/close-24px.svg</iconset>
-       </property>
        <property name="iconSize">
         <size>
          <width>16</width>
@@ -233,9 +229,7 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="../res/icons/icons.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>msgLineEdit</sender>

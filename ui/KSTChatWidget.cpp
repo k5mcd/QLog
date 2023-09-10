@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QCommonStyle>
 
 #include "KSTChatWidget.h"
 #include "ui_KSTChatWidget.h"
@@ -29,6 +30,9 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    QCommonStyle style;
+    ui->resetButton->setIcon(style.standardIcon(QStyle::SP_LineEditClearButton));
 
     proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(userListModel);

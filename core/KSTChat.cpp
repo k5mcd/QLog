@@ -229,7 +229,6 @@ QStringList KSTChat::joinLines(const QByteArray &data)
         iter++;
     }
 
-    fixedData.append('\0');
     receiveBuffer.append(fixedData);
     int index = receiveBuffer.indexOf("\n");
 
