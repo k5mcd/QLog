@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->cwconsoleWidget->registerContactWidget(ui->newContactWidget);
     ui->rotatorWidget->registerContactWidget(ui->newContactWidget);
     ui->onlineMapWidget->registerContactWidget(ui->newContactWidget);
+    ui->chatWidget->registerContactWidget(ui->newContactWidget);
 
     QSettings settings;
 
@@ -191,6 +192,11 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->wsjtxWidget, &WsjtxWidget::showDxDetails, ui->newContactWidget, &NewContactWidget::showDx);
 
     connect(ui->rigWidget, &RigWidget::rigProfileChanged, ui->newContactWidget, &NewContactWidget::refreshRigProfileCombo);
+
+    connect(ui->chatWidget, &ChatWidget::chatQSOInfo, ui->newContactWidget, &NewContactWidget::fillCallsignGrid);
+    connect(ui->chatWidget, &ChatWidget::userListUpdated, ui->onlineMapWidget, &OnlineMapWidget::drawChatUsers);
+
+    connect(ui->onlineMapWidget, &OnlineMapWidget::chatCallsignPressed, ui->chatWidget, &ChatWidget::setChatCallsign);
 
     connect(alertWidget, &AlertWidget::alertsCleared, this, &MainWindow::clearAlertEvent);
     connect(alertWidget, &AlertWidget::tuneDx, ui->newContactWidget, &NewContactWidget::tuneDx);

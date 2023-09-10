@@ -226,7 +226,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
             this, &NewContactWidget::changeFrequency);
 
     connect(rig, &Rig::modeChanged,
-            this, &NewContactWidget::changeMode);
+            this, &NewContactWidget::changeModefromRig);
 
     connect(rig, &Rig::powerChanged,
             this, &NewContactWidget::changePower);
@@ -708,14 +708,6 @@ void NewContactWidget::clubQueryResult(const QString &in_callsign, QMap<QString,
     ui->memberListLabel->setText(memberText);
 }
 
-void NewContactWidget::bandChanged()
-{
-    FCT_IDENTIFICATION;
-
-    updateDxccStatus();
-    ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
-}
-
 
 /* function just refresh Station Profile Combo */
 void NewContactWidget::refreshStationProfileCombo()
@@ -849,7 +841,7 @@ void NewContactWidget::__modeChanged(qint32 width)
 }
 
 /* Mode is changed from GUI */
-void NewContactWidget::modeChanged()
+void NewContactWidget::changeMode()
 {
     FCT_IDENTIFICATION;
 
@@ -866,8 +858,8 @@ void NewContactWidget::modeChanged()
 
 /* mode is changed from RIG */
 /* Receveived from RIG */
-void NewContactWidget::changeMode(VFOID, const QString &, const QString &mode,
-                                  const QString &subMode, qint32 width)
+void NewContactWidget::changeModefromRig(VFOID, const QString &, const QString &mode,
+                                         const QString &subMode, qint32 width)
 {
     FCT_IDENTIFICATION;
 
@@ -917,7 +909,9 @@ void NewContactWidget::updateTXBand(double freq)
     {
         ui->bandTXLabel->setText(band.name);
     }
-    bandChanged();
+
+    updateDxccStatus();
+    ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
 }
 
 void NewContactWidget::updateRXBand(double freq)
@@ -928,15 +922,15 @@ void NewContactWidget::updateRXBand(double freq)
 
     Band band = Data::band(freq);
 
-    if (band.name.isEmpty()) {
-        ui->bandRXLabel->setText("OOB!");
+    if (band.name.isEmpty())
+    {
+        setBandLabel("OOB!");
     }
     else if (band.name != ui->bandRXLabel->text())
     {
-        ui->bandRXLabel->setText(band.name);
-        updateDxccStatus();
+        setBandLabel(band.name);
     }
-
+    updateDxccStatus();
 }
 
 void NewContactWidget::gridChanged()
@@ -2339,6 +2333,13 @@ void NewContactWidget::setupCustomUiRowsTabOrder(const QList<QWidget *> &customW
     }
 }
 
+void NewContactWidget::setBandLabel(const QString &band)
+{
+    FCT_IDENTIFICATION;
+
+    ui->bandRXLabel->setText(band);
+}
+
 void NewContactWidget::tuneDx(const QString &callsign, double frequency)
 {
     FCT_IDENTIFICATION;
@@ -2351,9 +2352,22 @@ void NewContactWidget::tuneDx(const QString &callsign, double frequency)
         return;
     }
 
+    if ( frequency < 0.0 )
+    {
+        frequency = ui->freqRXEdit->value();
+    }
+
     ui->freqRXEdit->setValue(frequency);
     resetContact();
     changeCallsignManually(callsign, frequency);
+}
+
+void NewContactWidget::fillCallsignGrid(const QString &callsign, const QString &grid)
+{
+    FCT_IDENTIFICATION;
+    qCDebug(function_parameters) << callsign<< grid;
+    tuneDx(callsign, -1);
+    ui->gridEdit->setText(grid);
 }
 
 void NewContactWidget::showDx(const QString &callsign, const QString &grid)
@@ -2533,6 +2547,20 @@ QString NewContactWidget::getMyPWR() const
     FCT_IDENTIFICATION;
 
     return QString::number(ui->powerEdit->value(), 'f');
+}
+
+QString NewContactWidget::getBand() const
+{
+    FCT_IDENTIFICATION;
+
+    return ui->bandRXLabel->text();
+}
+
+QString NewContactWidget::getMode() const
+{
+    FCT_IDENTIFICATION;
+
+    return ui->modeEdit->currentText();
 }
 
 double NewContactWidget::getQSOBearing() const

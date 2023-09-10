@@ -380,6 +380,28 @@
        beaconPoint(b, '#1AA260');
     }
 
+    var chatStationsLayer = L.layerGroup().addTo(map);
+
+    function chatCallsignPressed(e) {
+       foo.chatCallsignClicked(this.callsign);
+    }
+
+    // generic function to render the third layer of the points
+    // It is usually used to render Chat Stations
+    function drawPointsGroup3(points) {
+       chatStationsLayer.clearLayers();
+       points.forEach(function(point) {
+          let marker = new L.marker([point[1], point[2]], {opacity: 0.001 });
+          marker.bindTooltip(point[0], {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+          marker.on('dblclick', chatCallsignPressed);
+          marker.callsign = point[0];
+          marker.getTooltip().setContent(`<div style="background-color: aqua;border-radius: 20px;padding: 5px;font-weight: bold;">${marker.getTooltip().getContent()}</div>`);
+          chatStationsLayer.addLayer(marker);
+       });
+    }
+
+
+
     setInterval(function(){updateBeacon()}, 250);
 
   </script>

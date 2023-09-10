@@ -108,6 +108,7 @@
     </property>
     <addaction name="actionBandmap"/>
     <addaction name="actionClock"/>
+    <addaction name="actionChat"/>
     <addaction name="actionCWConsole"/>
     <addaction name="actionDXClusterWindow"/>
     <addaction name="actionMapWindow"/>
@@ -262,6 +263,15 @@
     <number>2</number>
    </attribute>
    <widget class="CWConsoleWidget" name="cwconsoleWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="chatDockWidget">
+   <property name="windowTitle">
+    <string>Chat</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="ChatWidget" name="chatWidget"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -531,6 +541,11 @@
     <string>HRDLog</string>
    </property>
   </action>
+  <action name="actionChat">
+   <property name="text">
+    <string>Chat</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -612,6 +627,12 @@
    <class>CWConsoleWidget</class>
    <extends>QWidget</extends>
    <header>ui/CWConsoleWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChatWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/ChatWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1208,6 +1229,22 @@
     <hint type="destinationlabel">
      <x>456</x>
      <y>312</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionChat</sender>
+   <signal>triggered()</signal>
+   <receiver>chatDockWidget</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>771</x>
+     <y>585</y>
     </hint>
    </hints>
   </connection>

@@ -52,6 +52,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
     connect(Rotator::instance(), &Rotator::positionChanged, this, &OnlineMapWidget::antPositionChanged);
     connect(Rotator::instance(), &Rotator::rotConnected, this, &OnlineMapWidget::rotConnected);
     connect(Rotator::instance(), &Rotator::rotDisconnected, this, &OnlineMapWidget::rotDisconnected);
+    connect(&webChannelHandler, &MapWebChannelHandler::chatCallsignPressed, this, &OnlineMapWidget::chatCallsignTrigger);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
@@ -265,7 +266,7 @@ void OnlineMapWidget::finishLoading(bool)
     isMainPageLoaded = true;
 
     /* which layers will be active */
-    postponedScripts += webChannelHandler.generateMapMenuJS(true, true, true, true, true, true);
+    postponedScripts += webChannelHandler.generateMapMenuJS(true, true, true, true, true, true, true);
     main_page->runJavaScript(postponedScripts);
     postponedScripts = QString();
 
@@ -273,6 +274,15 @@ void OnlineMapWidget::finishLoading(bool)
 
     flyToMyQTH();
     auroraDataUpdate();
+}
+
+void OnlineMapWidget::chatCallsignTrigger(QString callsign)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << callsign;
+
+    emit chatCallsignPressed(callsign);
 }
 
 void OnlineMapWidget::runJavaScript(QString &js)
@@ -306,6 +316,34 @@ void OnlineMapWidget::flyToMyQTH()
         QString js = QString("flyToPoint(%1, 4);").arg(currentProfilePosition);
         runJavaScript(js);
     }
+}
+
+void OnlineMapWidget::drawChatUsers(QList<KSTUsersInfo> list)
+{
+    FCT_IDENTIFICATION;
+
+    QList<QString> chatUsers;
+
+    for ( const KSTUsersInfo &user : qAsConst(list) )
+    {
+        if ( user.grid.isValid() )
+        {
+            double lat = user.grid.getLatitude();
+            double lon = user.grid.getLongitude();
+            chatUsers.append(QString("[\"%1\", %2, %3, %4]").arg(user.callsign)
+                             //.arg(user.callsign + "<br/>" + user.stationComment)
+                                                                 //+ "<br/><button id=\'chatButton\'>Chat</button>")
+                                                              //   + "<br/><button onclick='chatButtonPressed(\\\"" + user.callsign + "\\\")'>Chat</button>")
+                                                           .arg(lat)
+                                                           .arg(lon)
+                                                           .arg("yellowIcon"));
+
+        }
+    }
+
+    QString js = QString("drawPointsGroup3([%1]);").arg(chatUsers.join(","));
+
+    runJavaScript(js);
 }
 
 OnlineMapWidget::~OnlineMapWidget()
