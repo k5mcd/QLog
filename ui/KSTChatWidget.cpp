@@ -389,17 +389,36 @@ void MessageDelegate::paint(QPainter *painter,
     switch ( index.data(Qt::UserRole).toInt() )
     {
     case ChatMessageModel::MessageDirection::OUTGOING:
-        bgcolor = QColorConstants::LightGray;
+        bgcolor =
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+                  QColorConstants::LightGray;
+#else
+        QColor(Qt::lightGray);
+#endif
         break;
     case ChatMessageModel::MessageDirection::INCOMING_TOYOU:
-        bgcolor = QColorConstants::Green;
+        bgcolor =
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+                  QColorConstants::Green;
+#else
+                  QColor(Qt::green);
+#endif
         break;
     case ChatMessageModel::MessageDirection::INCOMING_HIGHLIGHT:
-        bgcolor = QColorConstants::Red;
+        bgcolor =
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+                  QColorConstants::Red;
+#else
+                  QColor(Qt::red);
+#endif
         break;
     default:
-        bgcolor = QColorConstants::Cyan;
-
+        bgcolor =
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+                  QColorConstants::Cyan;
+#else
+                  QColor(Qt::cyan);
+#endif
     }
 
     // create chat bubble
