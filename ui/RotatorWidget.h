@@ -29,7 +29,7 @@ signals:
 public slots:
     void gotoPosition();
     void setBearing(double);
-    void positionChanged(int, int);
+    void positionChanged(double, double);
     void redrawMap();
     void rotProfileComboChanged(QString);
     void rotUserButtonProfileComboChanged(QString);
@@ -60,7 +60,7 @@ private:
     bool waitingFirstValue;
     QGraphicsScene* compassScene;
     Ui::RotatorWidget *ui;
-    int azimuth;
+    double azimuth;
     const NewContactWidget *contact;
 };
 

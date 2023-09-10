@@ -35,7 +35,7 @@ public slots:
     void auroraDataUpdate();
     void mufDataUpdate();
     void setIBPBand(VFOID, double, double, double);
-    void antPositionChanged(int in_azimuth, int in_elevation);
+    void antPositionChanged(double in_azimuth, double in_elevation);
     void rotConnected();
     void rotDisconnected();
     void flyToMyQTH();
@@ -54,7 +54,7 @@ private:
     MapWebChannelHandler webChannelHandler;
     PropConditions *prop_cond;
     const NewContactWidget *contact;
-    int lastSeenAzimuth, lastSeenElevation;
+    double lastSeenAzimuth, lastSeenElevation;
     bool isRotConnected;
 
     void runJavaScript(QString &);

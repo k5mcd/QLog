@@ -1,6 +1,7 @@
 #include <QSettings>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QVariant>
 
 #include "AntProfile.h"
 #include "core/debug.h"
@@ -10,7 +11,7 @@ MODULE_IDENTIFICATION("qlog.data.antprofile");
 QDataStream& operator<<(QDataStream& out, const AntProfile& v)
 {
 
-    out << v.profileName << v.description;
+    out << v.profileName << v.description << v.azimuthBeamWidth << v.azimuthOffset;
     return out;
 }
 
@@ -18,6 +19,9 @@ QDataStream& operator>>(QDataStream& in, AntProfile& v)
 {
     in >> v.profileName;
     in >> v.description;
+    in >> v.azimuthBeamWidth;
+    in >> v.azimuthOffset;
+
     return in;
 }
 
@@ -29,7 +33,7 @@ AntProfilesManager::AntProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, desc FROM ant_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, desc, azimuth_beamwidth, azimuth_offset FROM ant_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -41,6 +45,8 @@ AntProfilesManager::AntProfilesManager(QObject *parent) :
             AntProfile profileDB;
             profileDB.profileName = profileQuery.value(0).toString();
             profileDB.description =  profileQuery.value(1).toString();
+            profileDB.azimuthBeamWidth = profileQuery.value(2).toDouble();
+            profileDB.azimuthOffset = profileQuery.value(3).toDouble();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -73,8 +79,8 @@ void AntProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO ant_profiles(profile_name, desc) "
-                        "VALUES (:profile_name, :desc)") )
+    if ( ! insertQuery.prepare("INSERT INTO ant_profiles(profile_name, desc, azimuth_beamwidth, azimuth_offset) "
+                        "VALUES (:profile_name, :desc, :azimuth_beamwidth, :azimuth_offset)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -89,6 +95,8 @@ void AntProfilesManager::save()
 
             insertQuery.bindValue(":profile_name", key);
             insertQuery.bindValue(":desc", antProfile.description);
+            insertQuery.bindValue(":azimuth_beamwidth", antProfile.azimuthBeamWidth);
+            insertQuery.bindValue(":azimuth_offset", antProfile.azimuthOffset);
 
 
             if ( ! insertQuery.exec() )
@@ -109,7 +117,9 @@ void AntProfilesManager::save()
 bool AntProfile::operator==(const AntProfile &profile)
 {
     return (profile.profileName == this->profileName
-            && profile.description == this->description);
+            && profile.description == this->description
+            && profile.azimuthBeamWidth == this->azimuthBeamWidth
+            && profile.azimuthOffset == this->azimuthOffset);
 }
 
 bool AntProfile::operator!=(const AntProfile &profile)

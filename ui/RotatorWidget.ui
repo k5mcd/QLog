@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>355</width>
+    <width>387</width>
     <height>257</height>
    </rect>
   </property>
@@ -66,27 +66,30 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="gotoSpinBox">
+      <widget class="QDoubleSpinBox" name="gotoDoubleSpinBox">
        <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>16777215</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
        <property name="suffix">
         <string>°</string>
        </property>
-       <property name="minimum">
-        <number>0</number>
+       <property name="decimals">
+        <number>1</number>
        </property>
        <property name="maximum">
-        <number>359</number>
+        <double>359.000000000000000</double>
        </property>
       </widget>
      </item>
