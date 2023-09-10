@@ -446,6 +446,9 @@
        <property name="toolTip">
         <string>Send DX Cluster Command</string>
        </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
