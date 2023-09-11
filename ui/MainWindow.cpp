@@ -1,5 +1,4 @@
 #include <QSettings>
-#include <QFileDialog>
 #include <QMessageBox>
 #include <QLabel>
 #include <QColor>

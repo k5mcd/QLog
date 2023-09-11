@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QSettings>
 
 #include "PaperQSLDialog.h"
 #include "ui_PaperQSLDialog.h"
@@ -38,9 +39,13 @@ void PaperQSLDialog::addFileClick()
 {
     FCT_IDENTIFICATION;
 
+    QSettings settings;
+
+    const QString &lastPath = settings.value("paperqslimport/last_path", QDir::homePath()).toString();
+
     QString filename = QFileDialog::getOpenFileName(this,
                                                     tr("Add File"),
-                                                    "",
+                                                    lastPath,
 #if defined(Q_OS_WIN)
                                                     ""
 #elif defined(Q_OS_MACOS)
@@ -52,6 +57,8 @@ void PaperQSLDialog::addFileClick()
     if ( !filename.isEmpty() )
     {
         qCDebug(runtime) << "selected file " << filename;
+
+        settings.setValue("paperqslimport/last_path", QFileInfo(filename).path());
 
         QString newFilename;
 
