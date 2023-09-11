@@ -2,6 +2,7 @@ TBC - 0.28.0
 - [NEW] - Added ON4KST Chat Support
 - [NEW] - Added Az BeamWidth and Az Offset to Antenna Profile
 - Fixed Browse button should open an expecting folder (issue #241)
+- Fixed Reword QSL buttons and Settings in QSO Details and Settings (issue #242)
 
 2023/08/21 - 0.27.0
 - [NEW] - Added HRDLog Support
