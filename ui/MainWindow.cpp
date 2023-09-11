@@ -195,6 +195,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->chatWidget, &ChatWidget::chatQSOInfo, ui->newContactWidget, &NewContactWidget::fillCallsignGrid);
     connect(ui->chatWidget, &ChatWidget::userListUpdated, ui->onlineMapWidget, &OnlineMapWidget::drawChatUsers);
+    connect(ui->chatWidget, &ChatWidget::beamingRequested, ui->rotatorWidget, &RotatorWidget::setBearing);
 
     connect(ui->onlineMapWidget, &OnlineMapWidget::chatCallsignPressed, ui->chatWidget, &ChatWidget::setChatCallsign);
 

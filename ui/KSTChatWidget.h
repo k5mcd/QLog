@@ -129,6 +129,7 @@ signals:
     void chatUpdated(QWidget *);
     void chatQSOInfo(QString, QString);
     void userListUpdated(QWidget *);
+    void beamingRequested(double);
 
 public slots:
     void addChatMessage(KSTChatMsg);
@@ -148,6 +149,7 @@ private slots:
     bool isHighlightCandidate(KSTChatMsg &);
     void editHighlightRules();
     void resetPressed();
+    void beamingRequest();
 
 private:
     Ui::KSTChatWidget *ui;

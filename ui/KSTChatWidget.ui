@@ -228,6 +228,11 @@
     <string>Highlight Rules</string>
    </property>
   </action>
+  <action name="actionBeam">
+   <property name="text">
+    <string>Beam</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -375,6 +380,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionBeam</sender>
+   <signal>triggered()</signal>
+   <receiver>KSTChatWidget</receiver>
+   <slot>beamingRequest()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>sendMessage()</slot>
@@ -387,5 +408,6 @@
   <slot>editHighlightRules()</slot>
   <slot>resetPressed()</slot>
   <slot>messageDoubleClicked(QModelIndex)</slot>
+  <slot>beamingRequest()</slot>
  </slots>
 </ui>

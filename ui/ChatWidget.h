@@ -29,10 +29,12 @@ private slots:
     void chatTabClicked(int);
     void processQSOInfo(QString, QString);
     void userListUpdate(QWidget *w);
+    void beamRequest(double);
 
 signals:
     void chatQSOInfo(QString, QString);
     void userListUpdated(QList<KSTUsersInfo>);
+    void beamingRequested(double);
 
 private:
     Ui::ChatWidget *ui;

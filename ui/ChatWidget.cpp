@@ -104,6 +104,9 @@ void ChatWidget::connectChat()
     connect(newWidget, &KSTChatWidget::userListUpdated,
             this, &ChatWidget::userListUpdate);
 
+    connect(newWidget, &KSTChatWidget::beamingRequested,
+            this, &ChatWidget::beamRequest);
+
     settings.setValue("chat/last_selected_room", ui->chatRoomCombo->currentIndex());
 }
 
@@ -169,7 +172,14 @@ void ChatWidget::userListUpdate(QWidget *w)
 
     KSTChatWidget *kstWidget = qobject_cast<KSTChatWidget*>(w);
     if ( kstWidget )
-       emit userListUpdated(kstWidget->getUserList());
+        emit userListUpdated(kstWidget->getUserList());
+}
+
+void ChatWidget::beamRequest(double az)
+{
+    FCT_IDENTIFICATION;
+
+    emit beamingRequested(az);
 }
 
 int ChatWidget::findIndex(QWidget *w)

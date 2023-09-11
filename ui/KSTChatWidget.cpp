@@ -45,6 +45,7 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
 
     ui->usersTableView->horizontalHeader()->setSectionsMovable(true);
     ui->usersTableView->addAction(ui->actionCreateQSO);
+    ui->usersTableView->addAction(ui->actionBeam);
     ui->usersTableView->addAction(ui->actionDisplayedColumns);
 
     QAction *separator = new QAction(this);
@@ -303,6 +304,28 @@ void KSTChatWidget::resetPressed()
 
     ui->msgLineEdit->clear();
     ui->toCombo->setCurrentIndex(0);
+}
+
+void KSTChatWidget::beamingRequest()
+{
+    FCT_IDENTIFICATION;
+
+    const QModelIndex &sourceIndex = proxyModel->mapToSource(ui->usersTableView->currentIndex());
+    const KSTUsersInfo &info = userListModel->getUserInfo(sourceIndex);
+
+
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
+
+    if ( !profile.locator.isEmpty() )
+    {
+        Gridsquare myGrid(profile.locator);
+
+        double bearing;
+        if ( myGrid.bearingTo(info.grid, bearing) )
+        {
+            emit beamingRequested(bearing);
+        }
+    }
 }
 
 int ChatMessageModel::rowCount(const QModelIndex &) const

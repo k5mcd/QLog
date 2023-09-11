@@ -27,7 +27,6 @@ signals:
     void rotUserButtonChanged();
 
 public slots:
-    void gotoPosition();
     void setBearing(double);
     void positionChanged(double, double);
     void redrawMap();
@@ -48,6 +47,7 @@ private slots:
     void userButton2();
     void userButton3();
     void userButton4();
+    void gotoPosition();
 
 private:
     void refreshRotProfileCombo();
