@@ -1637,9 +1637,12 @@ void SettingsDialog::tqslPathBrowse()
 {
     FCT_IDENTIFICATION;
 
+    const QString &lastPath = ( ui->tqslPathEdit->text().isEmpty() ) ? QDir::rootPath()
+                                                                     : ui->tqslPathEdit->text();
+
     QString filename = QFileDialog::getOpenFileName(this,
                                                     tr("Select File"),
-                                                    "",
+                                                    lastPath,
 #if defined(Q_OS_WIN)
                                                     "TQSL (*.exe)"
 #elif defined(Q_OS_MACOS)
@@ -1700,13 +1703,12 @@ void SettingsDialog::eqslDirBrowse()
 {
     FCT_IDENTIFICATION;
 
+    const QString &lastPath = ( ui->eqslFolderPathEdit->text().isEmpty() ) ? QDir::rootPath()
+                                                                     : ui->eqslFolderPathEdit->text();
+
     QString dir = QFileDialog::getExistingDirectory(this,
                                                     tr("Select Directory"),
-#if defined (Q_OS_WIN)
-                                                    "C:\\",
-#else
-                                                    "~",
-#endif
+                                                    lastPath,
                                                     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if ( !dir.isEmpty() )
     {
@@ -1718,13 +1720,12 @@ void SettingsDialog::paperDirBrowse()
 {
     FCT_IDENTIFICATION;
 
+    const QString &lastPath = ( ui->paperFolderPathEdit->text().isEmpty() ) ? QDir::homePath()
+                                                                     : ui->paperFolderPathEdit->text();
+
     QString dir = QFileDialog::getExistingDirectory(this,
                                                     tr("Select Directory"),
-#if defined (Q_OS_WIN)
-                                                    "C:\\",
-#else
-                                                    "~",
-#endif
+                                                    lastPath,
                                                     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if ( !dir.isEmpty() )
     {

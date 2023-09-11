@@ -50,11 +50,22 @@ ImportDialog::ImportDialog(QWidget *parent) :
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&Import"));
 }
 
-void ImportDialog::browse() {
+void ImportDialog::browse()
+{
     FCT_IDENTIFICATION;
 
-    QString filename = QFileDialog::getOpenFileName(this, tr("Select File"), "", "*." + ui->typeSelect->currentText().toLower());
-    ui->fileEdit->setText(filename);
+    QSettings settings;
+
+    const QString &lastPath = ( ui->fileEdit->text().isEmpty() ) ? settings.value("import/last_path", QDir::homePath()).toString()
+                                                                 : ui->fileEdit->text();
+
+    QString filename = QFileDialog::getOpenFileName(this, tr("Select File"),
+                                                    lastPath, "*." + ui->typeSelect->currentText().toLower());
+    if ( !filename.isEmpty() )
+    {
+        settings.setValue("import/last_path", QFileInfo(filename).path());
+        ui->fileEdit->setText(filename);
+    }
 }
 
 void ImportDialog::toggleAll() {

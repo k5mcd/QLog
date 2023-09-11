@@ -62,8 +62,15 @@ void ExportDialog::browse()
 {
     FCT_IDENTIFICATION;
 
-    QString filename = QFileDialog::getSaveFileName(this);
-    ui->fileEdit->setText(filename);
+    const QString &lastPath = ( ui->fileEdit->text().isEmpty() ) ? settings.value("export/last_path", QDir::homePath()).toString()
+                                                                 : ui->fileEdit->text();
+
+    QString filename = QFileDialog::getSaveFileName(this, nullptr, lastPath);
+    if ( !filename.isEmpty() )
+    {
+        settings.setValue("export/last_path", QFileInfo(filename).path());
+        ui->fileEdit->setText(filename);
+    }
 }
 
 void ExportDialog::toggleDateRange()
