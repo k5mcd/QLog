@@ -33,8 +33,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="addFileButton">
+       <property name="toolTip">
+        <string>Copy the input file from the source folder to the QLog Internal QSL Storage folder.&lt;br/&gt;The original file remains unchanged in the source folder</string>
+       </property>
        <property name="text">
-        <string>Add File</string>
+        <string>Import File</string>
        </property>
        <property name="icon">
         <iconset theme="folder-open">
