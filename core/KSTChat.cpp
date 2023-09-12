@@ -257,7 +257,7 @@ void KSTChat::receiveData()
     static QRegularExpression chatLineRE("([0-9]{4})Z (.*)>(.*)");
     QRegularExpressionMatch chatLineMatch;
     QString chatName(chatRooms.at(chatRoomIdx-1));
-    QRegularExpression chatCMDEndRE("([0-9]{4})Z " + userName.toUpper() + " " + chatName+" chat>(.*)");
+    QRegularExpression chatCMDEndRE("([0-9]{4})Z " + userName.toUpper() + " " + QRegularExpression::escape(chatName) + " chat>(.*)");
     QRegularExpressionMatch chatCMDEndMatch;
 
     QStringList lines = joinLines(socket->readAll());
