@@ -2,7 +2,6 @@
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
-#include <QStandardItemModel>
 
 #include "ChatWidget.h"
 #include "ui_ChatWidget.h"
@@ -121,6 +120,7 @@ void ChatWidget::connectChat()
     connect(newWidget, &KSTChatWidget::beamingRequested,
             this, &ChatWidget::beamRequest);
 
+#if 0 // see comments in closeTab
     // Disable Chat Room in the Combobox
     QStandardItemModel *model = qobject_cast<QStandardItemModel *>(ui->chatRoomCombo->model());
     if ( model )
@@ -128,6 +128,7 @@ void ChatWidget::connectChat()
         QStandardItem *item = model->item(ui->chatRoomCombo->currentIndex());
         item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
     }
+#endif
     settings.setValue("chat/last_selected_room", ui->chatRoomCombo->currentIndex());
 }
 
@@ -143,7 +144,10 @@ void ChatWidget::closeTab(int tabIndex)
     KSTChatWidget *kstWidget = qobject_cast<KSTChatWidget*>(ui->chatTabWidget->widget(tabIndex));
     ui->chatTabWidget->removeTab(tabIndex);
 
+#if 0 // It is not an user friednly to disable the item after connection
+    // because QLog save the last selected item and this items remains selected - it is chaotic
     // Enable Chat Room in the Combobox
+
     QStandardItemModel *model = qobject_cast<QStandardItemModel *>(ui->chatRoomCombo->model());
 
     if ( model )
@@ -151,7 +155,7 @@ void ChatWidget::closeTab(int tabIndex)
         QStandardItem *item = model->item(ui->chatRoomCombo->findText(kstWidget->property("chatName").toString()));
         item->setFlags(item->flags() | Qt::ItemIsEnabled);
     }
-
+#endif
     kstWidget->deleteLater();
     ui->chatTabWidget->setCurrentIndex(tabIndex - 1);
     //emit userListUpdated(QList<KSTUsersInfo>());
