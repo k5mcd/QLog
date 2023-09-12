@@ -40,6 +40,12 @@
         padding: 5px;
         font-weight: bold;
     }
+    .leaflet-tooltip.chat-tooltip {
+        border-radius: 20px;
+        background-color: transparent;
+        padding: 5px;
+        font-weight: bold;
+    }
   </style>
 </head>
 
@@ -55,6 +61,11 @@
     var locations = [];
 
     var map = L.map('map', {center: [0,0], zoom: 2, minZoom: 1});
+
+    map.createPane('lowestPane');
+    map.getPane('lowestPane').style.zIndex = 200;
+    map.getPane('lowestPane').style.pointerEvents = 'none';
+
 
     // green Icon definition. It is usually used for confirmed QSOs
     const greenIcon = new L.Icon({
@@ -392,7 +403,7 @@
        chatStationsLayer.clearLayers();
        points.forEach(function(point) {
           let marker = new L.marker([point[1], point[2]], {opacity: 0.001 });
-          marker.bindTooltip(point[0], {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+          marker.bindTooltip(point[0], {pane: 'lowestPane', permanent: true, direction : 'bottom', offset: [-16, 8], className: 'chat-tooltip' });
           marker.on('dblclick', chatCallsignPressed);
           marker.callsign = point[0];
           marker.getTooltip().setContent(`<div style="background-color: aqua;border-radius: 20px;padding: 5px;font-weight: bold;">${marker.getTooltip().getContent()}</div>`);
