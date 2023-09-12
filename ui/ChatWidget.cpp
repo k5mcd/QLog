@@ -2,6 +2,7 @@
 #include <QLabel>
 #include <QTabBar>
 #include <QMessageBox>
+#include <QStandardItemModel>
 
 #include "ChatWidget.h"
 #include "ui_ChatWidget.h"
@@ -120,6 +121,13 @@ void ChatWidget::connectChat()
     connect(newWidget, &KSTChatWidget::beamingRequested,
             this, &ChatWidget::beamRequest);
 
+    // Disable Chat Room in the Combobox
+    QStandardItemModel *model = qobject_cast<QStandardItemModel *>(ui->chatRoomCombo->model());
+    if ( model )
+    {
+        QStandardItem *item = model->item(ui->chatRoomCombo->currentIndex());
+        item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+    }
     settings.setValue("chat/last_selected_room", ui->chatRoomCombo->currentIndex());
 }
 
@@ -132,9 +140,19 @@ void ChatWidget::closeTab(int tabIndex)
     if ( tabIndex < 0 )
         return;
 
-    QWidget* tabWidget = ui->chatTabWidget->widget(tabIndex);
+    KSTChatWidget *kstWidget = qobject_cast<KSTChatWidget*>(ui->chatTabWidget->widget(tabIndex));
     ui->chatTabWidget->removeTab(tabIndex);
-    tabWidget->deleteLater();
+
+    // Enable Chat Room in the Combobox
+    QStandardItemModel *model = qobject_cast<QStandardItemModel *>(ui->chatRoomCombo->model());
+
+    if ( model )
+    {
+        QStandardItem *item = model->item(ui->chatRoomCombo->findText(kstWidget->property("chatName").toString()));
+        item->setFlags(item->flags() | Qt::ItemIsEnabled);
+    }
+
+    kstWidget->deleteLater();
     emit userListUpdated(QList<KSTUsersInfo>());
 }
 
