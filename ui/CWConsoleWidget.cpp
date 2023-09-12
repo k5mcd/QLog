@@ -93,7 +93,7 @@ void CWConsoleWidget::cwShortcutProfileComboChanged(QString profileName)
     CWShortcutProfilesManager *shortcutManager =  CWShortcutProfilesManager::instance();
     shortcutManager->setCurProfile1(profileName);
 
-    CWShortcutProfile profile = shortcutManager->getCurProfile1();
+    const CWShortcutProfile &profile = shortcutManager->getCurProfile1();
 
     ui->macroButton1->setText("F1\n" + profile.shortDescs[0]);
     ui->macroButton1->setShortcut(Qt::Key_F1);

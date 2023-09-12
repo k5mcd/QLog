@@ -267,7 +267,7 @@ void RigWidget::refreshBandCombo()
     FCT_IDENTIFICATION;
 
     QString currSelection = ui->bandComboBox->currentText();
-    RigProfile profile = RigProfilesManager::instance()->getCurProfile1();
+    const RigProfile &profile = RigProfilesManager::instance()->getCurProfile1();
 
     ui->bandComboBox->blockSignals(true);
     QSqlTableModel *bandComboModel = dynamic_cast<QSqlTableModel*>(ui->bandComboBox->model());

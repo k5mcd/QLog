@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget* parent) :
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("windowState").toByteArray());
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
 
     conditionsLabel = new QLabel("", ui->statusBar);
     conditionsLabel->setIndent(20);
@@ -314,7 +314,7 @@ void MainWindow::stationProfileChanged()
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
 
     qCDebug(runtime) << profile.callsign << " " << profile.locator << " " << profile.operatorName;
 

@@ -1424,7 +1424,7 @@ void NewContactWidget::saveContact()
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getProfile(ui->stationProfileCombo->currentText());
+    const StationProfile &profile = StationProfilesManager::instance()->getProfile(ui->stationProfileCombo->currentText());
 
     if ( profile.callsign.isEmpty() )
     {
@@ -1679,7 +1679,7 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
        record.setValue("name_intl", ui->nameEdit->text());
     }
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
 
     AdiFormat::preprocessINTLFields<QSqlRecord>(record);
 
@@ -2458,7 +2458,7 @@ QString NewContactWidget::getMyCallsign() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.callsign;
 }
 
@@ -2466,7 +2466,7 @@ QString NewContactWidget::getMyName() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.operatorName;
 }
 
@@ -2474,7 +2474,7 @@ QString NewContactWidget::getMyQTH() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.qthName;
 }
 
@@ -2482,7 +2482,7 @@ QString NewContactWidget::getMyLocator() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.locator;
 }
 
@@ -2490,7 +2490,7 @@ QString NewContactWidget::getMySIG() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.sig;
 }
 
@@ -2498,7 +2498,7 @@ QString NewContactWidget::getMySIGInfo() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.sigInfo;
 }
 
@@ -2506,7 +2506,7 @@ QString NewContactWidget::getMyIOTA() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.iota;
 }
 
@@ -2514,7 +2514,7 @@ QString NewContactWidget::getMySOTA() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.sota;
 }
 
@@ -2522,7 +2522,7 @@ QString NewContactWidget::getMyPOTA() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.pota;
 }
 
@@ -2530,7 +2530,7 @@ QString NewContactWidget::getMyWWFT() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.wwff;
 }
 
@@ -2538,7 +2538,7 @@ QString NewContactWidget::getMyVUCC() const
 {
     FCT_IDENTIFICATION;
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
     return profile.vucc;
 }
 

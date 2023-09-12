@@ -48,7 +48,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
     static QRegularExpression cqRE("^CQ (DX |TEST |[A-Z]{0,2} )?([A-Z0-9\\/]+) ?([A-Z]{2}[0-9]{2})?.*");
 
-    StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
 
     if ( decode.message.startsWith("CQ") )
     {
