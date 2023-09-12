@@ -208,7 +208,7 @@
   </connection>
   <connection>
    <sender>chatTabWidget</sender>
-   <signal>tabBarClicked(int)</signal>
+   <signal>currentChanged(int)</signal>
    <receiver>ChatWidget</receiver>
    <slot>chatTabClicked(int)</slot>
    <hints>

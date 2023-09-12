@@ -153,7 +153,8 @@ void ChatWidget::closeTab(int tabIndex)
     }
 
     kstWidget->deleteLater();
-    emit userListUpdated(QList<KSTUsersInfo>());
+    ui->chatTabWidget->setCurrentIndex(tabIndex - 1);
+    //emit userListUpdated(QList<KSTUsersInfo>());
 }
 
 void ChatWidget::tabActive(QWidget *w)
