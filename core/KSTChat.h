@@ -128,6 +128,7 @@ public slots:
     void connectChat();
     void disconnectChat();
     void sendMessage(QString);
+    void reloadStationProfile();
 
 private slots:
     void receiveData();

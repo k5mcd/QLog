@@ -136,6 +136,7 @@ public slots:
     void sendMessage();
     void updateUserList();
     void setPrivateChatCallsign(QString);
+    void reloadStationProfile();
 
 private slots:
     void showChatError(const QString &);

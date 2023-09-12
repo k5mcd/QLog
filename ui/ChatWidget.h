@@ -21,6 +21,7 @@ public:
 
 public slots:
     void setChatCallsign(QString);
+    void reloadStationProfile();
 
 private slots:
     void connectChat();

@@ -171,6 +171,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, this, &MainWindow::stationProfileChanged);
     connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, ui->rotatorWidget, &RotatorWidget::redrawMap);
     connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, ui->onlineMapWidget, &OnlineMapWidget::flyToMyQTH);
+    connect(ui->newContactWidget, &NewContactWidget::stationProfileChanged, ui->chatWidget, &ChatWidget::reloadStationProfile);
     connect(ui->newContactWidget, &NewContactWidget::antProfileChanged, ui->onlineMapWidget, &OnlineMapWidget::flyToMyQTH);
     connect(ui->newContactWidget, &NewContactWidget::markQSO, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->newContactWidget, &NewContactWidget::rigProfileChanged, ui->rigWidget, &RigWidget::refreshRigProfileCombo);

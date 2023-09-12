@@ -171,6 +171,13 @@ void KSTChat::sendMessage(QString msg)
     sendCommand(( msg.startsWith("/") ) ? USER_CMD : NO_CMD, msg);
 }
 
+void KSTChat::reloadStationProfile()
+{
+    FCT_IDENTIFICATION;
+
+    sendSetGridCommand();
+}
+
 void KSTChat::sendShowUsersCommand()
 {
     FCT_IDENTIFICATION;

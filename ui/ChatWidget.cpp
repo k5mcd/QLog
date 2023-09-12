@@ -60,6 +60,19 @@ void ChatWidget::setChatCallsign(QString callsign)
     }
 }
 
+void ChatWidget::reloadStationProfile()
+{
+    FCT_IDENTIFICATION;
+
+    for (int i = 0; i < ui->chatTabWidget->count(); i++ )
+    {
+        KSTChatWidget *kstWidget = qobject_cast<KSTChatWidget*>(ui->chatTabWidget->widget(i));
+
+        if ( kstWidget )
+            kstWidget->reloadStationProfile();
+    }
+}
+
 void ChatWidget::connectChat()
 {
     FCT_IDENTIFICATION;

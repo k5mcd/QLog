@@ -207,6 +207,13 @@ void KSTChatWidget::setPrivateChatCallsign(QString callsign)
     ui->toCombo->setCurrentText(callsign);
 }
 
+void KSTChatWidget::reloadStationProfile()
+{
+    FCT_IDENTIFICATION;
+
+    chat->reloadStationProfile();
+}
+
 void KSTChatWidget::showChatError(const QString &error)
 {
     FCT_IDENTIFICATION;
