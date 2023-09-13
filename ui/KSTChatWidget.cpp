@@ -11,6 +11,7 @@
 #include "ui/ColumnSettingDialog.h"
 #include "ui/StyleItemDelegate.h"
 #include "KSTHighlighterSettingDialog.h"
+#include "core/Rotator.h"
 
 MODULE_IDENTIFICATION("qlog.ui.kstchatwidget");
 
@@ -33,6 +34,7 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
 
     ui->toLabel->setVisible(false);
     ui->resetButton->setVisible(false);
+    setBeamActionVisible(Rotator::instance()->isRotConnected());
 
     QCommonStyle style;
     ui->resetButton->setIcon(style.standardIcon(QStyle::SP_LineEditClearButton));
@@ -75,6 +77,18 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
 
     connect(chat.data(), &KSTChat::chatDisconnected,
             this, &KSTChatWidget::closeChat);
+
+    connect(Rotator::instance(), &Rotator::rotConnected,
+            this, [this]()
+    {
+        setBeamActionVisible(true);
+    });
+
+    connect(Rotator::instance(), &Rotator::rotDisconnected,
+            this, [this]()
+    {
+        setBeamActionVisible(false);
+    });
 
     chat->connectChat();
 }
@@ -217,6 +231,15 @@ void KSTChatWidget::reloadStationProfile()
     FCT_IDENTIFICATION;
 
     chat->reloadStationProfile();
+}
+
+void KSTChatWidget::setBeamActionVisible(bool flag)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << flag;
+
+    ui->actionBeam->setVisible(flag);
 }
 
 void KSTChatWidget::showChatError(const QString &error)

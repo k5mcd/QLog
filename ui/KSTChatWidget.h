@@ -137,6 +137,7 @@ public slots:
     void updateUserList();
     void setPrivateChatCallsign(QString);
     void reloadStationProfile();
+    void setBeamActionVisible(bool);
 
 private slots:
     void showChatError(const QString &);
