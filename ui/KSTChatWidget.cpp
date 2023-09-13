@@ -647,7 +647,7 @@ QVariant UserListModel::headerData(int section, Qt::Orientation orientation, int
     case 0: return tr("Callsign");
     case 1: return tr("Gridsquare");
     case 2: return tr("Distance");
-    case 3: return tr("Bearing");
+    case 3: return tr("Azimuth");
     case 4: return tr("Comment");
     default: return QVariant();
     }

@@ -37,7 +37,7 @@
         <string>Copy the input file from the source folder to the QLog Internal QSL Storage folder.&lt;br/&gt;The original file remains unchanged in the source folder</string>
        </property>
        <property name="text">
-        <string>Import File</string>
+        <string>Import QSL</string>
        </property>
        <property name="icon">
         <iconset theme="folder-open">
