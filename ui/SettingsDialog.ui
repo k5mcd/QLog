@@ -3446,7 +3446,7 @@
              <item>
               <widget class="QLineEdit" name="paperFolderPathEdit">
                <property name="toolTip">
-                <string>The folder into which the importanted QSL Card images are copied.&lt;br/&gt;This folder is then used by QLog to manage these QSLs.</string>
+                <string>The folder into which the imported QSL Card images are copied.&lt;br/&gt;This folder is then used by QLog to manage these QSLs.</string>
                </property>
                <property name="readOnly">
                 <bool>true</bool>
@@ -3516,7 +3516,7 @@
          </property>
          <widget class="QWidget" name="kstTab">
           <attribute name="title">
-           <string>ON4KST</string>
+           <string notr="true">ON4KST</string>
           </attribute>
           <layout class="QFormLayout" name="formLayout_15">
            <item row="0" column="1">
@@ -3575,7 +3575,7 @@
            <item row="3" column="1">
             <widget class="QLabel" name="kstSecurityNoticeLabel">
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Security Notice&lt;/span&gt;: QLog stores all passwords in the Secure Storage. Unfortunately, ON4KST uses a protocol where this password is sent over an unsecured channel as plaintext.&lt;/p&gt;&lt;p&gt;Please exercise caution when choosing your password for this service, as your password is sent over an unsecured channel in plaintext form.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;b&gt;Security Notice:&lt;/b&gt; QLog stores all passwords in the Secure Storage. Unfortunately, ON4KST uses a protocol where this password is sent over an unsecured channel as plaintext.&lt;/p&gt;&lt;p&gt;Please exercise caution when choosing your password for this service, as your password is sent over an unsecured channel in plaintext form.&lt;/p&gt;</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
