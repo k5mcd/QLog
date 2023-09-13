@@ -176,12 +176,12 @@
     <string>Which columns should be displayed</string>
    </property>
   </action>
-  <action name="actionCreateQSO">
+  <action name="actionPrefillQSO">
    <property name="text">
-    <string>Create QSO</string>
+    <string>Prepare QSO</string>
    </property>
    <property name="toolTip">
-    <string>Transfer information to the New QSO</string>
+    <string>Transfer Callsign and Gridsquare Information to the New QSO dialog</string>
    </property>
   </action>
   <action name="actionShowAboutMeOnly">
@@ -279,10 +279,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionCreateQSO</sender>
+   <sender>actionPrefillQSO</sender>
    <signal>triggered()</signal>
    <receiver>KSTChatWidget</receiver>
-   <slot>createQSO()</slot>
+   <slot>prefillQSOAction()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -379,7 +379,7 @@
   <slot>sendMessage()</slot>
   <slot>displayedColumns()</slot>
   <slot>userDoubleClicked(QModelIndex)</slot>
-  <slot>createQSO()</slot>
+  <slot>prefillQSOAction()</slot>
   <slot>applyMessageFilter()</slot>
   <slot>toComboChanged(int)</slot>
   <slot>highlightPressed()</slot>

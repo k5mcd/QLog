@@ -47,7 +47,7 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     ui->usersTableView->setItemDelegateForColumn(3, new UnitFormatDelegate("°", 0, 0.1, ui->usersTableView));
 
     ui->usersTableView->horizontalHeader()->setSectionsMovable(true);
-    ui->usersTableView->addAction(ui->actionCreateQSO);
+    ui->usersTableView->addAction(ui->actionPrefillQSO);
     ui->usersTableView->addAction(ui->actionBeam);
     ui->usersTableView->addAction(ui->actionDisplayedColumns);
 
@@ -259,7 +259,7 @@ void KSTChatWidget::messageDoubleClicked(QModelIndex index)
         setPrivateChatCallsign(messageSenderElements.at(0));
 }
 
-void KSTChatWidget::createQSO()
+void KSTChatWidget::prefillQSOAction()
 {
     FCT_IDENTIFICATION;
 
