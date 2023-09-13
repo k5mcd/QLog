@@ -145,7 +145,6 @@ private slots:
     void userDoubleClicked(QModelIndex);
     void messageDoubleClicked(QModelIndex);
     void createQSO();
-    void toComboChanged(int);
     void highlightPressed();
     bool isHighlightCandidate(KSTChatMsg &);
     void editHighlightRules();

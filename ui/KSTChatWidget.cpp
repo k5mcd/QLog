@@ -31,6 +31,9 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
 
     ui->setupUi(this);
 
+    ui->toLabel->setVisible(false);
+    ui->resetButton->setVisible(false);
+
     QCommonStyle style;
     ui->resetButton->setIcon(style.standardIcon(QStyle::SP_LineEditClearButton));
 
@@ -151,13 +154,12 @@ void KSTChatWidget::sendMessage()
 
     chatMsg.sender = tr("You");
 
-    if ( ui->toCombo->currentText() != "" )
+    if ( ui->toLabel->text() != QString() )
     {
-        chatMsg.message = "(" + ui->toCombo->currentText() + ") "
-                          + ui->msgLineEdit->text();
+        chatMsg.message = "(" + ui->toLabel->text() + ") " + ui->msgLineEdit->text();
         command = "/cq "
-                  + ui->toCombo->currentText()
-                + " " + ui->msgLineEdit->text();
+                  + ui->toLabel->text()
+                  + " " + ui->msgLineEdit->text();
     }
     else
     {
@@ -166,7 +168,7 @@ void KSTChatWidget::sendMessage()
     }
 
     messageModel->addMessage(ChatMessageModel::OUTGOING,
-                      chatMsg);
+                             chatMsg);
     ui->messageListView->scrollToBottom();
     chat->sendMessage(command);
     ui->msgLineEdit->blockSignals(true);
@@ -184,17 +186,6 @@ void KSTChatWidget::updateUserList()
     // refresh user List
     userListModel->updateList(usersList);
 
-    // refresh ToCombo
-    const QString &currSelection = ui->toCombo->currentText();
-    ui->toCombo->clear();
-    ui->toCombo->addItem(QString()); // Empty field for "to All"
-
-    for ( const KSTUsersInfo &user : qAsConst(usersList) )
-    {
-        ui->toCombo->addItem(user.callsign);
-    }
-    ui->toCombo->setCurrentText(currSelection);
-
     emit userListUpdated(this);
 }
 
@@ -204,7 +195,21 @@ void KSTChatWidget::setPrivateChatCallsign(QString callsign)
 
     qCDebug(function_parameters) << callsign;
 
-    ui->toCombo->setCurrentText(callsign);
+    if ( callsign.isEmpty() )
+    {
+        resetPressed();
+        return;
+    }
+
+    ui->toLabel->setVisible(true);
+    ui->resetButton->setVisible(true);
+    ui->toLabel->setText(callsign);
+    const QModelIndexList &nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, callsign, 1);
+
+    if ( nextMatches.size() >= 1 )
+    {
+        ui->usersTableView->setCurrentIndex(nextMatches.at(0));
+    }
 }
 
 void KSTChatWidget::reloadStationProfile()
@@ -242,7 +247,7 @@ void KSTChatWidget::userDoubleClicked(QModelIndex index)
     FCT_IDENTIFICATION;
 
     const QModelIndex &sourceIindex = proxyModel->mapToSource(index);
-    ui->toCombo->setCurrentText(userListModel->getUserInfo(sourceIindex).callsign);
+    setPrivateChatCallsign(userListModel->getUserInfo(sourceIindex).callsign);
 }
 
 void KSTChatWidget::messageDoubleClicked(QModelIndex index)
@@ -251,7 +256,7 @@ void KSTChatWidget::messageDoubleClicked(QModelIndex index)
 
     const QStringList messageSenderElements = messageModel->getMessage(index).sender.split(" ");
     if ( messageSenderElements.size() > 0 )
-        ui->toCombo->setCurrentText(messageSenderElements.at(0));
+        setPrivateChatCallsign(messageSenderElements.at(0));
 }
 
 void KSTChatWidget::createQSO()
@@ -261,26 +266,6 @@ void KSTChatWidget::createQSO()
     const QModelIndex &sourceIndex = proxyModel->mapToSource(ui->usersTableView->currentIndex());
     const KSTUsersInfo &info = userListModel->getUserInfo(sourceIndex);
     emit chatQSOInfo(info.callsign, info.grid.getGrid());
-}
-
-void KSTChatWidget::toComboChanged(int)
-{
-    FCT_IDENTIFICATION;
-
-    const QString &selectedCallsign = ui->toCombo->currentText();
-
-    if ( selectedCallsign.isEmpty() )
-    {
-        ui->usersTableView->clearSelection();
-        return;
-    }
-
-    const QModelIndexList &nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, selectedCallsign, 1);
-
-    if ( nextMatches.size() >= 1 )
-    {
-        ui->usersTableView->setCurrentIndex(nextMatches.at(0));
-    }
 }
 
 void KSTChatWidget::highlightPressed()
@@ -310,7 +295,10 @@ void KSTChatWidget::resetPressed()
     FCT_IDENTIFICATION;
 
     ui->msgLineEdit->clear();
-    ui->toCombo->setCurrentIndex(0);
+    ui->toLabel->clear();
+    ui->usersTableView->clearSelection();
+    ui->toLabel->setVisible(false);
+    ui->resetButton->setVisible(false);
 }
 
 void KSTChatWidget::beamingRequest()

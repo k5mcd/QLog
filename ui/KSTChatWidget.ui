@@ -121,15 +121,9 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QComboBox" name="toCombo">
-       <property name="focusPolicy">
-        <enum>Qt::ClickFocus</enum>
-       </property>
-       <property name="toolTip">
-        <string>Select Recipient's Callsign. If empty then the message is sent to &quot;All&quot;</string>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QComboBox::AdjustToContents</enum>
+      <widget class="QLabel" name="toLabel">
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>
@@ -293,22 +287,6 @@
     <hint type="sourcelabel">
      <x>-1</x>
      <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>200</x>
-     <y>120</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>KSTChatWidget</receiver>
-   <slot>toComboChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>52</x>
-     <y>219</y>
     </hint>
     <hint type="destinationlabel">
      <x>200</x>
