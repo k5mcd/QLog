@@ -222,21 +222,11 @@ QStringList KSTChat::joinLines(const QByteArray &data)
 
     qCDebug(function_parameters) << data;
 
-    QByteArray::const_iterator iter = data.begin();
-    QByteArray fixedData;
+    QByteArray fixedData(data);
     QStringList retList;
 
-    /* Remove received '\0' chars */
-    /* Received usually at the begining of the session */
-    while( iter != data.end() )
-    {
-        QChar c = *iter;
-        if (c != '\0')
-            fixedData.append(QString(c).toUtf8());
-        iter++;
-    }
-
-    receiveBuffer.append(fixedData);
+    fixedData.replace('\0', "");
+    receiveBuffer.append(QString::fromUtf8(fixedData));
     int index = receiveBuffer.indexOf("\n");
 
     while ( index != -1 )

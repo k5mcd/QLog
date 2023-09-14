@@ -47,6 +47,7 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     ui->usersTableView->sortByColumn(0, Qt::AscendingOrder);
     ui->usersTableView->setItemDelegateForColumn(2, new UnitFormatDelegate("km", 1, 0.1, ui->usersTableView));
     ui->usersTableView->setItemDelegateForColumn(3, new UnitFormatDelegate("°", 0, 0.1, ui->usersTableView));
+    ui->usersTableView->setItemDelegateForColumn(4, new HTMLDelegate(ui->usersTableView));
 
     ui->usersTableView->horizontalHeader()->setSectionsMovable(true);
     ui->usersTableView->addAction(ui->actionPrefillQSO);
@@ -673,4 +674,42 @@ void UserListModel::clear()
 KSTUsersInfo UserListModel::getUserInfo(const QModelIndex &index) const
 {
     return userData.at(index.row());
+}
+
+void HTMLDelegate::paint(QPainter* painter, const QStyleOptionViewItem & inOption, const QModelIndex &index) const
+{
+    QStyleOptionViewItem option = inOption;
+    initStyleOption(&option, index);
+
+    QStyle *style = option.widget? option.widget->style() : QApplication::style();
+    QTextDocument doc;
+
+    doc.setHtml(option.text);
+    option.text = QString();
+    style->drawControl(QStyle::CE_ItemViewItem, &option, painter);
+
+    QAbstractTextDocumentLayout::PaintContext ctx;
+
+    // Highlighting text if item is selected
+    if (option.state & QStyle::State_Selected)
+        ctx.palette.setColor(QPalette::Text,
+                             option.palette.color(QPalette::Active, QPalette::HighlightedText));
+
+    QRect textRect = style->subElementRect(QStyle::SE_ItemViewItemText, &option);
+    painter->save();
+    painter->translate(textRect.topLeft());
+    painter->setClipRect(textRect.translated(-textRect.topLeft()));
+    doc.documentLayout()->draw(painter, ctx);
+    painter->restore();
+}
+
+QSize HTMLDelegate::sizeHint ( const QStyleOptionViewItem & inOption, const QModelIndex & index ) const
+{
+    QStyleOptionViewItem option = inOption;
+    initStyleOption(&option, index);
+
+    QTextDocument doc;
+    doc.setHtml(option.text);
+    doc.setTextWidth(option.rect.width());
+    return QSize(doc.idealWidth(), doc.size().height());
 }

@@ -53,6 +53,17 @@ private:
     QList<QPair<int, KSTChatMsg>> messages;
 };
 
+class HTMLDelegate : public QStyledItemDelegate
+{
+public:
+    explicit HTMLDelegate(QObject* parent = nullptr) :
+        QStyledItemDelegate(parent){};
+
+protected:
+    void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+};
+
 class MessageDelegate : public QStyledItemDelegate
 {
 
