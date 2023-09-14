@@ -204,6 +204,8 @@ void KSTChatWidget::updateUserList()
     // refresh user List
     userListModel->updateList(usersList);
 
+    setSelectedCallsignInUserList(ui->toLabel->text());
+
     emit userListUpdated(this);
 }
 
@@ -222,12 +224,7 @@ void KSTChatWidget::setPrivateChatCallsign(QString callsign)
     ui->toLabel->setVisible(true);
     ui->resetButton->setVisible(true);
     ui->toLabel->setText(callsign);
-    const QModelIndexList &nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, callsign, 1);
-
-    if ( nextMatches.size() >= 1 )
-    {
-        ui->usersTableView->setCurrentIndex(nextMatches.at(0));
-    }
+    setSelectedCallsignInUserList(callsign);
 }
 
 void KSTChatWidget::reloadStationProfile()
@@ -347,6 +344,21 @@ void KSTChatWidget::beamingRequest()
         {
             emit beamingRequested(bearing);
         }
+    }
+}
+
+void KSTChatWidget::setSelectedCallsignInUserList(const QString callsign)
+{
+    FCT_IDENTIFICATION;
+
+    if ( callsign.isEmpty() )
+        return;
+
+    const QModelIndexList &nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, callsign, 1);
+
+    if ( nextMatches.size() >= 1 )
+    {
+        ui->usersTableView->setCurrentIndex(nextMatches.at(0));
     }
 }
 

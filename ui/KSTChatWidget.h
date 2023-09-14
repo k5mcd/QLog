@@ -171,6 +171,8 @@ private:
     QSortFilterProxyModel * proxyModel;
     QPointer<chatHighlightEvaluator> highlightEvaluator;
     QString userName;
+
+    void setSelectedCallsignInUserList(const QString);
 };
 
 #endif // KSTCHATWIDGET_H
