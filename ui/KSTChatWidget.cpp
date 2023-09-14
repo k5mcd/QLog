@@ -117,19 +117,22 @@ void KSTChatWidget::addChatMessage(KSTChatMsg msg)
         return;
 
     bool isMyCallsignPresent = msg.message.contains(userName,Qt::CaseInsensitive);
+    bool isSenderSelectedCallsign = ui->toLabel->isVisible()
+                                    && !msg.sender.isEmpty()
+                                    && msg.sender.startsWith(ui->toLabel->text());
     bool isUser2User = msg.message.startsWith(" ("); //hack - how to easy to recognize Private Message
     bool shouldHighlight = ui->actionHighlight->isChecked() && isHighlightCandidate(msg);
 
     qCDebug(runtime) << "AboutMe" << isMyCallsignPresent;
     qCDebug(runtime) << "isUser2User" << isUser2User;
     qCDebug(runtime) << "shouldHighlight" << shouldHighlight;
-
+    qCDebug(runtime) << "'isSenderSelectedCallsign" << isSenderSelectedCallsign;
 
     // Filter incoming messages
     // Empty callsign means server response, do not supress it
     if ( !msg.sender.isEmpty() )
     {
-        if ( ! shouldHighlight )
+        if ( ! shouldHighlight && ! isSenderSelectedCallsign )
         {
             if ( ui->actionShowAboutMeOnly->isChecked() && !isMyCallsignPresent )
                 return;
@@ -145,7 +148,7 @@ void KSTChatWidget::addChatMessage(KSTChatMsg msg)
     {
         dir = ChatMessageModel::INCOMING_HIGHLIGHT;
     }
-    else if ( isMyCallsignPresent )
+    else if ( isMyCallsignPresent || isSenderSelectedCallsign )
     {
         dir = ChatMessageModel::INCOMING_TOYOU;
 
