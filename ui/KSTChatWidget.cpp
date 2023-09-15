@@ -23,6 +23,7 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     QWidget(parent),
     ui(new Ui::KSTChatWidget),
     messageModel(new ChatMessageModel(this)),
+    valuableMessageModel(new ChatMessageModel(this)),
     chat(new KSTChat(chatRoomIndex, username, password, contact, this)),
     userListModel(new UserListModel(this)),
     highlightEvaluator(new chatHighlightEvaluator(chatRoomIndex, this)),
@@ -31,6 +32,9 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+
+    ui->splitterMsgMsg->setSizes(QList<int>({1, 0}));
+    ui->splitterMsgUsr->setSizes(QList<int>({3, 1}));
 
     ui->toLabel->setVisible(false);
     ui->resetButton->setVisible(false);
@@ -48,7 +52,6 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     ui->usersTableView->setItemDelegateForColumn(2, new UnitFormatDelegate("km", 1, 0.1, ui->usersTableView));
     ui->usersTableView->setItemDelegateForColumn(3, new UnitFormatDelegate("°", 0, 0.1, ui->usersTableView));
     ui->usersTableView->setItemDelegateForColumn(4, new HTMLDelegate(ui->usersTableView));
-
     ui->usersTableView->horizontalHeader()->setSectionsMovable(true);
     ui->usersTableView->addAction(ui->actionPrefillQSO);
     ui->usersTableView->addAction(ui->actionBeam);
@@ -64,8 +67,9 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     ui->messageListView->addAction(separator);
     ui->messageListView->addAction(ui->actionHighlightRules);
 
-    ui->splitter->setStretchFactor(0, 1);
-    ui->splitter->setStretchFactor(1, 0);
+    ui->valuableMessageListView->setItemDelegate(new MessageDelegate(this));
+    ui->valuableMessageListView->setModel(valuableMessageModel);
+    ui->valuableMessageListView->addAction(ui->actionClearValuableMessages);
 
     connect(chat.data(), &KSTChat::chatMsg,
             this, &KSTChatWidget::addChatMessage);
@@ -127,7 +131,7 @@ void KSTChatWidget::addChatMessage(KSTChatMsg msg)
     qCDebug(runtime) << "AboutMe" << isMyCallsignPresent;
     qCDebug(runtime) << "isUser2User" << isUser2User;
     qCDebug(runtime) << "shouldHighlight" << shouldHighlight;
-    qCDebug(runtime) << "'isSenderSelectedCallsign" << isSenderSelectedCallsign;
+    qCDebug(runtime) << "isSenderSelectedCallsign" << isSenderSelectedCallsign;
 
     // Filter incoming messages
     // Empty callsign means server response, do not supress it
@@ -155,6 +159,16 @@ void KSTChatWidget::addChatMessage(KSTChatMsg msg)
 
     }
 
+    if ( shouldHighlight
+         || isMyCallsignPresent
+         || isSenderSelectedCallsign )
+    {
+        valuableMessageModel->addMessage(dir, msg);
+        if ( ui->valuableMessageListView->verticalScrollBar()->value() == ui->valuableMessageListView->verticalScrollBar()->maximum() )
+            ui->valuableMessageListView->scrollToBottom();
+        emit valuableMessageUpdated(this);
+    }
+
     messageModel->addMessage(dir, msg);
 
     if ( ui->messageListView->verticalScrollBar()->value() == ui->messageListView->verticalScrollBar()->maximum() )
@@ -171,6 +185,7 @@ void KSTChatWidget::sendMessage()
     QString command;
 
     chatMsg.sender = tr("You");
+    chatMsg.time = QDateTime::currentDateTimeUtc().toString("hhmm");
 
     if ( ui->toLabel->text() != QString() )
     {
@@ -187,7 +202,10 @@ void KSTChatWidget::sendMessage()
 
     messageModel->addMessage(ChatMessageModel::OUTGOING,
                              chatMsg);
+    valuableMessageModel->addMessage(ChatMessageModel::OUTGOING,
+                                  chatMsg);
     ui->messageListView->scrollToBottom();
+    ui->valuableMessageListView->scrollToBottom();
     chat->sendMessage(command);
     ui->msgLineEdit->blockSignals(true);
     ui->msgLineEdit->clear();
@@ -289,7 +307,7 @@ void KSTChatWidget::prefillQSOAction()
 
     const QModelIndex &sourceIndex = proxyModel->mapToSource(ui->usersTableView->currentIndex());
     const KSTUsersInfo &info = userListModel->getUserInfo(sourceIndex);
-    emit chatQSOInfo(info.callsign, info.grid.getGrid());
+    emit prepareQSOInfo(info.callsign, info.grid.getGrid());
 }
 
 void KSTChatWidget::highlightPressed()
@@ -347,6 +365,13 @@ void KSTChatWidget::beamingRequest()
     }
 }
 
+void KSTChatWidget::clearValuableMessages()
+{
+    FCT_IDENTIFICATION;
+
+    valuableMessageModel->clear();
+}
+
 void KSTChatWidget::setSelectedCallsignInUserList(const QString callsign)
 {
     FCT_IDENTIFICATION;
@@ -400,6 +425,14 @@ void ChatMessageModel::addMessage(MessageDirection direction,
     beginInsertRows(QModelIndex(), messages.size(), messages.size()+1);
     messages.append(QPair<int, KSTChatMsg>(direction, msg));
     endInsertRows();
+}
+
+void ChatMessageModel::clear()
+{
+    FCT_IDENTIFICATION;
+    beginResetModel();
+    messages.clear();
+    endResetModel();
 }
 
 KSTChatMsg ChatMessageModel::getMessage(const QModelIndex &index) const

@@ -46,7 +46,7 @@ public:
                   int role = Qt::DisplayRole) const override;
     void addMessage(MessageDirection direction,
                     const KSTChatMsg &msg);
-
+    void clear();
     KSTChatMsg getMessage(const QModelIndex &index) const;
 
 private:
@@ -138,7 +138,8 @@ public:
 signals:
     void chatClosed();
     void chatUpdated(QWidget *);
-    void chatQSOInfo(QString, QString);
+    void valuableMessageUpdated(QWidget *);
+    void prepareQSOInfo(QString, QString);
     void userListUpdated(QWidget *);
     void beamingRequested(double);
 
@@ -162,10 +163,11 @@ private slots:
     void editHighlightRules();
     void resetPressed();
     void beamingRequest();
-
+    void clearValuableMessages();
 private:
     Ui::KSTChatWidget *ui;
     QPointer<ChatMessageModel> messageModel;
+    QPointer<ChatMessageModel> valuableMessageModel;
     QPointer<KSTChat> chat;
     UserListModel* userListModel;
     QSortFilterProxyModel * proxyModel;

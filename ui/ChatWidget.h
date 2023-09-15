@@ -27,13 +27,14 @@ private slots:
     void connectChat();
     void closeTab(int);
     void tabActive(QWidget *);
+    void valuableMessageActive(QWidget *);
     void chatTabClicked(int);
     void processQSOInfo(QString, QString);
     void userListUpdate(QWidget *w);
     void beamRequest(double);
 
 signals:
-    void chatQSOInfo(QString, QString);
+    void prepareQSOInfo(QString, QString);
     void userListUpdated(QList<KSTUsersInfo>);
     void beamingRequested(double);
 
@@ -41,7 +42,7 @@ private:
     Ui::ChatWidget *ui;
     const NewContactWidget *contact;
 
-    int findIndex(QWidget *);
+    int findTabWidgetIndex(QWidget *);
     QString generateTabName(QWidget *);
 };
 

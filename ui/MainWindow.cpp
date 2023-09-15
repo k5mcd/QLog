@@ -194,7 +194,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     connect(ui->rigWidget, &RigWidget::rigProfileChanged, ui->newContactWidget, &NewContactWidget::refreshRigProfileCombo);
 
-    connect(ui->chatWidget, &ChatWidget::chatQSOInfo, ui->newContactWidget, &NewContactWidget::fillCallsignGrid);
+    connect(ui->chatWidget, &ChatWidget::prepareQSOInfo, ui->newContactWidget, &NewContactWidget::fillCallsignGrid);
     connect(ui->chatWidget, &ChatWidget::userListUpdated, ui->onlineMapWidget, &OnlineMapWidget::drawChatUsers);
     connect(ui->chatWidget, &ChatWidget::beamingRequested, ui->rotatorWidget, &RotatorWidget::setBearing);
 

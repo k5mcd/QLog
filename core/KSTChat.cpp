@@ -45,8 +45,8 @@ KSTChat::KSTChat(int chatRoomIndex,
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [this]() {
         KSTChatMsg msg;
-        msg.time = "1521";
-        msg.callsign = "OK1MLF";
+        msg.time = QDateTime::currentDateTimeUtc().toString("hhmm");
+        msg.sender = "OK1MLF";
         msg.message = "Toto je pokusna zprava pro vsechny";
         msg.grid = Gridsquare("JN79HK");
         emit chatMsg(msg);
@@ -296,19 +296,19 @@ void KSTChat::receiveData()
                 qCDebug(runtime) << "CMD" << currCommand << " - End Detected";
 
                 KSTChatMsg msg;
+                msg.time = QDateTime::currentDateTimeUtc().toString("hhmm");
+                msg.sender = QString();
 
                 switch ( currCommand )
                 {
                 case LOGIN_CMD:
                     emit chatConnected();
-                    msg.sender = QString();
                     msg.message = commandLineBuffer.join("\n");
                     emit chatMsg(msg);
                     sendSetGridCommand();
                     sendShowUsersCommand();
                     break;
                 case SET_GRID_CMD:
-                    msg.sender = QString();
                     msg.message = commandLineBuffer.join("\n");
                     emit chatMsg(msg);
                     break;
@@ -316,7 +316,6 @@ void KSTChat::receiveData()
                     finalizeShowUsersCommand(commandLineBuffer);
                     break;
                 case USER_CMD:
-                    msg.sender = QString();
                     msg.message = commandLineBuffer.join("\n");
                     emit chatMsg(msg);
                     break;
@@ -337,7 +336,7 @@ void KSTChat::receiveData()
                 if ( chatLineMatch.hasMatch() )
                 {
                     KSTChatMsg msg;
-                    msg.time = chatLineMatch.captured(1);
+                    msg.time = QDateTime::currentDateTimeUtc().toString("hhmm");// own time to be better // chatLineMatch.captured(1);
                     msg.sender = chatLineMatch.captured(2);
                     msg.message = chatLineMatch.captured(3);
                     msg.grid = getUserInfo(msg.sender).grid;

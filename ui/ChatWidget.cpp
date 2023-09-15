@@ -95,13 +95,14 @@ void ChatWidget::connectChat()
                                                  contact,
                                                  this);
     newWidget->setProperty("chatName", ui->chatRoomCombo->currentText());
-    newWidget->setProperty("unread", 0);
+    newWidget->setProperty("unreadMsg", 0);
+    newWidget->setProperty("valuableMsg", 0);
     ui->chatTabWidget->addTab(newWidget,generateTabName(newWidget));
     ui->chatTabWidget->setCurrentWidget(newWidget);
     connect(newWidget, &KSTChatWidget::chatClosed,
             this, [this, newWidget]()
     {
-        int i = this->findIndex(newWidget);
+        int i = this->findTabWidgetIndex(newWidget);
         if ( i >= 0 )
         {
             this->closeTab(i);
@@ -111,7 +112,10 @@ void ChatWidget::connectChat()
     connect(newWidget, &KSTChatWidget::chatUpdated,
             this, &ChatWidget::tabActive);
 
-    connect(newWidget, &KSTChatWidget::chatQSOInfo,
+    connect(newWidget, &KSTChatWidget::valuableMessageUpdated,
+            this, &ChatWidget::valuableMessageActive);
+
+    connect(newWidget, &KSTChatWidget::prepareQSOInfo,
             this, &ChatWidget::processQSOInfo);
 
     connect(newWidget, &KSTChatWidget::userListUpdated,
@@ -168,11 +172,27 @@ void ChatWidget::tabActive(QWidget *w)
     if ( w == ui->chatTabWidget->currentWidget() )
         return;
 
-    int unread = w->property("unread").toInt();
+    int unread = w->property("unreadMsg").toInt();
     unread++;
-    w->setProperty("unread", unread);
+    w->setProperty("unreadMsg", unread);
 
-    int i = findIndex(w);
+    int i = findTabWidgetIndex(w);
+    if ( i >=0 )
+        ui->chatTabWidget->setTabText(i, generateTabName(w));
+}
+
+void ChatWidget::valuableMessageActive(QWidget *w)
+{
+    FCT_IDENTIFICATION;
+
+    if ( w == ui->chatTabWidget->currentWidget() )
+        return;
+
+    int valuableMsgCounter = w->property("valuableMsg").toInt();
+    valuableMsgCounter++;
+    w->setProperty("valuableMsg", valuableMsgCounter);
+
+    int i = findTabWidgetIndex(w);
     if ( i >=0 )
         ui->chatTabWidget->setTabText(i, generateTabName(w));
 }
@@ -184,7 +204,8 @@ void ChatWidget::chatTabClicked(int tabIndex)
     qCDebug(function_parameters) << tabIndex;
 
     QWidget *w = ui->chatTabWidget->widget(tabIndex);
-    w->setProperty("unread", 0);
+    w->setProperty("unreadMsg", 0);
+    w->setProperty("valuableMsg", 0);
     ui->chatTabWidget->setTabText(tabIndex, generateTabName(w));
     KSTChatWidget *kstWidget = qobject_cast<KSTChatWidget*>(w);
     if ( kstWidget )
@@ -196,7 +217,7 @@ void ChatWidget::chatTabClicked(int tabIndex)
 void ChatWidget::processQSOInfo(QString callsign, QString grid)
 {
     FCT_IDENTIFICATION;
-    emit chatQSOInfo(callsign, grid);
+    emit prepareQSOInfo(callsign, grid);
 }
 
 void ChatWidget::userListUpdate(QWidget *w)
@@ -218,7 +239,7 @@ void ChatWidget::beamRequest(double az)
     emit beamingRequested(az);
 }
 
-int ChatWidget::findIndex(QWidget *w)
+int ChatWidget::findTabWidgetIndex(QWidget *w)
 {
     FCT_IDENTIFICATION;
 
@@ -235,9 +256,10 @@ QString ChatWidget::generateTabName(QWidget *w)
 {
     FCT_IDENTIFICATION;
 
-    int unread = w->property("unread").toInt();
+    int unread = w->property("unreadMsg").toInt();
+    int valuableMsgCnt = w->property("valuableMsg").toInt();
 
     return w->property("chatName").toString()
-            + (( unread > 0 ) ? QString(" (") + QString::number(unread) + ")"
+            + (( unread > 0 ) ? QString(" (") + QString::number(valuableMsgCnt) + "/" + QString::number(unread) + ")"
                               : "");
 }
