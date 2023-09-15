@@ -6,6 +6,20 @@ QLineEdit#gridEdit {
         text-transform: uppercase;
 }
 
+QLabel#chatUnread {
+         padding: 2px;
+         min-height: 10px;
+         border-radius: 10px;
+         background: orange;
+}
+
+QLabel#chatValuableMsg {
+         padding: 2px;
+         min-height: 10px;
+         border-radius: 10px;
+         background: red;
+}
+
 QLabel.kindex-0, QLabel.kindex-1, QLabel.kindex-2, QLabel.kindex-3 {
         color: #0000ff;
 }

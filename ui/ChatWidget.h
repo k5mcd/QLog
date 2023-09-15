@@ -44,6 +44,8 @@ private:
 
     int findTabWidgetIndex(QWidget *);
     QString generateTabName(QWidget *);
+    QString generateTabUnread(QWidget *);
+    void setTabUnreadInfo(int, QWidget *);
 };
 
 #endif // CHATWIDGET_H

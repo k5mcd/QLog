@@ -178,7 +178,10 @@ void ChatWidget::tabActive(QWidget *w)
 
     int i = findTabWidgetIndex(w);
     if ( i >=0 )
+    {
         ui->chatTabWidget->setTabText(i, generateTabName(w));
+        setTabUnreadInfo(i, w);
+    }
 }
 
 void ChatWidget::valuableMessageActive(QWidget *w)
@@ -194,7 +197,10 @@ void ChatWidget::valuableMessageActive(QWidget *w)
 
     int i = findTabWidgetIndex(w);
     if ( i >=0 )
+    {
         ui->chatTabWidget->setTabText(i, generateTabName(w));
+        setTabUnreadInfo(i, w);
+    }
 }
 
 void ChatWidget::chatTabClicked(int tabIndex)
@@ -207,6 +213,7 @@ void ChatWidget::chatTabClicked(int tabIndex)
     w->setProperty("unreadMsg", 0);
     w->setProperty("valuableMsg", 0);
     ui->chatTabWidget->setTabText(tabIndex, generateTabName(w));
+    setTabUnreadInfo(tabIndex, w);
     KSTChatWidget *kstWidget = qobject_cast<KSTChatWidget*>(w);
     if ( kstWidget )
         emit userListUpdated(kstWidget->getUserList());
@@ -256,10 +263,48 @@ QString ChatWidget::generateTabName(QWidget *w)
 {
     FCT_IDENTIFICATION;
 
+    return w->property("chatName").toString();
+}
+
+QString ChatWidget::generateTabUnread(QWidget *w)
+{
+    FCT_IDENTIFICATION;
+
     int unread = w->property("unreadMsg").toInt();
     int valuableMsgCnt = w->property("valuableMsg").toInt();
 
-    return w->property("chatName").toString()
-            + (( unread > 0 ) ? QString(" (") + QString::number(valuableMsgCnt) + "/" + QString::number(unread) + ")"
-                              : "");
+    return (( unread > 0 ) ? QString::number(valuableMsgCnt) + "/" + QString::number(unread)
+                           : "");
+}
+
+void ChatWidget::setTabUnreadInfo(int tabIndex, QWidget *w)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !w )
+        return;
+
+    QWidget *tabButton = ui->chatTabWidget->tabBar()->tabButton(tabIndex, QTabBar::LeftSide);
+    int unread = w->property("unreadMsg").toInt();
+    int valuableMsgCnt = w->property("valuableMsg").toInt();
+
+    if ( tabButton )
+    {
+        tabButton->deleteLater();
+        ui->chatTabWidget->tabBar()->setTabButton(tabIndex, QTabBar::LeftSide, nullptr);
+        tabButton = nullptr;
+    }
+
+    if ( unread == 0 && valuableMsgCnt == 0 )
+    {
+        return;
+    }
+    else
+    {
+        // if I reuse the label then I have an issue with a geometry. Therefore I remove it and
+        // create it again.
+        tabButton = new QLabel(generateTabUnread(w));
+        tabButton->setObjectName((valuableMsgCnt > 0) ? "chatValuableMsg" : "chatUnread"); //based on this name, stylesheed is set from stylesheet.css
+        ui->chatTabWidget->tabBar()->setTabButton(tabIndex, QTabBar::LeftSide, tabButton);
+    }
 }
