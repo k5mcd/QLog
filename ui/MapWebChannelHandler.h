@@ -21,11 +21,14 @@ public:
 
 signals:
     void chatCallsignPressed(QString);
+    void IBPPressed(QString, double);
 
 public slots:
     void handleLayerSelectionChanged(const QVariant &data,
                                      const QVariant &state);
     void chatCallsignClicked(const QVariant &data);
+    void IBPCallsignClicked(const QVariant &callsign,
+                            const QVariant &freq);
 private:
     QString configID;
 

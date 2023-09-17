@@ -44,6 +44,7 @@ public slots:
 protected slots:
     void finishLoading(bool);
     void chatCallsignTrigger(QString);
+    void IBPCallsignTrigger(const QString&, double);
 
 private:
 

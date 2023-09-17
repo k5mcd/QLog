@@ -315,7 +315,13 @@
      }
 
     // Definition for IBP
-    const band = ["20m", "17m","15m","12m","10m"];
+    const band = [{band_name :"20m", freq : 14.1},
+                  {band_name :"17m", freq : 18.11},
+                  {band_name :"15m", freq : 21.15},
+                  {band_name :"12m", freq : 24.93},
+                  {band_name :"10m", freq : 28.2},
+               ];
+
     const beacons = [{name: '4U1UN', lat: 40.7501,   lon: -73.9682,  active: true},
                    {name: 'VE8AT', lat: 79.9949,   lon: -85.8451,  active: true},
                    {name: 'W6WX',  lat: 37.1599,   lon: -121.9083, active: true},
@@ -334,9 +340,14 @@
                    {name: 'LU4AA', lat: -34.6439,  lon: -58.4138,  active: true},
                    {name: 'OA4B',  lat: -12.0940,  lon: -77.0165,  active: true},
                    {name: 'YV5B',  lat: 9.0964,    lon: -67.8239,  active: true}]
-    var currentBand=""; // to control which band is displayed
+    var currentBand=""; // to control which band is displayed - QLog core sets it.
     var IBPLayer = L.layerGroup().addTo(map);
     var prevStationIndex = -1;
+
+    function IBPCallsignPressed(e) {
+       let currentIndex = band.findIndex(object => {return object.band_name === currentBand;});
+       foo.IBPCallsignClicked(this.callsign, band[currentIndex].freq);
+     }
 
     // render IPB Beacon Point
     function beaconPoint(beacon, color) {
@@ -352,7 +363,11 @@
        }
        let markerMirror = new L.marker([beacon.lat, mirrorLon], {opacity: 0.001 });
        marker.bindTooltip(beacon.name, {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+       marker.on('dblclick', IBPCallsignPressed);
+       marker.callsign = beacon.name;
        markerMirror.bindTooltip(beacon.name, {permanent: true, direction : 'bottom', offset: [-16, 8], className: 'muf-tooltip' });
+       markerMirror.on('dblclick', IBPCallsignPressed);
+       markerMirror.callsign = beacon.name;
        marker.getTooltip().setContent(`<div style="background-color: ${pointColor};border-radius: 20px;padding: 5px;font-weight: bold;">${marker.getTooltip().getContent()}</div>`);
        markerMirror.getTooltip().setContent(`<div style="background-color: ${pointColor};border-radius: 20px;padding: 5px;font-weight: bold;">${markerMirror.getTooltip().getContent()}</div>`);
        IBPLayer.addLayer(marker);
@@ -362,7 +377,7 @@
     // Update IPB Beacon Points
     function updateBeacon() {
 
-       currentBandIndex = band.indexOf(currentBand);
+       currentBandIndex = band.findIndex(object => {return object.band_name === currentBand;});
 
        if ( currentBandIndex == -1 ) {
            IBPLayer.clearLayers();

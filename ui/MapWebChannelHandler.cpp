@@ -189,3 +189,10 @@ void MapWebChannelHandler::chatCallsignClicked(const QVariant &data)
 
     emit chatCallsignPressed(data.toString());
 }
+
+void MapWebChannelHandler::IBPCallsignClicked(const QVariant &callsign, const QVariant &freq)
+{
+    FCT_IDENTIFICATION;
+
+    emit IBPPressed(callsign.toString(), freq.toDouble());
+}

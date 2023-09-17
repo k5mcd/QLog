@@ -17,6 +17,7 @@
 #include "data/Band.h"
 #include "data/Data.h"
 #include "core/Rotator.h"
+#include "core/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
@@ -54,6 +55,7 @@ OnlineMapWidget::OnlineMapWidget(QWidget *parent):
     connect(Rotator::instance(), &Rotator::rotConnected, this, &OnlineMapWidget::rotConnected);
     connect(Rotator::instance(), &Rotator::rotDisconnected, this, &OnlineMapWidget::rotDisconnected);
     connect(&webChannelHandler, &MapWebChannelHandler::chatCallsignPressed, this, &OnlineMapWidget::chatCallsignTrigger);
+    connect(&webChannelHandler, &MapWebChannelHandler::IBPPressed, this, &OnlineMapWidget::IBPCallsignTrigger);
 }
 
 void OnlineMapWidget::setTarget(double lat, double lon)
@@ -285,6 +287,15 @@ void OnlineMapWidget::chatCallsignTrigger(QString callsign)
     qCDebug(function_parameters) << callsign;
 
     emit chatCallsignPressed(callsign);
+}
+
+void OnlineMapWidget::IBPCallsignTrigger(const QString &callsign, double freq)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << callsign << freq;
+
+    Rig::instance()->setFrequency(MHz(freq));
 }
 
 void OnlineMapWidget::runJavaScript(QString &js)
