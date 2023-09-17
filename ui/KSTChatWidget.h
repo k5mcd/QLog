@@ -174,7 +174,7 @@ private:
     QPointer<chatHighlightEvaluator> highlightEvaluator;
     QString userName;
 
-    void setSelectedCallsignInUserList(const QString);
+    void setSelectedCallsignInUserList(const QString &);
 };
 
 #endif // KSTCHATWIDGET_H

@@ -42,9 +42,9 @@ private slots:
     void sendTextImpl(const QString&);
     void immediatellyStopImpl();
     void stopTimerImplt();
-    void keyErrorHandler(QString, QString);
+    void keyErrorHandler(const QString&, const QString&);
     void cwKeyWPMChangedHandler(qint32);
-    void cwKeyEchoTextHandler(QString);
+    void cwKeyEchoTextHandler(const QString&);
 
 private:
     explicit CWKeyer(QObject *parent = nullptr);

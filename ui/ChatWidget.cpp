@@ -221,7 +221,7 @@ void ChatWidget::chatTabClicked(int tabIndex)
         emit userListUpdated(QList<KSTUsersInfo>());
 }
 
-void ChatWidget::processQSOInfo(QString callsign, QString grid)
+void ChatWidget::processQSOInfo(const QString &callsign, const QString &grid)
 {
     FCT_IDENTIFICATION;
     emit prepareQSOInfo(callsign, grid);

@@ -71,7 +71,7 @@ void EqslDialog::download()
         eQSL->deleteLater();
     });
 
-    connect(eQSL, &EQSL::updateFailed, this, [this, eQSL, dialog](QString error)
+    connect(eQSL, &EQSL::updateFailed, this, [this, eQSL, dialog](const QString &error)
     {
         dialog->done(1);
         QMessageBox::critical(this, tr("QLog Error"), tr("eQSL update failed: ") + error);
@@ -192,7 +192,7 @@ void EqslDialog::upload()
 
             EQSL *eQSL = new EQSL(dialog);
 
-            connect(eQSL, &EQSL::uploadOK, this, [this, eQSL, dialog, query_where, count](QString msg)
+            connect(eQSL, &EQSL::uploadOK, this, [this, eQSL, dialog, query_where, count](const QString &msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "eQSL Upload OK: " << msg;
@@ -208,7 +208,7 @@ void EqslDialog::upload()
                 eQSL->deleteLater();
             });
 
-            connect(eQSL, &EQSL::uploadError, this, [this, eQSL, dialog](QString msg)
+            connect(eQSL, &EQSL::uploadError, this, [this, eQSL, dialog](const QString &msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "eQSL Upload Error: " << msg;

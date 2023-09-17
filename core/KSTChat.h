@@ -127,7 +127,7 @@ public:
 public slots:
     void connectChat();
     void disconnectChat();
-    void sendMessage(QString);
+    void sendMessage(const QString&);
     void reloadStationProfile();
 
 private slots:

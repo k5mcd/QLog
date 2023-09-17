@@ -240,7 +240,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connect(&callbookManager, &CallbookManager::callsignResult,
             this, &NewContactWidget::callsignResult);
 
-    connect(&callbookManager, &CallbookManager::loginFailed, this, [this](QString callbookString)
+    connect(&callbookManager, &CallbookManager::loginFailed, this, [this](const QString &callbookString)
     {
         QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
     });

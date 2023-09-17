@@ -372,7 +372,7 @@ void KSTChatWidget::clearValuableMessages()
     valuableMessageModel->clear();
 }
 
-void KSTChatWidget::setSelectedCallsignInUserList(const QString callsign)
+void KSTChatWidget::setSelectedCallsignInUserList(const QString &callsign)
 {
     FCT_IDENTIFICATION;
 

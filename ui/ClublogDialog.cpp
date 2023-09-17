@@ -121,7 +121,7 @@ void ClublogDialog::upload()
 
             ClubLog *clublog = new ClubLog(dialog);
 
-            connect(clublog, &ClubLog::uploadOK, this, [this, dialog, query_where, count, clublog](QString msg)
+            connect(clublog, &ClubLog::uploadOK, this, [this, dialog, query_where, count, clublog](const QString &msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "Clublog Upload OK: " << msg;
@@ -137,7 +137,7 @@ void ClublogDialog::upload()
                 clublog->deleteLater();
             });
 
-            connect(clublog, &ClubLog::uploadError, this, [this, dialog, clublog](QString msg)
+            connect(clublog, &ClubLog::uploadError, this, [this, dialog, clublog](const QString &msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "Clublog Upload Error: " << msg;

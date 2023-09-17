@@ -280,7 +280,7 @@ void OnlineMapWidget::finishLoading(bool)
     auroraDataUpdate();
 }
 
-void OnlineMapWidget::chatCallsignTrigger(QString callsign)
+void OnlineMapWidget::chatCallsignTrigger(const QString &callsign)
 {
     FCT_IDENTIFICATION;
 

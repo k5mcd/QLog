@@ -366,7 +366,7 @@ void CWKeyer::stopTimerImplt()
     }
 }
 
-void CWKeyer::keyErrorHandler(QString main, QString detail)
+void CWKeyer::keyErrorHandler(const QString &main, const QString &detail)
 {
     FCT_IDENTIFICATION;
     emit cwKeyerError(main, detail);
@@ -380,7 +380,7 @@ void CWKeyer::cwKeyWPMChangedHandler(qint32 wpm)
     emit cwKeyWPMChanged(wpm);
 }
 
-void CWKeyer::cwKeyEchoTextHandler(QString text)
+void CWKeyer::cwKeyEchoTextHandler(const QString &text)
 {
     FCT_IDENTIFICATION;
 

@@ -73,7 +73,7 @@ void LotwDialog::download() {
         lotw->deleteLater();
     });
 
-    connect(lotw, &Lotw::updateFailed, this, [this, dialog, lotw](QString error) {
+    connect(lotw, &Lotw::updateFailed, this, [this, dialog, lotw](const QString &error) {
         dialog->done(QDialog::Accepted);
         QMessageBox::critical(this, tr("QLog Error"), tr("LoTW Update failed: ") + error);
         lotw->deleteLater();

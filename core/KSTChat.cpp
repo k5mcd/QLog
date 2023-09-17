@@ -155,7 +155,7 @@ void KSTChat::disconnectChat()
     emit chatDisconnected();
 }
 
-void KSTChat::sendMessage(QString msg)
+void KSTChat::sendMessage(const QString &msg)
 {
     FCT_IDENTIFICATION;
 

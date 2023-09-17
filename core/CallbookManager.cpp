@@ -96,7 +96,7 @@ void CallbookManager::initCallbooks()
         {
             emit loginFailed(primaryCallbook->getDisplayName());
         });
-        connect(primaryCallbook, &GenericCallbook::lookupError, this, [this](QString error)
+        connect(primaryCallbook, &GenericCallbook::lookupError, this, [this](const QString &error)
         {
             emit lookupError(primaryCallbook->getDisplayName()
                              + " - " + error
@@ -112,7 +112,7 @@ void CallbookManager::initCallbooks()
         {
             emit loginFailed(secondaryCallbook->getDisplayName());
         });
-        connect(secondaryCallbook, &GenericCallbook::lookupError, this, [this](QString error)
+        connect(secondaryCallbook, &GenericCallbook::lookupError, this, [this](const QString &error)
         {
             emit lookupError(secondaryCallbook->getDisplayName() + " - " + error);
             secondaryCallbookCallsignNotFound(currentQueryCallsign);

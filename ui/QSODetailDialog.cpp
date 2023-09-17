@@ -638,7 +638,7 @@ void QSODetailDialog::showEQSLButton()
         eQSL->deleteLater();
     });
 
-    connect(eQSL, &EQSL::QSLImageError, this, [this, dialog, eQSL](QString error)
+    connect(eQSL, &EQSL::QSLImageError, this, [this, dialog, eQSL](const QString &error)
     {
         dialog->done(1);
         QMessageBox::critical(this, tr("QLog Error"), tr("eQSL Download Image failed: ") + error);

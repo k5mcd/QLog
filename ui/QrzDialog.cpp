@@ -135,7 +135,7 @@ void QRZDialog::upload()
                 qrz->deleteLater();
             });
 
-            connect(qrz, &QRZ::uploadError, this, [this, qrz, dialog](QString msg)
+            connect(qrz, &QRZ::uploadError, this, [this, qrz, dialog](const QString &msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "QRZ.com Upload Error: " << msg;

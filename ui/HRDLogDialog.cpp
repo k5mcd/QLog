@@ -134,7 +134,7 @@ void HRDLogDialog::upload()
                 hrdlog->deleteLater();
             });
 
-            connect(hrdlog, &HRDLog::uploadError, this, [this, hrdlog, dialog](QString msg)
+            connect(hrdlog, &HRDLog::uploadError, this, [this, hrdlog, dialog](const QString &msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCInfo(runtime) << "HRDLog.com Upload Error: " << msg;

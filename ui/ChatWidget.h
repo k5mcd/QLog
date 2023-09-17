@@ -29,7 +29,7 @@ private slots:
     void tabActive(QWidget *);
     void valuableMessageActive(QWidget *);
     void chatTabClicked(int);
-    void processQSOInfo(QString, QString);
+    void processQSOInfo(const QString&, const QString&);
     void userListUpdate(QWidget *w);
     void beamRequest(double);
 
