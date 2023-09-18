@@ -789,17 +789,17 @@
 <context>
     <name>ChatWidget</name>
     <message>
-        <location filename="../ui/ChatWidget.ui" line="104"/>
+        <location filename="../ui/ChatWidget.ui" line="101"/>
         <source>ON4KST Chat</source>
         <translation>ON4KST Chat</translation>
     </message>
     <message>
-        <location filename="../ui/ChatWidget.ui" line="120"/>
+        <location filename="../ui/ChatWidget.ui" line="117"/>
         <source>Chat Room</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../ui/ChatWidget.ui" line="133"/>
+        <location filename="../ui/ChatWidget.ui" line="130"/>
         <source>Connect</source>
         <translation>Připojit</translation>
     </message>
@@ -2163,12 +2163,12 @@
 <context>
     <name>KSTChat</name>
     <message>
-        <location filename="../core/KSTChat.cpp" line="290"/>
+        <location filename="../core/KSTChat.cpp" line="280"/>
         <source>Unknown User</source>
         <translation>Neznámý uživatel</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="296"/>
+        <location filename="../core/KSTChat.cpp" line="286"/>
         <source>Invalid password</source>
         <translation>Nesprávné heslo</translation>
     </message>
@@ -2176,77 +2176,97 @@
 <context>
     <name>KSTChatWidget</name>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="139"/>
+        <location filename="../ui/KSTChatWidget.ui" line="52"/>
+        <source>Chat messages</source>
+        <translation>Chat zprávy</translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="96"/>
+        <source>Valuable messages</source>
+        <translation>Zprávy stojící za pozornost</translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="173"/>
         <source>Clear selected Callsign and Chat message entry.</source>
         <translation>Vymazat vybranou značku a zprávu ze vstupu.</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="161"/>
+        <location filename="../ui/KSTChatWidget.ui" line="195"/>
         <source>Send chat message</source>
         <translation>Odeslat chat zprávu</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="173"/>
+        <location filename="../ui/KSTChatWidget.ui" line="207"/>
         <source>Column Visibility</source>
         <translation>Zobrazení sloupců</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="176"/>
+        <location filename="../ui/KSTChatWidget.ui" line="210"/>
         <source>Which columns should be displayed</source>
         <translation>Který sloupec by měl být zobrazen</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="181"/>
+        <location filename="../ui/KSTChatWidget.ui" line="215"/>
         <source>Prepare QSO</source>
         <translation>Připravit QSO</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="184"/>
+        <location filename="../ui/KSTChatWidget.ui" line="218"/>
         <source>Transfer Callsign and Gridsquare Information to the New QSO dialog</source>
         <translation>Přenese značku a lokátor do okna pro nové QSO</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="192"/>
+        <location filename="../ui/KSTChatWidget.ui" line="226"/>
         <source>Show About Me Only</source>
         <translation>Zobrazit pouze o mně</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="195"/>
+        <location filename="../ui/KSTChatWidget.ui" line="229"/>
         <source>Show only messages where my callsign is present</source>
         <translation>Zobrazit pouze zprávy, kde je moje volací značka</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="203"/>
+        <location filename="../ui/KSTChatWidget.ui" line="237"/>
         <source>Supress User To User</source>
         <translation>Potlačit Uživatel-Uživatel</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="206"/>
+        <location filename="../ui/KSTChatWidget.ui" line="240"/>
         <source>Supress private messages between two callsigns</source>
         <translation>Potlačí soukromé zprávy mezi dvěma uživateli</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="214"/>
+        <location filename="../ui/KSTChatWidget.ui" line="248"/>
         <source>Highlight</source>
         <translation>Zvýraznit</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="217"/>
+        <location filename="../ui/KSTChatWidget.ui" line="251"/>
         <source>Highlight messages based on the setting</source>
         <translation>Zvýraznit zprávy na základě nastavení</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="222"/>
+        <location filename="../ui/KSTChatWidget.ui" line="256"/>
         <source>Highlight Rules</source>
         <translation>Pravidla Zvýraznění</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="227"/>
+        <location filename="../ui/KSTChatWidget.ui" line="261"/>
         <source>Beam</source>
         <translation>Směrovat</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="169"/>
+        <location filename="../ui/KSTChatWidget.ui" line="266"/>
+        <source>Clear Messages</source>
+        <translation>Vymazat zprávy</translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="269"/>
+        <source>Clear all messages in the window</source>
+        <translation>Vymazat všechny zprávy v okně</translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.cpp" line="187"/>
         <source>You</source>
         <translation>Vy</translation>
     </message>
@@ -4755,7 +4775,7 @@
         <location filename="../core/main.cpp" line="373"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="363"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
-        <location filename="../ui/KSTChatWidget.cpp" line="249"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="268"/>
         <location filename="../ui/NewContactWidget.cpp" line="1431"/>
         <location filename="../ui/NewContactWidget.cpp" line="1441"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="593"/>
@@ -4969,9 +4989,9 @@
         <translation>Rozvržení s tímto jménem již existuje.</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="250"/>
-        <source>Chat Error</source>
-        <translation>Chyba Chatu</translation>
+        <location filename="../ui/KSTChatWidget.cpp" line="269"/>
+        <source>Chat Error: </source>
+        <translation>Chyba v Chatu: </translation>
     </message>
 </context>
 <context>
@@ -4982,37 +5002,37 @@
         <translation>Nelse se připojit k DXC serveru &lt;p&gt;Důvod &lt;b&gt;: </translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="441"/>
+        <location filename="../core/KSTChat.cpp" line="430"/>
         <location filename="../ui/DxWidget.cpp" line="920"/>
         <source>Connection Refused</source>
         <translation>Spojení odmítnuto</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="444"/>
+        <location filename="../core/KSTChat.cpp" line="433"/>
         <location filename="../ui/DxWidget.cpp" line="923"/>
         <source>Host closed the connection</source>
         <translation>Server uzavřel spojení</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="449"/>
+        <location filename="../core/KSTChat.cpp" line="438"/>
         <location filename="../ui/DxWidget.cpp" line="927"/>
         <source>Host not found</source>
         <translation>Server nenalezen</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="452"/>
+        <location filename="../core/KSTChat.cpp" line="441"/>
         <location filename="../ui/DxWidget.cpp" line="930"/>
         <source>Timeout</source>
         <translation>Timeout</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="457"/>
+        <location filename="../core/KSTChat.cpp" line="446"/>
         <location filename="../ui/DxWidget.cpp" line="934"/>
         <source>Network Error</source>
         <translation>Chyba sítě</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="461"/>
+        <location filename="../core/KSTChat.cpp" line="450"/>
         <location filename="../ui/DxWidget.cpp" line="937"/>
         <source>Internal Error</source>
         <translation>Interní Chyba</translation>
@@ -7741,27 +7761,27 @@
 <context>
     <name>UserListModel</name>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="647"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="696"/>
         <source>Callsign</source>
         <translation>Značka</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="648"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="697"/>
         <source>Gridsquare</source>
         <translation>Lokátor</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="649"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="698"/>
         <source>Distance</source>
         <translation>Vzdálenost</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="650"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="699"/>
         <source>Azimuth</source>
         <translation>Azimut</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="651"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="700"/>
         <source>Comment</source>
         <translation>Poznámka</translation>
     </message>

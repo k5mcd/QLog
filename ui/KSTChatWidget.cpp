@@ -266,7 +266,7 @@ void KSTChatWidget::showChatError(const QString &error)
     FCT_IDENTIFICATION;
 
     QMessageBox::warning(nullptr, QMessageBox::tr("QLog Error"),
-                         QMessageBox::tr("Chat Error") + " " + error);
+                         QMessageBox::tr("Chat Error: ") + " " + error);
 }
 
 void KSTChatWidget::closeChat()

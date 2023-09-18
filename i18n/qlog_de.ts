@@ -789,17 +789,17 @@
 <context>
     <name>ChatWidget</name>
     <message>
-        <location filename="../ui/ChatWidget.ui" line="104"/>
+        <location filename="../ui/ChatWidget.ui" line="101"/>
         <source>ON4KST Chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/ChatWidget.ui" line="120"/>
+        <location filename="../ui/ChatWidget.ui" line="117"/>
         <source>Chat Room</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/ChatWidget.ui" line="133"/>
+        <location filename="../ui/ChatWidget.ui" line="130"/>
         <source>Connect</source>
         <translation type="unfinished">Verbinden</translation>
     </message>
@@ -2160,12 +2160,12 @@
 <context>
     <name>KSTChat</name>
     <message>
-        <location filename="../core/KSTChat.cpp" line="290"/>
+        <location filename="../core/KSTChat.cpp" line="280"/>
         <source>Unknown User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="296"/>
+        <location filename="../core/KSTChat.cpp" line="286"/>
         <source>Invalid password</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2173,77 +2173,97 @@
 <context>
     <name>KSTChatWidget</name>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="139"/>
-        <source>Clear selected Callsign and Chat message entry.</source>
+        <location filename="../ui/KSTChatWidget.ui" line="52"/>
+        <source>Chat messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="161"/>
-        <source>Send chat message</source>
+        <location filename="../ui/KSTChatWidget.ui" line="96"/>
+        <source>Valuable messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="173"/>
-        <source>Column Visibility</source>
-        <translation type="unfinished">Spaltensichtbarkeit</translation>
-    </message>
-    <message>
-        <location filename="../ui/KSTChatWidget.ui" line="176"/>
-        <source>Which columns should be displayed</source>
-        <translation type="unfinished">Welche Spalten sollen angezeigt werden</translation>
-    </message>
-    <message>
-        <location filename="../ui/KSTChatWidget.ui" line="181"/>
-        <source>Prepare QSO</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/KSTChatWidget.ui" line="184"/>
-        <source>Transfer Callsign and Gridsquare Information to the New QSO dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/KSTChatWidget.ui" line="192"/>
-        <source>Show About Me Only</source>
+        <source>Clear selected Callsign and Chat message entry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="195"/>
+        <source>Send chat message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="207"/>
+        <source>Column Visibility</source>
+        <translation type="unfinished">Spaltensichtbarkeit</translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="210"/>
+        <source>Which columns should be displayed</source>
+        <translation type="unfinished">Welche Spalten sollen angezeigt werden</translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="215"/>
+        <source>Prepare QSO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="218"/>
+        <source>Transfer Callsign and Gridsquare Information to the New QSO dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="226"/>
+        <source>Show About Me Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="229"/>
         <source>Show only messages where my callsign is present</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="203"/>
+        <location filename="../ui/KSTChatWidget.ui" line="237"/>
         <source>Supress User To User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="206"/>
+        <location filename="../ui/KSTChatWidget.ui" line="240"/>
         <source>Supress private messages between two callsigns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="214"/>
+        <location filename="../ui/KSTChatWidget.ui" line="248"/>
         <source>Highlight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="217"/>
+        <location filename="../ui/KSTChatWidget.ui" line="251"/>
         <source>Highlight messages based on the setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="222"/>
+        <location filename="../ui/KSTChatWidget.ui" line="256"/>
         <source>Highlight Rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.ui" line="227"/>
+        <location filename="../ui/KSTChatWidget.ui" line="261"/>
         <source>Beam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="169"/>
+        <location filename="../ui/KSTChatWidget.ui" line="266"/>
+        <source>Clear Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.ui" line="269"/>
+        <source>Clear all messages in the window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/KSTChatWidget.cpp" line="187"/>
         <source>You</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4678,7 +4698,7 @@
         <location filename="../core/main.cpp" line="373"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="363"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
-        <location filename="../ui/KSTChatWidget.cpp" line="249"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="268"/>
         <location filename="../ui/NewContactWidget.cpp" line="1431"/>
         <location filename="../ui/NewContactWidget.cpp" line="1441"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="593"/>
@@ -4965,8 +4985,8 @@
         <translation>Der Name des Layouts ist bereits vorhanden.</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="250"/>
-        <source>Chat Error</source>
+        <location filename="../ui/KSTChatWidget.cpp" line="269"/>
+        <source>Chat Error: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4978,37 +4998,37 @@
         <translation>Kann keine Verbindung zum DXC Server herstellen &lt;p&gt;Ursache &lt;b&gt;: </translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="441"/>
+        <location filename="../core/KSTChat.cpp" line="430"/>
         <location filename="../ui/DxWidget.cpp" line="920"/>
         <source>Connection Refused</source>
         <translation>Verbindung abgelehnt</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="444"/>
+        <location filename="../core/KSTChat.cpp" line="433"/>
         <location filename="../ui/DxWidget.cpp" line="923"/>
         <source>Host closed the connection</source>
         <translation>Der Host hat die Verbindung beendet</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="449"/>
+        <location filename="../core/KSTChat.cpp" line="438"/>
         <location filename="../ui/DxWidget.cpp" line="927"/>
         <source>Host not found</source>
         <translation>Host nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="452"/>
+        <location filename="../core/KSTChat.cpp" line="441"/>
         <location filename="../ui/DxWidget.cpp" line="930"/>
         <source>Timeout</source>
         <translation>Zeitüberschreitung</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="457"/>
+        <location filename="../core/KSTChat.cpp" line="446"/>
         <location filename="../ui/DxWidget.cpp" line="934"/>
         <source>Network Error</source>
         <translation>Netzwerkfehler</translation>
     </message>
     <message>
-        <location filename="../core/KSTChat.cpp" line="461"/>
+        <location filename="../core/KSTChat.cpp" line="450"/>
         <location filename="../ui/DxWidget.cpp" line="937"/>
         <source>Internal Error</source>
         <translation>Interner Fehler</translation>
@@ -7733,27 +7753,27 @@
 <context>
     <name>UserListModel</name>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="647"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="696"/>
         <source>Callsign</source>
         <translation type="unfinished">Rufzeichen</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="648"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="697"/>
         <source>Gridsquare</source>
         <translation type="unfinished">Gitterfeld</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="649"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="698"/>
         <source>Distance</source>
         <translation type="unfinished">Entfernung</translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="650"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="699"/>
         <source>Azimuth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/KSTChatWidget.cpp" line="651"/>
+        <location filename="../ui/KSTChatWidget.cpp" line="700"/>
         <source>Comment</source>
         <translation type="unfinished">Kommentar</translation>
     </message>
