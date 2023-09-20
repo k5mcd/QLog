@@ -47,6 +47,18 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->setupUi(this);
 
+    /* the block below is present because the main window
+     * becomes large after the instalation
+     */
+    ui->wsjtxDockWidget->hide();
+    ui->rotatorDockWidget->hide();
+    ui->bandmapDockWidget->hide();
+    ui->mapDockWidget->hide();
+    ui->dxDockWidget->hide();
+    ui->rigDockWidget->hide();
+    ui->cwConsoleDockWidget->hide();
+    ui->chatDockWidget->hide();
+
     setupLayoutMenu();
 
     ui->cwconsoleWidget->registerContactWidget(ui->newContactWidget);
@@ -56,7 +68,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     QSettings settings;
 
-    // restore the window geometry
+    // restore the window geometry and state
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("windowState").toByteArray());
 
