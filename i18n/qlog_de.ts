@@ -3890,7 +3890,7 @@
         <translation>Alerts löschen</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="756"/>
+        <location filename="../ui/MainWindow.cpp" line="768"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
@@ -3911,58 +3911,58 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="290"/>
-        <location filename="../ui/MainWindow.cpp" line="300"/>
-        <location filename="../ui/MainWindow.cpp" line="310"/>
+        <location filename="../ui/MainWindow.cpp" line="302"/>
+        <location filename="../ui/MainWindow.cpp" line="312"/>
+        <location filename="../ui/MainWindow.cpp" line="322"/>
         <source>&lt;b&gt;Error Detail:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Fehler-Detail:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="476"/>
+        <location filename="../ui/MainWindow.cpp" line="488"/>
         <source>Classic</source>
         <translation>Klassisch</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="641"/>
-        <location filename="../ui/MainWindow.cpp" line="657"/>
-        <location filename="../ui/MainWindow.cpp" line="673"/>
-        <location filename="../ui/MainWindow.cpp" line="689"/>
-        <location filename="../ui/MainWindow.cpp" line="707"/>
+        <location filename="../ui/MainWindow.cpp" line="653"/>
+        <location filename="../ui/MainWindow.cpp" line="669"/>
+        <location filename="../ui/MainWindow.cpp" line="685"/>
+        <location filename="../ui/MainWindow.cpp" line="701"/>
+        <location filename="../ui/MainWindow.cpp" line="719"/>
         <source>QLog Warning</source>
         <translation>QLog Warnung</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="641"/>
+        <location filename="../ui/MainWindow.cpp" line="653"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>LoTW ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="657"/>
+        <location filename="../ui/MainWindow.cpp" line="669"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>eQSL ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="673"/>
+        <location filename="../ui/MainWindow.cpp" line="685"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>Clublog ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="689"/>
+        <location filename="../ui/MainWindow.cpp" line="701"/>
         <source>HRDLog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>HRDLog ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="707"/>
+        <location filename="../ui/MainWindow.cpp" line="719"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>QRZ.com ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="727"/>
+        <location filename="../ui/MainWindow.cpp" line="739"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2023 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Based on Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="800"/>
+        <location filename="../ui/MainWindow.cpp" line="812"/>
         <source>N/A</source>
         <translation></translation>
     </message>
@@ -4737,9 +4737,9 @@
         <location filename="../core/Migration.cpp" line="295"/>
         <location filename="../ui/ExportDialog.cpp" line="116"/>
         <location filename="../ui/ImportDialog.cpp" line="186"/>
-        <location filename="../ui/MainWindow.cpp" line="288"/>
-        <location filename="../ui/MainWindow.cpp" line="298"/>
-        <location filename="../ui/MainWindow.cpp" line="308"/>
+        <location filename="../ui/MainWindow.cpp" line="300"/>
+        <location filename="../ui/MainWindow.cpp" line="310"/>
+        <location filename="../ui/MainWindow.cpp" line="320"/>
         <location filename="../ui/SettingsDialog.cpp" line="246"/>
         <location filename="../ui/SettingsDialog.cpp" line="256"/>
         <location filename="../ui/SettingsDialog.cpp" line="264"/>
@@ -4965,17 +4965,17 @@
         </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="289"/>
+        <location filename="../ui/MainWindow.cpp" line="301"/>
         <source>&lt;b&gt;Rig Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Rig Fehler:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="299"/>
+        <location filename="../ui/MainWindow.cpp" line="311"/>
         <source>&lt;b&gt;Rotator Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Rotor Fehler:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="309"/>
+        <location filename="../ui/MainWindow.cpp" line="321"/>
         <source>&lt;b&gt;CW Keyer Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;CW-Keyer Fehler:&lt;/b&gt; </translation>
     </message>
