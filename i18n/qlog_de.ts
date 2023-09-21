@@ -791,32 +791,32 @@
     <message>
         <location filename="../ui/ChatWidget.ui" line="101"/>
         <source>ON4KST Chat</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/ChatWidget.ui" line="117"/>
         <source>Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/ChatWidget.ui" line="130"/>
         <source>Connect</source>
-        <translation type="unfinished">Verbinden</translation>
+        <translation>Verbinden</translation>
     </message>
     <message>
         <location filename="../ui/ChatWidget.cpp" line="26"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Neu</translation>
     </message>
     <message>
         <location filename="../ui/ChatWidget.cpp" line="88"/>
         <source>QLog Warning</source>
-        <translation type="unfinished">QLog Warnung</translation>
+        <translation>QLog Warnung</translation>
     </message>
     <message>
         <location filename="../ui/ChatWidget.cpp" line="88"/>
         <source>ON4KST Chat is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>ON4KST Chat ist nicht richtig konfiguriert.&lt;p&gt;Bitte verwenden Sie den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog um ihn zu konfigurieren.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2162,12 +2162,12 @@
     <message>
         <location filename="../core/KSTChat.cpp" line="280"/>
         <source>Unknown User</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannter Benutzer</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="286"/>
         <source>Invalid password</source>
-        <translation type="unfinished"></translation>
+        <translation>Falsches Passwort</translation>
     </message>
 </context>
 <context>
@@ -2175,97 +2175,97 @@
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="52"/>
         <source>Chat messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat-Nachrichten</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="96"/>
         <source>Valuable messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Wertvolle Nachrichten</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="173"/>
         <source>Clear selected Callsign and Chat message entry.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewählten Rufzeichen- und Chat-Nachrichteneintrag löschen.</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="195"/>
         <source>Send chat message</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat-Nachricht senden</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="207"/>
         <source>Column Visibility</source>
-        <translation type="unfinished">Spaltensichtbarkeit</translation>
+        <translation>Spaltensichtbarkeit</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="210"/>
         <source>Which columns should be displayed</source>
-        <translation type="unfinished">Welche Spalten sollen angezeigt werden</translation>
+        <translation>Welche Spalten sollen angezeigt werden</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="215"/>
         <source>Prepare QSO</source>
-        <translation type="unfinished"></translation>
+        <translation>QSO vorbereiten</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="218"/>
         <source>Transfer Callsign and Gridsquare Information to the New QSO dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Übertragen Sie Rufzeichen und Gitterfeldinformationen in den Neues QSO Dialog</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="226"/>
         <source>Show About Me Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Informationen über mich anzeigen</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="229"/>
         <source>Show only messages where my callsign is present</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Nachrichten anzeigen, in denen mein Rufzeichen vorkommt</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="237"/>
         <source>Supress User To User</source>
-        <translation type="unfinished"></translation>
+        <translation>Unterdrückung von Benutzer zu Benutzer</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="240"/>
         <source>Supress private messages between two callsigns</source>
-        <translation type="unfinished"></translation>
+        <translation>Private Nachrichten zwischen zwei Rufzeichen unterdrücken</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="248"/>
         <source>Highlight</source>
-        <translation type="unfinished"></translation>
+        <translation>Hervorheben</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="251"/>
         <source>Highlight messages based on the setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Hervorhebung von Meldungen je nach Einstellung</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="256"/>
         <source>Highlight Rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Regeln hervorheben</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="261"/>
         <source>Beam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="266"/>
         <source>Clear Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichten löschen</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="269"/>
         <source>Clear all messages in the window</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Nachrichten im Fenster löschen</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="187"/>
         <source>You</source>
-        <translation type="unfinished"></translation>
+        <translation>Du</translation>
     </message>
 </context>
 <context>
@@ -2273,82 +2273,82 @@
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="14"/>
         <source>Edit Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Regel bearbeiten</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="24"/>
         <source>Rule Name</source>
-        <translation type="unfinished">Regelname</translation>
+        <translation>Regelname</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="38"/>
         <source>Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichtenraum</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="48"/>
         <source>Enabled</source>
-        <translation type="unfinished">Aktiv</translation>
+        <translation>Aktiv</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="65"/>
         <source>Highlight message which match</source>
-        <translation type="unfinished"></translation>
+        <translation>Hervorhebung von Nachrichten, die übereinstimmen</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="79"/>
         <source>All the following conditions</source>
-        <translation type="unfinished">Alle folgenden Bedingungen</translation>
+        <translation>Alle folgenden Bedingungen</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="84"/>
         <source>Any of the following conditions</source>
-        <translation type="unfinished">Eine der folgenden Bedingungen</translation>
+        <translation>Eine der folgenden Bedingungen</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.ui" line="123"/>
         <source>Add Condition</source>
-        <translation type="unfinished">Bedingung hinzufügen</translation>
+        <translation>Bedingung hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="23"/>
         <source>All</source>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="64"/>
         <source>Sender</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="65"/>
         <source>Message</source>
-        <translation type="unfinished">Nachricht</translation>
+        <translation>Nachricht</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="66"/>
         <source>Gridsquare</source>
-        <translation type="unfinished">Gitterfeld</translation>
+        <translation>Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="79"/>
         <source>Contains</source>
-        <translation type="unfinished">enthält</translation>
+        <translation>enthält</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="80"/>
         <source>Starts with</source>
-        <translation type="unfinished">beginnt mit</translation>
+        <translation>beginnt mit</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="105"/>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlightRuleDetail.cpp" line="137"/>
         <source>Must not be empty</source>
-        <translation type="unfinished">Darf nicht leer sein</translation>
+        <translation>Darf nicht leer sein</translation>
     </message>
 </context>
 <context>
@@ -2356,37 +2356,37 @@
     <message>
         <location filename="../ui/KSTHighlighterSettingDialog.ui" line="14"/>
         <source>Highlight Rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Regeln hervorheben</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlighterSettingDialog.ui" line="22"/>
         <source>Rules</source>
-        <translation type="unfinished">Regeln</translation>
+        <translation>Regeln</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlighterSettingDialog.ui" line="86"/>
         <source>Add</source>
-        <translation type="unfinished">Hinzufügen</translation>
+        <translation>Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlighterSettingDialog.ui" line="93"/>
         <source>Edit</source>
-        <translation type="unfinished">Bearbeiten</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlighterSettingDialog.ui" line="100"/>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlighterSettingDialog.cpp" line="17"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../ui/KSTHighlighterSettingDialog.cpp" line="18"/>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation>Staat</translation>
     </message>
 </context>
 <context>
@@ -3742,7 +3742,7 @@
         <location filename="../ui/MainWindow.ui" line="269"/>
         <location filename="../ui/MainWindow.ui" line="546"/>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.ui" line="282"/>
@@ -4016,7 +4016,7 @@
         <location filename="../ui/MapWebChannelHandler.cpp" line="81"/>
         <location filename="../ui/MapWebChannelHandler.cpp" line="143"/>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4302,7 +4302,7 @@
     <message>
         <location filename="../ui/NewContactWidget.ui" line="693"/>
         <source>Lookup the call on the web. The query URL can be changed in Settings -&gt; Callbook</source>
-        <translation>Suchen Sie das Rufzeichen im Internet. Die Abfrage-URL kann unter Einstellungen -&gt; Callbook geändert werden.</translation>
+        <translation>Suchen Sie das Rufzeichen im Internet. Die Abfrage-URL kann unter Einstellungen -&gt; Callbook geändert werden</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.ui" line="696"/>
@@ -4648,12 +4648,12 @@
     <message>
         <location filename="../ui/PaperQSLDialog.ui" line="37"/>
         <source>Copy the input file from the source folder to the QLog Internal QSL Storage folder.&lt;br/&gt;The original file remains unchanged in the source folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieren Sie die Bilddatei aus dem Quellordner in den Ordner &quot;QLog Internal QSL Storage&quot;.&lt;br/&gt;Die Originaldatei bleibt unverändert im Quellordner</translation>
     </message>
     <message>
         <location filename="../ui/PaperQSLDialog.ui" line="40"/>
         <source>Import QSL</source>
-        <translation type="unfinished"></translation>
+        <translation>QSL importieren</translation>
     </message>
     <message>
         <location filename="../ui/PaperQSLDialog.cpp" line="47"/>
@@ -4987,7 +4987,7 @@
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="269"/>
         <source>Chat Error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Chat Fehler</translation>
     </message>
 </context>
 <context>
@@ -6919,13 +6919,13 @@
         <location filename="../ui/SettingsDialog.ui" line="2044"/>
         <location filename="../ui/SettingsDialog.ui" line="2162"/>
         <source>Port Type</source>
-        <translation type="unfinished">Port Typ</translation>
+        <translation>Port Typ</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2052"/>
         <location filename="../ui/SettingsDialog.ui" line="2170"/>
         <source>Serial</source>
-        <translation type="unfinished">Serial</translation>
+        <translation>Serial</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2443"/>
@@ -6965,22 +6965,22 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="379"/>
         <source>Azimuth Beamwidth </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="386"/>
         <source>Azimuth Offset</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="399"/>
         <source>Valid range value is 0° - 100° (0° Unspecified)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gültiger Wertebereich: 0° - 100° (0° unbestimmt)</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="402"/>
         <source>Unspecified</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbestimmt</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2926"/>
@@ -7026,7 +7026,7 @@
         <location filename="../ui/SettingsDialog.ui" line="3219"/>
         <location filename="../ui/SettingsDialog.ui" line="3229"/>
         <source>It is not a password. It is the upload code received via email after the registration to HRDLOG..net</source>
-        <translation type="unfinished">Das ist kein Passwort. Es handelt sich um den Upload-Code, der nach der Registrierung bei HRDLOG.net per E-Mail erhalten wurde</translation>
+        <translation>Das ist kein Passwort. Es handelt sich um den Upload-Code, den sie nach der Registrierung bei HRDLOG.net per E-Mail erhalten haben</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3222"/>
@@ -7038,32 +7038,32 @@
         <location filename="../ui/SettingsDialog.ui" line="3239"/>
         <location filename="../ui/SettingsDialog.ui" line="3252"/>
         <source>If it is enabled and Rig is connected then QLog periodically sends On-Air messages to HRDLog</source>
-        <translation type="unfinished">Wenn es aktiviert ist und Rig angeschlossen ist, sendet QLog regelmäßig On-Air-Nachrichten an HRDLog</translation>
+        <translation>Wenn es aktiviert ist und Rig angeschlossen ist, sendet QLog regelmäßig On-Air-Nachrichten an HRDLog</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3242"/>
         <source>Send On-Air</source>
-        <translation type="unfinished">Senden On-Air</translation>
+        <translation>On-Air senden</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3440"/>
         <source>Internal QSL Storage Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Interner QSL-Speicherordner</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3449"/>
         <source>The folder into which the imported QSL Card images are copied.&lt;br/&gt;This folder is then used by QLog to manage these QSLs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Ordner, in den die importierten QSL-Kartenbilder kopiert werden.&lt;br/&gt;Dieser Ordner wird dann von QLog verwendet, um diese QSLs zu verwalten.</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3506"/>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3578"/>
         <source>&lt;b&gt;Security Notice:&lt;/b&gt; QLog stores all passwords in the Secure Storage. Unfortunately, ON4KST uses a protocol where this password is sent over an unsecured channel as plaintext.&lt;/p&gt;&lt;p&gt;Please exercise caution when choosing your password for this service, as your password is sent over an unsecured channel in plaintext form.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Sicherheitshinweis:&lt;/b&gt; QLog speichert alle Passwörter im Secure Storage. Leider verwendet ON4KST ein Protokoll, bei dem dieses Passwort über einen ungesicherten Kanal im Klartext gesendet wird.&lt;/p&gt;&lt;p&gt;Bitte seien Sie vorsichtig, wenn Sie Ihr Passwort für diesen Dienst wählen, da Ihr Passwort über einen ungesicherten Kanal im Klartext gesendet wird.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="3701"/>
@@ -7755,27 +7755,27 @@
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="696"/>
         <source>Callsign</source>
-        <translation type="unfinished">Rufzeichen</translation>
+        <translation>Rufzeichen</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="697"/>
         <source>Gridsquare</source>
-        <translation type="unfinished">Gitterfeld</translation>
+        <translation>Gitterfeld</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="698"/>
         <source>Distance</source>
-        <translation type="unfinished">Entfernung</translation>
+        <translation>Entfernung</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="699"/>
         <source>Azimuth</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="700"/>
         <source>Comment</source>
-        <translation type="unfinished">Kommentar</translation>
+        <translation>Kommentar</translation>
     </message>
 </context>
 <context>
