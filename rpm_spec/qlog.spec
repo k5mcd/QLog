@@ -42,6 +42,13 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Sep 22 2023 Ladislav Foldyna - 0.28.0-1
+- [NEW] - Added ON4KST Chat Support
+- [NEW] - Added Az BeamWidth and Az Offset to Antenna Profile
+- [NEW] - Double-Clicking the IBP callsign in the online map tunes the frequency
+- Fixed Browse button should open an expecting folder (issue #241)
+- Fixed Reword QSL buttons and Settings in QSO Details and Settings (issue #242)
+
 * Mon Aug 21 2023 Ladislav Foldyna - 0.27.0-1
 - [NEW] - Added HRDLog Support
 - Fixed Text field alignment (issue #233)
