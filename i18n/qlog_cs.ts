@@ -2227,12 +2227,12 @@
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="237"/>
-        <source>Supress User To User</source>
+        <source>Suppress User To User</source>
         <translation>Potlačit Uživatel-Uživatel</translation>
     </message>
     <message>
         <location filename="../ui/KSTChatWidget.ui" line="240"/>
-        <source>Supress private messages between two callsigns</source>
+        <source>Suppress private messages between two callsigns</source>
         <translation>Potlačí soukromé zprávy mezi dvěma uživateli</translation>
     </message>
     <message>

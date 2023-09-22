@@ -62,7 +62,7 @@ KSTChatWidget::KSTChatWidget(int chatRoomIndex,
     ui->messageListView->setItemDelegate(new MessageDelegate(this));
     ui->messageListView->setModel(messageModel);
     ui->messageListView->addAction(ui->actionShowAboutMeOnly);
-    ui->messageListView->addAction(ui->actionSupressUser2User);
+    ui->messageListView->addAction(ui->actionSuppressUser2User);
     ui->messageListView->addAction(ui->actionHighlight);
     ui->messageListView->addAction(separator);
     ui->messageListView->addAction(ui->actionHighlightRules);
@@ -134,7 +134,7 @@ void KSTChatWidget::addChatMessage(KSTChatMsg msg)
     qCDebug(runtime) << "isSenderSelectedCallsign" << isSenderSelectedCallsign;
 
     // Filter incoming messages
-    // Empty callsign means server response, do not supress it
+    // Empty callsign means server response, do not suppress it
     if ( !msg.sender.isEmpty() )
     {
         if ( ! shouldHighlight && ! isSenderSelectedCallsign )
@@ -142,7 +142,7 @@ void KSTChatWidget::addChatMessage(KSTChatMsg msg)
             if ( ui->actionShowAboutMeOnly->isChecked() && !isMyCallsignPresent )
                 return;
 
-            if ( ui->actionSupressUser2User->isChecked() && isUser2User)
+            if ( ui->actionSuppressUser2User->isChecked() && isUser2User)
                 return;
         }
     }

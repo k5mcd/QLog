@@ -229,15 +229,15 @@
     <string>Show only messages where my callsign is present</string>
    </property>
   </action>
-  <action name="actionSupressUser2User">
+  <action name="actionSuppressUser2User">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Supress User To User</string>
+    <string>Suppress User To User</string>
    </property>
    <property name="toolTip">
-    <string>Supress private messages between two callsigns</string>
+    <string>Suppress private messages between two callsigns</string>
    </property>
   </action>
   <action name="actionHighlight">
