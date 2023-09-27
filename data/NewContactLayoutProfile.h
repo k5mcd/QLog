@@ -15,9 +15,13 @@ public:
     QString profileName;
     QList<int> rowA;
     QList<int> rowB;
+    QList<int> detailColA;
+    QList<int> detailColB;
+    QList<int> detailColC;
 
     bool operator== (const NewContactLayoutProfile &profile);
     bool operator!= (const NewContactLayoutProfile &profile);
+    static NewContactLayoutProfile getClassicLayout();
 
 private:
     friend QDataStream& operator<<(QDataStream& out, const NewContactLayoutProfile& v);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>583</width>
-    <height>382</height>
+    <height>488</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,417 +96,1082 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="rowAGroupBox">
-         <property name="title">
-          <string>Row A</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <property name="leftMargin">
-           <number>4</number>
+        <widget class="QComboBox" name="layoutTypeComboBox">
+         <item>
+          <property name="text">
+           <string>New QSO Lines</string>
           </property>
-          <property name="topMargin">
-           <number>4</number>
+         </item>
+         <item>
+          <property name="text">
+           <string>New QSO Details</string>
           </property>
-          <property name="rightMargin">
-           <number>4</number>
-          </property>
-          <property name="bottomMargin">
-           <number>4</number>
-          </property>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="moveToRowAButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>Move selected fields from the Available Fields List to the Row A</string>
-              </property>
-              <property name="text">
-               <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="removeFromRowAButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>Remove selected field from the Row A</string>
-              </property>
-              <property name="text">
-               <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QListView" name="rowAFieldsListView">
-            <property name="toolTip">
-             <string>List of fields in the first variable row</string>
-            </property>
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="showDropIndicator" stdset="0">
-             <bool>false</bool>
-            </property>
-            <property name="verticalScrollMode">
-             <enum>QAbstractItemView::ScrollPerPixel</enum>
-            </property>
-            <property name="horizontalScrollMode">
-             <enum>QAbstractItemView::ScrollPerPixel</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <spacer name="verticalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="rowAUpButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>Change the order. Move selected field up</string>
-              </property>
-              <property name="text">
-               <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="rowADownButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>Change the order. Move selected field down</string>
-              </property>
-              <property name="text">
-               <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
+         </item>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="rowBGroupBox">
-         <property name="title">
-          <string>Row B</string>
+        <widget class="QStackedWidget" name="stackedWidget">
+         <property name="currentIndex">
+          <number>0</number>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>6</number>
-          </property>
-          <property name="leftMargin">
-           <number>4</number>
-          </property>
-          <property name="topMargin">
-           <number>4</number>
-          </property>
-          <property name="rightMargin">
-           <number>4</number>
-          </property>
-          <property name="bottomMargin">
-           <number>4</number>
-          </property>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <spacer name="verticalSpacer_8">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+         <widget class="QWidget" name="newQSOAreaPage">
+          <layout class="QVBoxLayout" name="verticalLayout_13">
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="qsoRowAGroupBox">
+             <property name="title">
+              <string>Row A</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <property name="leftMargin">
+               <number>4</number>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
+              <property name="topMargin">
+               <number>4</number>
               </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="moveToRowBButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+              <property name="rightMargin">
+               <number>4</number>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
+              <property name="bottomMargin">
+               <number>4</number>
               </property>
-              <property name="toolTip">
-               <string>Move selected fields from the Available Fields List to the Row B</string>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <spacer name="verticalSpacer_4">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="moveToQSORowAButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Move selected fields from the Available Fields List to the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="removeFromQSORowAButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Remove selected field from the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_7">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListView" name="qsoRowAFieldsListView">
+                <property name="toolTip">
+                 <string>List of fields in the first variable row</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="showDropIndicator" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="verticalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+                <property name="horizontalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <spacer name="verticalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="qsoRowAUpButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field up</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="qsoRowADownButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field down</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_5">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="qsoRowBGroupBox">
+             <property name="title">
+              <string>Row B</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <property name="spacing">
+               <number>6</number>
               </property>
-              <property name="text">
-               <string notr="true"/>
+              <property name="leftMargin">
+               <number>4</number>
               </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
+              <property name="topMargin">
+               <number>4</number>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="removeFromRowBButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+              <property name="rightMargin">
+               <number>4</number>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
+              <property name="bottomMargin">
+               <number>4</number>
               </property>
-              <property name="toolTip">
-               <string>Remove selected field from the Row B</string>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <item>
+                 <spacer name="verticalSpacer_8">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="moveToQSORowBButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Move selected fields from the Available Fields List to the Row B</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="removeFromQSORowBButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Remove selected field from the Row B</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListView" name="qsoRowBFieldsListView">
+                <property name="toolTip">
+                 <string>List of fields in the second variable row</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="showDropIndicator" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="verticalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+                <property name="horizontalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <spacer name="verticalSpacer_9">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="qsoRowBUpButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field up</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="qsoRowBDownButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field down</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_10">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="newQSODetailPage">
+          <layout class="QVBoxLayout" name="verticalLayout_20">
+           <property name="leftMargin">
+            <number>4</number>
+           </property>
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="detailColAGroupBox">
+             <property name="title">
+              <string>Column A</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="leftMargin">
+               <number>4</number>
               </property>
-              <property name="text">
-               <string notr="true"/>
+              <property name="topMargin">
+               <number>4</number>
               </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
+              <property name="rightMargin">
+               <number>4</number>
               </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+              <property name="bottomMargin">
+               <number>4</number>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_14">
+                <item>
+                 <spacer name="verticalSpacer_23">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="moveToDetailColAButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Move selected fields from the Available Fields List to the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="removeFromDetailColAButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Remove selected field from the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_24">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListView" name="detailColAFieldsListView">
+                <property name="toolTip">
+                 <string>List of fields in the first variable row</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="showDropIndicator" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="verticalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+                <property name="horizontalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_15">
+                <item>
+                 <spacer name="verticalSpacer_25">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="detailColAUpButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field up</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="detailColADownButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field down</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_26">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="detailColBGroupBox">
+             <property name="title">
+              <string>Column B</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <property name="leftMargin">
+               <number>4</number>
               </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QListView" name="rowBFieldsListView">
-            <property name="toolTip">
-             <string>List of fields in the second variable row</string>
-            </property>
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="showDropIndicator" stdset="0">
-             <bool>false</bool>
-            </property>
-            <property name="verticalScrollMode">
-             <enum>QAbstractItemView::ScrollPerPixel</enum>
-            </property>
-            <property name="horizontalScrollMode">
-             <enum>QAbstractItemView::ScrollPerPixel</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_6">
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <spacer name="verticalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
+              <property name="topMargin">
+               <number>4</number>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
+              <property name="rightMargin">
+               <number>4</number>
               </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="rowBUpButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+              <property name="bottomMargin">
+               <number>4</number>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_16">
+                <item>
+                 <spacer name="verticalSpacer_27">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="moveToDetailColBButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Move selected fields from the Available Fields List to the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="removeFromDetailColBButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Remove selected field from the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_28">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListView" name="detailColBFieldsListView">
+                <property name="toolTip">
+                 <string>List of fields in the first variable row</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="showDropIndicator" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="verticalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+                <property name="horizontalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_17">
+                <item>
+                 <spacer name="verticalSpacer_29">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="detailColBUpButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field up</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="detailColBDownButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field down</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_30">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="detailColCGroupBox">
+             <property name="title">
+              <string>Column C</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <property name="leftMargin">
+               <number>4</number>
               </property>
-              <property name="toolTip">
-               <string>Change the order. Move selected field up</string>
+              <property name="topMargin">
+               <number>4</number>
               </property>
-              <property name="text">
-               <string notr="true"/>
+              <property name="rightMargin">
+               <number>4</number>
               </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
+              <property name="bottomMargin">
+               <number>4</number>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="rowBDownButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>24</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>Change the order. Move selected field down</string>
-              </property>
-              <property name="text">
-               <string notr="true"/>
-              </property>
-              <property name="icon">
-               <iconset resource="../res/icons/icons.qrc">
-                <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_10">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_18">
+                <item>
+                 <spacer name="verticalSpacer_31">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="moveToDetailColCButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Move selected fields from the Available Fields List to the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_arrow-24px.svg</normaloff>:/icons/baseline-play_arrow-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="removeFromDetailColCButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Remove selected field from the Row A</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_back-24px.svg</normaloff>:/icons/baseline-play_back-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_32">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QListView" name="detailColCFieldsListView">
+                <property name="toolTip">
+                 <string>List of fields in the first variable row</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="showDropIndicator" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="verticalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+                <property name="horizontalScrollMode">
+                 <enum>QAbstractItemView::ScrollPerPixel</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_19">
+                <item>
+                 <spacer name="verticalSpacer_33">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="detailColCUpButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field up</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_up-24px.svg</normaloff>:/icons/baseline-play_up-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="detailColCDownButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Change the order. Move selected field down</string>
+                  </property>
+                  <property name="text">
+                   <string notr="true"/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../res/icons/icons.qrc">
+                    <normaloff>:/icons/baseline-play_down-24px.svg</normaloff>:/icons/baseline-play_down-24px.svg</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_34">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -578,134 +1243,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>moveToRowAButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>moveToRowAButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>324</x>
-     <y>130</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>removeFromRowBButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>removeFromRowBButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>324</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>removeFromRowAButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>removeFromRowAButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>324</x>
-     <y>162</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>moveToRowBButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>moveToRowBButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>324</x>
-     <y>266</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rowBDownButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>rowBDownButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>624</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rowBUpButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>rowBUpButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>624</x>
-     <y>266</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rowADownButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>rowADownButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>624</x>
-     <y>162</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rowAUpButton</sender>
-   <signal>clicked()</signal>
-   <receiver>NewContactLayoutEditor</receiver>
-   <slot>rowAUpButton()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>624</x>
-     <y>130</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>profileNameEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>NewContactLayoutEditor</receiver>
@@ -721,16 +1258,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>layoutTypeComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>405</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>405</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>moveToRowAButton()</slot>
-  <slot>moveToRowBButton()</slot>
-  <slot>removeFromRowAButton()</slot>
-  <slot>removeFromRowBButton()</slot>
-  <slot>rowAUpButton()</slot>
-  <slot>rowADownButton()</slot>
-  <slot>rowBUpButton()</slot>
-  <slot>rowBDownButton()</slot>
   <slot>save()</slot>
   <slot>profileNameChanged(QString)</slot>
  </slots>

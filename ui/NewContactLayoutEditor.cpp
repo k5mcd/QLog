@@ -3,7 +3,6 @@
 #include "NewContactLayoutEditor.h"
 #include "ui_NewContactLayoutEditor.h"
 #include "core/debug.h"
-#include "data/NewContactLayoutProfile.h"
 #include "ui/NewContactWidget.h"
 
 MODULE_IDENTIFICATION("qlog.ui.NewContactLayoutEditor");
@@ -13,37 +12,49 @@ NewContactLayoutEditor::NewContactLayoutEditor(const QString &layoutName,
     QDialog(parent),
     ui(new Ui::NewContactLayoutEditor),
     availableFieldsModel(new StringListModel(this)),
-    rowAFieldsModel(new StringListModel(this)),
-    rowBFieldsModel(new StringListModel(this))
+    qsoRowAFieldsModel(new StringListModel(this)),
+    qsoRowBFieldsModel(new StringListModel(this)),
+    detailColAFieldsModel(new StringListModel(this)),
+    detailColBFieldsModel(new StringListModel(this)),
+    detailColCFieldsModel(new StringListModel(this)),
+    dynamicWidgets(new NewContactDynamicWidgets(false, this))
 {
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
 
-    logbookmodel = new LogbookModel(this);
-
-    for ( int fieldIndex : NewContactWidget::customizableFields )
-    {
-        QString fieldName = logbookmodel->headerData(fieldIndex, Qt::Horizontal).toString();
-        fieldIndex2Name[fieldIndex] = fieldName;
-        availableFieldsModel->append(fieldName);
-    }
-
+    availableFieldsModel->setStringList(dynamicWidgets->getAllFieldLabelNames());
     availableFieldsModel->sort(0);
 
     ui->availableFieldsListView->setModel(availableFieldsModel);
-    ui->rowAFieldsListView->setModel(rowAFieldsModel);
-    ui->rowBFieldsListView->setModel(rowBFieldsModel);
+    ui->qsoRowAFieldsListView->setModel(qsoRowAFieldsModel);
+    ui->qsoRowBFieldsListView->setModel(qsoRowBFieldsModel);
+    ui->detailColAFieldsListView->setModel(detailColAFieldsModel);
+    ui->detailColBFieldsListView->setModel(detailColBFieldsModel);
+    ui->detailColCFieldsListView->setModel(detailColCFieldsModel);
+
+    connectQSORowButtons();
+    connectDetailColsButtons();
 
     if ( ! layoutName.isEmpty() )
     {
-        loadLayout(layoutName);
+        NewContactLayoutProfile profile = NewContactLayoutProfilesManager::instance()->getProfile(layoutName);
+
+        ui->profileNameEdit->setEnabled(false);
+        ui->profileNameEdit->setText(profile.profileName);
+
+        fillWidgets(profile);
+    }
+    else
+    {
+        fillWidgets(NewContactLayoutProfile::getClassicLayout());
     }
 }
 
 NewContactLayoutEditor::~NewContactLayoutEditor()
 {
     delete ui;
+    delete dynamicWidgets;
 }
 
 void NewContactLayoutEditor::save()
@@ -66,95 +77,15 @@ void NewContactLayoutEditor::save()
     NewContactLayoutProfile profile;
 
     profile.profileName = ui->profileNameEdit->text();
-    profile.rowA = getFieldIndexes(rowAFieldsModel);
-    profile.rowB = getFieldIndexes(rowBFieldsModel);
+    profile.rowA = getFieldIndexes(qsoRowAFieldsModel);
+    profile.rowB = getFieldIndexes(qsoRowBFieldsModel);
+    profile.detailColA = getFieldIndexes(detailColAFieldsModel);
+    profile.detailColB = getFieldIndexes(detailColBFieldsModel);
+    profile.detailColC = getFieldIndexes(detailColCFieldsModel);
     NewContactLayoutProfilesManager::instance()->addProfile(profile.profileName, profile);
     NewContactLayoutProfilesManager::instance()->save();
 
     accept();
-}
-
-void NewContactLayoutEditor::moveToRowAButton()
-{
-    FCT_IDENTIFICATION;
-
-    moveField(availableFieldsModel,
-              rowAFieldsModel,
-              ui->availableFieldsListView->selectionModel()->selectedIndexes());
-}
-
-void NewContactLayoutEditor::moveToRowBButton()
-{
-    FCT_IDENTIFICATION;
-
-    moveField(availableFieldsModel,
-              rowBFieldsModel,
-              ui->availableFieldsListView->selectionModel()->selectedRows());
-}
-
-void NewContactLayoutEditor::removeFromRowAButton()
-{
-    FCT_IDENTIFICATION;
-
-    moveField(rowAFieldsModel,
-              availableFieldsModel,
-              ui->rowAFieldsListView->selectionModel()->selectedRows());
-}
-
-void NewContactLayoutEditor::removeFromRowBButton()
-{
-    FCT_IDENTIFICATION;
-
-    moveField(rowBFieldsModel,
-              availableFieldsModel,
-              ui->rowBFieldsListView->selectionModel()->selectedRows());
-}
-
-void NewContactLayoutEditor::rowAUpButton()
-{
-    FCT_IDENTIFICATION;
-
-    QModelIndexList modelList = ui->rowAFieldsListView->selectionModel()->selectedRows();
-
-    if ( modelList.size() > 0 )
-    {
-        rowAFieldsModel->moveUp(modelList.at(0));
-    }
-}
-
-void NewContactLayoutEditor::rowBUpButton()
-{
-    FCT_IDENTIFICATION;
-
-    QModelIndexList modelList = ui->rowBFieldsListView->selectionModel()->selectedRows();
-
-    if ( modelList.size() > 0 )
-    {
-        rowBFieldsModel->moveUp(modelList.at(0));
-    }
-}
-
-void NewContactLayoutEditor::rowADownButton()
-{
-    FCT_IDENTIFICATION;
-
-    QModelIndexList modelList = ui->rowAFieldsListView->selectionModel()->selectedRows();
-
-    if ( modelList.size() > 0 )
-    {
-        rowAFieldsModel->moveDown(modelList.at(0));
-    }
-}
-
-void NewContactLayoutEditor::rowBDownButton()
-{
-    FCT_IDENTIFICATION;
-    QModelIndexList modelList = ui->rowBFieldsListView->selectionModel()->selectedRows();
-
-    if ( modelList.size() > 0 )
-    {
-        rowBFieldsModel->moveDown(modelList.at(0));
-    }
 }
 
 void NewContactLayoutEditor::profileNameChanged(const QString &profileName)
@@ -207,41 +138,253 @@ void NewContactLayoutEditor::moveField(StringListModel *source,
     }
 }
 
+void NewContactLayoutEditor::connectQSORowButtons()
+{
+    FCT_IDENTIFICATION;
+
+    /*********************/
+    /* QSO Row A Buttons */
+    /*********************/
+    connect(ui->qsoRowADownButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->qsoRowAFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            qsoRowAFieldsModel->moveDown(modelList.at(0));
+        }
+    });
+
+    connect(ui->qsoRowAUpButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->qsoRowAFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            qsoRowAFieldsModel->moveUp(modelList.at(0));
+        }
+    });
+
+    connect(ui->moveToQSORowAButton, &QPushButton::clicked, [this]()
+    {
+        moveField(availableFieldsModel,
+                  qsoRowAFieldsModel,
+                  ui->availableFieldsListView->selectionModel()->selectedIndexes());
+    });
+
+    connect(ui->removeFromQSORowAButton, &QPushButton::clicked, [this]()
+    {
+        moveField(qsoRowAFieldsModel,
+                  availableFieldsModel,
+                  ui->qsoRowAFieldsListView->selectionModel()->selectedRows());
+    });
+    /*********************/
+    /* QSO Row B Buttons */
+    /*********************/
+    connect(ui->qsoRowBDownButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->qsoRowBFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            qsoRowBFieldsModel->moveDown(modelList.at(0));
+        }
+    });
+
+    connect(ui->qsoRowBUpButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->qsoRowBFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            qsoRowBFieldsModel->moveUp(modelList.at(0));
+        }
+    });
+
+    connect(ui->moveToQSORowBButton, &QPushButton::clicked, [this]()
+    {
+        moveField(availableFieldsModel,
+                  qsoRowBFieldsModel,
+                  ui->availableFieldsListView->selectionModel()->selectedIndexes());
+    });
+
+    connect(ui->removeFromQSORowBButton, &QPushButton::clicked, [this]()
+    {
+        moveField(qsoRowBFieldsModel,
+                  availableFieldsModel,
+                  ui->qsoRowBFieldsListView->selectionModel()->selectedRows());
+    });
+}
+
+void NewContactLayoutEditor::connectDetailColsButtons()
+{
+    FCT_IDENTIFICATION;
+
+    /****************************/
+    /* QSO Detail Col A Buttons */
+    /****************************/
+    connect(ui->detailColADownButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->detailColAFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            detailColAFieldsModel->moveDown(modelList.at(0));
+        }
+    });
+
+    connect(ui->detailColAUpButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->detailColAFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            detailColAFieldsModel->moveUp(modelList.at(0));
+        }
+    });
+
+    connect(ui->moveToDetailColAButton, &QPushButton::clicked, [this]()
+    {
+        moveField(availableFieldsModel,
+                  detailColAFieldsModel,
+                  ui->availableFieldsListView->selectionModel()->selectedIndexes());
+    });
+
+    connect(ui->removeFromDetailColAButton, &QPushButton::clicked, [this]()
+    {
+        moveField(detailColAFieldsModel,
+                  availableFieldsModel,
+                  ui->detailColAFieldsListView->selectionModel()->selectedRows());
+    });
+
+    /****************************/
+    /* QSO Detail Col B Buttons */
+    /****************************/
+    connect(ui->detailColBDownButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->detailColBFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            detailColBFieldsModel->moveDown(modelList.at(0));
+        }
+    });
+
+    connect(ui->detailColBUpButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->detailColBFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            detailColBFieldsModel->moveUp(modelList.at(0));
+        }
+    });
+
+    connect(ui->moveToDetailColBButton, &QPushButton::clicked, [this]()
+    {
+        moveField(availableFieldsModel,
+                  detailColBFieldsModel,
+                  ui->availableFieldsListView->selectionModel()->selectedIndexes());
+    });
+
+    connect(ui->removeFromDetailColBButton, &QPushButton::clicked, [this]()
+    {
+        moveField(detailColBFieldsModel,
+                  availableFieldsModel,
+                  ui->detailColBFieldsListView->selectionModel()->selectedRows());
+    });
+
+    /****************************/
+    /* QSO Detail Col C Buttons */
+    /****************************/
+    connect(ui->detailColCDownButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->detailColCFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            detailColCFieldsModel->moveDown(modelList.at(0));
+        }
+    });
+
+    connect(ui->detailColCUpButton, &QPushButton::clicked, [this]()
+    {
+        QModelIndexList modelList = ui->detailColCFieldsListView->selectionModel()->selectedRows();
+
+        if ( modelList.size() > 0 )
+        {
+            detailColCFieldsModel->moveUp(modelList.at(0));
+        }
+    });
+
+    connect(ui->moveToDetailColCButton, &QPushButton::clicked, [this]()
+    {
+        moveField(availableFieldsModel,
+                  detailColCFieldsModel,
+                  ui->availableFieldsListView->selectionModel()->selectedIndexes());
+    });
+
+    connect(ui->removeFromDetailColCButton, &QPushButton::clicked, [this]()
+    {
+        moveField(detailColCFieldsModel,
+                  availableFieldsModel,
+                  ui->detailColCFieldsListView->selectionModel()->selectedRows());
+    });
+}
+
 QList<int> NewContactLayoutEditor::getFieldIndexes(StringListModel *model)
 {
     FCT_IDENTIFICATION;
 
-    QStringList list = model->stringList();
+    const QStringList &list = model->stringList();
     QList<int> ret;
 
     for ( const QString &fieldName : qAsConst(list) )
     {
-        ret << fieldIndex2Name.key(fieldName);
+        int index = dynamicWidgets->getIndex4FieldLabelName(fieldName);
+        if ( index >= 0 )
+            ret << index;
     }
 
     return ret;
 }
 
-void NewContactLayoutEditor::loadLayout(const QString &layoutName)
+void NewContactLayoutEditor::fillWidgets(const NewContactLayoutProfile &profile)
 {
     FCT_IDENTIFICATION;
 
-    NewContactLayoutProfile profile = NewContactLayoutProfilesManager::instance()->getProfile(layoutName);
-
-    ui->profileNameEdit->setEnabled(false);
-    ui->profileNameEdit->setText(profile.profileName);
-
     for ( int fieldIndex : qAsConst(profile.rowA) )
     {
-        QString fieldName = fieldIndex2Name.value(fieldIndex);
-        rowAFieldsModel->append(fieldName);
+        QString fieldName = dynamicWidgets->getFieldLabelName4Index(fieldIndex);
+        qsoRowAFieldsModel->append(fieldName);
         availableFieldsModel->deleteItem(fieldName);
     }
 
     for ( int fieldIndex : qAsConst(profile.rowB) )
     {
-        QString fieldName = fieldIndex2Name.value(fieldIndex);
-        rowBFieldsModel->append(fieldName);
+        QString fieldName = dynamicWidgets->getFieldLabelName4Index(fieldIndex);
+        qsoRowBFieldsModel->append(fieldName);
+        availableFieldsModel->deleteItem(fieldName);
+    }
+
+    for ( int fieldIndex : qAsConst(profile.detailColA) )
+    {
+        QString fieldName = dynamicWidgets->getFieldLabelName4Index(fieldIndex);
+        detailColAFieldsModel->append(fieldName);
+        availableFieldsModel->deleteItem(fieldName);
+    }
+
+    for ( int fieldIndex : qAsConst(profile.detailColB) )
+    {
+        QString fieldName = dynamicWidgets->getFieldLabelName4Index(fieldIndex);
+        detailColBFieldsModel->append(fieldName);
+        availableFieldsModel->deleteItem(fieldName);
+    }
+
+    for ( int fieldIndex : qAsConst(profile.detailColC) )
+    {
+        QString fieldName = dynamicWidgets->getFieldLabelName4Index(fieldIndex);
+        detailColCFieldsModel->append(fieldName);
         availableFieldsModel->deleteItem(fieldName);
     }
 }

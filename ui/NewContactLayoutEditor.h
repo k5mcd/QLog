@@ -6,6 +6,8 @@
 #include <QStringListModel>
 #include "models/LogbookModel.h"
 #include "core/debug.h"
+#include "ui/NewContactWidget.h"
+#include "data/NewContactLayoutProfile.h"
 
 namespace Ui {
 class NewContactLayoutEditor;
@@ -78,30 +80,27 @@ public:
 
 private:
     Ui::NewContactLayoutEditor *ui;
-    QHash<int, QString> fieldIndex2Name;
-    QPointer<LogbookModel> logbookmodel;
     StringListModel *availableFieldsModel;
-    StringListModel *rowAFieldsModel;
-    StringListModel *rowBFieldsModel;
+    StringListModel *qsoRowAFieldsModel;
+    StringListModel *qsoRowBFieldsModel;
+    StringListModel *detailColAFieldsModel;
+    StringListModel *detailColBFieldsModel;
+    StringListModel *detailColCFieldsModel;
+
+    NewContactDynamicWidgets *dynamicWidgets;
 
 private slots:
     void save();
-    void moveToRowAButton();
-    void moveToRowBButton();
-    void removeFromRowAButton();
-    void removeFromRowBButton();
-    void rowAUpButton();
-    void rowBUpButton();
-    void rowADownButton();
-    void rowBDownButton();
     void profileNameChanged(const QString&);
 
 private:
-    void loadLayout(const QString &layoutName);
+    void fillWidgets(const NewContactLayoutProfile &profile);
     bool layoutNameExists(const QString &layoutName);
     void moveField(StringListModel *source,
                    StringListModel *destination,
                    const QModelIndexList &sourceIndexList);
+    void connectQSORowButtons();
+    void connectDetailColsButtons();
     QList<int> getFieldIndexes(StringListModel *model);
 };
 

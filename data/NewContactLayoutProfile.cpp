@@ -3,6 +3,7 @@
 
 #include "NewContactLayoutProfile.h"
 #include "core/debug.h"
+#include "models/LogbookModel.h"
 
 MODULE_IDENTIFICATION("qlog.data.newcontactlayoutprofile");
 
@@ -10,7 +11,10 @@ QDataStream& operator<<(QDataStream& out, const NewContactLayoutProfile& v)
 {
     out << v.profileName
         << v.rowA
-        << v.rowB;
+        << v.rowB
+        << v.detailColA
+        << v.detailColB
+        << v.detailColC;
 
     return out;
 }
@@ -20,6 +24,9 @@ QDataStream& operator>>(QDataStream& in, NewContactLayoutProfile& v)
     in >> v.profileName;
     in >> v.rowA;
     in >> v.rowB;
+    in >> v.detailColA;
+    in >> v.detailColB;
+    in >> v.detailColC;
 
     return in;
 }
@@ -32,7 +39,7 @@ NewContactLayoutProfilesManager::NewContactLayoutProfilesManager(QObject *parent
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, row_A, row_B FROM newcontact_layout_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, row_A, row_B, detail_col_A, detail_col_B, detail_col_C FROM newcontact_layout_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -45,6 +52,9 @@ NewContactLayoutProfilesManager::NewContactLayoutProfilesManager(QObject *parent
             profileDB.profileName = profileQuery.value(0).toString();
             profileDB.rowA = toIntList(profileQuery.value(1).toString());
             profileDB.rowB = toIntList(profileQuery.value(2).toString());
+            profileDB.detailColA = toIntList(profileQuery.value(3).toString());
+            profileDB.detailColB = toIntList(profileQuery.value(4).toString());
+            profileDB.detailColC = toIntList(profileQuery.value(5).toString());
             addProfile(profileDB.profileName, profileDB);
         }
     }
@@ -75,8 +85,8 @@ void NewContactLayoutProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO newcontact_layout_profiles(profile_name, row_A, row_B) "
-                               "VALUES (:profile_name, :row_A, :row_B)") )
+    if ( ! insertQuery.prepare("INSERT INTO newcontact_layout_profiles(profile_name, row_A, row_B, detail_col_A, detail_col_B, detail_col_C) "
+                               "VALUES (:profile_name, :row_A, :row_B, :detail_col_A, :detail_col_B, :detail_col_C)") )
     {
         qWarning() << "Cannot prepare Insert statement";
         return;
@@ -92,6 +102,9 @@ void NewContactLayoutProfilesManager::save()
             insertQuery.bindValue(":profile_name", key);
             insertQuery.bindValue(":row_A", toDBStringList(layoutProfile.rowA));
             insertQuery.bindValue(":row_B", toDBStringList(layoutProfile.rowB));
+            insertQuery.bindValue(":detail_col_A", toDBStringList(layoutProfile.detailColA));
+            insertQuery.bindValue(":detail_col_B", toDBStringList(layoutProfile.detailColB));
+            insertQuery.bindValue(":detail_col_C", toDBStringList(layoutProfile.detailColC));
 
             if ( ! insertQuery.exec() )
             {
@@ -147,10 +160,45 @@ bool NewContactLayoutProfile::operator==(const NewContactLayoutProfile &profile)
 {
     return (profile.profileName == this->profileName
             && profile.rowA == this->rowA
-            && profile.rowB == this->rowB);
+            && profile.rowB == this->rowB
+            && profile.detailColA == this->detailColA
+            && profile.detailColB == this->detailColB
+            && profile.detailColC == this->detailColC);
 }
 
 bool NewContactLayoutProfile::operator!=(const NewContactLayoutProfile &profile)
 {
     return !operator==(profile);
+}
+
+NewContactLayoutProfile NewContactLayoutProfile::getClassicLayout()
+{
+
+    NewContactLayoutProfile ret;
+
+    ret.rowA << LogbookModel::COLUMN_NAME_INTL
+             << LogbookModel::COLUMN_QTH_INTL
+             << LogbookModel::COLUMN_GRID
+             << LogbookModel::COLUMN_COMMENT_INTL;
+
+    ret.detailColA << LogbookModel::COLUMN_CONTINENT
+                   << LogbookModel::COLUMN_ITUZ
+                   << LogbookModel::COLUMN_CQZ
+                   << LogbookModel::COLUMN_STATE
+                   << LogbookModel::COLUMN_COUNTY
+                   << LogbookModel::COLUMN_AGE
+                   << LogbookModel::COLUMN_VUCC_GRIDS;
+
+    ret.detailColB << LogbookModel::COLUMN_DARC_DOK
+                   << LogbookModel::COLUMN_IOTA
+                   << LogbookModel::COLUMN_POTA_REF
+                   << LogbookModel::COLUMN_SOTA_REF
+                   << LogbookModel::COLUMN_WWFF_REF
+                   << LogbookModel::COLUMN_SIG_INTL
+                   << LogbookModel::COLUMN_SIG_INFO_INTL;
+
+    ret.detailColC << LogbookModel::COLUMN_EMAIL
+                   << LogbookModel::COLUMN_WEB;
+
+    return ret;
 }

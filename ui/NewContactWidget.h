@@ -6,6 +6,11 @@
 #include <QCompleter>
 #include <QComboBox>
 #include <QHBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QHash>
+#include <QFormLayout>
+
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
@@ -15,6 +20,7 @@
 #include "core/PropConditions.h"
 #include "core/LogLocale.h"
 #include "models/LogbookModel.h"
+#include "ui/EditLine.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -27,7 +33,113 @@ enum CoordPrecision {
     COORD_FULL = 3
 };
 
-class NewContactWidget : public QWidget {
+class NewContactDynamicWidgets
+{
+public:
+    QLabel *nameLabel;
+    NewContactEditLine *nameEdit;
+
+    QLabel *qthLabel;
+    NewContactEditLine *qthEdit;
+
+    QLabel *gridLabel;
+    NewContactEditLine *gridEdit;
+
+    QLabel *commentLabel;
+    NewContactEditLine *commentEdit;
+
+    QLabel *contLabel;
+    QComboBox *contEdit;
+
+    QLabel *ituLabel;
+    NewContactEditLine *ituEdit;
+
+    QLabel *cqzLabel;
+    NewContactEditLine *cqzEdit;
+
+    QLabel *stateLabel;
+    NewContactEditLine *stateEdit;
+
+    QLabel *countyLabel;
+    NewContactEditLine *countyEdit;
+
+    QLabel *ageLabel;
+    NewContactEditLine *ageEdit;
+
+    QLabel *vuccLabel;
+    NewContactEditLine *vuccEdit;
+
+    QLabel *dokLabel;
+    NewContactEditLine *dokEdit;
+
+    QLabel *iotaLabel;
+    NewContactEditLine *iotaEdit;
+
+    QLabel *potaLabel;
+    NewContactEditLine *potaEdit;
+
+    QLabel *sotaLabel;
+    NewContactEditLine *sotaEdit;
+
+    QLabel *wwffLabel;
+    NewContactEditLine *wwffEdit;
+
+    QLabel *sigLabel;
+    NewContactEditLine *sigEdit;
+
+    QLabel *sigInfoLabel;
+    NewContactEditLine *sigInfoEdit;
+
+    QLabel *emailLabel;
+    NewContactEditLine *emailEdit;
+
+    QLabel *urlLabel;
+    NewContactEditLine *urlEdit;
+
+    QLabel *satNameLabel;
+    NewContactEditLine *satNameEdit;
+
+    QLabel *satModeLabel;
+    QComboBox *satModeEdit;
+
+    explicit NewContactDynamicWidgets(bool allocateWidgets,
+                                      QWidget *parent);
+    QWidget* getRowWidget(int index);
+    QWidget* getLabel(int index);
+    QWidget* getEditor(int index);
+    QStringList getAllFieldLabelNames() const;
+    int getIndex4FieldLabelName(const QString&) const;
+    QString getFieldLabelName4Index(int) const;
+
+private:
+    struct DynamicWidget
+    {
+       QWidget* label;
+       QWidget* editor;
+       QWidget* rowWidget;
+       QString baseObjectName;
+       QString fieldLabelName;
+    };
+
+    void initializeWidgets(int DBIndexMapping,
+                           const QString &,
+                           QLabel *&retLabel,
+                           NewContactEditLine *&retWidget);
+
+    void initializeWidgets(int DBIndexMapping,
+                           const QString &,
+                           QLabel *&retLabel,
+                           QComboBox *&retWidget);
+
+    // Mapping from DB Index to <Label, Editor>
+    QHash<int, DynamicWidget> widgetMapping;
+    QWidget *parent;
+    QPointer<LogbookModel> logbookmodel;
+    bool widgetsAllocated;
+};
+
+class NewContactWidget : public QWidget
+{
     Q_OBJECT
 
 public:
@@ -55,8 +167,6 @@ public:
     QString getMode() const;
     double getQSOBearing() const;
     double getQSODistance() const;
-
-    static const QList<int> customizableFields;
 
 signals:
     void contactAdded(QSqlRecord record);
@@ -153,6 +263,8 @@ private:
     void setComboBaseData(QComboBox *, const QString &);
     void queryMemberList();
     QList<QWidget*> setupCustomUiRow(QHBoxLayout *row, const QList<int>& widgetsList);
+    QList<QWidget*> setupCustomDetailColumn(QFormLayout *column, const QList<int>& widgetsList);
+
     void setupCustomUiRowsTabOrder(const QList<QWidget *> &customWidgets);
     void setBandLabel(const QString &);
 private:
@@ -165,9 +277,9 @@ private:
     CallbookManager callbookManager;
     QTimer* contactTimer;
     Ui::NewContactWidget *ui;
+    NewContactDynamicWidgets *uiDynamic;
     CoordPrecision coordPrec;
     PropConditions *prop_cond;
-    QCompleter *iotaCompleter;
     QCompleter *satCompleter;
     QCompleter *sotaCompleter;
     QCompleter *potaCompleter;
@@ -182,16 +294,6 @@ private:
     WWFFEntity lastWWFF;
     bool isManualEnterMode;
     LogLocale locale;
-    QMap<int, QWidget*> fieldIndex2Widget;
-
-    const  QList<int> classicLayoutFirstLine =
-    {
-        LogbookModel::COLUMN_NAME_INTL,
-        LogbookModel::COLUMN_QTH_INTL,
-        LogbookModel::COLUMN_GRID,
-        LogbookModel::COLUMN_COMMENT_INTL
-    };
-
 
 };
 
