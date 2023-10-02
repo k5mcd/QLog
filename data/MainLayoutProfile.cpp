@@ -1,25 +1,28 @@
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QByteArray>
 
-#include "NewContactLayoutProfile.h"
+#include "MainLayoutProfile.h"
 #include "core/debug.h"
 #include "models/LogbookModel.h"
 
-MODULE_IDENTIFICATION("qlog.data.newcontactlayoutprofile");
+MODULE_IDENTIFICATION("qlog.data.mainlayoutprofile");
 
-QDataStream& operator<<(QDataStream& out, const NewContactLayoutProfile& v)
+QDataStream& operator<<(QDataStream& out, const MainLayoutProfile& v)
 {
     out << v.profileName
         << v.rowA
         << v.rowB
         << v.detailColA
         << v.detailColB
-        << v.detailColC;
+        << v.detailColC
+        << v.mainGeometry
+        << v.mainState;
 
     return out;
 }
 
-QDataStream& operator>>(QDataStream& in, NewContactLayoutProfile& v)
+QDataStream& operator>>(QDataStream& in, MainLayoutProfile& v)
 {
     in >> v.profileName;
     in >> v.rowA;
@@ -27,19 +30,21 @@ QDataStream& operator>>(QDataStream& in, NewContactLayoutProfile& v)
     in >> v.detailColA;
     in >> v.detailColB;
     in >> v.detailColC;
+    in >> v.mainGeometry;
+    in >> v.mainState;
 
     return in;
 }
 
-NewContactLayoutProfilesManager::NewContactLayoutProfilesManager(QObject *parent) :
+MainLayoutProfilesManager::MainLayoutProfilesManager(QObject *parent) :
     QObject(parent),
-    ProfileManager<NewContactLayoutProfile>("newcontact/layoutprofile")
+    ProfileManager<MainLayoutProfile>("newcontact/layoutprofile")
 {
     FCT_IDENTIFICATION;
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, row_A, row_B, detail_col_A, detail_col_B, detail_col_C FROM newcontact_layout_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, row_A, row_B, detail_col_A, detail_col_B, detail_col_C, main_geometry, main_state FROM main_layout_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -48,45 +53,47 @@ NewContactLayoutProfilesManager::NewContactLayoutProfilesManager(QObject *parent
     {
         while (profileQuery.next())
         {
-            NewContactLayoutProfile profileDB;
+            MainLayoutProfile profileDB;
             profileDB.profileName = profileQuery.value(0).toString();
             profileDB.rowA = toIntList(profileQuery.value(1).toString());
             profileDB.rowB = toIntList(profileQuery.value(2).toString());
             profileDB.detailColA = toIntList(profileQuery.value(3).toString());
             profileDB.detailColB = toIntList(profileQuery.value(4).toString());
             profileDB.detailColC = toIntList(profileQuery.value(5).toString());
+            profileDB.mainGeometry = QByteArray::fromBase64(profileQuery.value(6).toString().toUtf8());
+            profileDB.mainState = QByteArray::fromBase64(profileQuery.value(7).toString().toUtf8());
             addProfile(profileDB.profileName, profileDB);
         }
     }
     else
     {
-        qInfo() << "NewContactLayout Profile DB select error " << profileQuery.lastError().text();
+        qInfo() << "MainLayout Profile DB select error " << profileQuery.lastError().text();
     }
 }
 
-NewContactLayoutProfilesManager *NewContactLayoutProfilesManager::instance()
+MainLayoutProfilesManager *MainLayoutProfilesManager::instance()
 {
     FCT_IDENTIFICATION;
 
-    static NewContactLayoutProfilesManager instance;
+    static MainLayoutProfilesManager instance;
     return &instance;
 }
 
-void NewContactLayoutProfilesManager::save()
+void MainLayoutProfilesManager::save()
 {
     FCT_IDENTIFICATION;
 
     QSqlQuery deleteQuery;
     QSqlQuery insertQuery;
 
-    if ( ! deleteQuery.prepare("DELETE FROM newcontact_layout_profiles") )
+    if ( ! deleteQuery.prepare("DELETE FROM main_layout_profiles") )
     {
         qWarning() << "Cannot prepare Delete statement";
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO newcontact_layout_profiles(profile_name, row_A, row_B, detail_col_A, detail_col_B, detail_col_C) "
-                               "VALUES (:profile_name, :row_A, :row_B, :detail_col_A, :detail_col_B, :detail_col_C)") )
+    if ( ! insertQuery.prepare("INSERT INTO main_layout_profiles(profile_name, row_A, row_B, detail_col_A, detail_col_B, detail_col_C, main_geometry, main_state) "
+                               "VALUES (:profile_name, :row_A, :row_B, :detail_col_A, :detail_col_B, :detail_col_C, :main_geometry, :main_state)") )
     {
         qWarning() << "Cannot prepare Insert statement";
         return;
@@ -97,7 +104,7 @@ void NewContactLayoutProfilesManager::save()
         auto keys = profileNameList();
         for ( auto &key: qAsConst(keys) )
         {
-            NewContactLayoutProfile layoutProfile = getProfile(key);
+            MainLayoutProfile layoutProfile = getProfile(key);
 
             insertQuery.bindValue(":profile_name", key);
             insertQuery.bindValue(":row_A", toDBStringList(layoutProfile.rowA));
@@ -105,22 +112,24 @@ void NewContactLayoutProfilesManager::save()
             insertQuery.bindValue(":detail_col_A", toDBStringList(layoutProfile.detailColA));
             insertQuery.bindValue(":detail_col_B", toDBStringList(layoutProfile.detailColB));
             insertQuery.bindValue(":detail_col_C", toDBStringList(layoutProfile.detailColC));
+            insertQuery.bindValue(":main_geometry", layoutProfile.mainGeometry.toBase64());
+            insertQuery.bindValue(":main_state", layoutProfile.mainState.toBase64());
 
             if ( ! insertQuery.exec() )
             {
-                qInfo() << "NewContactLayoutProfile DB insert error " << insertQuery.lastError().text() << insertQuery.lastQuery();
+                qInfo() << "MainLayoutProfile DB insert error " << insertQuery.lastError().text() << insertQuery.lastQuery();
             }
         }
     }
     else
     {
-        qInfo() << "NewContactLayoutProfile Profile DB delete error " << deleteQuery.lastError().text();
+        qInfo() << "MainLayoutProfile Profile DB delete error " << deleteQuery.lastError().text();
     }
 
     saveCurProfile1();
 }
 
-QString NewContactLayoutProfilesManager::toDBStringList(const QList<int> &list) const
+QString MainLayoutProfilesManager::toDBStringList(const QList<int> &list) const
 {
     FCT_IDENTIFICATION;
 
@@ -135,7 +144,7 @@ QString NewContactLayoutProfilesManager::toDBStringList(const QList<int> &list) 
     return stringsList.join(",");
 }
 
-QList<int> NewContactLayoutProfilesManager::toIntList(const QString &list) const
+QList<int> MainLayoutProfilesManager::toIntList(const QString &list) const
 {
     FCT_IDENTIFICATION;
 
@@ -156,25 +165,27 @@ QList<int> NewContactLayoutProfilesManager::toIntList(const QString &list) const
     return retList;
 }
 
-bool NewContactLayoutProfile::operator==(const NewContactLayoutProfile &profile)
+bool MainLayoutProfile::operator==(const MainLayoutProfile &profile)
 {
     return (profile.profileName == this->profileName
             && profile.rowA == this->rowA
             && profile.rowB == this->rowB
             && profile.detailColA == this->detailColA
             && profile.detailColB == this->detailColB
-            && profile.detailColC == this->detailColC);
+            && profile.detailColC == this->detailColC
+            && profile.mainGeometry == this->mainGeometry
+            && profile.mainState == this->mainState);
 }
 
-bool NewContactLayoutProfile::operator!=(const NewContactLayoutProfile &profile)
+bool MainLayoutProfile::operator!=(const MainLayoutProfile &profile)
 {
     return !operator==(profile);
 }
 
-NewContactLayoutProfile NewContactLayoutProfile::getClassicLayout()
+MainLayoutProfile MainLayoutProfile::getClassicLayout()
 {
 
-    NewContactLayoutProfile ret;
+    MainLayoutProfile ret;
 
     ret.rowA << LogbookModel::COLUMN_NAME_INTL
              << LogbookModel::COLUMN_QTH_INTL

@@ -1,4 +1,3 @@
-#include <QSettings>
 #include <QMessageBox>
 #include <QLabel>
 #include <QColor>
@@ -30,7 +29,7 @@
 #include "core/CredentialStore.h"
 #include "AlertSettingDialog.h"
 #include "core/PropConditions.h"
-#include "data/NewContactLayoutProfile.h"
+#include "data/MainLayoutProfile.h"
 #include "ui/EditLayoutDialog.h"
 #include "core/HRDLog.h"
 #include "ui/HRDLogDialog.h"
@@ -44,6 +43,7 @@ MainWindow::MainWindow(QWidget* parent) :
     alertWidget(new AlertWidget)
 {
     FCT_IDENTIFICATION;
+
 
     ui->setupUi(this);
 
@@ -66,11 +66,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->onlineMapWidget->registerContactWidget(ui->newContactWidget);
     ui->chatWidget->registerContactWidget(ui->newContactWidget);
 
-    QSettings settings;
-
-    // restore the window geometry and state
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
+    setLayoutGeometry();
 
     const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
 
@@ -242,10 +238,9 @@ MainWindow::MainWindow(QWidget* parent) :
     shortcut->setAutoRepeat(false);
 }
 
-void MainWindow::closeEvent(QCloseEvent* event) {
+void MainWindow::closeEvent(QCloseEvent* event)
+{
     FCT_IDENTIFICATION;
-
-    QSettings settings;
 
     // save the window geometry
     settings.setValue("geometry", saveGeometry());
@@ -344,7 +339,6 @@ void MainWindow::darkModeToggle(int mode)
 
     qCDebug(function_parameters) << mode;
 
-    QSettings settings;
     bool darkMode = (mode == Qt::Checked) ? true: false;
     settings.setValue("darkmode", darkMode);
 
@@ -405,8 +399,6 @@ void MainWindow::beepSettingAlerts()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-
     settings.setValue("alertbeep", ui->actionBeepSettingAlert->isChecked());
 
     if ( ui->actionBeepSettingAlert->isChecked() )
@@ -437,6 +429,41 @@ void MainWindow::showEditLayout()
     dialog.exec();
     setupLayoutMenu();
     emit layoutChanged();
+}
+
+void MainWindow::setLayoutGeometry()
+{
+    FCT_IDENTIFICATION;
+
+    // restore the window geometry and state
+    const MainLayoutProfile &layoutProfile = MainLayoutProfilesManager::instance()->getCurProfile1();
+
+    if ( layoutProfile.mainGeometry != QByteArray()
+         || layoutProfile.mainState != QByteArray() )
+    {
+        restoreGeometry(layoutProfile.mainGeometry);
+        restoreState(layoutProfile.mainState);
+    }
+    else
+    {
+        restoreGeometry(settings.value("geometry").toByteArray());
+        restoreState(settings.value("windowState").toByteArray());
+    }
+}
+
+void MainWindow::saveProfileLayoutGeometry()
+{
+    FCT_IDENTIFICATION;
+
+    MainLayoutProfile layoutProfile = MainLayoutProfilesManager::instance()->getCurProfile1();
+
+    if ( layoutProfile != MainLayoutProfile() )
+    {
+        layoutProfile.mainGeometry = saveGeometry();
+        layoutProfile.mainState = saveState();
+        MainLayoutProfilesManager::instance()->addProfile(layoutProfile.profileName, layoutProfile);
+        MainLayoutProfilesManager::instance()->save();
+    }
 }
 
 void MainWindow::setDarkMode()
@@ -475,46 +502,64 @@ void MainWindow::setupLayoutMenu()
 {
     FCT_IDENTIFICATION;
 
-    const QList<QAction*> layoutActions = ui->menuNewContact->actions();
+    const QList<QAction*> layoutActions = ui->menuMainLayout->actions();
 
     for ( auto action : layoutActions )
     {
         action->deleteLater();
     }
 
-    QString currNewContactProfile = NewContactLayoutProfilesManager::instance()->getCurProfile1().profileName;
+    const QString &currMainProfile = MainLayoutProfilesManager::instance()->getCurProfile1().profileName;
 
     // The first position will be always the Classic Layout Profile
     QAction *classicLayoutAction = new QAction(tr("Classic"), this);
     classicLayoutAction->setCheckable(true);
-    classicLayoutAction->setChecked(currNewContactProfile == QString());
+    if ( currMainProfile == QString() )
+    {
+        classicLayoutAction->setChecked(true);
+        ui->actionSaveGeometry->setEnabled(false);
+    }
     connect(classicLayoutAction, &QAction::triggered, this, [this]()
     {
         //save empty profile
-        NewContactLayoutProfilesManager::instance()->setCurProfile1("");
+        MainLayoutProfilesManager::instance()->setCurProfile1("");
+        ui->actionSaveGeometry->setEnabled(false);
         emit layoutChanged();
     } );
 
-    ui->menuNewContact->addAction(classicLayoutAction);
+    ui->menuMainLayout->addAction(classicLayoutAction);
     QActionGroup *newContactMenuGroup = new QActionGroup(classicLayoutAction);
     newContactMenuGroup->addAction(classicLayoutAction);
 
-    ui->menuNewContact->addSeparator();
+    ui->menuMainLayout->addSeparator();
 
     // The rest of positions will be the Custom Layout Profiles
-    const QStringList layoutProfileNames = NewContactLayoutProfilesManager::instance()->profileNameList();
+    const QStringList &layoutProfileNames = MainLayoutProfilesManager::instance()->profileNameList();
 
     for ( const QString &profileName : layoutProfileNames )
     {
         QAction *layoutAction = new QAction(profileName, this);
         layoutAction->setCheckable(true);
-        layoutAction->setChecked(currNewContactProfile == profileName);
+        if ( currMainProfile == profileName )
+        {
+            layoutAction->setChecked(true);
+            ui->actionSaveGeometry->setEnabled(true);
+        }
         connect(layoutAction, &QAction::triggered, this, [this, profileName]()
         {
-            NewContactLayoutProfilesManager::instance()->setCurProfile1(profileName);
+            MainLayoutProfilesManager::instance()->setCurProfile1(profileName);
+            ui->actionSaveGeometry->setEnabled(true);
+
+            const MainLayoutProfile &layoutProfile = MainLayoutProfilesManager::instance()->getCurProfile1();
+            if ( layoutProfile.mainGeometry != QByteArray()
+                 || layoutProfile.mainState != QByteArray() )
+            {
+                restoreGeometry(layoutProfile.mainGeometry);
+                restoreState(layoutProfile.mainState);
+            }
             emit layoutChanged();
         } );
-        ui->menuNewContact->addAction(layoutAction);
+        ui->menuMainLayout->addAction(layoutAction);
         newContactMenuGroup->addAction(layoutAction);
     }
 }

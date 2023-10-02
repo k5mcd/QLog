@@ -1,5 +1,5 @@
-#ifndef NEWCONTACTLAYOUTEDITOR_H
-#define NEWCONTACTLAYOUTEDITOR_H
+#ifndef MAINLAYOUTEDITOR_H
+#define MAINLAYOUTEDITOR_H
 
 #include <QDialog>
 #include <QPointer>
@@ -7,10 +7,10 @@
 #include "models/LogbookModel.h"
 #include "core/debug.h"
 #include "ui/NewContactWidget.h"
-#include "data/NewContactLayoutProfile.h"
+#include "data/MainLayoutProfile.h"
 
 namespace Ui {
-class NewContactLayoutEditor;
+class MainLayoutEditor;
 }
 
 class StringListModel : public QStringListModel
@@ -69,32 +69,35 @@ public:
     };
 };
 
-class NewContactLayoutEditor : public QDialog
+class MainLayoutEditor : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit NewContactLayoutEditor(const QString &layoutName = QString(),
+    explicit MainLayoutEditor(const QString &layoutName = QString(),
                                     QWidget *parent = nullptr);
-    ~NewContactLayoutEditor();
+    ~MainLayoutEditor();
 
 private:
-    Ui::NewContactLayoutEditor *ui;
+    Ui::MainLayoutEditor *ui;
     StringListModel *availableFieldsModel;
     StringListModel *qsoRowAFieldsModel;
     StringListModel *qsoRowBFieldsModel;
     StringListModel *detailColAFieldsModel;
     StringListModel *detailColBFieldsModel;
     StringListModel *detailColCFieldsModel;
+    QByteArray mainGeometry;
+    QByteArray mainState;
 
     NewContactDynamicWidgets *dynamicWidgets;
 
 private slots:
     void save();
     void profileNameChanged(const QString&);
+    void clearMainLayoutClick();
 
 private:
-    void fillWidgets(const NewContactLayoutProfile &profile);
+    void fillWidgets(const MainLayoutProfile &profile);
     bool layoutNameExists(const QString &layoutName);
     void moveField(StringListModel *source,
                    StringListModel *destination,
@@ -102,6 +105,8 @@ private:
     void connectQSORowButtons();
     void connectDetailColsButtons();
     QList<int> getFieldIndexes(StringListModel *model);
+
+    const QString statusUnSavedText = tr("Unsaved");
 };
 
-#endif // NEWCONTACTLAYOUTEDITOR_H
+#endif // MAINLAYOUTEDITOR_H

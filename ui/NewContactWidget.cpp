@@ -23,7 +23,7 @@
 #include "core/PropConditions.h"
 #include "core/MembershipQE.h"
 #include "logformat/AdiFormat.h"
-#include "data/NewContactLayoutProfile.h"
+#include "data/MainLayoutProfile.h"
 #include "models/LogbookModel.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
@@ -784,15 +784,21 @@ void NewContactWidget::__modeChanged(qint32 width)
     if (!submodeList.isEmpty()) {
         submodeList.prepend("");
         model->setStringList(submodeList);
-        ui->submodeEdit->setEnabled(true);
+        ui->submodeEdit->setVisible(true);
         ui->submodeEdit->setCurrentIndex(1);
     }
     else {
         QStringList list;
         model->setStringList(list);
-        ui->submodeEdit->setEnabled(false);
+        ui->submodeEdit->setVisible(false);
         ui->submodeEdit->setCurrentIndex(-1);
     }
+
+    // Adjuste Combos Size
+    int maxWidth = qMax(ui->modeEdit->sizeHint().width(),
+                        ui->submodeEdit->sizeHint().width());
+    ui->modeEdit->setFixedWidth(maxWidth);
+    ui->submodeEdit->setFixedWidth(maxWidth);
 
     defaultReport = record.value("rprt").toString();
 
@@ -2252,12 +2258,12 @@ void NewContactWidget::setupCustomUi()
         }
     }
 
-    NewContactLayoutProfile layoutProfile = NewContactLayoutProfilesManager::instance()->getCurProfile1();
+    MainLayoutProfile layoutProfile = MainLayoutProfilesManager::instance()->getCurProfile1();
     QList<QWidget *> addedWidgets;
 
     // Empty Profile means Classic Layout
-    if ( layoutProfile == NewContactLayoutProfile() )
-        layoutProfile = NewContactLayoutProfile::getClassicLayout();
+    if ( layoutProfile == MainLayoutProfile() )
+        layoutProfile = MainLayoutProfile::getClassicLayout();
 
     addedWidgets << setupCustomUiRow(ui->customRowALayout, layoutProfile.rowA);
     addedWidgets << setupCustomUiRow(ui->customRowBLayout, layoutProfile.rowB);

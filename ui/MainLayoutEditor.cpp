@@ -1,16 +1,17 @@
 #include <QMessageBox>
 
-#include "NewContactLayoutEditor.h"
-#include "ui_NewContactLayoutEditor.h"
+#include "MainLayoutEditor.h"
+#include "ui_MainLayoutEditor.h"
 #include "core/debug.h"
 #include "ui/NewContactWidget.h"
+#include "ui/MainWindow.h"
 
-MODULE_IDENTIFICATION("qlog.ui.NewContactLayoutEditor");
+MODULE_IDENTIFICATION("qlog.ui.mainlayouteditor");
 
-NewContactLayoutEditor::NewContactLayoutEditor(const QString &layoutName,
-                                               QWidget *parent) :
+MainLayoutEditor::MainLayoutEditor(const QString &layoutName,
+                                   QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::NewContactLayoutEditor),
+    ui(new Ui::MainLayoutEditor),
     availableFieldsModel(new StringListModel(this)),
     qsoRowAFieldsModel(new StringListModel(this)),
     qsoRowBFieldsModel(new StringListModel(this)),
@@ -38,7 +39,7 @@ NewContactLayoutEditor::NewContactLayoutEditor(const QString &layoutName,
 
     if ( ! layoutName.isEmpty() )
     {
-        NewContactLayoutProfile profile = NewContactLayoutProfilesManager::instance()->getProfile(layoutName);
+        MainLayoutProfile profile = MainLayoutProfilesManager::instance()->getProfile(layoutName);
 
         ui->profileNameEdit->setEnabled(false);
         ui->profileNameEdit->setText(profile.profileName);
@@ -47,17 +48,17 @@ NewContactLayoutEditor::NewContactLayoutEditor(const QString &layoutName,
     }
     else
     {
-        fillWidgets(NewContactLayoutProfile::getClassicLayout());
+        fillWidgets(MainLayoutProfile::getClassicLayout());
     }
 }
 
-NewContactLayoutEditor::~NewContactLayoutEditor()
+MainLayoutEditor::~MainLayoutEditor()
 {
     delete ui;
     delete dynamicWidgets;
 }
 
-void NewContactLayoutEditor::save()
+void MainLayoutEditor::save()
 {
     FCT_IDENTIFICATION;
 
@@ -74,7 +75,7 @@ void NewContactLayoutEditor::save()
         return;
     }
 
-    NewContactLayoutProfile profile;
+    MainLayoutProfile profile;
 
     profile.profileName = ui->profileNameEdit->text();
     profile.rowA = getFieldIndexes(qsoRowAFieldsModel);
@@ -82,13 +83,15 @@ void NewContactLayoutEditor::save()
     profile.detailColA = getFieldIndexes(detailColAFieldsModel);
     profile.detailColB = getFieldIndexes(detailColBFieldsModel);
     profile.detailColC = getFieldIndexes(detailColCFieldsModel);
-    NewContactLayoutProfilesManager::instance()->addProfile(profile.profileName, profile);
-    NewContactLayoutProfilesManager::instance()->save();
+    profile.mainGeometry = mainGeometry;
+    profile.mainState = mainState;
+    MainLayoutProfilesManager::instance()->addProfile(profile.profileName, profile);
+    MainLayoutProfilesManager::instance()->save();
 
     accept();
 }
 
-void NewContactLayoutEditor::profileNameChanged(const QString &profileName)
+void MainLayoutEditor::profileNameChanged(const QString &profileName)
 {
     FCT_IDENTIFICATION;
 
@@ -106,7 +109,17 @@ void NewContactLayoutEditor::profileNameChanged(const QString &profileName)
     ui->profileNameEdit->setPalette(p);
 }
 
-void NewContactLayoutEditor::moveField(StringListModel *source,
+void MainLayoutEditor::clearMainLayoutClick()
+{
+    FCT_IDENTIFICATION;
+
+    mainGeometry = QByteArray();
+    mainState = QByteArray();
+    ui->mainLayoutStateLabel->setText(statusUnSavedText);
+    ui->mainLayoutClearButton->setEnabled(false);
+}
+
+void MainLayoutEditor::moveField(StringListModel *source,
                                        StringListModel *destination,
                                        const QModelIndexList &sourceIndexList)
 {
@@ -138,7 +151,7 @@ void NewContactLayoutEditor::moveField(StringListModel *source,
     }
 }
 
-void NewContactLayoutEditor::connectQSORowButtons()
+void MainLayoutEditor::connectQSORowButtons()
 {
     FCT_IDENTIFICATION;
 
@@ -216,7 +229,7 @@ void NewContactLayoutEditor::connectQSORowButtons()
     });
 }
 
-void NewContactLayoutEditor::connectDetailColsButtons()
+void MainLayoutEditor::connectDetailColsButtons()
 {
     FCT_IDENTIFICATION;
 
@@ -332,7 +345,7 @@ void NewContactLayoutEditor::connectDetailColsButtons()
     });
 }
 
-QList<int> NewContactLayoutEditor::getFieldIndexes(StringListModel *model)
+QList<int> MainLayoutEditor::getFieldIndexes(StringListModel *model)
 {
     FCT_IDENTIFICATION;
 
@@ -349,7 +362,7 @@ QList<int> NewContactLayoutEditor::getFieldIndexes(StringListModel *model)
     return ret;
 }
 
-void NewContactLayoutEditor::fillWidgets(const NewContactLayoutProfile &profile)
+void MainLayoutEditor::fillWidgets(const MainLayoutProfile &profile)
 {
     FCT_IDENTIFICATION;
 
@@ -387,14 +400,24 @@ void NewContactLayoutEditor::fillWidgets(const NewContactLayoutProfile &profile)
         detailColCFieldsModel->append(fieldName);
         availableFieldsModel->deleteItem(fieldName);
     }
+
+    mainGeometry = profile.mainGeometry;
+    mainState = profile.mainState;
+
+    if ( mainGeometry == QByteArray()
+         && mainState == QByteArray() )
+    {
+        ui->mainLayoutStateLabel->setText(statusUnSavedText);
+        ui->mainLayoutClearButton->setEnabled(false);
+    }
 }
 
-bool NewContactLayoutEditor::layoutNameExists(const QString &layoutName)
+bool MainLayoutEditor::layoutNameExists(const QString &layoutName)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << layoutName;
 
     return  ui->profileNameEdit->isEnabled()
-            && NewContactLayoutProfilesManager::instance()->profileNameList().contains(layoutName);
+            && MainLayoutProfilesManager::instance()->profileNameList().contains(layoutName);
 }

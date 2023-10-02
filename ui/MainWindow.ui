@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>913</width>
-    <height>625</height>
+    <height>514</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -125,12 +125,14 @@
     <property name="title">
      <string>La&amp;yout</string>
     </property>
-    <widget class="QMenu" name="menuNewContact">
+    <widget class="QMenu" name="menuMainLayout">
      <property name="title">
-      <string>New QSO</string>
+      <string>Profiles</string>
      </property>
     </widget>
-    <addaction name="menuNewContact"/>
+    <addaction name="menuMainLayout"/>
+    <addaction name="actionSaveGeometry"/>
+    <addaction name="separator"/>
     <addaction name="actionLayoutEdit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -538,6 +540,14 @@
   <action name="actionChat">
    <property name="text">
     <string>Chat</string>
+   </property>
+  </action>
+  <action name="actionSaveGeometry">
+   <property name="text">
+    <string>Save Arrangement</string>
+   </property>
+   <property name="toolTip">
+    <string>Save Arrangement</string>
    </property>
   </action>
  </widget>
@@ -1242,6 +1252,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSaveGeometry</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>saveProfileLayoutGeometry()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1271,5 +1297,6 @@
   <slot>showMailingList()</slot>
   <slot>showEditLayout()</slot>
   <slot>showHRDLog()</slot>
+  <slot>saveProfileLayoutGeometry()</slot>
  </slots>
 </ui>
