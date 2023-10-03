@@ -34,6 +34,7 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
     ui->awardComboBox->addItem(tr("ITU"), QVariant("itu"));
     ui->awardComboBox->addItem(tr("WAC"), QVariant("wac"));
     ui->awardComboBox->addItem(tr("WAZ"), QVariant("waz"));
+    ui->awardComboBox->addItem(tr("WAS"), QVariant("was"));
     ui->awardComboBox->addItem(tr("IOTA"), QVariant("iota"));
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
@@ -109,6 +110,15 @@ void AwardsDialog::refreshTable(int)
     {
         headersColumns = "c.cont col1, NULL col2 ";
         uniqColumns = "c.cont";
+    }
+    else if ( awardSelected == "was" )
+    {
+        headersColumns = "d.code || ' - ' || d.subdivision_name col1, NULL col2 ";
+        uniqColumns = "c.state";
+        sqlPart = " FROM adif_enum_primary_subdivision d "
+                  "     LEFT OUTER JOIN contacts c ON d.dxcc = c.dxcc AND d.code = c.state "
+                  "     LEFT OUTER JOIN modes m on c.mode = m.name "
+                  "WHERE (c.id is NULL or c.my_dxcc = '" + entitySelected + "' AND d.dxcc in (6, 110, 291)) ";
     }
     else if ( awardSelected == "iota" )
     {
@@ -256,6 +266,13 @@ void AwardsDialog::awardTableDoubleClicked(QModelIndex idx)
         if ( awardSelected == "wac" )
         {
             addlFilters << QString("cont = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
+        }
+
+        if ( awardSelected == "was" )
+        {
+            const QStringList &wasTokens = detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString().split(" ");
+            if ( wasTokens.size() > 0 )
+                addlFilters << QString("state = '%1' and dxcc in (6, 110, 291)").arg(wasTokens.at(0));
         }
 
         if ( idx.column() > 2 )
