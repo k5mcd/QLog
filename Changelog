@@ -1,4 +1,8 @@
 TBC - 0.29.0
+- [NEW] - Added user-defined layout for New QSO Detail widget
+- [NEW] - Main window State and Geometry can be saved to layout profile
+- [NEW] - Awards - Added WAS
+- [NEW] - Awards - WAZ/ITU/WAC show all possible values
 - Improved Import QSO performance
 - Fixed QLog crashes if POTA, SOTA or WWFF contain incorrect values (issue #245)
 
