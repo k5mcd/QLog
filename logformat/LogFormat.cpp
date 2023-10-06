@@ -245,10 +245,26 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
     *warnings = 0L;
     unsigned long processedRec = 0;
 
+    QSqlQuery dupQuery;
+
+    // It is important to use callsign index here
+    if ( ! dupQuery.prepare("SELECT * FROM contacts "
+                            "WHERE callsign=upper(:callsign) "
+                            "AND upper(mode)=upper(:mode) "
+                            "AND upper(band)=upper(:band) "
+                            "AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime(:startdate)))*24<1") )
+    {
+        qWarning() << "cannot prepare Dup statement";
+        return 0;
+    }
+
+    QSqlDatabase::database().transaction();
+
     QSqlTableModel model;
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
-    QSqlRecord record = model.record(0);
+    QSqlRecord record = model.record();
+    model.setEditStrategy(QSqlTableModel::OnManualSubmit);
     duplicateQSOBehaviour dupSetting = LogFormat::ASK_NEXT;
 
     while (true)
@@ -305,17 +321,17 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
 
         if ( dupSetting != ACCEPT_ALL )
         {
-            QString matchFilter = QString("upper(callsign)=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
-                    .arg(record.value("callsign").toString(),
-                         record.value("mode").toString(),
-                         record.value("band").toString(),
-                         record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+            dupQuery.bindValue(":callsign", record.value("callsign"));
+            dupQuery.bindValue(":mode", record.value("mode"));
+            dupQuery.bindValue(":band", record.value("band"));
+            dupQuery.bindValue(":startdate", record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
-            /* set filter */
-            model.setFilter(matchFilter);
-            model.select();
+            if ( !dupQuery.exec() )
+            {
+                qWarning() << "Cannot exect DUP statement";
+            }
 
-            if ( model.rowCount() > 0 )
+            if ( dupQuery.next() )
             {
                 if ( dupSetting == SKIP_ALL)
                 {
@@ -331,8 +347,9 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                 /* Duplicate QSO found */
                 if ( duplicateQSOFunc )
                 {
-                    QSqlRecord originalRecord = model.record(0);
-                    dupSetting = duplicateQSOFunc(&record, &originalRecord);
+                    QSqlRecord dupRecord;
+                    dupRecord= dupQuery.record();
+                    dupSetting = duplicateQSOFunc(&record, &dupRecord);
                 }
 
                 switch ( dupSetting )
@@ -495,6 +512,24 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                            tr("Imported"));
             count++;
         }
+
+        if ( count % 50 == 0 )
+        {
+            if (! model.submitAll() )
+            {
+                qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
+                writeImportLog(importLogStream,
+                               ERROR_SEVERITY,
+                               tr("Cannot commit the changes to database") + " - " + model.lastError().text());
+                (*errors)++;
+            }
+            else
+            {
+                QSqlDatabase::database().commit();
+                QSqlDatabase::database().transaction();
+            }
+        }
+
     }
 
     emit importPosition(stream.pos());
@@ -508,6 +543,8 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                        tr("Cannot commit the changes to database") + " - " + model.lastError().text());
         (*errors)++;
     }
+
+    QSqlDatabase::database().commit();
 
     this->importEnd();
 
@@ -524,7 +561,6 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
     QSqlTableModel model;
     model.setTable("contacts");
-    //model.setEditStrategy(QSqlTableModel::OnManualSubmit);
     QSqlRecord QSLRecord = model.record(0);
 
     while ( true )
@@ -552,7 +588,8 @@ void LogFormat::runQSLImport(QSLFrom fromService)
             continue;
         }
 
-        QString matchFilter = QString("upper(callsign)=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
+        // It is important to use callsign index here
+        QString matchFilter = QString("callsign=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
                 .arg(QSLRecord.value("callsign").toString(),
                      QSLRecord.value("mode").toString(),
                      QSLRecord.value("band").toString(),
