@@ -2699,14 +2699,26 @@ void NewContactWidget::sotaChanged(const QString &newSOTA)
     ui->AMLSInfo->clear();
 }
 
+bool NewContactWidget::isSOTAValid(SOTAEntity *entity)
+{
+    FCT_IDENTIFICATION;
+
+    if ( ui->sotaEdit->text().isEmpty() )
+        return false;
+
+    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
+    if ( entity ) *entity = sotaInfo;
+    return ( sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
+             && !sotaInfo.summitName.isEmpty());
+}
+
 void NewContactWidget::sotaEditFinished()
 {
     FCT_IDENTIFICATION;
 
-    SOTAEntity sotaInfo = Data::instance()->lookupSOTA(ui->sotaEdit->text());
+    SOTAEntity sotaInfo;
 
-    if ( sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
-         && !sotaInfo.summitName.isEmpty() )
+    if ( isSOTAValid(&sotaInfo) )
     {
         ui->qthEdit->setText(sotaInfo.summitName);
         Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
@@ -2717,11 +2729,11 @@ void NewContactWidget::sotaEditFinished()
         ui->AMLSInfo->setText(QString::number(sotaInfo.altm) + tr(" m"));
         lastSOTA = sotaInfo;
     }
-    else if ( !ui->potaEdit->text().isEmpty() )
+    else if ( isPOTAValid(nullptr) )
     {
         potaEditFinished();
     }
-    else if ( !ui->wwffEdit->text().isEmpty() )
+    else if ( isWWFFValid(nullptr) )
     {
         wwffEditFinished();
     } 
@@ -2753,11 +2765,14 @@ void NewContactWidget::potaChanged(const QString &newPOTA)
     }
 }
 
-void NewContactWidget::potaEditFinished()
+bool NewContactWidget::isPOTAValid(POTAEntity *entity)
 {
     FCT_IDENTIFICATION;
 
-    QStringList potaList = ui->potaEdit->text().split("@");
+    if ( ui->potaEdit->text().isEmpty() )
+        return false;
+
+    const QStringList &potaList = ui->potaEdit->text().split("@");
     QString potaString;
 
     if ( potaList.size() > 0 )
@@ -2771,8 +2786,19 @@ void NewContactWidget::potaEditFinished()
 
     POTAEntity potaInfo = Data::instance()->lookupPOTA(potaString);
 
-    if ( potaInfo.reference.toUpper() == potaString.toUpper()
-         && !potaInfo.name.isEmpty() )
+    if ( entity ) *entity = potaInfo;
+    return (potaInfo.reference.toUpper() == potaString.toUpper()
+            && !potaInfo.name.isEmpty());
+
+}
+
+void NewContactWidget::potaEditFinished()
+{
+    FCT_IDENTIFICATION;
+
+    POTAEntity potaInfo;
+
+    if ( isPOTAValid(&potaInfo) )
     {
         ui->qthEdit->setText(potaInfo.name);
         Gridsquare POTAGrid(potaInfo.grid);
@@ -2782,24 +2808,39 @@ void NewContactWidget::potaEditFinished()
         }
         lastPOTA = potaInfo;
     }
-    else if ( !ui->sotaEdit->text().isEmpty() )
+    else if ( isSOTAValid(nullptr) )
     {
         sotaEditFinished();
     }
-    else if ( !ui->wwffEdit->text().isEmpty() )
+    else if ( isWWFFValid(nullptr) )
     {
         wwffEditFinished();
     }
+}
+
+bool NewContactWidget::isWWFFValid(WWFFEntity *entity)
+{
+    FCT_IDENTIFICATION;
+
+
+    if ( ui->wwffEdit->text().isEmpty() )
+        return false;
+
+    WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->wwffEdit->text());
+
+    if ( entity ) *entity = wwffInfo;
+
+    return (wwffInfo.reference.toUpper() == ui->wwffEdit->text().toUpper()
+            && !wwffInfo.name.isEmpty());
 }
 
 void NewContactWidget::wwffEditFinished()
 {
     FCT_IDENTIFICATION;
 
-    WWFFEntity wwffInfo = Data::instance()->lookupWWFF(ui->wwffEdit->text());
+    WWFFEntity wwffInfo;
 
-    if ( wwffInfo.reference.toUpper() == ui->wwffEdit->text().toUpper()
-         && !wwffInfo.name.isEmpty() )
+    if ( isWWFFValid(&wwffInfo) )
     {
         ui->qthEdit->setText(wwffInfo.name);
         if ( ! wwffInfo.iota.isEmpty()
@@ -2810,11 +2851,11 @@ void NewContactWidget::wwffEditFinished()
         ui->gridEdit->setText(QString()); // WWFF's Grid is unrealiable information
         lastWWFF = wwffInfo;
     }
-    else if ( !ui->sotaEdit->text().isEmpty() )
+    else if ( isSOTAValid(nullptr) )
     {
         sotaEditFinished();
     }
-    else if ( !ui->potaEdit->text().isEmpty() )
+    else if ( isPOTAValid(nullptr) )
     {
         potaEditFinished();
     }
