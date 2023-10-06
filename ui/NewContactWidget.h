@@ -155,6 +155,11 @@ private:
     QList<QWidget*> setupCustomUiRow(QHBoxLayout *row, const QList<int>& widgetsList);
     void setupCustomUiRowsTabOrder(const QList<QWidget *> &customWidgets);
     void setBandLabel(const QString &);
+
+    bool isPOTAValid(POTAEntity *entity);
+    bool isSOTAValid(SOTAEntity *entity);
+    bool isWWFFValid(WWFFEntity *entity);
+
 private:
     Rig* rig;
     double realRigFreq;
