@@ -34,6 +34,7 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
     ui->awardComboBox->addItem(tr("ITU"), QVariant("itu"));
     ui->awardComboBox->addItem(tr("WAC"), QVariant("wac"));
     ui->awardComboBox->addItem(tr("WAZ"), QVariant("waz"));
+    ui->awardComboBox->addItem(tr("WAS"), QVariant("was"));
     ui->awardComboBox->addItem(tr("IOTA"), QVariant("iota"));
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
@@ -97,18 +98,41 @@ void AwardsDialog::refreshTable(int)
     }
     else if ( awardSelected == "waz" )
     {
-        headersColumns = "c.cqz col1, NULL col2 ";
+        headersColumns = "d.n col1, null col2 ";
         uniqColumns = "c.cqz";
+        sqlPart = " FROM cqzCTE d "
+                  "     LEFT OUTER JOIN contacts c ON d.n = c.cqz "
+                  "     LEFT OUTER JOIN modes m on c.mode = m.name "
+                  "WHERE (c.id is NULL or c.my_dxcc = '" + entitySelected + "') ";
     }
     else if ( awardSelected == "itu" )
     {
-        headersColumns = "c.ituz col1, NULL col2 ";
+        headersColumns = "d.n col1, null col2 ";
         uniqColumns = "c.ituz";
+        sqlPart = " FROM ituzCTE d "
+                  "     LEFT OUTER JOIN contacts c ON d.n = c.ituz "
+                  "     LEFT OUTER JOIN modes m on c.mode = m.name "
+                  "WHERE (c.id is NULL or c.my_dxcc = '" + entitySelected + "') ";
+
     }
     else if ( awardSelected == "wac" )
     {
-        headersColumns = "c.cont col1, NULL col2 ";
+        headersColumns = "d.column2 col1, d.column1 col2 ";
         uniqColumns = "c.cont";
+        sqlPart = " FROM continents d "
+                  "     LEFT OUTER JOIN contacts c ON d.column1 = c.cont "
+                  "     LEFT OUTER JOIN modes m on c.mode = m.name "
+                  "WHERE (c.id is NULL or c.my_dxcc = '" + entitySelected + "') ";
+
+    }
+    else if ( awardSelected == "was" )
+    {
+        headersColumns = "d.subdivision_name col1, d.code col2 ";
+        uniqColumns = "c.state";
+        sqlPart = " FROM adif_enum_primary_subdivision d "
+                  "     LEFT OUTER JOIN contacts c ON d.dxcc = c.dxcc AND d.code = c.state "
+                  "     LEFT OUTER JOIN modes m on c.mode = m.name "
+                  "WHERE (c.id is NULL or c.my_dxcc = '" + entitySelected + "' AND d.dxcc in (6, 110, 291)) ";
     }
     else if ( awardSelected == "iota" )
     {
@@ -163,7 +187,21 @@ void AwardsDialog::refreshTable(int)
                     "    MAX(CASE WHEN prop_mode = 'EME' AND m.dxcc IN (" + modes.join(",") + ") THEN " + innerCase + " ELSE 0 END) as 'EME' "
                     + sqlPart
                     + excludePart +
-                    "GROUP BY  1,2) "
+                    "GROUP BY  1,2), "
+                    " ituzCTE AS ( "
+                    " SELECT 1 AS n, 1 AS value "
+                    " UNION ALL "
+                    " SELECT n + 1, value + 1 "
+                    " FROM ituzCTE "
+                    " WHERE n < 90 ), "
+                    " cqzCTE AS ( "
+                    " SELECT 1 AS n, 1 AS value "
+                    " UNION ALL "
+                    " SELECT n + 1, value + 1 "
+                    " FROM cqzCTE "
+                    " WHERE n < 40 ), "
+                    "continents as "
+                    "(values ('NA', '" + tr("North America") + "'),('SA','" + tr("South America") + "'),('EU', '" + tr("Europe") + "'),('AF', '" + tr("Africa") + "'),('OC', '" + tr("Oceana") + "'),('AS', '" + tr("Asia") + "'),('AN', '" + tr("Antarctica") + "')) "
                     "SELECT * FROM ( "
                     "SELECT 0 column_idx, "
                     "       '" + tr("TOTAL Worked") + "',  "
@@ -243,19 +281,25 @@ void AwardsDialog::awardTableDoubleClicked(QModelIndex idx)
         {
             country = detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString();
         }
-
         if ( awardSelected == "itu" )
         {
             addlFilters << QString("ituz = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
         }
-
         if ( awardSelected == "iota" )
         {
             addlFilters << QString("upper(iota) = upper('%1')").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
         }
         if ( awardSelected == "wac" )
         {
-            addlFilters << QString("cont = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
+            addlFilters << QString("cont = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),2),Qt::DisplayRole).toString());
+        }
+        if ( awardSelected == "was" )
+        {
+            addlFilters << QString("state = '%1' and dxcc in (6, 110, 291)").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),2),Qt::DisplayRole).toString());
+        }
+        if ( awardSelected == "waz" )
+        {
+            addlFilters << QString("cqz = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
         }
 
         if ( idx.column() > 2 )

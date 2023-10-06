@@ -72,6 +72,8 @@ private slots:
     void shortcutALTBackslash();
     void setManualContact(bool);
     void showEditLayout();
+    void setLayoutGeometry();
+    void saveProfileLayoutGeometry();
 
 private:
     Ui::MainWindow* ui;
@@ -88,6 +90,7 @@ private:
     NetworkNotification networknotification;
     AlertEvaluator alertEvaluator;
     PropConditions *conditions;
+    QSettings settings;
 
     void setDarkMode();
     void setLightMode();

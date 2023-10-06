@@ -85,7 +85,7 @@ SOURCES += \
         data/CWShortcutProfile.cpp \
         data/Data.cpp \
         data/Dxcc.cpp \
-        data/NewContactLayoutProfile.cpp \
+        data/MainLayoutProfile.cpp \
         data/RigProfile.cpp \
         data/RotProfile.cpp \
         data/RotUsrButtonsProfile.cpp \
@@ -127,10 +127,10 @@ SOURCES += \
         ui/KSTHighlighterSettingDialog.cpp \
         ui/LogbookWidget.cpp \
         ui/LotwDialog.cpp \
+        ui/MainLayoutEditor.cpp \
         ui/MainWindow.cpp \
         ui/MapWebChannelHandler.cpp \
         ui/MapWidget.cpp \
-        ui/NewContactLayoutEditor.cpp \
         ui/NewContactWidget.cpp \
         ui/OnlineMapWidget.cpp \
         ui/PaperQSLDialog.cpp \
@@ -195,7 +195,7 @@ HEADERS += \
         data/Data.h \
         data/DxSpot.h \
         data/Dxcc.h \
-        data/NewContactLayoutProfile.h \
+        data/MainLayoutProfile.h \
         data/POTAEntity.h \
         data/ProfileManager.h \
         data/RigProfile.h \
@@ -247,10 +247,10 @@ HEADERS += \
         ui/KSTHighlighterSettingDialog.h \
         ui/LogbookWidget.h \
         ui/LotwDialog.h \
+        ui/MainLayoutEditor.h \
         ui/MainWindow.h \
         ui/MapWebChannelHandler.h \
         ui/MapWidget.h \
-        ui/NewContactLayoutEditor.h \
         ui/NewContactWidget.h \
         ui/OnlineMapWidget.h \
         ui/PaperQSLDialog.h \
@@ -296,8 +296,8 @@ FORMS += \
         ui/KSTHighlighterSettingDialog.ui \
         ui/LogbookWidget.ui \
         ui/LotwDialog.ui \
+        ui/MainLayoutEditor.ui \
         ui/MainWindow.ui \
-        ui/NewContactLayoutEditor.ui \
         ui/NewContactWidget.ui \
         ui/PaperQSLDialog.ui \
         ui/QSLImportStatDialog.ui \

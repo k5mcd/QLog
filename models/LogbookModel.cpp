@@ -68,7 +68,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_COUNTRY_INTL, Qt::Horizontal, tr("Country"));
     setHeaderData(COLUMN_CREDIT_SUBMITTED, Qt::Horizontal, tr("Credit Submitted"));
     setHeaderData(COLUMN_CREDIT_GRANTED, Qt::Horizontal, tr("Credit Granted"));
-    setHeaderData(COLUMN_DARC_DOK, Qt::Horizontal, tr("DARC DOK"));
+    setHeaderData(COLUMN_DARC_DOK, Qt::Horizontal, tr("DOK"));
     setHeaderData(COLUMN_DISTANCE, Qt::Horizontal, tr("Distance"));
     setHeaderData(COLUMN_EMAIL, Qt::Horizontal, tr("Email"));
     setHeaderData(COLUMN_EQ_CALL, Qt::Horizontal, tr("Owner Callsign"));
@@ -135,7 +135,7 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_NR_PINGS, Qt::Horizontal, tr("#MS Pings"));
     setHeaderData(COLUMN_OPERATOR, Qt::Horizontal, tr("Logging Operator"));
     setHeaderData(COLUMN_OWNER_CALLSIGN, Qt::Horizontal, tr("Owner Callsign"));
-    setHeaderData(COLUMN_POTA_REF, Qt::Horizontal, tr("POTA Ref"));
+    setHeaderData(COLUMN_POTA_REF, Qt::Horizontal, tr("POTA"));
     setHeaderData(COLUMN_PRECEDENCE, Qt::Horizontal, tr("Contest Precedence"));
     setHeaderData(COLUMN_PROP_MODE, Qt::Horizontal, tr("Propagation Mode"));
     setHeaderData(COLUMN_PUBLIC_KEY, Qt::Horizontal, tr("Public Encryption Key"));
@@ -156,10 +156,10 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_SAT_MODE, Qt::Horizontal, tr("SAT Mode"));
     setHeaderData(COLUMN_SAT_NAME, Qt::Horizontal, tr("SAT Name"));
     setHeaderData(COLUMN_SFI, Qt::Horizontal, tr("Solar Flux"));
-    setHeaderData(COLUMN_SIG, Qt::Horizontal, tr("Special Activity Group (ASCII)"));
-    setHeaderData(COLUMN_SIG_INTL, Qt::Horizontal, tr("Special Activity Group"));
-    setHeaderData(COLUMN_SIG_INFO, Qt::Horizontal, tr("Special Activity Group Info (ASCII)"));
-    setHeaderData(COLUMN_SIG_INFO_INTL, Qt::Horizontal, tr("Special Activity Group Info"));
+    setHeaderData(COLUMN_SIG, Qt::Horizontal, tr("SIG (ASCII)"));
+    setHeaderData(COLUMN_SIG_INTL, Qt::Horizontal, tr("SIG"));
+    setHeaderData(COLUMN_SIG_INFO, Qt::Horizontal, tr("SIG Info (ASCII)"));
+    setHeaderData(COLUMN_SIG_INFO_INTL, Qt::Horizontal, tr("SIG Info"));
     setHeaderData(COLUMN_SILENT_KEY, Qt::Horizontal, tr("Silent Key"));
     setHeaderData(COLUMN_SKCC, Qt::Horizontal, tr("SKCC Member"));
     setHeaderData(COLUMN_SOTA_REF, Qt::Horizontal, tr("SOTA"));
@@ -173,8 +173,8 @@ LogbookModel::LogbookModel(QObject* parent, QSqlDatabase db)
     setHeaderData(COLUMN_UKSMG, Qt::Horizontal, tr("UKSMG Member"));
     setHeaderData(COLUMN_USACA_COUNTIES, Qt::Horizontal, tr("USA-CA Counties"));
     setHeaderData(COLUMN_VE_PROV, Qt::Horizontal, tr("VE Prov"));
-    setHeaderData(COLUMN_VUCC_GRIDS, Qt::Horizontal, tr("VUCC Grids"));
-    setHeaderData(COLUMN_WEB, Qt::Horizontal, tr("Web URL"));
+    setHeaderData(COLUMN_VUCC_GRIDS, Qt::Horizontal, tr("VUCC"));
+    setHeaderData(COLUMN_WEB, Qt::Horizontal, tr("Web"));
     setHeaderData(COLUMN_MY_ARRL_SECT, Qt::Horizontal, tr("My ARRL Section"));
     setHeaderData(COLUMN_MY_WWFF_REF, Qt::Horizontal, tr("My WWFF"));
     setHeaderData(COLUMN_WWFF_REF, Qt::Horizontal, tr("WWFF"));

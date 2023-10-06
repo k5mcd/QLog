@@ -2,8 +2,8 @@
 #include "ui_EditLayoutDialog.h"
 #include "core/debug.h"
 #include "ui/EditLayoutDialog.h"
-#include "ui/NewContactLayoutEditor.h"
-#include "data/NewContactLayoutProfile.h"
+#include "ui/MainLayoutEditor.h"
+#include "data/MainLayoutProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.EditLayoutDialog");
 
@@ -29,7 +29,7 @@ void EditLayoutDialog::loadProfiles()
 {
     FCT_IDENTIFICATION;
 
-    QStringList layoutNames = NewContactLayoutProfilesManager::instance()->profileNameList();
+    QStringList layoutNames = MainLayoutProfilesManager::instance()->profileNameList();
     QStringListModel* layoutNamesModel = new QStringListModel(layoutNames, this);
     ui->listView->setModel(layoutNamesModel);
 }
@@ -38,7 +38,7 @@ void EditLayoutDialog::addButton()
 {
     FCT_IDENTIFICATION;
 
-    NewContactLayoutEditor dialog(QString(), this);
+    MainLayoutEditor dialog(QString(), this);
     dialog.exec();
     loadProfiles();
 }
@@ -48,8 +48,8 @@ void EditLayoutDialog::removeButton()
     FCT_IDENTIFICATION;
 
     QString removedProfile = ui->listView->currentIndex().data().toString();
-    NewContactLayoutProfilesManager::instance()->removeProfile(removedProfile);
-    NewContactLayoutProfilesManager::instance()->save();
+    MainLayoutProfilesManager::instance()->removeProfile(removedProfile);
+    MainLayoutProfilesManager::instance()->save();
     loadProfiles();
 }
 
@@ -58,7 +58,7 @@ void EditLayoutDialog::editEvent(QModelIndex idx)
     FCT_IDENTIFICATION;
 
     QString layoutName = ui->listView->model()->data(idx).toString();
-    NewContactLayoutEditor dialog(layoutName, this);
+    MainLayoutEditor dialog(layoutName, this);
     dialog.exec();
 }
 
