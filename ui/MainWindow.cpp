@@ -47,6 +47,25 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->setupUi(this);
 
+    darkLightModeSwith = new SwitchButton("", ui->statusBar);
+    darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
+
+    /* Dark Mode is supported only in case of Fusion Style */
+    if ( QApplication::style()->objectName().compare("fusion",
+                                                     Qt::CaseSensitivity::CaseInsensitive) != 0)
+    {
+        isFusionStyle = false;
+        darkLightModeSwith->setEnabled(false);
+        darkIconLabel->setEnabled(false);
+        darkLightModeSwith->setToolTip(tr("Not enabled for non-Fusion style"));
+        darkModeToggle(Qt::Unchecked);
+
+    }
+    else
+    {
+        isFusionStyle = true;
+    }
+
     /* the block below is present because the main window
      * becomes large after the instalation
      */
@@ -102,30 +121,15 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->statusBar->addPermanentWidget(alertTextButton);
     ui->statusBar->addPermanentWidget(alertButton);
+    ui->statusBar->addPermanentWidget(darkLightModeSwith);
+    ui->statusBar->addPermanentWidget(darkIconLabel);
 
     connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
     connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
     connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
 
-    /* Dark Mode is supported only in case of Fusion Style */
-    if ( QApplication::style()->objectName().compare("fusion",
-                                                     Qt::CaseSensitivity::CaseInsensitive) == 0 )
-    {
-        darkLightModeSwith = new SwitchButton("", ui->statusBar);
-        darkIconLabel = new QLabel("<html><img src=':/icons/light-dark-24px.svg'></html>",ui->statusBar);
-
-        ui->statusBar->addPermanentWidget(darkLightModeSwith);
-        ui->statusBar->addPermanentWidget(darkIconLabel);
-
-        connect(darkLightModeSwith, &SwitchButton::stateChanged, this, &MainWindow::darkModeToggle);
-        darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
-    }
-    else
-    {
-        darkLightModeSwith = nullptr;
-        darkIconLabel = nullptr;
-        darkModeToggle(Qt::Unchecked);
-    }
+    connect(darkLightModeSwith, &SwitchButton::stateChanged, this, &MainWindow::darkModeToggle);
+    darkLightModeSwith->setChecked(settings.value("darkmode", false).toBool());
 
     connect(Rig::instance(), &Rig::rigErrorPresent, this, &MainWindow::rigErrorHandler);
     connect(Rig::instance(), &Rig::rigCWKeyOpenRequest, this, &MainWindow::cwKeyerConnectProfile);
@@ -443,11 +447,13 @@ void MainWindow::setLayoutGeometry()
     {
         restoreGeometry(layoutProfile.mainGeometry);
         restoreState(layoutProfile.mainState);
+        darkLightModeSwith->setChecked(layoutProfile.darkMode);
     }
     else
     {
         restoreGeometry(settings.value("geometry").toByteArray());
         restoreState(settings.value("windowState").toByteArray());
+        // leave dark mode as is
     }
 }
 
@@ -461,6 +467,7 @@ void MainWindow::saveProfileLayoutGeometry()
     {
         layoutProfile.mainGeometry = saveGeometry();
         layoutProfile.mainState = saveState();
+        layoutProfile.darkMode = darkLightModeSwith->isChecked();
         MainLayoutProfilesManager::instance()->addProfile(layoutProfile.profileName, layoutProfile);
         MainLayoutProfilesManager::instance()->save();
     }
@@ -556,6 +563,7 @@ void MainWindow::setupLayoutMenu()
             {
                 restoreGeometry(layoutProfile.mainGeometry);
                 restoreState(layoutProfile.mainState);
+                darkLightModeSwith->setChecked(isFusionStyle && layoutProfile.darkMode);
             }
             emit layoutChanged();
         } );

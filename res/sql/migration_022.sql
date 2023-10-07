@@ -5,6 +5,7 @@ ALTER TABLE main_layout_profiles ADD detail_col_B TEXT;
 ALTER TABLE main_layout_profiles ADD detail_col_C TEXT;
 ALTER TABLE main_layout_profiles ADD main_geometry TEXT;
 ALTER TABLE main_layout_profiles ADD main_state TEXT;
+ALTER TABLE main_layout_profiles ADD dark_mode INTEGER;
 
 DROP TABLE IF EXISTS contacts_old;
 

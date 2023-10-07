@@ -10,7 +10,7 @@
 class MainLayoutProfile
 {
 public:
-    MainLayoutProfile(){};
+    MainLayoutProfile(){darkMode = false;};
 
     QString profileName;
     QList<int> rowA;
@@ -20,6 +20,7 @@ public:
     QList<int> detailColC;
     QByteArray mainGeometry;
     QByteArray mainState;
+    bool darkMode;
 
     bool operator== (const MainLayoutProfile &profile);
     bool operator!= (const MainLayoutProfile &profile);
