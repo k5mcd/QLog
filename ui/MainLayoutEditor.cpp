@@ -85,6 +85,7 @@ void MainLayoutEditor::save()
     profile.detailColC = getFieldIndexes(detailColCFieldsModel);
     profile.mainGeometry = mainGeometry;
     profile.mainState = mainState;
+    profile.darkMode = darkMode;
     MainLayoutProfilesManager::instance()->addProfile(profile.profileName, profile);
     MainLayoutProfilesManager::instance()->save();
 
@@ -115,6 +116,7 @@ void MainLayoutEditor::clearMainLayoutClick()
 
     mainGeometry = QByteArray();
     mainState = QByteArray();
+    darkMode = false;
     ui->mainLayoutStateLabel->setText(statusUnSavedText);
     ui->mainLayoutClearButton->setEnabled(false);
 }
@@ -403,6 +405,7 @@ void MainLayoutEditor::fillWidgets(const MainLayoutProfile &profile)
 
     mainGeometry = profile.mainGeometry;
     mainState = profile.mainState;
+    darkMode = profile.darkMode;
 
     if ( mainGeometry == QByteArray()
          && mainState == QByteArray() )

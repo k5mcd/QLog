@@ -88,6 +88,7 @@ private:
     StringListModel *detailColCFieldsModel;
     QByteArray mainGeometry;
     QByteArray mainState;
+    bool darkMode;
 
     NewContactDynamicWidgets *dynamicWidgets;
 

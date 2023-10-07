@@ -91,6 +91,7 @@ private:
     AlertEvaluator alertEvaluator;
     PropConditions *conditions;
     QSettings settings;
+    bool isFusionStyle;
 
     void setDarkMode();
     void setLightMode();
