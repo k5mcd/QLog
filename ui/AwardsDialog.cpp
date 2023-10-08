@@ -201,7 +201,7 @@ void AwardsDialog::refreshTable(int)
                     " FROM cqzCTE "
                     " WHERE n < 40 ), "
                     "continents as "
-                    "(values ('NA', '" + tr("North America") + "'),('SA','" + tr("South America") + "'),('EU', '" + tr("Europe") + "'),('AF', '" + tr("Africa") + "'),('OC', '" + tr("Oceana") + "'),('AS', '" + tr("Asia") + "'),('AN', '" + tr("Antarctica") + "')) "
+                    "(values ('NA', '" + tr("North America") + "'),('SA','" + tr("South America") + "'),('EU', '" + tr("Europe") + "'),('AF', '" + tr("Africa") + "'),('OC', '" + tr("Oceania") + "'),('AS', '" + tr("Asia") + "'),('AN', '" + tr("Antarctica") + "')) "
                     "SELECT * FROM ( "
                     "SELECT 0 column_idx, "
                     "       '" + tr("TOTAL Worked") + "',  "
