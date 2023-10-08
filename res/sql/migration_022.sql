@@ -7,6 +7,13 @@ ALTER TABLE main_layout_profiles ADD main_geometry TEXT;
 ALTER TABLE main_layout_profiles ADD main_state TEXT;
 ALTER TABLE main_layout_profiles ADD dark_mode INTEGER;
 
+UPDATE main_layout_profiles
+SET detail_col_A = '15,17,16,19,20,34,151',
+    detail_col_B = '54,21,165,140,155,135,137',
+    detail_col_C = '56,152',
+    dark_mode = 0
+WHERE detail_col_A IS NULL;
+
 DROP TABLE IF EXISTS contacts_old;
 
 CREATE INDEX IF NOT EXISTS start_time_idx ON contacts(start_time);
