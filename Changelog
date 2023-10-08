@@ -3,6 +3,7 @@ TBC - 0.29.0
 - [NEW] - Main window State and Geometry can be saved to layout profile
 - [NEW] - Awards - Added WAS
 - [NEW] - Awards - WAZ/ITU/WAC show all possible values
+- [CHANGED] - Removed SAT Tab - field can be added via Layout Editor
 - Improved Import QSO performance
 - Fixed QLog crashes if POTA, SOTA or WWFF contain incorrect values (issue #245)
 
