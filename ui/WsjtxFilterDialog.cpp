@@ -3,6 +3,7 @@
 #include "core/debug.h"
 #include "data/Dxcc.h"
 #include "core/MembershipQE.h"
+#include "core/Gridsquare.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxfilterdialog");
 
@@ -13,6 +14,10 @@ WsjtxFilterDialog::WsjtxFilterDialog(QWidget *parent) :
     QSettings settings;
 
     ui->setupUi(this);
+
+    QString unit;
+    Gridsquare::distance2localeUnitDistance(0, unit);
+    ui->distanceSpinBox->setSuffix(" " + unit);
 
     /*********************/
     /* Status Checkboxes */

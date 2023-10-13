@@ -14,6 +14,8 @@ public:
     static QRegularExpression gridRegEx();
     static QRegularExpression gridVUCCRegEx();
     static QRegularExpression gridExtRegEx();
+    static double distance2localeUnitDistance(double km, QString &unit);
+    static double localeDistanceCoef();
 
     bool isValid() const;
     double getLongitude() const {return lon;};

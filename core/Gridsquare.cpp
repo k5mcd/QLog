@@ -3,6 +3,7 @@
 #include <QtMath>
 #include <QRegularExpression>
 #include <cmath>
+#include <QLocale>
 
 #define EARTH_RADIUS 6371
 #define EARTH_CIRCUM 40075
@@ -119,6 +120,31 @@ QRegularExpression Gridsquare::gridExtRegEx()
     FCT_IDENTIFICATION;
 
     return QRegularExpression("^[A-Xa-x]{2}?([0-9]{2})?$");
+}
+
+double Gridsquare::distance2localeUnitDistance(double km,
+                                               QString &unit)
+{
+    FCT_IDENTIFICATION;
+
+    unit = QObject::tr("km");
+    double ret = km;
+
+    // All imperial systems
+    if ( QLocale::system().measurementSystem() != QLocale::MetricSystem)
+    {
+        unit = QObject::tr("miles");
+        ret = km * localeDistanceCoef();
+    }
+    return ret;
+}
+
+double Gridsquare::localeDistanceCoef()
+{
+    FCT_IDENTIFICATION;
+
+    return (QLocale::system().measurementSystem() != QLocale::MetricSystem) ? 0.6213711922
+                                                                            : 1.0;
 }
 
 bool Gridsquare::isValid() const

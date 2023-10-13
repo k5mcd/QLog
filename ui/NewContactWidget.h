@@ -277,6 +277,7 @@ private:
     double realRigFreq;
     double realFreqForManualExit;
     QString callsign;
+    double dxDistance; // QSO distance in km - used for ADIF and internal usage
     DxccEntity dxccEntity;
     QString defaultReport;
     CallbookManager callbookManager;

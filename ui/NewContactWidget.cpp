@@ -31,6 +31,7 @@ MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 NewContactWidget::NewContactWidget(QWidget *parent) :
     QWidget(parent),
     rig(Rig::instance()),
+    dxDistance(qQNaN()),
     contactTimer(new QTimer(this)),
     ui(new Ui::NewContactWidget),
     uiDynamic(new NewContactDynamicWidgets(true, this)),
@@ -451,6 +452,7 @@ void NewContactWidget::queryDxcc(const QString &callsign)
         ui->dxccTableWidget->clear();
         ui->dxccStatus->clear();
         ui->distanceInfo->clear();
+        dxDistance = qQNaN();
         ui->bearingInfo->clear();
         partnerTimeZone = QTimeZone();
         ui->partnerLocTimeInfo->clear();
@@ -953,6 +955,7 @@ void NewContactWidget::resetContact()
     ui->noteEdit->clear();
     ui->dxccInfo->setText(" ");
     ui->distanceInfo->clear();
+    dxDistance = qQNaN();
     ui->bearingInfo->clear();
     ui->partnerLocTimeInfo->clear();
     ui->qslSentViaBox->setCurrentIndex(0);
@@ -1510,9 +1513,9 @@ void NewContactWidget::saveContact()
         record.setValue("qsl_sent_via", Data::removeAccents(ui->qslSentViaBox->itemData(ui->qslSentViaBox->currentIndex()).toString()));
     }
 
-    if ( coordPrec >= COORD_GRID)
+    if ( coordPrec >= COORD_GRID && !qIsNaN(dxDistance))
     {
-        record.setValue("distance", ui->distanceInfo->text().split(" ")[0]);
+        record.setValue("distance", dxDistance);
     }
 
     if ( !ui->AMLSInfo->text().isEmpty() )
@@ -1812,7 +1815,10 @@ void NewContactWidget::updateCoordinates(double lat, double lon, CoordPrecision 
     if ( myGrid.distanceTo(lat, lon, distance)
          && myGrid.bearingTo(lat, lon, bearing) )
     {
-        ui->distanceInfo->setText(QString::number(distance, '.', 1) + " km");
+        dxDistance = distance;
+        QString unit;
+
+        ui->distanceInfo->setText(QString::number(Gridsquare::distance2localeUnitDistance(dxDistance, unit), '.', 1) + QString(" %1").arg(unit));
         ui->bearingInfo->setText(QString("%1°").arg(bearing));
 
         QString partnerTimeZoneString = Data::instance()->getIANATimeZone(lat, lon);
@@ -2612,15 +2618,7 @@ double NewContactWidget::getQSODistance() const
 {
     FCT_IDENTIFICATION;
 
-    double ret_distance = qQNaN();
-
-    if ( !ui->distanceInfo->text().isEmpty() )
-    {
-        QString distanceString = ui->distanceInfo->text();
-        ret_distance = distanceString.mid(0,distanceString.length()-3).toDouble();
-    }
-
-    return ret_distance;
+    return dxDistance;
 }
 
 void NewContactWidget::propModeChanged(const QString &propModeText)

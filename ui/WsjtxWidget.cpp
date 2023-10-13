@@ -12,6 +12,7 @@
 #include "ui/ColumnSettingDialog.h"
 #include "ui/WsjtxFilterDialog.h"
 #include "core/Gridsquare.h"
+#include "ui/StyleItemDelegate.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
@@ -33,6 +34,8 @@ WsjtxWidget::WsjtxWidget(QWidget *parent) :
     ui->tableView->horizontalHeader()->setSectionsMovable(true);
     ui->tableView->addAction(ui->actionFilter);
     ui->tableView->addAction(ui->actionDisplayedColumns);
+    //set Distance Column Delegate Class
+    ui->tableView->setItemDelegateForColumn(2, new DistanceFormatDelegate(1, 0.1, ui->tableView));
     restoreTableHeaderState();
 
     contregexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
@@ -85,6 +88,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
             emit CQSpot(entry);
 
+            QString unit;
             qCDebug(runtime)
                     << "Continent" << entry.dxcc.cont.contains(contregexp)
                     << "Continent RegExp" << contregexp
@@ -99,7 +103,7 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
 
             if ( entry.dxcc.cont.contains(contregexp)
                  && ( entry.status & dxccStatusFilter )
-                 && entry.distance >= distanceFilter
+                 && Gridsquare::distance2localeUnitDistance(entry.distance, unit) >= distanceFilter
                  && entry.decode.snr >= snrFilter
                  && ( dxMemberFilter.size() == 0
                       || (dxMemberFilter.size() && entry.memberList2Set().intersects(dxMemberFilter)))

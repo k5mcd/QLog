@@ -1353,11 +1353,13 @@ void QSODetailDialog::drawDXOnMap(const QString &label, const Gridsquare &dxGrid
 
     QString stationString;
     QString popupString = label;
+    QString unit;
     double distance = 0;
 
     if ( dxGrid.distanceTo(Gridsquare(ui->myGridEdit->text()), distance) )
     {
-        popupString.append(QString("</br> %1 km").arg(QString::number(distance, 'f', 0)));
+        distance = Gridsquare::distance2localeUnitDistance(distance, unit);
+        popupString.append(QString("</br> %1 %2").arg(QString::number(distance, 'f', 0), unit));
     }
 
     double lat = dxGrid.getLatitude();

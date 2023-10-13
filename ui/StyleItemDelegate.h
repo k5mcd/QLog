@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QTextEdit>
 #include "core/LogLocale.h"
+#include "core/Gridsquare.h"
 
 class CallsignDelegate : public QStyledItemDelegate {
 public:
@@ -131,7 +132,7 @@ public:
 
 class UnitFormatDelegate : public QStyledItemDelegate {
 public:
-    UnitFormatDelegate(QString unit, int precision, double step, QObject* parent = 0) :
+    UnitFormatDelegate(const QString &unit, int precision, double step, QObject* parent = 0) :
         QStyledItemDelegate(parent), unit(unit), precision(precision), step(step) { }
 
     void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) const {
@@ -189,6 +190,66 @@ private:
     double step;
 };
 
+class DistanceFormatDelegate : public QStyledItemDelegate {
+public:
+    DistanceFormatDelegate(int precision, double step, QObject* parent = 0) :
+        QStyledItemDelegate(parent), precision(precision), step(step) { }
+
+    void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) const {
+        QStyledItemDelegate::initStyleOption(option, index);
+        option->displayAlignment = Qt::AlignVCenter | Qt::AlignLeft;
+    }
+
+    QString displayText(const QVariant& value, const QLocale&) const {
+        QString unit;
+        double displayValue = Gridsquare::distance2localeUnitDistance(value.toDouble(), unit);
+        return QString("%1 %2").arg(QString::number(displayValue, 'f', precision), unit);
+    }
+
+    QWidget* createEditor(QWidget* parent,
+                          const QStyleOptionViewItem&,
+                          const QModelIndex&) const
+    {
+        QDoubleSpinBox* editor = new QDoubleSpinBox(parent);
+        editor->setDecimals(precision);
+        editor->setRange(-1*step, 1e12);
+        editor->setSingleStep(step);
+        editor->setSpecialValueText("Empty");
+        return editor;
+    }
+
+    void updateEditorGeometry(QWidget* editor,
+                              const QStyleOptionViewItem& option,
+                              const QModelIndex&) const
+    {
+        editor->setGeometry(option.rect);
+    }
+
+    void setEditorData(QWidget* editor, const QModelIndex& index) const
+    {
+        double value = index.model()->data(index, Qt::EditRole).toDouble();
+        QDoubleSpinBox* spinBox = static_cast<QDoubleSpinBox*>(editor);
+        spinBox->setValue(value);
+    }
+
+    void setModelData(QWidget* editor, QAbstractItemModel* model,
+                      const QModelIndex& index) const
+    {
+        QDoubleSpinBox* spinBox = static_cast<QDoubleSpinBox*>(editor);
+        if (spinBox->text() == "Empty" )
+        {
+            model->setData(index, QVariant() , Qt::EditRole);
+            return;
+        }
+        spinBox->interpretText();
+        double value = spinBox->value();
+        model->setData(index,value, Qt::EditRole);
+    }
+
+private:
+    int precision;
+    double step;
+};
 
 class ComboFormatDelegate : public QStyledItemDelegate {
 public:

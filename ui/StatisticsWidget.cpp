@@ -64,7 +64,9 @@ void StatisticsWidget::mainStatChanged(int idx)
      /* Histogram */
      case 3:
      {
-         ui->statTypeSecCombo->addItem(tr("Distance"));
+         QString unit;
+         Gridsquare::distance2localeUnitDistance(0, unit);
+         ui->statTypeSecCombo->addItem(tr("Distance") + QString(" [%1]").arg(unit));
      }
      break;
 
@@ -340,8 +342,9 @@ void StatisticsWidget::refreshGraph()
          switch ( ui->statTypeSecCombo->currentIndex() )
          {
          case 0:
-             stmt = "WITH hist AS ( "
-                    " SELECT CAST(distance/500.00 AS INTEGER) * 500 as dist_floor, "
+             QString distCoef = QString::number(Gridsquare::localeDistanceCoef());
+             stmt = QString("WITH hist AS ( "
+                    " SELECT CAST((distance * %1)/500.00 AS INTEGER) * 500 as dist_floor, "
                     " COUNT(1) AS count "
                     " FROM contacts "
                     " WHERE " + genericFilter.join(" AND ") + " AND distance IS NOT NULL "
@@ -351,7 +354,7 @@ void StatisticsWidget::refreshGraph()
                     //" SELECT dist_floor || ' - ' || (dist_floor + 500) as dist_range, count "
                     "SELECT dist_floor as dist_range, count "
                     " FROM hist "
-                    " ORDER BY 1";
+                    " ORDER BY 1").arg(distCoef);
              break;
          }
 
@@ -403,13 +406,16 @@ void StatisticsWidget::refreshGraph()
                         + genericFilter.join(" AND ") +" ) GROUP BY callsign, gridsquare";
              break;
          case 2:
-             stmt = "SELECT callsign || '<br>' || CAST(ROUND(distance,0) AS INT) || ' km', gridsquare, "
-                    + innerCase + " AS confirmed FROM contacts WHERE "
-                    + genericFilter.join(" AND ") + " AND distance = (SELECT MAX(distance) FROM contacts WHERE "
-                    + genericFilter.join(" AND ") + ")";
+             QString unit;
+             Gridsquare::distance2localeUnitDistance(0, unit);
+             QString distCoef = QString::number(Gridsquare::localeDistanceCoef());
+             QString sel = QString("SELECT callsign || '<br>' || CAST(ROUND(distance * %1,0) AS INT) || ' %2', gridsquare, ").arg(distCoef, unit);
+
+             stmt = sel + innerCase + " AS confirmed FROM contacts WHERE "
+                        + genericFilter.join(" AND ") + " AND distance = (SELECT MAX(distance) FROM contacts WHERE "
+                        + genericFilter.join(" AND ") + ")";
              break;
          }
-
 
          QSqlQuery query(stmt);
          qCDebug(runtime) << stmt;
