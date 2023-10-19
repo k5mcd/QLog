@@ -128,7 +128,7 @@ void QRZ::actionInsert(QByteArray& data, const QString &insertPolicy)
     params.addQueryItem("KEY", logbookAPIKey);
     params.addQueryItem("ACTION", "INSERT");
     params.addQueryItem("OPTION", insertPolicy);
-    params.addQueryItem("ADIF", data.trimmed());
+    params.addQueryItem("ADIF", data.trimmed().toPercentEncoding());
 
     QUrl url(API_LOGBOOK_URL);
 
