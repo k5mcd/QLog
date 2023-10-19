@@ -2048,7 +2048,7 @@
         <location filename="../ui/HRDLogDialog.cpp" line="133"/>
         <source>%n QSO(s) uploaded.</source>
         <translation>
-            <numerusform>%n QSO hochgeladen.</numerusform>
+            <numerusform>%n QSO(s) hochgeladen.</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2510,22 +2510,22 @@
     <message>
         <location filename="../models/LogbookModel.cpp" line="159"/>
         <source>SIG (ASCII)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="160"/>
         <source>SIG</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="161"/>
         <source>SIG Info (ASCII)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="162"/>
         <source>SIG Info</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../models/LogbookModel.cpp" line="176"/>
@@ -3685,22 +3685,22 @@
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="14"/>
         <source>Layout Editor</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="24"/>
         <source>Layout Name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="62"/>
         <source>Window Arrangement:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fensteranordnung:</translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="75"/>
         <source>Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Gespeichert</translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="104"/>
@@ -3789,7 +3789,7 @@
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="715"/>
         <source>List of fields in the first QSO Detail Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Felder in der ersten QSO-Detail Spalte</translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="819"/>
@@ -3799,7 +3799,7 @@
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="919"/>
         <source>List of fields in the second QSO Detail Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Felder in der zweiten QSO-Detail Spalte</translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="1023"/>
@@ -3809,17 +3809,17 @@
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="1123"/>
         <source>List of fields in the third QSO Detail Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste der Felder in der dritten QSO-Detail-Spalte</translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="1232"/>
         <source>New QSO Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues QSO Zeilen</translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.ui" line="1237"/>
         <source>New QSO Detail Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues QSO Detail-Spalten</translation>
     </message>
     <message>
         <location filename="../ui/MainLayoutEditor.cpp" line="67"/>
@@ -3829,7 +3829,7 @@
     <message>
         <location filename="../ui/MainLayoutEditor.h" line="110"/>
         <source>Unsaved</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungespeichert</translation>
     </message>
 </context>
 <context>
@@ -4966,7 +4966,7 @@
     <message>
         <location filename="../ui/KSTChatWidget.cpp" line="269"/>
         <source>Chat Error: </source>
-        <translation>Chat Fehler</translation>
+        <translation>Chat Fehler: </translation>
     </message>
 </context>
 <context>
