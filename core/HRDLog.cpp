@@ -121,7 +121,7 @@ void HRDLog::uploadAdif(const QByteArray &data,
     params.addQueryItem("Callsign", getRegisteredCallsign());
     params.addQueryItem("Code", getUploadCode());
     params.addQueryItem("App", "QLog");
-    params.addQueryItem("ADIFData", data);
+    params.addQueryItem("ADIFData", data.trimmed().toPercentEncoding());
 
     if ( update )
     {
