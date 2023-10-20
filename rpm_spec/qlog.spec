@@ -42,6 +42,17 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Oct 20 2023 Ladislav Foldyna - 0.29.0-1
+- [NEW] - Added user-defined layout for New QSO Detail widget
+- [NEW] - Main window State and Geometry can be saved to layout profile
+- [NEW] - Awards - Added WAS
+- [NEW] - Awards - WAZ/ITU/WAC show all possible values
+- [NEW] - Distance unit (km/miles) is controlled by OS Locale
+- [CHANGED] - Removed SAT Tab - field can be added via Layout Editor
+- Improved Import QSO performance
+- Fixed QLog crashes if POTA, SOTA or WWFF contain incorrect values (issue #245)
+- Fixed QSOs are not uploaded to QRZ and HRDLog if fields contain HTML delimiter strings (issue #247)
+
 * Fri Sep 22 2023 Ladislav Foldyna - 0.28.0-1
 - [NEW] - Added ON4KST Chat Support
 - [NEW] - Added Az BeamWidth and Az Offset to Antenna Profile
