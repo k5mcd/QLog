@@ -9,7 +9,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 
 ## Features
 
-- ADIF import/export
+- Customizable GUI
 - Rig and rotator control via Hamlib
 - HamQTH and QRZ.com callbook integration
 - DX cluster integration
@@ -25,7 +25,6 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 - Various station statistics
 - Basic Awards support
 - Custom QSO Filters
-- Basic Satellite support
 - **NO** ads, **NO** user tracking, **NO** hidden telemetry - simply free and open-source
 - SQLite backend.
 
