@@ -27,7 +27,7 @@
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "core/Wsjtx.h"
-#include "core/PaperQSL.h"
+#include "core/QSLStorage.h"
 #include "core/NetworkNotification.h"
 #include "core/Rig.h"
 #include "core/Rotator.h"
@@ -1706,40 +1706,6 @@ void SettingsDialog::adjustCWKeyCOMPortTextColor()
     setValidationResultColor(ui->cwPortEdit);
 }
 
-void SettingsDialog::eqslDirBrowse()
-{
-    FCT_IDENTIFICATION;
-
-    const QString &lastPath = ( ui->eqslFolderPathEdit->text().isEmpty() ) ? QDir::rootPath()
-                                                                     : ui->eqslFolderPathEdit->text();
-
-    QString dir = QFileDialog::getExistingDirectory(this,
-                                                    tr("Select Directory"),
-                                                    lastPath,
-                                                    QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    if ( !dir.isEmpty() )
-    {
-        ui->eqslFolderPathEdit->setText(dir);
-    }
-}
-
-void SettingsDialog::paperDirBrowse()
-{
-    FCT_IDENTIFICATION;
-
-    const QString &lastPath = ( ui->paperFolderPathEdit->text().isEmpty() ) ? QDir::homePath()
-                                                                     : ui->paperFolderPathEdit->text();
-
-    QString dir = QFileDialog::getExistingDirectory(this,
-                                                    tr("Select Directory"),
-                                                    lastPath,
-                                                    QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    if ( !dir.isEmpty() )
-    {
-        ui->paperFolderPathEdit->setText(dir);
-    }
-}
-
 void SettingsDialog::cancelled()
 {
     FCT_IDENTIFICATION;
@@ -2063,7 +2029,6 @@ void SettingsDialog::readSettings() {
     /********/
     ui->eqslUsernameEdit->setText(EQSL::getUsername());
     ui->eqslPasswordEdit->setText(EQSL::getPassword());
-    ui->eqslFolderPathEdit->setText(EQSL::getQSLImageFolder());
 
     /**********/
     /* HRDLog */
@@ -2076,11 +2041,6 @@ void SettingsDialog::readSettings() {
     /* QRZ.COM */
     /***********/
     ui->qrzApiKeyEdit->setText(QRZ::getLogbookAPIKey());
-
-    /*************/
-    /* Paper QSL */
-    /*************/
-    ui->paperFolderPathEdit->setText(PaperQSL::getQSLImageFolder());
 
     /***************/
     /* ON4KST Chat */
@@ -2176,7 +2136,6 @@ void SettingsDialog::writeSettings() {
 
     EQSL::saveUsernamePassword(ui->eqslUsernameEdit->text(),
                                ui->eqslPasswordEdit->text());
-    EQSL::saveQSLImageFolder(ui->eqslFolderPathEdit->text());
 
     /**********/
     /* HRDLog */
@@ -2205,11 +2164,6 @@ void SettingsDialog::writeSettings() {
     else {
         settings.setValue("dxcc/start", QVariant());
     }
-
-    /*************/
-    /* Paper QSL */
-    /*************/
-    PaperQSL::saveQSLImageFolder(ui->paperFolderPathEdit->text());
 
     /***********/
     /* MEMBERS */

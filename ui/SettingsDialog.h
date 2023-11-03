@@ -95,8 +95,6 @@ public slots:
     void adjustRotCOMPortTextColor();
     void adjustRigCOMPortTextColor();
     void adjustCWKeyCOMPortTextColor();
-    void eqslDirBrowse();
-    void paperDirBrowse();
     void cancelled();
     void sotaChanged(const QString&);
     void sotaEditFinished();

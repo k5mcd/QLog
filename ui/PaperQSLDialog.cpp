@@ -5,17 +5,19 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QSettings>
-
+#include <QTemporaryDir>
 #include "PaperQSLDialog.h"
 #include "ui_PaperQSLDialog.h"
 #include "core/debug.h"
 
 MODULE_IDENTIFICATION("qlog.ui.paperqsldialog");
 
+extern QTemporaryDir tempDir;
+
 PaperQSLDialog::PaperQSLDialog(const QSqlRecord &qso, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PaperQSLDialog),
-    qsl(new PaperQSL()),
+    qsl(new QSLStorage(this)),
     dialogQSORecord(qso),
     fileCount(0)
 {
@@ -57,13 +59,18 @@ void PaperQSLDialog::addFileClick()
     {
         qCDebug(runtime) << "selected file " << filename;
 
+        QFile file(filename);
+
+        if ( !file.open(QIODevice::ReadOnly) )
+            return;
+
         settings.setValue("paperqslimport/last_path", QFileInfo(filename).path());
 
-        QString newFilename;
-
-        if ( qsl->addQSLFile(filename, dialogQSORecord, newFilename) )
+        if ( qsl->add(QSLObject(dialogQSORecord, QSLObject::QSLFILE,
+                                QFileInfo(file).fileName(), file.readAll(),
+                                QSLObject::RAWBYTES)) )
         {
-           addFileToDialog(QFileInfo(newFilename));
+           addFileToDialog(filename);
         }
     }
 }
@@ -72,7 +79,7 @@ void PaperQSLDialog::showAvailableFiles()
 {
     FCT_IDENTIFICATION;
 
-    QFileInfoList files = qsl->getQSLFileList(dialogQSORecord);
+    QStringList files = qsl->getAvailableQSLNames(dialogQSORecord, QSLObject::QSLFILE);
 
     for ( auto &file : qAsConst(files) )
     {
@@ -80,11 +87,19 @@ void PaperQSLDialog::showAvailableFiles()
     }
 }
 
-void PaperQSLDialog::addFileToDialog(const QFileInfo &file)
+void PaperQSLDialog::addFileToDialog(const QString &inFile)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters) << file;
+    QFileInfo file(inFile);
+
+    qCDebug(function_parameters) << file.fileName();
+
+    // if file already exists, do not add it to dialog.
+    if ( filenameList.contains(file.fileName() ) )
+         return;
+
+    filenameList << file.fileName();
 
     QHBoxLayout* fileLayout = new QHBoxLayout();
     fileLayout->setObjectName(QString::fromUtf8("fileLayout%1").arg(fileCount));
@@ -105,9 +120,7 @@ void PaperQSLDialog::addFileToDialog(const QFileInfo &file)
 
         if (reply != QMessageBox::Yes) return;
 
-        QFile removedFile(file.absoluteFilePath());
-
-        if ( removedFile.remove() )
+        if ( qsl->remove(dialogQSORecord, QSLObject::QSLFILE, file.fileName()) )
         {
             QLayoutItem *item = NULL;
             while ((item = fileLayout->takeAt(0)) != 0)
@@ -127,16 +140,38 @@ void PaperQSLDialog::addFileToDialog(const QFileInfo &file)
 
     fileLayout->addWidget(openButton);
 
-    connect(openButton, &QPushButton::clicked, this, [file]()
+    connect(openButton, &QPushButton::clicked, this, [this, file]()
     {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(file.absoluteFilePath()));
+        if ( !tempDir.isValid() )
+        {
+            qCDebug(runtime) << "Temp directory" << tempDir.path()<< "for QSL is not valid";
+            return;
+        }
+
+        QFile f(tempDir.path() + QDir::separator() + file.fileName());
+        qCDebug(runtime) << "Using temp file" << f.fileName();
+
+        if ( f.open(QFile::WriteOnly) )
+        {
+            f.write(qsl->getQSL(dialogQSORecord,
+                                QSLObject::QSLFILE,
+                                file.fileName()).getBLOB());
+            f.flush();
+            f.close();
+        }
+        else
+        {
+            qWarning() << "Cannot open file for QSL";
+        }
+
+        QDesktopServices::openUrl(QUrl::fromLocalFile(f.fileName()));
     });
 
     /***************/
     /* File label  */
     /***************/
 
-    QLabel *fileLabel = new QLabel(qsl->stripBaseFileName(file.fileName()).left(80), this);
+    QLabel *fileLabel = new QLabel(file.fileName().left(80), this);
     fileLabel->setObjectName(QString::fromUtf8("fileLabel%1").arg(fileCount));
     fileLabel->setMaximumWidth(200);
     fileLabel->setMinimumWidth(200);
@@ -153,7 +188,9 @@ void PaperQSLDialog::addFileToDialog(const QFileInfo &file)
 
     if ( mimeType.name().contains("image", Qt::CaseInsensitive))
     {
-       fileLabel->setToolTip(QString("<img src='%1'>").arg(file.absoluteFilePath()));
+       fileLabel->setToolTip(QString("<img src='data:%0;base64, %1'>").arg(mimeType.name(), qsl->getQSL(dialogQSORecord,
+                                                                                                        QSLObject::QSLFILE,
+                                                                                                        file.fileName()).getBLOB(QSLObject::BASE64FORM)));
     }
 
     fileLayout->addWidget(fileLabel);

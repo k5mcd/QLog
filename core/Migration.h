@@ -36,9 +36,10 @@ private:
     bool insertUUID();
     bool fillMyDXCC();
     bool createTriggers();
+    bool importQSLCards2DB();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
-    static const int latestVersion = 22;
+    static const int latestVersion = 23;
 };
 
 #endif // MIGRATION_H

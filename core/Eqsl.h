@@ -4,6 +4,8 @@
 #include <QObject>
 #include <logformat/LogFormat.h>
 
+#include "QSLStorage.h"
+
 class QNetworkAccessManager;
 class QNetworkReply;
 
@@ -20,10 +22,7 @@ public:
 
     static const QString getUsername();
     static const QString getPassword();
-    static const QString getQSLImageFolder(const QString &defaultPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-
     static void saveUsernamePassword(const QString&, const QString&);
-    static void saveQSLImageFolder(const QString&);
 
 signals:
     void updateProgress(int value);
@@ -41,17 +40,17 @@ public slots:
 
 private:
     QNetworkAccessManager* nam;
+    QSLStorage *qslStorage;
 
     void get(QList<QPair<QString, QString>>);
     void downloadADIF(const QString &);
-    void downloadImage(const QString &, const QString &);
+    void downloadImage(const QString &, const QString &, const qulonglong);
     QString QSLImageFilename(const QSqlRecord &);
     bool isQSLImageInCache(const QSqlRecord &, QString &);
     QNetworkReply *currentReply;
 
     static const QString SECURE_STORAGE_KEY;
     static const QString CONFIG_USERNAME_KEY;
-    static const QString CONFIG_QSL_FOLDER_KEY;
 
 };
 

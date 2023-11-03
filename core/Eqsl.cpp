@@ -7,6 +7,7 @@
 #include <QHttpMultiPart>
 #include <QSqlRecord>
 #include <QDir>
+#include <QTemporaryDir>
 
 #include "Eqsl.h"
 #include "core/debug.h"
@@ -21,8 +22,11 @@
 
 MODULE_IDENTIFICATION("qlog.core.eqsl");
 
+extern QTemporaryDir tempDir;
+
 EQSL::EQSL( QObject *parent ):
    QObject(parent),
+   qslStorage(new QSLStorage(this)),
    currentReply(nullptr)
 {
     FCT_IDENTIFICATION;
@@ -43,6 +47,7 @@ EQSL::~EQSL()
     }
 
     nam->deleteLater();
+    qslStorage->deleteLater();
 }
 
 void EQSL::update(QDate start_date, QString qthNick)
@@ -164,7 +169,7 @@ void EQSL::getQSLImage(const QSqlRecord &qso)
     currentReply = nam->get(QNetworkRequest(url));
     currentReply->setProperty("messageType", QVariant("getQSLImageFileName"));
     currentReply->setProperty("onDiskFilename", QVariant(inCacheFilename));
-
+    currentReply->setProperty("QSORecordID", QVariant(qso.value("id")));
 }
 
 const QString EQSL::getUsername()
@@ -185,14 +190,6 @@ const QString EQSL::getPassword()
                                                     getUsername());
 }
 
-const QString EQSL::getQSLImageFolder(const QString &defaultPath)
-{
-    FCT_IDENTIFICATION;
-
-    QSettings settings;
-
-    return settings.value(EQSL::CONFIG_QSL_FOLDER_KEY, defaultPath).toString();
-}
 
 void EQSL::saveUsernamePassword(const QString &newUsername, const QString &newPassword)
 {
@@ -212,16 +209,6 @@ void EQSL::saveUsernamePassword(const QString &newUsername, const QString &newPa
                                               newUsername,
                                               newPassword);
 }
-
-void EQSL::saveQSLImageFolder(const QString &path)
-{
-    FCT_IDENTIFICATION;
-
-    QSettings settings;
-
-    settings.setValue(EQSL::CONFIG_QSL_FOLDER_KEY, path);
-}
-
 
 void EQSL::get(QList<QPair<QString, QString>> params)
 {
@@ -271,11 +258,13 @@ void EQSL::downloadADIF(const QString &filename)
     currentReply->setProperty("messageType", QVariant("getADIF"));
 }
 
-void EQSL::downloadImage(const QString &URLFilename, const QString &onDiskFilename)
+void EQSL::downloadImage(const QString &URLFilename,
+                         const QString &onDiskFilename,
+                         const qulonglong qsoid)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters) << URLFilename << " " << onDiskFilename;
+    qCDebug(function_parameters) << URLFilename << onDiskFilename << qsoid;
 
     QUrlQuery query;
     QUrl url(QSL_IMAGE_DOWNLOAD_PAGE + URLFilename);
@@ -286,6 +275,7 @@ void EQSL::downloadImage(const QString &URLFilename, const QString &onDiskFilena
     currentReply = nam->get(QNetworkRequest(url));
     currentReply->setProperty("messageType", QVariant("downloadQSLImage"));
     currentReply->setProperty("onDiskFilename", QVariant(onDiskFilename));
+    currentReply->setProperty("QSORecordID", qsoid);
 }
 
 QString EQSL::QSLImageFilename(const QSqlRecord &qso)
@@ -307,10 +297,22 @@ bool EQSL::isQSLImageInCache(const QSqlRecord &qso, QString &fullPath)
 {
     FCT_IDENTIFICATION;
 
-    QDir dir(getQSLImageFolder());
+    bool isFileExists = false;
+
     QString expectingFilename = QSLImageFilename(qso);
-    bool isFileExists = dir.exists(expectingFilename);
-    fullPath = dir.absoluteFilePath(expectingFilename);
+    QSLObject eqsl = qslStorage->getQSL(qso, QSLObject::EQSL, expectingFilename);
+    QFile f(tempDir.path() + QDir::separator() + eqsl.getQSLName());
+    qCDebug(runtime) << "Using temp file" << f.fileName();
+    fullPath = f.fileName();
+
+    if ( eqsl.getBLOB() != QByteArray()
+         && f.open(QFile::WriteOnly) )
+    {
+        f.write(eqsl.getBLOB());
+        f.flush();
+        f.close();
+        isFileExists = true;
+    }
 
     qCDebug(runtime) << isFileExists << " " << fullPath;
 
@@ -405,8 +407,8 @@ void EQSL::processReply(QNetworkReply* reply)
             {
                 QString filename = match.captured(1);
                 QString onDiskFilename = reply->property("onDiskFilename").toString();
-
-                downloadImage(filename,onDiskFilename);
+                qulonglong qsoid = reply->property("QSORecordID").toULongLong();
+                downloadImage(filename, onDiskFilename, qsoid);
             }
             else
             {
@@ -501,16 +503,25 @@ void EQSL::processReply(QNetworkReply* reply)
         QByteArray data = reply->readAll();
 
         QString onDiskFilename = reply->property("onDiskFilename").toString();
+        qulonglong qsoID = reply->property("QSORecordID").toULongLong();
 
         QFile file(onDiskFilename);
         if ( !file.open(QIODevice::WriteOnly))
         {
-            emit QSLImageError("Cannot Save Image to file " + onDiskFilename);
+            emit QSLImageError(tr("Cannot Save Image to file") + " " + onDiskFilename);
+
             return;
         }
         file.write(data);
         file.flush();
         file.close();
+        if ( !qslStorage->add(QSLObject(qsoID, QSLObject::EQSL,
+                                        QFileInfo(onDiskFilename).fileName(), data,
+                                        QSLObject::RAWBYTES)) )
+        {
+            qWarning() << "Cannot save the eQSL image to database cache";
+            // ??? database is only a cache for images. not needed to inform operator about this ????
+        }
         emit QSLImageFound(onDiskFilename);
     }
     /******************/
@@ -576,4 +587,3 @@ void EQSL::abortRequest()
 
 const QString EQSL::SECURE_STORAGE_KEY = "eQSL";
 const QString EQSL::CONFIG_USERNAME_KEY = "eqsl/username";
-const QString EQSL::CONFIG_QSL_FOLDER_KEY = "eqsl/qslfolder";

@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QSplashScreen>
+#include <QTemporaryDir>
 
 #include "debug.h"
 #include "Migration.h"
@@ -30,6 +31,7 @@
 MODULE_IDENTIFICATION("qlog.core.main");
 
 QMutex debug_mutex;
+QTemporaryDir tempDir;
 
 static void setupTranslator(QApplication* app) {
     FCT_IDENTIFICATION;

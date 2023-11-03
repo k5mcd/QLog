@@ -74,9 +74,9 @@ SOURCES += \
         core/MembershipQE.cpp \
         core/Migration.cpp \
         core/NetworkNotification.cpp \
-        core/PaperQSL.cpp \
         core/PropConditions.cpp \
         core/QRZ.cpp \
+        core/QSLStorage.cpp \
         core/Rig.cpp \
         core/Rotator.cpp \
         core/SerialPort.cpp \
@@ -183,9 +183,9 @@ HEADERS += \
         core/MembershipQE.h \
         core/Migration.h \
         core/NetworkNotification.h \
-        core/PaperQSL.h \
         core/PropConditions.h \
         core/QRZ.h \
+        core/QSLStorage.h \
         core/Rig.h \
         core/Rotator.h \
         core/SerialPort.h \

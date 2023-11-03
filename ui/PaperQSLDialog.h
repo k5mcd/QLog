@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QSqlRecord>
 
-#include "core/PaperQSL.h"
+#include "core/QSLStorage.h"
 
 namespace Ui {
 class PaperQSLDialog;
@@ -24,14 +24,15 @@ public slots:
 private:
 
     void showAvailableFiles();
-    void addFileToDialog(const QFileInfo &);
+    void addFileToDialog(const QString &);
     void addNewFile(const QString &);
 
     Ui::PaperQSLDialog *ui;
 
-    PaperQSL *qsl;
+    QSLStorage *qsl;
     QSqlRecord dialogQSORecord;
     unsigned int fileCount;
+    QStringList filenameList;
 };
 
 #endif // PAPERQSLDIALOG_H

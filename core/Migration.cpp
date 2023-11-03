@@ -186,6 +186,9 @@ bool Migration::functionMigration(int version)
     case 17:
         ret = createTriggers();
         break;
+    case 23:
+        ret = importQSLCards2DB();
+        break;
     default:
         ret = true;
     }
@@ -489,6 +492,66 @@ bool Migration::createTriggers()
         return false;
     }
 
+    return true;
+}
+
+bool Migration::importQSLCards2DB()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    QSqlQuery insert;
+
+    // don't migrate eqsl imagge because it is only a local cache. If the image is missing then
+    // QLog will download it again
+    static QRegularExpression re("^[0-9]{8}_([0-9]+)_.*_qsl_(.*)", QRegularExpression::CaseInsensitiveOption);
+
+    QString qslFolder = settings.value("paperqsl/qslfolder", QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).toString();
+    QDir dir(qslFolder);
+    QFileInfoList file_list = dir.entryInfoList(QStringList("????????_*_*_qsl_*.*"),
+                                                QDir::Files,
+                                                QDir::Name);
+    if ( !insert.prepare("INSERT INTO contacts_qsl_cards (contactid, source, name, data) "
+                         " VALUES (:contactid, 0, :name, :data)" ) )
+    {
+        qWarning()<< " Cannot prepare a migration script - importQSLCards2DB 2" << insert.lastError();
+        return false;
+    }
+
+    for ( auto &file : qAsConst(file_list) )
+    {
+        qCDebug(runtime) << "Processing file" << file.fileName();
+        QRegularExpressionMatch match = re.match(file.fileName());
+
+        if ( match.hasMatch() )
+        {
+            qCDebug(runtime) << "File matched - importing";
+            QFile f(file.absoluteFilePath());
+            if ( !f.open(QFile::ReadOnly))
+            {
+                qWarning() << "Cannot open file" << file.fileName();
+                continue;
+            }
+            QByteArray blob = f.readAll();
+            f.close();
+            //do not remove the file - the file may be used by another application
+            //do not use PaperQSL Class here for saving.
+            // this is a migration sequence for filesystem to DB migration with specific properties
+            insert.bindValue(":contactid", match.captured(1));
+            insert.bindValue(":name", match.captured(2));
+            insert.bindValue(":data", blob.toBase64());
+
+            if ( !insert.exec() )
+            {
+                qWarning() << "Cannot import QSL file" << file.absoluteFilePath();
+                continue;
+            }
+            qCDebug(runtime) << "File matched - imported";
+        }
+    }
+
+    settings.remove("paperqsl/qslfolder");
+    settings.remove("eqsl/qslfolder");
     return true;
 }
 
