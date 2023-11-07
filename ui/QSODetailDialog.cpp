@@ -2070,11 +2070,11 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
             }
             else
             {
-                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_COUNTRY), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CQZ), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_ITUZ), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_DXCC), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CONTINENT), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_CQ_ZONE), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ITU_ZONE), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_DXCC), QVariant(QString()),role); // clazy:exclude=skipped-base-method
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY_INTL), QVariant(QString()),role); // clazy:exclude=skipped-base-method
             }
             break;
         }
