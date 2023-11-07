@@ -252,7 +252,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                             "WHERE callsign=upper(:callsign) "
                             "AND upper(mode)=upper(:mode) "
                             "AND upper(band)=upper(:band) "
-                            "AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime(:startdate)))*24<1") )
+                            "AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime(:startdate)))*24*60<30") )
     {
         qWarning() << "cannot prepare Dup statement";
         return 0;
@@ -589,7 +589,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
         }
 
         // It is important to use callsign index here
-        QString matchFilter = QString("callsign=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24<1")
+        QString matchFilter = QString("callsign=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24*60<30")
                 .arg(QSLRecord.value("callsign").toString(),
                      QSLRecord.value("mode").toString(),
                      QSLRecord.value("band").toString(),
