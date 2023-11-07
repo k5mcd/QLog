@@ -379,7 +379,7 @@ void KSTChatWidget::setSelectedCallsignInUserList(const QString &callsign)
     if ( callsign.isEmpty() )
         return;
 
-    const QModelIndexList &nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, callsign, 1);
+    const QModelIndexList &nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, callsign, 1, Qt::MatchExactly);
 
     if ( nextMatches.size() >= 1 )
     {

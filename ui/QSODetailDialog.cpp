@@ -1625,7 +1625,8 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
         if ( combo )
         {
             QModelIndexList countryIndex = combo->model()->match(combo->model()->index(0,0),
-                                                                 Qt::DisplayRole, index.data());
+                                                                 Qt::DisplayRole, index.data(),
+                                                                 1, Qt::MatchExactly);
             if ( countryIndex.size() >= 1 )
             {
                 combo->setCurrentIndex(countryIndex.at(0).row());
