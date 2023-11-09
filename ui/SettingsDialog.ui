@@ -115,7 +115,7 @@
           <item row="2" column="1">
            <widget class="QLabel" name="stationOperatorLabel">
             <property name="text">
-             <string>Operator</string>
+             <string>Operator Name</string>
             </property>
            </widget>
           </item>
