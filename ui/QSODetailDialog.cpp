@@ -319,7 +319,7 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 
     /* My Station */
     mapper->addMapping(ui->myCallsignEdit, LogbookModel::COLUMN_STATION_CALLSIGN);
-    mapper->addMapping(ui->myOperatorNameEdit, LogbookModel::COLUMN_OPERATOR);
+    mapper->addMapping(ui->myOperatorNameEdit, LogbookModel::COLUMN_MY_NAME_INTL);
     mapper->addMapping(ui->myQTHEdit, LogbookModel::COLUMN_MY_CITY_INTL);
     mapper->addMapping(ui->myGridEdit, LogbookModel::COLUMN_MY_GRIDSQUARE);
     mapper->addMapping(ui->mySOTAEdit, LogbookModel::COLUMN_MY_SOTA_REF);
