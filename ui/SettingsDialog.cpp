@@ -2441,18 +2441,6 @@ QString SettingsDialog::getMemberListComboValue(const QComboBox *combo)
     return model->data(index).toString();
 }
 
-void SettingsDialog::setMemberListComboValue(QComboBox *combo, const QString &value)
-{
-    FCT_IDENTIFICATION;
-    SqlListModel *model =  static_cast<SqlListModel*>(combo->model());
-    QModelIndexList indexList = model->match(model->index(0,0), Qt::DisplayRole, value);
-
-    if ( indexList.size() >= 1 )
-    {
-        combo->setCurrentIndex(indexList.at(0).row());
-    }
-}
-
 void SettingsDialog::generateMembershipCheckboxes()
 {
     FCT_IDENTIFICATION;

@@ -208,7 +208,7 @@ void WsjtxWidget::setSelectedCallsign(const QString &selectCallsign)
 {
     FCT_IDENTIFICATION;
 
-    QModelIndexList nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, selectCallsign, 1);
+    QModelIndexList nextMatches = proxyModel->match(proxyModel->index(0,0), Qt::DisplayRole, selectCallsign, 1, Qt::MatchExactly);
 
     if ( nextMatches.size() >= 1 )
     {

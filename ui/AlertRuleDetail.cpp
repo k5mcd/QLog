@@ -473,7 +473,10 @@ void AlertRuleDetail::loadRule(const QString &ruleName)
         }
         else
         {
-            QModelIndexList countryIndex = ui->countryCombo->model()->match(ui->countryCombo->model()->index(0,0), Qt::DisplayRole, rule.dxCountry);
+            QModelIndexList countryIndex = ui->countryCombo->model()->match(ui->countryCombo->model()->index(0,0),
+                                                                            Qt::DisplayRole,
+                                                                            rule.dxCountry,
+                                                                            1, Qt::MatchExactly);
 
             if ( countryIndex.size() >= 1 )
             {
@@ -597,7 +600,9 @@ void AlertRuleDetail::loadRule(const QString &ruleName)
         else
         {
             QModelIndexList countryIndex = ui->spotterCountryCombo->model()->match(ui->spotterCountryCombo->model()->index(0,0),
-                                                                                   Qt::DisplayRole, rule.spotterCountry);
+                                                                                   Qt::DisplayRole,
+                                                                                   rule.spotterCountry,
+                                                                                   1, Qt::MatchExactly);
 
             if ( countryIndex.size() >= 1 )
             {

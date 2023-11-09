@@ -119,7 +119,6 @@ private:
     void refreshRigAssignedCWKeyCombo();
     void setValidationResultColor(QLineEdit *);
     QString getMemberListComboValue(const QComboBox *);
-    void setMemberListComboValue(QComboBox *, const QString&);
     void generateMembershipCheckboxes();
 
     QSqlTableModel* modeTableModel;
