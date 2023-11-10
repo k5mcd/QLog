@@ -42,6 +42,14 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Nov 10 2023 Ladislav Foldyna - 0.29.1-1
+- Fixed QSL cards tooltip are not displayed under qt6.5 (issue #248)
+- Fixed Distance unit is not displayed in QSO Info under Windows (issue #250)
+- Fixed Editing STATION_CALLSIGN can cause unwanted change in QSO Detail (issue #251)
+- Fixed QSO Detail Operator Name containes an incorrect value (issue #252)
+- Fixed Calls with VE, VA are coding as Amsterdam & St Paul Islands instead of Canada (issue #253)
+- Fixed LoTW QSL import reports unmatched QSOs sometime (issue #254)
+
 * Fri Oct 20 2023 Ladislav Foldyna - 0.29.0-1
 - [NEW] - Added user-defined layout for New QSO Detail widget
 - [NEW] - Main window State and Geometry can be saved to layout profile

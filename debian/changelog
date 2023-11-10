@@ -1,3 +1,13 @@
+qlog (0.29.1-1) UNRELEASED; urgency=low
+  * Fixed QSL cards tooltip are not displayed under qt6.5 (issue #248)
+  * Fixed Distance unit is not displayed in QSO Info under Windows (issue #250)
+  * Fixed Editing STATION_CALLSIGN can cause unwanted change in QSO Detail (issue #251)
+  * Fixed QSO Detail Operator Name containes an incorrect value (issue #252)
+  * Fixed Calls with VE, VA are coding as Amsterdam & St Paul Islands instead of Canada (issue #253)
+  * Fixed LoTW QSL import reports unmatched QSOs sometime (issue #254)
+
+ -- foldynl <foldyna@gmail.com>  Fri, 10 Nov 2023 08:50:15 +0100
+
 qlog (0.29.0-1) UNRELEASED; urgency=low
   * [NEW] - Added user-defined layout for New QSO Detail widget
   * [NEW] - Main window State and Geometry can be saved to layout profile
