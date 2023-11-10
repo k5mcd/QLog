@@ -170,7 +170,7 @@
         <translation>Darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/AlertRuleDetail.cpp" line="656"/>
+        <location filename="../ui/AlertRuleDetail.cpp" line="661"/>
         <source>No Club List is enabled</source>
         <translation>Keine Clubliste aktiviert</translation>
     </message>
@@ -4344,7 +4344,7 @@
         <translation>&amp;Details</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3053"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3054"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>DARC-DOK (Ortsverbandkenner) der kontaktierten Station (z.B. A01)</translation>
     </message>
@@ -4374,7 +4374,7 @@
         <translation>Dauer</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3072"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3073"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation></translation>
     </message>
@@ -4542,72 +4542,72 @@
         <translation>Callbook-Anmeldung fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1862"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1863"/>
         <source>New Entity!</source>
         <translation>Neuer Eintrag!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1865"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1866"/>
         <source>New Band!</source>
         <translation>Neues Band!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1868"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1869"/>
         <source>New Mode!</source>
         <translation>Neue Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1871"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1872"/>
         <source>New Band &amp; Mode!</source>
         <translation>Neues Band &amp; Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1874"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1875"/>
         <source>New Slot!</source>
         <translation>Neuer Slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1877"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1878"/>
         <source>Worked</source>
         <translation>Gearbeitet</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1880"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1881"/>
         <source>Confirmed</source>
         <translation>Bestätigt</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2470"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2471"/>
         <source>GE</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2480"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2481"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2486"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2487"/>
         <source>GA</source>
         <translation>GT</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2757"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2758"/>
         <source> m</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3050"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3051"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>zwei oder vier nebeneinander liegende, jeweils vier Zeichen lange Gitterfelder (z. B. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3076"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3077"/>
         <source>Special Activity Group</source>
         <translation>Spezielle Aktivitätsgruppe</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3080"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3081"/>
         <source>Special Activity Group Information</source>
         <translation></translation>
     </message>
@@ -4635,27 +4635,27 @@
         <translation>QSL importieren</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="47"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="46"/>
         <source>Add File</source>
         <translation>Datei hinzufügen</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="96"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="95"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="104"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="103"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="104"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="103"/>
         <source>Delete QSL file?</source>
         <translation>QSL Datei löschen?</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="126"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="125"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
@@ -5962,12 +5962,12 @@
         <translation>Gelb markierte Felder sind ungültig.&lt;p&gt;Dennoch die Änderungen speichern?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2147"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2148"/>
         <source>&amp;Save</source>
         <translation>&amp;Speichern</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2148"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2149"/>
         <source>&amp;Edit</source>
         <translation>B&amp;earbeiten</translation>
     </message>
@@ -6211,11 +6211,6 @@
         <location filename="../ui/SettingsDialog.ui" line="14"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
-    </message>
-    <message>
-        <location filename="../ui/SettingsDialog.ui" line="118"/>
-        <source>Operator</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="37"/>
@@ -6952,6 +6947,11 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="../ui/SettingsDialog.ui" line="118"/>
+        <source>Operator Name</source>
+        <translation>Operator Name</translation>
+    </message>
+    <message>
         <location filename="../ui/SettingsDialog.ui" line="379"/>
         <source>Azimuth Beamwidth </source>
         <translation></translation>
@@ -7428,12 +7428,12 @@
         <translation>Darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2475"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2463"/>
         <source>members</source>
         <translation>Mitglieder</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2483"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2471"/>
         <source>Required internet connection during application start</source>
         <translation>Erfordert Internetverbindung beim Start der Anwendung</translation>
     </message>

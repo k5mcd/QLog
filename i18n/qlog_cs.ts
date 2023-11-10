@@ -170,7 +170,7 @@
         <translation>Nesmí být prázdné</translation>
     </message>
     <message>
-        <location filename="../ui/AlertRuleDetail.cpp" line="656"/>
+        <location filename="../ui/AlertRuleDetail.cpp" line="661"/>
         <source>No Club List is enabled</source>
         <translation>Není aktívní žádný Club List</translation>
     </message>
@@ -4372,7 +4372,7 @@
         <translation>Člen:</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3072"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3073"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation>World Wide Flora &amp; Fauna</translation>
     </message>
@@ -4440,7 +4440,7 @@
         <translation>Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3053"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3054"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>DARC DOK (kód uzemí) (např A01)</translation>
     </message>
@@ -4545,72 +4545,72 @@
         <translation>Selhalo přihlášení do Callbooku</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1862"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1863"/>
         <source>New Entity!</source>
         <translation>Nová země!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1865"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1866"/>
         <source>New Band!</source>
         <translation>Nové pásmo!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1868"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1869"/>
         <source>New Mode!</source>
         <translation>Nový druh provozu!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1871"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1872"/>
         <source>New Band &amp; Mode!</source>
         <translation>Nové pásmo &amp; druh!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1874"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1875"/>
         <source>New Slot!</source>
         <translation>Nový slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1877"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1878"/>
         <source>Worked</source>
         <translation>Pracováno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1880"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1881"/>
         <source>Confirmed</source>
         <translation>Potvrzeno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2470"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2471"/>
         <source>GE</source>
         <translation>GE</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2480"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2481"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2486"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2487"/>
         <source>GA</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2757"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2758"/>
         <source> m</source>
         <translation> m</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3050"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3051"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>dva nebo čtyři sousední lokátory, každý o délce čtyř znaků (např. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3076"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3077"/>
         <source>Special Activity Group</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3080"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3081"/>
         <source>Special Activity Group Information</source>
         <translation></translation>
     </message>
@@ -4638,27 +4638,27 @@
         <translation>Import QSL</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="47"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="46"/>
         <source>Add File</source>
         <translation>Přidat</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="96"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="95"/>
         <source>Remove</source>
         <translation>Vymazat</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="104"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="103"/>
         <source>Delete</source>
         <translation>Vymazat</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="104"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="103"/>
         <source>Delete QSL file?</source>
         <translation>Vymazat QSL?</translation>
     </message>
     <message>
-        <location filename="../ui/PaperQSLDialog.cpp" line="126"/>
+        <location filename="../ui/PaperQSLDialog.cpp" line="125"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
@@ -5970,12 +5970,12 @@
         <translation>Žlutě vyznačená pole obsahují neplatné hodnoty&lt;p&gt;I přes to uložit změny?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2147"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2148"/>
         <source>&amp;Save</source>
         <translation>&amp;Uložit</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2148"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2149"/>
         <source>&amp;Edit</source>
         <translation>U&amp;pravit</translation>
     </message>
@@ -6237,11 +6237,6 @@
         <translation>Jméno profilu</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="118"/>
-        <source>Operator</source>
-        <translation>Operátor</translation>
-    </message>
-    <message>
         <location filename="../ui/SettingsDialog.ui" line="261"/>
         <location filename="../ui/SettingsDialog.ui" line="450"/>
         <location filename="../ui/SettingsDialog.ui" line="787"/>
@@ -6492,6 +6487,11 @@
         <location filename="../ui/SettingsDialog.ui" line="67"/>
         <source>World Wide Flora &amp; Fauna (Optional parameter)</source>
         <translation>World Wide Flora &amp; Fauna (nepovinný parametr)</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="118"/>
+        <source>Operator Name</source>
+        <translation>Jméno operátora</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="149"/>
@@ -7472,12 +7472,12 @@
         <translation>Vybrat adresář</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2475"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2463"/>
         <source>members</source>
         <translation>členů</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2483"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2471"/>
         <source>Required internet connection during application start</source>
         <translation>Je vyžadováno připojení do internetu během startu aplikace</translation>
     </message>
