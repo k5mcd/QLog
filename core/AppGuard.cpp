@@ -1,5 +1,8 @@
 #include <QCryptographicHash>
 #include <QLoggingCategory>
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+#include <QNativeIpcKey>
+#endif
 #include "AppGuard.h"
 #include "debug.h"
 
@@ -24,16 +27,35 @@ AppGuard::AppGuard( const QString& key )
     : key( key )
     , memLockKey( generateKeyHash( key, "_memLockKey" ) )
     , sharedmemKey( generateKeyHash( key, "_sharedmemKey" ) )
-    , sharedMem( sharedmemKey )
-    , memLock( memLockKey, 1 )
+    , sharedMem(
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+          QSharedMemory::legacyNativeKey(sharedmemKey)
+#else
+          sharedmemKey
+#endif
+ )
+    , memLock(
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+          QSystemSemaphore::legacyNativeKey(memLockKey),
+#else
+          memLockKey,
+#endif
+     1 )
 {
     FCT_IDENTIFICATION;
+
     memLock.acquire();
     {
         // linux / unix shared memory is not freed when the application terminates abnormally,
         // so you need to get rid of the garbage
 
-        QSharedMemory fix( sharedmemKey );
+        QSharedMemory fix(
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+            QSharedMemory::legacyNativeKey(sharedmemKey)
+#else
+            sharedmemKey
+#endif
+                         );
         if ( fix.attach() )
         {
             fix.detach();
