@@ -42,6 +42,9 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Mon Nov 13 2023 Ladislav Foldyna - 0.29.2-1
+- Fixed QLog is already running error popup on MacOS (issue #257 thanks rjesson)
+
 * Fri Nov 10 2023 Ladislav Foldyna - 0.29.1-1
 - Fixed QSL cards tooltip are not displayed under qt6.5 (issue #248)
 - Fixed Distance unit is not displayed in QSO Info under Windows (issue #250)
