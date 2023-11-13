@@ -1,5 +1,8 @@
 #include <QCryptographicHash>
 #include <QLoggingCategory>
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+#include <QNativeIpcKey>
+#endif
 #include "AppGuard.h"
 #include "debug.h"
 
@@ -24,16 +27,35 @@ AppGuard::AppGuard( const QString& key )
     : key( key )
     , memLockKey( generateKeyHash( key, "_memLockKey" ) )
     , sharedmemKey( generateKeyHash( key, "_sharedmemKey" ) )
-    , sharedMem( sharedmemKey )
-    , memLock( memLockKey, 1 )
+    , sharedMem(
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+          QSharedMemory::legacyNativeKey(sharedmemKey)
+#else
+          sharedmemKey
+#endif
+ )
+    , memLock(
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+          QSystemSemaphore::legacyNativeKey(memLockKey),
+#else
+          memLockKey,
+#endif
+     1 )
 {
     FCT_IDENTIFICATION;
+
     memLock.acquire();
     {
         // linux / unix shared memory is not freed when the application terminates abnormally,
         // so you need to get rid of the garbage
 
-        QSharedMemory fix( sharedmemKey );
+        QSharedMemory fix(
+#if QT_VERSION >= QT_VERSION_CHECK(6,6,0)
+            QSharedMemory::legacyNativeKey(sharedmemKey)
+#else
+            sharedmemKey
+#endif
+                         );
         if ( fix.attach() )
         {
             fix.detach();
@@ -77,6 +99,12 @@ bool AppGuard::tryToRun(void)
     }
 
     memLock.acquire();
+
+    // The following 'attach' call is a workaround required for 'create' to run properly under QT 6.6 and MacOS.
+    // See more details about it in issue #257.
+    // It has no impact on other platforms and versions of Qt, therefore there is no compilation condition.
+    sharedMem.attach();
+
     const bool result = sharedMem.create( sizeof( quint64 ) );
     memLock.release();
     if ( !result )
