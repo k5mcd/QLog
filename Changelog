@@ -1,3 +1,5 @@
+TBC - 0.29.2
+
 2023/11/10 - 0.29.1
 - Fixed QSL cards tooltip are not displayed under qt6.5 (issue #248)
 - Fixed Distance unit is not displayed in QSO Info under Windows (issue #250)
