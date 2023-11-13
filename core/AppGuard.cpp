@@ -99,6 +99,12 @@ bool AppGuard::tryToRun(void)
     }
 
     memLock.acquire();
+
+    // The following 'attach' call is a workaround required for 'create' to run properly under QT 6.6 and MacOS.
+    // See more details about it in issue #257.
+    // It has no impact on other platforms and versions of Qt, therefore there is no compilation condition.
+    sharedMem.attach();
+
     const bool result = sharedMem.create( sizeof( quint64 ) );
     memLock.release();
     if ( !result )
