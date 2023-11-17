@@ -322,7 +322,8 @@ RESOURCES += \
 OTHER_FILES += \
     res/stylesheet.css \
     res/qlog.rc \
-    res/qlog.desktop
+    res/qlog.desktop \
+    res/io.github.foldynl.QLog.metainfo.xml
 
 TRANSLATIONS = i18n/qlog_de.ts \
                i18n/qlog_cs.ts
@@ -372,7 +373,10 @@ unix:!macx {
    icon.path = $$PREFIX/share/icons/hicolor/256x256/apps
    icon.files += res/$${TARGET}.png
 
-   INSTALLS += target desktop icon
+   metainfo.path = $$PREFIX/share/metainfo/
+   metainfo.files += res/io.github.foldynl.QLog.metainfo.xml
+
+   INSTALLS += target desktop icon metainfo
 
    INCLUDEPATH += /usr/local/include
    LIBS += -L/usr/local/lib -lhamlib
