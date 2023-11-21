@@ -19,8 +19,10 @@ public:
     QString getHostPrefixWithDelimiter() const;
     QString getBase() const;
     QString getBasePrefix() const;
+    QString getBasePrefixNumber() const;
     QString getSuffix() const;
     QString getSuffixWithDelimiter() const;
+    QString getWPXPrefix() const;
     bool isValid() const;
 
 private:
@@ -29,6 +31,7 @@ private:
     QString hostPrefixWithDelimiter;
     QString base;
     QString basePrefix;
+    QString basePrefixNumber;
     QString suffix;
     QString suffixWithDelimiter;
     bool valid;

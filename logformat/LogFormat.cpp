@@ -7,6 +7,7 @@
 #include "data/Data.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
+#include "core/Callsign.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
@@ -406,6 +407,16 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
         if ( record.value("cqz").isNull() && entity.dxcc )
         {
             record.setValue("cqz", QString::number(entity.cqz));
+        }
+
+        if ( record.value("pfx").toString().isEmpty() )
+        {
+            const QString &pfxRef = Callsign(record.value("callsign").toString()).getWPXPrefix();
+
+            if ( !pfxRef.isEmpty() )
+            {
+                record.setValue("pfx", pfxRef);
+            }
         }
 
         QString gridsquare = record.value("gridsquare").toString();

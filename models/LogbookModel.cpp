@@ -2,6 +2,7 @@
 #include "data/Data.h"
 #include "data/Dxcc.h"
 #include "core/Gridsquare.h"
+#include "core/Callsign.h"
 
 #include <QIcon>
 
@@ -348,6 +349,12 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
                 depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_CONTINENT), QVariant(QString()),role);
             }
 
+            const QString &pfxRef = Callsign(new_callsign).getWPXPrefix();
+
+            if ( !pfxRef.isEmpty() )
+            {
+                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_PREFIX), QVariant(pfxRef), role);
+            }
             break;
         }
 

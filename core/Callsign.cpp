@@ -22,6 +22,7 @@ Callsign::Callsign(const QString &callsign,
         hostPrefix              = match.captured(2);
         base                    = match.captured(3);
         basePrefix              = match.captured(4);
+        basePrefixNumber        = match.captured(5);
         suffixWithDelimiter     = match.captured(7);
         suffix                  = match.captured(8);
 
@@ -81,6 +82,13 @@ QString Callsign::getBasePrefix() const
     return basePrefix;
 }
 
+QString Callsign::getBasePrefixNumber() const
+{
+    FCT_IDENTIFICATION;
+
+    return basePrefixNumber;
+}
+
 QString Callsign::getSuffix() const
 {
     FCT_IDENTIFICATION;
@@ -93,6 +101,98 @@ QString Callsign::getSuffixWithDelimiter() const
     FCT_IDENTIFICATION;
 
     return suffixWithDelimiter;
+}
+
+QString Callsign::getWPXPrefix() const
+{
+    FCT_IDENTIFICATION;
+
+    if ( !isValid() )
+        return QString();
+
+    // defined here
+    // https://www.cqwpx.com/rules.htm
+
+    // inspired here
+    // https://git.fkurz.net/dj1yfk/yfklog/src/branch/develop/yfksubs.pl#L605
+
+
+    /*********************
+     * ONLY BASE CALLSIGN
+     *********************/
+    if ( getBase() != QString()
+         && getHostPrefix() == QString()
+         && getSuffix() == QString() )
+    {
+        // only callsign
+        // return callsign prefix + prefix number
+        // OL80ABC -> OL80
+        // OK1ABC -> OK1
+        return getBasePrefix() + getBasePrefixNumber();
+    }
+
+    /*********************
+     * HOST PREFIX PRESENT
+     *********************/
+    if ( getHostPrefix() != QString() )
+    {
+        // callsign has a Host prefix SP/OK1XXX
+        // we do not look at the suffix and assign automatically HostPrefix + '0'
+
+        if ( getHostPrefix().back().isDigit() )
+            return getHostPrefix();
+
+        return getHostPrefix() + QString("0");
+    }
+
+    /****************
+     * SUFFIX PRESENT
+     ****************/
+    if ( getSuffix().length() == 1) // some countries add single numbers as suffix to designate a call area, e.g. /4
+    {
+        bool isNumber = false;
+        (void)suffix.toInt(&isNumber);
+        if ( isNumber )
+        {
+            // callsign suffix is a number
+            // VE7ABC/2 -> VE2
+            return getBasePrefix() + getSuffix();
+        }
+
+        // callsign suffix is not a number
+        // OK1ABC/P -> OK1
+        return getBasePrefix() + getBasePrefixNumber();
+    }
+
+    /***************************
+     * SUFFIX PRESENT LENGTH > 1
+     ***************************/
+    if ( secondarySpecialSuffixes.contains(getSuffix()) )
+    {
+        // QRP, MM etc.
+        // OK1ABC/AM -> OK1
+        return getBasePrefix() + getBasePrefixNumber();
+    }
+
+    // valid prefix should contain a number in the last position - check it
+    // and prefix is not just a number
+    // N8ABC/KH9 -> KH9
+
+    bool isNumber = false;
+    (void)getSuffix().toInt(&isNumber);
+
+    if ( isNumber )
+    {
+        // suffix contains 2 and more numbers - ignore it
+        return getBasePrefix() + getBasePrefixNumber();
+    }
+
+    // suffix is combination letters and digits and last position is a number
+    if ( getSuffix().back().isDigit() )
+        return getSuffix();
+
+    // prefix does not contain a number - add "0"
+    return getSuffix() + QString("0");
 }
 
 bool Callsign::isValid() const
@@ -113,5 +213,6 @@ const QStringList Callsign::secondarySpecialSuffixes =
     "P",   // portable operation
     "QRP",  // QRP - unofficial
     "R",    // repeaters
-    "B"     // beacon
+    "B",    // beacon
+    "LGT"   // 'LIGHTHOUSE' or 'LIGHTSHIP'  - unofficial
 };
