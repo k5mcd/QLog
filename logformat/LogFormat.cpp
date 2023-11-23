@@ -394,17 +394,20 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             record.setValue("country_intl", entity.country);
         }
 
-        if ( record.value("cont").isNull() && entity.dxcc )
+        if ( ( record.value("cont").isNull()
+               || updateDxcc) && entity.dxcc )
         {
             record.setValue("cont", entity.cont);
         }
 
-        if ( record.value("ituz").isNull() && entity.dxcc )
+        if ( ( record.value("ituz").isNull()
+               || updateDxcc) && entity.dxcc )
         {
             record.setValue("ituz", QString::number(entity.ituz));
         }
 
-        if ( record.value("cqz").isNull() && entity.dxcc )
+        if ( ( record.value("cqz").isNull()
+               || updateDxcc) && entity.dxcc )
         {
             record.setValue("cqz", QString::number(entity.cqz));
         }
