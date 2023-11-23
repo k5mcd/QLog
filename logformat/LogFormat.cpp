@@ -7,6 +7,7 @@
 #include "data/Data.h"
 #include "core/debug.h"
 #include "core/Gridsquare.h"
+#include "core/Callsign.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
@@ -393,19 +394,32 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             record.setValue("country_intl", entity.country);
         }
 
-        if ( record.value("cont").isNull() && entity.dxcc )
+        if ( ( record.value("cont").isNull()
+               || updateDxcc) && entity.dxcc )
         {
             record.setValue("cont", entity.cont);
         }
 
-        if ( record.value("ituz").isNull() && entity.dxcc )
+        if ( ( record.value("ituz").isNull()
+               || updateDxcc) && entity.dxcc )
         {
             record.setValue("ituz", QString::number(entity.ituz));
         }
 
-        if ( record.value("cqz").isNull() && entity.dxcc )
+        if ( ( record.value("cqz").isNull()
+               || updateDxcc) && entity.dxcc )
         {
             record.setValue("cqz", QString::number(entity.cqz));
+        }
+
+        if ( record.value("pfx").toString().isEmpty() )
+        {
+            const QString &pfxRef = Callsign(record.value("callsign").toString()).getWPXPrefix();
+
+            if ( !pfxRef.isEmpty() )
+            {
+                record.setValue("pfx", pfxRef);
+            }
         }
 
         QString gridsquare = record.value("gridsquare").toString();

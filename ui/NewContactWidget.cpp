@@ -1010,6 +1010,16 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
     FCT_IDENTIFICATION;
 
 
+    if ( record.value("pfx").toString().isEmpty() )
+    {
+        const QString &pfxRef = Callsign(record.value("callsign").toString()).getWPXPrefix();
+
+        if ( !pfxRef.isEmpty() )
+        {
+            record.setValue("pfx", pfxRef);
+        }
+    }
+
     if ( record.value("qsl_sent").toString().isEmpty() )
     {
         QVariant sentState = ui->qslSentBox->itemData(ui->qslSentBox->currentIndex());
@@ -1484,9 +1494,13 @@ void NewContactWidget::saveContact()
 
     record.setValue("cqz", uiDynamic->cqzEdit->text().toInt());
     record.setValue("ituz", uiDynamic->ituEdit->text().toInt());
-    record.setValue("dxcc", dxccEntity.dxcc);
-    record.setValue("country", Data::removeAccents(dxccEntity.country));
-    record.setValue("country_intl", dxccEntity.country);
+
+    if ( !dxccEntity.country.isEmpty() )
+    {
+        record.setValue("dxcc", dxccEntity.dxcc);
+        record.setValue("country", Data::removeAccents(dxccEntity.country));
+        record.setValue("country_intl", dxccEntity.country);
+    }
 
     if ( ! uiDynamic->contEdit->currentText().isEmpty() )
     {

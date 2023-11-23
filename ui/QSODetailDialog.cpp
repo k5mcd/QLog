@@ -1845,6 +1845,17 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
         switch ( index.column() )
         {
 
+        case COLUMN_CALL:
+        {
+            const QString &pfxRef = Callsign(value.toString()).getWPXPrefix();
+
+            if ( !pfxRef.isEmpty() )
+            {
+                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_PREFIX), QVariant(pfxRef), role); // clazy:exclude=skipped-base-method
+            }
+            break;
+        }
+
         case COLUMN_GRID:
         {
             if ( ! value.toString().isEmpty() )
