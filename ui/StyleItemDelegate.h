@@ -45,6 +45,8 @@ public:
     {
         QDateEdit* editor = new QDateEdit(parent);
         editor->setTimeSpec(Qt::UTC);
+        editor->setMinimumDate(QDate(1900, 1, 1));
+        editor->setSpecialValueText(tr("Blank"));
         return editor;
     }
 
@@ -68,7 +70,10 @@ public:
         QDateEdit* dateEdit = static_cast<QDateEdit*>(editor);
         dateEdit->interpretText();
         QDateTime value = dateEdit->dateTime();
-        model->setData(index, value, Qt::EditRole);
+        model->setData(index,
+                       ( dateEdit->date() == dateEdit->minimumDate() ) ? QVariant()
+                                                                       : value,
+                       Qt::EditRole);
     }
 };
 
@@ -103,6 +108,8 @@ public:
     {
         QDateTimeEdit* editor = new QDateTimeEdit(parent);
         editor->setTimeSpec(Qt::UTC);
+        editor->setDateTime(QDateTime(QDate(1900, 1, 1), QTime(0, 0, 0)));
+        editor->setSpecialValueText(tr("Blank"));
         return editor;
     }
 
@@ -126,7 +133,10 @@ public:
         QDateTimeEdit* timeEdit = static_cast<QDateTimeEdit*>(editor);
         timeEdit->interpretText();
         QDateTime value = timeEdit->dateTime();
-        model->setData(index, value, Qt::EditRole);
+        model->setData(index,
+                       ( timeEdit->date() == timeEdit->minimumDate() ) ? QVariant()
+                                                                       : value,
+                       Qt::EditRole);
     }
 };
 
