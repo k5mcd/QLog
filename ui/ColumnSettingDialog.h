@@ -9,6 +9,7 @@
 #include <QList>
 #include <QString>
 
+#include "models/LogbookModel.h"
 namespace Ui {
 class ColumnSettingDialog;
 class ColumnSettingSimpleDialog;
@@ -50,10 +51,13 @@ class ColumnSettingDialog : public ColumnSettingGenericDialog
     Q_OBJECT
 
 public:
-    explicit ColumnSettingDialog(QTableView *table, QWidget *parent = nullptr);
+    explicit ColumnSettingDialog(QTableView *table,
+                                 QWidget *parent = nullptr,
+                                 QList<LogbookModel::column_id> columnIdFilter = QList<LogbookModel::column_id>());
     explicit ColumnSettingDialog(const QAbstractItemModel *model,
                                  const QSet<int> &defaultSetting,
-                                 QWidget *parent = nullptr);
+                                 QWidget *parent = nullptr,
+                                 QList<LogbookModel::column_id> columnIdFilter = QList<LogbookModel::column_id>());
     ~ColumnSettingDialog();
 
 private:
@@ -61,6 +65,7 @@ private:
     Ui::ColumnSettingDialog *ui;
     QTableView *table;
     QSet<int> defaultColumnsState;
+    QList<LogbookModel::column_id> columnIdExcludeFilter;
 };
 
 #endif // COLUMNSETTINGDIALOG_H
