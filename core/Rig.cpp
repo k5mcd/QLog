@@ -272,6 +272,8 @@ void Rig::update()
         {
             qCDebug(runtime) << "Current RIG raw MODE: "<< curr_modeId;
             qCDebug(runtime) << "Current LO raw MODE: "<< LoA.getMode();
+            qCDebug(runtime) << "Current RIG Filter: "<< pbwidth;
+            qCDebug(runtime) << "Current LO Filter:" << LoA.getPassbandWidth();
 
             if ( curr_modeId != LoA.getMode()
                  || ( pbwidth != RIG_PASSBAND_NOCHANGE

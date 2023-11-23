@@ -769,11 +769,9 @@ void NewContactWidget::refreshAntProfileCombo()
     ui->antennaEdit->blockSignals(false);
 }
 
-void NewContactWidget::__modeChanged(qint32 width)
+void NewContactWidget::__modeChanged()
 {
     FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << width;
 
     QSqlTableModel* modeModel = dynamic_cast<QSqlTableModel*>(ui->modeEdit->model());
     QSqlRecord record = modeModel->record(ui->modeEdit->currentIndex());
@@ -804,8 +802,6 @@ void NewContactWidget::__modeChanged(qint32 width)
 
     defaultReport = record.value("rprt").toString();
 
-    bandwidthFilter = width;
-
     setDefaultReport();
     updateDxccStatus();
     queryMemberList();
@@ -817,7 +813,7 @@ void NewContactWidget::changeMode()
     FCT_IDENTIFICATION;
 
     ui->submodeEdit->blockSignals(true);
-    __modeChanged(RIG_PASSBAND_NORMAL);
+    __modeChanged();
     ui->submodeEdit->blockSignals(false);
 
     // if manual mode is not enabled then change the mode
@@ -834,7 +830,7 @@ void NewContactWidget::changeModefromRig(VFOID, const QString &, const QString &
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters) << mode << " " << subMode;
+    qCDebug(function_parameters) << mode << subMode << width;
 
     if ( isManualEnterMode )
     {
@@ -842,10 +838,24 @@ void NewContactWidget::changeModefromRig(VFOID, const QString &, const QString &
         return;
     }
 
+    bandwidthFilter = width;
+
+    if ( ui->modeEdit->currentText() == mode)
+    {
+        qCDebug(runtime) << "Mode did not change, changing submode";
+
+        ui->submodeEdit->blockSignals(true);
+        ui->submodeEdit->setCurrentText(subMode);
+        ui->submodeEdit->blockSignals(false);
+        return;
+    }
+
+    qCDebug(runtime) << "Mode changed - updating submode list";
+
     ui->modeEdit->blockSignals(true);
     ui->submodeEdit->blockSignals(true);
     ui->modeEdit->setCurrentText(mode);
-    __modeChanged(width);
+    __modeChanged();
     ui->submodeEdit->setCurrentText(subMode);
     ui->submodeEdit->blockSignals(false);
     ui->modeEdit->blockSignals(false);

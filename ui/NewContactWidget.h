@@ -242,7 +242,7 @@ private:
     void clearMemberQueryFields();
     void readWidgetSettings();
     void writeWidgetSetting();
-    void __modeChanged(qint32);
+    void __modeChanged();
     void refreshStationProfileCombo();
     void updateTXBand(double freq);
     void updateRXBand(double freq);
