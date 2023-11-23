@@ -1,4 +1,9 @@
 TBC - 0.30.0
+- [NEW] - Added (WPX) prefix (issue #263)
+- [CHANGED] - Removed QSOID from Export dialog column setting (issue #258)
+- Fixed Date editor does not support NULL value in Logbook Direct Editor (issue #256)
+- Fixed duplicate entry in Windows Add or Remove - only Window platform (issue #260)
+- Fixed RST fields revert to 59 after changing them (issue #261)
 
 2023/11/13 - 0.29.2
 - Fixed QLog is already running error popup on MacOS (issue #257 thanks rjesson)
