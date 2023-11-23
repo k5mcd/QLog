@@ -58,7 +58,7 @@ Component.prototype.componentSelectionPageEntered = function()
     var dir = installer.value("TargetDir");
     if (installer.value("os") === "win") {
        if (installer.fileExists(dir) && installer.fileExists(dir + "/maintenancetool.exe")) {
-           installer.execute(dir + "/maintenancetool.exe", ["purge"], "yes");
+           installer.execute(dir + "/maintenancetool.exe", ["purge", "-c"]);
        }
     }
 }
