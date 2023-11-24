@@ -160,7 +160,7 @@ void MainLayoutEditor::connectQSORowButtons()
     /*********************/
     /* QSO Row A Buttons */
     /*********************/
-    connect(ui->qsoRowADownButton, &QPushButton::clicked, [this]()
+    connect(ui->qsoRowADownButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->qsoRowAFieldsListView->selectionModel()->selectedRows();
 
@@ -170,7 +170,7 @@ void MainLayoutEditor::connectQSORowButtons()
         }
     });
 
-    connect(ui->qsoRowAUpButton, &QPushButton::clicked, [this]()
+    connect(ui->qsoRowAUpButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->qsoRowAFieldsListView->selectionModel()->selectedRows();
 
@@ -180,14 +180,14 @@ void MainLayoutEditor::connectQSORowButtons()
         }
     });
 
-    connect(ui->moveToQSORowAButton, &QPushButton::clicked, [this]()
+    connect(ui->moveToQSORowAButton, &QPushButton::clicked, this, [this]()
     {
         moveField(availableFieldsModel,
                   qsoRowAFieldsModel,
                   ui->availableFieldsListView->selectionModel()->selectedIndexes());
     });
 
-    connect(ui->removeFromQSORowAButton, &QPushButton::clicked, [this]()
+    connect(ui->removeFromQSORowAButton, &QPushButton::clicked, this, [this]()
     {
         moveField(qsoRowAFieldsModel,
                   availableFieldsModel,
@@ -196,7 +196,7 @@ void MainLayoutEditor::connectQSORowButtons()
     /*********************/
     /* QSO Row B Buttons */
     /*********************/
-    connect(ui->qsoRowBDownButton, &QPushButton::clicked, [this]()
+    connect(ui->qsoRowBDownButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->qsoRowBFieldsListView->selectionModel()->selectedRows();
 
@@ -206,7 +206,7 @@ void MainLayoutEditor::connectQSORowButtons()
         }
     });
 
-    connect(ui->qsoRowBUpButton, &QPushButton::clicked, [this]()
+    connect(ui->qsoRowBUpButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->qsoRowBFieldsListView->selectionModel()->selectedRows();
 
@@ -216,14 +216,14 @@ void MainLayoutEditor::connectQSORowButtons()
         }
     });
 
-    connect(ui->moveToQSORowBButton, &QPushButton::clicked, [this]()
+    connect(ui->moveToQSORowBButton, &QPushButton::clicked, this, [this]()
     {
         moveField(availableFieldsModel,
                   qsoRowBFieldsModel,
                   ui->availableFieldsListView->selectionModel()->selectedIndexes());
     });
 
-    connect(ui->removeFromQSORowBButton, &QPushButton::clicked, [this]()
+    connect(ui->removeFromQSORowBButton, &QPushButton::clicked, this, [this]()
     {
         moveField(qsoRowBFieldsModel,
                   availableFieldsModel,
@@ -238,7 +238,7 @@ void MainLayoutEditor::connectDetailColsButtons()
     /****************************/
     /* QSO Detail Col A Buttons */
     /****************************/
-    connect(ui->detailColADownButton, &QPushButton::clicked, [this]()
+    connect(ui->detailColADownButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->detailColAFieldsListView->selectionModel()->selectedRows();
 
@@ -248,7 +248,7 @@ void MainLayoutEditor::connectDetailColsButtons()
         }
     });
 
-    connect(ui->detailColAUpButton, &QPushButton::clicked, [this]()
+    connect(ui->detailColAUpButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->detailColAFieldsListView->selectionModel()->selectedRows();
 
@@ -258,14 +258,14 @@ void MainLayoutEditor::connectDetailColsButtons()
         }
     });
 
-    connect(ui->moveToDetailColAButton, &QPushButton::clicked, [this]()
+    connect(ui->moveToDetailColAButton, &QPushButton::clicked, this, [this]()
     {
         moveField(availableFieldsModel,
                   detailColAFieldsModel,
                   ui->availableFieldsListView->selectionModel()->selectedIndexes());
     });
 
-    connect(ui->removeFromDetailColAButton, &QPushButton::clicked, [this]()
+    connect(ui->removeFromDetailColAButton, &QPushButton::clicked, this, [this]()
     {
         moveField(detailColAFieldsModel,
                   availableFieldsModel,
@@ -275,7 +275,7 @@ void MainLayoutEditor::connectDetailColsButtons()
     /****************************/
     /* QSO Detail Col B Buttons */
     /****************************/
-    connect(ui->detailColBDownButton, &QPushButton::clicked, [this]()
+    connect(ui->detailColBDownButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->detailColBFieldsListView->selectionModel()->selectedRows();
 
@@ -285,7 +285,7 @@ void MainLayoutEditor::connectDetailColsButtons()
         }
     });
 
-    connect(ui->detailColBUpButton, &QPushButton::clicked, [this]()
+    connect(ui->detailColBUpButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->detailColBFieldsListView->selectionModel()->selectedRows();
 
@@ -295,14 +295,14 @@ void MainLayoutEditor::connectDetailColsButtons()
         }
     });
 
-    connect(ui->moveToDetailColBButton, &QPushButton::clicked, [this]()
+    connect(ui->moveToDetailColBButton, &QPushButton::clicked, this, [this]()
     {
         moveField(availableFieldsModel,
                   detailColBFieldsModel,
                   ui->availableFieldsListView->selectionModel()->selectedIndexes());
     });
 
-    connect(ui->removeFromDetailColBButton, &QPushButton::clicked, [this]()
+    connect(ui->removeFromDetailColBButton, &QPushButton::clicked, this, [this]()
     {
         moveField(detailColBFieldsModel,
                   availableFieldsModel,
@@ -312,7 +312,7 @@ void MainLayoutEditor::connectDetailColsButtons()
     /****************************/
     /* QSO Detail Col C Buttons */
     /****************************/
-    connect(ui->detailColCDownButton, &QPushButton::clicked, [this]()
+    connect(ui->detailColCDownButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->detailColCFieldsListView->selectionModel()->selectedRows();
 
@@ -322,7 +322,7 @@ void MainLayoutEditor::connectDetailColsButtons()
         }
     });
 
-    connect(ui->detailColCUpButton, &QPushButton::clicked, [this]()
+    connect(ui->detailColCUpButton, &QPushButton::clicked, this, [this]()
     {
         QModelIndexList modelList = ui->detailColCFieldsListView->selectionModel()->selectedRows();
 
@@ -332,14 +332,14 @@ void MainLayoutEditor::connectDetailColsButtons()
         }
     });
 
-    connect(ui->moveToDetailColCButton, &QPushButton::clicked, [this]()
+    connect(ui->moveToDetailColCButton, &QPushButton::clicked, this, [this]()
     {
         moveField(availableFieldsModel,
                   detailColCFieldsModel,
                   ui->availableFieldsListView->selectionModel()->selectedIndexes());
     });
 
-    connect(ui->removeFromDetailColCButton, &QPushButton::clicked, [this]()
+    connect(ui->removeFromDetailColCButton, &QPushButton::clicked, this, [this]()
     {
         moveField(detailColCFieldsModel,
                   availableFieldsModel,
