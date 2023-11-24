@@ -810,7 +810,7 @@ void MainWindow::showAbout() {
             QString(hamlib_version);
 #endif
 
-    QString OSName = QString("%1 %2").arg(QSysInfo::prettyProductName()).arg(QSysInfo::currentCpuArchitecture());
+    QString OSName = QString("%1 %2 (%3)").arg(QSysInfo::prettyProductName(), QSysInfo::currentCpuArchitecture(), QGuiApplication::platformName() );
     aboutText = aboutText.arg(version)
                          .arg(qVersion())
                          .arg(hamlibVersion)
