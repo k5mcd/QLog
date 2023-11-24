@@ -35,6 +35,7 @@ AwardsDialog::AwardsDialog(QWidget *parent) :
     ui->awardComboBox->addItem(tr("WAC"), QVariant("wac"));
     ui->awardComboBox->addItem(tr("WAZ"), QVariant("waz"));
     ui->awardComboBox->addItem(tr("WAS"), QVariant("was"));
+    ui->awardComboBox->addItem(tr("WPX"), QVariant("wpx"));
     ui->awardComboBox->addItem(tr("IOTA"), QVariant("iota"));
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setText(tr("Done"));
@@ -133,6 +134,15 @@ void AwardsDialog::refreshTable(int)
                   "     LEFT OUTER JOIN contacts c ON d.dxcc = c.dxcc AND d.code = c.state "
                   "     LEFT OUTER JOIN modes m on c.mode = m.name "
                   "WHERE (c.id is NULL or c.my_dxcc = '" + entitySelected + "' AND d.dxcc in (6, 110, 291)) ";
+    }
+    else if ( awardSelected == "wpx" )
+    {
+        headersColumns = "c.pfx col1, null col2 ";
+        uniqColumns = "c.pfx";
+        sqlPart = "FROM contacts c, modes m  "
+                  "WHERE c.mode = m.name"
+                  "      AND c.pfx is not null"
+                  "      AND c.my_dxcc = '" + entitySelected + "'";
     }
     else if ( awardSelected == "iota" )
     {
@@ -300,6 +310,10 @@ void AwardsDialog::awardTableDoubleClicked(QModelIndex idx)
         if ( awardSelected == "waz" )
         {
             addlFilters << QString("cqz = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
+        }
+        if ( awardSelected == "wpx" )
+        {
+            addlFilters << QString("pfx = '%1'").arg(detailedViewModel->data(detailedViewModel->index(idx.row(),1),Qt::DisplayRole).toString());
         }
 
         if ( idx.column() > 2 )
