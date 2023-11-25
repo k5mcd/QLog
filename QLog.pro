@@ -381,17 +381,17 @@ unix:!macx {
 }
 
 macx: {
+   # This allows the app to be shipped in a non-bundeled version
+   !isEmpty(PREFIX) {
+      target.path = $$PREFIX
+      INSTALLS += target
+   }
+
    INCLUDEPATH += /usr/local/include
    LIBS += /usr/local/lib -lhamlib
    equals(QT_MAJOR_VERSION, 6): LIBS += -lqt6keychain
    equals(QT_MAJOR_VERSION, 5): LIBS += -lqt5keychain
    DISTFILES +=
-
-   # This allows the app to be shipped in a non-bundeled version
-   !isEmpty(PREFIX) {
-     target.path = $$PREFIX
-     INSTALLS += target
-   }
 }
 
 win32: {
