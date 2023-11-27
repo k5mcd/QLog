@@ -85,7 +85,9 @@ Prerequisites:
 
 Fedora **RPM packages** are available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
 
-**Snap or Flatpak** are not planned at this moment.
+**Flatpak** package is available via [Flathub](https://flathub.org/)
+
+**Snap** is not planned at this moment.
 
 
 ### MacOS
