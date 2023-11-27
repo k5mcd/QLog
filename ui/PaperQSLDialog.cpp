@@ -188,9 +188,10 @@ void PaperQSLDialog::addFileToDialog(const QString &inFile)
 
     if ( mimeType.name().contains("image", Qt::CaseInsensitive))
     {
-       fileLabel->setToolTip(QString("<img src='data:%0;base64, %1'>").arg(mimeType.name(), qsl->getQSL(dialogQSORecord,
-                                                                                                        QSLObject::QSLFILE,
-                                                                                                        file.fileName()).getBLOB(QSLObject::BASE64FORM)));
+       // QByteArray->QString in arg is due to QT5.12
+       fileLabel->setToolTip(QString("<img src='data:%0;base64, %1'>").arg(mimeType.name(), QString(qsl->getQSL(dialogQSORecord,
+                                                                                                                QSLObject::QSLFILE,
+                                                                                                                file.fileName()).getBLOB(QSLObject::BASE64FORM))));
     }
 
     fileLayout->addWidget(fileLabel);
