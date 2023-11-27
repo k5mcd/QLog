@@ -24,6 +24,21 @@ MainLayoutEditor::MainLayoutEditor(const QString &layoutName,
 
     ui->setupUi(this);
 
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+    // disabled for QT 5.12 (ubuntu 20.04) due to issue in QT
+    // moveRow does not work
+    ui->qsoRowADownButton->setVisible(false);
+    ui->qsoRowAUpButton->setVisible(false);
+    ui->qsoRowBDownButton->setVisible(false);
+    ui->qsoRowBUpButton->setVisible(false);
+    ui->detailColADownButton->setVisible(false);
+    ui->detailColAUpButton->setVisible(false);
+    ui->detailColBDownButton->setVisible(false);
+    ui->detailColBUpButton->setVisible(false);
+    ui->detailColCDownButton->setVisible(false);
+    ui->detailColCUpButton->setVisible(false);
+#endif
+
     availableFieldsModel->setStringList(dynamicWidgets->getAllFieldLabelNames());
     availableFieldsModel->sort(0);
 
