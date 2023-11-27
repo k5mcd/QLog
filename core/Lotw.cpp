@@ -168,7 +168,13 @@ const QString Lotw::getTQSLPath(const QString &defaultPath)
 
     QSettings settings;
 
+#ifdef QLOG_FLATPAK
+    // flatpak package contain an internal tqsl that is always on the same path
+    Q_UNUSED(defaultPath);
+    return QString("/app/bin/tqsl");
+#else
     return settings.value("lotw/tqsl", defaultPath).toString();
+#endif
 }
 
 void Lotw::saveUsernamePassword(const QString &newUsername, const QString &newPassword)
@@ -196,8 +202,12 @@ void Lotw::saveTQSLPath(const QString &newPath)
 
     QSettings settings;
 
+#ifdef QLOG_FLATPAK
+    // do not save path for Flatpak version - an internal tqsl instance is present in the package
+    Q_UNUSED(newPath);
+#else
     settings.setValue("lotw/tqsl", newPath);
-
+#endif
 }
 
 void Lotw::get(QList<QPair<QString, QString>> params)
