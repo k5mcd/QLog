@@ -707,7 +707,7 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
         connect(eQSL, &EQSL::QSLImageFound, this, [dialog, eQSL](QString imgFile)
         {
             dialog->done(0);
-            QDesktopServices::openUrl(imgFile);
+            QDesktopServices::openUrl(QUrl::fromLocalFile(imgFile));
             eQSL->deleteLater();
         });
 
