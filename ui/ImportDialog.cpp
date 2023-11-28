@@ -60,7 +60,8 @@ void ImportDialog::browse()
                                                                  : ui->fileEdit->text();
 
     QString filename = QFileDialog::getOpenFileName(this, tr("Select File"),
-                                                    lastPath, "*." + ui->typeSelect->currentText().toLower());
+                                                    lastPath,
+                                                    ui->typeSelect->currentText().toUpper() + "(*." + ui->typeSelect->currentText().toLower() + ")");
     if ( !filename.isEmpty() )
     {
         settings.setValue("import/last_path", QFileInfo(filename).path());
