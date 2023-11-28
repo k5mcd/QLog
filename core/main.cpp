@@ -31,7 +31,15 @@
 MODULE_IDENTIFICATION("qlog.core.main");
 
 QMutex debug_mutex;
-QTemporaryDir tempDir;
+QTemporaryDir tempDir
+#ifdef QLOG_FLATPAK
+// hack: I don't know how to openn image file
+// in sandbox via QDesktop::openurl
+// therefore QLog creates a temp directory in home directory (home is allowed for flatpak)
+(QDir::homePath() + "/.qlogXXXXXX");
+#else
+;
+#endif
 
 static void setupTranslator(QApplication* app) {
     FCT_IDENTIFICATION;
