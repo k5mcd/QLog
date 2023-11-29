@@ -115,7 +115,7 @@ void PaperQSLDialog::addFileToDialog(const QString &inFile)
     connect(removeButton, &QPushButton::clicked, this, [this, fileLayout, file]()
     {
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Delete"), tr("Delete QSL file?"),
+        reply = QMessageBox::question(this, tr("Delete"), tr("Delete QSL?"),
                                       QMessageBox::Yes|QMessageBox::No);
 
         if (reply != QMessageBox::Yes) return;

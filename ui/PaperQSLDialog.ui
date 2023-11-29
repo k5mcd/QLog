@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>QSL FIles</string>
+   <string>Manage QSL Card</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -20,7 +20,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>QSL Files</string>
+      <string>Available QSLs</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
