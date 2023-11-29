@@ -508,7 +508,7 @@ void EQSL::processReply(QNetworkReply* reply)
         QFile file(onDiskFilename);
         if ( !file.open(QIODevice::WriteOnly))
         {
-            emit QSLImageError(tr("Cannot Save Image to file") + " " + onDiskFilename);
+            emit QSLImageError(tr("Cannot save the image to file") + " " + onDiskFilename);
 
             return;
         }
