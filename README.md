@@ -85,7 +85,7 @@ Prerequisites:
 
 Fedora **RPM packages** are available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
 
-**Flatpak** package is available via [Flathub](https://flathub.org/)
+**Flatpak** package is available via [Flathub](https://flathub.org/). The package contains built-in TrustedQSL.
 
 **Snap** is not planned at this moment.
 
@@ -122,6 +122,8 @@ Prerequisites
 - `HAMLIBVERSION_MAJOR` - Hamlib version - major number (must be present if `pkg-config` cannot determine Hamlib version)
 - `HAMLIBVERSION_MINOR` - Hamlib version - minor number (must be present if `pkg-config` cannot determine Hamlib version)
 - `HAMLIBVERSION_PATCH` - Hamlib version - patch number (must be present if `pkg-config` cannot determine Hamlib version)
+- `PTHREADINCLUDEPATH`  - the path to pthread Includes - needed for Windows Hamlib 4.5 and later. Leave empty if system libraries should be used.
+- `PTHREADLIBPATH` - the path to pthread Library - needed for Windows Hamlib 4.5 and later. Leave empty if system libraries should be used.
 - `QTKEYCHAININCLUDEPATH` - the path to QtKeyChain Includes 
 - `QTKEYCHAINLIBPATH`- the path to QtKeyChain Library
 
