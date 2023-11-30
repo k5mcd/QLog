@@ -22,6 +22,7 @@ public:
     {
         defaultSpeed = 0;
         baudrate = 0;
+        netport = 0;
     };
 
     QString profileName;
