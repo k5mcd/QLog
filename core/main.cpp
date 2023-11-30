@@ -374,12 +374,12 @@ int main(int argc, char* argv[])
     QCommandLineOption environmentName(QStringList() << "n" << "namespace",
                 QCoreApplication::translate("main", "Run with the specific namespace."),
                 QCoreApplication::translate("main", "namespace"));
-    QCommandLineOption translationFilename(QStringList() << "t" << "translation_file",
-                QCoreApplication::translate("main", "Path to the translation file"),
-                QCoreApplication::translate("main", "translation filename"));
+    QCommandLineOption translationFilename(QStringList() << "t" << "translation",
+                QCoreApplication::translate("main", "Translation file - absolute or relative path and QM file name."),
+                QCoreApplication::translate("main", "path/QM-filename"));
     QCommandLineOption forceLanguage(QStringList() << "l" << "language",
-                QCoreApplication::translate("main", "Overwrite language"),
-                QCoreApplication::translate("main", "language code"));
+                QCoreApplication::translate("main", "Set language. <code> example: 'en' or 'en_US'. Ignore environment setting."),
+                QCoreApplication::translate("main", "code"));
 
     parser.addOption(environmentName);
     parser.addOption(translationFilename);
