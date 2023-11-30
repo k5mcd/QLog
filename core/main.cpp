@@ -41,11 +41,19 @@ QTemporaryDir tempDir
 ;
 #endif
 
-static void setupTranslator(QApplication* app) {
+static void setupTranslator(QApplication* app,
+                            const QString &lang,
+                            const QString &translationFile)
+{
     FCT_IDENTIFICATION;
 
+    qCDebug(function_parameters) << lang << translationFile;
+
+    QString localeLang = ( lang.isEmpty() ) ? QLocale::system().name()
+                                            : lang;
+
     QTranslator* qtTranslator = new QTranslator(app);
-    if ( qtTranslator->load("qt_" + QLocale::system().name(),
+    if ( qtTranslator->load("qt_" + localeLang,
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
                        QLibraryInfo::location(QLibraryInfo::TranslationsPath)) )
 #else
@@ -56,11 +64,68 @@ static void setupTranslator(QApplication* app) {
         app->installTranslator(qtTranslator);
     }
 
-    QTranslator* translator = new QTranslator(app);
-    if ( translator->load(":/i18n/qlog_" + QLocale::system().name().left(2)) )
+    // give translators the ability to dynamically load files.
+    // first, try to load file from input parameter (if exsist)
+    if ( !translationFile.isEmpty() )
     {
-        app->installTranslator(translator);
+        qCDebug(runtime) << "External translation file defined - trying to load it";
+        QTranslator* translator = new QTranslator(app);
+        if ( translator->load(translationFile) )
+        {
+            qCDebug(runtime) << "Loaded successfully" << translator->filePath();
+            app->installTranslator(translator);
+            return;
+        }
+        qWarning() << "External translation file not found";
+        translator->deleteLater();
     }
+
+    // searching in the following directories
+    // Linux:
+    //    application_folder/i18n
+    //    "~/.local/share/hamradio/QLog/i18n",
+    //    "/usr/local/share/hamradion/QLog/i18n",
+    //    "/usr/share/hamradio/QLog/i18n"
+    //
+    // looking for filename
+    //     qlog.fr_ca.qm
+    //     qlog.fr_ca
+    //     qlog.fr.qm
+    //     qlog.fr
+    //     qlog.qm
+    //     qlog
+
+    QStringList translationFolders;
+
+    translationFolders  << qApp->applicationDirPath()
+                        << QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
+
+    for ( const QString& folder : qAsConst(translationFolders) )
+    {
+        qCDebug(runtime) << "Looking for a translation in" << folder << QString("i18n%1qlog_%2").arg(QDir::separator(), localeLang);
+        QTranslator* translator = new QTranslator(app);
+        if ( translator->load(QStringLiteral("i18n%1qlog_%2").arg(QDir::separator(), localeLang), folder) )
+        {
+            qCDebug(runtime) << "Loaded successfully" << translator->filePath();
+            app->installTranslator(translator);
+            return;
+        }
+        translator->deleteLater();
+    }
+
+    // last attempt -  build-in resources/i18n.
+    qCDebug(runtime) << "Looking for a translation in QLog's resources";
+    QTranslator* translator = new QTranslator(app);
+    if ( translator->load(":/i18n/qlog_" + localeLang) )
+    {
+        qCDebug(runtime) << "Loaded successfully" << translator->filePath();
+        app->installTranslator(translator);
+        return;
+    }
+
+    translator->deleteLater();
+
+    qCDebug(runtime) << "Cannot find any translation file";
 }
 
 static void createDataDirectory() {
@@ -309,9 +374,20 @@ int main(int argc, char* argv[])
     QCommandLineOption environmentName(QStringList() << "n" << "namespace",
                 QCoreApplication::translate("main", "Run with the specific namespace."),
                 QCoreApplication::translate("main", "namespace"));
+    QCommandLineOption translationFilename(QStringList() << "t" << "translation_file",
+                QCoreApplication::translate("main", "Path to the translation file"),
+                QCoreApplication::translate("main", "translation filename"));
+    QCommandLineOption forceLanguage(QStringList() << "l" << "language",
+                QCoreApplication::translate("main", "Overwrite language"),
+                QCoreApplication::translate("main", "language code"));
+
     parser.addOption(environmentName);
+    parser.addOption(translationFilename);
+    parser.addOption(forceLanguage);
     parser.process(app);
     QString environment = parser.value(environmentName);
+    QString translation_file = parser.value(translationFilename);
+    QString lang = parser.value(forceLanguage);
 
     app.setOrganizationName("hamradio");
     app.setApplicationName("QLog" + ((environment.isNull()) ? "" : environment.prepend("-")));
@@ -334,7 +410,7 @@ int main(int argc, char* argv[])
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)
 
-    setupTranslator(&app);
+    setupTranslator(&app, lang, translation_file);
 
     /* Application Singleton
      *
