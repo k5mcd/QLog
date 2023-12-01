@@ -42,6 +42,18 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 
 
 %changelog
+* Fri Dec 1 2023 Ladislav Foldyna - 0.30.0-1
+- [NEW] - QSL Images are stored in the database
+- [NEW] - Added AppStream Metainfo File (PR #262 thanks AsciiWolf)
+- [NEW] - Added (WPX) prefix (issue #263)
+- [NEW] - Added WPX Award statistics
+- [NEW] - Added support for external translation files(issue #275)
+- [CHANGED] - Removed QSOID from Export dialog column setting (issue #258)
+- Fixed Date editor does not support NULL value in Logbook Direct Editor (issue #256)
+- Fixed duplicate entry in Windows Add or Remove - only Window platform (issue #260)
+- Fixed RST fields revert to 59 after changing them (issue #261)
+- Fixed Cannot change TQSL Path in Settings - flatpak (issue #271)
+
 * Mon Nov 13 2023 Ladislav Foldyna - 0.29.2-1
 - Fixed QLog is already running error popup on MacOS (issue #257 thanks rjesson)
 
