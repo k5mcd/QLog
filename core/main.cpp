@@ -72,7 +72,11 @@ static void setupTranslator(QApplication* app,
         QTranslator* translator = new QTranslator(app);
         if ( translator->load(translationFile) )
         {
-            qCDebug(runtime) << "Loaded successfully" << translator->filePath();
+            qCDebug(runtime) << "Loaded successfully"
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+                             << translator->filePath()
+#endif
+                             ;
             app->installTranslator(translator);
             return;
         }
@@ -106,7 +110,11 @@ static void setupTranslator(QApplication* app,
         QTranslator* translator = new QTranslator(app);
         if ( translator->load(QStringLiteral("i18n%1qlog_%2").arg(QDir::separator(), localeLang), folder) )
         {
-            qCDebug(runtime) << "Loaded successfully" << translator->filePath();
+            qCDebug(runtime) << "Loaded successfully"
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+                             << translator->filePath()
+#endif
+                             ;
             app->installTranslator(translator);
             return;
         }
@@ -118,7 +126,11 @@ static void setupTranslator(QApplication* app,
     QTranslator* translator = new QTranslator(app);
     if ( translator->load(":/i18n/qlog_" + localeLang) )
     {
-        qCDebug(runtime) << "Loaded successfully" << translator->filePath();
+        qCDebug(runtime) << "Loaded successfully"
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+                         << translator->filePath()
+#endif
+                         ;
         app->installTranslator(translator);
         return;
     }
