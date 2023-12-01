@@ -3,6 +3,7 @@ TBC - 0.30.0
 - [NEW] - Added AppStream Metainfo File (PR #262 thanks AsciiWolf)
 - [NEW] - Added (WPX) prefix (issue #263)
 - [NEW] - Added WPX Award statistics
+- [NEW] - Added support for external translation files(issue #275)
 - [CHANGED] - Removed QSOID from Export dialog column setting (issue #258)
 - Fixed Date editor does not support NULL value in Logbook Direct Editor (issue #256)
 - Fixed duplicate entry in Windows Add or Remove - only Window platform (issue #260)
