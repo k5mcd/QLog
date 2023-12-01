@@ -4681,7 +4681,7 @@
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../core/main.cpp" line="291"/>
+        <location filename="../core/main.cpp" line="356"/>
         <source>QLog Help</source>
         <translation>QLog Hilfe</translation>
     </message>
@@ -4689,10 +4689,10 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../core/main.cpp" line="351"/>
-        <location filename="../core/main.cpp" line="366"/>
-        <location filename="../core/main.cpp" line="376"/>
-        <location filename="../core/main.cpp" line="383"/>
+        <location filename="../core/main.cpp" line="427"/>
+        <location filename="../core/main.cpp" line="442"/>
+        <location filename="../core/main.cpp" line="452"/>
+        <location filename="../core/main.cpp" line="459"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="363"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
@@ -4707,22 +4707,22 @@
         <translation>QLog Fehler</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="352"/>
+        <location filename="../core/main.cpp" line="428"/>
         <source>QLog is already running</source>
         <translation>QLog wird bereits ausgeführt</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="367"/>
+        <location filename="../core/main.cpp" line="443"/>
         <source>Could not connect to database.</source>
         <translation>Keine Verbindung zur Datenbank möglich.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="377"/>
+        <location filename="../core/main.cpp" line="453"/>
         <source>Could not export a QLog database to ADIF as a backup.&lt;p&gt;Try to export your log to ADIF manually</source>
         <translation>Kann QLog-Datenbank nicht als Backup nach ADIF exportieren.&lt;p&gt;Versuchen Sie, Ihr Log manuell nach ADIF zu exportieren</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="384"/>
+        <location filename="../core/main.cpp" line="460"/>
         <source>Database migration failed.</source>
         <translation>Migration der Datenbank fehlgeschlagen.</translation>
     </message>
@@ -5031,22 +5031,22 @@
         <translation>Interner Fehler</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="363"/>
+        <location filename="../core/main.cpp" line="439"/>
         <source>Opening Database</source>
         <translation>Datenbank öffnen</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="371"/>
+        <location filename="../core/main.cpp" line="447"/>
         <source>Backuping Database</source>
         <translation>Datenbank sichern</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="380"/>
+        <location filename="../core/main.cpp" line="456"/>
         <source>Migrating Database</source>
         <translation>Datenbank migrieren</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="388"/>
+        <location filename="../core/main.cpp" line="464"/>
         <source>Starting Application</source>
         <translation>Anwendung starten</translation>
     </message>
@@ -8038,14 +8038,34 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../core/main.cpp" line="310"/>
+        <location filename="../core/main.cpp" line="375"/>
         <source>Run with the specific namespace.</source>
         <translation>Im spezifischen Namensraum ausführen.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="311"/>
+        <location filename="../core/main.cpp" line="376"/>
         <source>namespace</source>
         <translation>Namensraum</translation>
+    </message>
+    <message>
+        <location filename="../core/main.cpp" line="378"/>
+        <source>Translation file - absolute or relative path and QM file name.</source>
+        <translation type="unfinished">Übersetzungsdatei - Absoluter oder relativer Pfad und Name der QM-Datei.</translation>
+    </message>
+    <message>
+        <location filename="../core/main.cpp" line="379"/>
+        <source>path/QM-filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/main.cpp" line="381"/>
+        <source>Set language. &lt;code&gt; example: &apos;en&apos; or &apos;en_US&apos;. Ignore environment setting.</source>
+        <translation type="unfinished">Sprache einstellen. Beispiel &lt;code&gt;: &apos;en&apos; oder &apos;en_US&apos;. Ignoriert Betriebssystemeinstellungen.</translation>
+    </message>
+    <message>
+        <location filename="../core/main.cpp" line="382"/>
+        <source>code</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
