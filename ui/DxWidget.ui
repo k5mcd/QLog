@@ -36,6 +36,9 @@
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
        <property name="toolTip">
         <string>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;CTRL + DEL&lt;/b&gt; to delete a highlighted DXC server.</string>
        </property>
@@ -518,6 +521,30 @@
     <string>Which columns should be displayed</string>
    </property>
   </action>
+  <action name="actionConnectOnStartup">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Connect on startup</string>
+   </property>
+   <property name="toolTip">
+    <string>Automatic connection after start</string>
+   </property>
+  </action>
+  <action name="actionDeleteServer">
+   <property name="text">
+    <string>Delete Server</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Del</string>
+   </property>
+  </action>
+  <action name="actionForgetPassword">
+   <property name="text">
+    <string>Forget Password</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../res/icons/icons.qrc"/>
@@ -731,6 +758,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionConnectOnStartup</sender>
+   <signal>changed()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionConnectOnStartup()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>serverSelect</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>DxWidget</receiver>
+   <slot>showContextMenu(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>13</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDeleteServer</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionDeleteServer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionForgetPassword</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionForgetPassword()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>send()</slot>
@@ -749,5 +840,9 @@
   <slot>actionCommandShowWCY()</slot>
   <slot>actionCommandShowWWV()</slot>
   <slot>displayedColumns()</slot>
+  <slot>actionConnectOnStartup()</slot>
+  <slot>showContextMenu(QPoint)</slot>
+  <slot>actionDeleteServer()</slot>
+  <slot>actionForgetPassword()</slot>
  </slots>
 </ui>

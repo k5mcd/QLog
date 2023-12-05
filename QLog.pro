@@ -126,6 +126,7 @@ SOURCES += \
         ui/ExportDialog.cpp \
         ui/HRDLogDialog.cpp \
         ui/ImportDialog.cpp \
+        ui/InputPasswordDialog.cpp \
         ui/KSTChatWidget.cpp \
         ui/KSTHighlightRuleDetail.cpp \
         ui/KSTHighlighterSettingDialog.cpp \
@@ -246,6 +247,7 @@ HEADERS += \
         ui/ExportDialog.h \
         ui/HRDLogDialog.h \
         ui/ImportDialog.h \
+        ui/InputPasswordDialog.h \
         ui/KSTChatWidget.h \
         ui/KSTHighlightRuleDetail.h \
         ui/KSTHighlighterSettingDialog.h \
@@ -295,6 +297,7 @@ FORMS += \
         ui/ExportDialog.ui \
         ui/HRDLogDialog.ui \
         ui/ImportDialog.ui \
+        ui/InputPasswordDialog.ui \
         ui/KSTChatWidget.ui \
         ui/KSTHighlightRuleDetail.ui \
         ui/KSTHighlighterSettingDialog.ui \

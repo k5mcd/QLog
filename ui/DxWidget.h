@@ -102,9 +102,35 @@ private:
 class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject
 {
      Q_OBJECT
+signals:
+    void deleteServerItem();
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
 };
+
+class DxServerString
+{
+public:
+    explicit DxServerString(const QString &string,
+                            const QString &defaultUsername = QString());
+
+
+    static bool isValidServerString(const QString &);
+    bool isValid() const {return valid;};
+    QString getUsername() const {return username;};
+    QString getHostname() const {return hostname;};
+    int getPort() const {return port;};
+    QString getPasswordStorageKey() const {return getHostname() + ":" + QString::number(getPort());}
+
+private:
+    static const QRegularExpression serverStringRegEx();
+
+    QString username, hostname;
+    int port;
+    bool valid;
+};
+
 
 class DxWidget : public QWidget {
     Q_OBJECT
@@ -126,13 +152,16 @@ public slots:
     void serverSelectChanged(int);
     void setLastQSO(QSqlRecord);
 
-
 private slots:
     void actionCommandSpotQSO();
     void actionCommandShowHFStats();
     void actionCommandShowVHFStats();
     void actionCommandShowWCY();
     void actionCommandShowWWV();
+    void actionConnectOnStartup();
+    void showContextMenu(const QPoint &point);
+    void actionDeleteServer();
+    void actionForgetPassword();
 
     void displayedColumns();
 
@@ -145,6 +174,16 @@ signals:
     void newFilteredSpot(DxSpot);
 
 private:
+    enum DXCConnectionState
+    {
+        DISCONNECTED = 0,
+        CONNECTING = 1,
+        CONNECTED = 2,
+        LOGIN_SENT = 3,
+        PASSWORD_SENT = 4,
+        OPERATION = 5
+    };
+
     DxTableModel* dxTableModel;
     WCYTableModel* wcyTableModel;
     WWVTableModel* wwvTableModel;
@@ -161,6 +200,8 @@ private:
     QSqlRecord lastQSO;
     quint8 reconnectAttempts;
     QTimer reconnectTimer;
+    DXCConnectionState connectionState;
+    DxServerString *connectedServerString;
 
     void connectCluster();
     void disconnectCluster(bool tryReconnect = false);
@@ -172,12 +213,17 @@ private:
     uint dxccStatusFilterValue();
     bool spotDedupValue();
     QStringList dxMemberList();
+    bool getAutoconnectServer();
+    void saveAutoconnectServer(bool);
     void sendCommand(const QString&,
                      bool switchToConsole = false);
     void saveWidgetSetting();
     void restoreWidgetSetting();
 
     QStringList getDXCServerList(void);
+    void serverComboSetup();
+    void clearAllPasswordIcons();
+    void activateCurrPasswordIcon();
 };
 
 #endif // DXWIDGET_H

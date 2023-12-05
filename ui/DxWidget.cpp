@@ -1,7 +1,6 @@
 #include <QDebug>
 #include <QColor>
 #include <QSettings>
-#include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include <QFontMetrics>
 #ifdef Q_OS_WIN
@@ -26,6 +25,8 @@
 #include "data/WWVSpot.h"
 #include "data/ToAllSpot.h"
 #include "ui/ColumnSettingDialog.h"
+#include "core/CredentialStore.h"
+#include "ui/InputPasswordDialog.h"
 
 #define CONSOLE_VIEW 4
 #define NUM_OF_RECONNECT_ATTEMPTS 3
@@ -353,18 +354,14 @@ void ToAllTableModel::clear()
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
-    FCT_IDENTIFICATION;
-
     if ( event->type() == QEvent::KeyPress )
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if (keyEvent->key() == Qt::Key::Key_Delete && keyEvent->modifiers() == Qt::ControlModifier)
         {
-            auto combobox = dynamic_cast<QComboBox *>(obj);
-            if ( combobox )
+            if ( dynamic_cast<QComboBox *>(obj) )
             {
-                combobox->removeItem(combobox->currentIndex());
-                combobox->setMinimumWidth(0);
+                emit deleteServerItem();
                 return true;
             }
         }
@@ -373,18 +370,17 @@ bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *ob
     // standard event processing
     return QObject::eventFilter(obj, event);
 }
-
+/****************************************************/
 DxWidget::DxWidget(QWidget *parent) :
     QWidget(parent),
+    socket(nullptr),
     ui(new Ui::DxWidget),
     deduplicateSpots(false),
-    reconnectAttempts(0)
+    reconnectAttempts(0),
+    connectionState(DISCONNECTED),
+    connectedServerString(nullptr)
 {
     FCT_IDENTIFICATION;
-
-    QSettings settings;
-
-    socket = nullptr;
 
     ui->setupUi(this);
 
@@ -398,6 +394,7 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->addAction(ui->actionDisplayedColumns);
+    ui->dxTable->addAction(ui->actionConnectOnStartup);
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
@@ -434,19 +431,7 @@ DxWidget::DxWidget(QWidget *parent) :
     dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
 #endif
 
-
-    QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
-    ui->serverSelect->addItems(DXCservers);
-    ui->serverSelect->installEventFilter(new DeleteHighlightedDXServerWhenDelPressedEventFilter);
-    QRegularExpression rx("[^\\:]+:[0-9]{1,5}");
-    ui->serverSelect->setValidator(new QRegularExpressionValidator(rx,this));
-    QString lastUsedServer = settings.value("dxc/last_server").toString();
-    int index = ui->serverSelect->findText(lastUsedServer);
-    // if last server still exists then set it otherwise use the first one
-    if ( index >= 0 )
-    {
-        ui->serverSelect->setCurrentIndex(index);
-    }
+    serverComboSetup();
 
     QMenu *commandsMenu = new QMenu(this);
     commandsMenu->addAction(ui->actionSpotQSO);
@@ -462,6 +447,8 @@ DxWidget::DxWidget(QWidget *parent) :
     connect(&reconnectTimer, &QTimer::timeout, this, &DxWidget::connectCluster);
 
     restoreWidgetSetting();
+
+    ui->actionConnectOnStartup->setChecked(getAutoconnectServer());
 }
 
 void DxWidget::toggleConnect()
@@ -475,14 +462,10 @@ void DxWidget::toggleConnect()
     }
     else
     {
-        int pos = ui->serverSelect->currentIndex();
-        QString curr_server = ui->serverSelect->currentText();
-        QValidator::State state = ui->serverSelect->validator()->validate(curr_server,pos);
-
-        if ( state != QValidator::Acceptable )
+        if ( !DxServerString::isValidServerString(ui->serverSelect->currentText()) )
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("DXC Server Name Error"),
-                                          QMessageBox::tr("DXC Server address must be in format<p><b>hostname:port</b> (ex. hamqth.com:7300)</p>"));
+                                          QMessageBox::tr("DXC Server address must be in format<p><b>[username@]hostname:port</b> (ex. hamqth.com:7300)</p>"));
             return;
         }
         connectCluster();
@@ -493,19 +476,35 @@ void DxWidget::connectCluster()
 {
     FCT_IDENTIFICATION;
 
-    QStringList server = ui->serverSelect->currentText().split(":");
-    QString host = server[0];
-    int port = server[1].toInt();
+    connectedServerString = new DxServerString(ui->serverSelect->currentText(),
+                                               StationProfilesManager::instance()->getCurProfile1().callsign.toLower());
+
+    if ( !connectedServerString )
+    {
+        qWarning() << "Cannot allocate currServerString";
+        return;
+    }
+
+    if ( !connectedServerString->isValid() )
+    {
+        qWarning() << "DX Server address is not valid";
+        return;
+    }
+
+    qCDebug(runtime) << "username:" << connectedServerString->getUsername()
+                     << "host:" << connectedServerString->getHostname()
+                     << "port:" << connectedServerString->getPort();
 
     socket = new QTcpSocket(this);
 
-    connect(socket, &QTcpSocket::readyRead, this, &DxWidget::receive);
-    connect(socket, &QTcpSocket::connected, this, &DxWidget::connected);
+    connect(socket, &QTcpSocket::readyRead, this, &DxWidget::receive, Qt::QueuedConnection); // QueuedConnection is needed because error is send together with disconnect
+                                                                                             // which causes creash because error destroid object during processing received signal
+    connect(socket, &QTcpSocket::connected, this, &DxWidget::connected, Qt::QueuedConnection);
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     connect(socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
-            this, &DxWidget::socketError);
+            this, &DxWidget::socketError, Qt::QueuedConnection);
 #else
-    connect(socket, &QTcpSocket::errorOccurred, this, &DxWidget::socketError);
+    connect(socket, &QTcpSocket::errorOccurred, this, &DxWidget::socketError, Qt::QueuedConnection);
 #endif
     ui->connectButton->setEnabled(false);
     ui->connectButton->setText(tr("Connecting..."));
@@ -521,7 +520,9 @@ void DxWidget::connectCluster()
         ui->dxTable->repaint();
     }
 
-    socket->connectToHost(host, port);
+    socket->connectToHost(connectedServerString->getHostname(),
+                          connectedServerString->getPort());
+    connectionState = CONNECTING;
 }
 
 void DxWidget::disconnectCluster(bool tryReconnect)
@@ -532,7 +533,6 @@ void DxWidget::disconnectCluster(bool tryReconnect)
     ui->commandEdit->setEnabled(false);
     ui->commandButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
-
 
     if ( socket )
     {
@@ -557,6 +557,14 @@ void DxWidget::disconnectCluster(bool tryReconnect)
         ui->connectButton->setText(tr("Connect"));
         ui->serverSelect->setStyleSheet("QComboBox {color: red}");
     }
+    connectionState = DISCONNECTED;
+    if ( connectedServerString )
+    {
+        delete connectedServerString;
+        connectedServerString = nullptr;
+    }
+
+    clearAllPasswordIcons();
 }
 
 void DxWidget::saveDXCServers()
@@ -566,6 +574,17 @@ void DxWidget::saveDXCServers()
     QSettings settings;
 
     QStringList serversItems = getDXCServerList();
+    const QString &curr_server = ui->serverSelect->currentText();
+
+    if ( DxServerString::isValidServerString(ui->serverSelect->currentText())
+         && !serversItems.contains(curr_server)
+         && !curr_server.isEmpty() )
+    {
+        ui->serverSelect->insertItem(0, ui->serverSelect->currentText());
+        serversItems.prepend(ui->serverSelect->currentText()); // insert policy is InsertAtTop
+        ui->serverSelect->setCurrentIndex(0);
+    }
+
     settings.setValue("dxc/servers", serversItems);
     settings.setValue("dxc/last_server", ui->serverSelect->currentText());
 }
@@ -647,6 +666,22 @@ QStringList DxWidget::dxMemberList()
 
     QSettings settings;
     return settings.value("dxc/filter_dx_member_list").toStringList();
+}
+
+bool DxWidget::getAutoconnectServer()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("dxc/autoconnect", false).toBool();
+}
+
+void DxWidget::saveAutoconnectServer(bool state)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    settings.setValue("dxc/autoconnect", state);
 }
 
 void DxWidget::sendCommand(const QString & command,
@@ -764,8 +799,15 @@ void DxWidget::receive()
     QString data(socket->readAll());
     QStringList lines = data.split(splitLineRE);
 
-    foreach (QString line, lines)
+    for (const QString &line : qAsConst(lines) )
     {
+        if ( !socket || !connectedServerString )
+        {
+            qCDebug(runtime) << "socket or connection string is null";
+            return;
+        }
+
+        qCDebug(runtime) << connectionState << line;
 
         // Skip empty lines
         if ( line.length() == 0 )
@@ -773,15 +815,82 @@ void DxWidget::receive()
             continue;
         }
 
-        if (line.startsWith("login") || line.contains(loginRE) )
+        if ( line.startsWith("login", Qt::CaseInsensitive)
+             || line.contains(loginRE) )
         {
-            QByteArray call = StationProfilesManager::instance()->getCurProfile1().callsign.toLocal8Bit();
-            call.append("\r\n");
-            socket->write(call);
+            // username requested
+            socket->write(connectedServerString->getUsername().append("\r\n").toLocal8Bit());
+            connectionState = LOGIN_SENT;
+            qCDebug(runtime) << "Login sent";
+            continue;
+        }
+
+        if ( connectionState == LOGIN_SENT
+             && line.contains("is an invalid callsign") )
+        {
+            // invalid login
+            QMessageBox::warning(nullptr,
+                                 tr("DXC Server Error"),
+                                 tr("An invalid callsign"));
+            continue;
+        }
+
+        if ( connectionState == LOGIN_SENT
+             && line.startsWith("password", Qt::CaseInsensitive) )
+        {
+            // password requested
+            QString password = CredentialStore::instance()->getPassword(connectedServerString->getPasswordStorageKey(),
+                                                                        connectedServerString->getUsername());
+
+            if ( password.isEmpty() )
+            {
+                InputPasswordDialog passwordDialog(tr("Enter DX Cluster Password"),
+                                                   tr("<b>Security Notice:</b> The password can be sent via an unsecured channel") +
+                                                   "<br/><br/>" +
+                                                   tr("<b>Host:</b>") + " " + socket->peerName() + ":" + QString::number(socket->peerPort()) +
+                                                   "<br/>" +
+                                                   tr("<b>Username</b>:") + " " + connectedServerString->getUsername(), this);
+                if ( passwordDialog.exec() == QDialog::Accepted )
+                {
+                    password = passwordDialog.getPassword();
+                    if ( passwordDialog.getRememberPassword() && !password.isEmpty() )
+                    {
+                        CredentialStore::instance()->savePassword(connectedServerString->getPasswordStorageKey(),
+                                                                  connectedServerString->getUsername(),
+                                                                  password);
+                    }
+                }
+                else
+                {
+                    disconnectCluster(false);
+                    return;
+                }
+            }
+            activateCurrPasswordIcon();
+            socket->write(password.append("\r\n").toLocal8Bit());
+            connectionState = PASSWORD_SENT;
+            qCDebug(runtime) << "Password sent";
+            continue;
+        }
+
+        if ( connectionState == PASSWORD_SENT
+             && line.startsWith("sorry", Qt::CaseInsensitive ) )
+        {
+            // invalid password
+            CredentialStore::instance()->deletePassword(connectedServerString->getPasswordStorageKey(),
+                                                        connectedServerString->getUsername());
+            QMessageBox::warning(nullptr,
+                                 QMessageBox::tr("DX Cluster password"),
+                                 QMessageBox::tr("Incorrect Password"));
+            continue;
         }
 
         if ( line.contains("dxspider", Qt::CaseInsensitive) )
         {
+            if ( connectionState == LOGIN_SENT
+                 || connectionState == PASSWORD_SENT )
+                connectionState = OPERATION;
+
             ui->commandButton->setEnabled(true);
         }
 
@@ -790,6 +899,11 @@ void DxWidget::receive()
         /********************/
         if ( line.startsWith("DX") )
         {
+
+            if ( connectionState == LOGIN_SENT
+                 || connectionState == PASSWORD_SENT )
+                connectionState = OPERATION;
+
             dxSpotMatch = dxSpotRE.match(line);
 
             if ( dxSpotMatch.hasMatch() )
@@ -921,7 +1035,8 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error)
         break;
     case QAbstractSocket::RemoteHostClosedError:
         error_msg.append(QObject::tr("Host closed the connection"));
-        reconectRequested = true;
+        reconectRequested = (connectionState != LOGIN_SENT
+                             && connectionState != PASSWORD_SENT);
         break;
     case QAbstractSocket::HostNotFoundError:
         error_msg.append(QObject::tr("Host not found"));
@@ -941,7 +1056,9 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error)
 
     qInfo() << "Detailed Error: " << socker_error;
 
-    if ( ! reconectRequested || reconnectAttempts == NUM_OF_RECONNECT_ATTEMPTS)
+    if ( connectionState != LOGIN_SENT
+         && connectionState != PASSWORD_SENT
+         && (! reconectRequested || reconnectAttempts == NUM_OF_RECONNECT_ATTEMPTS))
     {
         QMessageBox::warning(nullptr,
                              QMessageBox::tr("DXC Server Connection Error"),
@@ -1015,7 +1132,7 @@ void DxWidget::connected()
     ui->connectButton->setText(tr("Disconnect"));
     ui->commandEdit->setPlaceholderText("");
     ui->serverSelect->setStyleSheet("QComboBox {color: green}");
-
+    connectionState = CONNECTED;
     saveDXCServers();
 }
 
@@ -1163,6 +1280,70 @@ void DxWidget::actionCommandShowWWV()
     sendCommand("sh/wwv", true);
 }
 
+void DxWidget::actionConnectOnStartup()
+{
+    FCT_IDENTIFICATION;
+
+    saveAutoconnectServer(ui->actionConnectOnStartup->isChecked());
+
+    if ( ui->actionConnectOnStartup->isChecked() && socket == nullptr)
+    {
+        // dxc is not connected, connnet it
+        toggleConnect();
+    }
+}
+
+void DxWidget::showContextMenu(const QPoint&)
+{
+    FCT_IDENTIFICATION;
+
+    QMenu *editContextMenu = ui->serverSelect->lineEdit()->createStandardContextMenu();
+
+    if ( !editContextMenu )
+        return;
+
+    editContextMenu->addSeparator();
+    editContextMenu->addAction(ui->actionDeleteServer);
+    editContextMenu->addAction(ui->actionForgetPassword);
+    //editContextMenu->addAction(ui->actionConnectOnStartup); //this can be confusing because it could be misinterpreted
+                                                              // to mean that the current server will always be used
+                                                              // as a default server for Connect-on-startup
+
+    ui->actionForgetPassword->setEnabled(!ui->serverSelect->itemIcon(ui->serverSelect->currentIndex()).isNull());
+    ui->actionConnectOnStartup->setChecked(getAutoconnectServer());
+    editContextMenu->exec(QCursor::pos());
+}
+
+void DxWidget::actionDeleteServer()
+{
+    FCT_IDENTIFICATION;
+
+    actionForgetPassword();
+    ui->serverSelect->removeItem(ui->serverSelect->currentIndex());
+    ui->serverSelect->setMinimumWidth(0);
+    saveDXCServers();
+}
+
+void DxWidget::actionForgetPassword()
+{
+    FCT_IDENTIFICATION;
+
+    DxServerString serverName(ui->serverSelect->currentText(),
+                              StationProfilesManager::instance()->getCurProfile1().callsign.toLower());
+
+    if ( serverName.isValid() )
+    {
+        CredentialStore::instance()->deletePassword(serverName.getPasswordStorageKey(),
+                                                    serverName.getUsername());
+    }
+    else
+    {
+        qCDebug(runtime) << "Cannot remove record from Secure Store, server name is not valid"
+                         << ui->serverSelect->currentText();
+    }
+    ui->serverSelect->setItemIcon(ui->serverSelect->currentIndex(), QIcon());
+}
+
 void DxWidget::displayedColumns()
 {
     FCT_IDENTIFICATION;
@@ -1199,10 +1380,103 @@ QStringList DxWidget::getDXCServerList()
     return ret;
 }
 
-DxWidget::~DxWidget() {
+void DxWidget::serverComboSetup()
+{
     FCT_IDENTIFICATION;
 
-    saveDXCServers();
+    QSettings settings;
+
+    QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
+    DeleteHighlightedDXServerWhenDelPressedEventFilter *deleteHandled = new DeleteHighlightedDXServerWhenDelPressedEventFilter;
+
+    ui->serverSelect->addItems(DXCservers);
+    ui->serverSelect->installEventFilter(deleteHandled);
+    connect(deleteHandled, &DeleteHighlightedDXServerWhenDelPressedEventFilter::deleteServerItem,
+            this, &DxWidget::actionDeleteServer);
+
+    QString lastUsedServer = settings.value("dxc/last_server").toString();
+    int index = ui->serverSelect->findText(lastUsedServer);
+
+    // if last server still exists then set it otherwise use the first one
+    if ( index >= 0 )
+    {
+        ui->serverSelect->setCurrentIndex(index);
+    }
+}
+
+void DxWidget::clearAllPasswordIcons()
+{
+    FCT_IDENTIFICATION;
+
+    for (int i = 0; i < ui->serverSelect->count(); i++)
+    {
+        ui->serverSelect->setItemIcon(i, QIcon());
+    }
+}
+
+void DxWidget::activateCurrPasswordIcon()
+{
+    FCT_IDENTIFICATION;
+
+    ui->serverSelect->setItemIcon(ui->serverSelect->currentIndex(), QIcon(":/icons/password.png"));
+}
+
+DxWidget::~DxWidget()
+{
+    FCT_IDENTIFICATION;
+
     saveWidgetSetting();
     delete ui;
+}
+
+DxServerString::DxServerString(const QString &connectString,
+                               const QString &defaultUsername) :
+    port(0),
+    valid(false)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !isValidServerString(connectString) )
+        return;
+
+    // serverSelect format is:
+    //   [username@]hostname:port
+    // username is not mandatory
+    QStringList serverElements = connectString.split(":");
+
+    username = defaultUsername;
+
+    if ( serverElements[0].contains("@") )
+    {
+        QStringList hostNameElements = serverElements[0].split("@");
+        username = hostNameElements[0];
+        hostname = hostNameElements[1];
+    }
+    else
+    {
+        hostname = serverElements[0];
+    }
+
+    port = serverElements[1].toInt();  // servername is verified, therefore it is not needed to check
+    // whether the variable "server" contains hostname and port
+    valid = true;
+}
+
+const QRegularExpression DxServerString::serverStringRegEx()
+{
+    FCT_IDENTIFICATION;
+    return QRegularExpression("^([a-z0-9\\-._~%!$&'()*+,;=]+@)?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):([0-9]{1,5})$|^([a-z0-9\\-._~%!$&'()*+,;=]+@)?(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9]):([0-9]{1,5})$",
+                              QRegularExpression::CaseInsensitiveOption);
+
+}
+
+bool DxServerString::isValidServerString(const QString &connectString)
+{
+    FCT_IDENTIFICATION;
+
+    QRegularExpressionMatch stringMatch = serverStringRegEx().match(connectString);
+
+    bool ret = stringMatch.hasMatch();
+    qCDebug(runtime) << ret;
+    return ret;
 }

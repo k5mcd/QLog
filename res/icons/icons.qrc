@@ -26,5 +26,6 @@
         <file>baseline-play_back-24px.svg</file>
         <file>baseline-play_down-24px.svg</file>
         <file>baseline-play_up-24px.svg</file>
+        <file>password.png</file>
     </qresource>
 </RCC>
