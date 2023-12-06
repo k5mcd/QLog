@@ -384,7 +384,7 @@ DxWidget::DxWidget(QWidget *parent) :
 
     ui->setupUi(this);
 
-    ui->serverSelect->setStyleSheet("QComboBox {color: red}");
+    ui->serverSelect->setStyleSheet(QStringLiteral("QComboBox {color: red}"));
 
     dxTableModel = new DxTableModel(this);
     wcyTableModel = new WCYTableModel(this);
@@ -564,7 +564,7 @@ void DxWidget::disconnectCluster(bool tryReconnect)
         reconnectAttempts = 0;
         ui->commandEdit->setPlaceholderText("");
         ui->connectButton->setText(tr("Connect"));
-        ui->serverSelect->setStyleSheet("QComboBox {color: red}");
+        ui->serverSelect->setStyleSheet(QStringLiteral("QComboBox {color: red}"));
     }
     connectionState = DISCONNECTED;
     if ( connectedServerString )
@@ -603,7 +603,7 @@ QString DxWidget::modeFilterRegExp()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString regexp = "NOTHING";
+    QString regexp("NOTHING");
 
     if (settings.value("dxc/filter_mode_phone",true).toBool())   regexp = regexp + "|" + Data::MODE_PHONE;
     if (settings.value("dxc/filter_mode_cw",true).toBool())      regexp = regexp + "|" + Data::MODE_CW;
@@ -634,7 +634,7 @@ QString DxWidget::bandFilterRegExp()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString regexp = "NOTHING";
+    QString regexp("NOTHING");
 
 
     SqlListModel *bands= new SqlListModel("SELECT name FROM bands WHERE enabled = 1 ORDER BY start_freq", "Band");
@@ -801,35 +801,34 @@ void DxWidget::receive()
 {
     FCT_IDENTIFICATION;
 
-    static QRegularExpression dxSpotRE("^DX de ([a-zA-Z0-9\\/]+).*:\\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z)",
+    static QRegularExpression dxSpotRE(QStringLiteral("^DX de ([a-zA-Z0-9\\/]+).*:\\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z)"),
                                        QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch dxSpotMatch;
 
-    static QRegularExpression wcySpotRE("^(WCY de) +([A-Z0-9\\-#]*) +<(\\d{2})> *: +K=(\\d{1,3}) expK=(\\d{1,3}) A=(\\d{1,3}) R=(\\d{1,3}) SFI=(\\d{1,3}) SA=([a-zA-Z]{1,3}) GMF=([a-zA-Z]{1,3}) Au=([a-zA-Z]{2}) *$",
+    static QRegularExpression wcySpotRE(QStringLiteral("^(WCY de) +([A-Z0-9\\-#]*) +<(\\d{2})> *: +K=(\\d{1,3}) expK=(\\d{1,3}) A=(\\d{1,3}) R=(\\d{1,3}) SFI=(\\d{1,3}) SA=([a-zA-Z]{1,3}) GMF=([a-zA-Z]{1,3}) Au=([a-zA-Z]{2}) *$"),
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch wcySpotMatch;
 
-    static QRegularExpression wwvSpotRE("^(WWV de) +([A-Z0-9\\-#]*) +<(\\d{2})Z?> *: *SFI=(\\d{1,3}), A=(\\d{1,3}), K=(\\d{1,3}), (.*\\b) *-> *(.*\\b) *$",
+    static QRegularExpression wwvSpotRE(QStringLiteral("^(WWV de) +([A-Z0-9\\-#]*) +<(\\d{2})Z?> *: *SFI=(\\d{1,3}), A=(\\d{1,3}), K=(\\d{1,3}), (.*\\b) *-> *(.*\\b) *$"),
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch wwvSpotMatch;
 
-    static QRegularExpression toAllSpotRE("^(To ALL de) +([A-Z0-9\\-#]*)\\s?(<(\\d{4})Z>)?[ :]+(.*)?$",
+    static QRegularExpression toAllSpotRE(QStringLiteral("^(To ALL de) +([A-Z0-9\\-#]*)\\s?(<(\\d{4})Z>)?[ :]+(.*)?$"),
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch toAllSpotMatch;
 
-    static QRegularExpression SHDXFormatRE("^ \\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z) (.*)<([a-zA-Z0-9\\/]+)>$",
+    static QRegularExpression SHDXFormatRE(QStringLiteral("^ \\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z) (.*)<([a-zA-Z0-9\\/]+)>$"),
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch SHDXFormatMatch;
 
-
-    static QRegularExpression splitLineRE("(\a|\n|\r)+");
-    static QRegularExpression loginRE("enter your call(sign)?:");
+    static QRegularExpression splitLineRE(QStringLiteral("(\a|\n|\r)+"));
+    static QRegularExpression loginRE(QStringLiteral("enter your call(sign)?:"));
 
     reconnectAttempts = 0;
     QString data(QString::fromUtf8(socket->readAll()));
     QStringList lines = data.split(splitLineRE);
 
-    for (const QString &line : qAsConst(lines) )
+    for ( const QString &line : qAsConst(lines) )
     {
         if ( !socket || !connectedServerString )
         {
@@ -845,7 +844,7 @@ void DxWidget::receive()
             continue;
         }
 
-        if ( line.startsWith("login", Qt::CaseInsensitive)
+        if ( line.startsWith(QStringLiteral("login"), Qt::CaseInsensitive)
              || line.contains(loginRE) )
         {
             // username requested
@@ -856,7 +855,7 @@ void DxWidget::receive()
         }
 
         if ( connectionState == LOGIN_SENT
-             && line.contains("is an invalid callsign") )
+             && line.contains(QStringLiteral("is an invalid callsign")) )
         {
             // invalid login
             QMessageBox::warning(nullptr,
@@ -866,7 +865,7 @@ void DxWidget::receive()
         }
 
         if ( connectionState == LOGIN_SENT
-             && line.startsWith("password", Qt::CaseInsensitive) )
+             && line.startsWith(QStringLiteral("password"), Qt::CaseInsensitive) )
         {
             // password requested
             QString password = CredentialStore::instance()->getPassword(connectedServerString->getPasswordStorageKey(),
@@ -904,7 +903,7 @@ void DxWidget::receive()
         }
 
         if ( connectionState == PASSWORD_SENT
-             && line.startsWith("sorry", Qt::CaseInsensitive ) )
+             && line.startsWith(QStringLiteral("sorry"), Qt::CaseInsensitive ) )
         {
             // invalid password
             CredentialStore::instance()->deletePassword(connectedServerString->getPasswordStorageKey(),
@@ -915,7 +914,7 @@ void DxWidget::receive()
             continue;
         }
 
-        if ( line.contains("dxspider", Qt::CaseInsensitive) )
+        if ( line.contains(QStringLiteral("dxspider"), Qt::CaseInsensitive) )
         {
             if ( connectionState == LOGIN_SENT
                  || connectionState == PASSWORD_SENT )
@@ -927,9 +926,8 @@ void DxWidget::receive()
         /********************/
         /* Received DX SPOT */
         /********************/
-        if ( line.startsWith("DX") )
+        if ( line.startsWith(QStringLiteral("DX")) )
         {
-
             if ( connectionState == LOGIN_SENT
                  || connectionState == PASSWORD_SENT )
                 connectionState = OPERATION;
@@ -948,7 +946,7 @@ void DxWidget::receive()
         /************************/
         /* Received WCY Info */
         /************************/
-        else if ( line.startsWith("WCY de") )
+        else if ( line.startsWith(QStringLiteral("WCY de")) )
         {
             wcySpotMatch = wcySpotRE.match(line);
 
@@ -973,7 +971,7 @@ void DxWidget::receive()
         /*********************/
         /* Received WWV Info */
         /*********************/
-        else if ( line.startsWith("WWV de") )
+        else if ( line.startsWith(QStringLiteral("WWV de")) )
         {
             wwvSpotMatch = wwvSpotRE.match(line);
 
@@ -995,7 +993,7 @@ void DxWidget::receive()
         /*************************/
         /* Received Generic Info */
         /*************************/
-        else if ( line.startsWith("To ALL de") )
+        else if ( line.startsWith(QStringLiteral("To ALL de")) )
         {
             toAllSpotMatch = toAllSpotRE.match(line);
 
@@ -1237,11 +1235,11 @@ void DxWidget::actionCommandSpotQSO()
 
     qCDebug(runtime) << "Last QSO" << lastQSO;
 
-    if ( lastQSO.contains("start_time") )
+    if ( lastQSO.contains(QStringLiteral("start_time")) )
     {
         //lastQSO is valid record
-        if ( lastQSO.contains("freq")
-             && lastQSO.contains("callsign") )
+        if ( lastQSO.contains(QStringLiteral("freq"))
+             && lastQSO.contains(QStringLiteral("callsign")) )
         {
             bool ok;
             QString remarks = QInputDialog::getText(this,
@@ -1275,28 +1273,28 @@ void DxWidget::actionCommandShowHFStats()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/hfstats", true);
+    sendCommand(QStringLiteral("sh/hfstats"), true);
 }
 
 void DxWidget::actionCommandShowVHFStats()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/vhfstats", true);
+    sendCommand(QStringLiteral("sh/vhfstats"), true);
 }
 
 void DxWidget::actionCommandShowWCY()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/wcy", true);
+    sendCommand(QStringLiteral("sh/wcy"), true);
 }
 
 void DxWidget::actionCommandShowWWV()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/wwv", true);
+    sendCommand(QStringLiteral("sh/wwv"), true);
 }
 
 void DxWidget::actionConnectOnStartup()
@@ -1515,9 +1513,9 @@ DxServerString::DxServerString(const QString &connectString,
 
     username = defaultUsername;
 
-    if ( serverElements[0].contains("@") )
+    if ( serverElements[0].contains(QStringLiteral("@")) )
     {
-        QStringList hostNameElements = serverElements[0].split("@");
+        QStringList hostNameElements = serverElements[0].split(QStringLiteral("@"));
         username = hostNameElements[0];
         hostname = hostNameElements[1];
     }
@@ -1534,7 +1532,7 @@ DxServerString::DxServerString(const QString &connectString,
 const QRegularExpression DxServerString::serverStringRegEx()
 {
     FCT_IDENTIFICATION;
-    return QRegularExpression("^([a-z0-9\\-._~%!$&'()*+,;=]+@)?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):([0-9]{1,5})$|^([a-z0-9\\-._~%!$&'()*+,;=]+@)?(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9]):([0-9]{1,5})$",
+    return QRegularExpression(QStringLiteral("^([a-z0-9\\-._~%!$&'()*+,;=]+@)?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):([0-9]{1,5})$|^([a-z0-9\\-._~%!$&'()*+,;=]+@)?(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9]):([0-9]{1,5})$"),
                               QRegularExpression::CaseInsensitiveOption);
 
 }
