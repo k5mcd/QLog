@@ -817,6 +817,11 @@ void DxWidget::receive()
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch toAllSpotMatch;
 
+    static QRegularExpression SHDXFormatRE("^ \\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z) (.*)<([a-zA-Z0-9\\/]+)>$",
+                                        QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch SHDXFormatMatch;
+
+
     static QRegularExpression splitLineRE("(\a|\n|\r)+");
     static QRegularExpression loginRE("enter your call(sign)?:");
 
@@ -933,42 +938,11 @@ void DxWidget::receive()
 
             if ( dxSpotMatch.hasMatch() )
             {
-                QString spotter = dxSpotMatch.captured(1);
-                QString freq =    dxSpotMatch.captured(2);
-                QString call =    dxSpotMatch.captured(3);
-                QString comment = dxSpotMatch.captured(4);
-
-                DxccEntity dxcc = Data::instance()->lookupDxcc(call);
-                DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
-
-                DxSpot spot;
-
-                spot.time =  QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
-                spot.callsign = call;
-                spot.freq = freq.toDouble() / 1000;
-                spot.band = Data::band(spot.freq).name;
-                spot.mode = Data::freqToDXCCMode(spot.freq);
-                spot.spotter = spotter;
-                spot.comment = comment;
-                spot.dxcc = dxcc;
-                spot.dxcc_spotter = dxcc_spotter;
-                spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToDXCCMode(spot.freq));
-                spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
-
-                emit newSpot(spot);
-
-                if ( spot.mode.contains(moderegexp)
-                     && spot.dxcc.cont.contains(contregexp)
-                     && spot.dxcc_spotter.cont.contains(spottercontregexp)
-                     && spot.band.contains(bandregexp)
-                     && ( spot.status & dxccStatusFilter)
-                     && ( dxMemberFilter.size() == 0
-                          || (dxMemberFilter.size() && spot.memberList2Set().intersects(dxMemberFilter)))
-                    )
-                {
-                    if ( dxTableModel->addEntry(spot, deduplicateSpots) )
-                        emit newFilteredSpot(spot);
-                }
+                //DX de N9EN/4:    18077.0  OS5Z         op. Marc; tnx QSO!             1359Z
+                processDxSpot(dxSpotMatch.captured(1),   //spotter
+                              dxSpotMatch.captured(2),   //freq
+                              dxSpotMatch.captured(3),   //call
+                              dxSpotMatch.captured(4));  //comment
             }
         }
         /************************/
@@ -1037,6 +1011,26 @@ void DxWidget::receive()
 
                 emit newToAllSpot(spot);
                 toAllTableModel->addEntry(spot);
+            }
+        }
+        /****************/
+        /* SH/DX format  */
+        /****************/
+        else if ( line.contains(SHDXFormatRE) )
+        {
+            SHDXFormatMatch = SHDXFormatRE.match(line);
+
+            if ( SHDXFormatMatch.hasMatch() )
+            {
+                //14045.6 K5UV         6-Dec-2023 1359Z CWops CWT Contest             <VE4DL>
+                const QDateTime &dateTime = QDateTime::fromString(SHDXFormatMatch.captured(3) +
+                                                                  " " +
+                                                                  SHDXFormatMatch.captured(4), "d-MMM-yyyy hhmmZ");
+                processDxSpot(SHDXFormatMatch.captured(6),   //spotter
+                              SHDXFormatMatch.captured(1),   //freq
+                              SHDXFormatMatch.captured(2),   //call
+                              SHDXFormatMatch.captured(5),
+                              dateTime);  //comment
             }
         }
         ui->log->appendPlainText(line);
@@ -1451,6 +1445,49 @@ void DxWidget::activateCurrPasswordIcon()
     FCT_IDENTIFICATION;
 
     ui->serverSelect->setItemIcon(ui->serverSelect->currentIndex(), QIcon(":/icons/password.png"));
+}
+
+void DxWidget::processDxSpot(const QString &spotter,
+                             const QString &freq,
+                             const QString &call,
+                             const QString &comment,
+                             const QDateTime &dateTime)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << spotter << freq << call << comment << dateTime << dateTime.isNull();
+
+    DxSpot spot;
+    DxccEntity dxcc = Data::instance()->lookupDxcc(call);
+    DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
+
+    spot.time = (dateTime.isNull()) ? QDateTime::currentDateTime().toTimeSpec(Qt::UTC)
+                                    : dateTime;
+    spot.callsign = call;
+    spot.freq = freq.toDouble() / 1000;
+    spot.band = Data::band(spot.freq).name;
+    spot.mode = Data::freqToDXCCMode(spot.freq);
+    spot.spotter = spotter;
+    spot.comment = comment;
+    spot.dxcc = dxcc;
+    spot.dxcc_spotter = dxcc_spotter;
+    spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToDXCCMode(spot.freq));
+    spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
+
+    emit newSpot(spot);
+
+    if ( spot.mode.contains(moderegexp)
+         && spot.dxcc.cont.contains(contregexp)
+         && spot.dxcc_spotter.cont.contains(spottercontregexp)
+         && spot.band.contains(bandregexp)
+         && ( spot.status & dxccStatusFilter)
+         && ( dxMemberFilter.size() == 0
+              || (dxMemberFilter.size() && spot.memberList2Set().intersects(dxMemberFilter)))
+        )
+    {
+        if ( dxTableModel->addEntry(spot, deduplicateSpots) )
+            emit newFilteredSpot(spot);
+    }
 }
 
 DxWidget::~DxWidget()

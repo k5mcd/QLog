@@ -227,6 +227,13 @@ private:
     void serverComboSetup();
     void clearAllPasswordIcons();
     void activateCurrPasswordIcon();
+
+    void processDxSpot(const QString &spotter,
+                       const QString &freq,
+                       const QString &call,
+                       const QString &comment,
+                       const QDateTime &dateTime = QDateTime());
+
 };
 
 #endif // DXWIDGET_H
