@@ -545,6 +545,17 @@
     <string>Forget Password</string>
    </property>
   </action>
+  <action name="actionKeepQSOs">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Keep QSOs</string>
+   </property>
+   <property name="toolTip">
+    <string>QSOs are not cleared when connecting to a new DX Cluster.</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../res/icons/icons.qrc"/>
@@ -822,6 +833,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionKeepQSOs</sender>
+   <signal>triggered()</signal>
+   <receiver>DxWidget</receiver>
+   <slot>actionKeepQSOs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>send()</slot>
@@ -844,5 +871,6 @@
   <slot>showContextMenu(QPoint)</slot>
   <slot>actionDeleteServer()</slot>
   <slot>actionForgetPassword()</slot>
+  <slot>actionKeepQSOs()</slot>
  </slots>
 </ui>

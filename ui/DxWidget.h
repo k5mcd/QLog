@@ -162,6 +162,7 @@ private slots:
     void showContextMenu(const QPoint &point);
     void actionDeleteServer();
     void actionForgetPassword();
+    void actionKeepQSOs();
 
     void displayedColumns();
 
@@ -215,6 +216,8 @@ private:
     QStringList dxMemberList();
     bool getAutoconnectServer();
     void saveAutoconnectServer(bool);
+    bool getKeepQSOs();
+    void saveKeepQSOs(bool);
     void sendCommand(const QString&,
                      bool switchToConsole = false);
     void saveWidgetSetting();

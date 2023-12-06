@@ -391,9 +391,14 @@ DxWidget::DxWidget(QWidget *parent) :
     wwvTableModel = new WWVTableModel(this);
     toAllTableModel = new ToAllTableModel(this);
 
+    QAction *separator = new QAction(this);
+    separator->setSeparator(true);
+
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->addAction(ui->actionDisplayedColumns);
+    ui->dxTable->addAction(ui->actionKeepQSOs);
+    ui->dxTable->addAction(separator);
     ui->dxTable->addAction(ui->actionConnectOnStartup);
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
@@ -449,6 +454,7 @@ DxWidget::DxWidget(QWidget *parent) :
     restoreWidgetSetting();
 
     ui->actionConnectOnStartup->setChecked(getAutoconnectServer());
+    ui->actionKeepQSOs->setChecked(getKeepQSOs());
 }
 
 void DxWidget::toggleConnect()
@@ -512,11 +518,14 @@ void DxWidget::connectCluster()
     if ( reconnectAttempts == 0 )
     {
         ui->log->clear();
-        ui->dxTable->clearSelection();
-        dxTableModel->clear();
-        wcyTableModel->clear();
-        wwvTableModel->clear();
-        toAllTableModel->clear();
+        if ( ! getKeepQSOs() )
+        {
+            ui->dxTable->clearSelection();
+            dxTableModel->clear();
+            wcyTableModel->clear();
+            wwvTableModel->clear();
+            toAllTableModel->clear();
+        }
         ui->dxTable->repaint();
     }
 
@@ -682,6 +691,22 @@ void DxWidget::saveAutoconnectServer(bool state)
 
     QSettings settings;
     settings.setValue("dxc/autoconnect", state);
+}
+
+bool DxWidget::getKeepQSOs()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("dxc/keepqsos", false).toBool();
+}
+
+void DxWidget::saveKeepQSOs(bool state)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    settings.setValue("dxc/keepqsos", state);
 }
 
 void DxWidget::sendCommand(const QString & command,
@@ -1342,6 +1367,13 @@ void DxWidget::actionForgetPassword()
                          << ui->serverSelect->currentText();
     }
     ui->serverSelect->setItemIcon(ui->serverSelect->currentIndex(), QIcon());
+}
+
+void DxWidget::actionKeepQSOs()
+{
+    FCT_IDENTIFICATION;
+
+    saveKeepQSOs(ui->actionKeepQSOs->isChecked());
 }
 
 void DxWidget::displayedColumns()
