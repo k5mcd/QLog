@@ -397,6 +397,7 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->addAction(ui->actionDisplayedColumns);
+    ui->dxTable->addAction(ui->actionClear);
     ui->dxTable->addAction(ui->actionKeepQSOs);
     ui->dxTable->addAction(separator);
     ui->dxTable->addAction(ui->actionConnectOnStartup);
@@ -408,14 +409,17 @@ DxWidget::DxWidget(QWidget *parent) :
 
     ui->wcyTable->setModel(wcyTableModel);
     ui->wcyTable->addAction(ui->actionDisplayedColumns);
+    ui->wcyTable->addAction(ui->actionClear);
     ui->wcyTable->horizontalHeader()->setSectionsMovable(true);
 
     ui->wwvTable->setModel(wwvTableModel);
     ui->wwvTable->addAction(ui->actionDisplayedColumns);
+    ui->wwvTable->addAction(ui->actionClear);
     ui->wwvTable->horizontalHeader()->setSectionsMovable(true);
 
     ui->toAllTable->setModel(toAllTableModel);
     ui->toAllTable->addAction(ui->actionDisplayedColumns);
+    ui->toAllTable->addAction(ui->actionClear);
     ui->toAllTable->horizontalHeader()->setSectionsMovable(true);
 
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
@@ -1366,6 +1370,27 @@ void DxWidget::actionKeepQSOs()
     FCT_IDENTIFICATION;
 
     saveKeepQSOs(ui->actionKeepQSOs->isChecked());
+}
+
+void DxWidget::actionClear()
+{
+    FCT_IDENTIFICATION;
+
+    QTableView *view = nullptr;
+
+    switch ( ui->stack->currentIndex() )
+    {
+    case 0: dxTableModel->clear(); view = ui->dxTable; break;
+    case 1: wcyTableModel->clear(); view = ui->wcyTable; break;
+    case 2: wwvTableModel->clear(); view = ui->wwvTable; break;
+    case 3: toAllTableModel->clear(); view = ui->toAllTable; break;
+    default: view = nullptr;
+    }
+
+    if ( view )
+    {
+        view->repaint();
+    }
 }
 
 void DxWidget::displayedColumns()

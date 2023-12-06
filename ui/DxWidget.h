@@ -163,6 +163,7 @@ private slots:
     void actionDeleteServer();
     void actionForgetPassword();
     void actionKeepQSOs();
+    void actionClear();
 
     void displayedColumns();
 
