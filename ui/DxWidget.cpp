@@ -39,7 +39,7 @@ int DxTableModel::rowCount(const QModelIndex&) const {
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 10;
+    return 11;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const
@@ -67,6 +67,8 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
             return spot.band;
         case 9:
             return spot.memberList2StringList().join(", ");
+        case 10:
+            return spot.dxcc.country;
         default:
             return QVariant();
         }
@@ -101,6 +103,7 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 7: return tr("Spotter Continent");
     case 8: return tr("Band");
     case 9: return tr("Member");
+    case 10: return tr("Country");
 
     default: return QVariant();
     }
@@ -404,6 +407,7 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
     ui->dxTable->hideColumn(9);  //Memberships
+    ui->dxTable->hideColumn(10); //Country
     ui->dxTable->horizontalHeader()->setSectionsMovable(true);
 
     ui->wcyTable->setModel(wcyTableModel);
