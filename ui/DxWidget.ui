@@ -32,12 +32,32 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QPushButton" name="menuButton">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::ActionsContextMenu</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">::menu-indicator{ image: none; }</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../res/icons/icons.qrc">
+         <normaloff>:/icons/menu.svg</normaloff>:/icons/menu.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QComboBox" name="serverSelect">
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
        <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
+        <enum>Qt::DefaultContextMenu</enum>
        </property>
        <property name="toolTip">
         <string>Insert a &lt;b&gt;hostname:port&lt;/b&gt; of DXC Serveru. Press &lt;b&gt;CTRL + DEL&lt;/b&gt; to delete a highlighted DXC server.</string>
@@ -545,15 +565,15 @@
     <string>Forget Password</string>
    </property>
   </action>
-  <action name="actionKeepQSOs">
+  <action name="actionKeepSpots">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Keep QSOs</string>
+    <string>Keep Spots</string>
    </property>
    <property name="toolTip">
-    <string>QSOs are not cleared when connecting to a new DX Cluster.</string>
+    <string>Spots are not cleared when connecting to a new DX Cluster.</string>
    </property>
   </action>
   <action name="actionClear">
@@ -794,22 +814,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>serverSelect</sender>
-   <signal>customContextMenuRequested(QPoint)</signal>
-   <receiver>DxWidget</receiver>
-   <slot>showContextMenu(QPoint)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>43</x>
-     <y>13</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>170</x>
-     <y>255</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionDeleteServer</sender>
    <signal>triggered()</signal>
    <receiver>DxWidget</receiver>
@@ -842,10 +846,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionKeepQSOs</sender>
+   <sender>actionKeepSpots</sender>
    <signal>triggered()</signal>
    <receiver>DxWidget</receiver>
-   <slot>actionKeepQSOs()</slot>
+   <slot>actionKeepSpots()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -892,10 +896,9 @@
   <slot>actionCommandShowWWV()</slot>
   <slot>displayedColumns()</slot>
   <slot>actionConnectOnStartup()</slot>
-  <slot>showContextMenu(QPoint)</slot>
   <slot>actionDeleteServer()</slot>
   <slot>actionForgetPassword()</slot>
-  <slot>actionKeepQSOs()</slot>
+  <slot>actionKeepSpots()</slot>
   <slot>actionClear()</slot>
  </slots>
 </ui>

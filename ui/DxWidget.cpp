@@ -398,9 +398,8 @@ DxWidget::DxWidget(QWidget *parent) :
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->addAction(ui->actionDisplayedColumns);
     ui->dxTable->addAction(ui->actionClear);
-    ui->dxTable->addAction(ui->actionKeepQSOs);
     ui->dxTable->addAction(separator);
-    ui->dxTable->addAction(ui->actionConnectOnStartup);
+    ui->dxTable->addAction(ui->actionKeepSpots);
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
@@ -451,6 +450,13 @@ DxWidget::DxWidget(QWidget *parent) :
     commandsMenu->addAction(ui->actionShowWWV);
     ui->commandButton->setMenu(commandsMenu);
 
+    QMenu *mainWidgetMenu = new QMenu(this);
+    mainWidgetMenu->addAction(ui->actionDeleteServer);
+    mainWidgetMenu->addAction(ui->actionForgetPassword);
+    mainWidgetMenu->addSeparator();
+    mainWidgetMenu->addAction(ui->actionConnectOnStartup);
+    ui->menuButton->setMenu(mainWidgetMenu);
+
     reconnectTimer.setInterval(RECONNECT_TIMEOUT);
     reconnectTimer.setSingleShot(true);
     connect(&reconnectTimer, &QTimer::timeout, this, &DxWidget::connectCluster);
@@ -458,7 +464,7 @@ DxWidget::DxWidget(QWidget *parent) :
     restoreWidgetSetting();
 
     ui->actionConnectOnStartup->setChecked(getAutoconnectServer());
-    ui->actionKeepQSOs->setChecked(getKeepQSOs());
+    ui->actionKeepSpots->setChecked(getKeepQSOs());
 }
 
 void DxWidget::toggleConnect()
@@ -1314,27 +1320,6 @@ void DxWidget::actionConnectOnStartup()
     }
 }
 
-void DxWidget::showContextMenu(const QPoint&)
-{
-    FCT_IDENTIFICATION;
-
-    QMenu *editContextMenu = ui->serverSelect->lineEdit()->createStandardContextMenu();
-
-    if ( !editContextMenu )
-        return;
-
-    editContextMenu->addSeparator();
-    editContextMenu->addAction(ui->actionDeleteServer);
-    editContextMenu->addAction(ui->actionForgetPassword);
-    //editContextMenu->addAction(ui->actionConnectOnStartup); //this can be confusing because it could be misinterpreted
-                                                              // to mean that the current server will always be used
-                                                              // as a default server for Connect-on-startup
-
-    ui->actionForgetPassword->setEnabled(!ui->serverSelect->itemIcon(ui->serverSelect->currentIndex()).isNull());
-    ui->actionConnectOnStartup->setChecked(getAutoconnectServer());
-    editContextMenu->exec(QCursor::pos());
-}
-
 void DxWidget::actionDeleteServer()
 {
     FCT_IDENTIFICATION;
@@ -1365,11 +1350,11 @@ void DxWidget::actionForgetPassword()
     ui->serverSelect->setItemIcon(ui->serverSelect->currentIndex(), QIcon());
 }
 
-void DxWidget::actionKeepQSOs()
+void DxWidget::actionKeepSpots()
 {
     FCT_IDENTIFICATION;
 
-    saveKeepQSOs(ui->actionKeepQSOs->isChecked());
+    saveKeepQSOs(ui->actionKeepSpots->isChecked());
 }
 
 void DxWidget::actionClear()

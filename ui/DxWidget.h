@@ -159,10 +159,9 @@ private slots:
     void actionCommandShowWCY();
     void actionCommandShowWWV();
     void actionConnectOnStartup();
-    void showContextMenu(const QPoint &point);
     void actionDeleteServer();
     void actionForgetPassword();
-    void actionKeepQSOs();
+    void actionKeepSpots();
     void actionClear();
 
     void displayedColumns();
