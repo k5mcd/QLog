@@ -78,9 +78,9 @@ private slots:
 private:
     Ui::MainWindow* ui;
     QLabel* conditionsLabel;
+    QLabel* profileLabel;
     QLabel* callsignLabel;
     QLabel* locatorLabel;
-    QLabel* operatorLabel;
     QPushButton* alertButton;
     QPushButton* alertTextButton;
     SwitchButton* darkLightModeSwith;

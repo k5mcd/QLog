@@ -92,10 +92,10 @@ MainWindow::MainWindow(QWidget* parent) :
     conditionsLabel = new QLabel("", ui->statusBar);
     conditionsLabel->setIndent(20);
     conditionsLabel->setToolTip(QString("<img src='%1'>").arg(PropConditions::solarSummaryFile()));
-    callsignLabel = new QLabel(profile.callsign.toLower(), ui->statusBar);
-    callsignLabel->setIndent(10);
+    profileLabel = new QLabel("<b>" + profile.profileName + ":</b>", ui->statusBar);
+    profileLabel->setIndent(10);
+    callsignLabel = new QLabel(profile.callsign.toLower() , ui->statusBar);
     locatorLabel = new QLabel(profile.locator.toLower(), ui->statusBar);
-    operatorLabel = new QLabel(profile.operatorName, ui->statusBar);
     alertButton = new QPushButton("0", ui->statusBar);
     alertButton->setIcon(QIcon(":/icons/alert.svg"));
     alertButton->setFlat(true);
@@ -114,9 +114,9 @@ MainWindow::MainWindow(QWidget* parent) :
     alertTextButton->setFocusPolicy(Qt::NoFocus);
 
     ui->toolBar->hide();
+    ui->statusBar->addWidget(profileLabel);
     ui->statusBar->addWidget(callsignLabel);
     ui->statusBar->addWidget(locatorLabel);
-    ui->statusBar->addWidget(operatorLabel);
     ui->statusBar->addWidget(conditionsLabel);
 
     ui->statusBar->addPermanentWidget(alertTextButton);
@@ -330,9 +330,9 @@ void MainWindow::stationProfileChanged()
 
     qCDebug(runtime) << profile.callsign << " " << profile.locator << " " << profile.operatorName;
 
+    profileLabel->setText("<b>" + profile.profileName + ":</b>");
     callsignLabel->setText(profile.callsign.toLower());
     locatorLabel->setText(profile.locator.toLower());
-    operatorLabel->setText(profile.operatorName);
 
     emit settingsChanged();
 }
@@ -955,9 +955,9 @@ MainWindow::~MainWindow() {
     alertWidget->deleteLater();
     conditions->deleteLater();
     conditionsLabel->deleteLater();
+    profileLabel->deleteLater();
     callsignLabel->deleteLater();
     locatorLabel->deleteLater();
-    operatorLabel->deleteLater();
     QSqlDatabase::database().close();
     delete ui;
 }
