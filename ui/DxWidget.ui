@@ -499,7 +499,7 @@
      <normaloff>:/icons/filter_list-24px.svg</normaloff>:/icons/filter_list-24px.svg</iconset>
    </property>
    <property name="text">
-    <string>Filter</string>
+    <string>Filter...</string>
    </property>
    <property name="toolTip">
     <string>Filter DXC</string>
@@ -535,7 +535,7 @@
   </action>
   <action name="actionDisplayedColumns">
    <property name="text">
-    <string>Column Visibility</string>
+    <string>Column Visibility...</string>
    </property>
    <property name="toolTip">
     <string>Which columns should be displayed</string>
