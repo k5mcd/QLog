@@ -616,7 +616,8 @@ void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
         spotIterator.value().status = Data::dxccFutureStatus(spotIterator.value().status,
                                                              spotIterator.value().dxcc.dxcc,
                                                              spotIterator.value().band,
-                                                             BandPlan::freq2BandModeGroupString(spotIterator.value().freq),
+                                                             ( ( spotIterator.value().modeGroup == BandPlan::MODE_GROUP_STRING_FT8 ) ? BandPlan::MODE_GROUP_STRING_DIGITAL
+                                                                                                                                     : modeGroup ),
                                                              dxcc,
                                                              band,
                                                              modeGroup);
