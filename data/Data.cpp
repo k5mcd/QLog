@@ -5,6 +5,7 @@
 #include "Data.h"
 #include "core/Callsign.h"
 #include "core/debug.h"
+#include "BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.data.data");
 
@@ -136,8 +137,12 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
         filter = QString("AND start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd"));
     }
 
-    QString sql_mode = ":mode ";
-    if (mode != Data::MODE_CW && mode != Data::MODE_PHONE && mode != Data::MODE_DIGITAL) {
+    QString sql_mode(":mode ");
+
+    if ( mode != BandPlan::MODE_GROUP_STRING_CW
+         && mode != BandPlan::MODE_GROUP_STRING_PHONE
+         && mode != BandPlan::MODE_GROUP_STRING_DIGITAL )
+    {
         sql_mode = "(SELECT modes.dxcc FROM modes WHERE modes.name = :mode LIMIT 1) ";
     }
 
@@ -449,156 +454,7 @@ QList<Band> Data::bandsList(const bool onlyDXCCBands, const bool onlyEnabled)
     return ret;
 }
 
-QString Data::freqToDXCCMode(double freq)
-{
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << freq;
-
-    // currectly only IARU Region 1 is implemented
-    // https://www.iaru-r1.org/wp-content/uploads/2019/08/hf_r1_bandplan.pdf
-    // https://www.oevsv.at/export/shared/.content/.galleries/pdf-Downloads/OVSV-Bandplan_05-2019.pdf
-
-    // 2200m
-    if (freq >= 0.1357 && freq <= 0.1378) return Data::MODE_CW;
-
-    // 630m
-    else if (freq >= 0.472 && freq <= 0.475) return Data::MODE_CW;
-    else if (freq <= 0.479) return Data::MODE_DIGITAL;
-
-    // 160m
-    else if ( freq >= 1.800 && freq < 2.000 )
-    {
-        if (freq >= 1.800 && freq < 1.838) return Data::MODE_CW;
-        else if (freq >= 1.838 && freq < 1.840) return Data::MODE_DIGITAL;
-        else if (freq >= 1.840 && freq < 1.842) return Data::MODE_FT8;
-        else if (freq >= 1.842 && freq < 2.000) return Data::MODE_LSB;
-    }
-    // 80m
-    else if (freq > 3.500 && freq < 4.000)
-    {
-        if (freq > 3.500 && freq < 3.573) return Data::MODE_CW;
-        else if (freq >= 3.573 && freq < 3.575) return Data::MODE_FT8;
-        else if (freq >= 3.575 && freq < 3.580) return Data::MODE_CW;
-        else if (freq >= 3.580 && freq < 3.620) return Data::MODE_DIGITAL;
-        else if (freq >= 3.620 && freq < 4.000) return Data::MODE_LSB;
-    }
-    // 60m
-    else if (freq >= 5.3515 && freq <= 5.354) return Data::MODE_CW;
-    else if (freq <= 5.500) return Data::MODE_LSB;
-
-    // 40m
-    else if (freq >= 7.000 && freq < 7.300)
-    {
-        if (freq >= 7.000 && freq < 7.040) return Data::MODE_CW;
-        else if (freq >= 7.040 && freq < 7.053) return Data::MODE_DIGITAL;
-        else if (freq >= 7.053 && freq < 7.074) return Data::MODE_LSB;
-        else if (freq >= 7.074 && freq < 7.076) return Data::MODE_FT8;
-        else if (freq >= 7.076 && freq < 7.300) return Data::MODE_LSB;
-    }
-    // 30m
-    else if (freq >= 10.100 && freq < 10.150)
-    {
-        if (freq >= 10.100 && freq < 10.136) return Data::MODE_CW;
-        else if (freq >= 10.136 && freq < 10.138) return Data::MODE_FT8;
-        else if (freq >= 10.138 && freq < 10.140) return Data::MODE_CW;
-        else if (freq >= 10.140 && freq < 10.150) return Data::MODE_DIGITAL;
-    }
-    // 20m
-    else if (freq >= 14.000 && freq < 14.350)
-    {
-        if (freq >= 14.000 && freq < 14.070) return Data::MODE_CW;
-        else if (freq >= 14.070 && freq < 14.074) return Data::MODE_DIGITAL;
-        else if (freq >= 14.074 && freq < 14.076) return Data::MODE_FT8;
-        else if (freq >= 14.076 && freq < 14.098) return Data::MODE_DIGITAL;
-        else if (freq >= 14.098 && freq < 14.112) return Data::MODE_CW;
-        else if (freq >= 14.112 && freq < 14.350) return Data::MODE_USB;
-    }
-    // 17m
-    else if (freq >= 18.068 && freq < 18.268)
-    {
-        if (freq >= 18.068 && freq < 18.095) return Data::MODE_CW;
-        else if (freq >= 18.095 && freq < 18.100) return Data::MODE_DIGITAL;
-        else if (freq >= 18.100 && freq < 18.102) return Data::MODE_FT8;
-        else if (freq >= 18.102 && freq < 18.109) return Data::MODE_DIGITAL;
-        else if (freq >= 18.109 && freq < 18.120) return Data::MODE_CW;
-        else if (freq >= 18.120 && freq < 18.268) return Data::MODE_USB;
-    }
-    // 15m
-    else if (freq >= 21.000 && freq < 21.450)
-    {
-        if (freq >= 21.000 && freq < 21.070) return Data::MODE_CW;
-        else if (freq >= 21.070 && freq < 21.074) return Data::MODE_DIGITAL;
-        else if (freq >= 21.074 && freq < 21.076) return Data::MODE_FT8;
-        else if (freq >= 21.076 && freq < 21.149) return Data::MODE_DIGITAL;
-        else if (freq >= 21.149 && freq < 21.151) return Data::MODE_CW;
-        else if (freq >= 21.151 && freq < 21.450) return Data::MODE_USB;
-    }
-    // 12m
-    else if (freq >= 24.890 && freq < 24.990)
-    {
-        if (freq >= 24.890 && freq < 24.915) return Data::MODE_CW;
-        else if (freq >= 24.915 && freq < 24.917) return Data::MODE_FT8;
-        else if (freq >= 24.917 && freq < 24.929) return Data::MODE_DIGITAL;
-        else if (freq >= 24.929 && freq < 24.940) return Data::MODE_CW;
-        else if (freq >= 24.940 && freq < 24.990) return Data::MODE_USB;
-    }
-    // 10m
-    else if (freq >= 28.000 && freq < 29.700)
-    {
-        if (freq >= 28.000 && freq < 28.074) return Data::MODE_CW;
-        else if (freq >= 28.074 && freq < 28.076) return Data::MODE_FT8;
-        else if (freq >= 28.076 && freq < 28.150) return Data::MODE_DIGITAL;
-        else if (freq >= 28.150 && freq < 28.320) return Data::MODE_CW;
-        else if (freq >= 28.320 && freq < 29.700) return Data::MODE_USB;
-    }
-    // 6m
-    else if (freq >= 50.000 && freq < 54.000)
-    {
-        if (freq >= 50.000 && freq < 50.100) return Data::MODE_CW;
-        else if (freq >= 50.100 && freq < 50.313) return Data::MODE_USB;
-        else if (freq >= 50.313 && freq < 50.315) return Data::MODE_FT8;
-        else if (freq >= 50.315 && freq < 50.400) return Data::MODE_DIGITAL;
-        else if (freq >= 50.400 && freq < 50.500) return Data::MODE_CW;
-        else if (freq >= 50.500 && freq < 54.000) return Data::MODE_PHONE;
-    }
-    // 4m
-    else if (freq >=70.000 && freq < 70.500)
-    {
-        if (freq >=70.000 && freq < 70.100) return Data::MODE_CW;
-        else if (freq >= 70.100 && freq < 70.102) return Data::MODE_FT8;
-        else if (freq >= 70.102 && freq < 70.250) return Data::MODE_USB;
-        else if (freq >=70.2500 && freq < 70.500) return Data::MODE_USB;
-    }
-    // 2m
-    else if (freq >= 144.000 && freq < 148.000)
-    {
-        if (freq >= 144.000 && freq < 144.100) return Data::MODE_CW;
-        else if (freq >= 144.100 && freq < 144.174) return Data::MODE_USB;
-        else if (freq >= 144.174 && freq <= 144.176) return Data::MODE_FT8;
-        else if (freq > 144.176 && freq < 148.000) return Data::MODE_USB;
-    }
-    // 1.25m
-    else if (freq >= 222.0 && freq < 222.150) return Data::MODE_CW;
-    else if (freq >= 222.150 && freq < 225.00) return Data::MODE_USB;
-
-    // 70cm
-    else if (freq >= 430.0 && freq < 432.0) return Data::MODE_USB;
-    else if (freq >= 432.0 && freq < 432.10) return Data::MODE_CW;
-    else if (freq >= 432.1 && freq < 440.0) return Data::MODE_USB;
-
-    // 33cm
-    else if (freq >= 902.0 && freq < 928.0) return Data::MODE_USB;
-
-    // 23cm
-    else if (freq >= 1240.0 && freq < 1296.15) return Data::MODE_USB;
-    else if (freq >= 1296.15 && freq < 1296.4) return Data::MODE_CW;
-    else if (freq >= 1296.4 && freq < 1300.0) return Data::MODE_PHONE;
-
-    return QString();
-}
-
-QString Data::modeToDXCCMode(const QString &mode)
+QString Data::modeToDXCCModeGroup(const QString &mode)
 {
     FCT_IDENTIFICATION;
 
@@ -1211,9 +1067,3 @@ QString Data::dxccFlag(int dxcc) {
     return flags.value(dxcc);
 }
 
-const QString Data::MODE_CW = "CW";
-const QString Data::MODE_DIGITAL = "DIGITAL";
-const QString Data::MODE_FT8 = "FT8";
-const QString Data::MODE_LSB = "PHONE"; // use just generic label
-const QString Data::MODE_USB = "PHONE"; // use just generic label
-const QString Data::MODE_PHONE = "PHONE";

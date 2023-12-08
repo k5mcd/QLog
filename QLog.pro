@@ -85,6 +85,7 @@ SOURCES += \
         core/main.cpp \
         core/zonedetect.c \
         data/AntProfile.cpp \
+        data/BandPlan.cpp \
         data/CWKeyProfile.cpp \
         data/CWShortcutProfile.cpp \
         data/Data.cpp \
@@ -195,6 +196,7 @@ HEADERS += \
         core/zonedetect.h \
         data/AntProfile.h \
         data/Band.h \
+        data/BandPlan.h \
         data/CWKeyProfile.h \
         data/CWShortcutProfile.h \
         data/Data.h \

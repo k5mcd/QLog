@@ -10,6 +10,7 @@
 #include "../models/SqlListModel.h"
 #include "data/Data.h"
 #include "data/SpotAlert.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.alerruledetail");
 
@@ -278,10 +279,10 @@ void AlertRuleDetail::save()
     if ( ui->modes->isChecked() )
     {
         modeRE = "NOTHING";
-        if ( ui->cwcheckbox->isChecked() ) modeRE.append("|" + Data::MODE_CW);
-        if ( ui->phonecheckbox->isChecked() ) modeRE.append("|" + Data::MODE_PHONE);
-        if ( ui->digitalcheckbox->isChecked() ) modeRE.append("|" + Data::MODE_DIGITAL);
-        if ( ui->ft8checkbox->isChecked() ) modeRE.append("|" + Data::MODE_FT8);
+        if ( ui->cwcheckbox->isChecked() ) modeRE.append("|" + BandPlan::MODE_GROUP_STRING_CW);
+        if ( ui->phonecheckbox->isChecked() ) modeRE.append("|" + BandPlan::MODE_GROUP_STRING_PHONE);
+        if ( ui->digitalcheckbox->isChecked() ) modeRE.append("|" + BandPlan::MODE_GROUP_STRING_DIGITAL);
+        if ( ui->ft8checkbox->isChecked() ) modeRE.append("|" + BandPlan::MODE_GROUP_STRING_FT8);
     }
 
     rule.mode = modeRE;
@@ -553,10 +554,10 @@ void AlertRuleDetail::loadRule(const QString &ruleName)
         {
             ui->modes->setChecked(true);
 
-            ui->cwcheckbox->setChecked(modeRE.contains("|" + Data::MODE_CW));
-            ui->phonecheckbox->setChecked(modeRE.contains("|" + Data::MODE_PHONE));
-            ui->digitalcheckbox->setChecked(modeRE.contains("|" + Data::MODE_DIGITAL));
-            ui->ft8checkbox->setChecked(modeRE.contains("|" + Data::MODE_FT8));
+            ui->cwcheckbox->setChecked(modeRE.contains("|" + BandPlan::MODE_GROUP_STRING_CW));
+            ui->phonecheckbox->setChecked(modeRE.contains("|" + BandPlan::MODE_GROUP_STRING_PHONE));
+            ui->digitalcheckbox->setChecked(modeRE.contains("|" + BandPlan::MODE_GROUP_STRING_DIGITAL));
+            ui->ft8checkbox->setChecked(modeRE.contains("|" + BandPlan::MODE_GROUP_STRING_FT8));
         }
 
         /********

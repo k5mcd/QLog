@@ -12,6 +12,7 @@
 #include "ui_BandmapWidget.h"
 #include "core/Rig.h"
 #include "data/Data.h"
+#include "data/BandPlan.h"
 #include "core/debug.h"
 
 MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
@@ -604,8 +605,8 @@ void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
     FCT_IDENTIFICATION;
 
     qint32 dxcc = record.value("dxcc").toInt();
-    QString band = record.value("band").toString();
-    QString mode = Data::instance()->modeToDXCCMode(record.value("mode").toString());
+    const QString &band = record.value("band").toString();
+    const QString &modeGroup = Data::instance()->modeToDXCCModeGroup(record.value("mode").toString());
 
     QMutableMapIterator<double, DxSpot> spotIterator(spots);
 
@@ -615,10 +616,10 @@ void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
         spotIterator.value().status = Data::dxccFutureStatus(spotIterator.value().status,
                                                              spotIterator.value().dxcc.dxcc,
                                                              spotIterator.value().band,
-                                                             Data::freqToDXCCMode(spotIterator.value().freq),
+                                                             BandPlan::freq2BandModeGroupString(spotIterator.value().freq),
                                                              dxcc,
                                                              band,
-                                                             mode);
+                                                             modeGroup);
     }
     updateStations();
 }

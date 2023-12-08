@@ -22,7 +22,7 @@ struct SpotAlert
     double freq;
     QString band;
     QList<ClubInfo> callsign_member;
-    QString mode;
+    QString modeGroupString;
     DxccEntity dxcc;
     DxccStatus status;
     QString comment;

@@ -27,6 +27,7 @@
 #include "ui/ColumnSettingDialog.h"
 #include "core/CredentialStore.h"
 #include "ui/InputPasswordDialog.h"
+#include "data/BandPlan.h"
 
 #define CONSOLE_VIEW 4
 #define NUM_OF_RECONNECT_ATTEMPTS 3
@@ -54,7 +55,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
         case 2:
             return QString::number(spot.freq, 'f', 4);
         case 3:
-            return spot.mode;
+            return spot.modeGroup;
         case 4:
             return spot.spotter;
         case 5:
@@ -619,10 +620,10 @@ QString DxWidget::modeFilterRegExp()
     QSettings settings;
     QString regexp("NOTHING");
 
-    if (settings.value("dxc/filter_mode_phone",true).toBool())   regexp = regexp + "|" + Data::MODE_PHONE;
-    if (settings.value("dxc/filter_mode_cw",true).toBool())      regexp = regexp + "|" + Data::MODE_CW;
-    if (settings.value("dxc/filter_mode_ft8",true).toBool())     regexp = regexp + "|" + Data::MODE_FT8;
-    if (settings.value("dxc/filter_mode_digital",true).toBool()) regexp = regexp + "|" + Data::MODE_DIGITAL;
+    if (settings.value("dxc/filter_mode_phone",true).toBool())   regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_PHONE;
+    if (settings.value("dxc/filter_mode_cw",true).toBool())      regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_CW;
+    if (settings.value("dxc/filter_mode_ft8",true).toBool())     regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_FT8;
+    if (settings.value("dxc/filter_mode_digital",true).toBool()) regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_DIGITAL;
 
     return regexp;
 }
@@ -1478,17 +1479,17 @@ void DxWidget::processDxSpot(const QString &spotter,
     spot.callsign = call;
     spot.freq = freq.toDouble() / 1000;
     spot.band = Data::band(spot.freq).name;
-    spot.mode = Data::freqToDXCCMode(spot.freq);
+    spot.modeGroup = BandPlan::freq2BandModeGroupString(spot.freq);
     spot.spotter = spotter;
     spot.comment = comment;
     spot.dxcc = dxcc;
     spot.dxcc_spotter = dxcc_spotter;
-    spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToDXCCMode(spot.freq));
+    spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, spot.modeGroup);
     spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
 
     emit newSpot(spot);
 
-    if ( spot.mode.contains(moderegexp)
+    if ( spot.modeGroup.contains(moderegexp)
          && spot.dxcc.cont.contains(contregexp)
          && spot.dxcc_spotter.cont.contains(spottercontregexp)
          && spot.band.contains(bandregexp)
