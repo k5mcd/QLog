@@ -234,6 +234,7 @@ private:
                        const QString &comment,
                        const QDateTime &dateTime = QDateTime());
 
+    QString modeGroupFromComment(const QString &comment) const;
 };
 
 #endif // DXWIDGET_H

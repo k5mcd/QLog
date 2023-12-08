@@ -1479,9 +1479,11 @@ void DxWidget::processDxSpot(const QString &spotter,
     spot.callsign = call;
     spot.freq = freq.toDouble() / 1000;
     spot.band = Data::band(spot.freq).name;
-    spot.modeGroup = BandPlan::freq2BandModeGroupString(spot.freq);
     spot.spotter = spotter;
-    spot.comment = comment;
+    spot.comment = comment.trimmed();
+    spot.modeGroup = modeGroupFromComment(spot.comment);
+    if ( spot.modeGroup == QString() )
+        spot.modeGroup = BandPlan::freq2BandModeGroupString(spot.freq);
     spot.dxcc = dxcc;
     spot.dxcc_spotter = dxcc_spotter;
     spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, spot.modeGroup);
@@ -1501,6 +1503,39 @@ void DxWidget::processDxSpot(const QString &spotter,
         if ( dxTableModel->addEntry(spot, deduplicateSpots) )
             emit newFilteredSpot(spot);
     }
+}
+
+QString DxWidget::modeGroupFromComment(const QString &comment) const
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << comment;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    const QStringList &tokenizedComment = comment.split(" ", Qt::SkipEmptyParts);
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+    const QStringList &tokenizedComment = comment.split(" ", QString::SkipEmptyParts);
+#endif
+
+    if ( tokenizedComment.contains("CW", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_CW;
+
+    if ( tokenizedComment.contains("FT8", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_FT8;
+
+    if ( tokenizedComment.contains("FT4", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    if ( tokenizedComment.contains("MSK144", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    if ( tokenizedComment.contains("RTTY", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    if ( tokenizedComment.contains("SSTV", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    return QString();
 }
 
 DxWidget::~DxWidget()
