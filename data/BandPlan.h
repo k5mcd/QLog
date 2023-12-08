@@ -24,7 +24,8 @@ public:
 
     static BandPlanModes freq2BandMode(const double freq);
     static QString freq2BandModeGroupString(const double freq);
-
+    static QString freq2ExpectedMode(const double freq,
+                                     QString &submode);
     BandPlan();
 };
 

@@ -175,6 +175,26 @@ QString BandPlan::freq2BandModeGroupString(const double freq)
     return QString();
 }
 
+QString BandPlan::freq2ExpectedMode(const double freq, QString &submode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
+    switch ( freq2BandMode(freq) )
+    {
+    case BAND_MODE_CW: {submode = QString(); return "CW";}
+    case BAND_MODE_LSB: {submode = "LSB"; return "SSB";}
+    case BAND_MODE_USB: {submode = "USB"; return "SSB";}
+    case BAND_MODE_FT8: {return "FT8";}
+    //case BAND_MODE_DIGITAL: // it can be FM, SSB, AM - no Mode Change
+    //case BAND_MODE_PHONE: // it can be FM, SSB, AM - no Mode Change
+    default:
+        submode = QString();
+    }
+    return QString();
+}
+
 BandPlan::BandPlan()
 {
     FCT_IDENTIFICATION;

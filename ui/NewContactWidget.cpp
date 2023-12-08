@@ -25,6 +25,7 @@
 #include "logformat/AdiFormat.h"
 #include "data/MainLayoutProfile.h"
 #include "models/LogbookModel.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -840,25 +841,7 @@ void NewContactWidget::changeModefromRig(VFOID, const QString &, const QString &
 
     bandwidthFilter = width;
 
-    if ( ui->modeEdit->currentText() == mode)
-    {
-        qCDebug(runtime) << "Mode did not change, changing submode";
-
-        ui->submodeEdit->blockSignals(true);
-        ui->submodeEdit->setCurrentText(subMode);
-        ui->submodeEdit->blockSignals(false);
-        return;
-    }
-
-    qCDebug(runtime) << "Mode changed - updating submode list";
-
-    ui->modeEdit->blockSignals(true);
-    ui->submodeEdit->blockSignals(true);
-    ui->modeEdit->setCurrentText(mode);
-    __modeChanged();
-    ui->submodeEdit->setCurrentText(subMode);
-    ui->submodeEdit->blockSignals(false);
-    ui->modeEdit->blockSignals(false);
+    changeModeWithoutSignals(mode, subMode);
 }
 
 void NewContactWidget::subModeChanged()
@@ -2007,6 +1990,33 @@ void NewContactWidget::changeFrequency(VFOID vfoid, double vfoFreq, double ritFr
     __changeFrequency (vfoid, vfoFreq, ritFreq, xitFreq);
 }
 
+void NewContactWidget::changeModeWithoutSignals(const QString &mode, const QString &subMode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode << subMode;
+
+    if ( ui->modeEdit->currentText() == mode)
+    {
+        qCDebug(runtime) << "Mode did not change, changing submode";
+
+        ui->submodeEdit->blockSignals(true);
+        ui->submodeEdit->setCurrentText(subMode);
+        ui->submodeEdit->blockSignals(false);
+        return;
+    }
+
+    qCDebug(runtime) << "Mode changed - updating submode list";
+
+    ui->modeEdit->blockSignals(true);
+    ui->submodeEdit->blockSignals(true);
+    ui->modeEdit->setCurrentText(mode);
+    __modeChanged();
+    ui->submodeEdit->setCurrentText(subMode);
+    ui->submodeEdit->blockSignals(false);
+    ui->modeEdit->blockSignals(false);
+}
+
 void NewContactWidget::showRXTXFreqs(bool enable)
 {
     FCT_IDENTIFICATION;
@@ -2413,7 +2423,31 @@ void NewContactWidget::tuneDx(const QString &callsign, double frequency)
         return;
     }
 
-    if ( frequency < 0.0 )
+    if ( frequency > 0.0 )
+    {
+        QString subMode;
+        const QString &mode = BandPlan::freq2ExpectedMode(frequency,
+                                                          subMode);
+        if ( !mode.isEmpty() )
+        {
+            // in case of SSB, do not sent 2 mode changes to rig
+            // therefore change Mode without signals and then set the
+            // final mode
+            changeModeWithoutSignals(mode, subMode);
+            if ( mode == "FT8" )
+            {
+                // if rig is connected then FT8 mode is overwrotten by rit
+                // but it the rig is not connected then mode contains a correct
+                // mode
+                rig->setMode("SSB", "USB");
+            }
+            else
+            {
+                rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+            }
+        }
+    }
+    else
     {
         frequency = ui->freqRXEdit->value();
     }
