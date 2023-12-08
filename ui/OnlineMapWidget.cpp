@@ -296,6 +296,7 @@ void OnlineMapWidget::IBPCallsignTrigger(const QString &callsign, double freq)
     qCDebug(function_parameters) << callsign << freq;
 
     Rig::instance()->setFrequency(MHz(freq));
+    Rig::instance()->setMode("CW", QString());
 }
 
 void OnlineMapWidget::runJavaScript(QString &js)
