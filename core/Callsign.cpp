@@ -12,7 +12,7 @@ Callsign::Callsign(const QString &callsign,
     FCT_IDENTIFICATION;
 
     QRegularExpression callsignRE = callsignRegEx();
-    QRegularExpressionMatch match = callsignRE.match(callsign);
+    QRegularExpressionMatch match = callsignRE.match(fullCallsign);
 
     if ( match.hasMatch() )
     {
@@ -47,63 +47,63 @@ const QString Callsign::callsignRegExString()
     return QString("^(([A-Z0-9]+)[\\/])?(([A-Z][0-9]|[A-Z]{1,2}|[0-9][A-Z])([0-9]|[0-9]+)([A-Z]+))([\\/]([A-Z0-9]+))?");
 }
 
-QString Callsign::getCallsign() const
+const QString Callsign::getCallsign() const
 {
     FCT_IDENTIFICATION;
 
     return fullCallsign;
 }
 
-QString Callsign::getHostPrefix() const
+const QString Callsign::getHostPrefix() const
 {
     FCT_IDENTIFICATION;
 
     return hostPrefix;
 }
 
-QString Callsign::getHostPrefixWithDelimiter() const
+const QString Callsign::getHostPrefixWithDelimiter() const
 {
     FCT_IDENTIFICATION;
 
     return hostPrefixWithDelimiter;
 }
 
-QString Callsign::getBase() const
+const QString Callsign::getBase() const
 {
     FCT_IDENTIFICATION;
 
     return base;
 }
 
-QString Callsign::getBasePrefix() const
+const QString Callsign::getBasePrefix() const
 {
     FCT_IDENTIFICATION;
 
     return basePrefix;
 }
 
-QString Callsign::getBasePrefixNumber() const
+const QString Callsign::getBasePrefixNumber() const
 {
     FCT_IDENTIFICATION;
 
     return basePrefixNumber;
 }
 
-QString Callsign::getSuffix() const
+const QString Callsign::getSuffix() const
 {
     FCT_IDENTIFICATION;
 
     return suffix;
 }
 
-QString Callsign::getSuffixWithDelimiter() const
+const QString Callsign::getSuffixWithDelimiter() const
 {
     FCT_IDENTIFICATION;
 
     return suffixWithDelimiter;
 }
 
-QString Callsign::getWPXPrefix() const
+const QString Callsign::getWPXPrefix() const
 {
     FCT_IDENTIFICATION;
 
