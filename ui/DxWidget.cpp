@@ -1478,7 +1478,7 @@ void DxWidget::processDxSpot(const QString &spotter,
                                     : dateTime;
     spot.callsign = call;
     spot.freq = freq.toDouble() / 1000;
-    spot.band = Data::band(spot.freq).name;
+    spot.band = BandPlan::freq2Band(spot.freq).name;
     spot.spotter = spotter;
     spot.comment = comment.trimmed();
     spot.modeGroup = modeGroupFromComment(spot.comment);

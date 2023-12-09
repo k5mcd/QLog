@@ -1,5 +1,7 @@
-#include "BandPlan.h"
+#include <QSqlQuery>
+#include <QSqlError>
 
+#include "BandPlan.h"
 #include "core/debug.h"
 
 MODULE_IDENTIFICATION("qlog.data.bandplan");
@@ -155,7 +157,7 @@ BandPlan::BandPlanModes BandPlan::freq2BandMode(const double freq)
     return BAND_MODE_PHONE;
 }
 
-QString BandPlan::freq2BandModeGroupString(const double freq)
+const QString BandPlan::freq2BandModeGroupString(const double freq)
 {
     FCT_IDENTIFICATION;
 
@@ -177,7 +179,7 @@ QString BandPlan::freq2BandModeGroupString(const double freq)
     return QString();
 }
 
-QString BandPlan::freq2ExpectedMode(const double freq, QString &submode)
+const QString BandPlan::freq2ExpectedMode(const double freq, QString &submode)
 {
     FCT_IDENTIFICATION;
 
@@ -195,6 +197,42 @@ QString BandPlan::freq2ExpectedMode(const double freq, QString &submode)
         submode = QString();
     }
     return QString();
+}
+
+const Band BandPlan::freq2Band(double freq)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
+    QSqlQuery query;
+
+    if ( ! query.prepare("SELECT name, start_freq, end_freq "
+                         "FROM bands "
+                         "WHERE :freq BETWEEN start_freq AND end_freq") )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return Band();
+    }
+
+    query.bindValue(0, freq);
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return Band();
+    }
+
+    if ( query.next() )
+    {
+        Band band;
+        band.name = query.value(0).toString();
+        band.start = query.value(1).toDouble();
+        band.end = query.value(2).toDouble();
+        return band;
+    }
+
+    return Band();
 }
 
 BandPlan::BandPlan()

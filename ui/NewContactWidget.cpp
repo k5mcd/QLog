@@ -434,7 +434,7 @@ void NewContactWidget::queryDxcc(const QString &callsign)
         uiDynamic->cqzEdit->setText(QString::number(dxccEntity.cqz));
         uiDynamic->ituEdit->setText(QString::number(dxccEntity.ituz));
         updateCoordinates(dxccEntity.latlon[0], dxccEntity.latlon[1], COORD_DXCC);
-        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
+        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, BandPlan::freq2Band(ui->freqTXEdit->value()));
         uiDynamic->contEdit->setCurrentText(dxccEntity.cont);
         updateDxccStatus();
         if ( !dxccEntity.flag.isEmpty() )
@@ -863,7 +863,7 @@ void NewContactWidget::updateTXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    Band band = Data::band(freq);
+    const Band& band = BandPlan::freq2Band(freq);
 
     if (band.name.isEmpty())
     {
@@ -875,7 +875,7 @@ void NewContactWidget::updateTXBand(double freq)
     }
 
     updateDxccStatus();
-    ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
+    ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, BandPlan::freq2Band(ui->freqTXEdit->value()));
 }
 
 void NewContactWidget::updateRXBand(double freq)
@@ -884,7 +884,7 @@ void NewContactWidget::updateRXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    Band band = Data::band(freq);
+    const Band& band = BandPlan::freq2Band(freq);
 
     if (band.name.isEmpty())
     {
@@ -1091,7 +1091,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
     if ( record.value("band").toString().isEmpty()
          && ! record.value("freq").isNull() )
     {
-        record.setValue("band", Data::band(record.value("freq").toDouble()).name);
+        record.setValue("band", BandPlan::freq2Band(record.value("freq").toDouble()).name);
     }
 
     if ( record.value("prop_mode").toString().isEmpty()
@@ -1747,7 +1747,7 @@ void NewContactWidget::markContact()
 
         spot.time = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
         spot.freq = ui->freqRXEdit->value();
-        spot.band = Data::band(spot.freq).name;
+        spot.band = BandPlan::freq2Band(spot.freq).name;
         spot.callsign = ui->callsignEdit->text().toUpper();
         emit markQSO(spot);
     }

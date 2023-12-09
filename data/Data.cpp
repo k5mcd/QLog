@@ -360,37 +360,6 @@ DxccStatus Data::dxccFutureStatus(const DxccStatus &oldStatus,
 
 #undef RETURNCODE
 
-Band Data::band(double freq) {
-    FCT_IDENTIFICATION;
-
-    qCDebug(function_parameters) << freq;
-
-    QSqlQuery query;
-    if ( ! query.prepare("SELECT name, start_freq, end_freq FROM bands WHERE :freq BETWEEN start_freq AND end_freq") )
-    {
-        qWarning() << "Cannot prepare Select statement";
-        return Band();
-    }
-    query.bindValue(0, freq);
-
-    if ( ! query.exec() )
-    {
-        qWarning() << "Cannot execute select statement" << query.lastError();
-        return Band();
-    }
-
-    if (query.next()) {
-        Band band;
-        band.name = query.value(0).toString();
-        band.start = query.value(1).toDouble();
-        band.end = query.value(2).toDouble();
-        return band;
-    }
-    else {
-        return Band();
-    }
-}
-
 QList<Band> Data::bandsList(const bool onlyDXCCBands, const bool onlyEnabled)
 {
     FCT_IDENTIFICATION;

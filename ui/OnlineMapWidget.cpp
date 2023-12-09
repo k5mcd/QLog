@@ -18,6 +18,7 @@
 #include "data/Data.h"
 #include "core/Rotator.h"
 #include "core/Rig.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.onlinemapwidget");
 
@@ -185,9 +186,7 @@ void OnlineMapWidget::setIBPBand(VFOID , double, double ritFreq, double)
 {
     FCT_IDENTIFICATION;
 
-    Band newBand = Data::band(ritFreq);
-
-    QString targetJavaScript = QString("currentBand=\"%1\";").arg(newBand.name);
+    QString targetJavaScript = QString("currentBand=\"%1\";").arg(BandPlan::freq2Band(ritFreq).name);
 
     runJavaScript(targetJavaScript);
 }

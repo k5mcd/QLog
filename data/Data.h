@@ -73,7 +73,7 @@ public:
                                        const qint32 newDxcc,
                                        const QString &newBand,
                                        const QString &newMode);
-    static Band band(double freq);
+
     static QList<Band> bandsList(const bool onlyDXCCBands = false, const bool onlyEnabled = false);
     QString modeToDXCCModeGroup(const QString &mode);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
