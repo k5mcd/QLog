@@ -74,8 +74,6 @@ public:
                                        const QString &newBand,
                                        const QString &newMode);
 
-    static QList<Band> bandsList(const bool onlyDXCCBands = false, const bool onlyEnabled = false);
-    QString modeToDXCCModeGroup(const QString &mode);
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
     static QString colorToHTMLColor(const QColor&);
     static QString statusToText(const DxccStatus &status);

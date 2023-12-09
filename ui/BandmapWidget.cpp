@@ -606,7 +606,7 @@ void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
 
     qint32 dxcc = record.value("dxcc").toInt();
     const QString &band = record.value("band").toString();
-    const QString &modeGroup = Data::instance()->modeToDXCCModeGroup(record.value("mode").toString());
+    const QString &dxccModeGroup = BandPlan::modeToDXCCModeGroup(record.value("mode").toString());
 
     QMutableMapIterator<double, DxSpot> spotIterator(spots);
 
@@ -617,10 +617,10 @@ void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
                                                              spotIterator.value().dxcc.dxcc,
                                                              spotIterator.value().band,
                                                              ( ( spotIterator.value().modeGroup == BandPlan::MODE_GROUP_STRING_FT8 ) ? BandPlan::MODE_GROUP_STRING_DIGITAL
-                                                                                                                                     : modeGroup ),
+                                                                                                                                     : dxccModeGroup ),
                                                              dxcc,
                                                              band,
-                                                             modeGroup);
+                                                             dxccModeGroup);
     }
     updateStations();
 }
@@ -668,7 +668,7 @@ void BandmapWidget::showContextMenu(const QPoint &point)
     QMenu contextMenu(this);
     QMenu bandsMenu(tr("Show Band"), &contextMenu);
 
-    for (Band &enabledBand : Data::bandsList(false, true))
+    for ( const Band &enabledBand : BandPlan::bandsList(false, true))
     {
         QAction* action = new QAction(enabledBand.name);
         connect(action, &QAction::triggered, this, [this, enabledBand]()

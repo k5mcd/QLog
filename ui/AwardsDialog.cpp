@@ -6,6 +6,7 @@
 #include "core/debug.h"
 #include "data/Band.h"
 #include "data/Data.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.awardsdialog");
 
@@ -168,7 +169,7 @@ void AwardsDialog::refreshTable(int)
 
     QString innerCase = " CASE WHEN (" + confirmed.join("or") + ") THEN 2 ELSE 1 END ";
 
-    QList<Band> dxccBands = Data::bandsList(true, true);
+    const QList<Band>& dxccBands = BandPlan::bandsList(true, true);
 
     if ( dxccBands.size() == 0 )
     {

@@ -235,6 +235,100 @@ const Band BandPlan::freq2Band(double freq)
     return Band();
 }
 
+const QList<Band> BandPlan::bandsList(const bool onlyDXCCBands,
+                                      const bool onlyEnabled)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << onlyDXCCBands << onlyEnabled;
+
+    QSqlQuery query;
+    QList<Band> ret;
+
+    QString stmt = QString("SELECT name, start_freq, end_freq "
+                           "FROM bands WHERE 1 = 1 ");
+
+    if ( onlyEnabled )
+    {
+        stmt.append("AND enabled = 1 ");
+    }
+
+    if ( onlyDXCCBands )
+    {
+        stmt.append("AND ((1.9 between start_freq and end_freq) "
+                    "      OR (3.6 between start_freq and end_freq) "
+                    "      OR (7.1 between start_freq and end_freq) "
+                    "      OR (10.1 between start_freq and end_freq) "
+                    "      OR (14.1 between start_freq and end_freq) "
+                    "      OR (18.1 between start_freq and end_freq) "
+                    "      OR (21.1 between start_freq and end_freq) "
+                    "      OR (24.9 between start_freq and end_freq) "
+                    "      OR (28.1 between start_freq and end_freq) "
+                    "      OR (50.1 between start_freq and end_freq) "
+                    "      OR (145.1 between start_freq and end_freq) "
+                    "      OR (421.1 between start_freq and end_freq) "
+                    "      OR (1241.0 between start_freq and end_freq) "
+                    "      OR (2301.0 between start_freq and end_freq) "
+                    "      OR (10001.0 between start_freq and end_freq)) ");
+    }
+
+    stmt.append("ORDER BY start_freq ");
+
+    qCDebug(runtime) << stmt;
+
+    if ( ! query.prepare(stmt) )
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return ret;
+    }
+
+    if ( ! query.exec() )
+    {
+        qWarning() << "Cannot execute select statement" << query.lastError();
+        return ret;
+    }
+
+    while ( query.next() )
+    {
+        Band band;
+        band.name = query.value(0).toString();
+        band.start = query.value(1).toDouble();
+        band.end = query.value(2).toDouble();
+        ret << band;
+    }
+
+    return ret;
+}
+
+const QString BandPlan::modeToDXCCModeGroup(const QString &mode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode;
+
+    QSqlQuery query;
+
+    if ( !query.prepare("SELECT modes.dxcc "
+                        "FROM modes "
+                        "WHERE modes.name = :mode LIMIT 1"))
+    {
+        qWarning() << "Cannot prepare Select statement";
+        return QString();
+    }
+
+    query.bindValue(0, mode);
+
+    if ( query.exec() )
+    {
+        QString ret;
+        query.next();
+        ret = query.value(0).toString();
+        return ret;
+    }
+
+    return QString();
+}
+
 BandPlan::BandPlan()
 {
     FCT_IDENTIFICATION;

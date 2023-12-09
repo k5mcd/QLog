@@ -10,6 +10,7 @@
 #include "core/debug.h"
 #include "data/StationProfile.h"
 #include "data/Data.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.dxcctablewidget");
 
@@ -42,7 +43,7 @@ void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
     if ( dxcc )
     {
         QSettings settings;
-        QList<Band> dxccBands = Data::bandsList(true, true);
+        const QList<Band>& dxccBands = BandPlan::bandsList(true, true);
 
         if ( dxccBands.size() == 0 )
         {
