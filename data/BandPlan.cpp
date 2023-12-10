@@ -19,9 +19,10 @@ BandPlan::BandPlanModes BandPlan::freq2BandMode(const double freq)
     // 2200m
     if (freq >= 0.1357 && freq <= 0.1378) return BAND_MODE_CW;
 
+
     // 630m
     else if (freq >= 0.472 && freq <= 0.475) return BAND_MODE_CW;
-    else if (freq <= 0.479) return BAND_MODE_DIGITAL;
+    else if (freq >  0.475 && freq <= 0.479) return BAND_MODE_DIGITAL;
 
     // 160m
     else if ( freq >= 1.800 && freq < 2.000 )
@@ -42,7 +43,7 @@ BandPlan::BandPlanModes BandPlan::freq2BandMode(const double freq)
     }
     // 60m
     else if (freq >= 5.3515 && freq <= 5.354) return BAND_MODE_CW;
-    else if (freq <= 5.500) return BAND_MODE_LSB;
+    else if (freq > 5.354 && freq <= 5.500) return BAND_MODE_LSB;
 
     // 40m
     else if (freq >= 7.000 && freq < 7.300)
