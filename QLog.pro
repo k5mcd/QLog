@@ -59,6 +59,7 @@ SOURCES += \
         core/Callsign.cpp \
         core/ClubLog.cpp \
         core/CredentialStore.cpp \
+        core/DxServerString.cpp \
         core/Eqsl.cpp \
         core/Fldigi.cpp \
         core/GenericCallbook.cpp \
@@ -170,6 +171,7 @@ HEADERS += \
         core/Callsign.h \
         core/ClubLog.h \
         core/CredentialStore.h \
+        core/DxServerString.h \
         core/Eqsl.h \
         core/Fldigi.h \
         core/GenericCallbook.h \

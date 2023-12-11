@@ -14,6 +14,7 @@
 #include "data/ToAllSpot.h"
 #include "ui/SwitchButton.h"
 #include "core/LogLocale.h"
+#include "core/DxServerString.h"
 
 #define DEDUPLICATION_TIME 3
 #define DEDUPLICATION_FREQ_TOLERANCE 0.005
@@ -107,28 +108,6 @@ signals:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
-};
-
-class DxServerString
-{
-public:
-    explicit DxServerString(const QString &string,
-                            const QString &defaultUsername = QString());
-
-
-    static bool isValidServerString(const QString &);
-    bool isValid() const {return valid;};
-    QString getUsername() const {return username;};
-    QString getHostname() const {return hostname;};
-    int getPort() const {return port;};
-    QString getPasswordStorageKey() const {return getHostname() + ":" + QString::number(getPort());}
-
-private:
-    static const QRegularExpression serverStringRegEx();
-
-    QString username, hostname;
-    int port;
-    bool valid;
 };
 
 
