@@ -330,7 +330,8 @@ OTHER_FILES += \
     res/io.github.foldynl.QLog.metainfo.xml
 
 TRANSLATIONS = i18n/qlog_de.ts \
-               i18n/qlog_cs.ts
+               i18n/qlog_cs.ts \
+               i18n/qlog_zh_CN.ts
 
 RC_ICONS = res/qlog.ico
 ICON = res/qlog.icns
