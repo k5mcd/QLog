@@ -85,7 +85,7 @@ Prerequisites:
 
 Fedora **RPM packages** are available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
 
-**Flatpak** package is available via [Flathub](https://flathub.org/). The package contains built-in TrustedQSL.
+**Flatpak** package is available via [Flathub](https://flathub.org/apps/io.github.foldynl.QLog). The package contains built-in TrustedQSL.
 
 **Snap** is not planned at this moment.
 
