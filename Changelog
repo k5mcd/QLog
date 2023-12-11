@@ -1,4 +1,16 @@
 TBC - 0.31.0
+- [NEW] - DXC - Improved Mode recognition
+- [NEW] - DXC - Switch Rig mode based on DXC Spot Mode (issue #217)
+- [NEW] - DXC - Added Spot Country Column (issue #273)
+- [NEW] - DXC - Added Menu for server management
+- [NEW] - DXC - Added Auto-connect to server
+- [NEW] - DXC - Added Keep QSOs Context Menu
+- [NEW] - DXC - Added Clear QSO Context Menu
+- [NEW] - DXC - Added support for SH/DX response parsing
+- [NEW] - DXC - Added support for username, password for connection
+- [NEW] - Online Map - IBP station double-click tunes freq and switch Rig mode
+- [NEW] - Current profile name is shown (issue #282)
+- [NEW] - Add Simplified Chinese translation (PR #285 thank BG7JAF)
 
 2023/12/01 - 0.30.0
 - [NEW] - QSL Images are stored in the database
