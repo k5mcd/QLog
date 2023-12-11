@@ -10,16 +10,12 @@
 
 MODULE_IDENTIFICATION("qlog.core.gridsquare");
 
-Gridsquare::Gridsquare(const QString &in_grid)
+Gridsquare::Gridsquare(const QString &in_grid) :
+    validGrid(false), lat(qQNaN()), lon(qQNaN())
 {
     FCT_IDENTIFICATION;
-    validGrid = false;
 
-    if ( in_grid.isEmpty() )
-    {
-        validGrid = false;
-    }
-    else
+    if ( !in_grid.isEmpty() )
     {
         grid = in_grid.toUpper();
 
@@ -28,35 +24,45 @@ Gridsquare::Gridsquare(const QString &in_grid)
             lon = (grid.at(0).toLatin1() - 'A') * 20 - 180;
             lat = (grid.at(1).toLatin1() - 'A') * 10 - 90;
 
-            lon += (grid.at(2).toLatin1() - '0') * 2;
-            lat += (grid.at(3).toLatin1() - '0') * 1;
-
-            if ( grid.size() >= 6 )
+            if ( grid.size() >= 4 )
             {
-                lon += (grid.at(4).toLatin1() - 'A') * (5.0/60.0);
-                lat += (grid.at(5).toLatin1() - 'A') * (2.5/60.0);
+                lon += (grid.at(2).toLatin1() - '0') * 2;
+                lat += (grid.at(3).toLatin1() - '0') * 1;
 
-                if ( grid.size() >= 8 )
+                if ( grid.size() >= 6 )
                 {
-                    lon += (grid.at(6).toLatin1() - '0') * (30.0/3600.0);
-                    lat += (grid.at(7).toLatin1() - '0') * (15.0/3600.0);
+                    lon += (grid.at(4).toLatin1() - 'A') * (5.0/60.0);
+                    lat += (grid.at(5).toLatin1() - 'A') * (2.5/60.0);
 
-                    // move to the center
-                    lon += 15.0/3600.0;
-                    lat += 7.5/3600.0;
+                    if ( grid.size() >= 8 )
+                    {
+                        lon += (grid.at(6).toLatin1() - '0') * (30.0/3600.0);
+                        lat += (grid.at(7).toLatin1() - '0') * (15.0/3600.0);
+
+                        // move to the center
+                        lon += 15.0/3600.0;
+                        lat += 7.5/3600.0;
+                    }
+                    else
+                    {
+                        // move to the center
+                        lon += 2.5/60.0;
+                        lat += 1.25/60.0;
+                    }
+
                 }
                 else
                 {
                     // move to the center
-                    lon += 2.5/60.0;
-                    lat += 1.25/60.0;
+                    lon += 1;
+                    lat += 0.5;
                 }
-
             }
-            else {
-                // move to the center
-                lon += 1;
-                lat += 0.5;
+            else
+            {
+                // move 0to the center
+                lon += 10;
+                lat += 5;
             }
             validGrid = true;
         }
@@ -68,19 +74,20 @@ Gridsquare::Gridsquare(const QString &in_grid)
     }
 }
 
-Gridsquare::Gridsquare(const double lat, const double lon) :
-    validGrid(false), lat(lat), lon(lon)
+Gridsquare::Gridsquare(const double inlat, const double inlon) :
+    validGrid(false), lat(inlat), lon(inlon)
 {
     FCT_IDENTIFICATION;
 
     QString U = "ABCDEFGHIJKLMNOPQRSTUVWX";
 
-    if ( qIsNaN(lat)
-         || qIsNaN(lon)
-         || qAbs(lat) >= 90.0
-         || qAbs(lon) >= 180.0 )
+    if ( qIsNaN(inlat)
+         || qIsNaN(inlon)
+         || qAbs(inlat) >= 90.0
+         || qAbs(inlon) >= 180.0 )
     {
-        qCDebug(runtime) << "Invalid Grid lat/lon" << lat << lon;
+        qCDebug(runtime) << "Invalid Grid lat/lon" << inlat << inlon;
+        this->lat = this->lon = qQNaN();
     }
     else
     {
@@ -101,21 +108,22 @@ Gridsquare::Gridsquare(const double lat, const double lon) :
     }
 }
 
-QRegularExpression Gridsquare::gridRegEx()
+const QRegularExpression Gridsquare::gridRegEx()
 {
     FCT_IDENTIFICATION;
 
-    return QRegularExpression("^[A-Ra-r]{2}[0-9]{2}([A-Xa-x]{2})?([0-9]{2})?$");
+    return QRegularExpression("^[A-Ra-r]{2}(?:[0-9]{2}|[0-9]{2}[A-Xa-x]{2}|[0-9]{2}[A-Xa-x]{2}[0-9]{2})?$");
+    //return QRegularExpression("^[A-Ra-r]{2}[0-9]{2}([A-Xa-x]{2})?([0-9]{2})?$");
 }
 
-QRegularExpression Gridsquare::gridVUCCRegEx()
+const QRegularExpression Gridsquare::gridVUCCRegEx()
 {
     FCT_IDENTIFICATION;
 
     return QRegularExpression("^[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2}$|^[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2},[ ]*[A-Ra-r]{2}[0-9]{2}$");
 }
 
-QRegularExpression Gridsquare::gridExtRegEx()
+const QRegularExpression Gridsquare::gridExtRegEx()
 {
     FCT_IDENTIFICATION;
 
@@ -157,6 +165,12 @@ bool Gridsquare::distanceTo(double lat, double lon, double &distance) const
 {
     FCT_IDENTIFICATION;
 
+    if ( !isValid() )
+    {
+        distance = 0;
+        return false;
+    }
+
     /* https://www.movable-type.co.uk/scripts/latlong.html */
     double dLat = (lat - this->getLatitude()) * M_PI / 180;
     double dLon = (lon - this->getLongitude()) * M_PI / 180;
@@ -177,12 +191,10 @@ bool Gridsquare::distanceTo(const Gridsquare &in_grid, double &distance) const
 {
     FCT_IDENTIFICATION;
 
-    if ( !in_grid.isValid()
-         || !isValid() )
+    if ( !in_grid.isValid() )
     {
         distance = 0;
         return false;
-
     }
     return distanceTo(in_grid.getLatitude(), in_grid.getLongitude(), distance);
 }
@@ -190,6 +202,13 @@ bool Gridsquare::distanceTo(const Gridsquare &in_grid, double &distance) const
 bool Gridsquare::bearingTo(double lat, double lon, double &bearing) const
 {
     FCT_IDENTIFICATION;
+
+    if ( !isValid() )
+    {
+        bearing = 0;
+        return false;
+    }
+
     double dLon = (lon - this->getLongitude()) * M_PI / 180;
     double lat1 = this->getLatitude() * M_PI / 180;
     double lat2 = lat * M_PI / 180;
@@ -205,8 +224,7 @@ bool Gridsquare::bearingTo(const Gridsquare &in_grid, double &bearing) const
 {
     FCT_IDENTIFICATION;
 
-    if ( ! in_grid.isValid()
-         || !isValid() )
+    if ( ! in_grid.isValid() )
     {
         bearing = 0;
         return false;
