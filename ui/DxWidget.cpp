@@ -889,12 +889,12 @@ void DxWidget::receive()
 
             if ( password.isEmpty() )
             {
-                InputPasswordDialog passwordDialog(tr("Enter DX Cluster Password"),
-                                                   tr("<b>Security Notice:</b> The password can be sent via an unsecured channel") +
+                InputPasswordDialog passwordDialog(tr("DX Cluster Password"),
+                                                   "<b>" + tr("Security Notice") + ":</b> " + tr("The password can be sent via an unsecured channel") +
                                                    "<br/><br/>" +
-                                                   tr("<b>Host:</b>") + " " + socket->peerName() + ":" + QString::number(socket->peerPort()) +
+                                                   "<b>" + tr("Server") + ":</b> " + socket->peerName() + ":" + QString::number(socket->peerPort()) +
                                                    "<br/>" +
-                                                   tr("<b>Username</b>:") + " " + connectedServerString->getUsername(), this);
+                                                   "<b>" + tr("Username") + "</b>: " + connectedServerString->getUsername(), this);
                 if ( passwordDialog.exec() == QDialog::Accepted )
                 {
                     password = passwordDialog.getPassword();
@@ -925,8 +925,8 @@ void DxWidget::receive()
             CredentialStore::instance()->deletePassword(connectedServerString->getPasswordStorageKey(),
                                                         connectedServerString->getUsername());
             QMessageBox::warning(nullptr,
-                                 QMessageBox::tr("DX Cluster password"),
-                                 QMessageBox::tr("Incorrect Password"));
+                                 QMessageBox::tr("DX Cluster Password"),
+                                 QMessageBox::tr("Invalid Password"));
             continue;
         }
 

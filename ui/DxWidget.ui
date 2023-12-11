@@ -562,7 +562,7 @@
   </action>
   <action name="actionForgetPassword">
    <property name="text">
-    <string>Forget Password</string>
+    <string>Clear Password</string>
    </property>
   </action>
   <action name="actionKeepSpots">
