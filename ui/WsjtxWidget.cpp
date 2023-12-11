@@ -13,6 +13,7 @@
 #include "ui/WsjtxFilterDialog.h"
 #include "core/Gridsquare.h"
 #include "ui/StyleItemDelegate.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.wsjtxswidget");
 
@@ -156,7 +157,7 @@ void WsjtxWidget::statusReceived(WsjtxStatus newStatus)
 
     if (this->status.dial_freq != newStatus.dial_freq) {
         currFreq = Hz2MHz(newStatus.dial_freq);
-        band = Data::instance()->band(currFreq).name;
+        band = BandPlan::freq2Band(currFreq).name;
         ui->freqLabel->setText(QString("%1 MHz").arg(QSTRING_FREQ(currFreq)));
         wsjtxTableModel->clear();
     }

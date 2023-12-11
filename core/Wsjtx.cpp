@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "core/HostsPortString.h"
 #include "core/Rig.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
@@ -403,10 +404,9 @@ void Wsjtx::insertContact(WsjtxLog log)
     QSqlRecord record = model.record(0);
 
     double freq = Hz2MHz(static_cast<double>(log.tx_freq));
-    QString band = Data::band(freq).name;
 
     record.setValue("freq", freq);
-    record.setValue("band", band);
+    record.setValue("band", BandPlan::freq2Band(freq).name);
 
     /* if field is empty then do not initialize it, leave it NULL
      * for database */

@@ -14,12 +14,7 @@ class Data : public QObject
 {
     Q_OBJECT
 public:
-    static const QString MODE_CW;
-    static const QString MODE_DIGITAL;
-    static const QString MODE_FT8;
-    static const QString MODE_LSB; // use just generic label SSB
-    static const QString MODE_USB; // use just generic label SSB
-    static const QString MODE_PHONE;
+
 
     const QMap<QString, QString> qslSentEnum = {
         {"Y", tr("Yes")},
@@ -78,10 +73,7 @@ public:
                                        const qint32 newDxcc,
                                        const QString &newBand,
                                        const QString &newMode);
-    static Band band(double freq);
-    static QList<Band> bandsList(const bool onlyDXCCBands = false, const bool onlyEnabled = false);
-    static QString freqToDXCCMode(double freq);
-    QString modeToDXCCMode(const QString &mode);
+
     static QColor statusToColor(const DxccStatus &status, const QColor &defaultColor);
     static QString colorToHTMLColor(const QColor&);
     static QString statusToText(const DxccStatus &status);

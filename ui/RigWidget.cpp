@@ -10,6 +10,7 @@
 #include "models/SqlListModel.h"
 #include "data/Data.h"
 #include "core/HRDLog.h"
+#include "data/BandPlan.h"
 
 // On AIR pinging to HRDLog [in sec]
 #define ONAIR_INTERVAL (1 * 60)
@@ -84,11 +85,13 @@ void RigWidget::updateFrequency(VFOID vfoid, double vfoFreq, double ritFreq, dou
     qCDebug(function_parameters) << vfoFreq << ritFreq << xitFreq;
 
     ui->freqLabel->setText(QString("%1 MHz").arg(QSTRING_FREQ(vfoFreq)));
-    if ( Data::band(vfoFreq).name != ui->bandComboBox->currentText() )
+    const QString& bandName = BandPlan::freq2Band(vfoFreq).name;
+
+    if ( bandName != ui->bandComboBox->currentText() )
     {
         ui->bandComboBox->blockSignals(true);
         saveLastSeenFreq();
-        ui->bandComboBox->setCurrentText(Data::band(vfoFreq).name);
+        ui->bandComboBox->setCurrentText(bandName);
         ui->bandComboBox->blockSignals(false);
     }
     lastSeenFreq = vfoFreq;
@@ -354,7 +357,7 @@ void RigWidget::saveLastSeenFreq()
 
         QModelIndexList bandIndex = bandComboModel->match(bandComboModel->index(0,bandComboModel->fieldIndex("name")),
                                                           Qt::DisplayRole,
-                                                          Data::band(lastSeenFreq).name,1, Qt::MatchExactly);
+                                                          BandPlan::freq2Band(lastSeenFreq).name,1, Qt::MatchExactly);
         if ( bandIndex.size() > 0 )
         {
             bandComboModel->setData(bandComboModel->index(bandIndex.at(0).row(),

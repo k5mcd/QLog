@@ -14,6 +14,7 @@
 #include "data/ToAllSpot.h"
 #include "ui/SwitchButton.h"
 #include "core/LogLocale.h"
+#include "core/DxServerString.h"
 
 #define DEDUPLICATION_TIME 3
 #define DEDUPLICATION_FREQ_TOLERANCE 0.005
@@ -102,9 +103,13 @@ private:
 class DeleteHighlightedDXServerWhenDelPressedEventFilter : public QObject
 {
      Q_OBJECT
+signals:
+    void deleteServerItem();
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
 };
+
 
 class DxWidget : public QWidget {
     Q_OBJECT
@@ -126,13 +131,17 @@ public slots:
     void serverSelectChanged(int);
     void setLastQSO(QSqlRecord);
 
-
 private slots:
     void actionCommandSpotQSO();
     void actionCommandShowHFStats();
     void actionCommandShowVHFStats();
     void actionCommandShowWCY();
     void actionCommandShowWWV();
+    void actionConnectOnStartup();
+    void actionDeleteServer();
+    void actionForgetPassword();
+    void actionKeepSpots();
+    void actionClear();
 
     void displayedColumns();
 
@@ -145,6 +154,16 @@ signals:
     void newFilteredSpot(DxSpot);
 
 private:
+    enum DXCConnectionState
+    {
+        DISCONNECTED = 0,
+        CONNECTING = 1,
+        CONNECTED = 2,
+        LOGIN_SENT = 3,
+        PASSWORD_SENT = 4,
+        OPERATION = 5
+    };
+
     DxTableModel* dxTableModel;
     WCYTableModel* wcyTableModel;
     WWVTableModel* wwvTableModel;
@@ -161,6 +180,8 @@ private:
     QSqlRecord lastQSO;
     quint8 reconnectAttempts;
     QTimer reconnectTimer;
+    DXCConnectionState connectionState;
+    DxServerString *connectedServerString;
 
     void connectCluster();
     void disconnectCluster(bool tryReconnect = false);
@@ -172,12 +193,27 @@ private:
     uint dxccStatusFilterValue();
     bool spotDedupValue();
     QStringList dxMemberList();
+    bool getAutoconnectServer();
+    void saveAutoconnectServer(bool);
+    bool getKeepQSOs();
+    void saveKeepQSOs(bool);
     void sendCommand(const QString&,
                      bool switchToConsole = false);
     void saveWidgetSetting();
     void restoreWidgetSetting();
 
     QStringList getDXCServerList(void);
+    void serverComboSetup();
+    void clearAllPasswordIcons();
+    void activateCurrPasswordIcon();
+
+    void processDxSpot(const QString &spotter,
+                       const QString &freq,
+                       const QString &call,
+                       const QString &comment,
+                       const QDateTime &dateTime = QDateTime());
+
+    QString modeGroupFromComment(const QString &comment) const;
 };
 
 #endif // DXWIDGET_H

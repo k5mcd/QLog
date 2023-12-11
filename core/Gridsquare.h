@@ -11,16 +11,16 @@ public:
     explicit Gridsquare(const QString &in_grid = QString());
     explicit Gridsquare(const double lat,const  double lon);
     ~Gridsquare() {};
-    static QRegularExpression gridRegEx();
-    static QRegularExpression gridVUCCRegEx();
-    static QRegularExpression gridExtRegEx();
+    static const QRegularExpression gridRegEx();
+    static const QRegularExpression gridVUCCRegEx();
+    static const QRegularExpression gridExtRegEx();
     static double distance2localeUnitDistance(double km, QString &unit);
     static double localeDistanceCoef();
 
     bool isValid() const;
     double getLongitude() const {return lon;};
     double getLatitude() const {return lat;};
-    QString getGrid() const { return grid;};
+    const QString getGrid() const { return grid;};
     bool distanceTo(const Gridsquare &in_grid, double &distance) const;
     bool distanceTo(double lat, double lon, double &distance) const;
     bool bearingTo(const Gridsquare &in_grid, double &bearing) const;

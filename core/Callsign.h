@@ -14,15 +14,15 @@ public:
     static const QString callsignRegExString();
     static const QStringList secondarySpecialSuffixes;
 
-    QString getCallsign() const;
-    QString getHostPrefix() const;
-    QString getHostPrefixWithDelimiter() const;
-    QString getBase() const;
-    QString getBasePrefix() const;
-    QString getBasePrefixNumber() const;
-    QString getSuffix() const;
-    QString getSuffixWithDelimiter() const;
-    QString getWPXPrefix() const;
+    const QString getCallsign() const;
+    const QString getHostPrefix() const;
+    const QString getHostPrefixWithDelimiter() const;
+    const QString getBase() const;
+    const QString getBasePrefix() const;
+    const QString getBasePrefixNumber() const;
+    const QString getSuffix() const;
+    const QString getSuffixWithDelimiter() const;
+    const QString getWPXPrefix() const;
     bool isValid() const;
 
 private:

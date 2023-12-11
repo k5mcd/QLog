@@ -59,6 +59,7 @@ SOURCES += \
         core/Callsign.cpp \
         core/ClubLog.cpp \
         core/CredentialStore.cpp \
+        core/DxServerString.cpp \
         core/Eqsl.cpp \
         core/Fldigi.cpp \
         core/GenericCallbook.cpp \
@@ -85,6 +86,7 @@ SOURCES += \
         core/main.cpp \
         core/zonedetect.c \
         data/AntProfile.cpp \
+        data/BandPlan.cpp \
         data/CWKeyProfile.cpp \
         data/CWShortcutProfile.cpp \
         data/Data.cpp \
@@ -126,6 +128,7 @@ SOURCES += \
         ui/ExportDialog.cpp \
         ui/HRDLogDialog.cpp \
         ui/ImportDialog.cpp \
+        ui/InputPasswordDialog.cpp \
         ui/KSTChatWidget.cpp \
         ui/KSTHighlightRuleDetail.cpp \
         ui/KSTHighlighterSettingDialog.cpp \
@@ -168,6 +171,7 @@ HEADERS += \
         core/Callsign.h \
         core/ClubLog.h \
         core/CredentialStore.h \
+        core/DxServerString.h \
         core/Eqsl.h \
         core/Fldigi.h \
         core/GenericCallbook.h \
@@ -194,6 +198,7 @@ HEADERS += \
         core/zonedetect.h \
         data/AntProfile.h \
         data/Band.h \
+        data/BandPlan.h \
         data/CWKeyProfile.h \
         data/CWShortcutProfile.h \
         data/Data.h \
@@ -246,6 +251,7 @@ HEADERS += \
         ui/ExportDialog.h \
         ui/HRDLogDialog.h \
         ui/ImportDialog.h \
+        ui/InputPasswordDialog.h \
         ui/KSTChatWidget.h \
         ui/KSTHighlightRuleDetail.h \
         ui/KSTHighlighterSettingDialog.h \
@@ -295,6 +301,7 @@ FORMS += \
         ui/ExportDialog.ui \
         ui/HRDLogDialog.ui \
         ui/ImportDialog.ui \
+        ui/InputPasswordDialog.ui \
         ui/KSTChatWidget.ui \
         ui/KSTHighlightRuleDetail.ui \
         ui/KSTHighlighterSettingDialog.ui \

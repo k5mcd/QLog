@@ -1,7 +1,6 @@
 #include <QDebug>
 #include <QColor>
 #include <QSettings>
-#include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include <QFontMetrics>
 #ifdef Q_OS_WIN
@@ -26,6 +25,10 @@
 #include "data/WWVSpot.h"
 #include "data/ToAllSpot.h"
 #include "ui/ColumnSettingDialog.h"
+#include "core/CredentialStore.h"
+#include "ui/InputPasswordDialog.h"
+#include "data/BandPlan.h"
+#include "core/DxServerString.h"
 
 #define CONSOLE_VIEW 4
 #define NUM_OF_RECONNECT_ATTEMPTS 3
@@ -38,7 +41,7 @@ int DxTableModel::rowCount(const QModelIndex&) const {
 }
 
 int DxTableModel::columnCount(const QModelIndex&) const {
-    return 10;
+    return 11;
 }
 
 QVariant DxTableModel::data(const QModelIndex& index, int role) const
@@ -53,7 +56,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
         case 2:
             return QString::number(spot.freq, 'f', 4);
         case 3:
-            return spot.mode;
+            return spot.modeGroup;
         case 4:
             return spot.spotter;
         case 5:
@@ -66,6 +69,8 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
             return spot.band;
         case 9:
             return spot.memberList2StringList().join(", ");
+        case 10:
+            return spot.dxcc.country;
         default:
             return QVariant();
         }
@@ -100,6 +105,7 @@ QVariant DxTableModel::headerData(int section, Qt::Orientation orientation, int 
     case 7: return tr("Spotter Continent");
     case 8: return tr("Band");
     case 9: return tr("Member");
+    case 10: return tr("Country");
 
     default: return QVariant();
     }
@@ -353,18 +359,14 @@ void ToAllTableModel::clear()
 
 bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
-    FCT_IDENTIFICATION;
-
     if ( event->type() == QEvent::KeyPress )
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if (keyEvent->key() == Qt::Key::Key_Delete && keyEvent->modifiers() == Qt::ControlModifier)
         {
-            auto combobox = dynamic_cast<QComboBox *>(obj);
-            if ( combobox )
+            if ( dynamic_cast<QComboBox *>(obj) )
             {
-                combobox->removeItem(combobox->currentIndex());
-                combobox->setMinimumWidth(0);
+                emit deleteServerItem();
                 return true;
             }
         }
@@ -373,47 +375,56 @@ bool DeleteHighlightedDXServerWhenDelPressedEventFilter::eventFilter(QObject *ob
     // standard event processing
     return QObject::eventFilter(obj, event);
 }
-
+/****************************************************/
 DxWidget::DxWidget(QWidget *parent) :
     QWidget(parent),
+    socket(nullptr),
     ui(new Ui::DxWidget),
     deduplicateSpots(false),
-    reconnectAttempts(0)
+    reconnectAttempts(0),
+    connectionState(DISCONNECTED),
+    connectedServerString(nullptr)
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-
-    socket = nullptr;
-
     ui->setupUi(this);
 
-    ui->serverSelect->setStyleSheet("QComboBox {color: red}");
+    ui->serverSelect->setStyleSheet(QStringLiteral("QComboBox {color: red}"));
 
     dxTableModel = new DxTableModel(this);
     wcyTableModel = new WCYTableModel(this);
     wwvTableModel = new WWVTableModel(this);
     toAllTableModel = new ToAllTableModel(this);
 
+    QAction *separator = new QAction(this);
+    separator->setSeparator(true);
+
     ui->dxTable->setModel(dxTableModel);
     ui->dxTable->addAction(ui->actionFilter);
     ui->dxTable->addAction(ui->actionDisplayedColumns);
+    ui->dxTable->addAction(ui->actionClear);
+    ui->dxTable->addAction(separator);
+    ui->dxTable->addAction(ui->actionKeepSpots);
     ui->dxTable->hideColumn(6);  //continent
     ui->dxTable->hideColumn(7);  //spotter continen
     ui->dxTable->hideColumn(8);  //band
     ui->dxTable->hideColumn(9);  //Memberships
+    ui->dxTable->hideColumn(10); //Country
     ui->dxTable->horizontalHeader()->setSectionsMovable(true);
 
     ui->wcyTable->setModel(wcyTableModel);
     ui->wcyTable->addAction(ui->actionDisplayedColumns);
+    ui->wcyTable->addAction(ui->actionClear);
     ui->wcyTable->horizontalHeader()->setSectionsMovable(true);
 
     ui->wwvTable->setModel(wwvTableModel);
     ui->wwvTable->addAction(ui->actionDisplayedColumns);
+    ui->wwvTable->addAction(ui->actionClear);
     ui->wwvTable->horizontalHeader()->setSectionsMovable(true);
 
     ui->toAllTable->setModel(toAllTableModel);
     ui->toAllTable->addAction(ui->actionDisplayedColumns);
+    ui->toAllTable->addAction(ui->actionClear);
     ui->toAllTable->horizontalHeader()->setSectionsMovable(true);
 
     moderegexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
@@ -434,19 +445,7 @@ DxWidget::DxWidget(QWidget *parent) :
     dxMemberFilter = QSet<QString>(QSet<QString>::fromList(tmp));
 #endif
 
-
-    QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
-    ui->serverSelect->addItems(DXCservers);
-    ui->serverSelect->installEventFilter(new DeleteHighlightedDXServerWhenDelPressedEventFilter);
-    QRegularExpression rx("[^\\:]+:[0-9]{1,5}");
-    ui->serverSelect->setValidator(new QRegularExpressionValidator(rx,this));
-    QString lastUsedServer = settings.value("dxc/last_server").toString();
-    int index = ui->serverSelect->findText(lastUsedServer);
-    // if last server still exists then set it otherwise use the first one
-    if ( index >= 0 )
-    {
-        ui->serverSelect->setCurrentIndex(index);
-    }
+    serverComboSetup();
 
     QMenu *commandsMenu = new QMenu(this);
     commandsMenu->addAction(ui->actionSpotQSO);
@@ -457,11 +456,21 @@ DxWidget::DxWidget(QWidget *parent) :
     commandsMenu->addAction(ui->actionShowWWV);
     ui->commandButton->setMenu(commandsMenu);
 
+    QMenu *mainWidgetMenu = new QMenu(this);
+    mainWidgetMenu->addAction(ui->actionDeleteServer);
+    mainWidgetMenu->addAction(ui->actionForgetPassword);
+    mainWidgetMenu->addSeparator();
+    mainWidgetMenu->addAction(ui->actionConnectOnStartup);
+    ui->menuButton->setMenu(mainWidgetMenu);
+
     reconnectTimer.setInterval(RECONNECT_TIMEOUT);
     reconnectTimer.setSingleShot(true);
     connect(&reconnectTimer, &QTimer::timeout, this, &DxWidget::connectCluster);
 
     restoreWidgetSetting();
+
+    ui->actionConnectOnStartup->setChecked(getAutoconnectServer());
+    ui->actionKeepSpots->setChecked(getKeepQSOs());
 }
 
 void DxWidget::toggleConnect()
@@ -475,14 +484,10 @@ void DxWidget::toggleConnect()
     }
     else
     {
-        int pos = ui->serverSelect->currentIndex();
-        QString curr_server = ui->serverSelect->currentText();
-        QValidator::State state = ui->serverSelect->validator()->validate(curr_server,pos);
-
-        if ( state != QValidator::Acceptable )
+        if ( !DxServerString::isValidServerString(ui->serverSelect->currentText()) )
         {
             QMessageBox::warning(nullptr, QMessageBox::tr("DXC Server Name Error"),
-                                          QMessageBox::tr("DXC Server address must be in format<p><b>hostname:port</b> (ex. hamqth.com:7300)</p>"));
+                                          QMessageBox::tr("DXC Server address must be in format<p><b>[username@]hostname:port</b> (ex. hamqth.com:7300)</p>"));
             return;
         }
         connectCluster();
@@ -493,19 +498,35 @@ void DxWidget::connectCluster()
 {
     FCT_IDENTIFICATION;
 
-    QStringList server = ui->serverSelect->currentText().split(":");
-    QString host = server[0];
-    int port = server[1].toInt();
+    connectedServerString = new DxServerString(ui->serverSelect->currentText(),
+                                               StationProfilesManager::instance()->getCurProfile1().callsign.toLower());
+
+    if ( !connectedServerString )
+    {
+        qWarning() << "Cannot allocate currServerString";
+        return;
+    }
+
+    if ( !connectedServerString->isValid() )
+    {
+        qWarning() << "DX Server address is not valid";
+        return;
+    }
+
+    qCDebug(runtime) << "username:" << connectedServerString->getUsername()
+                     << "host:" << connectedServerString->getHostname()
+                     << "port:" << connectedServerString->getPort();
 
     socket = new QTcpSocket(this);
 
-    connect(socket, &QTcpSocket::readyRead, this, &DxWidget::receive);
-    connect(socket, &QTcpSocket::connected, this, &DxWidget::connected);
+    connect(socket, &QTcpSocket::readyRead, this, &DxWidget::receive, Qt::QueuedConnection); // QueuedConnection is needed because error is send together with disconnect
+                                                                                             // which causes creash because error destroid object during processing received signal
+    connect(socket, &QTcpSocket::connected, this, &DxWidget::connected, Qt::QueuedConnection);
 #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     connect(socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
-            this, &DxWidget::socketError);
+            this, &DxWidget::socketError, Qt::QueuedConnection);
 #else
-    connect(socket, &QTcpSocket::errorOccurred, this, &DxWidget::socketError);
+    connect(socket, &QTcpSocket::errorOccurred, this, &DxWidget::socketError, Qt::QueuedConnection);
 #endif
     ui->connectButton->setEnabled(false);
     ui->connectButton->setText(tr("Connecting..."));
@@ -513,15 +534,20 @@ void DxWidget::connectCluster()
     if ( reconnectAttempts == 0 )
     {
         ui->log->clear();
-        ui->dxTable->clearSelection();
-        dxTableModel->clear();
-        wcyTableModel->clear();
-        wwvTableModel->clear();
-        toAllTableModel->clear();
+        if ( ! getKeepQSOs() )
+        {
+            ui->dxTable->clearSelection();
+            dxTableModel->clear();
+            wcyTableModel->clear();
+            wwvTableModel->clear();
+            toAllTableModel->clear();
+        }
         ui->dxTable->repaint();
     }
 
-    socket->connectToHost(host, port);
+    socket->connectToHost(connectedServerString->getHostname(),
+                          connectedServerString->getPort());
+    connectionState = CONNECTING;
 }
 
 void DxWidget::disconnectCluster(bool tryReconnect)
@@ -532,7 +558,6 @@ void DxWidget::disconnectCluster(bool tryReconnect)
     ui->commandEdit->setEnabled(false);
     ui->commandButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
-
 
     if ( socket )
     {
@@ -555,8 +580,16 @@ void DxWidget::disconnectCluster(bool tryReconnect)
         reconnectAttempts = 0;
         ui->commandEdit->setPlaceholderText("");
         ui->connectButton->setText(tr("Connect"));
-        ui->serverSelect->setStyleSheet("QComboBox {color: red}");
+        ui->serverSelect->setStyleSheet(QStringLiteral("QComboBox {color: red}"));
     }
+    connectionState = DISCONNECTED;
+    if ( connectedServerString )
+    {
+        delete connectedServerString;
+        connectedServerString = nullptr;
+    }
+
+    clearAllPasswordIcons();
 }
 
 void DxWidget::saveDXCServers()
@@ -566,6 +599,17 @@ void DxWidget::saveDXCServers()
     QSettings settings;
 
     QStringList serversItems = getDXCServerList();
+    const QString &curr_server = ui->serverSelect->currentText();
+
+    if ( DxServerString::isValidServerString(ui->serverSelect->currentText())
+         && !serversItems.contains(curr_server)
+         && !curr_server.isEmpty() )
+    {
+        ui->serverSelect->insertItem(0, ui->serverSelect->currentText());
+        serversItems.prepend(ui->serverSelect->currentText()); // insert policy is InsertAtTop
+        ui->serverSelect->setCurrentIndex(0);
+    }
+
     settings.setValue("dxc/servers", serversItems);
     settings.setValue("dxc/last_server", ui->serverSelect->currentText());
 }
@@ -575,12 +619,12 @@ QString DxWidget::modeFilterRegExp()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString regexp = "NOTHING";
+    QString regexp("NOTHING");
 
-    if (settings.value("dxc/filter_mode_phone",true).toBool())   regexp = regexp + "|" + Data::MODE_PHONE;
-    if (settings.value("dxc/filter_mode_cw",true).toBool())      regexp = regexp + "|" + Data::MODE_CW;
-    if (settings.value("dxc/filter_mode_ft8",true).toBool())     regexp = regexp + "|" + Data::MODE_FT8;
-    if (settings.value("dxc/filter_mode_digital",true).toBool()) regexp = regexp + "|" + Data::MODE_DIGITAL;
+    if (settings.value("dxc/filter_mode_phone",true).toBool())   regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_PHONE;
+    if (settings.value("dxc/filter_mode_cw",true).toBool())      regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_CW;
+    if (settings.value("dxc/filter_mode_ft8",true).toBool())     regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_FT8;
+    if (settings.value("dxc/filter_mode_digital",true).toBool()) regexp = regexp + "|" + BandPlan::MODE_GROUP_STRING_DIGITAL;
 
     return regexp;
 }
@@ -606,7 +650,7 @@ QString DxWidget::bandFilterRegExp()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString regexp = "NOTHING";
+    QString regexp("NOTHING");
 
 
     SqlListModel *bands= new SqlListModel("SELECT name FROM bands WHERE enabled = 1 ORDER BY start_freq", "Band");
@@ -647,6 +691,38 @@ QStringList DxWidget::dxMemberList()
 
     QSettings settings;
     return settings.value("dxc/filter_dx_member_list").toStringList();
+}
+
+bool DxWidget::getAutoconnectServer()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("dxc/autoconnect", false).toBool();
+}
+
+void DxWidget::saveAutoconnectServer(bool state)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    settings.setValue("dxc/autoconnect", state);
+}
+
+bool DxWidget::getKeepQSOs()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    return settings.value("dxc/keepqsos", false).toBool();
+}
+
+void DxWidget::saveKeepQSOs(bool state)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+    settings.setValue("dxc/keepqsos", state);
 }
 
 void DxWidget::sendCommand(const QString & command,
@@ -741,31 +817,42 @@ void DxWidget::receive()
 {
     FCT_IDENTIFICATION;
 
-    static QRegularExpression dxSpotRE("^DX de ([a-zA-Z0-9\\/]+).*:\\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z)",
+    static QRegularExpression dxSpotRE(QStringLiteral("^DX de ([a-zA-Z0-9\\/]+).*:\\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z)"),
                                        QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch dxSpotMatch;
 
-    static QRegularExpression wcySpotRE("^(WCY de) +([A-Z0-9\\-#]*) +<(\\d{2})> *: +K=(\\d{1,3}) expK=(\\d{1,3}) A=(\\d{1,3}) R=(\\d{1,3}) SFI=(\\d{1,3}) SA=([a-zA-Z]{1,3}) GMF=([a-zA-Z]{1,3}) Au=([a-zA-Z]{2}) *$",
+    static QRegularExpression wcySpotRE(QStringLiteral("^(WCY de) +([A-Z0-9\\-#]*) +<(\\d{2})> *: +K=(\\d{1,3}) expK=(\\d{1,3}) A=(\\d{1,3}) R=(\\d{1,3}) SFI=(\\d{1,3}) SA=([a-zA-Z]{1,3}) GMF=([a-zA-Z]{1,3}) Au=([a-zA-Z]{2}) *$"),
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch wcySpotMatch;
 
-    static QRegularExpression wwvSpotRE("^(WWV de) +([A-Z0-9\\-#]*) +<(\\d{2})Z?> *: *SFI=(\\d{1,3}), A=(\\d{1,3}), K=(\\d{1,3}), (.*\\b) *-> *(.*\\b) *$",
+    static QRegularExpression wwvSpotRE(QStringLiteral("^(WWV de) +([A-Z0-9\\-#]*) +<(\\d{2})Z?> *: *SFI=(\\d{1,3}), A=(\\d{1,3}), K=(\\d{1,3}), (.*\\b) *-> *(.*\\b) *$"),
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch wwvSpotMatch;
 
-    static QRegularExpression toAllSpotRE("^(To ALL de) +([A-Z0-9\\-#]*)\\s?(<(\\d{4})Z>)?[ :]+(.*)?$",
+    static QRegularExpression toAllSpotRE(QStringLiteral("^(To ALL de) +([A-Z0-9\\-#]*)\\s?(<(\\d{4})Z>)?[ :]+(.*)?$"),
                                         QRegularExpression::CaseInsensitiveOption);
     QRegularExpressionMatch toAllSpotMatch;
 
-    static QRegularExpression splitLineRE("(\a|\n|\r)+");
-    static QRegularExpression loginRE("enter your call(sign)?:");
+    static QRegularExpression SHDXFormatRE(QStringLiteral("^ \\s+([0-9|.]+)\\s+([a-zA-Z0-9\\/]+)[^\\s]*\\s+(.*)\\s+(\\d{4}Z) (.*)<([a-zA-Z0-9\\/]+)>$"),
+                                        QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch SHDXFormatMatch;
+
+    static QRegularExpression splitLineRE(QStringLiteral("(\a|\n|\r)+"));
+    static QRegularExpression loginRE(QStringLiteral("enter your call(sign)?:"));
 
     reconnectAttempts = 0;
-    QString data(socket->readAll());
+    QString data(QString::fromUtf8(socket->readAll()));
     QStringList lines = data.split(splitLineRE);
 
-    foreach (QString line, lines)
+    for ( const QString &line : qAsConst(lines) )
     {
+        if ( !socket || !connectedServerString )
+        {
+            qCDebug(runtime) << "socket or connection string is null";
+            return;
+        }
+
+        qCDebug(runtime) << connectionState << line;
 
         // Skip empty lines
         if ( line.length() == 0 )
@@ -773,69 +860,109 @@ void DxWidget::receive()
             continue;
         }
 
-        if (line.startsWith("login") || line.contains(loginRE) )
+        if ( line.startsWith(QStringLiteral("login"), Qt::CaseInsensitive)
+             || line.contains(loginRE) )
         {
-            QByteArray call = StationProfilesManager::instance()->getCurProfile1().callsign.toLocal8Bit();
-            call.append("\r\n");
-            socket->write(call);
+            // username requested
+            socket->write(connectedServerString->getUsername().append("\r\n").toLocal8Bit());
+            connectionState = LOGIN_SENT;
+            qCDebug(runtime) << "Login sent";
+            continue;
         }
 
-        if ( line.contains("dxspider", Qt::CaseInsensitive) )
+        if ( connectionState == LOGIN_SENT
+             && line.contains(QStringLiteral("is an invalid callsign")) )
         {
+            // invalid login
+            QMessageBox::warning(nullptr,
+                                 tr("DXC Server Error"),
+                                 tr("An invalid callsign"));
+            continue;
+        }
+
+        if ( connectionState == LOGIN_SENT
+             && line.startsWith(QStringLiteral("password"), Qt::CaseInsensitive) )
+        {
+            // password requested
+            QString password = CredentialStore::instance()->getPassword(connectedServerString->getPasswordStorageKey(),
+                                                                        connectedServerString->getUsername());
+
+            if ( password.isEmpty() )
+            {
+                InputPasswordDialog passwordDialog(tr("DX Cluster Password"),
+                                                   "<b>" + tr("Security Notice") + ":</b> " + tr("The password can be sent via an unsecured channel") +
+                                                   "<br/><br/>" +
+                                                   "<b>" + tr("Server") + ":</b> " + socket->peerName() + ":" + QString::number(socket->peerPort()) +
+                                                   "<br/>" +
+                                                   "<b>" + tr("Username") + "</b>: " + connectedServerString->getUsername(), this);
+                if ( passwordDialog.exec() == QDialog::Accepted )
+                {
+                    password = passwordDialog.getPassword();
+                    if ( passwordDialog.getRememberPassword() && !password.isEmpty() )
+                    {
+                        CredentialStore::instance()->savePassword(connectedServerString->getPasswordStorageKey(),
+                                                                  connectedServerString->getUsername(),
+                                                                  password);
+                    }
+                }
+                else
+                {
+                    disconnectCluster(false);
+                    return;
+                }
+            }
+            activateCurrPasswordIcon();
+            socket->write(password.append("\r\n").toLocal8Bit());
+            connectionState = PASSWORD_SENT;
+            qCDebug(runtime) << "Password sent";
+            continue;
+        }
+
+        if ( connectionState == PASSWORD_SENT
+             && line.startsWith(QStringLiteral("sorry"), Qt::CaseInsensitive ) )
+        {
+            // invalid password
+            CredentialStore::instance()->deletePassword(connectedServerString->getPasswordStorageKey(),
+                                                        connectedServerString->getUsername());
+            QMessageBox::warning(nullptr,
+                                 QMessageBox::tr("DX Cluster Password"),
+                                 QMessageBox::tr("Invalid Password"));
+            continue;
+        }
+
+        if ( line.contains(QStringLiteral("dxspider"), Qt::CaseInsensitive) )
+        {
+            if ( connectionState == LOGIN_SENT
+                 || connectionState == PASSWORD_SENT )
+                connectionState = OPERATION;
+
             ui->commandButton->setEnabled(true);
         }
 
         /********************/
         /* Received DX SPOT */
         /********************/
-        if ( line.startsWith("DX") )
+        if ( line.startsWith(QStringLiteral("DX")) )
         {
+            if ( connectionState == LOGIN_SENT
+                 || connectionState == PASSWORD_SENT )
+                connectionState = OPERATION;
+
             dxSpotMatch = dxSpotRE.match(line);
 
             if ( dxSpotMatch.hasMatch() )
             {
-                QString spotter = dxSpotMatch.captured(1);
-                QString freq =    dxSpotMatch.captured(2);
-                QString call =    dxSpotMatch.captured(3);
-                QString comment = dxSpotMatch.captured(4);
-
-                DxccEntity dxcc = Data::instance()->lookupDxcc(call);
-                DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
-
-                DxSpot spot;
-
-                spot.time =  QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
-                spot.callsign = call;
-                spot.freq = freq.toDouble() / 1000;
-                spot.band = Data::band(spot.freq).name;
-                spot.mode = Data::freqToDXCCMode(spot.freq);
-                spot.spotter = spotter;
-                spot.comment = comment;
-                spot.dxcc = dxcc;
-                spot.dxcc_spotter = dxcc_spotter;
-                spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, Data::freqToDXCCMode(spot.freq));
-                spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
-
-                emit newSpot(spot);
-
-                if ( spot.mode.contains(moderegexp)
-                     && spot.dxcc.cont.contains(contregexp)
-                     && spot.dxcc_spotter.cont.contains(spottercontregexp)
-                     && spot.band.contains(bandregexp)
-                     && ( spot.status & dxccStatusFilter)
-                     && ( dxMemberFilter.size() == 0
-                          || (dxMemberFilter.size() && spot.memberList2Set().intersects(dxMemberFilter)))
-                    )
-                {
-                    if ( dxTableModel->addEntry(spot, deduplicateSpots) )
-                        emit newFilteredSpot(spot);
-                }
+                //DX de N9EN/4:    18077.0  OS5Z         op. Marc; tnx QSO!             1359Z
+                processDxSpot(dxSpotMatch.captured(1),   //spotter
+                              dxSpotMatch.captured(2),   //freq
+                              dxSpotMatch.captured(3),   //call
+                              dxSpotMatch.captured(4));  //comment
             }
         }
         /************************/
         /* Received WCY Info */
         /************************/
-        else if ( line.startsWith("WCY de") )
+        else if ( line.startsWith(QStringLiteral("WCY de")) )
         {
             wcySpotMatch = wcySpotRE.match(line);
 
@@ -860,7 +987,7 @@ void DxWidget::receive()
         /*********************/
         /* Received WWV Info */
         /*********************/
-        else if ( line.startsWith("WWV de") )
+        else if ( line.startsWith(QStringLiteral("WWV de")) )
         {
             wwvSpotMatch = wwvSpotRE.match(line);
 
@@ -882,7 +1009,7 @@ void DxWidget::receive()
         /*************************/
         /* Received Generic Info */
         /*************************/
-        else if ( line.startsWith("To ALL de") )
+        else if ( line.startsWith(QStringLiteral("To ALL de")) )
         {
             toAllSpotMatch = toAllSpotRE.match(line);
 
@@ -898,6 +1025,26 @@ void DxWidget::receive()
 
                 emit newToAllSpot(spot);
                 toAllTableModel->addEntry(spot);
+            }
+        }
+        /****************/
+        /* SH/DX format  */
+        /****************/
+        else if ( line.contains(SHDXFormatRE) )
+        {
+            SHDXFormatMatch = SHDXFormatRE.match(line);
+
+            if ( SHDXFormatMatch.hasMatch() )
+            {
+                //14045.6 K5UV         6-Dec-2023 1359Z CWops CWT Contest             <VE4DL>
+                const QDateTime &dateTime = QDateTime::fromString(SHDXFormatMatch.captured(3) +
+                                                                  " " +
+                                                                  SHDXFormatMatch.captured(4), "d-MMM-yyyy hhmmZ");
+                processDxSpot(SHDXFormatMatch.captured(6),   //spotter
+                              SHDXFormatMatch.captured(1),   //freq
+                              SHDXFormatMatch.captured(2),   //call
+                              SHDXFormatMatch.captured(5),
+                              dateTime);  //comment
             }
         }
         ui->log->appendPlainText(line);
@@ -921,7 +1068,8 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error)
         break;
     case QAbstractSocket::RemoteHostClosedError:
         error_msg.append(QObject::tr("Host closed the connection"));
-        reconectRequested = true;
+        reconectRequested = (connectionState != LOGIN_SENT
+                             && connectionState != PASSWORD_SENT);
         break;
     case QAbstractSocket::HostNotFoundError:
         error_msg.append(QObject::tr("Host not found"));
@@ -941,7 +1089,9 @@ void DxWidget::socketError(QAbstractSocket::SocketError socker_error)
 
     qInfo() << "Detailed Error: " << socker_error;
 
-    if ( ! reconectRequested || reconnectAttempts == NUM_OF_RECONNECT_ATTEMPTS)
+    if ( connectionState != LOGIN_SENT
+         && connectionState != PASSWORD_SENT
+         && (! reconectRequested || reconnectAttempts == NUM_OF_RECONNECT_ATTEMPTS))
     {
         QMessageBox::warning(nullptr,
                              QMessageBox::tr("DXC Server Connection Error"),
@@ -1015,7 +1165,7 @@ void DxWidget::connected()
     ui->connectButton->setText(tr("Disconnect"));
     ui->commandEdit->setPlaceholderText("");
     ui->serverSelect->setStyleSheet("QComboBox {color: green}");
-
+    connectionState = CONNECTED;
     saveDXCServers();
 }
 
@@ -1101,11 +1251,11 @@ void DxWidget::actionCommandSpotQSO()
 
     qCDebug(runtime) << "Last QSO" << lastQSO;
 
-    if ( lastQSO.contains("start_time") )
+    if ( lastQSO.contains(QStringLiteral("start_time")) )
     {
         //lastQSO is valid record
-        if ( lastQSO.contains("freq")
-             && lastQSO.contains("callsign") )
+        if ( lastQSO.contains(QStringLiteral("freq"))
+             && lastQSO.contains(QStringLiteral("callsign")) )
         {
             bool ok;
             QString remarks = QInputDialog::getText(this,
@@ -1139,28 +1289,99 @@ void DxWidget::actionCommandShowHFStats()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/hfstats", true);
+    sendCommand(QStringLiteral("sh/hfstats"), true);
 }
 
 void DxWidget::actionCommandShowVHFStats()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/vhfstats", true);
+    sendCommand(QStringLiteral("sh/vhfstats"), true);
 }
 
 void DxWidget::actionCommandShowWCY()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/wcy", true);
+    sendCommand(QStringLiteral("sh/wcy"), true);
 }
 
 void DxWidget::actionCommandShowWWV()
 {
     FCT_IDENTIFICATION;
 
-    sendCommand("sh/wwv", true);
+    sendCommand(QStringLiteral("sh/wwv"), true);
+}
+
+void DxWidget::actionConnectOnStartup()
+{
+    FCT_IDENTIFICATION;
+
+    saveAutoconnectServer(ui->actionConnectOnStartup->isChecked());
+
+    if ( ui->actionConnectOnStartup->isChecked() && socket == nullptr)
+    {
+        // dxc is not connected, connnet it
+        toggleConnect();
+    }
+}
+
+void DxWidget::actionDeleteServer()
+{
+    FCT_IDENTIFICATION;
+
+    actionForgetPassword();
+    ui->serverSelect->removeItem(ui->serverSelect->currentIndex());
+    ui->serverSelect->setMinimumWidth(0);
+    saveDXCServers();
+}
+
+void DxWidget::actionForgetPassword()
+{
+    FCT_IDENTIFICATION;
+
+    DxServerString serverName(ui->serverSelect->currentText(),
+                              StationProfilesManager::instance()->getCurProfile1().callsign.toLower());
+
+    if ( serverName.isValid() )
+    {
+        CredentialStore::instance()->deletePassword(serverName.getPasswordStorageKey(),
+                                                    serverName.getUsername());
+    }
+    else
+    {
+        qCDebug(runtime) << "Cannot remove record from Secure Store, server name is not valid"
+                         << ui->serverSelect->currentText();
+    }
+    ui->serverSelect->setItemIcon(ui->serverSelect->currentIndex(), QIcon());
+}
+
+void DxWidget::actionKeepSpots()
+{
+    FCT_IDENTIFICATION;
+
+    saveKeepQSOs(ui->actionKeepSpots->isChecked());
+}
+
+void DxWidget::actionClear()
+{
+    FCT_IDENTIFICATION;
+
+    QTableView *view = nullptr;
+
+    switch ( ui->stack->currentIndex() )
+    {
+    case 0: dxTableModel->clear(); view = ui->dxTable; break;
+    case 1: wcyTableModel->clear(); view = ui->wcyTable; break;
+    case 2: wwvTableModel->clear(); view = ui->wwvTable; break;
+    case 3: toAllTableModel->clear(); view = ui->toAllTable; break;
+    default: view = nullptr;
+    }
+
+    if ( view )
+    {
+        view->repaint();
+    }
 }
 
 void DxWidget::displayedColumns()
@@ -1199,10 +1420,131 @@ QStringList DxWidget::getDXCServerList()
     return ret;
 }
 
-DxWidget::~DxWidget() {
+void DxWidget::serverComboSetup()
+{
     FCT_IDENTIFICATION;
 
-    saveDXCServers();
+    QSettings settings;
+
+    QStringList DXCservers = settings.value("dxc/servers", QStringList("hamqth.com:7300")).toStringList();
+    DeleteHighlightedDXServerWhenDelPressedEventFilter *deleteHandled = new DeleteHighlightedDXServerWhenDelPressedEventFilter;
+
+    ui->serverSelect->addItems(DXCservers);
+    ui->serverSelect->installEventFilter(deleteHandled);
+    connect(deleteHandled, &DeleteHighlightedDXServerWhenDelPressedEventFilter::deleteServerItem,
+            this, &DxWidget::actionDeleteServer);
+
+    QString lastUsedServer = settings.value("dxc/last_server").toString();
+    int index = ui->serverSelect->findText(lastUsedServer);
+
+    // if last server still exists then set it otherwise use the first one
+    if ( index >= 0 )
+    {
+        ui->serverSelect->setCurrentIndex(index);
+    }
+}
+
+void DxWidget::clearAllPasswordIcons()
+{
+    FCT_IDENTIFICATION;
+
+    for (int i = 0; i < ui->serverSelect->count(); i++)
+    {
+        ui->serverSelect->setItemIcon(i, QIcon());
+    }
+}
+
+void DxWidget::activateCurrPasswordIcon()
+{
+    FCT_IDENTIFICATION;
+
+    ui->serverSelect->setItemIcon(ui->serverSelect->currentIndex(), QIcon(":/icons/password.png"));
+}
+
+void DxWidget::processDxSpot(const QString &spotter,
+                             const QString &freq,
+                             const QString &call,
+                             const QString &comment,
+                             const QDateTime &dateTime)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << spotter << freq << call << comment << dateTime << dateTime.isNull();
+
+    DxSpot spot;
+    DxccEntity dxcc = Data::instance()->lookupDxcc(call);
+    DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
+
+    spot.time = (dateTime.isNull()) ? QDateTime::currentDateTime().toTimeSpec(Qt::UTC)
+                                    : dateTime;
+    spot.callsign = call;
+    spot.freq = freq.toDouble() / 1000;
+    spot.band = BandPlan::freq2Band(spot.freq).name;
+    spot.spotter = spotter;
+    spot.comment = comment.trimmed();
+    spot.modeGroup = modeGroupFromComment(spot.comment);
+    if ( spot.modeGroup == QString() )
+        spot.modeGroup = BandPlan::freq2BandModeGroupString(spot.freq);
+    spot.dxcc = dxcc;
+    spot.dxcc_spotter = dxcc_spotter;
+    spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, spot.modeGroup);
+    spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
+
+    emit newSpot(spot);
+
+    if ( spot.modeGroup.contains(moderegexp)
+         && spot.dxcc.cont.contains(contregexp)
+         && spot.dxcc_spotter.cont.contains(spottercontregexp)
+         && spot.band.contains(bandregexp)
+         && ( spot.status & dxccStatusFilter)
+         && ( dxMemberFilter.size() == 0
+              || (dxMemberFilter.size() && spot.memberList2Set().intersects(dxMemberFilter)))
+        )
+    {
+        if ( dxTableModel->addEntry(spot, deduplicateSpots) )
+            emit newFilteredSpot(spot);
+    }
+}
+
+QString DxWidget::modeGroupFromComment(const QString &comment) const
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << comment;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    const QStringList &tokenizedComment = comment.split(" ", Qt::SkipEmptyParts);
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+    const QStringList &tokenizedComment = comment.split(" ", QString::SkipEmptyParts);
+#endif
+
+    if ( tokenizedComment.contains("CW", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_CW;
+
+    if ( tokenizedComment.contains("FT8", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_FT8;
+
+    if ( tokenizedComment.contains("FT4", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    if ( tokenizedComment.contains("MSK144", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    if ( tokenizedComment.contains("RTTY", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    if ( tokenizedComment.contains("SSTV", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    return QString();
+}
+
+DxWidget::~DxWidget()
+{
+    FCT_IDENTIFICATION;
+
     saveWidgetSetting();
     delete ui;
 }
+
+

@@ -25,6 +25,7 @@
 #include "logformat/AdiFormat.h"
 #include "data/MainLayoutProfile.h"
 #include "models/LogbookModel.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.newcontactwidget");
 
@@ -433,7 +434,7 @@ void NewContactWidget::queryDxcc(const QString &callsign)
         uiDynamic->cqzEdit->setText(QString::number(dxccEntity.cqz));
         uiDynamic->ituEdit->setText(QString::number(dxccEntity.ituz));
         updateCoordinates(dxccEntity.latlon[0], dxccEntity.latlon[1], COORD_DXCC);
-        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
+        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, BandPlan::freq2Band(ui->freqTXEdit->value()));
         uiDynamic->contEdit->setCurrentText(dxccEntity.cont);
         updateDxccStatus();
         if ( !dxccEntity.flag.isEmpty() )
@@ -840,25 +841,7 @@ void NewContactWidget::changeModefromRig(VFOID, const QString &, const QString &
 
     bandwidthFilter = width;
 
-    if ( ui->modeEdit->currentText() == mode)
-    {
-        qCDebug(runtime) << "Mode did not change, changing submode";
-
-        ui->submodeEdit->blockSignals(true);
-        ui->submodeEdit->setCurrentText(subMode);
-        ui->submodeEdit->blockSignals(false);
-        return;
-    }
-
-    qCDebug(runtime) << "Mode changed - updating submode list";
-
-    ui->modeEdit->blockSignals(true);
-    ui->submodeEdit->blockSignals(true);
-    ui->modeEdit->setCurrentText(mode);
-    __modeChanged();
-    ui->submodeEdit->setCurrentText(subMode);
-    ui->submodeEdit->blockSignals(false);
-    ui->modeEdit->blockSignals(false);
+    changeModeWithoutSignals(mode, subMode);
 }
 
 void NewContactWidget::subModeChanged()
@@ -880,7 +863,7 @@ void NewContactWidget::updateTXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    Band band = Data::band(freq);
+    const Band& band = BandPlan::freq2Band(freq);
 
     if (band.name.isEmpty())
     {
@@ -892,7 +875,7 @@ void NewContactWidget::updateTXBand(double freq)
     }
 
     updateDxccStatus();
-    ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
+    ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, BandPlan::freq2Band(ui->freqTXEdit->value()));
 }
 
 void NewContactWidget::updateRXBand(double freq)
@@ -901,7 +884,7 @@ void NewContactWidget::updateRXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    Band band = Data::band(freq);
+    const Band& band = BandPlan::freq2Band(freq);
 
     if (band.name.isEmpty())
     {
@@ -1108,7 +1091,7 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
     if ( record.value("band").toString().isEmpty()
          && ! record.value("freq").isNull() )
     {
-        record.setValue("band", Data::band(record.value("freq").toDouble()).name);
+        record.setValue("band", BandPlan::freq2Band(record.value("freq").toDouble()).name);
     }
 
     if ( record.value("prop_mode").toString().isEmpty()
@@ -1764,7 +1747,7 @@ void NewContactWidget::markContact()
 
         spot.time = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
         spot.freq = ui->freqRXEdit->value();
-        spot.band = Data::band(spot.freq).name;
+        spot.band = BandPlan::freq2Band(spot.freq).name;
         spot.callsign = ui->callsignEdit->text().toUpper();
         emit markQSO(spot);
     }
@@ -2005,6 +1988,33 @@ void NewContactWidget::changeFrequency(VFOID vfoid, double vfoFreq, double ritFr
         return;
     }
     __changeFrequency (vfoid, vfoFreq, ritFreq, xitFreq);
+}
+
+void NewContactWidget::changeModeWithoutSignals(const QString &mode, const QString &subMode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode << subMode;
+
+    if ( ui->modeEdit->currentText() == mode)
+    {
+        qCDebug(runtime) << "Mode did not change, changing submode";
+
+        ui->submodeEdit->blockSignals(true);
+        ui->submodeEdit->setCurrentText(subMode);
+        ui->submodeEdit->blockSignals(false);
+        return;
+    }
+
+    qCDebug(runtime) << "Mode changed - updating submode list";
+
+    ui->modeEdit->blockSignals(true);
+    ui->submodeEdit->blockSignals(true);
+    ui->modeEdit->setCurrentText(mode);
+    __modeChanged();
+    ui->submodeEdit->setCurrentText(subMode);
+    ui->submodeEdit->blockSignals(false);
+    ui->modeEdit->blockSignals(false);
 }
 
 void NewContactWidget::showRXTXFreqs(bool enable)
@@ -2413,7 +2423,31 @@ void NewContactWidget::tuneDx(const QString &callsign, double frequency)
         return;
     }
 
-    if ( frequency < 0.0 )
+    if ( frequency > 0.0 )
+    {
+        QString subMode;
+        const QString &mode = BandPlan::freq2ExpectedMode(frequency,
+                                                          subMode);
+        if ( !mode.isEmpty() )
+        {
+            // in case of SSB, do not sent 2 mode changes to rig
+            // therefore change Mode without signals and then set the
+            // final mode
+            changeModeWithoutSignals(mode, subMode);
+            if ( mode == "FT8" )
+            {
+                // if rig is connected then FT8 mode is overwrotten by rit
+                // but it the rig is not connected then mode contains a correct
+                // mode
+                rig->setMode("SSB", "USB");
+            }
+            else
+            {
+                rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+            }
+        }
+    }
+    else
     {
         frequency = ui->freqRXEdit->value();
     }

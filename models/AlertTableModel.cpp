@@ -153,7 +153,7 @@ AlertTableModel::AlertTableRecord::AlertTableRecord(const SpotAlert &spotAlert) 
     callsign(spotAlert.callsign),
     freq(spotAlert.freq),
     band(spotAlert.band),
-    mode(spotAlert.mode),
+    mode(spotAlert.modeGroupString),
     comment(spotAlert.comment),
     counter(0),
     status(spotAlert.status)

@@ -191,6 +191,7 @@ public slots:
 
     // to receive RIG instructions
     void changeFrequency(VFOID, double, double, double);
+    void changeModeWithoutSignals(const QString &mode, const QString &submode);
     void changeModefromRig(VFOID, const QString &rawMode, const QString &mode,
                     const QString &subMode, qint32 width);
     void changePower(VFOID, double power);

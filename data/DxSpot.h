@@ -12,7 +12,7 @@ public:
     QList<ClubInfo> callsign_member;
     double freq;
     QString band;
-    QString mode;
+    QString modeGroup;
     QString spotter;
     QString comment;
     DxccEntity dxcc;

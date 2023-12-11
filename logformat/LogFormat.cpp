@@ -8,6 +8,7 @@
 #include "core/debug.h"
 #include "core/Gridsquare.h"
 #include "core/Callsign.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
@@ -317,7 +318,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             && !record.value("freq").toString().isEmpty() )
         {
             double freq = record.value("freq").toDouble();
-            record.setValue("band", Data::band(freq).name);
+            record.setValue("band", BandPlan::freq2Band(freq).name);
         }
 
         if ( dupSetting != ACCEPT_ALL )

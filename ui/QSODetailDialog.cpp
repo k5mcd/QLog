@@ -16,6 +16,7 @@
 #include "models/SqlListModel.h"
 #include "core/Gridsquare.h"
 #include "core/Callsign.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.ui.qsodetaildialog");
 
@@ -786,7 +787,7 @@ void QSODetailDialog::queryMemberList()
     if ( ui->callsignEdit->text().size() >= 3 )
     {
         MembershipQE::instance()->asyncQueryDetails(ui->callsignEdit->text(),
-                                                    Data::band(ui->freqTXEdit->value()).name,
+                                                    BandPlan::freq2Band(ui->freqTXEdit->value()).name,
                                                     ui->modeEdit->currentText());
     }
 }
@@ -836,7 +837,7 @@ bool QSODetailDialog::doValidation()
                                  ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
                                  tr("TX Frequency or Band must be filled"));
 
-    QString bandString = Data::band(ui->freqTXEdit->value()).name;
+    QString bandString = BandPlan::freq2Band(ui->freqTXEdit->value()).name;
 
     allValid &= highlightInvalid(ui->bandLabel,
                                  ui->freqTXEdit->value() != 0.0 && ui->bandTXCombo->currentText() != bandString,
@@ -846,7 +847,7 @@ bool QSODetailDialog::doValidation()
                                  ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
                                  tr("TX Frequency or Band must be filled"));
 
-    bandString = Data::band(ui->freqRXEdit->value()).name;
+    bandString = BandPlan::freq2Band(ui->freqRXEdit->value()).name;
 
     allValid &= highlightInvalid(ui->bandLabel,
                                  ui->freqRXEdit->value() != 0.0 && ui->bandRXCombo->currentText() != bandString,
@@ -1543,7 +1544,7 @@ void QSODetailDialog::refreshDXCCTab()
     DxccEntity dxccEntity = Data::instance()->lookupDxcc(ui->callsignEdit->text());
     if ( dxccEntity.dxcc )
     {
-        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, Data::band(ui->freqTXEdit->value()));
+        ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, BandPlan::freq2Band(ui->freqTXEdit->value()));
     }
     else
     {

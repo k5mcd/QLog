@@ -12,6 +12,7 @@
 #include "ui_BandmapWidget.h"
 #include "core/Rig.h"
 #include "data/Data.h"
+#include "data/BandPlan.h"
 #include "core/debug.h"
 
 MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
@@ -47,7 +48,7 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
 
     keepRXCenter = settings.value("bandmap/centerrx", true).toBool();
 
-    setBand(Data::band(freq), false);
+    setBand(BandPlan::freq2Band(freq), false);
 
     bandmapScene = new GraphicsScene(this);
     bandmapScene->setFocusOnTouch(false);
@@ -604,8 +605,8 @@ void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
     FCT_IDENTIFICATION;
 
     qint32 dxcc = record.value("dxcc").toInt();
-    QString band = record.value("band").toString();
-    QString mode = Data::instance()->modeToDXCCMode(record.value("mode").toString());
+    const QString &band = record.value("band").toString();
+    const QString &dxccModeGroup = BandPlan::modeToDXCCModeGroup(record.value("mode").toString());
 
     QMutableMapIterator<double, DxSpot> spotIterator(spots);
 
@@ -615,10 +616,11 @@ void BandmapWidget::spotsDxccStatusRecal(const QSqlRecord &record)
         spotIterator.value().status = Data::dxccFutureStatus(spotIterator.value().status,
                                                              spotIterator.value().dxcc.dxcc,
                                                              spotIterator.value().band,
-                                                             Data::freqToDXCCMode(spotIterator.value().freq),
+                                                             ( ( spotIterator.value().modeGroup == BandPlan::MODE_GROUP_STRING_FT8 ) ? BandPlan::MODE_GROUP_STRING_DIGITAL
+                                                                                                                                     : dxccModeGroup ),
                                                              dxcc,
                                                              band,
-                                                             mode);
+                                                             dxccModeGroup);
     }
     updateStations();
 }
@@ -666,7 +668,7 @@ void BandmapWidget::showContextMenu(const QPoint &point)
     QMenu contextMenu(this);
     QMenu bandsMenu(tr("Show Band"), &contextMenu);
 
-    for (Band &enabledBand : Data::bandsList(false, true))
+    for ( const Band &enabledBand : BandPlan::bandsList(false, true))
     {
         QAction* action = new QAction(enabledBand.name);
         connect(action, &QAction::triggered, this, [this, enabledBand]()
@@ -703,7 +705,7 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
     if ( rx_freq < currentBand.start || rx_freq > currentBand.end )
     {
         /* Operator switched a band */
-        Band newBand = Data::band(rx_freq);
+        const Band& newBand = BandPlan::freq2Band(rx_freq);
         if ( !newBand.name.isEmpty() )
         {
             setBand(newBand);
