@@ -2,5 +2,6 @@
     <qresource prefix="/i18n">
         <file>qlog_de.qm</file>
         <file>qlog_cs.qm</file>
+        <file>qlog_zh_CN.qm</file>
     </qresource>
 </RCC>
