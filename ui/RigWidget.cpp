@@ -71,7 +71,6 @@ RigWidget::~RigWidget()
 {
     FCT_IDENTIFICATION;
 
-    saveLastSeenFreq();
     hrdlog->deleteLater();
     delete ui;
 }
@@ -317,6 +316,7 @@ void RigWidget::rigDisconnected()
 {
     FCT_IDENTIFICATION;
 
+    saveLastSeenFreq();
     ui->rigProfilCombo->setStyleSheet("QComboBox {color: red}");
     rigOnline = false;
     resetRigInfo();
