@@ -38,6 +38,11 @@ private:
     LogLocale locale;
 
     static LogFormat::duplicateQSOBehaviour showDuplicateDialog(QSqlRecord *, QSqlRecord *);
+    void saveImportDetails(const QString &importDetail,
+                           const QString &filename,
+                           const int count,
+                           const unsigned long warnings,
+                           const unsigned long errors);
 };
 
 #endif // IMPORTDIALOG_H

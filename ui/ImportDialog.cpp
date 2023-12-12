@@ -179,6 +179,46 @@ LogFormat::duplicateQSOBehaviour ImportDialog::showDuplicateDialog(QSqlRecord *i
     return ret;
 }
 
+void ImportDialog::saveImportDetails(const QString &importDetail, const QString &filename,
+                                     const int count, const unsigned long warnings, const unsigned long errors)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    const QString &lastPath = settings.value("import/last_path_importdetails", QDir::homePath()).toString();
+
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save to File"),
+                                                    lastPath,
+                                                    "TXT (*.txt)");
+
+    if ( !filePath.isEmpty() )
+    {
+
+        QFile file(filePath);
+        if ( file.open(QIODevice::WriteOnly | QIODevice::Text) )
+        {
+            const QDateTime &currTime = QDateTime::currentDateTimeUtc();
+
+            QTextStream out(&file);
+            out << tr("QLog Import Report") << "\n"
+                << "\n"
+                << tr("Import date") << ": " << currTime.toString(locale.formatDateShortWithYYYY()) << " " << currTime.toString(locale.formatTimeLongWithoutTZ()) << " UTC\n"
+                << tr("Imported File") << ": " << filename
+                << "\n\n"
+                << tr("Imported: %n contact(s)", "", count) << "\n"
+                << tr("Warning(s): %n", "", warnings) << "\n"
+                << tr("Error(s): %n", "", errors) << "\n"
+                << "\n"
+                << tr("Details") << ":\n"
+                << importDetail;
+
+            file.close();
+            settings.setValue("import/last_path_importdetails", QFileInfo(filePath).path());
+        }
+    }
+}
+
 void ImportDialog::runImport() {
     FCT_IDENTIFICATION;
 
@@ -311,16 +351,32 @@ void ImportDialog::runImport() {
                      QObject::tr("<b>Error(s)</b>: %n", "", errors);
 
     QMessageBox msgBox;
+    QAbstractButton* pButtonYes = nullptr;
+
     msgBox.setWindowTitle(tr("Import Result"));
     msgBox.setText(report);
     msgBox.setDetailedText(s);
     msgBox.setIcon(QMessageBox::Information);
     msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+
+    if ( !s.isEmpty() )
+    {
+         pButtonYes = msgBox.addButton(tr("Save Details..."), QMessageBox::ActionRole);
+    }
+
     QSpacerItem* horizontalSpacer = new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
     QGridLayout* layout = (QGridLayout*)msgBox.layout();
     layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
 
     msgBox.exec();
+
+    if ( pButtonYes
+         && msgBox.clickedButton() == pButtonYes )
+    {
+        saveImportDetails(s, ui->fileEdit->text(),
+                          count, warnings, errors);
+    }
 
     qCDebug(runtime).noquote() << s;
 
