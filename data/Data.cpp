@@ -420,9 +420,9 @@ QString Data::removeAccents(const QString &input)
     /* https://www.medo64.com/2020/10/stripping-diacritics-in-qt/ */
     /* More about normalization https://unicode.org/reports/tr15/ */
 
-    QString formD = input.normalized(QString::NormalizationForm_D);
-
+    const QString &formD = input.normalized(QString::NormalizationForm_D);
     QString filtered;
+
     for (int i = 0; i < formD.length(); i++)
     {
         if (formD.at(i).category() != QChar::Mark_NonSpacing)
@@ -730,7 +730,7 @@ DxccEntity Data::lookupDxcc(const QString &callsign)
         }
 
         QString lookupPrefix = callsign; // use the callsign with optional prefix as default to find the dxcc
-        Callsign parsedCallsign(callsign); // use Callsign to split the callsign into its parts
+        const Callsign parsedCallsign(callsign); // use Callsign to split the callsign into its parts
 
         if ( parsedCallsign.isValid() )
         {

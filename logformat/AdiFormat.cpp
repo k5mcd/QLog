@@ -1,5 +1,6 @@
 #include <QSqlRecord>
 #include <QDebug>
+#include <QSqlField>
 #include "data/Data.h"
 #include "AdiFormat.h"
 #include "core/debug.h"
@@ -64,308 +65,44 @@ void AdiFormat::writeSQLRecord(const QSqlRecord &record,
 {
     FCT_IDENTIFICATION;
 
-    QDateTime time_start = record.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
-    QDateTime time_end = record.value("end_time").toDateTime().toTimeSpec(Qt::UTC);
+    for ( int i = 0; i <= record.count(); i++)
+    {
+        const QSqlField &tmpField = record.field(i);
+        const ExportParams &ExportParams = DB2ADIFExportParams.value(tmpField.name());
 
-    writeField("call", record.value("callsign").isValid(),
-               record.value("callsign").toString());
-    writeField("qso_date", record.value("start_time").isValid(),
-               time_start.toString("yyyyMMdd"), "D");
-    writeField("time_on", record.value("start_time").isValid(),
-               time_start.toString("hhmmss"), "T");
-    writeField("qso_date_off", record.value("end_time").isValid(),
-               time_end.toString("yyyyMMdd"), "D");
-    writeField("time_off", record.value("end_time").isValid(),
-               time_end.toString("hhmmss"), "T");
-    writeField("rst_rcvd", record.value("rst_rcvd").isValid(),
-               record.value("rst_rcvd").toString());
-    writeField("rst_sent", record.value("rst_sent").isValid(),
-               record.value("rst_sent").toString());
-    writeField("name", record.value("name").isValid(),
-               record.value("name").toString());
-    writeField("qth", record.value("qth").isValid(),
-               record.value("qth").toString());
-    writeField("gridsquare", record.value("gridsquare").isValid(),
-               record.value("gridsquare").toString());
-    writeField("cqz", record.value("cqz").isValid(),
-               record.value("cqz").toString());
-    writeField("ituz", record.value("ituz").isValid(),
-               record.value("ituz").toString());
-    writeField("freq", record.value("freq").isValid(),
-               record.value("freq").toString(), "N");
-    writeField("band", record.value("band").isValid(),
-               record.value("band").toString().toLower());
-    writeField("mode", record.value("mode").isValid(),
-               record.value("mode").toString());
-    writeField("submode", record.value("submode").isValid(),
-               record.value("submode").toString());
-    writeField("cont", record.value("cont").isValid(),
-               record.value("cont").toString());
-    writeField("dxcc", record.value("dxcc").isValid(),
-               record.value("dxcc").toString());
-    writeField("country", record.value("country").isValid(),
-               record.value("country").toString());
-    writeField("pfx", record.value("pfx").isValid(),
-               record.value("pfx").toString());
-    writeField("state", record.value("state").isValid(),
-               record.value("state").toString());
-    writeField("cnty", record.value("cnty").isValid(),
-               record.value("cnty").toString());
-    writeField("iota", record.value("iota").isValid(),
-               record.value("iota").toString().toUpper());
-    writeField("qsl_rcvd", record.value("qsl_rcvd").isValid(),
-               record.value("qsl_rcvd").toString());
-    writeField("qslrdate", record.value("qsl_rdate").isValid(),
-               record.value("qsl_rdate").toDate().toString("yyyyMMdd"));
-    writeField("qsl_sent", record.value("qsl_sent").isValid(),
-               record.value("qsl_sent").toString());
-    writeField("qslsdate", record.value("qsl_sdate").isValid(),
-               record.value("qsl_sdate").toDate().toString("yyyyMMdd"));
-    writeField("lotw_qsl_rcvd", record.value("lotw_qsl_rcvd").isValid(),
-               record.value("lotw_qsl_rcvd").toString());
-    writeField("lotw_qslrdate", record.value("lotw_qslrdate").isValid(),
-               record.value("lotw_qslrdate").toDate().toString("yyyyMMdd"));
-    writeField("lotw_qsl_sent", record.value("lotw_qsl_sent").isValid(),
-               record.value("lotw_qsl_sent").toString());
-    writeField("lotw_qslsdate", record.value("lotw_qslsdate").isValid(),
-               record.value("lotw_qslsdate").toDate().toString("yyyyMMdd"));
-    writeField("tx_pwr", record.value("tx_pwr").isValid(),
-               record.value("tx_pwr").toString());
-    writeField("address", record.value("address").isValid(),
-               record.value("address").toString());
-    writeField("age", record.value("age").isValid(),
-               record.value("age").toString());
-    writeField("altitude", record.value("altitude").isValid(),
-               record.value("altitude").toString());
-    writeField("a_index", record.value("a_index").isValid(),
-               record.value("a_index").toString());
-    writeField("ant_az", record.value("ant_az").isValid(),
-               record.value("ant_az").toString());
-    writeField("ant_el", record.value("ant_el").isValid(),
-               record.value("ant_el").toString());
-    writeField("ant_path", record.value("ant_path").isValid(),
-               record.value("ant_path").toString());
-    writeField("arrl_sect", record.value("arrl_sect").isValid(),
-               record.value("arrl_sect").toString());
-    writeField("award_submitted", record.value("award_submitted").isValid(),
-               record.value("award_submitted").toString());
-    writeField("award_granted", record.value("award_granted").isValid(),
-               record.value("award_granted").toString());
-    writeField("band_rx", record.value("band_rx").isValid(),
-               record.value("band_rx").toString().toLower());
-    writeField("check", record.value("check").isValid(),
-               record.value("check").toString());
-    writeField("class", record.value("class").isValid(),
-               record.value("class").toString());
-    writeField("clublog_qso_upload_date", record.value("clublog_qso_upload_date").isValid(),
-               record.value("clublog_qso_upload_date").toDate().toString("yyyyMMdd"));
-    writeField("clublog_qso_upload_status", record.value("clublog_qso_upload_status").isValid(),
-               record.value("clublog_qso_upload_status").toString());
-    writeField("comment", record.value("comment").isValid(),
-               record.value("comment").toString());
-    writeField("contacted_op", record.value("contacted_op").isValid(),
-               record.value("contacted_op").toString());
-    writeField("contest_id", record.value("contest_id").isValid(),
-               record.value("contest_id").toString());
-    writeField("credit_submitted", record.value("credit_submitted").isValid(),
-               record.value("credit_submitted").toString());
-    writeField("credit_granted", record.value("credit_granted").isValid(),
-               record.value("credit_granted").toString());
-    writeField("darc_dok", record.value("darc_dok").isValid(),
-               record.value("darc_dok").toString());
-    writeField("distance", record.value("distance").isValid(),
-               record.value("distance").toString());
-    writeField("email", record.value("email").isValid(),
-               record.value("email").toString());
-    writeField("eq_call", record.value("eq_call").isValid(),
-               record.value("eq_call").toString());
-    writeField("eqsl_qslrdate", record.value("eqsl_qslrdate").isValid(),
-               record.value("eqsl_qslrdate").toDate().toString("yyyyMMdd"));
-    writeField("eqsl_qslsdate", record.value("eqsl_qslsdate").isValid(),
-               record.value("eqsl_qslsdate").toDate().toString("yyyyMMdd"));
-    writeField("eqsl_qsl_rcvd", record.value("eqsl_qsl_rcvd").isValid(),
-               record.value("eqsl_qsl_rcvd").toString());
-    writeField("eqsl_qsl_sent", record.value("eqsl_qsl_sent").isValid(),
-               record.value("eqsl_qsl_sent").toString());
-    writeField("fists", record.value("fists").isValid(),
-               record.value("fists").toString());
-    writeField("fists_cc", record.value("fists_cc").isValid(),
-               record.value("fists_cc").toString());
-    writeField("force_init", record.value("force_init").isValid(),
-               record.value("force_init").toString());
-    writeField("freq_rx", record.value("freq_rx").isValid(),
-               record.value("freq_rx").toString());
-    writeField("gridsquare_ext", record.value("gridsquare_ext").isValid(),
-               record.value("gridsquare_ext").toString());
-    writeField("guest_op", record.value("guest_op").isValid(),
-               record.value("guest_op").toString());
-    writeField("hamlogeu_qso_upload_date", record.value("hamlogeu_qso_upload_date").isValid(),
-               record.value("hamlogeu_qso_upload_date").toDate().toString("yyyyMMdd"));
-    writeField("hamlogeu_qso_upload_status", record.value("hamlogeu_qso_upload_status").isValid(),
-               record.value("hamlogeu_qso_upload_status").toString());
-    writeField("hamqth_qso_upload_date", record.value("hamqth_qso_upload_date").isValid(),
-               record.value("hamqth_qso_upload_date").toDate().toString("yyyyMMdd"));
-    writeField("hamqth_qso_upload_status", record.value("hamqth_qso_upload_status").isValid(),
-               record.value("hamqth_qso_upload_status").toString());
-    writeField("hrdlog_qso_upload_date", record.value("hrdlog_qso_upload_date").isValid(),
-               record.value("hrdlog_qso_upload_date").toDate().toString("yyyyMMdd"));
-    writeField("hrdlog_qso_upload_status", record.value("hrdlog_qso_upload_status").isValid(),
-               record.value("hrdlog_qso_upload_status").toString());
-    writeField("iota_island_id", record.value("iota_island_id").isValid(),
-               record.value("iota_island_id").toString().toUpper());
-    writeField("k_index", record.value("k_index").isValid(),
-               record.value("k_index").toString());
-    writeField("lat", record.value("lat").isValid(),
-               record.value("lat").toString());
-    writeField("lon", record.value("lon").isValid(),
-               record.value("lon").toString());
-    writeField("max_bursts", record.value("max_bursts").isValid(),
-               record.value("max_bursts").toString());
-    writeField("ms_shower", record.value("ms_shower").isValid(),
-               record.value("ms_shower").toString());
-    writeField("my_altitude", record.value("my_altitude").isValid(),
-               record.value("my_altitude").toString());
-    writeField("my_arrl_sect", record.value("my_arrl_sect").isValid(),
-               record.value("my_arrl_sect").toString());
-    writeField("my_antenna", record.value("my_antenna").isValid(),
-               record.value("my_antenna").toString());
-    writeField("my_city", record.value("my_city").isValid(),
-               record.value("my_city").toString());
-    writeField("my_cnty", record.value("my_cnty").isValid(),
-               record.value("my_cnty").toString());
-    writeField("my_country", record.value("my_country").isValid(),
-               record.value("my_country").toString());
-    writeField("my_cq_zone", record.value("my_cq_zone").isValid(),
-               record.value("my_cq_zone").toString());
-    writeField("my_dxcc", record.value("my_dxcc").isValid(),
-               record.value("my_dxcc").toString());
-    writeField("my_fists", record.value("my_fists").isValid(),
-               record.value("my_fists").toString());
-    writeField("my_gridsquare", record.value("my_gridsquare").isValid(),
-               record.value("my_gridsquare").toString());
-    writeField("my_gridsquare_ext", record.value("my_gridsquare_ext").isValid(),
-               record.value("my_gridsquare_ext").toString());
-    writeField("my_iota", record.value("my_iota").isValid(),
-               record.value("my_iota").toString().toUpper());
-    writeField("my_iota_island_id", record.value("my_iota_island_id").isValid(),
-               record.value("my_iota_island_id").toString().toUpper());
-    writeField("my_itu_zone", record.value("my_itu_zone").isValid(),
-               record.value("my_itu_zone").toString());
-    writeField("my_lat", record.value("my_lat").isValid(),
-               record.value("my_lat").toString());
-    writeField("my_lon", record.value("my_lon").isValid(),
-               record.value("my_lon").toString());
-    writeField("my_name", record.value("my_name").isValid(),
-               record.value("my_name").toString());
-    writeField("my_postal_code", record.value("my_postal_code").isValid(),
-               record.value("my_postal_code").toString());
-    writeField("my_pota_ref", record.value("my_pota_ref").isValid(),
-               record.value("my_pota_ref").toString().toUpper());
-    writeField("my_rig", record.value("my_rig").isValid(),
-               record.value("my_rig").toString());
-    writeField("my_sig", record.value("my_sig").isValid(),
-               record.value("my_sig").toString());
-    writeField("my_sig_info", record.value("my_sig_info").isValid(),
-               record.value("my_sig_info").toString());
-    writeField("my_sota_ref", record.value("my_sota_ref").isValid(),
-               record.value("my_sota_ref").toString().toUpper());
-    writeField("my_state", record.value("my_state").isValid(),
-               record.value("my_state").toString());
-    writeField("my_street", record.value("my_street").isValid(),
-               record.value("my_street").toString());
-    writeField("my_usaca_counties", record.value("my_usaca_counties").isValid(),
-               record.value("my_usaca_counties").toString());
-    writeField("my_vucc_grids", record.value("my_vucc_grids").isValid(),
-               record.value("my_vucc_grids").toString().toUpper());
-    writeField("my_wwff_ref", record.value("my_wwff_ref").isValid(),
-               record.value("my_wwff_ref").toString().toUpper());
-    writeField("notes", record.value("notes").isValid(),
-               record.value("notes").toString());
-    writeField("nr_bursts", record.value("nr_bursts").isValid(),
-               record.value("nr_bursts").toString());
-    writeField("nr_pings", record.value("nr_pings").isValid(),
-               record.value("nr_pings").toString());
-    writeField("operator", record.value("operator").isValid(),
-               record.value("operator").toString());
-    writeField("owner_callsign", record.value("owner_callsign").isValid(),
-               record.value("owner_callsign").toString());
-    writeField("pota_ref", record.value("pota_ref").isValid(),
-               record.value("pota_ref").toString().toUpper());
-    writeField("precedence", record.value("precedence").isValid(),
-               record.value("precedence").toString());
-    writeField("prop_mode", record.value("prop_mode").isValid(),
-               record.value("prop_mode").toString());
-    writeField("public_key", record.value("public_key").isValid(),
-               record.value("public_key").toString());
-    writeField("qrzcom_qso_upload_date", record.value("qrzcom_qso_upload_date").isValid(),
-               record.value("qrzcom_qso_upload_date").toDate().toString("yyyyMMdd"));
-    writeField("qrzcom_qso_upload_status", record.value("qrzcom_qso_upload_status").isValid(),
-               record.value("qrzcom_qso_upload_status").toString());
-    writeField("qslmsg", record.value("qslmsg").isValid(),
-               record.value("qslmsg").toString());
-    writeField("qsl_rcvd_via", record.value("qsl_rcvd_via").isValid(),
-               record.value("qsl_rcvd_via").toString());
-    writeField("qsl_sent_via", record.value("qsl_sent_via").isValid(),
-               record.value("qsl_sent_via").toString());
-    writeField("qsl_via", record.value("qsl_via").isValid(),
-               record.value("qsl_via").toString());
-    writeField("qso_complete", record.value("qso_complete").isValid(),
-               record.value("qso_complete").toString());
-    writeField("qso_random", record.value("qso_random").isValid(),
-               record.value("qso_random").toString());
-    writeField("region", record.value("region").isValid(),
-               record.value("region").toString());
-    writeField("rig", record.value("rig").isValid(),
-               record.value("rig").toString());
-    writeField("rx_pwr", record.value("rx_pwr").isValid(),
-               record.value("rx_pwr").toString());
-    writeField("sat_mode", record.value("sat_mode").isValid(),
-               record.value("sat_mode").toString());
-    writeField("sat_name", record.value("sat_name").isValid(),
-               record.value("sat_name").toString());
-    writeField("sfi", record.value("sfi").isValid(),
-               record.value("sfi").toString());
-    writeField("sig", record.value("sig").isValid(),
-               record.value("sig").toString());
-    writeField("sig_info", record.value("sig_info").isValid(),
-               record.value("sig_info").toString());
-    writeField("silent_key", record.value("silent_key").isValid(),
-               record.value("silent_key").toString());
-    writeField("skcc", record.value("skcc").isValid(),
-               record.value("skcc").toString());
-    writeField("sota_ref", record.value("sota_ref").isValid(),
-               record.value("sota_ref").toString().toUpper());
-    writeField("srx", record.value("srx").isValid(),
-               record.value("srx").toString());
-    writeField("srx_string", record.value("srx_string").isValid(),
-               record.value("srx_string").toString());
-    writeField("station_callsign", record.value("station_callsign").isValid(),
-               record.value("station_callsign").toString());
-    writeField("stx", record.value("stx").isValid(),
-               record.value("stx").toString());
-    writeField("stx_string", record.value("stx_string").isValid(),
-               record.value("stx_string").toString());
-    writeField("swl", record.value("swl").isValid(),
-               record.value("swl").toString());
-    writeField("ten_ten", record.value("ten_ten").isValid(),
-               record.value("ten_ten").toString());
-    writeField("uksmg", record.value("uksmg").isValid(),
-               record.value("uksmg").toString());
-    writeField("usaca_counties", record.value("usaca_counties").isValid(),
-               record.value("usaca_counties").toString());
-    writeField("ve_prov", record.value("ve_prov").isValid(),
-               record.value("ve_prov").toString());
-    writeField("vucc_grids", record.value("vucc_grids").isValid(),
-               record.value("vucc_grids").toString().toUpper());
-    writeField("web", record.value("web").isValid(),
-               record.value("web").toString());
-    writeField("wwff_ref", record.value("wwff_ref").isValid(),
-               record.value("wwff_ref").toString().toUpper());
+        if ( ExportParams.isValid )
+            writeField(ExportParams.ADIFName,
+                       tmpField.isValid(),
+                       ExportParams.formatFct(tmpField.value()),
+                       ExportParams.outputType );
+    }
 
-    QJsonObject fields = QJsonDocument::fromJson(record.value("fields").toByteArray()).object();
+    const QVariant &startVariant = record.value("start_time");
 
-    QStringList keys = fields.keys();
-    for (const QString &key : qAsConst(keys))
+    if ( startVariant.isValid() )
+    {
+        const QDateTime &time_start = startVariant.toDateTime().toTimeSpec(Qt::UTC);
+        writeField("qso_date", startVariant.isValid(),
+                   time_start.toString("yyyyMMdd"), "D");
+        writeField("time_on", startVariant.isValid(),
+                   time_start.toString("hhmmss"), "T");
+    }
+
+    const QVariant &endVariant = record.value("end_time");
+
+    if ( endVariant.isValid() )
+    {
+        const QDateTime &time_end = record.value("end_time").toDateTime().toTimeSpec(Qt::UTC);
+        writeField("qso_date_off", endVariant.isValid(),
+                   time_end.toString("yyyyMMdd"), "D");
+        writeField("time_off", endVariant.isValid(),
+                   time_end.toString("hhmmss"), "T");
+    }
+
+    const QJsonObject &fields = QJsonDocument::fromJson(record.value("fields").toByteArray()).object();
+
+    const QStringList &keys = fields.keys();
+    for (const QString &key : keys)
     {
         writeField(key, ALWAYS_PRESENT, fields.value(key).toString());
     }
@@ -373,8 +110,8 @@ void AdiFormat::writeSQLRecord(const QSqlRecord &record,
     /* Add application-specific tags */
     if ( applTags )
     {
-       QStringList appKeys = applTags->keys();
-       for (const QString &appkey : qAsConst(appKeys))
+       const QStringList& appKeys = applTags->keys();
+       for (const QString &appkey : appKeys)
        {
            writeField(appkey, ALWAYS_PRESENT, applTags->value(appkey));
        }
@@ -701,7 +438,7 @@ void AdiFormat::contactFields2SQLRecord(QMap<QString, QVariant> &contact, QSqlRe
     QString mode = contact.take("mode").toString().toUpper();
     QString submode = contact.take("submode").toString().toUpper();
 
-    QPair<QString, QString> legacy = Data::instance()->legacyMode(mode);
+    const QPair<QString, QString>& legacy = Data::instance()->legacyMode(mode);
 
     if ( !legacy.first.isEmpty() )
     {
@@ -743,6 +480,26 @@ void AdiFormat::contactFields2SQLRecord(QMap<QString, QVariant> &contact, QSqlRe
 
     record.setValue("start_time", start_time);
     record.setValue("end_time", end_time);
+}
+
+const QString AdiFormat::toString(const QVariant &var)
+{
+    return var.toString();
+}
+
+const QString AdiFormat::toLower(const QVariant &var)
+{
+    return var.toString().toLower();
+}
+
+const QString AdiFormat::toUpper(const QVariant &var)
+{
+    return var.toString().toUpper();
+}
+
+const QString AdiFormat::toYYYYMMDD(const QVariant &var)
+{
+    return var.toDate().toString("yyyyMMdd");
 }
 
 void AdiFormat::preprocessINTLField(const QString &fieldName,
@@ -978,4 +735,155 @@ QMap<QString, QString> AdiFormat::fieldname2INTLNameMapping =
     {"rig", "rig_intl"},
     {"sig", "sig_intl"},
     {"sig_info", "sig_info_intl"}
+};
+
+QHash<QString, AdiFormat::ExportParams> AdiFormat::DB2ADIFExportParams =
+{
+    { "callsign", ExportParams("call")},
+//    { , ExportParams("qso_date")},     //SPECIAL
+//    { , ExportParams("time_on")},      //SPECIAL
+//    { , ExportParams("qso_date_off")}, //SPECIAL
+//    { , ExportParams("time_off")},     //SPECIAL
+    { "rst_rcvd", ExportParams("rst_rcvd")},
+    { "rst_sent", ExportParams("rst_sent")},
+    { "name", ExportParams("name")},
+    { "qth", ExportParams("qth")},
+    { "gridsquare", ExportParams("gridsquare")},
+    { "cqz", ExportParams("cqz")},
+    { "ituz", ExportParams("ituz")},
+    { "freq", ExportParams("freq", &AdiFormat::toString, "N")},
+    { "band", ExportParams("band", &AdiFormat::toLower)},
+    { "mode", ExportParams("mode")},
+    { "submode", ExportParams("submode")},
+    { "cont", ExportParams("cont")},
+    { "dxcc", ExportParams("dxcc")},
+    { "country", ExportParams("country")},
+    { "pfx", ExportParams("pfx")},
+    { "state", ExportParams("state")},
+    { "cnty", ExportParams("cnty")},
+    { "iota", ExportParams("iota", &AdiFormat::toUpper)},
+    { "qsl_rcvd", ExportParams("qsl_rcvd")},
+    { "qsl_rdate", ExportParams("qslrdate", &AdiFormat::toYYYYMMDD)},
+    { "qsl_sent", ExportParams("qsl_sent")},
+    { "qsl_sdate", ExportParams("qslsdate", &AdiFormat::toYYYYMMDD)},
+    { "lotw_qsl_rcvd", ExportParams("lotw_qsl_rcvd")},
+    { "lotw_qslrdate", ExportParams("lotw_qslrdate", &AdiFormat::toYYYYMMDD)},
+    { "lotw_qsl_sent", ExportParams("lotw_qsl_sent")},
+    { "lotw_qslsdate", ExportParams("lotw_qslsdate", &AdiFormat::toYYYYMMDD)},
+    { "tx_pwr", ExportParams("tx_pwr")},
+    { "address", ExportParams("address")},
+    { "age", ExportParams("age")},
+    { "altitude", ExportParams("altitude")},
+    { "a_index", ExportParams("a_index")},
+    { "ant_az", ExportParams("ant_az")},
+    { "ant_el", ExportParams("ant_el")},
+    { "ant_path", ExportParams("ant_path")},
+    { "arrl_sect", ExportParams("arrl_sect")},
+    { "award_submitted", ExportParams("award_submitted")},
+    { "award_granted", ExportParams("award_granted")},
+    { "band_rx", ExportParams("band_rx", &AdiFormat::toLower)},
+    { "check", ExportParams("check")},
+    { "class", ExportParams("class")},
+    { "clublog_qso_upload_date", ExportParams("clublog_qso_upload_date")},
+    { "clublog_qso_upload_status", ExportParams("clublog_qso_upload_status")},
+    { "comment", ExportParams("comment")},
+    { "contacted_op", ExportParams("contacted_op")},
+    { "contest_id", ExportParams("contest_id")},
+    { "credit_submitted", ExportParams("credit_submitted")},
+    { "credit_granted", ExportParams("credit_granted")},
+    { "darc_dok", ExportParams("darc_dok")},
+    { "distance", ExportParams("distance")},
+    { "email", ExportParams("email")},
+    { "eq_call", ExportParams("eq_call")},
+    { "eqsl_qslrdate", ExportParams("eqsl_qslrdate", &AdiFormat::toYYYYMMDD)},
+    { "eqsl_qslsdate", ExportParams("eqsl_qslsdate", &AdiFormat::toYYYYMMDD)},
+    { "eqsl_qsl_rcvd", ExportParams("eqsl_qsl_rcvd")},
+    { "eqsl_qsl_sent", ExportParams("eqsl_qsl_sent")},
+    { "fists", ExportParams("fists")},
+    { "fists_cc", ExportParams("fists_cc")},
+    { "force_init", ExportParams("force_init")},
+    { "freq_rx", ExportParams("freq_rx")},
+    { "gridsquare_ext", ExportParams("gridsquare_ext")},
+    { "guest_op", ExportParams("guest_op")},
+    { "hamlogeu_qso_upload_date", ExportParams("hamlogeu_qso_upload_date", &AdiFormat::toYYYYMMDD)},
+    { "hamlogeu_qso_upload_status", ExportParams("hamlogeu_qso_upload_status")},
+    { "hamqth_qso_upload_date", ExportParams("hamqth_qso_upload_date", &AdiFormat::toYYYYMMDD)},
+    { "hamqth_qso_upload_status", ExportParams("hamqth_qso_upload_status")},
+    { "hrdlog_qso_upload_date", ExportParams("hrdlog_qso_upload_date", &AdiFormat::toYYYYMMDD)},
+    { "hrdlog_qso_upload_status", ExportParams("hrdlog_qso_upload_status")},
+    { "iota_island_id", ExportParams("iota_island_id", &AdiFormat::toUpper)},
+    { "k_index", ExportParams("k_index")},
+    { "lat", ExportParams("lat")},
+    { "lon", ExportParams("lon")},
+    { "max_bursts", ExportParams("max_bursts")},
+    { "ms_shower", ExportParams("ms_shower")},
+    { "my_altitude", ExportParams("my_altitude")},
+    { "my_arrl_sect", ExportParams("my_arrl_sect")},
+    { "my_antenna", ExportParams("my_antenna")},
+    { "my_city", ExportParams("my_city")},
+    { "my_cnty", ExportParams("my_cnty")},
+    { "my_country", ExportParams("my_country")},
+    { "my_cq_zone", ExportParams("my_cq_zone")},
+    { "my_dxcc", ExportParams("my_dxcc")},
+    { "my_fists", ExportParams("my_fists")},
+    { "my_gridsquare", ExportParams("my_gridsquare")},
+    { "my_gridsquare_ext", ExportParams("my_gridsquare_ext")},
+    { "my_iota", ExportParams("my_iota", &AdiFormat::toUpper)},
+    { "my_iota_island_id", ExportParams("my_iota_island_id", &AdiFormat::toUpper)},
+    { "my_itu_zone", ExportParams("my_itu_zone")},
+    { "my_lat", ExportParams("my_lat")},
+    { "my_lon", ExportParams("my_lon")},
+    { "my_name", ExportParams("my_name")},
+    { "my_postal_code", ExportParams("my_postal_code")},
+    { "my_pota_ref", ExportParams("my_pota_ref", &AdiFormat::toUpper)},
+    { "my_rig", ExportParams("my_rig")},
+    { "my_sig", ExportParams("my_sig")},
+    { "my_sig_info", ExportParams("my_sig_info")},
+    { "my_sota_ref", ExportParams("my_sota_ref", &AdiFormat::toUpper)},
+    { "my_state", ExportParams("my_state")},
+    { "my_street", ExportParams("my_street")},
+    { "my_usaca_counties", ExportParams("my_usaca_counties")},
+    { "my_vucc_grids", ExportParams("my_vucc_grids", &AdiFormat::toUpper)},
+    { "my_wwff_ref", ExportParams("my_wwff_ref", &AdiFormat::toUpper)},
+    { "notes", ExportParams("notes")},
+    { "nr_bursts", ExportParams("nr_bursts")},
+    { "nr_pings", ExportParams("nr_pings")},
+    { "operator", ExportParams("operator")},
+    { "owner_callsign", ExportParams("owner_callsign")},
+    { "pota_ref", ExportParams("pota_ref", &AdiFormat::toUpper)},
+    { "precedence", ExportParams("precedence")},
+    { "prop_mode", ExportParams("prop_mode")},
+    { "public_key", ExportParams("public_key")},
+    { "qrzcom_qso_upload_date", ExportParams("qrzcom_qso_upload_date", &AdiFormat::toYYYYMMDD)},
+    { "qrzcom_qso_upload_status", ExportParams("qrzcom_qso_upload_status")},
+    { "qslmsg", ExportParams("qslmsg")},
+    { "qsl_rcvd_via", ExportParams("qsl_rcvd_via")},
+    { "qsl_sent_via", ExportParams("qsl_sent_via")},
+    { "qsl_via", ExportParams("qsl_via")},
+    { "qso_complete", ExportParams("qso_complete")},
+    { "qso_random", ExportParams("qso_random")},
+    { "region", ExportParams("region")},
+    { "rig", ExportParams("rig")},
+    { "rx_pwr", ExportParams("rx_pwr")},
+    { "sat_mode", ExportParams("sat_mode")},
+    { "sat_name", ExportParams("sat_name")},
+    { "sfi", ExportParams("sfi")},
+    { "sig", ExportParams("sig")},
+    { "sig_info", ExportParams("sig_info")},
+    { "silent_key", ExportParams("silent_key")},
+    { "skcc", ExportParams("skcc")},
+    { "sota_ref", ExportParams("sota_ref", &AdiFormat::toUpper)},
+    { "srx", ExportParams("srx")},
+    { "srx_string", ExportParams("srx_string")},
+    { "station_callsign", ExportParams("station_callsign")},
+    { "stx", ExportParams("stx")},
+    { "stx_string", ExportParams("stx_string")},
+    { "swl", ExportParams("swl")},
+    { "ten_ten", ExportParams("ten_ten")},
+    { "uksmg", ExportParams("uksmg")},
+    { "usaca_counties", ExportParams("usaca_counties")},
+    { "ve_prov", ExportParams("ve_prov")},
+    { "vucc_grids", ExportParams("vucc_grids", &AdiFormat::toUpper)},
+    { "web", ExportParams("web")},
+    { "wwff_ref", ExportParams("wwff_ref", &AdiFormat::toUpper)}
 };

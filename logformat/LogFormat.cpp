@@ -836,10 +836,9 @@ long LogFormat::runExport()
 
     while (query.next())
     {
-        QSqlRecord record = query.record();
-        this->exportContact(record);
+        this->exportContact(query.record());
         count++;
-        if (count % 10 == 0)
+        if (count % 100 == 0)
         {
             emit exportProgress((int)(count * 100 / rows));
         }

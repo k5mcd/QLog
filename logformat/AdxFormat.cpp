@@ -139,11 +139,11 @@ void AdxFormat::writeSQLRecord(const QSqlRecord &record, QMap<QString, QString> 
 
     // Add _INTL fields
 
-    QStringList fieldMappingList = fieldname2INTLNameMapping.values();
-    for ( const QString& value :  qAsConst(fieldMappingList) )
+    const QStringList &fieldMappingList = fieldname2INTLNameMapping.values();
+    for ( const QString& value :  fieldMappingList )
     {
-        writeField(value, record.value(value).isValid(),
-                   record.value(value).toString());
+        const QVariant &tmp = record.value(value);
+        writeField(value, tmp.isValid(), tmp.toString());
     }
 }
 

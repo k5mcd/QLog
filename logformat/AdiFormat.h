@@ -17,6 +17,7 @@ public:
     virtual void exportStart() override;
 
     static QMap<QString, QString> fieldname2INTLNameMapping;
+
     template<typename T>
     static void preprocessINTLFields(T &contact)
     {
@@ -41,6 +42,35 @@ protected:
                               QSqlRecord &record);
     void contactFields2SQLRecord(QMap<QString, QVariant> &contact,
                               QSqlRecord &record);
+
+    static const QString toString(const QVariant &);
+    static const QString toLower(const QVariant &);
+    static const QString toUpper(const QVariant &);
+    static const QString toYYYYMMDD(const QVariant &);
+
+    class ExportParams
+    {
+    public:
+        ExportParams() :
+            ADIFName(QString()),
+            outputType(QString()),
+            formatFct(nullptr),
+            isValid(false) {};
+        ExportParams(const QString &inADIFName,
+                         const QString (*inFct)(const QVariant &) = &AdiFormat::toString,
+                         const QString &inType = QString()) :
+            ADIFName(inADIFName),
+            outputType(inType),
+            formatFct(inFct),
+            isValid(true) {};
+        QString ADIFName;
+        QString outputType;
+        const QString (*formatFct)(const QVariant &);
+        bool isValid;
+    };
+
+    static QHash<QString, AdiFormat::ExportParams> DB2ADIFExportParams;
+
 private:
 
     void readField(QString& field,
