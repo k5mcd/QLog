@@ -459,13 +459,11 @@ int main(int argc, char* argv[])
     splash.showMessage(QObject::tr("Backuping Database"), Qt::AlignBottom|Qt::AlignCenter);
 
     /* a migration can break a database therefore a backup is call before it */
-    qInfo() << "backup";
     if (!backupDatabase())
     {
         QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
                               QMessageBox::tr("Could not export a QLog database to ADIF as a backup.<p>Try to export your log to ADIF manually"));
     }
-    qInfo() << "backup f";
 
     splash.showMessage(QObject::tr("Migrating Database"), Qt::AlignBottom|Qt::AlignCenter);
 
