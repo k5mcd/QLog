@@ -557,16 +557,17 @@ void QSODetailDialog::setReadOnlyMode(bool inReadOnly)
         }
     }
 
-    if ( !inReadOnly )
+    if ( ui->propagationModeEdit->currentText() != Data::instance()->propagationModeIDToText("SAT") )
     {
-        if ( ui->propagationModeEdit->currentText() != Data::instance()->propagationModeIDToText("SAT") )
-        {
-            /* Do not enable sat fields when SAT prop is not selected */
-            ui->satModeEdit->setCurrentIndex(-1);
-            ui->satNameEdit->clear();
-            ui->satModeEdit->setEnabled(false);
-            ui->satNameEdit->setEnabled(false);
-        }
+        /* Do not enable sat fields when SAT prop is not selected */
+        ui->satModeEdit->setCurrentIndex(-1);
+        ui->satNameEdit->clear();
+        ui->satModeEdit->setEnabled(false);
+        ui->satNameEdit->setEnabled(false);
+    }
+    else
+    {
+        ui->satNameEdit->setEnabled(true);
     }
 
     editButton->setText((( inReadOnly) ? EDIT_BUTTON_TEXT : SAVE_BUTTON_TEXT ));
