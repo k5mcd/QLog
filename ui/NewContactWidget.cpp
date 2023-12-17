@@ -1063,33 +1063,33 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
 
     if ( prop_cond )
     {
-        if ( record.value("sfi").isNull()
+        if ( record.value("sfi").toString().isEmpty()
              && prop_cond->isFluxValid() )
         {
             record.setValue("sfi", prop_cond->getFlux());
         }
 
-        if ( record.value("k_index").isNull()
+        if ( record.value("k_index").toString().isEmpty()
              && prop_cond->isKIndexValid() )
         {
             record.setValue("k_index", prop_cond->getKIndex());
         }
 
-        if ( record.value("a_index").isNull()
+        if ( record.value("a_index").toString().isEmpty()
              && prop_cond->isAIndexValid() )
         {
             record.setValue("a_index", prop_cond->getAIndex());
         }
     }
 
-    if ( (record.value("tx_pwr").isNull() || record.value("tx_pwr") == 0.0 )
+    if ( (record.value("tx_pwr").toString().isEmpty() || record.value("tx_pwr") == 0.0 )
          && ui->powerEdit->value() != 0.0)
     {
         record.setValue("tx_pwr", ui->powerEdit->value());
     }
 
     if ( record.value("band").toString().isEmpty()
-         && ! record.value("freq").isNull() )
+         && ! record.value("freq").toString().isEmpty() )
     {
         record.setValue("band", BandPlan::freq2Band(record.value("freq").toDouble()).name);
     }

@@ -251,7 +251,7 @@ void AdiFormat::mapContact2SQLRecord(QMap<QString, QVariant> &contact,
 
         for ( const QString &key : qAsConst(keys) )
         {
-            if ( contact.value(key).isNull() )
+            if ( contact.value(key).toString().isEmpty() )
             {
                 contact.insert(key, defaults->value(key));
             }
@@ -518,17 +518,17 @@ void AdiFormat::preprocessINTLField(const QString &fieldName,
      * therefore it is needed to implement a logic how to convert INTL fields
      * to standard
      */
-    if ( !fld.isNull() && !fldIntl.isNull() )
+    if ( !fld.toString().isEmpty() && !fldIntl.toString().isEmpty() )
     {
         /* ascii and intl are present */
         //no action
     }
-    else if ( !fld.isNull() && fldIntl.isNull() )
+    else if ( !fld.toString().isEmpty() && fldIntl.toString().isEmpty() )
     {
         /* ascii is present but Intl is not present */
         contact[fieldIntlName] = fld;
     }
-    else if ( fld.isNull() && !fldIntl.isNull() )
+    else if ( fld.toString().isEmpty() && !fldIntl.toString().isEmpty() )
     {
         /* ascii is empty but Intl is present */
         contact[fieldName] = Data::removeAccents(fldIntl.toString());
@@ -555,17 +555,17 @@ void AdiFormat::preprocessINTLField(const QString &fieldName,
      * therefore it is needed to implement a logic how to convert INTL fields
      * to standard
      */
-    if ( !fld.isNull() && !fldIntl.isNull() )
+    if ( !fld.toString().isEmpty() && !fldIntl.toString().isEmpty() )
     {
         /* ascii and intl are present */
         //no action
     }
-    else if ( !fld.isNull() && fldIntl.isNull() )
+    else if ( !fld.toString().isEmpty() && fldIntl.toString().isEmpty() )
     {
         /* ascii is present but Intl is not present */
         contact.setValue(fieldIntlName, fld);
     }
-    else if ( fld.isNull() && !fldIntl.isNull() )
+    else if ( fld.toString().isEmpty() && !fldIntl.toString().isEmpty() )
     {
         /* ascii is empty but Intl is present */
         contact.setValue(fieldName, Data::removeAccents(fldIntl.toString()));

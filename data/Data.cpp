@@ -133,7 +133,8 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
 
     QSettings settings;
     QVariant start = settings.value("dxcc/start");
-    if (!start.isNull()) {
+    if ( start.toDate().isValid() )
+    {
         filter = QString("AND start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd"));
     }
 

@@ -290,8 +290,8 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
 
         processedRec++;
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_BAND)).isNull()
-             && !record.value(RECORDIDX(LogbookModel::COLUMN_FREQUENCY)).isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_BAND)).toString().isEmpty()
+             && !record.value(RECORDIDX(LogbookModel::COLUMN_FREQUENCY)).toString().isEmpty() )
         {
             double freq = record.value(RECORDIDX(LogbookModel::COLUMN_FREQUENCY)).toDouble();
             record.setValue(RECORDIDX(LogbookModel::COLUMN_BAND), BandPlan::freq2Band(freq).name);
@@ -302,17 +302,17 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
         const QVariant &mycall = record.value(RECORDIDX(LogbookModel::COLUMN_STATION_CALLSIGN));
         const QVariant &band = record.value(RECORDIDX(LogbookModel::COLUMN_BAND));
         const QVariant &mode = record.value(RECORDIDX(LogbookModel::COLUMN_MODE));
-        const QVariant &start_time = record.value(RECORDIDX(LogbookModel::COLUMN_TIME_ON));
+        const QDateTime &start_time = record.value(RECORDIDX(LogbookModel::COLUMN_TIME_ON)).toDateTime();
         const QVariant &sota = record.value(RECORDIDX(LogbookModel::COLUMN_SOTA_REF));
         const QVariant &mysota = record.value(RECORDIDX(LogbookModel::COLUMN_MY_SOTA_REF));
 
 
         /* checking matching fields if they are not empty */
-        if ( start_time.isNull()
-             || call.isNull()
-             || band.isNull()
-             || mode.isNull()
-             || mycall.isNull() )
+        if ( !start_time.isValid()
+             || call.toString().isEmpty()
+             || band.toString().isEmpty()
+             || mode.toString().isEmpty()
+             || mycall.toString().isEmpty() )
         {
             writeImportLog(importLogStream,
                            ERROR_SEVERITY,
@@ -332,7 +332,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
 
         if ( isDateRange() )
         {
-            if (!inDateRange(start_time.toDateTime().date()))
+            if (!inDateRange(start_time.date()))
             {
                 writeImportLog(importLogStream,
                                WARNING_SEVERITY,
@@ -349,7 +349,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             dupQuery.bindValue(":callsign", call);
             dupQuery.bindValue(":mode", mode);
             dupQuery.bindValue(":band", band);
-            dupQuery.bindValue(":startdate", start_time.toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+            dupQuery.bindValue(":startdate", start_time.toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
             if ( !dupQuery.exec() )
             {
@@ -411,7 +411,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             continue;
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_DXCC)).isNull()
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_DXCC)).toString().isEmpty()
              || updateDxcc )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_DXCC), entity.dxcc);
@@ -419,25 +419,25 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             record.setValue(RECORDIDX(LogbookModel::COLUMN_COUNTRY_INTL), entity.country);
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_CONTINENT)).isNull()
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_CONTINENT)).toString().isEmpty()
              || updateDxcc )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_CONTINENT), entity.cont);
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_ITUZ)).isNull()
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_ITUZ)).toString().isEmpty()
              || updateDxcc )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_ITUZ), QString::number(entity.ituz));
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_CQZ)).isNull()
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_CQZ)).toString().isEmpty()
              || updateDxcc )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_CQZ), QString::number(entity.cqz));
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_PREFIX)).isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_PREFIX)).toString().isEmpty() )
         {
             const QString &pfxRef = Callsign(call.toString()).getWPXPrefix();
 
@@ -452,7 +452,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
 
         if ( !gridsquare.isEmpty()
              && !my_gridsquare.isEmpty()
-             && record.value(RECORDIDX(LogbookModel::COLUMN_DISTANCE)).isNull() )
+             && record.value(RECORDIDX(LogbookModel::COLUMN_DISTANCE)).toString().isEmpty() )
         {
             Gridsquare grid(gridsquare);
             Gridsquare my_grid(my_gridsquare);
@@ -465,8 +465,8 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
         }
 
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_ALTITUDE)).isNull()
-             && !sota.isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_ALTITUDE)).toString().isEmpty()
+             && !sota.toString().isEmpty() )
         {
             const SOTAEntity &sotaInfo = Data::instance()->lookupSOTA(sota.toString());
             if ( sotaInfo.summitCode.compare(sota.toString(), Qt::CaseInsensitive)
@@ -476,8 +476,8 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             }
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_ALTITUDE)).isNull()
-             && !mysota.isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_ALTITUDE)).toString().isEmpty()
+             && !mysota.toString().isEmpty() )
         {
             const SOTAEntity &sotaInfo = Data::instance()->lookupSOTA(mysota.toString());
             if ( sotaInfo.summitCode.compare(sota.toString(), Qt::CaseInsensitive)
@@ -500,27 +500,27 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             continue;
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_DXCC)).isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_DXCC)).toString().isEmpty() )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_DXCC), dxccEntity.dxcc);
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_ITU_ZONE)).isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_ITU_ZONE)).toString().isEmpty() )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_ITU_ZONE), dxccEntity.ituz);
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_CQ_ZONE)).isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_CQ_ZONE)).toString().isEmpty() )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_CQ_ZONE), dxccEntity.cqz);
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY_INTL)).isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY_INTL)).toString().isEmpty() )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY_INTL), dxccEntity.country);
         }
 
-        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY)).isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY)).toString().isEmpty() )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY), Data::removeAccents(dxccEntity.country));
         }
@@ -597,10 +597,10 @@ void LogFormat::runQSLImport(QSLFrom fromService)
         const QVariant &start_time = QSLRecord.value("start_time");
 
         /* checking matching fields if they are not empty */
-        if ( start_time.isNull()
-             || call.isNull()
-             || band.isNull()
-             || mode.isNull() )
+        if ( !start_time.toDateTime().isValid()
+             || call.toString().isEmpty()
+             || band.toString().isEmpty()
+             || mode.toString().isEmpty() )
         {
             qWarning() << "Import does not contain field start_time or callsign or band or mode ";
             qCDebug(runtime) << QSLRecord;
