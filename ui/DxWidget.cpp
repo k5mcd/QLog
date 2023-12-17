@@ -1536,6 +1536,12 @@ QString DxWidget::modeGroupFromComment(const QString &comment) const
     if ( tokenizedComment.contains("SSTV", Qt::CaseInsensitive) )
         return BandPlan::MODE_GROUP_STRING_DIGITAL;
 
+    if ( tokenizedComment.contains("PACKET", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+
+    if ( tokenizedComment.contains("SSB", Qt::CaseInsensitive) )
+        return BandPlan::MODE_GROUP_STRING_PHONE;
+
     return QString();
 }
 
