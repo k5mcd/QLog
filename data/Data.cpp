@@ -486,6 +486,38 @@ QString Data::dbFilename()
     return dir.filePath("qlog.db");
 }
 
+double Data::MHz2UserFriendlyFreq(double freqMHz,
+                                  QString &unit,
+                                  unsigned char &efectiveDecP)
+{
+    FCT_IDENTIFICATION;
+
+    if ( freqMHz < 0.001 )
+    {
+        unit = tr("Hz");
+        efectiveDecP = 0;
+        return freqMHz * 1000000.0;
+    }
+
+    if ( freqMHz < 1 )
+    {
+        unit = tr("kHz");
+        efectiveDecP = 3;
+        return freqMHz * 1000.0;
+    }
+
+    if ( freqMHz >= 1000 )
+    {
+        unit = tr("GHz");
+        efectiveDecP = 3;
+        return freqMHz / 1000.0;
+    }
+
+    unit = tr("MHz");
+    efectiveDecP = 3;
+    return freqMHz;
+}
+
 QPair<QString, QString> Data::legacyMode(const QString &mode)
 {
     FCT_IDENTIFICATION;

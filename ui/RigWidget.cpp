@@ -147,7 +147,11 @@ void RigWidget::updateXIT(VFOID, double xit)
     if ( xit != 0.0 )
     {
         ui->xitOffset->setVisible(true);
-        ui->xitOffset->setText(QString("XIT: %1 MHz").arg(QSTRING_FREQ(xit)));
+        QString unit;
+        unsigned char decP;
+        double xitDisplay = Data::MHz2UserFriendlyFreq(xit, unit, decP);
+        ui->xitOffset->setText(QString("XIT: %1 %2").arg(QString::number(xitDisplay, 'f', decP),
+                                                          unit));
     }
     else
     {
@@ -162,7 +166,11 @@ void RigWidget::updateRIT(VFOID, double rit)
     if ( rit != 0.0 )
     {
         ui->ritOffset->setVisible(true);
-        ui->ritOffset->setText(QString("RIT: %1 MHz").arg(QSTRING_FREQ(rit)));
+        QString unit;
+        unsigned char decP;
+        double ritDisplay = Data::MHz2UserFriendlyFreq(rit, unit, decP);
+        ui->ritOffset->setText(QString("RIT: %1 %2").arg(QString::number(ritDisplay, 'f', decP),
+                                                         unit));
     }
     else
     {

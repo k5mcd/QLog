@@ -12,6 +12,7 @@ TBC - 0.31.0
 - [NEW] - Main Window - Current profile name is shown (issue #282)
 - [NEW] - Import - Details can be saved to file (issue #284)
 - [NEW] - Added Simplified Chinese translation (PR #285 thank BG7JAF)
+- [NEW] - RIG Widget - RIT/XIT are displayed with user-friendly units.
 - Fixed Missing Satellite Mode SX (issue #291)
 
 2023/12/01 - 0.30.0

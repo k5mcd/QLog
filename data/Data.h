@@ -83,6 +83,9 @@ public:
     static int getCQZMin();
     static int getCQZMax();
     static QString dbFilename();
+    static double MHz2UserFriendlyFreq(double,
+                                       QString &unit,
+                                       unsigned char &efectiveDecP);
 
     QStringList contestList() { return contests.values(); }
     QStringList propagationModesList() { return propagationModes.values(); }
