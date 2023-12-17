@@ -1,4 +1,5 @@
 #include <QtSql>
+#include <QSqlDriver>
 #include "LogFormat.h"
 #include "AdiFormat.h"
 #include "AdxFormat.h"
@@ -9,6 +10,7 @@
 #include "core/Gridsquare.h"
 #include "core/Callsign.h"
 #include "data/BandPlan.h"
+#include "models/LogbookModel.h"
 
 MODULE_IDENTIFICATION("qlog.logformat.logformat");
 
@@ -234,6 +236,8 @@ void LogFormat::setDuplicateQSOCallback(duplicateQSOBehaviour (*func)(QSqlRecord
     duplicateQSOFunc = func;
 }
 
+#define RECORDIDX(a) ( (a) - 1 )
+
 unsigned long LogFormat::runImport(QTextStream& importLogStream,
                                    unsigned long *warnings,
                                    unsigned long *errors)
@@ -248,6 +252,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
     unsigned long processedRec = 0;
 
     QSqlQuery dupQuery;
+    QSqlQuery insertQuery;
 
     // It is important to use callsign index here
     if ( ! dupQuery.prepare("SELECT * FROM contacts "
@@ -266,8 +271,16 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
     model.setTable("contacts");
     model.removeColumn(model.fieldIndex("id"));
     QSqlRecord record = model.record();
-    model.setEditStrategy(QSqlTableModel::OnManualSubmit);
     duplicateQSOBehaviour dupSetting = LogFormat::ASK_NEXT;
+;
+    if ( !insertQuery.prepare( QSqlDatabase::database().driver()->sqlStatement(QSqlDriver::InsertStatement,
+                                                                               "contacts",
+                                                                               record,
+                                                                               true)) )
+    {
+        qWarning() << "cannot prepare Insert statement" << insertQuery.lastError();
+        return 0;
+    }
 
     while (true)
     {
@@ -277,12 +290,29 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
 
         processedRec++;
 
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_BAND)).toString().isEmpty()
+             && !record.value(RECORDIDX(LogbookModel::COLUMN_FREQUENCY)).toString().isEmpty() )
+        {
+            double freq = record.value(RECORDIDX(LogbookModel::COLUMN_FREQUENCY)).toDouble();
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_BAND), BandPlan::freq2Band(freq).name);
+        }
+
+        // needed later
+        const QVariant &call = record.value(RECORDIDX(LogbookModel::COLUMN_CALL));
+        const QVariant &mycall = record.value(RECORDIDX(LogbookModel::COLUMN_STATION_CALLSIGN));
+        const QVariant &band = record.value(RECORDIDX(LogbookModel::COLUMN_BAND));
+        const QVariant &mode = record.value(RECORDIDX(LogbookModel::COLUMN_MODE));
+        const QDateTime &start_time = record.value(RECORDIDX(LogbookModel::COLUMN_TIME_ON)).toDateTime();
+        const QVariant &sota = record.value(RECORDIDX(LogbookModel::COLUMN_SOTA_REF));
+        const QVariant &mysota = record.value(RECORDIDX(LogbookModel::COLUMN_MY_SOTA_REF));
+
+
         /* checking matching fields if they are not empty */
-        if ( ! record.value("start_time").toDateTime().isValid()
-             || record.value("callsign").toString().isEmpty()
-             || record.value("band").toString().isEmpty()
-             || record.value("mode").toString().isEmpty()
-             || record.value("station_callsign").toString().isEmpty() )
+        if ( !start_time.isValid()
+             || call.toString().isEmpty()
+             || band.toString().isEmpty()
+             || mode.toString().isEmpty()
+             || mycall.toString().isEmpty() )
         {
             writeImportLog(importLogStream,
                            ERROR_SEVERITY,
@@ -295,14 +325,14 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             continue;
         }
 
-        if ( processedRec % 10 == 0)
+        if ( processedRec % 1000 == 0)
         {
             emit importPosition(stream.pos());
         }
 
         if ( isDateRange() )
         {
-            if (!inDateRange(record.value("start_time").toDateTime().date()))
+            if (!inDateRange(start_time.date()))
             {
                 writeImportLog(importLogStream,
                                WARNING_SEVERITY,
@@ -314,19 +344,12 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             }
         }
 
-        if (record.value("band").toString().isEmpty()
-            && !record.value("freq").toString().isEmpty() )
-        {
-            double freq = record.value("freq").toDouble();
-            record.setValue("band", BandPlan::freq2Band(freq).name);
-        }
-
         if ( dupSetting != ACCEPT_ALL )
         {
-            dupQuery.bindValue(":callsign", record.value("callsign"));
-            dupQuery.bindValue(":mode", record.value("mode"));
-            dupQuery.bindValue(":band", record.value("band"));
-            dupQuery.bindValue(":startdate", record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+            dupQuery.bindValue(":callsign", call);
+            dupQuery.bindValue(":mode", mode);
+            dupQuery.bindValue(":band", band);
+            dupQuery.bindValue(":startdate", start_time.toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
             if ( !dupQuery.exec() )
             {
@@ -375,7 +398,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             }
         }
 
-        DxccEntity entity = Data::instance()->lookupDxcc(record.value("callsign").toString());
+        const DxccEntity &entity = Data::instance()->lookupDxcc(call.toString());
 
         if ( entity.dxcc == 0 )
         {
@@ -387,48 +410,49 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             (*errors)++;
             continue;
         }
-        else if ( (record.value("dxcc").isNull()
-                  || updateDxcc) && entity.dxcc)
+
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_DXCC)).toString().isEmpty()
+             || updateDxcc )
         {
-            record.setValue("dxcc", entity.dxcc);
-            record.setValue("country", Data::removeAccents(entity.country));
-            record.setValue("country_intl", entity.country);
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_DXCC), entity.dxcc);
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_COUNTRY), Data::removeAccents(entity.country));
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_COUNTRY_INTL), entity.country);
         }
 
-        if ( ( record.value("cont").isNull()
-               || updateDxcc) && entity.dxcc )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_CONTINENT)).toString().isEmpty()
+             || updateDxcc )
         {
-            record.setValue("cont", entity.cont);
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_CONTINENT), entity.cont);
         }
 
-        if ( ( record.value("ituz").isNull()
-               || updateDxcc) && entity.dxcc )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_ITUZ)).toString().isEmpty()
+             || updateDxcc )
         {
-            record.setValue("ituz", QString::number(entity.ituz));
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_ITUZ), QString::number(entity.ituz));
         }
 
-        if ( ( record.value("cqz").isNull()
-               || updateDxcc) && entity.dxcc )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_CQZ)).toString().isEmpty()
+             || updateDxcc )
         {
-            record.setValue("cqz", QString::number(entity.cqz));
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_CQZ), QString::number(entity.cqz));
         }
 
-        if ( record.value("pfx").toString().isEmpty() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_PREFIX)).toString().isEmpty() )
         {
-            const QString &pfxRef = Callsign(record.value("callsign").toString()).getWPXPrefix();
+            const QString &pfxRef = Callsign(call.toString()).getWPXPrefix();
 
             if ( !pfxRef.isEmpty() )
             {
-                record.setValue("pfx", pfxRef);
+                record.setValue(RECORDIDX(LogbookModel::COLUMN_PREFIX), pfxRef);
             }
         }
 
-        QString gridsquare = record.value("gridsquare").toString();
-        QString my_gridsquare = record.value("my_gridsquare").toString();
+        const QString &gridsquare = record.value(RECORDIDX(LogbookModel::COLUMN_GRID)).toString();
+        const QString &my_gridsquare = record.value(RECORDIDX(LogbookModel::COLUMN_MY_GRIDSQUARE)).toString();
 
         if ( !gridsquare.isEmpty()
              && !my_gridsquare.isEmpty()
-             && record.value("distance").toString().isEmpty() )
+             && record.value(RECORDIDX(LogbookModel::COLUMN_DISTANCE)).toString().isEmpty() )
         {
             Gridsquare grid(gridsquare);
             Gridsquare my_grid(my_gridsquare);
@@ -436,85 +460,85 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
 
             if ( my_grid.distanceTo(grid, distance) )
             {
-                record.setValue("distance", distance);
+                record.setValue(RECORDIDX(LogbookModel::COLUMN_DISTANCE), distance);
             }
         }
 
-        if ( record.value("altitude").isNull()
-             && !record.value("sota_ref").isNull() )
+
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_ALTITUDE)).toString().isEmpty()
+             && !sota.toString().isEmpty() )
         {
-            SOTAEntity sotaInfo = Data::instance()->lookupSOTA(record.value("sota_ref").toString());
-            if ( sotaInfo.summitCode.toUpper() == record.value("sota_ref").toString().toUpper()
+            const SOTAEntity &sotaInfo = Data::instance()->lookupSOTA(sota.toString());
+            if ( sotaInfo.summitCode.compare(sota.toString(), Qt::CaseInsensitive)
                  && !sotaInfo.summitName.isEmpty() )
             {
-                record.setValue("altitude",sotaInfo.altm);
+                record.setValue(RECORDIDX(LogbookModel::COLUMN_ALTITUDE),sotaInfo.altm);
             }
         }
 
-        if ( record.value("my_altitude").isNull()
-             && !record.value("my_sota_ref").isNull() )
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_ALTITUDE)).toString().isEmpty()
+             && !mysota.toString().isEmpty() )
         {
-            SOTAEntity sotaInfo = Data::instance()->lookupSOTA(record.value("my_sota_ref").toString());
-            if ( sotaInfo.summitCode.toUpper() == record.value("my_sota_ref").toString().toUpper()
+            const SOTAEntity &sotaInfo = Data::instance()->lookupSOTA(mysota.toString());
+            if ( sotaInfo.summitCode.compare(sota.toString(), Qt::CaseInsensitive)
                  && !sotaInfo.summitName.isEmpty() )
             {
-                record.setValue("my_altitude",sotaInfo.altm);
+                record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_ALTITUDE),sotaInfo.altm);
             }
         }
 
-        QString myCallsign = record.value("station_callsign").toString().toUpper();
+        const DxccEntity &dxccEntity = Data::instance()->lookupDxcc(mycall.toString());
 
-        if ( !myCallsign.isEmpty() )
-        {
-            DxccEntity dxccEntity = Data::instance()->lookupDxcc(myCallsign);
-
-            if ( dxccEntity.dxcc )
-            {
-                if ( record.value("my_dxcc").toString().isEmpty() )
-                {
-                    record.setValue("my_dxcc", dxccEntity.dxcc);
-                }
-
-                if ( record.value("my_itu_zone").toString().isEmpty() )
-                {
-                    record.setValue("my_itu_zone", dxccEntity.ituz);
-                }
-
-                if ( record.value("my_cq_zone").toString().isEmpty() )
-                {
-                    record.setValue("my_cq_zone", dxccEntity.cqz);
-                }
-
-                if ( record.value("my_country_intl").toString().isEmpty() )
-                {
-                    record.setValue("my_country_intl", dxccEntity.country);
-                }
-
-                if ( record.value("my_country").toString().isEmpty() )
-                {
-                    record.setValue("my_country", Data::removeAccents(dxccEntity.country));
-                }
-            }
-            else
-            {
-                writeImportLog(importLogStream,
-                               ERROR_SEVERITY,
-                               processedRec,
-                               record,
-                               tr("Cannot find own DXCC Entity Info"));
-                (*errors)++;
-                continue;
-            }
-        }
-
-        if ( !model.insertRecord(-1, record) )
+        if ( dxccEntity.dxcc == 0 )
         {
             writeImportLog(importLogStream,
                            ERROR_SEVERITY,
                            processedRec,
                            record,
-                           tr("Cannot insert to database") + " - " + model.lastError().text());
-            qWarning() << "Cannot insert a record to Contact Table - " << model.lastError();
+                           tr("Cannot find own DXCC Entity Info"));
+            (*errors)++;
+            continue;
+        }
+
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_DXCC)).toString().isEmpty() )
+        {
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_DXCC), dxccEntity.dxcc);
+        }
+
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_ITU_ZONE)).toString().isEmpty() )
+        {
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_ITU_ZONE), dxccEntity.ituz);
+        }
+
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_CQ_ZONE)).toString().isEmpty() )
+        {
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_CQ_ZONE), dxccEntity.cqz);
+        }
+
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY_INTL)).toString().isEmpty() )
+        {
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY_INTL), dxccEntity.country);
+        }
+
+        if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY)).toString().isEmpty() )
+        {
+            record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_COUNTRY), Data::removeAccents(dxccEntity.country));
+        }
+
+        // Bind all values
+        for ( int i = 0; i < record.count(); i++ )
+        {
+            insertQuery.bindValue(i, record.value(i));
+        }
+
+        if ( ! insertQuery.exec() )
+        {
+            writeImportLog(importLogStream,
+                           ERROR_SEVERITY,
+                           processedRec,
+                           record,
+                           tr("Cannot insert to database") + " - " + insertQuery.lastError().text());
+            qWarning() << "Cannot insert a record to Contact Table - " << insertQuery.lastError();
             qCDebug(runtime) << record;
             (*errors)++;
         }
@@ -527,37 +551,10 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
                            tr("Imported"));
             count++;
         }
-
-        if ( count % 50 == 0 )
-        {
-            if (! model.submitAll() )
-            {
-                qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
-                writeImportLog(importLogStream,
-                               ERROR_SEVERITY,
-                               tr("Cannot commit the changes to database") + " - " + model.lastError().text());
-                (*errors)++;
-            }
-            else
-            {
-                QSqlDatabase::database().commit();
-                QSqlDatabase::database().transaction();
-            }
-        }
-
     }
 
     emit importPosition(stream.pos());
     emit finished(count);
-
-    if (! model.submitAll() )
-    {
-        qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
-        writeImportLog(importLogStream,
-                       ERROR_SEVERITY,
-                       tr("Cannot commit the changes to database") + " - " + model.lastError().text());
-        (*errors)++;
-    }
 
     QSqlDatabase::database().commit();
 
@@ -565,6 +562,8 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
 
     return count;
 }
+
+#undef RECORDIDX
 
 void LogFormat::runQSLImport(QSLFrom fromService)
 {
@@ -586,16 +585,22 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
         stats.qsos_checked++;
 
-        if ( stats.qsos_checked % 10 == 0 )
+        if ( stats.qsos_checked % 100 == 0 )
         {
             emit importPosition(stream.pos());
         }
 
+        // needed later
+        const QVariant &call = QSLRecord.value("callsign");
+        const QVariant &band = QSLRecord.value("band");
+        const QVariant &mode = QSLRecord.value("mode");
+        const QVariant &start_time = QSLRecord.value("start_time");
+
         /* checking matching fields if they are not empty */
-        if ( ! QSLRecord.value("start_time").toDateTime().isValid()
-             || QSLRecord.value("callsign").toString().isEmpty()
-             || QSLRecord.value("band").toString().isEmpty()
-             || QSLRecord.value("mode").toString().isEmpty() )
+        if ( !start_time.toDateTime().isValid()
+             || call.toString().isEmpty()
+             || band.toString().isEmpty()
+             || mode.toString().isEmpty() )
         {
             qWarning() << "Import does not contain field start_time or callsign or band or mode ";
             qCDebug(runtime) << QSLRecord;
@@ -605,10 +610,10 @@ void LogFormat::runQSLImport(QSLFrom fromService)
 
         // It is important to use callsign index here
         QString matchFilter = QString("callsign=upper('%1') AND upper(mode)=upper('%2') AND upper(band)=upper('%3') AND ABS(JULIANDAY(start_time)-JULIANDAY(datetime('%4')))*24*60<30")
-                .arg(QSLRecord.value("callsign").toString(),
-                     QSLRecord.value("mode").toString(),
-                     QSLRecord.value("band").toString(),
-                     QSLRecord.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
+                .arg(call.toString(),
+                     mode.toString(),
+                     band.toString(),
+                     start_time.toDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-dd hh:mm:ss"));
 
         /* set filter */
         model.setFilter(matchFilter);
@@ -617,7 +622,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
         if ( model.rowCount() != 1 )
         {
             stats.qsos_unmatched++;
-            stats.unmatchedQSLs.append(QSLRecord.value("callsign").toString());
+            stats.unmatchedQSLs.append(call.toString());
             continue;
         }
 
@@ -707,7 +712,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
                         qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
                     }
                     stats.qsos_updated++;
-                    stats.newQSLs.append(QSLRecord.value("callsign").toString());
+                    stats.newQSLs.append(call.toString());
                 }
             }
             else
@@ -781,7 +786,7 @@ void LogFormat::runQSLImport(QSLFrom fromService)
                     qWarning() << "Cannot commit changes to Contact Table - " << model.lastError();
                 }
                 stats.qsos_updated++;
-                stats.newQSLs.append(QSLRecord.value("callsign").toString());
+                stats.newQSLs.append(call.toString());
             }
 
             break;
@@ -836,10 +841,9 @@ long LogFormat::runExport()
 
     while (query.next())
     {
-        QSqlRecord record = query.record();
-        this->exportContact(record);
+        this->exportContact(query.record());
         count++;
-        if (count % 10 == 0)
+        if (count % 100 == 0)
         {
             emit exportProgress((int)(count * 100 / rows));
         }

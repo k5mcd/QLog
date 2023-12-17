@@ -70,7 +70,7 @@ void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
             }
         }
 
-        if ( !start.isNull() )
+        if ( start.toDate().isValid() )
         {
             filter.append(QString(" AND c.start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd")));
         }

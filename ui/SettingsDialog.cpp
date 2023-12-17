@@ -2060,7 +2060,7 @@ void SettingsDialog::readSettings() {
     /********/
     /* DXCC */
     /********/
-    if (!settings.value("dxcc/start").isNull()) {
+    if (settings.value("dxcc/start").toDate().isValid()) {
        ui->dxccStartDateCheckBox->setCheckState(Qt::Checked);
        ui->dxccStartDate->setDate(settings.value("dxcc/start").toDate());
     }
