@@ -17,7 +17,7 @@ TBC - 0.31.0
 - Fixed ADI Import is too slow (issue #270)
 - Improved Import/Export Performance
 - Fixed Missing Satellite Mode SX (issue #291)
-- QSO Detail: Fixed issue when Sat-Name field was always disabled
+- Fixed QSO Detail - Issue when Sat-Name field was always disabled
 - Fixed RPM build - Installed (but unpackaged) metainfo file issue
 
 2023/12/01 - 0.30.0
