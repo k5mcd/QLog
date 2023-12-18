@@ -39,7 +39,7 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %doc README.md Changelog
 %{_datadir}/applications/qlog.desktop
 %{_datadir}//icons/hicolor/256x256/apps/qlog.png
-
+%{_metainfodir}/*
 
 %changelog
 * Fri Dec 1 2023 Ladislav Foldyna - 0.30.0-1

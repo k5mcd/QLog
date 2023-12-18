@@ -18,6 +18,7 @@ TBC - 0.31.0
 - Improved Import/Export Performance
 - Fixed Missing Satellite Mode SX (issue #291)
 - QSO Detail: Fixed issue when Sat-Name field was always disabled
+- Fixed RPM build - Installed (but unpackaged) metainfo file issue
 
 2023/12/01 - 0.30.0
 - [NEW] - QSL Images are stored in the database
