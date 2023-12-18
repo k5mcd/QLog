@@ -112,6 +112,7 @@ MainWindow::MainWindow(QWidget* parent) :
     alertTextButton = new QPushButton(" ", ui->statusBar);
     alertTextButton->setFlat(true);
     alertTextButton->setFocusPolicy(Qt::NoFocus);
+    alertTextButton->setToolTip(tr("Press to tune the alert"));
 
     ui->toolBar->hide();
     ui->statusBar->addWidget(profileLabel);
