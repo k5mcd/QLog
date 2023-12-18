@@ -2382,8 +2382,13 @@ void NewContactWidget::setupCustomUiRowsTabOrder(const QList<QWidget *> &customW
     {
         if ( prevCustomWidget )
         {
-            NewContactEditLine *fromWidget = prevCustomWidget->findChild<NewContactEditLine*>();
-            NewContactEditLine *toWidget = currentWidget->findChild<NewContactEditLine*>();
+            QWidget *fromWidget = prevCustomWidget->findChild<NewContactEditLine*>();
+            if ( !fromWidget )
+                fromWidget = prevCustomWidget->findChild<QComboBox*>();
+
+            QWidget *toWidget = currentWidget->findChild<NewContactEditLine*>();
+            if ( !toWidget )
+                toWidget = currentWidget->findChild<QComboBox*>();
 
             if ( fromWidget && toWidget )
             {
@@ -2393,7 +2398,10 @@ void NewContactWidget::setupCustomUiRowsTabOrder(const QList<QWidget *> &customW
         }
         else
         {
-            NewContactEditLine *toWidget = currentWidget->findChild<NewContactEditLine*>();
+            QWidget *toWidget = currentWidget->findChild<NewContactEditLine*>();
+            if ( !toWidget )
+                toWidget = currentWidget->findChild<QComboBox*>();
+
             if ( toWidget )
             {
                 setTabOrder(ui->rstRcvdEdit, toWidget);
