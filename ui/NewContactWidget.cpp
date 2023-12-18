@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QSqlField>
 #include <QTimeZone>
+#include <QKeyEvent>
+
 #include "core/Rig.h"
 #include "core/Rotator.h"
 #include "NewContactWidget.h"
@@ -215,6 +217,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connect(uiDynamic->wwffEdit, &QLineEdit::textChanged, this, &NewContactWidget::wwffChanged);
 
     ui->rstSentEdit->installEventFilter(this);
+    ui->rstRcvdEdit->installEventFilter(this);
 
     /**************/
     /* SHORTCUTs  */
@@ -1242,6 +1245,21 @@ bool NewContactWidget::eventFilter(QObject *object, QEvent *event)
             startContactTimer();
         }
     }
+
+    // Event handle to handle Enter press event for the Custom UI row.
+    if ( event->type() == QEvent::KeyPress
+         && static_cast<QKeyEvent *>(event)
+         && ( static_cast<QKeyEvent *>(event)->key() == Qt::Key_Return
+              || static_cast<QKeyEvent *>(event)->key() == Qt::Key_Enter )
+         && contactTimer->isActive()
+         && object != ui->callsignEdit     //following fields have a different Enter handling
+         && object != uiDynamic->potaEdit
+         && object != uiDynamic->sotaEdit
+         && object != uiDynamic->wwffEdit )
+    {
+        saveContact();
+    }
+
     return false;
 }
 
@@ -2259,6 +2277,7 @@ void NewContactWidget::setupCustomUi()
             if ( rowItem->widget() != nullptr)
             {
                 qCDebug(runtime) << "Removing widget" << rowItem->widget()->objectName();
+                rowItem->widget()->removeEventFilter(this); // only row fields has Special Event Filter  (enter handling)
                 rowItem->widget()->setHidden(true);
             }
         }
@@ -2337,6 +2356,7 @@ QList<QWidget *> NewContactWidget::setupCustomUiRow(QHBoxLayout *row, const QLis
             continue;
         }
 
+        currCustomWidget->installEventFilter(this); // only row fields have a special event filter (enter handling)
         qCDebug(runtime) << "Adding widget" << currCustomWidget->objectName();
         row->addWidget(currCustomWidget);
         ret << currCustomWidget;
