@@ -1,0 +1,13 @@
+### QLog ADIF Export
+<ADIF_VER:5>3.1.4
+<PROGRAMID:4>QLog
+<PROGRAMVERSION:6>0.20.0
+<CREATED_TIMESTAMP:15>20230324 081527
+<EOH>
+
+<call:7>SO1TEST
+<qso_date:8>20230101
+<time_on:6>132300
+<band:3>40m
+<mode:2>CW
+<eor>

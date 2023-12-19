@@ -1,0 +1,33 @@
+### QLog ADIF Export
+<ADIF_VER:5>3.1.4
+<PROGRAMID:4>QLog
+<PROGRAMVERSION:6>0.20.0
+<CREATED_TIMESTAMP:15>20230324 081527
+<EOH>
+
+<call:7>SO1TEST
+<qso_date:8>20230501
+<time_on:6>132300
+<band:3>40m
+<mode:2>CW
+<comment:3>com
+<my_rig_intl:8>Rig from
+<my_antenna:2>GP
+<my_antenna_intl:7>GP_INTL
+<eor>
+
+<call:8>SO1TESTT
+<qso_date:8>20230501
+<time_on:6>132300
+<band:3>40m
+<mode:2>CW
+<comment:3>com
+<comment_intl:8>com_intl
+<eor>
+
+<call:8>SO1TESTS
+<qso_date:8>20230501
+<time_on:6>132300
+<band:3>40m
+<mode:2>CW
+<eor>
