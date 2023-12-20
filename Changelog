@@ -8,6 +8,8 @@ TBC - 0.31.0
 - [NEW] - DXC - Added Clear QSO Context Menu
 - [NEW] - DXC - Added support for SH/DX response parsing
 - [NEW] - DXC - Added support for username, password for connection
+- [CHANGED] - DXC - Commands Combo changed to function button with selectable function
+- [CHANGED] - DXC - DX Spot is prepared via DXC Command Line, Remark dialog was removed
 - [NEW] - Online Map - IBP station double-click tunes freq and switch Rig mode
 - [NEW] - Main Window - Current profile name is shown (issue #282)
 - [NEW] - Import - Details can be saved to file (issue #284)
