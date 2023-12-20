@@ -475,7 +475,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="commandButton">
+      <widget class="QToolButton" name="commandButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -483,10 +483,13 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>Commands</string>
+        <string/>
        </property>
-       <property name="flat">
-        <bool>false</bool>
+       <property name="popupMode">
+        <enum>QToolButton::MenuButtonPopup</enum>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
        </property>
       </widget>
      </item>

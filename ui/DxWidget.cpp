@@ -455,6 +455,8 @@ DxWidget::DxWidget(QWidget *parent) :
     commandsMenu->addAction(ui->actionShowWCY);
     commandsMenu->addAction(ui->actionShowWWV);
     ui->commandButton->setMenu(commandsMenu);
+    ui->commandButton->setDefaultAction(ui->actionSpotQSO);
+    ui->commandButton->setEnabled(false);
 
     QMenu *mainWidgetMenu = new QMenu(this);
     mainWidgetMenu->addAction(ui->actionDeleteServer);
@@ -1283,6 +1285,7 @@ void DxWidget::actionCommandSpotQSO()
             }
         }
     }
+    ui->commandButton->setDefaultAction(ui->actionSpotQSO);
 }
 
 void DxWidget::actionCommandShowHFStats()
@@ -1290,6 +1293,7 @@ void DxWidget::actionCommandShowHFStats()
     FCT_IDENTIFICATION;
 
     sendCommand(QStringLiteral("sh/hfstats"), true);
+    ui->commandButton->setDefaultAction(ui->actionShowHFStats);
 }
 
 void DxWidget::actionCommandShowVHFStats()
@@ -1297,6 +1301,7 @@ void DxWidget::actionCommandShowVHFStats()
     FCT_IDENTIFICATION;
 
     sendCommand(QStringLiteral("sh/vhfstats"), true);
+    ui->commandButton->setDefaultAction(ui->actionShowVHFStats);
 }
 
 void DxWidget::actionCommandShowWCY()
@@ -1304,6 +1309,7 @@ void DxWidget::actionCommandShowWCY()
     FCT_IDENTIFICATION;
 
     sendCommand(QStringLiteral("sh/wcy"), true);
+    ui->commandButton->setDefaultAction(ui->actionShowWCY);
 }
 
 void DxWidget::actionCommandShowWWV()
@@ -1311,6 +1317,7 @@ void DxWidget::actionCommandShowWWV()
     FCT_IDENTIFICATION;
 
     sendCommand(QStringLiteral("sh/wwv"), true);
+    ui->commandButton->setDefaultAction(ui->actionShowWWV);
 }
 
 void DxWidget::actionConnectOnStartup()
