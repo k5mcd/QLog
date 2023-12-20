@@ -1259,30 +1259,38 @@ void DxWidget::actionCommandSpotQSO()
         if ( lastQSO.contains(QStringLiteral("freq"))
              && lastQSO.contains(QStringLiteral("callsign")) )
         {
-            bool ok;
-            QString remarks = QInputDialog::getText(this,
-                                                 tr("DX Spot"),
-                                                 tr("Callsign: ") + "<b>" + lastQSO.value("callsign").toString() + "</b>"
-                                                 + " "
-                                                 + tr("Frequency: ") + "<b>" + QString::number(lastQSO.value("freq").toDouble(), 'f', 3) + "</b>"
-                                                 + "<br>"
-                                                 + tr("Remarks:"),
-                                                 QLineEdit::Normal,
-                                                 QString(),
-                                                 &ok,
-                                                 Qt::Dialog);
-            if ( ok )
-            {
-                QString command;
-                command = "dx " + QString::number(lastQSO.value("freq").toDouble(), 'f', 3)
-                          + " "
-                          + lastQSO.value("callsign").toString()
-                          + " "
-                          + remarks;
+            QString command;
+            command = "dx " + QString::number(lastQSO.value("freq").toDouble(), 'f', 3)
+                    + " "
+                    + lastQSO.value("callsign").toString()
+                    + " ";
 
-                sendCommand(command);
-                lastQSO.clear();
-            }
+            ui->commandEdit->setText(command);
+            ui->commandEdit->setFocus();
+//            bool ok;
+//            QString remarks = QInputDialog::getText(this,
+//                                                 tr("DX Spot"),
+//                                                 tr("Callsign: ") + "<b>" + lastQSO.value("callsign").toString() + "</b>"
+//                                                 + " "
+//                                                 + tr("Frequency: ") + "<b>" + QString::number(lastQSO.value("freq").toDouble(), 'f', 3) + "</b>"
+//                                                 + "<br>"
+//                                                 + tr("Remarks:"),
+//                                                 QLineEdit::Normal,
+//                                                 QString(),
+//                                                 &ok,
+//                                                 Qt::Dialog);
+//            if ( ok )
+//            {
+//                QString command;
+//                command = "dx " + QString::number(lastQSO.value("freq").toDouble(), 'f', 3)
+//                          + " "
+//                          + lastQSO.value("callsign").toString()
+//                          + " "
+//                          + remarks;
+
+//                sendCommand(command);
+//                lastQSO.clear();
+//            }
         }
     }
     ui->commandButton->setDefaultAction(ui->actionSpotQSO);
