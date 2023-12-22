@@ -28,5 +28,6 @@
         <file>baseline-play_up-24px.svg</file>
         <file>password.png</file>
         <file>menu.svg</file>
+        <file>search-globe.svg</file>
     </qresource>
 </RCC>

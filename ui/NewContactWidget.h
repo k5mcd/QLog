@@ -230,6 +230,7 @@ private slots:
     void formFieldChanged();
     void useNearestCallsign();
     void timeOnChanged();
+    void setCallbookStatusEnabled(bool);
 
     void stationProfileComboChanged(const QString&);
     void rigProfileComboChanged(const QString&);

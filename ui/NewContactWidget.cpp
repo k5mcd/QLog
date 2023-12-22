@@ -342,6 +342,7 @@ void NewContactWidget::readGlobalSettings()
     /* Reload Callbooks */
     /********************/
     callbookManager.initCallbooks();
+    setCallbookStatusEnabled(callbookManager.isActive());
 
     /***********************************/
     /* Refresh all Profiles Comboboxes */
@@ -1247,15 +1248,25 @@ bool NewContactWidget::eventFilter(QObject *object, QEvent *event)
     }
 
     // Event handle to handle Enter press event for the Custom UI row.
+    // The basic idea is:
+    //   - if enter is pressed on the Row A or Row B or RSTr(s) and QSO Timer is active then QSO is saved
+    //   - hadnler is registere automaticaly when fields are added to Row.
+    //   - But Callsign, POTA, SOTA, WWFF fields enter means "search" the value in callbook or xOTA directories
+    //     Therefore Enter event is blocked for these fields with one exception:
+    //       if Callbook is not active then Callsign enter causes "save QSO" event too.
+    //       The callsign exception was added to make it possible to quickly insert QSOs during pile-up.
+    //       Therefore there is no condition for an active QSO timer.
+
     if ( event->type() == QEvent::KeyPress
          && static_cast<QKeyEvent *>(event)
          && ( static_cast<QKeyEvent *>(event)->key() == Qt::Key_Return
               || static_cast<QKeyEvent *>(event)->key() == Qt::Key_Enter )
-         && contactTimer->isActive()
-         && object != ui->callsignEdit     //following fields have a different Enter handling
-         && object != uiDynamic->potaEdit
-         && object != uiDynamic->sotaEdit
-         && object != uiDynamic->wwffEdit )
+         && ( ( object == ui->callsignEdit && !callbookManager.isActive() )
+              || ( object != ui->callsignEdit
+                   && object != uiDynamic->potaEdit
+                   && object != uiDynamic->sotaEdit
+                   && object != uiDynamic->wwffEdit
+                   && contactTimer->isActive() ) ) )
     {
         saveContact();
     }
@@ -3027,6 +3038,26 @@ void NewContactWidget::timeOnChanged()
 
     ui->timeOffEdit->setDateTime(ui->timeOnEdit->dateTime());
     ui->timeDurationEdit->setTime(QTime(0,0,0));
+}
+
+void NewContactWidget::setCallbookStatusEnabled(bool callbookEnabled)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << callbookEnabled;
+
+    if ( callbookEnabled )
+    {
+        ui->callsignEdit->removeEventFilter(this);
+        ui->callbookStatusLabel->setText("<img src=':/icons/search-globe.svg'>");
+        ui->callbookStatusLabel->setToolTip(tr("Callbook search is active"));
+    }
+    else
+    {
+        ui->callsignEdit->installEventFilter(this);
+        ui->callbookStatusLabel->setText("");
+        ui->callbookStatusLabel->setToolTip(QString());
+    }
 }
 
 NewContactWidget::~NewContactWidget() {
