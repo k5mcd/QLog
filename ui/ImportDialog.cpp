@@ -201,7 +201,7 @@ void ImportDialog::saveImportDetails(const QString &importDetail, const QString 
             const QDateTime &currTime = QDateTime::currentDateTimeUtc();
 
             QTextStream out(&file);
-            out << tr("QLog Import Report") << "\n"
+            out << tr("QLog Import Summary") << "\n"
                 << "\n"
                 << tr("Import date") << ": " << currTime.toString(locale.formatDateShortWithYYYY()) << " " << currTime.toString(locale.formatTimeLongWithoutTZ()) << " UTC\n"
                 << tr("Imported File") << ": " << filename
