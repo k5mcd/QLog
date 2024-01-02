@@ -53,8 +53,6 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 ### Third-party software
 * [TQSL](http://www.arrl.org/tqsl-download) – optional, needed for LoTW support
 
-
-
 For more details, screenshots etc, please, see [QLog Wiki](https://github.com/foldynl/QLog/wiki)
 
 Please, used [QLog Issues](https://github.com/foldynl/QLog/issues) for reporting any issue or open a [discussion](https://github.com/foldynl/QLog/discussions).
@@ -85,9 +83,9 @@ Prerequisites:
 
 Fedora **RPM packages** are available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
 
-**Flatpak** package is available via [Flathub](https://flathub.org/apps/io.github.foldynl.QLog). The package contains built-in TrustedQSL.
+<a href='https://flathub.org/apps/io.github.foldynl.QLog'>   <img width='120' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-en.png'/></a>
 
-**Snap** is not planned at this moment.
+**Flatpak** package is available via [Flathub](https://flathub.org/apps/io.github.foldynl.QLog). The package contains built-in TrustedQSL.
 
 
 ### MacOS
