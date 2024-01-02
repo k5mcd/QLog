@@ -204,7 +204,7 @@ void ImportDialog::saveImportDetails(const QString &importDetail, const QString 
             out << tr("QLog Import Summary") << "\n"
                 << "\n"
                 << tr("Import date") << ": " << currTime.toString(locale.formatDateShortWithYYYY()) << " " << currTime.toString(locale.formatTimeLongWithoutTZ()) << " UTC\n"
-                << tr("Imported File") << ": " << filename
+                << tr("Imported file") << ": " << filename
                 << "\n\n"
                 << tr("Imported: %n contact(s)", "", count) << "\n"
                 << tr("Warning(s): %n", "", warnings) << "\n"
