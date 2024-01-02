@@ -9,7 +9,9 @@
 MODULE_IDENTIFICATION("qlog.ui.callbookmanager");
 
 CallbookManager::CallbookManager(QObject *parent)
-    : QObject{parent}
+    : QObject{parent},
+    primaryCallbookAuthSuccess(false),
+    secondaryCallbookAuthSuccess(false)
 {
     FCT_IDENTIFICATION;
 
@@ -48,7 +50,7 @@ bool CallbookManager::isActive()
 {
     FCT_IDENTIFICATION;
 
-    bool ret = ! primaryCallbook.isNull() || !secondaryCallbook.isNull();
+    bool ret = primaryCallbookAuthSuccess || secondaryCallbookAuthSuccess;
     qCDebug(runtime) << ret;
     return ret;
 }
@@ -82,6 +84,8 @@ void CallbookManager::initCallbooks()
 
     primaryCallbook.clear();
     secondaryCallbook.clear();
+    primaryCallbookAuthSuccess = false;
+    secondaryCallbookAuthSuccess = false;
 
     QString primaryCallbookSelection = settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY).toString();
     QString secondaryCallbookSelection = settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY).toString();
@@ -94,6 +98,7 @@ void CallbookManager::initCallbooks()
         connect(primaryCallbook, &GenericCallbook::callsignNotFound, this, &CallbookManager::primaryCallbookCallsignNotFound);
         connect(primaryCallbook, &GenericCallbook::loginFailed, this, [this]()
         {
+            primaryCallbookAuthSuccess = false;
             emit loginFailed(primaryCallbook->getDisplayName());
         });
         connect(primaryCallbook, &GenericCallbook::lookupError, this, [this](const QString &error)
@@ -103,6 +108,7 @@ void CallbookManager::initCallbooks()
                              + ((!secondaryCallbook.isNull()) ? tr("<p>The secondary callbook will be used</p>") : ""));
             primaryCallbookCallsignNotFound(currentQueryCallsign);
         });
+        primaryCallbookAuthSuccess = true;
     }
 
     if ( !secondaryCallbook.isNull() )
@@ -110,6 +116,7 @@ void CallbookManager::initCallbooks()
         connect(secondaryCallbook, &GenericCallbook::callsignNotFound, this, &CallbookManager::secondaryCallbookCallsignNotFound);
         connect(secondaryCallbook, &GenericCallbook::loginFailed, this, [this]()
         {
+            secondaryCallbookAuthSuccess = false;
             emit loginFailed(secondaryCallbook->getDisplayName());
         });
         connect(secondaryCallbook, &GenericCallbook::lookupError, this, [this](const QString &error)
@@ -117,6 +124,7 @@ void CallbookManager::initCallbooks()
             emit lookupError(secondaryCallbook->getDisplayName() + " - " + error);
             secondaryCallbookCallsignNotFound(currentQueryCallsign);
         });
+        secondaryCallbookAuthSuccess = true;
     }
 }
 

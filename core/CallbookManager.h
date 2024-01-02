@@ -34,7 +34,9 @@ private:
 
 private:
     QPointer<GenericCallbook> primaryCallbook;
+    bool primaryCallbookAuthSuccess;
     QPointer<GenericCallbook> secondaryCallbook;
+    bool secondaryCallbookAuthSuccess;
     QString currentQueryCallsign;
     static QCache<QString, QMap<QString, QString>> queryCache;
 

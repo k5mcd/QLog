@@ -198,6 +198,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connect(&callbookManager, &CallbookManager::loginFailed, this, [this](const QString &callbookString)
     {
         QMessageBox::critical(this, tr("QLog Error"), callbookString + " " + tr("Callbook login failed"));
+        setCallbookStatusEnabled(callbookManager.isActive());
     });
 
     connect(contactTimer, &QTimer::timeout, this, &NewContactWidget::updateTimeOff);
@@ -3012,14 +3013,14 @@ void NewContactWidget::setCallbookStatusEnabled(bool callbookEnabled)
     if ( callbookEnabled )
     {
         ui->callsignEdit->removeEventFilter(this);
-        ui->callbookStatusLabel->setText("<img src=':/icons/search-globe.svg'>");
+        ui->callbookStatusLabel->setText("<img src=':/icons/search-globe_green.svg'>");
         ui->callbookStatusLabel->setToolTip(tr("Callbook search is active"));
     }
     else
     {
         ui->callsignEdit->installEventFilter(this);
-        ui->callbookStatusLabel->setText("");
-        ui->callbookStatusLabel->setToolTip(QString());
+        ui->callbookStatusLabel->setText("<img src=':/icons/search-globe_red.svg'>");
+        ui->callbookStatusLabel->setToolTip(tr("Callbook search is inactive"));
     }
 }
 
