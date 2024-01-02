@@ -54,8 +54,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     ui->dateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->timeOnEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
-    ui->timeOffEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
-    ui->timeDurationEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
+    ui->qsoDurationEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
 
     /**************************/
     /* QSL Send Combo Content */
@@ -1439,14 +1438,8 @@ void NewContactWidget::saveContact()
     }
 
     QDateTime start = QDateTime(ui->dateEdit->date(), ui->timeOnEdit->time(), Qt::UTC);
-    QDateTime end = QDateTime(ui->dateEdit->date(), ui->timeOffEdit->time(), Qt::UTC);
-
-    if ( start > end )
-    {
-        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
-                              QMessageBox::tr("<b>Time Off</b> must not be younger than <b>Time On</b>"));
-        return;
-    }
+    QDateTime end = ( isManualEnterMode ) ? start.addSecs(QTime(0,0).secsTo(ui->qsoDurationEdit->time()))
+                                          : timeOff;
 
     QSqlTableModel model;
     model.setTable("contacts");
@@ -1742,17 +1735,11 @@ void NewContactWidget::startContactTimer()
     if (!contactTimer->isActive()) {
         contactTimer->start(500);
     }
-
-    ui->timeStackedWidget->setCurrentIndex(1);
-    ui->timeLabelStackedWidget->setCurrentIndex(1);
 }
 
 void NewContactWidget::stopContactTimer()
 {
     FCT_IDENTIFICATION;
-
-    ui->timeStackedWidget->setCurrentIndex(0);
-    ui->timeLabelStackedWidget->setCurrentIndex(0);
 
     if ( isManualEnterMode )
     {
@@ -1792,11 +1779,10 @@ void NewContactWidget::updateTime()
         return;
     }
 
-    QDateTime now = QDateTime::currentDateTimeUtc();
-    ui->dateEdit->setDate(now.date());
-    ui->timeOnEdit->setTime(now.time());
-    ui->timeOffEdit->setTime(now.time());
-    ui->timeDurationEdit->setTime(QTime(0,0,0));
+    timeOff = QDateTime::currentDateTimeUtc();
+    ui->dateEdit->setDate(timeOff.date());
+    ui->timeOnEdit->setTime(timeOff.time());
+    ui->qsoDurationEdit->setTime(QTime(0,0,0));
 }
 
 void NewContactWidget::updateTimeOff()
@@ -1811,29 +1797,17 @@ void NewContactWidget::updateTimeOff()
 
     static bool shouldHighlighted = true;
 
-    ui->timeOffEdit->setTime(QDateTime::currentDateTimeUtc().time());
-    qint64 seconds = ui->timeOnEdit->dateTime().secsTo(ui->timeOffEdit->dateTime());
+    timeOff = QDateTime::currentDateTimeUtc();
+    qint64 seconds = ui->timeOnEdit->dateTime().secsTo(timeOff);
     QTime t = QTime(0,0).addSecs(seconds % 86400);
-    ui->timeDurationEdit->setTime(t);
+    ui->qsoDurationEdit->setTime(t);
 
-    if ( shouldHighlighted && isQSOTimeStarted() )
-    {
-        //QColor(76, 200, 80)
-        ui->timeDurationEdit->setStyleSheet("background-color: #4CC850 ;");
-    }
-    else
-    {
-        ui->timeDurationEdit->setStyleSheet("");
-    }
+    //QColor(76, 200, 80)
+    ui->qsoDurationEdit->setStyleSheet( ( shouldHighlighted && isQSOTimeStarted() ) ? "background-color: #4CC850 ;"
+                                                                                    : "");
 
-    if ( isQSOTimeStarted() )
-    {
-        shouldHighlighted = !shouldHighlighted;
-    }
-    else
-    {
-        shouldHighlighted = false;
-    }
+    shouldHighlighted = ( isQSOTimeStarted() ) ? !shouldHighlighted
+                                               : false;
 
     updatePartnerLocTime();
 }
@@ -2215,12 +2189,13 @@ void NewContactWidget::setManualMode(bool isEnabled)
         showRXTXFreqs(true);
         ui->dateEdit->setReadOnly(false);
         ui->timeOnEdit->setReadOnly(false);
-        ui->timeOffEdit->setReadOnly(false);
+        ui->qsoDurationEdit->setReadOnly(false);
         ui->timeOnEdit->setFocusPolicy(Qt::StrongFocus);
         ui->dateEdit->setFocusPolicy(Qt::StrongFocus);
-        ui->timeOffEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->qsoDurationEdit->setFocusPolicy(Qt::StrongFocus);
+        ui->qsoDurationEdit->setCurrentSection(QDateTimeEdit::MinuteSection);
         ui->thirdLineWidget->setTabOrder(ui->dateEdit, ui->timeOnEdit);
-        ui->thirdLineWidget->setTabOrder(ui->timeOnEdit, ui->timeOffEdit);
+        ui->thirdLineWidget->setTabOrder(ui->timeOnEdit, ui->qsoDurationEdit);
     }
 
     QString styleString = (isManualEnterMode) ? "background-color: orange;"
@@ -2230,12 +2205,11 @@ void NewContactWidget::setManualMode(bool isEnabled)
     ui->frequencyLabel->setStyleSheet(styleString);
     ui->dateLabel->setStyleSheet(styleString);
     ui->timeOnLabel->setStyleSheet(styleString);
-    ui->timeOffLabel->setStyleSheet(styleString);
+    ui->qsoDurationLabel->setStyleSheet(styleString);
     ui->stationProfileLabel->setStyleSheet(styleString);
     ui->rigLabel->setStyleSheet(styleString);
     ui->antennaLabel->setStyleSheet(styleString);
     ui->powerLabel->setStyleSheet(styleString);
-
 }
 
 void NewContactWidget::exitManualMode()
@@ -2248,10 +2222,10 @@ void NewContactWidget::exitManualMode()
 
     ui->dateEdit->setReadOnly(true);
     ui->timeOnEdit->setReadOnly(true);
-    ui->timeOffEdit->setReadOnly(true);
+    ui->qsoDurationEdit->setReadOnly(true);
     ui->timeOnEdit->setFocusPolicy(Qt::ClickFocus);
     ui->dateEdit->setFocusPolicy(Qt::ClickFocus);
-    ui->timeOffEdit->setFocusPolicy(Qt::ClickFocus);
+    ui->qsoDurationEdit->setFocusPolicy(Qt::ClickFocus);
 
     //rig connected/disconnected
     if ( rig->isRigConnected() )
@@ -3027,17 +3001,6 @@ void NewContactWidget::useNearestCallsign()
 
     changeCallsignManually(ui->nearStationLabel->text());
     ui->callsignEdit->setFocus();
-}
-
-void NewContactWidget::timeOnChanged()
-{
-    FCT_IDENTIFICATION;
-
-    if ( ! isManualEnterMode )
-        return;
-
-    ui->timeOffEdit->setDateTime(ui->timeOnEdit->dateTime());
-    ui->timeDurationEdit->setTime(QTime(0,0,0));
 }
 
 void NewContactWidget::setCallbookStatusEnabled(bool callbookEnabled)

@@ -229,7 +229,6 @@ private slots:
     void formFieldChangedString(const QString&);
     void formFieldChanged();
     void useNearestCallsign();
-    void timeOnChanged();
     void setCallbookStatusEnabled(bool);
 
     void stationProfileComboChanged(const QString&);
@@ -302,6 +301,7 @@ private:
     WWFFEntity lastWWFF;
     bool isManualEnterMode;
     LogLocale locale;
+    QDateTime timeOff;
 
 };
 
