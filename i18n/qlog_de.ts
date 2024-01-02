@@ -1552,12 +1552,12 @@
     <message>
         <location filename="../ui/DxWidget.ui" line="576"/>
         <source>Keep Spots</source>
-        <translation type="unfinished"></translation>
+        <translation>Spots merken</translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.ui" line="579"/>
         <source>Spots are not cleared when connecting to a new DX Cluster.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spots werden nicht gelöscht, wenn eine Verbindung zu einem neuen DX-Cluster hergestellt wird.</translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.ui" line="584"/>
@@ -1598,7 +1598,7 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="881"/>
         <source>An invalid callsign</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültiges Rufzeichen</translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="894"/>
@@ -1613,7 +1613,7 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="895"/>
         <source>The password can be sent via an unsecured channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Passwort kann über einen ungesicherten Kanal gesendet werden</translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="897"/>
@@ -2292,7 +2292,7 @@
     <message>
         <location filename="../ui/ImportDialog.cpp" line="191"/>
         <source>Save to File</source>
-        <translation type="unfinished"></translation>
+        <translation>In Datei speichern</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.cpp" line="204"/>
@@ -2302,12 +2302,12 @@
     <message>
         <location filename="../ui/ImportDialog.cpp" line="206"/>
         <source>Import date</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum importieren</translation>
     </message>
     <message>
         <location filename="../ui/ImportDialog.cpp" line="207"/>
         <source>Imported file</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei importieren</translation>
     </message>
     <message numerus="yes">
         <location filename="../ui/ImportDialog.cpp" line="209"/>
@@ -2360,12 +2360,12 @@
     <message>
         <location filename="../ui/InputPasswordDialog.ui" line="34"/>
         <source>The password will be stored in the Credential Store.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Passwort wird im Credential Store gespeichert.</translation>
     </message>
     <message>
         <location filename="../ui/InputPasswordDialog.ui" line="37"/>
         <source>Remember Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort merken</translation>
     </message>
 </context>
 <context>
@@ -4282,7 +4282,7 @@
     <message>
         <location filename="../ui/MainWindow.cpp" line="115"/>
         <source>Press to tune the alert</source>
-        <translation type="unfinished"></translation>
+        <translation>Drücken zum Einstellen des Alarms</translation>
     </message>
     <message>
         <location filename="../ui/MainWindow.cpp" line="302"/>
@@ -4764,12 +4764,12 @@
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="3017"/>
         <source>Callbook search is active</source>
-        <translation type="unfinished"></translation>
+        <translation>Callbook-Suche ist aktiv</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="3023"/>
         <source>Callbook search is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Callbook-Suche ist inaktiv</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="3132"/>
@@ -4964,7 +4964,7 @@
     <message>
         <location filename="../ui/DxWidget.cpp" line="492"/>
         <source>DXC Server address must be in format&lt;p&gt;&lt;b&gt;[username@]hostname:port&lt;/b&gt; (ex. hamqth.com:7300)&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Format der DXC-Server-Adresse &lt;p&gt;&lt;b&gt;[benutzername@]hostname:Port&lt;/b&gt; (z. B. hamqth.com:7300)&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="930"/>
