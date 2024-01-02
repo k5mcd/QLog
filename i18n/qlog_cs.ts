@@ -826,7 +826,7 @@
 <context>
     <name>CallbookManager</name>
     <message>
-        <location filename="../core/CallbookManager.cpp" line="103"/>
+        <location filename="../core/CallbookManager.cpp" line="108"/>
         <source>&lt;p&gt;The secondary callbook will be used&lt;/p&gt;</source>
         <translation>&lt;p&gt;Bude použit sekundární&lt;/p&gt;</translation>
     </message>
@@ -2309,8 +2309,8 @@
     </message>
     <message>
         <location filename="../ui/ImportDialog.cpp" line="207"/>
-        <source>Imported File</source>
-        <translation>Importovaný soubor</translation>
+        <source>Imported file</source>
+        <translation>Soubor importu</translation>
     </message>
     <message numerus="yes">
         <location filename="../ui/ImportDialog.cpp" line="209"/>
@@ -4490,22 +4490,17 @@
         <translation>80m</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="623"/>
-        <source>Time Off</source>
-        <translation>Čas do</translation>
-    </message>
-    <message>
-        <location filename="../ui/NewContactWidget.ui" line="534"/>
+        <location filename="../ui/NewContactWidget.ui" line="690"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="708"/>
+        <location filename="../ui/NewContactWidget.ui" line="653"/>
         <source>Reset</source>
         <translation>Vymazat</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="572"/>
+        <location filename="../ui/NewContactWidget.ui" line="517"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
@@ -4520,135 +4515,135 @@
         <translation>RSTs</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="488"/>
+        <location filename="../ui/NewContactWidget.ui" line="566"/>
         <source>Lookup the call on the web. The query URL can be changed in Settings -&gt; Callbook</source>
         <translation>Vyhledet informace o značce na webu. URL dotazu lze změnit v Nastavení -&gt; Callbook</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="491"/>
+        <location filename="../ui/NewContactWidget.ui" line="569"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="508"/>
+        <location filename="../ui/NewContactWidget.ui" line="643"/>
         <source>Time On</source>
         <translation>Čas od</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="901"/>
+        <location filename="../ui/NewContactWidget.ui" line="754"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1760"/>
+        <location filename="../ui/NewContactWidget.ui" line="1613"/>
         <source>Member:</source>
         <translation>Člen:</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3190"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3154"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation>World Wide Flora &amp; Fauna</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1167"/>
+        <location filename="../ui/NewContactWidget.ui" line="1020"/>
         <source>QSL Send Status</source>
         <translation>QSL Send Status</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1182"/>
-        <location filename="../ui/NewContactWidget.ui" line="1320"/>
+        <location filename="../ui/NewContactWidget.ui" line="1035"/>
+        <location filename="../ui/NewContactWidget.ui" line="1173"/>
         <source>Paper</source>
         <translation>QSL</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1204"/>
-        <location filename="../ui/NewContactWidget.ui" line="1242"/>
-        <location filename="../ui/NewContactWidget.ui" line="1280"/>
+        <location filename="../ui/NewContactWidget.ui" line="1057"/>
+        <location filename="../ui/NewContactWidget.ui" line="1095"/>
+        <location filename="../ui/NewContactWidget.ui" line="1133"/>
         <source>&lt;b&gt;Yes&lt;/b&gt; - an outgoing QSL card has been sent; the QSO has been uploaded to, and accepted by, the online service&lt;br/&gt;&lt;b&gt;No&lt;/b&gt; - do not send an outgoing QSL card; do not upload the QSO to the online service&lt;br/&gt;&lt;b&gt;Requested&lt;/b&gt; - the contacted station has requested a QSL card; the contacted station has requested the QSO be uploaded to the online service&lt;br/&gt;&lt;b&gt;Queued&lt;/b&gt; - an outgoing QSL card has been selected to be sent; a QSO has been selected to be uploaded to the online service&lt;br/&gt;</source>
         <translation>&lt;b&gt;Odesláno&lt;/b&gt; -QSL byl odeslán; QSO bylo nahráno a akceptováno online službou&lt;br/&gt;&lt;b&gt;Neodesílat&lt;/b&gt; -QSL nemá být odesláno; neodesílat do online služby&lt;br/&gt;&lt;b&gt;Vyžádano&lt;/b&gt; -protistanice vyžádala QSL; protistanice vyžádala opětovné nahrání do online služby&lt;br/&gt;&lt;b&gt;Ve frontě&lt;/b&gt; -QSL bylo zařazeno do fronty k vyřízení; QSO je ve frontě k nahrání do online služby&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1220"/>
+        <location filename="../ui/NewContactWidget.ui" line="1073"/>
         <source>LoTW</source>
         <translation>LoTW</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1258"/>
+        <location filename="../ui/NewContactWidget.ui" line="1111"/>
         <source>eQSL</source>
         <translation>eQSL</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1305"/>
+        <location filename="../ui/NewContactWidget.ui" line="1158"/>
         <source>QSL Send via</source>
         <translation>QSL odeslat přes</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1676"/>
+        <location filename="../ui/NewContactWidget.ui" line="1529"/>
         <source>Blank</source>
         <translation>Nevyplněno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1717"/>
+        <location filename="../ui/NewContactWidget.ui" line="1570"/>
         <source>My &amp;Notes</source>
         <translation>Mé &amp;poznámky</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1142"/>
+        <location filename="../ui/NewContactWidget.ui" line="995"/>
         <source>&amp;Details</source>
         <translation>&amp;Detaily</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1512"/>
+        <location filename="../ui/NewContactWidget.ui" line="1365"/>
         <source>D&amp;XCC</source>
         <translation>D&amp;XCC</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1589"/>
+        <location filename="../ui/NewContactWidget.ui" line="1442"/>
         <source>M&amp;y Station</source>
         <translation>Mo&amp;je Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1597"/>
+        <location filename="../ui/NewContactWidget.ui" line="1450"/>
         <source>Station</source>
         <translation>Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3171"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3135"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>DARC DOK (kód uzemí) (např A01)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="655"/>
+        <location filename="../ui/NewContactWidget.ui" line="697"/>
         <source>Duration</source>
         <translation>Délka</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1364"/>
+        <location filename="../ui/NewContactWidget.ui" line="1217"/>
         <source>QSL via</source>
         <translation>QSL Via</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1477"/>
+        <location filename="../ui/NewContactWidget.ui" line="1330"/>
         <source>Propagation Mode</source>
         <translation>Podmínky šíření</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1614"/>
+        <location filename="../ui/NewContactWidget.ui" line="1467"/>
         <source>Rig</source>
         <translation>Rig</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1660"/>
+        <location filename="../ui/NewContactWidget.ui" line="1513"/>
         <source>Power</source>
         <translation>Výkon</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1679"/>
+        <location filename="../ui/NewContactWidget.ui" line="1532"/>
         <source> W</source>
         <translation> W</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1637"/>
+        <location filename="../ui/NewContactWidget.ui" line="1490"/>
         <source>Antenna</source>
         <translation>Anténa</translation>
     </message>
@@ -4658,137 +4653,142 @@
         <translation> MHz</translation>
     </message>
     <message>
+        <location filename="../ui/NewContactWidget.cpp" line="66"/>
+        <location filename="../ui/NewContactWidget.cpp" line="79"/>
+        <location filename="../ui/NewContactWidget.cpp" line="92"/>
+        <source>No</source>
+        <translation>Neodesílat</translation>
+    </message>
+    <message>
         <location filename="../ui/NewContactWidget.cpp" line="67"/>
         <location filename="../ui/NewContactWidget.cpp" line="80"/>
         <location filename="../ui/NewContactWidget.cpp" line="93"/>
-        <source>No</source>
-        <translation>Neodesílat</translation>
+        <source>Yes</source>
+        <translation>Odesláno</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="68"/>
         <location filename="../ui/NewContactWidget.cpp" line="81"/>
         <location filename="../ui/NewContactWidget.cpp" line="94"/>
-        <source>Yes</source>
-        <translation>Odesláno</translation>
+        <source>Requested</source>
+        <translation>Vyžádáno</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="69"/>
         <location filename="../ui/NewContactWidget.cpp" line="82"/>
         <location filename="../ui/NewContactWidget.cpp" line="95"/>
-        <source>Requested</source>
-        <translation>Vyžádáno</translation>
+        <source>Queued</source>
+        <translation>Ve frontě</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="70"/>
         <location filename="../ui/NewContactWidget.cpp" line="83"/>
         <location filename="../ui/NewContactWidget.cpp" line="96"/>
-        <source>Queued</source>
-        <translation>Ve frontě</translation>
-    </message>
-    <message>
-        <location filename="../ui/NewContactWidget.cpp" line="71"/>
-        <location filename="../ui/NewContactWidget.cpp" line="84"/>
-        <location filename="../ui/NewContactWidget.cpp" line="97"/>
         <source>Ignored</source>
         <translation>Ignorovat</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="107"/>
+        <location filename="../ui/NewContactWidget.cpp" line="106"/>
         <source>Bureau</source>
         <translation>Bureau</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="108"/>
+        <location filename="../ui/NewContactWidget.cpp" line="107"/>
         <source>Direct</source>
         <translation>Direct</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="109"/>
+        <location filename="../ui/NewContactWidget.cpp" line="108"/>
         <source>Electronic</source>
         <translation>Elektronicky</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="201"/>
+        <location filename="../ui/NewContactWidget.cpp" line="200"/>
         <source>QLog Error</source>
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="201"/>
+        <location filename="../ui/NewContactWidget.cpp" line="200"/>
         <source>Callbook login failed</source>
         <translation>Selhalo přihlášení do Callbooku</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1899"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1874"/>
         <source>New Entity!</source>
         <translation>Nová země!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1902"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1877"/>
         <source>New Band!</source>
         <translation>Nové pásmo!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1905"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1880"/>
         <source>New Mode!</source>
         <translation>Nový druh provozu!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1908"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1883"/>
         <source>New Band &amp; Mode!</source>
         <translation>Nové pásmo &amp; druh!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1911"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1886"/>
         <source>New Slot!</source>
         <translation>Nový slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1914"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1889"/>
         <source>Worked</source>
         <translation>Pracováno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1917"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1892"/>
         <source>Confirmed</source>
         <translation>Potvrzeno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2568"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2543"/>
         <source>GE</source>
         <translation>GE</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2578"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2553"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2584"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2559"/>
         <source>GA</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2855"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2830"/>
         <source> m</source>
         <translation> m</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3053"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3017"/>
         <source>Callbook search is active</source>
         <translation>Hledání v Callbooku je aktivní</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3168"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3023"/>
+        <source>Callbook search is inactive</source>
+        <translation>Hledání v Callbooku není aktivní</translation>
+    </message>
+    <message>
+        <location filename="../ui/NewContactWidget.cpp" line="3132"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>dva nebo čtyři sousední lokátory, každý o délce čtyř znaků (např. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3194"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3158"/>
         <source>Special Activity Group</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3198"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3162"/>
         <source>Special Activity Group Information</source>
         <translation></translation>
     </message>
@@ -4934,7 +4934,6 @@
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
         <location filename="../ui/NewContactWidget.cpp" line="1436"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1446"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="593"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="604"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="613"/>
@@ -4992,11 +4991,6 @@
         <location filename="../ui/NewContactWidget.cpp" line="1437"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>Vaše značka není vyplněna. Prosím, nastavte Profil Stanice</translation>
-    </message>
-    <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1447"/>
-        <source>&lt;b&gt;Time Off&lt;/b&gt; must not be younger than &lt;b&gt;Time On&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Čas konce&lt;/b&gt; nesmí být mladší než &lt;b&gt;čas začátku&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../ui/AlertRuleDetail.cpp" line="144"/>
