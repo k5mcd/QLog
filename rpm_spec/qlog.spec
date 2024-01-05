@@ -42,6 +42,32 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Fri Jan 5 2024 Ladislav Foldyna - 0.31.0-1
+- [NEW] - DXC - Improved Mode recognition
+- [NEW] - DXC - Switch Rig mode based on DXC Spot Mode (issue #217)
+- [NEW] - DXC - Added Spot Country Column (issue #273)
+- [NEW] - DXC - Added Menu for server management
+- [NEW] - DXC - Added Auto-connect to server
+- [NEW] - DXC - Added Keep QSOs Context Menu
+- [NEW] - DXC - Added Clear QSO Context Menu
+- [NEW] - DXC - Added support for SH/DX response parsing
+- [NEW] - DXC - Added support for username, password for connection
+- [CHANGED] - DXC - Commands Combo changed to function button with selectable function
+- [CHANGED] - DXC - DX Spot is prepared via DXC Command Line, Remark dialog was removed
+- [NEW] - Online Map - IBP station double-click tunes freq and switch Rig mode
+- [NEW] - Main Window - Current profile name is shown (issue #282)
+- [NEW] - Import - Details can be saved to file (issue #284)
+- [NEW] - Added Simplified Chinese translation (PR #285 thank BG7JAF)
+- [NEW] - New Contact - Enter saves QSO if QSO time is running (issue #293 - partial)
+- [NEW] - New Contact - Callsign Enter event saves QSO if no Callbook is active - Pileup Mode (issue #293)
+- [NEW] - RIG Widget - RIT/XIT are displayed with user-friendly units (issue #294)
+- [CHANGED] - SAT List download - Shortened download period for SAT list from 30 to 7 days
+- Fixed ADI Import is too slow (issue #270)
+- Improved Import/Export Performance
+- Fixed Missing Satellite Mode SX (issue #291)
+- Fixed QSO Detail - Issue when Sat-Name field was always disabled
+- Fixed RPM build - Installed (but unpackaged) metainfo file issue
+
 * Fri Dec 1 2023 Ladislav Foldyna - 0.30.0-1
 - [NEW] - QSL Images are stored in the database
 - [NEW] - Added AppStream Metainfo File (PR #262 thanks AsciiWolf)

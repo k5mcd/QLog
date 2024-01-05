@@ -47,6 +47,36 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.31.0" date="2024-01-05">
+      <description>
+        <ul>
+          <li>[NEW] - DXC - Improved Mode recognition</li>
+          <li>[NEW] - DXC - Switch Rig mode based on DXC Spot Mode (issue #217)</li>
+          <li>[NEW] - DXC - Added Spot Country Column (issue #273)</li>
+          <li>[NEW] - DXC - Added Menu for server management</li>
+          <li>[NEW] - DXC - Added Auto-connect to server</li>
+          <li>[NEW] - DXC - Added Keep QSOs Context Menu</li>
+          <li>[NEW] - DXC - Added Clear QSO Context Menu</li>
+          <li>[NEW] - DXC - Added support for SH/DX response parsing</li>
+          <li>[NEW] - DXC - Added support for username, password for connection</li>
+          <li>[CHANGED] - DXC - Commands Combo changed to function button with selectable function</li>
+          <li>[CHANGED] - DXC - DX Spot is prepared via DXC Command Line, Remark dialog was removed</li>
+          <li>[NEW] - Online Map - IBP station double-click tunes freq and switch Rig mode</li>
+          <li>[NEW] - Main Window - Current profile name is shown (issue #282)</li>
+          <li>[NEW] - Import - Details can be saved to file (issue #284)</li>
+          <li>[NEW] - Added Simplified Chinese translation (PR #285 thank BG7JAF)</li>
+          <li>[NEW] - New Contact - Enter saves QSO if QSO time is running (issue #293 - partial)</li>
+          <li>[NEW] - New Contact - Callsign Enter event saves QSO if no Callbook is active - Pileup Mode (issue #293)</li>
+          <li>[NEW] - RIG Widget - RIT/XIT are displayed with user-friendly units (issue #294)</li>
+          <li>[CHANGED] - SAT List download - Shortened download period for SAT list from 30 to 7 days</li>
+          <li>Fixed ADI Import is too slow (issue #270)</li>
+          <li>Improved Import/Export Performance</li>
+          <li>Fixed Missing Satellite Mode SX (issue #291)</li>
+          <li>Fixed QSO Detail - Issue when Sat-Name field was always disabled</li>
+          <li>Fixed RPM build - Installed (but unpackaged) metainfo file issue</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.30.0" date="2023-12-01"/>
     <release version="0.29.2" date="2023-11-13"/>
   </releases>
