@@ -158,7 +158,9 @@ void ClublogDialog::upload()
                 clublog->deleteLater();
             });
 
-            clublog->uploadAdif(data, ui->clearReuploadCheckbox->isChecked());
+            clublog->uploadAdif(data,
+                                ui->myCallsignCombo->currentText(),
+                                ui->clearReuploadCheckbox->isChecked());
         }
     }
     else

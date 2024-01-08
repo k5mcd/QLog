@@ -49,32 +49,12 @@ const QString ClubLog::getEmail()
 
 }
 
-const QString ClubLog::getRegisteredCallsign()
-{
-    FCT_IDENTIFICATION;
-
-    QSettings settings;
-
-    return settings.value(ClubLog::CONFIG_CALLSIGN_KEY).toString();
-
-}
-
 const QString ClubLog::getPassword()
 {
     FCT_IDENTIFICATION;
 
     return CredentialStore::instance()->getPassword(ClubLog::SECURE_STORAGE_KEY,
                                                     getEmail());
-}
-
-void ClubLog::saveRegistredCallsign(const QString &newRegistredCallsign)
-{
-    FCT_IDENTIFICATION;
-
-    QSettings settings;
-
-    settings.setValue(ClubLog::CONFIG_CALLSIGN_KEY, newRegistredCallsign);
-
 }
 
 void ClubLog::saveUsernamePassword(const QString &newEmail, const QString &newPassword)
@@ -139,15 +119,16 @@ void ClubLog::uploadContact(QSqlRecord record) {
 }
 #endif
 
-void ClubLog::uploadAdif(QByteArray& data, bool clearFlag)
+void ClubLog::uploadAdif(QByteArray& data,
+                         const QString &callsignCallbook,
+                         bool clearFlag)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << data;
 
-    QString email = getEmail();
-    QString callsign = getRegisteredCallsign();
-    QString password = getPassword();
+    const QString &email = getEmail();
+    const QString &password = getPassword();
 
     QUrl url(API_LOG_UPLOAD_URL);
 
@@ -159,7 +140,7 @@ void ClubLog::uploadAdif(QByteArray& data, bool clearFlag)
 
     QHttpPart callsignPart;
     callsignPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"callsign\""));
-    callsignPart.setBody(callsign.toUtf8());
+    callsignPart.setBody(callsignCallbook.toUtf8());
 
     QHttpPart passwordPart;
     passwordPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"password\""));
@@ -251,4 +232,4 @@ void ClubLog::abortRequest()
 
 const QString ClubLog::SECURE_STORAGE_KEY = "Clublog";
 const QString ClubLog::CONFIG_EMAIL_KEY = "clublog/email";
-const QString ClubLog::CONFIG_CALLSIGN_KEY = "clublog/callsign";
+//const QString ClubLog::CONFIG_CALLSIGN_KEY = "clublog/callsign";  //TODO Remove later

@@ -2030,7 +2030,6 @@ void SettingsDialog::readSettings() {
     /* ClubLog */
     /***********/
     ui->clublogEmailEdit->setText(ClubLog::getEmail());
-    ui->clublogCallsignEdit->setText(ClubLog::getRegisteredCallsign());
     ui->clublogPasswordEdit->setText(ClubLog::getPassword());
 
     /********/
@@ -2135,7 +2134,6 @@ void SettingsDialog::writeSettings() {
     /***********/
     /* ClubLog */
     /***********/
-    ClubLog::saveRegistredCallsign(ui->clublogCallsignEdit->text());
     ClubLog::saveUsernamePassword(ui->clublogEmailEdit->text(),
                                   ui->clublogPasswordEdit->text());
 

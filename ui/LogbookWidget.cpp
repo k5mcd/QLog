@@ -488,7 +488,7 @@ void LogbookWidget::uploadClublog() {
 
     stream.flush();
 
-    clublog->uploadAdif(data);
+    //clublog->uploadAdif(data);
 }
 
 void LogbookWidget::deleteContact() {

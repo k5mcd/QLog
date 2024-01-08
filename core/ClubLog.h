@@ -15,13 +15,13 @@ public:
     ~ClubLog();
 
     static const QString getEmail();
-    static const QString getRegisteredCallsign();
     static const QString getPassword();
 
-    static void saveRegistredCallsign(const QString &);
     static void saveUsernamePassword(const QString &, const QString &);
 
-    void uploadAdif(QByteArray &data, bool clearFlag = false);
+    void uploadAdif(QByteArray &data,
+                    const QString &callsignCallbook,
+                    bool clearFlag = false);
     void uploadContact(QSqlRecord record);
 
 signals:
@@ -38,7 +38,6 @@ private:
 
     const static QString SECURE_STORAGE_KEY;
     const static QString CONFIG_EMAIL_KEY;
-    const static QString CONFIG_CALLSIGN_KEY;
 };
 
 #endif // CLUBLOG_H
