@@ -21,7 +21,7 @@ public:
     static void saveRegistredCallsign(const QString &);
     static void saveUsernamePassword(const QString &, const QString &);
 
-    void uploadAdif(QByteArray &data);
+    void uploadAdif(QByteArray &data, bool clearFlag = false);
     void uploadContact(QSqlRecord record);
 
 signals:

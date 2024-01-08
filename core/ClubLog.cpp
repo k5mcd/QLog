@@ -139,7 +139,7 @@ void ClubLog::uploadContact(QSqlRecord record) {
 }
 #endif
 
-void ClubLog::uploadAdif(QByteArray& data)
+void ClubLog::uploadAdif(QByteArray& data, bool clearFlag)
 {
     FCT_IDENTIFICATION;
 
@@ -167,7 +167,7 @@ void ClubLog::uploadAdif(QByteArray& data)
 
     QHttpPart clearPart;
     clearPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"clear\""));
-    clearPart.setBody("0");
+    clearPart.setBody( (clearFlag) ? "1" : "0");
 
     QHttpPart apiPart;
     apiPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"api\""));

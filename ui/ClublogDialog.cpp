@@ -56,6 +56,12 @@ void ClublogDialog::upload()
         qslUploadStatuses << "'N'";
     }
 
+    if ( ui->clearReuploadCheckbox->isChecked() )
+    {
+        //reupload all QSOs (except N)
+        qslUploadStatuses << "'Y'";
+    }
+
     /* https://clublog.freshdesk.com/support/solutions/articles/54905-how-to-upload-logs-directly-into-club-log */
     /* https://clublog.freshdesk.com/support/solutions/articles/53202-which-adif-fields-does-club-log-use- */
     QString query_string = "SELECT start_time, "
@@ -152,7 +158,7 @@ void ClublogDialog::upload()
                 clublog->deleteLater();
             });
 
-            clublog->uploadAdif(data);
+            clublog->uploadAdif(data, ui->clearReuploadCheckbox->isChecked());
         }
     }
     else
@@ -179,6 +185,7 @@ void ClublogDialog::saveDialogState()
 
     settings.setValue("clublog/last_mycallsign", ui->myCallsignCombo->currentText());
     settings.setValue("clublog/last_mygrid", ui->myGridCombo->currentText());
+    //reupload will not be saved becasue it will be used only in exceptional cases - one-time selection
 }
 
 void ClublogDialog::loadDialogState()
@@ -189,5 +196,5 @@ void ClublogDialog::loadDialogState()
 
     ui->myCallsignCombo->setCurrentText(settings.value("clublog/last_mycallsign").toString());
     ui->myGridCombo->setCurrentText(settings.value("clublog/last_mygrid").toString());
-
+    //reupload will not be loaded becasue it will be used only in exceptional cases - one-time selection
 }
