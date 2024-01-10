@@ -24,6 +24,15 @@ signals:
     void contactUpdated(QSqlRecord&);
     void contactDeleted(QSqlRecord&);
 
+    // Clublog special signals
+    // unfortunately, special rules are applied for uploading to Clublog.
+    // The Clublog's RT Interface only accepts low-rate QSO uploading.
+    // Therefore, it is necessary to send only selected QSO manipulations.
+    // That is why these 2 special signals are emitted.
+    // contactUpdated, contactDeleted signals are also emitted in these cases
+    void clublogContactUpdated(QSqlRecord&);
+    void clublogContactDeleted(QSqlRecord&);
+
 public slots:
     void filterCallsign(const QString &call);
     void filterSelectedCallsign();
@@ -68,6 +77,7 @@ private:
     SqlListModel* countryModel;
     SqlListModel* userFilterModel;
     QString externalFilter;
+    bool blockClublogSignals;
 };
 
 /* https://forum.qt.io/topic/90403/show-tooltip-immediatly/7/ */

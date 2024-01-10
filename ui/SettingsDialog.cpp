@@ -1960,12 +1960,23 @@ void SettingsDialog::hrdlogSettingChanged()
 {
     FCT_IDENTIFICATION;
 
-
     ui->hrdlogOnAirCheckBox->setEnabled(!ui->hrdlogCallsignEdit->text().isEmpty()
                                          && !ui->hrdlogUploadCodeEdit->text().isEmpty());
     if ( !ui->hrdlogOnAirCheckBox->isEnabled() )
     {
         ui->hrdlogOnAirCheckBox->setChecked(false);
+    }
+}
+
+void SettingsDialog::clublogSettingChanged()
+{
+    FCT_IDENTIFICATION;
+
+    ui->clublogUploadImmediatelyCheckbox->setEnabled(!ui->clublogEmailEdit->text().isEmpty()
+                                                 && !ui->clublogPasswordEdit->text().isEmpty());
+    if ( !ui->clublogUploadImmediatelyCheckbox->isEnabled() )
+    {
+        ui->clublogUploadImmediatelyCheckbox->setChecked(false);
     }
 }
 
@@ -2031,6 +2042,7 @@ void SettingsDialog::readSettings() {
     /***********/
     ui->clublogEmailEdit->setText(ClubLog::getEmail());
     ui->clublogPasswordEdit->setText(ClubLog::getPassword());
+    ui->clublogUploadImmediatelyCheckbox->setChecked(ClubLog::isUploadImmediatelyEnabled());
 
     /********/
     /* eQSL */
@@ -2136,6 +2148,8 @@ void SettingsDialog::writeSettings() {
     /***********/
     ClubLog::saveUsernamePassword(ui->clublogEmailEdit->text(),
                                   ui->clublogPasswordEdit->text());
+
+    ClubLog::saveUploadImmediatelyConfig(ui->clublogUploadImmediatelyCheckbox->isChecked());
 
     /********/
     /* eQSL */
