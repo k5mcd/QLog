@@ -679,7 +679,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
 
         }
 
-        updateExternalServicesUploadStatus(index, role, depend_update_result);
+        //updateExternalServicesUploadStatus(index, role, depend_update_result);
 
         if ( depend_update_result )
         {
@@ -747,6 +747,7 @@ bool LogbookModel::setData(const QModelIndex &index, const QVariant &value, int 
     return main_update_result && depend_update_result;
 }
 
+#if 0
 void LogbookModel::updateExternalServicesUploadStatus(const QModelIndex &index, int role, bool &updateResult)
 {
     switch (index.column() )
@@ -794,3 +795,4 @@ void LogbookModel::updateUploadToModified(const QModelIndex &index, int role, in
         updateResult = updateResult && QSqlTableModel::setData(this->index(index.row(), column), QVariant("M"), role);
     }
 }
+#endif

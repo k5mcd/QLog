@@ -8,6 +8,7 @@
 #include "data/Data.h"
 #include "LogParam.h"
 #include "LOVDownloader.h"
+#include "ClubLog.h"
 
 MODULE_IDENTIFICATION("qlog.core.migration");
 
@@ -23,6 +24,9 @@ bool Migration::run() {
     if (currentVersion == latestVersion) {
         qCDebug(runtime) << "Database schema already up to date";
         updateExternalResource();
+        //TODO Remove it !!!
+        // temporarily added to create a trigger without calling db migration
+        refreshUploadStatusTrigger();
         return true;
     }
     else if (currentVersion < latestVersion) {
@@ -50,10 +54,18 @@ bool Migration::run() {
 
         if ( !QSqlDatabase::database().open() )
         {
+            progress.close();
             qCritical() << QSqlDatabase::database().lastError();
             return false;
         }
         progress.setValue(currentVersion);
+    }
+
+    if ( !refreshUploadStatusTrigger() )
+    {
+        qCritical() << "Cannot refresh Upload Status Trigger";
+        progress.close();
+        return false;
     }
 
     progress.close();
@@ -573,4 +585,74 @@ QString Migration::fixIntlField(QSqlQuery &query, const QString &columName, cons
     }
 
     return retValue;
+}
+
+bool Migration::refreshUploadStatusTrigger()
+{
+    FCT_IDENTIFICATION;
+
+    QSqlQuery query("SELECT name "
+                    "FROM PRAGMA_TABLE_INFO('contacts') c "
+                    "WHERE c.name NOT IN ('clublog_qso_upload_date', "
+                    "                     'clublog_qso_upload_status', "
+                    "                     'hrdlog_qso_upload_date', "
+                    "                     'hrdlog_qso_upload_status', "
+                    "                     'qrzcom_qso_upload_date', "
+                    "                     'qrzcom_qso_upload_status', "
+                    "                     'hamlogeu_qso_upload_date', "
+                    "                     'hamlogeu_qso_upload_status', "
+                    "                     'hamqth_qso_upload_date', "
+                    "                     'hamqth_qso_upload_status')");
+
+    if ( !query.exec() )
+    {
+        qWarning() << "Cannot get Contacts columns";
+        return false;
+    }
+
+    QStringList whenClause;
+    QStringList afterUpdateClause;
+
+    while ( query.next() )
+    {
+        const QString &columnName = query.value(0).toString();
+        afterUpdateClause << QString("\"" + columnName + "\"");
+        whenClause << QString("old.\"%1\" != new.\"%2\"").arg(columnName, columnName);
+    }
+
+    QSqlQuery stmt;
+
+    if ( !stmt.exec("DROP TRIGGER IF EXISTS update_contacts_upload_status") )
+    {
+        qWarning() << "Cannot drop all Update Contacts Upload Trigger";
+        return false;
+    }
+
+    QStringList clublogSupportedColumns;
+
+    for ( const QString &clublogColumn : qAsConst(ClubLog::supportedDBFields) )
+        clublogSupportedColumns << QString("old.%1 != new.%2").arg(clublogColumn, clublogColumn);
+
+    if ( !stmt.exec(QString("CREATE TRIGGER update_contacts_upload_status "
+                            "AFTER UPDATE OF %1 "
+                            "ON contacts "
+                            "WHEN (%2) "
+                            "BEGIN "
+                            "   UPDATE contacts "
+                            "   SET hrdlog_qso_upload_status =  CASE old.hrdlog_qso_upload_status WHEN 'Y' THEN 'M' ELSE old.hrdlog_qso_upload_status END, "
+                            "       qrzcom_qso_upload_status =  CASE old.qrzcom_qso_upload_status WHEN 'Y' THEN 'M' ELSE old.qrzcom_qso_upload_status END , "
+                            "       hamlogeu_qso_upload_status =  CASE old.hamlogeu_qso_upload_status WHEN 'Y' THEN 'M' ELSE old.hamlogeu_qso_upload_status END ,  "
+                            "       hamqth_qso_upload_status =  CASE old.hamqth_qso_upload_status WHEN 'Y' THEN 'M' ELSE old.hamqth_qso_upload_status END ,  "
+                            "       clublog_qso_upload_status =  CASE WHEN old.clublog_qso_upload_status = 'Y'  "
+                            "                                              AND (%3) "
+                            "                                              THEN 'M' ELSE old.clublog_qso_upload_status END "
+                            "   WHERE id = new.id;"
+                            "END").arg(afterUpdateClause.join(","),
+                                       whenClause.join(" OR "),
+                                       clublogSupportedColumns.join(" OR "))) )
+    {
+        qWarning().noquote() << "Cannot create Update Contacts Upload Trigger" << stmt.lastQuery();
+        return false;
+    }
+    return true;
 }

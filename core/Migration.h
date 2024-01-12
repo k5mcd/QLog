@@ -38,6 +38,7 @@ private:
     bool createTriggers();
     bool importQSLCards2DB();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
+    bool refreshUploadStatusTrigger();
 
     static const int latestVersion = 23;
 };

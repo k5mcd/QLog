@@ -2093,7 +2093,7 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
             break;
         }
        }
-       updateExternalServicesUploadStatus(index, role, depend_update_result);
+       //updateExternalServicesUploadStatus(index, role, depend_update_result);
 
        if ( depend_update_result )
        {
