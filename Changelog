@@ -1,4 +1,5 @@
 TBC - 0.32.0
+- Fixed clang linker failed issue (issue #301)
 
 2024/01/05 - 0.31.0
 - [NEW] - DXC - Improved Mode recognition
