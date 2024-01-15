@@ -15,6 +15,7 @@
 #include "ui/QSLImportStatDialog.h"
 #include "models/SqlListModel.h"
 #include "ui/ShowUploadDialog.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.lotwdialog");
 
@@ -214,8 +215,22 @@ void LotwDialog::loadDialogState()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    ui->myCallsignCombo->setCurrentText(settings.value("lotw/last_mycallsign").toString());
-    ui->myGridCombo->setCurrentText(settings.value("lotw/last_mygrid").toString());
+
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
+
+    int index = ui->myCallsignCombo->findText(profile.callsign);
+
+    if ( index >= 0 )
+        ui->myCallsignCombo->setCurrentIndex(index);
+    else
+        ui->myCallsignCombo->setCurrentText(settings.value("lotw/last_mycallsign").toString());
+
+    index = ui->myGridCombo->findText(profile.locator);
+
+    if ( index >= 0 )
+        ui->myGridCombo->setCurrentIndex(index);
+    else
+        ui->myGridCombo->setCurrentText(settings.value("lotw/last_mygrid").toString());
 
     if (settings.value("lotw/last_update").isValid()) {
         QDate last_update = settings.value("lotw/last_update").toDate();

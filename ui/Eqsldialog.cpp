@@ -12,6 +12,7 @@
 #include "models/SqlListModel.h"
 #include "logformat/AdiFormat.h"
 #include "ui/ShowUploadDialog.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.eqsldialog");
 
@@ -257,8 +258,23 @@ void EqslDialog::loadDialogState()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    ui->myCallsignCombo->setCurrentText(settings.value("eqsl/last_mycallsign").toString());
-    ui->myGridCombo->setCurrentText(settings.value("eqsl/last_mygrid").toString());
+
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
+
+    int index = ui->myCallsignCombo->findText(profile.callsign);
+
+    if ( index >= 0 )
+        ui->myCallsignCombo->setCurrentIndex(index);
+    else
+        ui->myCallsignCombo->setCurrentText(settings.value("eqsl/last_mycallsign").toString());
+
+    index = ui->myGridCombo->findText(profile.locator);
+
+    if ( index >= 0 )
+        ui->myGridCombo->setCurrentIndex(index);
+    else
+        ui->myGridCombo->setCurrentText(settings.value("eqsl/last_mygrid").toString());
+
     ui->qthProfileUploadEdit->setText(settings.value("eqsl/last_QTHProfile").toString());
     ui->uploadcommentCheck->setChecked(settings.value("eqsl/last_checkcomment",false).toBool());
 

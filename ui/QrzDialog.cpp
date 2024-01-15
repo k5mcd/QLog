@@ -12,6 +12,7 @@
 #include "models/SqlListModel.h"
 #include "ui/ShowUploadDialog.h"
 #include "logformat/AdiFormat.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.qrzdialog");
 
@@ -180,6 +181,19 @@ void QRZDialog::loadDialogState()
 
     QSettings settings;
 
-    ui->myCallsignCombo->setCurrentText(settings.value("qrzcom/last_mycallsign").toString());
-    ui->myGridCombo->setCurrentText(settings.value("qrzcom/last_mygrid").toString());
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
+
+    int index = ui->myCallsignCombo->findText(profile.callsign);
+
+    if ( index >= 0 )
+        ui->myCallsignCombo->setCurrentIndex(index);
+    else
+        ui->myCallsignCombo->setCurrentText(settings.value("qrzcom/last_mycallsign").toString());
+
+    index = ui->myGridCombo->findText(profile.locator);
+
+    if ( index >= 0 )
+        ui->myGridCombo->setCurrentIndex(index);
+    else
+        ui->myGridCombo->setCurrentText(settings.value("qrzcom/last_mygrid").toString());
 }
