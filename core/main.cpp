@@ -16,7 +16,7 @@
 #include "debug.h"
 #include "Migration.h"
 #include "ui/MainWindow.h"
-#include "Rig.h"
+#include "rig/Rig.h"
 #include "Rotator.h"
 #include "CWKeyer.h"
 #include "AppGuard.h"

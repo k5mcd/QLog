@@ -1,7 +1,6 @@
 #include <QSettings>
 #include <QStringListModel>
 #include <QSqlTableModel>
-#include <hamlib/rig.h>
 #include <hamlib/rotator.h>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -29,7 +28,8 @@
 #include "core/Wsjtx.h"
 #include "core/QSLStorage.h"
 #include "core/NetworkNotification.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
+#include "rig/RigCaps.h"
 #include "core/Rotator.h"
 #include "core/LogParam.h"
 #include "core/Callsign.h"
@@ -205,25 +205,25 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_RIG_MODEL));
     ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
 
-    ui->rigFlowControlSelect->addItem(tr("None"), Rig::SERIAL_FLOWCONTROL_NONE);
-    ui->rigFlowControlSelect->addItem(tr("Hardware"), Rig::SERIAL_FLOWCONTROL_HARDWARE);
-    ui->rigFlowControlSelect->addItem(tr("Software"), Rig::SERIAL_FLOWCONTROL_SOFTWARE);
+    ui->rigFlowControlSelect->addItem(tr("None"), SerialPort::SERIAL_FLOWCONTROL_NONE);
+    ui->rigFlowControlSelect->addItem(tr("Hardware"), SerialPort::SERIAL_FLOWCONTROL_HARDWARE);
+    ui->rigFlowControlSelect->addItem(tr("Software"), SerialPort::SERIAL_FLOWCONTROL_SOFTWARE);
 
-    ui->rigParitySelect->addItem(tr("No"), Rig::SERIAL_PARITY_NO);
-    ui->rigParitySelect->addItem(tr("Even"), Rig::SERIAL_PARITY_EVEN);
-    ui->rigParitySelect->addItem(tr("Odd"), Rig::SERIAL_PARITY_ODD);
-    ui->rigParitySelect->addItem(tr("Mark"), Rig::SERIAL_PARITY_MARK);
-    ui->rigParitySelect->addItem(tr("Space"), Rig::SERIAL_PARITY_SPACE);
+    ui->rigParitySelect->addItem(tr("No"), SerialPort::SERIAL_PARITY_NO);
+    ui->rigParitySelect->addItem(tr("Even"), SerialPort::SERIAL_PARITY_EVEN);
+    ui->rigParitySelect->addItem(tr("Odd"), SerialPort::SERIAL_PARITY_ODD);
+    ui->rigParitySelect->addItem(tr("Mark"), SerialPort::SERIAL_PARITY_MARK);
+    ui->rigParitySelect->addItem(tr("Space"), SerialPort::SERIAL_PARITY_SPACE);
 
-    ui->rotFlowControlSelect->addItem(tr("None"), Rotator::SERIAL_FLOWCONTROL_NONE);
-    ui->rotFlowControlSelect->addItem(tr("Hardware"), Rotator::SERIAL_FLOWCONTROL_HARDWARE);
-    ui->rotFlowControlSelect->addItem(tr("Software"), Rotator::SERIAL_FLOWCONTROL_SOFTWARE);
+    ui->rotFlowControlSelect->addItem(tr("None"), SerialPort::SERIAL_FLOWCONTROL_NONE);
+    ui->rotFlowControlSelect->addItem(tr("Hardware"), SerialPort::SERIAL_FLOWCONTROL_HARDWARE);
+    ui->rotFlowControlSelect->addItem(tr("Software"), SerialPort::SERIAL_FLOWCONTROL_SOFTWARE);
 
-    ui->rotParitySelect->addItem(tr("No"), Rotator::SERIAL_PARITY_NO);
-    ui->rotParitySelect->addItem(tr("Even"), Rotator::SERIAL_PARITY_EVEN);
-    ui->rotParitySelect->addItem(tr("Odd"), Rotator::SERIAL_PARITY_ODD);
-    ui->rotParitySelect->addItem(tr("Mark"), Rotator::SERIAL_PARITY_MARK);
-    ui->rotParitySelect->addItem(tr("Space"), Rotator::SERIAL_PARITY_SPACE);
+    ui->rotParitySelect->addItem(tr("No"), SerialPort::SERIAL_PARITY_NO);
+    ui->rotParitySelect->addItem(tr("Even"), SerialPort::SERIAL_PARITY_EVEN);
+    ui->rotParitySelect->addItem(tr("Odd"), SerialPort::SERIAL_PARITY_ODD);
+    ui->rotParitySelect->addItem(tr("Mark"), SerialPort::SERIAL_PARITY_MARK);
+    ui->rotParitySelect->addItem(tr("Space"), SerialPort::SERIAL_PARITY_SPACE);
 ;
     ui->cwModelSelect->addItem(tr("Dummy"), CWKey::DUMMY_KEYER);
     ui->cwModelSelect->addItem(tr("Morse Over CAT"), CWKey::MORSEOVERCAT);
@@ -372,7 +372,6 @@ void SettingsDialog::addRigProfile()
 
     RigProfile profile;
 
-
     profile.profileName = ui->rigProfileNameEdit->text();
 
     profile.model = ui->rigModelSelect->currentData().toInt();
@@ -434,7 +433,6 @@ void SettingsDialog::addRigProfile()
     refreshRigProfilesView();
 
     clearRigProfileForm();
-
 }
 
 void SettingsDialog::delRigProfile()
@@ -455,9 +453,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
 {
     FCT_IDENTIFICATION;
 
-    RigProfile profile;
-
-    profile = rigProfManager->getProfile(ui->rigProfilesListView->model()->data(i).toString());
+    const RigProfile &profile = rigProfManager->getProfile(ui->rigProfilesListView->model()->data(i).toString());
 
     ui->rigProfileNameEdit->setText(profile.profileName);
 
@@ -496,7 +492,9 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     int parityIndex = ui->rigParitySelect->findData(profile.parity.toLower());
     ui->rigParitySelect->setCurrentIndex((parityIndex < 0) ? 0 : parityIndex);
 
-    setUIBasedOnRigCaps(rig_get_caps(profile.model));
+    const RigCaps &caps = Rig::instance()->getRigCaps(Rig::HAMLIB_DRIVER, profile.model);
+
+    setUIBasedOnRigCaps(caps);
 
     ui->rigAddProfileButton->setText(tr("Modify"));
 }
@@ -583,18 +581,15 @@ void SettingsDialog::rigPortTypeChanged(int index)
     FCT_IDENTIFICATION;
 
     int rigID = ui->rigModelSelect->currentData().toInt();
-    const struct rig_caps *caps = rig_get_caps(rigID);
+    const RigCaps &caps = Rig::instance()->getRigCaps(Rig::HAMLIB_DRIVER, rigID);
 
     switch (index)
     {
     // Serial
     case RIGPORT_SERIAL_INDEX:
         ui->rigStackedWidget->setCurrentIndex(0);
-        if ( caps )
-        {
-            ui->rigDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
-            ui->rigStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
-        }
+        ui->rigDataBitsSelect->setCurrentText(QString::number(caps.serialDataBits));
+        ui->rigStopBitsSelect->setCurrentText(QString::number(caps.serialStopBits));
         ui->rigHostNameEdit->clear();
         break;
 
@@ -635,7 +630,6 @@ void SettingsDialog::addRotProfile()
     }
 
     RotProfile profile;
-
 
     profile.profileName = ui->rotProfileNameEdit->text();
 
@@ -1476,13 +1470,12 @@ void SettingsDialog::rigChanged(int index)
 
     qCDebug(function_parameters)<<index;
 
-    const struct rig_caps *caps;
-
     refreshRigAssignedCWKeyCombo();
 
     int rigID = ui->rigModelSelect->currentData().toInt();
+    const RigCaps &caps = Rig::instance()->getRigCaps(Rig::HAMLIB_DRIVER, rigID);
 
-    if ( rigID == RIG_MODEL_NETRIGCTL )
+    if ( caps.isNetworkOnly )
     {
         ui->rigPortTypeCombo->setCurrentIndex(RIGPORT_NETWORK_INDEX);
         ui->rigPortTypeCombo->setEnabled(false);
@@ -1491,49 +1484,45 @@ void SettingsDialog::rigChanged(int index)
     {
         ui->rigPortTypeCombo->setEnabled(true);
     }
-    caps = rig_get_caps(rigID);
 
-    if ( caps )
+    if ( ui->rigPortTypeCombo->currentIndex() == RIGPORT_SERIAL_INDEX )
     {
-        if ( ui->rigPortTypeCombo->currentIndex() == RIGPORT_SERIAL_INDEX )
-        {
-            ui->rigDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
-            ui->rigStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
-        }
-
-        /* Set default rig Caps */
-        ui->rigGetFreqCheckBox->setEnabled(true);
-        ui->rigGetFreqCheckBox->setChecked(true);
-
-        ui->rigGetModeCheckBox->setEnabled(true);
-        ui->rigGetModeCheckBox->setChecked(true);
-
-        ui->rigGetVFOCheckBox->setEnabled(true);
-        ui->rigGetVFOCheckBox->setChecked(true);
-
-        ui->rigGetPWRCheckBox->setEnabled(true);
-        ui->rigGetPWRCheckBox->setChecked(true);
-
-        ui->rigGetRITCheckBox->setEnabled(true);
-        ui->rigGetRITCheckBox->setChecked(false);
-
-        ui->rigGetXITCheckBox->setEnabled(true);
-        ui->rigGetXITCheckBox->setChecked(false);
-
-        ui->rigGetPTTStateCheckBox->setEnabled(true);
-        ui->rigGetPTTStateCheckBox->setChecked(false);
-
-        ui->rigQSYWipingCheckBox->setEnabled(true);
-        ui->rigQSYWipingCheckBox->setChecked(true);
-
-        ui->rigGetKeySpeedCheckBox->setEnabled(true);
-        ui->rigGetKeySpeedCheckBox->setChecked(true);
-
-        ui->rigKeySpeedSyncCheckBox->setEnabled(true);
-        ui->rigKeySpeedSyncCheckBox->setChecked(false);
-
-        setUIBasedOnRigCaps(caps);
+        ui->rigDataBitsSelect->setCurrentText(QString::number(caps.serialDataBits));
+        ui->rigStopBitsSelect->setCurrentText(QString::number(caps.serialStopBits));
     }
+
+    /* Set default rig Caps */
+    ui->rigGetFreqCheckBox->setEnabled(true);
+    ui->rigGetFreqCheckBox->setChecked(true);
+
+    ui->rigGetModeCheckBox->setEnabled(true);
+    ui->rigGetModeCheckBox->setChecked(true);
+
+    ui->rigGetVFOCheckBox->setEnabled(true);
+    ui->rigGetVFOCheckBox->setChecked(true);
+
+    ui->rigGetPWRCheckBox->setEnabled(true);
+    ui->rigGetPWRCheckBox->setChecked(true);
+
+    ui->rigGetRITCheckBox->setEnabled(true);
+    ui->rigGetRITCheckBox->setChecked(false);
+
+    ui->rigGetXITCheckBox->setEnabled(true);
+    ui->rigGetXITCheckBox->setChecked(false);
+
+    ui->rigGetPTTStateCheckBox->setEnabled(true);
+    ui->rigGetPTTStateCheckBox->setChecked(false);
+
+    ui->rigQSYWipingCheckBox->setEnabled(true);
+    ui->rigQSYWipingCheckBox->setChecked(true);
+
+    ui->rigGetKeySpeedCheckBox->setEnabled(true);
+    ui->rigGetKeySpeedCheckBox->setChecked(true);
+
+    ui->rigKeySpeedSyncCheckBox->setEnabled(true);
+    ui->rigKeySpeedSyncCheckBox->setChecked(false);
+
+    setUIBasedOnRigCaps(caps);
 }
 
 void SettingsDialog::rotChanged(int index)
@@ -1920,13 +1909,10 @@ void SettingsDialog::assignedKeyChanged(int index)
 
     qCDebug(function_parameters) << index;
 
-    const struct rig_caps *caps;
-
-    int rigID = ui->rigModelSelect->currentData().toInt();
-    caps = rig_get_caps(rigID);
-
     ui->rigKeySpeedSyncCheckBox->setEnabled(true);
     ui->rigKeySpeedSyncCheckBox->setChecked(false);
+
+    const RigCaps &caps = Rig::instance()->getRigCaps(Rig::HAMLIB_DRIVER, ui->rigModelSelect->currentData().toInt());
 
     setUIBasedOnRigCaps(caps);
 }
@@ -2208,98 +2194,74 @@ void SettingsDialog::writeSettings() {
  * there may be situations where hamlib change the cap
  * for rig and it is necessary to change the settings of the rig.
  * This feature does it */
-void SettingsDialog::setUIBasedOnRigCaps(const struct rig_caps *caps)
+void SettingsDialog::setUIBasedOnRigCaps(const RigCaps &caps)
 {
     FCT_IDENTIFICATION;
 
-    if ( caps )
+    if ( ! caps.canGetFreq )
     {
-        /* due to a hamlib issue #855 (https://github.com/Hamlib/Hamlib/issues/855)
-         * the PWR will be disabled for 4.3.x
-         * if someone tells me how to make a nice version identification of hamlib
-         * under Win / Lin / Mac , then I'll be happy to change it
-         */
+        ui->rigGetFreqCheckBox->setEnabled(false);
+        ui->rigGetFreqCheckBox->setChecked(false);
+    }
 
-        if ( caps->rig_model == RIG_MODEL_NETRIGCTL
-#if !defined(Q_OS_WIN)
-             && ( QString(hamlib_version).contains("4.2.")
-                  || QString(hamlib_version).contains("4.3.") )
-#endif
-             )
-        {
-            ui->rigGetPWRCheckBox->setEnabled(false);
-            ui->rigGetPWRCheckBox->setChecked(false);
-        }
+    if ( ! caps.canGetMode )
+    {
+        ui->rigGetModeCheckBox->setEnabled(false);
+        ui->rigGetModeCheckBox->setChecked(false);
+    }
 
-        if ( ! caps->get_freq )
-        {
-            ui->rigGetFreqCheckBox->setEnabled(false);
-            ui->rigGetFreqCheckBox->setChecked(false);
-        }
+    if ( ! caps.canGetVFO )
+    {
+        ui->rigGetVFOCheckBox->setEnabled(false);
+        ui->rigGetVFOCheckBox->setChecked(false);
+    }
 
-        if ( ! caps->get_mode )
-        {
-            ui->rigGetModeCheckBox->setEnabled(false);
-            ui->rigGetModeCheckBox->setChecked(false);
-        }
+    if ( ! caps.canGetPWR )
+    {
+        ui->rigGetPWRCheckBox->setEnabled(false);
+        ui->rigGetPWRCheckBox->setChecked(false);
+    }
 
-        if ( ! caps->get_vfo )
-        {
-            ui->rigGetVFOCheckBox->setEnabled(false);
-            ui->rigGetVFOCheckBox->setChecked(false);
-        }
 
-        if ( ! ((caps->has_get_level) & (RIG_LEVEL_RFPOWER))
-             || ! caps->power2mW )
-        {
-            ui->rigGetPWRCheckBox->setEnabled(false);
-            ui->rigGetPWRCheckBox->setChecked(false);
-        }
+    if ( ! caps.canGetRIT )
+    {
+        ui->rigGetRITCheckBox->setEnabled(false);
+        ui->rigGetRITCheckBox->setChecked(false);
+    }
 
-        if ( ! caps->get_rit
-             || ! ((caps->has_get_func) & (RIG_FUNC_RIT)) )
-        {
-            ui->rigGetRITCheckBox->setEnabled(false);
-            ui->rigGetRITCheckBox->setChecked(false);
-        }
+    if ( ! caps.canGetXIT )
+    {
+        ui->rigGetXITCheckBox->setEnabled(false);
+        ui->rigGetXITCheckBox->setChecked(false);
+    }
 
-        if ( ! caps->get_xit
-             || ! ((caps->has_get_func) & (RIG_FUNC_XIT)) )
-        {
-            ui->rigGetXITCheckBox->setEnabled(false);
-            ui->rigGetXITCheckBox->setChecked(false);
-        }
+    if ( ! caps.canGetPTT)
+    {
+        ui->rigGetPTTStateCheckBox->setEnabled(false);
+        ui->rigGetPTTStateCheckBox->setChecked(false);
+    }
 
-        if ( ! caps->get_ptt
-             || !(caps->ptt_type == RIG_PTT_RIG
-                   || caps->ptt_type == RIG_PTT_RIG_MICDATA))   //currently only CAT PTT is supported
-        {
-            ui->rigGetPTTStateCheckBox->setEnabled(false);
-            ui->rigGetPTTStateCheckBox->setChecked(false);
-        }
+    if ( ! ui->rigGetFreqCheckBox->isChecked() )
+    {
+        ui->rigQSYWipingCheckBox->setEnabled(false);
+        ui->rigQSYWipingCheckBox->setChecked(false);
+    }
 
-        if ( ! ui->rigGetFreqCheckBox->isChecked() )
-        {
-            ui->rigQSYWipingCheckBox->setEnabled(false);
-            ui->rigQSYWipingCheckBox->setChecked(false);
-        }
+    if ( ! caps.canGetKeySpeed )
+    {
+        ui->rigGetKeySpeedCheckBox->setEnabled(false);
+        ui->rigGetKeySpeedCheckBox->setChecked(false);
+    }
 
-        if ( ! ((caps->has_get_level) & (RIG_LEVEL_KEYSPD)) )
+    if ( ui->rigAssignedCWKeyCombo->currentText() != EMPTY_CWKEY_PROFILE )
+    {
+        CWKeyProfile selectedKeyProfile;
+        selectedKeyProfile = cwKeyProfManager->getProfile(ui->rigAssignedCWKeyCombo->currentText());
+        if ( ! caps.canGetKeySpeed
+             || (selectedKeyProfile.model == CWKey::MORSEOVERCAT) )
         {
-            ui->rigGetKeySpeedCheckBox->setEnabled(false);
-            ui->rigGetKeySpeedCheckBox->setChecked(false);
-        }
-
-        if ( ui->rigAssignedCWKeyCombo->currentText() != EMPTY_CWKEY_PROFILE )
-        {
-            CWKeyProfile selectedKeyProfile;
-            selectedKeyProfile = cwKeyProfManager->getProfile(ui->rigAssignedCWKeyCombo->currentText());
-            if ( ! ((caps->has_set_level) & (RIG_LEVEL_KEYSPD))
-                 || (selectedKeyProfile.model == CWKey::MORSEOVERCAT) )
-            {
-                ui->rigKeySpeedSyncCheckBox->setEnabled(false);
-                ui->rigKeySpeedSyncCheckBox->setChecked(false);
-            }
+            ui->rigKeySpeedSyncCheckBox->setEnabled(false);
+            ui->rigKeySpeedSyncCheckBox->setChecked(false);
         }
     }
 }

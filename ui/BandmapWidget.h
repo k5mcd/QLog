@@ -12,7 +12,7 @@
 
 #include "data/DxSpot.h"
 #include "data/Band.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "core/LogLocale.h"
 
 namespace Ui {

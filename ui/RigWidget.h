@@ -2,7 +2,7 @@
 #define RIGWIDGET_H
 
 #include <QWidget>
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "core/HRDLog.h"
 
 namespace Ui {

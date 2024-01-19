@@ -14,7 +14,7 @@
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "core/CallbookManager.h"
 #include "data/StationProfile.h"
 #include "core/PropConditions.h"

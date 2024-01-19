@@ -78,7 +78,6 @@ SOURCES += \
         core/PropConditions.cpp \
         core/QRZ.cpp \
         core/QSLStorage.cpp \
-        core/Rig.cpp \
         core/Rotator.cpp \
         core/SerialPort.cpp \
         core/Wsjtx.cpp \
@@ -109,6 +108,10 @@ SOURCES += \
         models/RotTypeModel.cpp \
         models/SqlListModel.cpp \
         models/WsjtxTableModel.cpp \
+        rig/Rig.cpp \
+        rig/RigCaps.cpp \
+        rig/drivers/GenericDrv.cpp \
+        rig/drivers/HamlibDrv.cpp \
         ui/AlertRuleDetail.cpp \
         ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
@@ -190,7 +193,6 @@ HEADERS += \
         core/PropConditions.h \
         core/QRZ.h \
         core/QSLStorage.h \
-        core/Rig.h \
         core/Rotator.h \
         core/SerialPort.h \
         core/Wsjtx.h \
@@ -231,6 +233,11 @@ HEADERS += \
         models/RotTypeModel.h \
         models/SqlListModel.h \
         models/WsjtxTableModel.h \
+        rig/Rig.h \
+        rig/RigCaps.h \
+        rig/drivers/GenericDrv.h \
+        rig/drivers/HamlibDrv.h \
+        rig/macros.h \
         ui/AlertRuleDetail.h \
         ui/AlertSettingDialog.h \
         ui/AlertWidget.h \

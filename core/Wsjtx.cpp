@@ -12,7 +12,7 @@
 #include "data/Data.h"
 #include "debug.h"
 #include "core/HostsPortString.h"
-#include "core/Rig.h"
+#include "rig/macros.h"
 #include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.core.wsjtx");

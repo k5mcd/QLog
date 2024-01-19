@@ -18,6 +18,7 @@
 #include "data/CWShortcutProfile.h"
 #include "data/RotUsrButtonsProfile.h"
 #include "core/LogLocale.h"
+#include "rig/Rig.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -113,7 +114,7 @@ public slots:
 private:
     void readSettings();
     void writeSettings();
-    void setUIBasedOnRigCaps(const struct rig_caps *caps);
+    void setUIBasedOnRigCaps(const RigCaps&);
     void refreshRigAssignedCWKeyCombo();
     void setValidationResultColor(QLineEdit *);
     QString getMemberListComboValue(const QComboBox *);

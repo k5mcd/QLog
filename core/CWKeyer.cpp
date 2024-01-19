@@ -7,7 +7,7 @@
 #include "CWFldigiKey.h"
 #include "core/debug.h"
 #include "data/CWKeyProfile.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.core.cwkeyer");
 

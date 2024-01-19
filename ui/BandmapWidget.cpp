@@ -10,7 +10,6 @@
 
 #include "BandmapWidget.h"
 #include "ui_BandmapWidget.h"
-#include "core/Rig.h"
 #include "data/Data.h"
 #include "data/BandPlan.h"
 #include "core/debug.h"
@@ -444,8 +443,8 @@ DxSpot BandmapWidget::nearestSpot(const double freq) const
 
     if( it == spots.cend() )
     {
-        QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(freq - Hz2MHz(kHz(1)));
-        QMap<double, DxSpot>::const_iterator upper = spots.upperBound(freq + Hz2MHz(kHz(1)));
+        QMap<double, DxSpot>::const_iterator lower = spots.lowerBound(freq - Hz2MHz(1000));
+        QMap<double, DxSpot>::const_iterator upper = spots.upperBound(freq + Hz2MHz(1000));
 
         it = std::min_element( lower, upper,
                 [freq](const DxSpot &p1,

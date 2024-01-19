@@ -7,7 +7,7 @@
 #include "ui/MapWebChannelHandler.h"
 #include "core/PropConditions.h"
 #include "ui/WebEnginePage.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "ui/NewContactWidget.h"
 #include "core/KSTChat.h"
 

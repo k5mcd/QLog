@@ -5,12 +5,12 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDomDocument>
-#include <hamlib/rig.h>
 
 #include "HRDLog.h"
 #include "debug.h"
 #include "core/CredentialStore.h"
 #include "logformat/AdiFormat.h"
+#include "rig/macros.h"
 
 MODULE_IDENTIFICATION("qlog.core.hrdlog");
 

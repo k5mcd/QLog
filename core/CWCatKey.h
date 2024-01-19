@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QMutex>
 #include "CWKey.h"
-#include "Rig.h"
+#include "rig/Rig.h"
 
 class CWCatKey : public CWKey
 {
