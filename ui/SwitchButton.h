@@ -13,8 +13,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
 */
-#ifndef SWITCHBUTTON_H
-#define SWITCHBUTTON_H
+#ifndef QLOG_UI_SWITCHBUTTON_H
+#define QLOG_UI_SWITCHBUTTON_H
 
 #include <QtWidgets>
 #include "ui/ButtonStyle.h"
@@ -112,4 +112,4 @@ class SwitchButton final : public SelectionControl {
     QPointer<Animator> thumbPosAniamtion;
 };
 
-#endif // SWITCHBUTTON_H
+#endif // QLOG_UI_SWITCHBUTTON_H

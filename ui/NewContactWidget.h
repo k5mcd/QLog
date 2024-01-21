@@ -1,5 +1,5 @@
-#ifndef NEWCONTACTWIDGET_H
-#define NEWCONTACTWIDGET_H
+#ifndef QLOG_UI_NEWCONTACTWIDGET_H
+#define QLOG_UI_NEWCONTACTWIDGET_H
 
 #include <QWidget>
 #include <QSqlRecord>
@@ -305,4 +305,4 @@ private:
 
 };
 
-#endif // NEWCONTACTWIDGET_H
+#endif // QLOG_UI_NEWCONTACTWIDGET_H

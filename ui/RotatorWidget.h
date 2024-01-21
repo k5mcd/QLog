@@ -1,5 +1,5 @@
-#ifndef ROTATORWIDGET_H
-#define ROTATORWIDGET_H
+#ifndef QLOG_UI_ROTATORWIDGET_H
+#define QLOG_UI_ROTATORWIDGET_H
 
 #include <QWidget>
 #include <QGraphicsPixmapItem>
@@ -64,4 +64,4 @@ private:
     const NewContactWidget *contact;
 };
 
-#endif // ROTATORWIDGET_H
+#endif // QLOG_UI_ROTATORWIDGET_H

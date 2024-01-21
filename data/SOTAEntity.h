@@ -1,5 +1,5 @@
-#ifndef SOTAENTITY_H
-#define SOTAENTITY_H
+#ifndef QLOG_DATA_SOTAENTITY_H
+#define QLOG_DATA_SOTAENTITY_H
 
 #include <QtCore>
 
@@ -21,4 +21,4 @@ public:
     QDate validTo;
 };
 
-#endif // SOTAENTITY_H
+#endif // QLOG_DATA_SOTAENTITY_H

@@ -1,5 +1,5 @@
-#ifndef EDITLAYOUTDIALOG_H
-#define EDITLAYOUTDIALOG_H
+#ifndef QLOG_UI_EDITLAYOUTDIALOG_H
+#define QLOG_UI_EDITLAYOUTDIALOG_H
 
 #include <QDialog>
 #include <QStringListModel>
@@ -28,4 +28,4 @@ public slots:
     void editButton();
 };
 
-#endif // EDITLAYOUTDIALOG_H
+#endif // QLOG_UI_EDITLAYOUTDIALOG_H

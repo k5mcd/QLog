@@ -1,5 +1,5 @@
-#ifndef BANDMAPWIDGET_H
-#define BANDMAPWIDGET_H
+#ifndef QLOG_UI_BANDMAPWIDGET_H
+#define QLOG_UI_BANDMAPWIDGET_H
 
 #include <QWidget>
 #include <QMap>
@@ -128,4 +128,4 @@ private:
 
 Q_DECLARE_METATYPE(BandmapWidget::BandmapZoom)
 
-#endif // BANDMAPWIDGET_H
+#endif // QLOG_UI_BANDMAPWIDGET_H

@@ -1,5 +1,5 @@
-#ifndef ALERTSETTINGDIALOG_H
-#define ALERTSETTINGDIALOG_H
+#ifndef QLOG_UI_ALERTSETTINGDIALOG_H
+#define QLOG_UI_ALERTSETTINGDIALOG_H
 
 #include <QDialog>
 #include <QSqlTableModel>
@@ -28,4 +28,4 @@ public slots:
 
 };
 
-#endif // ALERTSETTINGDIALOG_H
+#endif // QLOG_UI_ALERTSETTINGDIALOG_H

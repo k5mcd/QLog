@@ -1,5 +1,5 @@
-#ifndef INPUTPASSWORDDIALOG_H
-#define INPUTPASSWORDDIALOG_H
+#ifndef QLOG_UI_INPUTPASSWORDDIALOG_H
+#define QLOG_UI_INPUTPASSWORDDIALOG_H
 
 #include <QDialog>
 
@@ -24,4 +24,4 @@ private:
     Ui::InputPasswordDialog *ui;
 };
 
-#endif // INPUTPASSWORDDIALOG_H
+#endif // QLOG_UI_INPUTPASSWORDDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef LOGBOOKMODEL_H
-#define LOGBOOKMODEL_H
+#ifndef QLOG_MODELS_LOGBOOKMODEL_H
+#define QLOG_MODELS_LOGBOOKMODEL_H
 
 #include <QObject>
 #include <QSqlTableModel>
@@ -188,4 +188,4 @@ public:
     };
 };
 
-#endif // LOGBOOKMODEL_H
+#endif // QLOG_MODELS_LOGBOOKMODEL_H

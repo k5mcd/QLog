@@ -1,5 +1,5 @@
-#ifndef DEBUG_LOG_H
-#define DEBUG_LOG_H
+#ifndef QLOG_CORE_DEBUG_LOG_H
+#define QLOG_CORE_DEBUG_LOG_H
 
 #include <QLoggingCategory>
 #include <QString>
@@ -24,4 +24,4 @@ typedef enum debug_level
 
 void set_debug_level(DEBUG_LEVEL_TYPE);
 
-#endif // DEBUG_LOG_H
+#endif // QLOG_CORE_DEBUG_LOG_H

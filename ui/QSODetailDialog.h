@@ -154,4 +154,4 @@ private:
     LogLocale locale;
 };
 
-#endif // QSODETAILDIALOG_H
+#endif // QLOG_UI_QSODETAILDIALOG_H

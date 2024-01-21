@@ -1,5 +1,5 @@
-#ifndef WSJTXWIDGET_H
-#define WSJTXWIDGET_H
+#ifndef QLOG_UI_WSJTXWIDGET_H
+#define QLOG_UI_WSJTXWIDGET_H
 
 #include <QWidget>
 #include <QAbstractTableModel>
@@ -60,4 +60,4 @@ private:
     void restoreTableHeaderState();
 };
 
-#endif // WSJTXWIDGET_H
+#endif // QLOG_UI_WSJTXWIDGET_H

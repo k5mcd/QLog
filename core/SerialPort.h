@@ -1,5 +1,5 @@
-#ifndef SERIALPORT_H
-#define SERIALPORT_H
+#ifndef QLOG_CORE_SERIALPORT_H
+#define QLOG_CORE_SERIALPORT_H
 
 #include <QObject>
 #include <hamlib/rig.h>
@@ -24,4 +24,4 @@ public:
 
 };
 
-#endif // SERIALPORT_H
+#endif // QLOG_CORE_SERIALPORT_H

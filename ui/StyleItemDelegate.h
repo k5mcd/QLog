@@ -1,5 +1,5 @@
-#ifndef STYLEITEMDELEGATE_H
-#define STYLEITEMDELEGATE_H
+#ifndef QLOG_UI_STYLEITEMDELEGATE_H
+#define QLOG_UI_STYLEITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
 #include <QItemDelegate>
@@ -490,4 +490,4 @@ private slots:
 };
 
 
-#endif // STYLEITEMDELEGATE_H
+#endif // QLOG_UI_STYLEITEMDELEGATE_H

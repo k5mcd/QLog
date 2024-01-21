@@ -1,5 +1,5 @@
-#ifndef MAPWEBCHANNELHANDLER_H
-#define MAPWEBCHANNELHANDLER_H
+#ifndef QLOG_UI_MAPWEBCHANNELHANDLER_H
+#define QLOG_UI_MAPWEBCHANNELHANDLER_H
 
 #include <QObject>
 #include <QWebEnginePage>
@@ -35,4 +35,4 @@ private:
     void connectWebChannel(QWebEnginePage *page);
 };
 
-#endif // MAPWEBCHANNELHANDLER_H
+#endif // QLOG_UI_MAPWEBCHANNELHANDLER_H

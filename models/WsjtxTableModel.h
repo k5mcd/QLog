@@ -1,5 +1,5 @@
-#ifndef WSJTXTABLEMODEL_H
-#define WSJTXTABLEMODEL_H
+#ifndef QLOG_MODELS_WSJTXTABLEMODEL_H
+#define QLOG_MODELS_WSJTXTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include "data/WsjtxEntry.h"
@@ -27,4 +27,4 @@ private:
     float spotPeriod;
 };
 
-#endif // WSJTXTABLEMODEL_H
+#endif // QLOG_MODELS_WSJTXTABLEMODEL_H

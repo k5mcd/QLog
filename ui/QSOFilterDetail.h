@@ -1,5 +1,5 @@
-#ifndef QSOFILTERDETAIL_H
-#define QSOFILTERDETAIL_H
+#ifndef QLOG_UI_QSOFILTERDETAIL_H
+#define QLOG_UI_QSOFILTERDETAIL_H
 
 #include <QDialog>
 #include <QHBoxLayout>
@@ -55,4 +55,4 @@ private:
     LogLocale locale;
 };
 
-#endif // QSOFILTERDETAIL_H
+#endif // QLOG_UI_QSOFILTERDETAIL_H

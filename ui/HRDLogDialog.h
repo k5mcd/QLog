@@ -1,5 +1,5 @@
-#ifndef HRDLOGDIALOG_H
-#define HRDLOGDIALOG_H
+#ifndef QLOG_UI_HRDLOGDIALOG_H
+#define QLOG_UI_HRDLOGDIALOG_H
 
 #include <QDialog>
 #include "core/LogLocale.h"
@@ -28,4 +28,4 @@ private:
     LogLocale locale;
 };
 
-#endif // HRDLOGDIALOG_H
+#endif // QLOG_UI_HRDLOGDIALOG_H

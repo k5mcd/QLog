@@ -1,5 +1,5 @@
-#ifndef COLUMNSETTINGDIALOG_H
-#define COLUMNSETTINGDIALOG_H
+#ifndef QLOG_UI_COLUMNSETTINGDIALOG_H
+#define QLOG_UI_COLUMNSETTINGDIALOG_H
 
 #include <QDialog>
 #include <QTableView>
@@ -68,4 +68,4 @@ private:
     QList<LogbookModel::column_id> columnIdExcludeFilter;
 };
 
-#endif // COLUMNSETTINGDIALOG_H
+#endif // QLOG_UI_COLUMNSETTINGDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef LOGLOCALE_H
-#define LOGLOCALE_H
+#ifndef QLOG_CORE_LOGLOCALE_H
+#define QLOG_CORE_LOGLOCALE_H
 
 #include <QLocale>
 
@@ -14,4 +14,4 @@ public:
     QString formatDateTimeShortWithYYYY() const;
 };
 
-#endif // LOGLOCALE_H
+#endif // QLOG_CORE_LOGLOCALE_H

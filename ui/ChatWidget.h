@@ -1,5 +1,5 @@
-#ifndef CHATWIDGET_H
-#define CHATWIDGET_H
+#ifndef QLOG_UI_CHATWIDGET_H
+#define QLOG_UI_CHATWIDGET_H
 
 #include <QWidget>
 #include "core/KSTChat.h"
@@ -48,4 +48,4 @@ private:
     void setTabUnreadInfo(int, QWidget *);
 };
 
-#endif // CHATWIDGET_H
+#endif // QLOG_UI_CHATWIDGET_H

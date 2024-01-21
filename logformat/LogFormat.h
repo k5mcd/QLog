@@ -1,5 +1,5 @@
-#ifndef LOGFORMAT_H
-#define LOGFORMAT_H
+#ifndef QLOG_LOGFORMAT_LOGFORMAT_H
+#define QLOG_LOGFORMAT_LOGFORMAT_H
 
 #include <QtCore>
 #include <QMap>
@@ -120,4 +120,4 @@ private:
     LogLocale locale;
 };
 
-#endif // LOGFORMAT_H
+#endif // QLOG_LOGFORMAT_LOGFORMAT_H

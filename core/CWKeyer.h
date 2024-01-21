@@ -1,5 +1,5 @@
-#ifndef CWKEYER_H
-#define CWKEYER_H
+#ifndef QLOG_CORE_CWKEYER_H
+#define QLOG_CORE_CWKEYER_H
 
 #include <QObject>
 
@@ -59,4 +59,4 @@ private:
     QTimer* timer;
 };
 
-#endif // CWKEYER_H
+#endif // QLOG_CORE_CWKEYER_H

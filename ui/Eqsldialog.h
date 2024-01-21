@@ -1,5 +1,5 @@
-#ifndef EQSLDIALOG_H
-#define EQSLDIALOG_H
+#ifndef QLOG_UI_EQSLDIALOG_H
+#define QLOG_UI_EQSLDIALOG_H
 
 #include <QDialog>
 #include "core/LogLocale.h"
@@ -29,4 +29,4 @@ private:
     LogLocale locale;
 };
 
-#endif // EQSLDIALOG_H
+#endif // QLOG_UI_EQSLDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef TOALLSPOT_H
-#define TOALLSPOT_H
+#ifndef QLOG_DATA_TOALLSPOT_H
+#define QLOG_DATA_TOALLSPOT_H
 
 #include <QtGlobal>
 #include "data/Dxcc.h"
@@ -13,4 +13,4 @@ public:
     QString message;
 };
 
-#endif // TOALLSPOT_H
+#endif // QLOG_DATA_TOALLSPOT_H

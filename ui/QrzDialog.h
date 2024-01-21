@@ -1,5 +1,5 @@
-#ifndef QRZDIALOG_H
-#define QRZDIALOG_H
+#ifndef QLOG_UI_QRZDIALOG_H
+#define QLOG_UI_QRZDIALOG_H
 
 #include <QDialog>
 #include "core/LogLocale.h"
@@ -29,4 +29,4 @@ private:
     LogLocale locale;
 };
 
-#endif // QRZDIALOG_H
+#endif // QLOG_UI_QRZDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef ADXFORMAT_H
-#define ADXFORMAT_H
+#ifndef QLOG_LOGFORMAT_ADXFORMAT_H
+#define QLOG_LOGFORMAT_ADXFORMAT_H
 
 #include <QXmlStreamWriter>
 
@@ -32,4 +32,4 @@ private:
     QXmlStreamReader *reader;
 };
 
-#endif // ADXFORMAT_H
+#endif // QLOG_LOGFORMAT_ADXFORMAT_H

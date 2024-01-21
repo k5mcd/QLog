@@ -1,5 +1,5 @@
-#ifndef PAPERQSLDIALOG_H
-#define PAPERQSLDIALOG_H
+#ifndef QLOG_UI_PAPERQSLDIALOG_H
+#define QLOG_UI_PAPERQSLDIALOG_H
 
 #include <QDialog>
 #include <QSqlRecord>
@@ -35,4 +35,4 @@ private:
     QStringList filenameList;
 };
 
-#endif // PAPERQSLDIALOG_H
+#endif // QLOG_UI_PAPERQSLDIALOG_H

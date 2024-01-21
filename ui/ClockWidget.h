@@ -1,5 +1,5 @@
-#ifndef CLOCKWIDGET_H
-#define CLOCKWIDGET_H
+#ifndef QLOG_UI_CLOCKWIDGET_H
+#define QLOG_UI_CLOCKWIDGET_H
 
 #include <QWidget>
 #include <QTime>
@@ -34,4 +34,4 @@ private:
     QTime sunset;
 };
 
-#endif // CLOCKWIDGET_H
+#endif // QLOG_UI_CLOCKWIDGET_H

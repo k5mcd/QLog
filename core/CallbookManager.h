@@ -1,5 +1,5 @@
-#ifndef CALLBOOKMANAGER_H
-#define CALLBOOKMANAGER_H
+#ifndef QLOG_CORE_CALLBOOKMANAGER_H
+#define QLOG_CORE_CALLBOOKMANAGER_H
 
 #include <QObject>
 #include <QPointer>
@@ -42,4 +42,4 @@ private:
 
 };
 
-#endif // CALLBOOKMANAGER_H
+#endif // QLOG_CORE_CALLBOOKMANAGER_H

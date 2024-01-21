@@ -1,5 +1,5 @@
-#ifndef ALERTRULEDETAIL_H
-#define ALERTRULEDETAIL_H
+#ifndef QLOG_UI_ALERTRULEDETAIL_H
+#define QLOG_UI_ALERTRULEDETAIL_H
 
 #include <QDialog>
 #include <QCheckBox>
@@ -37,4 +37,4 @@ private:
     void generateMembershipCheckboxes(const AlertRule * rule = nullptr);
 };
 
-#endif // ALERTRULEDETAIL_H
+#endif // QLOG_UI_ALERTRULEDETAIL_H

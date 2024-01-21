@@ -1,5 +1,5 @@
-#ifndef MAPWIDGET_H
-#define MAPWIDGET_H
+#ifndef QLOG_UI_MAPWIDGET_H
+#define QLOG_UI_MAPWIDGET_H
 
 #include <QWidget>
 #include <QGraphicsView>
@@ -45,4 +45,4 @@ private:
     QGraphicsScene* scene;
 };
 
-#endif // MAPWIDGET_H
+#endif // QLOG_UI_MAPWIDGET_H

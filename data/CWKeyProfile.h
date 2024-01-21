@@ -1,5 +1,5 @@
-#ifndef CWKEYPROFILE_H
-#define CWKEYPROFILE_H
+#ifndef QLOG_DATA_CWKEYPROFILE_H
+#define QLOG_DATA_CWKEYPROFILE_H
 
 #include <QString>
 #include <QObject>
@@ -58,4 +58,4 @@ public:
     void save();
 
 };
-#endif // CWKEYPROFILE_H
+#endif // QLOG_DATA_CWKEYPROFILE_H

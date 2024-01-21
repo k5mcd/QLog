@@ -1,5 +1,5 @@
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef QLOG_UI_SETTINGSDIALOG_H
+#define QLOG_UI_SETTINGSDIALOG_H
 
 #include <QDialog>
 #include <QModelIndex>
@@ -141,4 +141,4 @@ private:
     bool wwffFallback;
 };
 
-#endif // SETTINGSDIALOG_H
+#endif // QLOG_UI_SETTINGSDIALOG_H

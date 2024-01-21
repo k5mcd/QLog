@@ -1,5 +1,5 @@
-#ifndef KSTHIGHLIGHTRULEDETAIL_H
-#define KSTHIGHLIGHTRULEDETAIL_H
+#ifndef QLOG_UI_KSTHIGHLIGHTRULEDETAIL_H
+#define QLOG_UI_KSTHIGHLIGHTRULEDETAIL_H
 
 #include <QDialog>
 
@@ -31,4 +31,4 @@ private:
     bool ruleExists(const QString &);
 };
 
-#endif // KSTHIGHLIGHTRULEDETAIL_H
+#endif // QLOG_UI_KSTHIGHLIGHTRULEDETAIL_H

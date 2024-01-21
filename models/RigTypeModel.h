@@ -1,5 +1,5 @@
-#ifndef RIGTYPEMODEL_H
-#define RIGTYPEMODEL_H
+#ifndef QLOG_MODELS_RIGTYPEMODEL_H
+#define QLOG_MODELS_RIGTYPEMODEL_H
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -19,4 +19,4 @@ private:
     QMap<QString, int> rigIds;
 };
 
-#endif // RIGTYPEMODEL_H
+#endif // QLOG_MODELS_RIGTYPEMODEL_H

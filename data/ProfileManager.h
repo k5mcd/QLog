@@ -1,5 +1,5 @@
-#ifndef PROFILEMANAGER_H
-#define PROFILEMANAGER_H
+#ifndef QLOG_DATA_PROFILEMANAGER_H
+#define QLOG_DATA_PROFILEMANAGER_H
 
 #include <QString>
 #include <QVariant>
@@ -238,4 +238,4 @@ private:
     QMutex currProfMutex;
 };
 
-#endif // PROFILEMANAGER_H
+#endif // QLOG_DATA_PROFILEMANAGER_H

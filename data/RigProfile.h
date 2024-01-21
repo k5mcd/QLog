@@ -1,5 +1,5 @@
-#ifndef RIGPROFILE_H
-#define RIGPROFILE_H
+#ifndef QLOG_DATA_RIGPROFILE_H
+#define QLOG_DATA_RIGPROFILE_H
 
 #include <QString>
 #include <QObject>
@@ -86,4 +86,4 @@ public:
 };
 
 
-#endif // RIGPROFILE_H
+#endif // QLOG_DATA_RIGPROFILE_H

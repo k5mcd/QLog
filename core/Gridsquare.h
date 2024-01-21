@@ -1,5 +1,5 @@
-#ifndef GRIDSQUARE_H
-#define GRIDSQUARE_H
+#ifndef QLOG_CORE_GRIDSQUARE_H
+#define QLOG_CORE_GRIDSQUARE_H
 
 #include <QObject>
 #include <QString>
@@ -34,4 +34,4 @@ private:
     double lat, lon;
 };
 
-#endif // GRIDSQUARE_H
+#endif // QLOG_CORE_GRIDSQUARE_H

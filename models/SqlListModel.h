@@ -1,5 +1,5 @@
-#ifndef SQLLISTMODEL_H
-#define SQLLISTMODEL_H
+#ifndef QLOG_MODELS_SQLLISTMODEL_H
+#define QLOG_MODELS_SQLLISTMODEL_H
 
 #include <QSqlQueryModel>
 
@@ -24,4 +24,4 @@ private:
     QString stmt;
 };
 
-#endif // SQLLISTMODEL_H
+#endif // QLOG_MODELS_SQLLISTMODEL_H

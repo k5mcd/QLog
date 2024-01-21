@@ -1,5 +1,5 @@
-#ifndef DXWIDGET_H
-#define DXWIDGET_H
+#ifndef QLOG_UI_DXWIDGET_H
+#define QLOG_UI_DXWIDGET_H
 
 #include <QWidget>
 #include <QtNetwork>
@@ -216,4 +216,4 @@ private:
     QString modeGroupFromComment(const QString &comment) const;
 };
 
-#endif // DXWIDGET_H
+#endif // QLOG_UI_DXWIDGET_H

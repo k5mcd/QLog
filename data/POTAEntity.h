@@ -1,5 +1,5 @@
-#ifndef POTAENTITY_H
-#define POTAENTITY_H
+#ifndef QLOG_DATA_POTAENTITY_H
+#define QLOG_DATA_POTAENTITY_H
 
 #include <QtCore>
 
@@ -15,4 +15,4 @@ public:
     QString grid;
 };
 
-#endif // POTAENTITY_H
+#endif // QLOG_DATA_POTAENTITY_H

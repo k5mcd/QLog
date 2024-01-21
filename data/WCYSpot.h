@@ -1,5 +1,5 @@
-#ifndef WCYSPOT_H
-#define WCYSPOT_H
+#ifndef QLOG_DATA_WCYSPOT_H
+#define QLOG_DATA_WCYSPOT_H
 
 #include <QtCore>
 
@@ -16,4 +16,4 @@ public:
     QString Au;
 };
 
-#endif // WCYSPOT_H
+#endif // QLOG_DATA_WCYSPOT_H

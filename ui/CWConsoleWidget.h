@@ -1,5 +1,5 @@
-#ifndef CWCONSOLEWIDGET_H
-#define CWCONSOLEWIDGET_H
+#ifndef QLOG_UI_CWCONSOLEWIDGET_H
+#define QLOG_UI_CWCONSOLEWIDGET_H
 
 #include <QWidget>
 #include "ui/NewContactWidget.h"
@@ -65,4 +65,4 @@ private:
 
 };
 
-#endif // CWCONSOLEWIDGET_H
+#endif // QLOG_UI_CWCONSOLEWIDGET_H

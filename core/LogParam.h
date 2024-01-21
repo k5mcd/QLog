@@ -1,5 +1,5 @@
-#ifndef LOGPARAM_H
-#define LOGPARAM_H
+#ifndef QLOG_CORE_LOGPARAM_H
+#define QLOG_CORE_LOGPARAM_H
 
 #include <QObject>
 
@@ -16,4 +16,4 @@ private:
     static QCache<QString, QString> localCache;
 };
 
-#endif // LOGPARAM_H
+#endif // QLOG_CORE_LOGPARAM_H

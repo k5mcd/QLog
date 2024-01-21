@@ -1,5 +1,5 @@
-#ifndef MEMBERSHIPQE_H
-#define MEMBERSHIPQE_H
+#ifndef QLOG_CORE_MEMBERSHIPQE_H
+#define QLOG_CORE_MEMBERSHIPQE_H
 
 #include <QObject>
 #include <QDate>
@@ -119,4 +119,4 @@ private:
     static QString CONFIG_MEMBERLIST_ENABLED;
 };
 
-#endif // MEMBERSHIPQE_H
+#endif // QLOG_CORE_MEMBERSHIPQE_H

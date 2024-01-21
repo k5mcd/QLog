@@ -1,5 +1,5 @@
-#ifndef DXFILTER_H
-#define DXFILTER_H
+#ifndef QLOG_UI_DXFILTER_H
+#define QLOG_UI_DXFILTER_H
 
 #include <QDialog>
 #include <QCheckBox>
@@ -25,4 +25,4 @@ private:
 
 };
 
-#endif // DXFILTER_H
+#endif // QLOG_UI_DXFILTER_H

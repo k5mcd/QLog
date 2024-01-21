@@ -1,5 +1,5 @@
-#ifndef LOVDOWNLOADER_H
-#define LOVDOWNLOADER_H
+#ifndef QLOG_CORE_LOVDOWNLOADER_H
+#define QLOG_CORE_LOVDOWNLOADER_H
 
 #include <QObject>
 #include <QNetworkAccessManager>
@@ -133,4 +133,4 @@ private slots:
 
 };
 
-#endif // LOVDOWNLOADER_H
+#endif // QLOG_CORE_LOVDOWNLOADER_H

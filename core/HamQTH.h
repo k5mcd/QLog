@@ -1,5 +1,5 @@
-#ifndef HAMQTH_H
-#define HAMQTH_H
+#ifndef QLOG_CORE_HAMQTH_H
+#define QLOG_CORE_HAMQTH_H
 
 #include <QObject>
 #include <QString>
@@ -45,4 +45,4 @@ private:
     const static QString CONFIG_USERNAME_KEY;
 };
 
-#endif // HAMQTH_H
+#endif // QLOG_CORE_HAMQTH_H

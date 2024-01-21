@@ -1,5 +1,5 @@
-#ifndef WSJTXFILTERDIALOG_H
-#define WSJTXFILTERDIALOG_H
+#ifndef QLOG_UI_WSJTXFILTERDIALOG_H
+#define QLOG_UI_WSJTXFILTERDIALOG_H
 
 #include <QDialog>
 #include <QCheckBox>
@@ -27,4 +27,4 @@ private:
 
 };
 
-#endif // WSJTXFILTERDIALOG_H
+#endif // QLOG_UI_WSJTXFILTERDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef LOTWDIALOG_H
-#define LOTWDIALOG_H
+#ifndef QLOG_UI_LOTWDIALOG_H
+#define QLOG_UI_LOTWDIALOG_H
 
 #include <QDialog>
 #include "core/LogLocale.h"
@@ -29,4 +29,4 @@ private:
     LogLocale locale;
 };
 
-#endif // LOTWDIALOG_H
+#endif // QLOG_UI_LOTWDIALOG_H

@@ -1,5 +1,5 @@
-#ifndef ADIFORMAT_H
-#define ADIFORMAT_H
+#ifndef QLOG_LOGFORMAT_ADIFORMAT_H
+#define QLOG_LOGFORMAT_ADIFORMAT_H
 
 #include "LogFormat.h"
 #define ADIF_VERSION_STRING "3.1.4"
@@ -100,4 +100,4 @@ private:
     bool inHeader = false;
 };
 
-#endif // ADIF2FORMAT_H
+#endif // QLOG_LOGFORMAT_ADIFORMAT_H

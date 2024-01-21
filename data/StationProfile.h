@@ -1,5 +1,5 @@
-#ifndef STATIONPROFILE_H
-#define STATIONPROFILE_H
+#ifndef QLOG_DATA_STATIONPROFILE_H
+#define QLOG_DATA_STATIONPROFILE_H
 
 #include <QMetaType>
 #include <QString>
@@ -55,4 +55,4 @@ public:
 };
 
 
-#endif // STATIONPROFILE_H
+#endif // QLOG_DATA_STATIONPROFILE_H

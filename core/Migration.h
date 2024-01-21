@@ -1,5 +1,5 @@
-#ifndef MIGRATION_H
-#define MIGRATION_H
+#ifndef QLOG_CORE_MIGRATION_H
+#define QLOG_CORE_MIGRATION_H
 
 #include <QSqlQuery>
 #include <QObject>
@@ -42,4 +42,4 @@ private:
     static const int latestVersion = 23;
 };
 
-#endif // MIGRATION_H
+#endif // QLOG_CORE_MIGRATION_H

@@ -1,5 +1,5 @@
-#ifndef DXSPOT_H
-#define DXSPOT_H
+#ifndef QLOG_DATA_DXSPOT_H
+#define QLOG_DATA_DXSPOT_H
 
 #include <QtCore>
 #include "Dxcc.h"
@@ -44,4 +44,4 @@ public:
 
 };
 
-#endif // DXSPOT_H
+#endif // QLOG_DATA_DXSPOT_H

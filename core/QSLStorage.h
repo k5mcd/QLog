@@ -1,5 +1,5 @@
-#ifndef QSLSTORAGE_H
-#define QSLSTORAGE_H
+#ifndef QLOG_CORE_QSLSTORAGE_H
+#define QLOG_CORE_QSLSTORAGE_H
 
 #include <QObject>
 #include <QSqlRecord>
@@ -70,4 +70,4 @@ public:
                      const QString &qslName) const;
 };
 
-#endif // QSLSTORAGE_H
+#endif // QLOG_CORE_QSLSTORAGE_H
