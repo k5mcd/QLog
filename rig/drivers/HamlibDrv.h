@@ -5,12 +5,11 @@
 #include <QTimer>
 #include <hamlib/rig.h>
 
-#include "rig/drivers/GenericDrv.h"
+#include "GenericDrv.h"
 #include "rig/RigCaps.h"
 
 class HamlibDrv : public GenericDrv
 {
-    Q_OBJECT
 public:
     static QList<QPair<int, QString>> getModelList();
     static RigCaps getCaps(int model);

@@ -20,7 +20,7 @@
                         QMutexLocker locker(&drvLock); \
                         qCDebug(runtime) << "Using Drv"
 
-MODULE_IDENTIFICATION("qlog.rig.driver.hamlibdriver");
+MODULE_IDENTIFICATION("qlog.rig.driver.hamlibdrv");
 
 QList<QPair<int, QString>> HamlibDrv::getModelList()
 {
@@ -244,6 +244,12 @@ void HamlibDrv::setFrequency(double newFreq)
 
     qCDebug(function_parameters) << newFreq;
 
+    if ( !rigProfile.getFreqInfo )
+        return;
+
+    if ( newFreq == currFreq )
+        return;
+
     MUTEXLOCKER;
 
     if ( !rig )
@@ -252,21 +258,14 @@ void HamlibDrv::setFrequency(double newFreq)
         return;
     }
 
-    if ( !rigProfile.getFreqInfo )
-        return;
+    int status = rig_set_freq(rig, RIG_VFO_CURR, newFreq);
 
-
-    if ( newFreq != currFreq )
+    if ( status != RIG_OK )
     {
-        int status = rig_set_freq(rig, RIG_VFO_CURR, newFreq);
-
-        if ( status != RIG_OK )
-        {
-            lastErrorText = hamlibErrorString(status);
-            qCWarning(runtime) << "Set Freq error" << lastErrorText;
-            emit errorOccured(tr("Set Frequency Error"),
-                              lastErrorText);
-        }
+        lastErrorText = hamlibErrorString(status);
+        qCWarning(runtime) << "Set Freq error" << lastErrorText;
+        emit errorOccured(tr("Set Frequency Error"),
+                          lastErrorText);
     }
     commandSleep();
 }
@@ -277,6 +276,9 @@ void HamlibDrv::setRawMode(const QString &rawMode)
 
     qCDebug(function_parameters) << rawMode;
 
+    if ( !rigProfile.getModeInfo )
+        return;
+
     MUTEXLOCKER;
 
     if ( !rig )
@@ -284,9 +286,6 @@ void HamlibDrv::setRawMode(const QString &rawMode)
         qCWarning(runtime) << "Rig is not active";
         return;
     }
-
-    if ( !rigProfile.getModeInfo )
-        return;
 
     __setMode(rig_parse_mode(rawMode.toLatin1()));
 }
@@ -315,8 +314,8 @@ void HamlibDrv::__setMode(rmode_t newModeID)
             qCWarning(runtime) << "Set KeySpeed error" << lastErrorText;
             //emit errorOccured(lastErrorText);
         }
+        commandSleep();
     }
-    commandSleep();
 }
 
 void HamlibDrv::setPTT(bool newPTTState)
@@ -325,6 +324,9 @@ void HamlibDrv::setPTT(bool newPTTState)
 
     qCDebug(function_parameters) << newPTTState;
 
+    if ( !rigProfile.getPTTInfo )
+        return;
+
     MUTEXLOCKER;
 
     if ( !rig )
@@ -332,9 +334,6 @@ void HamlibDrv::setPTT(bool newPTTState)
         qCWarning(runtime) << "Rig is not active";
         return;
     }
-
-    if ( !rigProfile.getPTTInfo )
-        return;
 
     int status = rig_set_ptt(rig, RIG_VFO_CURR, (newPTTState ? RIG_PTT_ON : RIG_PTT_OFF));
 
@@ -357,6 +356,9 @@ void HamlibDrv::setKeySpeed(qint16 wpm)
 
     qCDebug(function_parameters) << wpm;
 
+    if ( !rigProfile.getKeySpeed )
+        return;
+
     MUTEXLOCKER;
 
     if ( !rig )
@@ -364,9 +366,6 @@ void HamlibDrv::setKeySpeed(qint16 wpm)
         qCWarning(runtime) << "Rig is not active";
         return;
     }
-
-    if ( !rigProfile.getKeySpeed )
-        return;
 
     __setKeySpeed(wpm);
 }
@@ -377,6 +376,9 @@ void HamlibDrv::syncKeySpeed(qint16 wpm)
 
     qCDebug(function_parameters) << wpm;
 
+    if ( !rigProfile.keySpeedSync )
+        return;
+
     MUTEXLOCKER;
 
     if ( !rig )
@@ -384,9 +386,6 @@ void HamlibDrv::syncKeySpeed(qint16 wpm)
         qCWarning(runtime) << "Rig is not active";
         return;
     }
-
-    if ( !rigProfile.keySpeedSync )
-        return;
 
     __setKeySpeed(wpm);
 }
@@ -416,6 +415,7 @@ void HamlibDrv::sendMorse(const QString &text)
         qCWarning(runtime) << "Cannot sent Morse" << lastErrorText;
         //emit errorOccured(lastErrorText);
     }
+    commandSleep();
 }
 
 void HamlibDrv::stopMorse()
