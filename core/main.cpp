@@ -286,7 +286,7 @@ static void startCWKeyerThread()
 
 static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    debug_mutex.lock();
+    QMutexLocker locker(&debug_mutex);
 
     QByteArray localMsg = msg.toLocal8Bit();
     QString severity_string;
@@ -334,8 +334,6 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
                                                  context.file,
                                                  context.line
                                                  );
-    debug_mutex.unlock();
-
     if ( type == QtFatalMsg )
     {
         abort();

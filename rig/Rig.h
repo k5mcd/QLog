@@ -6,6 +6,10 @@
 #include <QMutex>
 #include "rig/drivers/GenericDrv.h"
 #include "rig/drivers/HamlibDrv.h"
+#ifdef Q_OS_WIN
+#include "rig/drivers/OmnirigDrv.h"
+#endif
+
 #include "macros.h"
 #include "RigCaps.h"
 
@@ -25,6 +29,7 @@ public:
     {
         UNDEF_DRIVER = 0,
         HAMLIB_DRIVER = 1,
+        OMNIRIG_DRIVER = 2,
     };
 
     static Rig* instance();
@@ -36,8 +41,9 @@ public:
 
     bool isRigConnected();
     bool isMorseOverCatSupported();
-    QStringList getAvailableRawModes();
-    QList<QPair<int, QString>> getModelList(const DriverID &id) const;
+    const QStringList getAvailableRawModes();
+    const QList<QPair<int, QString>> getModelList(const DriverID &id) const;
+    const QList<QPair<int, QString>> getDriverList() const;
     const RigCaps getRigCaps(const DriverID &, int) const;
 
 public slots:
@@ -117,6 +123,12 @@ private:
                                   "Hamlib",
                                   &HamlibDrv::getModelList,
                                   &HamlibDrv::getCaps) },
+#ifdef Q_OS_WIN
+        {OMNIRIG_DRIVER, DrvParams(OMNIRIG_DRIVER,
+                                  "Omnirig v1",
+                                  &OmnirigDrv::getModelList,
+                                  &OmnirigDrv::getCaps) },
+#endif
     };
 
     void __closeRig();

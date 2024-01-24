@@ -54,6 +54,7 @@ RigCaps HamlibDrv::getCaps(int model)
     RigCaps ret;
 
     ret.isNetworkOnly = (model == RIG_MODEL_NETRIGCTL);
+    ret.needPolling = true;
 
     if ( caps )
     {
@@ -146,13 +147,15 @@ bool HamlibDrv::open()
         return false;
     }
 
-    if ( rigProfile.getPortType() == RigProfile::NETWORK_ATTACHED )
+    RigProfile::rigPortType portType = rigProfile.getPortType();
+
+    if ( portType == RigProfile::NETWORK_ATTACHED )
     {
         //handling Network Radio
         const QString portString = rigProfile.hostname + ":" + QString::number(rigProfile.netport);
         strncpy(rig->state.rigport.pathname, portString.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
     }
-    else
+    else if ( portType == RigProfile::SERIAL_ATTACHED )
     {
         //handling Serial Port Radio
         strncpy(rig->state.rigport.pathname, rigProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
@@ -161,6 +164,12 @@ bool HamlibDrv::open()
         rig->state.rigport.parm.serial.stop_bits = rigProfile.stopbits;
         rig->state.rigport.parm.serial.handshake = stringToHamlibFlowControl(rigProfile.flowcontrol);
         rig->state.rigport.parm.serial.parity = stringToHamlibParity(rigProfile.parity);
+    }
+    else
+    {
+        lastErrorText = tr("Unsupported Rig Driver");
+        qCDebug(runtime) << "Rig Open Error" << lastErrorText;
+        return false;
     }
 
     int status = rig_open(rig);

@@ -14,6 +14,7 @@ public:
             bool canGetPTT = false,
             bool canGetKeySpeed = false,
             bool isNetworkOnly = false,
+            bool needPolling = false,
             int serial_data_bits = 8,
             int serial_stop_bits = 1
             );
@@ -29,6 +30,7 @@ public:
     int serialDataBits;
     int serialStopBits;
     bool isNetworkOnly;
+    bool needPolling;
 };
 
 #endif // RIG_RIGCAPS_H

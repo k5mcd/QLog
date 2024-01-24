@@ -5,14 +5,6 @@ RigTypeModel::RigTypeModel(QObject* parent)
     : QAbstractListModel(parent)
 {
 
-    const QList<QPair<int, QString>> models = Rig::instance()->getModelList(Rig::HAMLIB_DRIVER);
-    for ( const QPair<int, QString> &model : models )
-    {
-        const QString &name = model.second;
-        rigIds[name] = model.first;
-        rigList.append(name);
-    }
-    rigList.sort();
 }
 
 int RigTypeModel::rowCount(const QModelIndex&) const {
@@ -41,4 +33,24 @@ QModelIndex RigTypeModel::index(int row, int column, const QModelIndex& parent) 
         return createIndex(row, column, rigId);
     else
         return QModelIndex();
+}
+
+void RigTypeModel::select(int driverID)
+{
+    beginResetModel();
+    rigIds.clear();
+    rigList.clear();
+
+    if ( driverID == 0 )
+        return;
+
+    const QList<QPair<int, QString>> models = Rig::instance()->getModelList(static_cast<Rig::DriverID>(driverID));
+    for ( const QPair<int, QString> &model : models )
+    {
+        const QString &name = model.second;
+        rigIds[name] = model.first;
+        rigList.append(name);
+    }
+    rigList.sort();
+    endResetModel();
 }

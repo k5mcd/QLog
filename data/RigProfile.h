@@ -9,7 +9,7 @@
 
 #include "data/ProfileManager.h"
 
-#define DEFAULT_RIG_MODEL 1
+#define DEFAULT_HAMLIB_RIG_MODEL 1
 
 class RigProfile
 {
@@ -17,17 +17,19 @@ public:
     enum rigPortType
     {
         SERIAL_ATTACHED,
-        NETWORK_ATTACHED
+        NETWORK_ATTACHED,
+        SPECIAL_OMNIRIG_ATTACHED
     };
 
     RigProfile() {
-                   model = DEFAULT_RIG_MODEL; netport = 0; baudrate = 0;
+                   model = DEFAULT_HAMLIB_RIG_MODEL; netport = 0; baudrate = 0;
                    databits = 0; stopbits = 0.0; pollInterval = 0;
                    txFreqStart = 0.0; txFreqEnd = 0.0; getFreqInfo = false;
                    getModeInfo = false; getVFOInfo = false; getPWRInfo = false;
                    ritOffset = 0.0; xitOffset = 0.0, getRITInfo = false;
                    getXITInfo = true; defaultPWR = 0.0, getPTTInfo = false;
                    QSYWiping = false, getKeySpeed = false, keySpeedSync = false;
+                   driver = 0;
                  };
 
     QString profileName;
@@ -57,6 +59,7 @@ public:
     bool getKeySpeed;
     QString assignedCWKey;
     bool keySpeedSync;
+    qint32 driver;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);

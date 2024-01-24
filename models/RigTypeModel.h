@@ -13,6 +13,7 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
     static int addRig(const struct rig_caps* caps, void* data);
+    void select(int driverID);
 
 private:
     QStringList rigList;

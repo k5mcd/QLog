@@ -54,7 +54,7 @@ qint32 Rig::getNormalBandwidth(const QString &mode, const QString &)
     return 6000;
 }
 
-QList<QPair<int, QString>> Rig::getModelList(const DriverID &id) const
+const QList<QPair<int, QString>> Rig::getModelList(const DriverID &id) const
 {
     QList<QPair<int, QString>> ret;
 
@@ -63,6 +63,22 @@ QList<QPair<int, QString>> Rig::getModelList(const DriverID &id) const
     {
         ret = (drvMapping.value(id).getModeslListFunction)();
     }
+    return ret;
+}
+
+const QList<QPair<int, QString>> Rig::getDriverList() const
+{
+    FCT_IDENTIFICATION;
+
+    QList<QPair<int, QString>> ret;
+
+    const QList<int> &keys = drvMapping.keys();
+
+    for ( const int &key : keys )
+    {
+        ret << QPair<int, QString>(key, drvMapping[key].driverName);
+    }
+
     return ret;
 }
 
@@ -264,6 +280,8 @@ void Rig::__openRig()
     }
 
     emit rigConnected();
+
+    rigDriver->sendState();
 }
 
 void Rig::close()
@@ -542,24 +560,33 @@ GenericDrv *Rig::getDriver( const RigProfile &profile )
 {
     FCT_IDENTIFICATION;
 
-    //TODO
-#if 0
-    qCDebug(runtime) << profile.modelDriver;
+    //(if) for testing purpose
+#if 1
+    qCDebug(runtime) << profile.driver;
 
-    switch ( profile.modelDriver )
+    switch ( profile.driver )
     {
     case Rig::HAMLIB_DRIVER:
         return new HamlibDrv(profile, this);
         break;
+#ifdef Q_OS_WIN
+    case Rig::OMNIRIG_DRIVER:
+        return new OmnirigDrv(profile, this);
+        break;
+#endif
     default:
+        qWarning() << "Unsupported Rig Driver " << profile.driver;
         return nullptr;
-        qWarning() << "Unsupported Rig Driver " << profile.modelDriver;
     }
+#else
+#ifdef Q_OS_WIN
+    return new OmnirigDrv(profile, this);
 #endif
     return new HamlibDrv(profile, this);
+#endif
 }
 
-QStringList Rig::getAvailableRawModes()
+const QStringList Rig::getAvailableRawModes()
 {
     FCT_IDENTIFICATION;
 

@@ -9,6 +9,7 @@ RigCaps::RigCaps(bool canGetFreq,
                  bool canGetPTT,
                  bool canGetKeySpeed,
                  bool isNetworkOnly,
+                 bool needPolling,
                  int serial_data_bits,
                  int serial_stop_bits
                  ) :
@@ -22,7 +23,8 @@ RigCaps::RigCaps(bool canGetFreq,
     canGetKeySpeed(canGetKeySpeed),
     serialDataBits(serial_data_bits),
     serialStopBits(serial_stop_bits),
-    isNetworkOnly(isNetworkOnly)
+    isNetworkOnly(isNetworkOnly),
+    needPolling(needPolling)
 {
 
 }

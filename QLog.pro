@@ -418,6 +418,11 @@ macx: {
 }
 
 win32: {
+   QT += axcontainer
+   TYPELIBS = $$system($$[QT_INSTALL_BINS]/dumpcpp -getfile {4FE359C5-A58F-459D-BE95-CA559FB4F270})
+   SOURCES += rig/drivers/OmnirigDrv.cpp
+   HEADERS += rig/drivers/OmnirigDrv.h
+
    TARGET = qlog
    QMAKE_TARGET_COMPANY = OK1MLG
    QMAKE_TARGET_DESCRIPTION = Hamradio logging
