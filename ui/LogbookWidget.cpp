@@ -43,8 +43,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->setModel(model);
 
     ui->contactTable->addAction(ui->actionEditContact);
-    ui->contactTable->addAction(ui->actionExportAs);
     ui->contactTable->addAction(ui->actionFilter);
+    ui->contactTable->addAction(ui->actionExportAs);
     ui->contactTable->addAction(ui->actionLookup);
     ui->contactTable->addAction(ui->actionDisplayedColumns);
     //ui->contactTable->addAction(ui->actionUploadClublog);
@@ -530,6 +530,18 @@ void LogbookWidget::exportContact()
 void LogbookWidget::editContact()
 {
     FCT_IDENTIFICATION;
+
+    if ( ui->contactTable->selectionModel()->selectedRows().size() > 1 )
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,
+                                      tr("Update"),
+                                      tr("All selected rows will be updated to the same value.<br>Do you want to edit them?"),
+                                      QMessageBox::Yes|QMessageBox::No);
+
+        if (reply != QMessageBox::Yes) return;
+    }
+
     ui->contactTable->edit(ui->contactTable->selectionModel()->currentIndex());
 }
 

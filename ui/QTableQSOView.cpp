@@ -18,13 +18,15 @@ void QTableQSOView::commitData(QWidget *editor)
 
     /* Group Editing Support */
     /* If rows are selected then update them*/
-    foreach (auto index, this->selectionModel()->selectedRows())
+    const QModelIndexList &selectedRows = this->selectionModel()->selectedRows();
+
+    for ( const QModelIndex &index : selectedRows )
     {
         if ( index.row() != currRow // Do not update the same row again
              /* Protect selected columns against group editing */
-             && index.column() != LogbookModel::COLUMN_CALL
-             && index.column() != LogbookModel::COLUMN_TIME_ON
-             && index.column() != LogbookModel::COLUMN_TIME_OFF )
+             && currCol != LogbookModel::COLUMN_CALL
+             && currCol != LogbookModel::COLUMN_TIME_ON
+             && currCol != LogbookModel::COLUMN_TIME_OFF )
         {
             model->setData(model->index(index.row(),currCol), value, Qt::EditRole);
         }
