@@ -87,6 +87,9 @@ void CallbookManager::initCallbooks()
     primaryCallbookAuthSuccess = false;
     secondaryCallbookAuthSuccess = false;
 
+    queryCache.clear();
+    currentQueryCallsign = QString();
+
     QString primaryCallbookSelection = settings.value(GenericCallbook::CONFIG_PRIMARY_CALLBOOK_KEY).toString();
     QString secondaryCallbookSelection = settings.value(GenericCallbook::CONFIG_SECONDARY_CALLBOOK_KEY).toString();
 
