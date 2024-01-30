@@ -43,8 +43,8 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->contactTable->setModel(model);
 
     ui->contactTable->addAction(ui->actionEditContact);
-    ui->contactTable->addAction(ui->actionExportAs);
     ui->contactTable->addAction(ui->actionFilter);
+    ui->contactTable->addAction(ui->actionExportAs);
     ui->contactTable->addAction(ui->actionLookup);
     ui->contactTable->addAction(ui->actionDisplayedColumns);
     //ui->contactTable->addAction(ui->actionUploadClublog);
