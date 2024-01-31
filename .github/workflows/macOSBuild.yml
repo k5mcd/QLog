@@ -42,7 +42,6 @@ jobs:
        run: |
          cd build
          macdeployqt qlog.app
-         find /usr/local/opt/icu4c/lib/
          cp /usr/local/lib/libhamlib.dylib qlog.app/Contents/Frameworks/libhamlib.dylib
          cp /usr/local/lib/libqt6keychain.dylib qlog.app/Contents/Frameworks/libqt6keychain.dylib
          cp /usr/local/lib/libdbus-1.dylib qlog.app/Contents/Frameworks/libdbus-1.dylib
