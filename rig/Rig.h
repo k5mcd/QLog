@@ -8,6 +8,7 @@
 #include "rig/drivers/HamlibDrv.h"
 #ifdef Q_OS_WIN
 #include "rig/drivers/OmnirigDrv.h"
+#include "rig/drivers/Omnirigv2Drv.h"
 #endif
 
 #include "macros.h"
@@ -30,6 +31,7 @@ public:
         UNDEF_DRIVER = 0,
         HAMLIB_DRIVER = 1,
         OMNIRIG_DRIVER = 2,
+        OMNIRIGV2_DRIVER = 3,
     };
 
     static Rig* instance();
@@ -128,6 +130,10 @@ private:
                                   "Omnirig v1",
                                   &OmnirigDrv::getModelList,
                                   &OmnirigDrv::getCaps) },
+        {OMNIRIGV2_DRIVER, DrvParams(OMNIRIGV2_DRIVER,
+                                     "Omnirig v2",
+                                     &OmnirigV2Drv::getModelList,
+                                     &OmnirigV2Drv::getCaps) },
 #endif
     };
 

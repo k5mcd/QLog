@@ -420,8 +420,19 @@ macx: {
 win32: {
    QT += axcontainer
    TYPELIBS = $$system($$[QT_INSTALL_BINS]/dumpcpp -getfile {4FE359C5-A58F-459D-BE95-CA559FB4F270})
-   SOURCES += rig/drivers/OmnirigDrv.cpp
-   HEADERS += rig/drivers/OmnirigDrv.h
+   isEmpty(TYPELIBS){
+       error("Omnirig v1 is not found - required")
+   }
+
+   !exists( $$OUT_PWD/OmniRig2.* ) {
+      OMNIRIG2 = $$system($$[QT_INSTALL_BINS]/dumpcpp {959819FF-B57B-468A-9F30-BBA6BE319987} -n OmniRigV2 -o $$OUT_PWD/OmniRig2)
+      isEmpty(OMNIRIG2){
+          error("Omnirig v2 is not found - required")
+      }
+   }
+
+   SOURCES += rig/drivers/OmnirigDrv.cpp rig/drivers/Omnirigv2Drv.cpp OmniRig2.cpp
+   HEADERS += rig/drivers/OmnirigDrv.h rig/drivers/Omnirigv2Drv.h OmniRig2.h
 
    TARGET = qlog
    QMAKE_TARGET_COMPANY = OK1MLG

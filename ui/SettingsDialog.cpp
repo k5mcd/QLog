@@ -641,7 +641,8 @@ void SettingsDialog::rigInterfaceChanged(int)
 
     Rig::DriverID driverID = static_cast<Rig::DriverID>(ui->rigInterfaceCombo->currentData().toInt());
 
-    if ( driverID == Rig::OMNIRIG_DRIVER )
+    if ( driverID == Rig::OMNIRIG_DRIVER
+        || driverID == Rig::OMNIRIGV2_DRIVER )
     {
         ui->rigPortTypeCombo->insertItem(STACKED_WIDGET_SPECIAL_OMNIRIG_SETTING, tr("Special - Omnirig"));
     }
@@ -1527,7 +1528,8 @@ void SettingsDialog::rigChanged(int index)
     Rig::DriverID driverID = static_cast<Rig::DriverID>(ui->rigInterfaceCombo->currentData().toInt());
     const RigCaps &caps = Rig::instance()->getRigCaps(driverID, rigID);
 
-    if ( driverID == Rig::OMNIRIG_DRIVER )
+    if ( driverID == Rig::OMNIRIG_DRIVER
+         || driverID == Rig::OMNIRIGV2_DRIVER)
     {
         ui->rigPortTypeCombo->setCurrentIndex(RIGPORT_SPECIAL_OMNIRIG_INDEX);
         ui->rigPortTypeCombo->setEnabled(false);

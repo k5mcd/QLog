@@ -257,7 +257,8 @@ RigProfile::rigPortType RigProfile::getPortType() const
 {
     FCT_IDENTIFICATION;
 
-    if ( driver == Rig::OMNIRIG_DRIVER )
+    if ( driver == Rig::OMNIRIG_DRIVER
+        || driver == Rig::OMNIRIGV2_DRIVER )
         return RigProfile::SPECIAL_OMNIRIG_ATTACHED;
 
     if ( !hostname.isEmpty()

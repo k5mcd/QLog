@@ -15,7 +15,7 @@ public:
     static RigCaps getCaps(int model);
     explicit HamlibDrv(const RigProfile &profile,
                           QObject *parent = nullptr);
-    ~HamlibDrv();
+    virtual ~HamlibDrv();
 
     virtual bool open() override;
     virtual bool isMorseOverCatSupported() override;

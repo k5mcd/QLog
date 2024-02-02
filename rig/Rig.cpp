@@ -573,6 +573,9 @@ GenericDrv *Rig::getDriver( const RigProfile &profile )
     case Rig::OMNIRIG_DRIVER:
         return new OmnirigDrv(profile, this);
         break;
+    case Rig::OMNIRIGV2_DRIVER:
+        return new OmnirigV2Drv(profile, this);
+        break;
 #endif
     default:
         qWarning() << "Unsupported Rig Driver " << profile.driver;
@@ -580,7 +583,7 @@ GenericDrv *Rig::getDriver( const RigProfile &profile )
     }
 #else
 #ifdef Q_OS_WIN
-    return new OmnirigDrv(profile, this);
+    return new OmnirigV2Drv(profile, this);
 #endif
     return new HamlibDrv(profile, this);
 #endif

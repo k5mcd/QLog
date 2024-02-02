@@ -11,7 +11,7 @@ public:
 
     explicit GenericDrv(const RigProfile &profile,
                         QObject *parent = nullptr);
-    ~GenericDrv() {};
+    virtual ~GenericDrv() {};
     const RigProfile getCurrRigProfile() const;
     const QString lastError() const;
 

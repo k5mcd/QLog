@@ -1,24 +1,28 @@
-#ifndef RIG_DRIVERS_OMNIRIGDRV_H
-#define RIG_DRIVERS_OMNIRIGDRV_H
+#ifndef OMNIRIGV2DRV_H
+#define OMNIRIGV2DRV_H
 
 #include "GenericDrv.h"
 #include "rig/RigCaps.h"
 
 // OmniRig.h is generated automatically by dumpcpp
 // omnirig must be installed before compilation
-// Currently supported is OmniRig v1
-#include "OmniRig.h"
+// Currently supported is OmniRig v2
+#include "OmniRig2.h"
 
-class OmnirigDrv : public GenericDrv
+//don't inherit Omnirigv1, it won't do any good because it's a different namespace
+class OmnirigV2Drv : public GenericDrv
 {
     Q_OBJECT
 
 public:
+
     static QList<QPair<int, QString>> getModelList();
-    static RigCaps getCaps(int model);
-    explicit OmnirigDrv(const RigProfile &profile,
-                        QObject *parent = nullptr);
-    virtual ~OmnirigDrv();
+    static RigCaps getCaps(int);
+
+    explicit OmnirigV2Drv(const RigProfile &profile,
+                          QObject *parent = nullptr);
+
+    virtual ~OmnirigV2Drv();
 
     virtual bool open() override;
     virtual bool isMorseOverCatSupported() override;
@@ -42,7 +46,7 @@ private slots:
     void rigParamsChange(int rig_number, int params);
 
 private:
-    OmniRig::IRigX* getRigPtr();
+    OmniRigV2::IRigX *getRigPtr();
 
     void __rigTypeChange(int);
     void commandSleep();
@@ -68,21 +72,20 @@ private:
     unsigned int currXIT;
     bool currPTT;
 
-    OmniRig::OmniRigX *omniRigInterface;
-    OmniRig::RigX *rig;
+    OmniRigV2::OmniRigX *omniRigInterface;
+    OmniRigV2::RigX *rig;
     int readableParams;
     int writableParams;
     QMutex drvLock;
-    const QMap<OmniRig::RigParamX, QString> modeMap = {
-                                      {OmniRig::PM_CW_U, "CWR"},
-                                      {OmniRig::PM_CW_L, "CW"},
-                                      {OmniRig::PM_SSB_U, "USB"},
-                                      {OmniRig::PM_SSB_L, "LSB"},
-                                      {OmniRig::PM_DIG_U, "DIG_U"},
-                                      {OmniRig::PM_DIG_L, "DIG_L"},
-                                      {OmniRig::PM_AM, "AM"},
-                                      {OmniRig::PM_FM, "FM"}
+    const QMap<OmniRigV2::RigParamX, QString> modeMap = {
+                                      {OmniRigV2::PM_CW_U, "CWR"},
+                                      {OmniRigV2::PM_CW_L, "CW"},
+                                      {OmniRigV2::PM_SSB_U, "USB"},
+                                      {OmniRigV2::PM_SSB_L, "LSB"},
+                                      {OmniRigV2::PM_DIG_U, "DIG_U"},
+                                      {OmniRigV2::PM_DIG_L, "DIG_L"},
+                                      {OmniRigV2::PM_AM, "AM"},
+                                      {OmniRigV2::PM_FM, "FM"}
                                      };
 };
-
-#endif // RIG_DRIVERS_OMNIRIGDRV_H
+#endif // OMNIRIGV2DRV_H
