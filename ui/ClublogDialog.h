@@ -1,5 +1,5 @@
-#ifndef CLUBLOGDIALOG_H
-#define CLUBLOGDIALOG_H
+#ifndef QLOG_UI_CLUBLOGDIALOG_H
+#define QLOG_UI_CLUBLOGDIALOG_H
 
 #include <QDialog>
 #include "core/LogLocale.h"
@@ -29,4 +29,4 @@ private:
     LogLocale locale;
 };
 
-#endif // CLUBLOGDIALOG_H
+#endif // QLOG_UI_CLUBLOGDIALOG_H

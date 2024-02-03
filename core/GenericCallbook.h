@@ -1,5 +1,5 @@
-#ifndef GENERICCALLBOOK_H
-#define GENERICCALLBOOK_H
+#ifndef QLOG_CORE_GENERICCALLBOOK_H
+#define QLOG_CORE_GENERICCALLBOOK_H
 
 #include <QObject>
 #include <QNetworkReply>
@@ -33,4 +33,4 @@ public slots:
     virtual void abortQuery() = 0;
 
 };
-#endif // GENERICCALLBOOK_H
+#endif // QLOG_CORE_GENERICCALLBOOK_H

@@ -1,5 +1,5 @@
-#ifndef DXCC_H
-#define DXCC_H
+#ifndef QLOG_DATA_DXCC_H
+#define QLOG_DATA_DXCC_H
 
 #include <QtCore>
 
@@ -39,4 +39,4 @@ public:
     double latlon[2];
 };
 
-#endif // DXCC_H
+#endif // QLOG_DATA_DXCC_H

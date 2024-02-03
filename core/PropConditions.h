@@ -1,5 +1,5 @@
-#ifndef PROPCONDITIONS_H
-#define PROPCONDITIONS_H
+#ifndef QLOG_CORE_PROPCONDITIONS_H
+#define QLOG_CORE_PROPCONDITIONS_H
 
 #include <QObject>
 #include <QDateTime>
@@ -107,4 +107,4 @@ private:
     QNetworkAccessManager* nam;
 };
 
-#endif // PROPCONDITIONS_H
+#endif // QLOG_CORE_PROPCONDITIONS_H

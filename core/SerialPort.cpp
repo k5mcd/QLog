@@ -10,7 +10,7 @@ SerialPort::SerialPort(QObject *parent)
 
 }
 
-serial_handshake_e SerialPort::stringToFlowControl(const QString &in_flowcontrol)
+serial_handshake_e SerialPort::stringToHamlibFlowControl(const QString &in_flowcontrol)
 {
     FCT_IDENTIFICATION;
 

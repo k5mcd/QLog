@@ -14,8 +14,8 @@
  * GNU General Public License for more details.
 */
 
-#ifndef STYLE_H
-#define STYLE_H
+#ifndef QLOG_UI_BUTTONSTYLE_H
+#define QLOG_UI_BUTTONSTYLE_H
 
 #include <QtCore/qeasingcurve.h>
 #include <QFont>
@@ -129,5 +129,5 @@ namespace Style {
 
 } // namespace Style
 
-#endif // STYLE_H
+#endif // QLOG_UI_BUTTONSTYLE_H
 

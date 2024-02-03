@@ -1,5 +1,5 @@
-#ifndef JSONFORMAT_H
-#define JSONFORMAT_H
+#ifndef QLOG_LOGFORMAT_JSONFORMAT_H
+#define QLOG_LOGFORMAT_JSONFORMAT_H
 
 #include <QJsonArray>
 #include "AdxFormat.h"
@@ -28,4 +28,4 @@ private:
    QJsonObject contact;
 };
 
-#endif // JSONFORMAT_H
+#endif // QLOG_LOGFORMAT_JSONFORMAT_H

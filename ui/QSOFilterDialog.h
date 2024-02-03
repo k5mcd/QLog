@@ -1,5 +1,5 @@
-#ifndef QSOFILTERDIALOG_H
-#define QSOFILTERDIALOG_H
+#ifndef QLOG_UI_QSOFILTERDIALOG_H
+#define QLOG_UI_QSOFILTERDIALOG_H
 
 #include <QSqlTableModel>
 #include <QDialog>
@@ -28,4 +28,4 @@ public slots:
     void editFilterButton();
 };
 
-#endif // QSOFILTERDIALOG_H
+#endif // QLOG_UI_QSOFILTERDIALOG_H

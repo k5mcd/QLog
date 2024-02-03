@@ -226,7 +226,7 @@ void Rotator::__openRot()
         rot->state.rotport.parm.serial.rate = newRotProfile.baudrate;
         rot->state.rotport.parm.serial.data_bits = newRotProfile.databits;
         rot->state.rotport.parm.serial.stop_bits = newRotProfile.stopbits;
-        rot->state.rotport.parm.serial.handshake = stringToFlowControl(newRotProfile.flowcontrol);
+        rot->state.rotport.parm.serial.handshake = stringToHamlibFlowControl(newRotProfile.flowcontrol);
         rot->state.rotport.parm.serial.parity = stringToParity(newRotProfile.parity);
     }
 

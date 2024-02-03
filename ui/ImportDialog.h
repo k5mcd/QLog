@@ -1,5 +1,5 @@
-#ifndef IMPORTDIALOG_H
-#define IMPORTDIALOG_H
+#ifndef QLOG_UI_IMPORTDIALOG_H
+#define QLOG_UI_IMPORTDIALOG_H
 
 #include <QDialog>
 #include <QSqlRecord>
@@ -45,4 +45,4 @@ private:
                            const unsigned long errors);
 };
 
-#endif // IMPORTDIALOG_H
+#endif // QLOG_UI_IMPORTDIALOG_H

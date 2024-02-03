@@ -1,5 +1,5 @@
-#ifndef CALLSIGN_H
-#define CALLSIGN_H
+#ifndef QLOG_CORE_CALLSIGN_H
+#define QLOG_CORE_CALLSIGN_H
 
 #include <QObject>
 #include <QRegularExpression>
@@ -37,4 +37,4 @@ private:
     bool valid;
 };
 
-#endif // CALLSIGN_H
+#endif // QLOG_CORE_CALLSIGN_H

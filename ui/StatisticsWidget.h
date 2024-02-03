@@ -1,5 +1,5 @@
-#ifndef STATISTICSWIDGET_H
-#define STATISTICSWIDGET_H
+#ifndef QLOG_UI_STATISTICSWIDGET_H
+#define QLOG_UI_STATISTICSWIDGET_H
 
 #include <QWidget>
 #include <QSqlQuery>
@@ -58,4 +58,4 @@ private:
     LogLocale locale;
 };
 
-#endif // STATISTICSWIDGET_H
+#endif // QLOG_UI_STATISTICSWIDGET_H

@@ -1,5 +1,5 @@
-#ifndef AWARDSTABLEMODEL_H
-#define AWARDSTABLEMODEL_H
+#ifndef QLOG_MODELS_AWARDSTABLEMODEL_H
+#define QLOG_MODELS_AWARDSTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QSqlTableModel>
@@ -16,4 +16,4 @@ public:
 private:
 };
 
-#endif // AWARDSTABLEMODEL_H
+#endif // QLOG_MODELS_AWARDSTABLEMODEL_H

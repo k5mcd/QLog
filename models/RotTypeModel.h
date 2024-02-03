@@ -1,5 +1,5 @@
-#ifndef ROTTYPEMODEL_H
-#define ROTTYPEMODEL_H
+#ifndef QLOG_MODELS_ROTTYPEMODEL_H
+#define QLOG_MODELS_ROTTYPEMODEL_H
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -19,4 +19,4 @@ private:
     QMap<QString, int> rotIds;
 };
 
-#endif // RIGTYPEMODEL_H
+#endif // QLOG_MODELS_RIGTYPEMODEL_H

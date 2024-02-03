@@ -1,5 +1,5 @@
-#ifndef QSLIMPORTSTATDIALOG_H
-#define QSLIMPORTSTATDIALOG_H
+#ifndef QLOG_UI_QSLIMPORTSTATDIALOG_H
+#define QLOG_UI_QSLIMPORTSTATDIALOG_H
 
 #include <QDialog>
 #include <logformat/LogFormat.h>
@@ -20,4 +20,4 @@ private:
     Ui::QSLImportStatDialog *ui;
 };
 
-#endif // QSLIMPORTSTATDIALOG_H
+#endif // QLOG_UI_QSLIMPORTSTATDIALOG_H

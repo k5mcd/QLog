@@ -1,5 +1,5 @@
-#ifndef LOOKBOOKWIDGET_H
-#define LOOKBOOKWIDGET_H
+#ifndef QLOG_UI_LOOKBOOKWIDGET_H
+#define QLOG_UI_LOOKBOOKWIDGET_H
 
 #include <QWidget>
 #include <QProxyStyle>
@@ -84,4 +84,4 @@ public:
     }
 };
 
-#endif // LOGBOOKWIDGET_H
+#endif // QLOG_UI_LOGBOOKWIDGET_H

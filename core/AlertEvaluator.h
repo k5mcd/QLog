@@ -1,5 +1,5 @@
-#ifndef ALERTEVALUATOR_H
-#define ALERTEVALUATOR_H
+#ifndef QLOG_CORE_ALERTEVALUATOR_H
+#define QLOG_CORE_ALERTEVALUATOR_H
 
 #include <QObject>
 #include "data/DxSpot.h"
@@ -63,4 +63,4 @@ private:
     QList<AlertRule *>ruleList;
 };
 
-#endif // ALERTEVALUATOR_H
+#endif // QLOG_CORE_ALERTEVALUATOR_H

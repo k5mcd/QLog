@@ -1,5 +1,5 @@
-#ifndef CREDENTIALSTORE_H
-#define CREDENTIALSTORE_H
+#ifndef QLOG_CORE_CREDENTIALSTORE_H
+#define QLOG_CORE_CREDENTIALSTORE_H
 
 #include <QObject>
 #include <QString>
@@ -17,4 +17,4 @@ public:
 
 };
 
-#endif // CREDENTIALSTORE_H
+#endif // QLOG_CORE_CREDENTIALSTORE_H

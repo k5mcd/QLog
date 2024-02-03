@@ -1,5 +1,5 @@
-#ifndef QRZ_H
-#define QRZ_H
+#ifndef QLOG_CORE_QRZ_H
+#define QLOG_CORE_QRZ_H
 
 #include <QObject>
 #include <QString>
@@ -65,4 +65,4 @@ private:
 
 };
 
-#endif // QRZ_H
+#endif // QLOG_CORE_QRZ_H

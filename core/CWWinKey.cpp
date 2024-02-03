@@ -2,7 +2,7 @@
 
 #include "CWWinKey.h"
 #include "core/debug.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 
 /* Based on WinKey v2 Spec: https://k1el.tripod.com/WinkeyUSBman.pdf */
 

@@ -1,5 +1,5 @@
-#ifndef ALERTTABLEMODEL_H
-#define ALERTTABLEMODEL_H
+#ifndef QLOG_MODELS_ALERTTABLEMODEL_H
+#define QLOG_MODELS_ALERTTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <data/SpotAlert.h>
@@ -44,4 +44,4 @@ private:
     QMutex alertListMutex;
 };
 
-#endif // ALERTTABLEMODEL_H
+#endif // QLOG_MODELS_ALERTTABLEMODEL_H

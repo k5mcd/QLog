@@ -1,5 +1,5 @@
-#ifndef DXCCTABLEWIDGET_H
-#define DXCCTABLEWIDGET_H
+#ifndef QLOG_UI_DXCCTABLEWIDGET_H
+#define QLOG_UI_DXCCTABLEWIDGET_H
 
 #include <QWidget>
 #include <QTableView>
@@ -24,4 +24,4 @@ private:
     QStringList headerStrings;
 };
 
-#endif // DXCCTABLEWIDGET_H
+#endif // QLOG_UI_DXCCTABLEWIDGET_H

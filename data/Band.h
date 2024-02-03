@@ -1,5 +1,5 @@
-#ifndef BAND_H
-#define BAND_H
+#ifndef QLOG_DATA_BAND_H
+#define QLOG_DATA_BAND_H
 
 #include <QtCore>
 
@@ -16,4 +16,4 @@ public:
     }
 };
 
-#endif // BAND_H
+#endif // QLOG_DATA_BAND_H

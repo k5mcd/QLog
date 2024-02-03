@@ -7,7 +7,7 @@
 #include "ui_WsjtxWidget.h"
 #include "data/Data.h"
 #include "core/debug.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "data/StationProfile.h"
 #include "ui/ColumnSettingDialog.h"
 #include "ui/WsjtxFilterDialog.h"

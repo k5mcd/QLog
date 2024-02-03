@@ -1,5 +1,5 @@
-#ifndef CSVFORMAT_H
-#define CSVFORMAT_H
+#ifndef QLOG_LOGFORMAT_CSVFORMAT_H
+#define QLOG_LOGFORMAT_CSVFORMAT_H
 
 #include "LogFormat.h"
 #include "logformat/AdxFormat.h"
@@ -32,4 +32,4 @@ private:
     QChar delimiter;
 };
 
-#endif // CSVFORMAT_H
+#endif // QLOG_LOGFORMAT_CSVFORMAT_H

@@ -1,5 +1,5 @@
-#ifndef RIGTYPEMODEL_H
-#define RIGTYPEMODEL_H
+#ifndef QLOG_MODELS_RIGTYPEMODEL_H
+#define QLOG_MODELS_RIGTYPEMODEL_H
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -13,10 +13,11 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
     static int addRig(const struct rig_caps* caps, void* data);
+    void select(int driverID);
 
 private:
     QStringList rigList;
     QMap<QString, int> rigIds;
 };
 
-#endif // RIGTYPEMODEL_H
+#endif // QLOG_MODELS_RIGTYPEMODEL_H

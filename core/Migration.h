@@ -1,5 +1,5 @@
-#ifndef MIGRATION_H
-#define MIGRATION_H
+#ifndef QLOG_CORE_MIGRATION_H
+#define QLOG_CORE_MIGRATION_H
 
 #include <QSqlQuery>
 #include <QObject>
@@ -39,7 +39,7 @@ private:
     bool importQSLCards2DB();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
 
-    static const int latestVersion = 23;
+    static const int latestVersion = 24;
 };
 
-#endif // MIGRATION_H
+#endif // QLOG_CORE_MIGRATION_H

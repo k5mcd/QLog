@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef QLOG_DATA_DATA_H
+#define QLOG_DATA_DATA_H
 
 #include <QtCore>
 #include <QSqlQuery>
@@ -146,4 +146,4 @@ private:
     bool isPOTAQueryValid;
 };
 
-#endif // DATA_H
+#endif // QLOG_DATA_DATA_H

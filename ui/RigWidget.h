@@ -1,8 +1,8 @@
-#ifndef RIGWIDGET_H
-#define RIGWIDGET_H
+#ifndef QLOG_UI_RIGWIDGET_H
+#define QLOG_UI_RIGWIDGET_H
 
 #include <QWidget>
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "core/HRDLog.h"
 
 namespace Ui {
@@ -54,4 +54,4 @@ private:
     HRDLog *hrdlog;
 };
 
-#endif // RIGWIDGET_H
+#endif // QLOG_UI_RIGWIDGET_H

@@ -1,5 +1,5 @@
-#ifndef CWDUMMYKEY_H
-#define CWDUMMYKEY_H
+#ifndef QLOG_CORE_CWDUMMYKEY_H
+#define QLOG_CORE_CWDUMMYKEY_H
 
 #include "CWKey.h"
 
@@ -21,4 +21,4 @@ private:
     bool isUsed;
 };
 
-#endif // CWDUMMYKEY_H
+#endif // QLOG_CORE_CWDUMMYKEY_H

@@ -1,5 +1,5 @@
-﻿#ifndef KSTCHATWIDGET_H
-#define KSTCHATWIDGET_H
+﻿#ifndef QLOG_UI_KSTCHATWIDGET_H
+#define QLOG_UI_KSTCHATWIDGET_H
 
 #include <QWidget>
 #include <QPointer>
@@ -177,4 +177,4 @@ private:
     void setSelectedCallsignInUserList(const QString &);
 };
 
-#endif // KSTCHATWIDGET_H
+#endif // QLOG_UI_KSTCHATWIDGET_H

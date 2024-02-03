@@ -1,5 +1,5 @@
-#ifndef SHOWUPLOADDIALOG_H
-#define SHOWUPLOADDIALOG_H
+#ifndef QLOG_UI_SHOWUPLOADDIALOG_H
+#define QLOG_UI_SHOWUPLOADDIALOG_H
 
 #include <QDialog>
 
@@ -19,4 +19,4 @@ private:
     Ui::ShowUploadDialog *ui;
 };
 
-#endif // SHOWUPLOADDIALOG_H
+#endif // QLOG_UI_SHOWUPLOADDIALOG_H

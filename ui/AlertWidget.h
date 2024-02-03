@@ -1,5 +1,5 @@
-#ifndef ALERTWIDGET_H
-#define ALERTWIDGET_H
+#ifndef QLOG_UI_ALERTWIDGET_H
+#define QLOG_UI_ALERTWIDGET_H
 
 #include <QWidget>
 #include "data/SpotAlert.h"
@@ -40,4 +40,4 @@ private slots:
 
 };
 
-#endif // ALERTWIDGET_H
+#endif // QLOG_UI_ALERTWIDGET_H

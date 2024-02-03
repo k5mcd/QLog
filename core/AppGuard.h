@@ -1,5 +1,5 @@
-#ifndef APPGUARD_H
-#define APPGUARD_H
+#ifndef QLOG_CORE_APPGUARD_H
+#define QLOG_CORE_APPGUARD_H
 
 #include <QObject>
 #include <QSharedMemory>
@@ -27,4 +27,4 @@ private:
     Q_DISABLE_COPY( AppGuard )
 };
 
-#endif // APPGUARD_H
+#endif // QLOG_CORE_APPGUARD_H

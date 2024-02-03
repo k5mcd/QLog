@@ -78,7 +78,6 @@ SOURCES += \
         core/PropConditions.cpp \
         core/QRZ.cpp \
         core/QSLStorage.cpp \
-        core/Rig.cpp \
         core/Rotator.cpp \
         core/SerialPort.cpp \
         core/Wsjtx.cpp \
@@ -109,6 +108,10 @@ SOURCES += \
         models/RotTypeModel.cpp \
         models/SqlListModel.cpp \
         models/WsjtxTableModel.cpp \
+        rig/Rig.cpp \
+        rig/RigCaps.cpp \
+        rig/drivers/GenericDrv.cpp \
+        rig/drivers/HamlibDrv.cpp \
         ui/AlertRuleDetail.cpp \
         ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
@@ -190,7 +193,6 @@ HEADERS += \
         core/PropConditions.h \
         core/QRZ.h \
         core/QSLStorage.h \
-        core/Rig.h \
         core/Rotator.h \
         core/SerialPort.h \
         core/Wsjtx.h \
@@ -231,6 +233,11 @@ HEADERS += \
         models/RotTypeModel.h \
         models/SqlListModel.h \
         models/WsjtxTableModel.h \
+        rig/Rig.h \
+        rig/RigCaps.h \
+        rig/drivers/GenericDrv.h \
+        rig/drivers/HamlibDrv.h \
+        rig/macros.h \
         ui/AlertRuleDetail.h \
         ui/AlertSettingDialog.h \
         ui/AlertWidget.h \
@@ -432,6 +439,22 @@ macx: {
 }
 
 win32: {
+   QT += axcontainer
+   TYPELIBS = $$system($$[QT_INSTALL_BINS]/dumpcpp -getfile {4FE359C5-A58F-459D-BE95-CA559FB4F270})
+   isEmpty(TYPELIBS){
+       error("Omnirig v1 is not found - required")
+   }
+
+   !exists( $$OUT_PWD/OmniRig2.* ) {
+      OMNIRIG2 = $$system($$[QT_INSTALL_BINS]/dumpcpp {959819FF-B57B-468A-9F30-BBA6BE319987} -n OmniRigV2 -o $$OUT_PWD/OmniRig2)
+      isEmpty(OMNIRIG2){
+          error("Omnirig v2 is not found - required")
+      }
+   }
+
+   SOURCES += rig/drivers/OmnirigDrv.cpp rig/drivers/Omnirigv2Drv.cpp OmniRig2.cpp
+   HEADERS += rig/drivers/OmnirigDrv.h rig/drivers/Omnirigv2Drv.h OmniRig2.h
+
    TARGET = qlog
    QMAKE_TARGET_COMPANY = OK1MLG
    QMAKE_TARGET_DESCRIPTION = Hamradio logging

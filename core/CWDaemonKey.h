@@ -1,5 +1,5 @@
-#ifndef CWDAEMONKEY_H
-#define CWDAEMONKEY_H
+#ifndef QLOG_CORE_CWDAEMONKEY_H
+#define QLOG_CORE_CWDAEMONKEY_H
 
 #include <QObject>
 #include "CWKey.h"
@@ -31,4 +31,4 @@ protected:
     const QChar ESCChar;
 };
 
-#endif // CWDAEMONKEY_H
+#endif // QLOG_CORE_CWDAEMONKEY_H

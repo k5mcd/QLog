@@ -1,6 +1,6 @@
 #include "CWCatKey.h"
 #include "core/debug.h"
-#include "Rig.h"
+#include "rig/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.data.cwcatkey");
 
@@ -53,7 +53,7 @@ bool CWCatKey::open()
     /* swith the rig to CW mode ?               */
     /* Maybe Yes - we will see users reaction   */
     /********************************************/
-    Rig::instance()->setMode("CW");
+    Rig::instance()->setMode("CW", QString());
 
     /*******************/
     /* set default WPM */

@@ -1,5 +1,5 @@
-#ifndef MAINLAYOUTPROFILE_H
-#define MAINLAYOUTPROFILE_H
+#ifndef QLOG_DATA_MAINLAYOUTPROFILE_H
+#define QLOG_DATA_MAINLAYOUTPROFILE_H
 
 #include <QString>
 #include <QObject>
@@ -51,4 +51,4 @@ public:
 };
 
 
-#endif // MAINLAYOUTPROFILE_H
+#endif // QLOG_DATA_MAINLAYOUTPROFILE_H

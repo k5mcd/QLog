@@ -1,5 +1,5 @@
-#ifndef EQSL_H
-#define EQSL_H
+#ifndef QLOG_CORE_EQSL_H
+#define QLOG_CORE_EQSL_H
 
 #include <QObject>
 #include <logformat/LogFormat.h>
@@ -54,4 +54,4 @@ private:
 
 };
 
-#endif // EQSL_H
+#endif // QLOG_CORE_EQSL_H

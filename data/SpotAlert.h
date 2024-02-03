@@ -1,5 +1,5 @@
-#ifndef SPOTALERT_H
-#define SPOTALERT_H
+#ifndef QLOG_DATA_SPOTALERT_H
+#define QLOG_DATA_SPOTALERT_H
 
 #include <QString>
 #include <QDateTime>
@@ -42,4 +42,4 @@ struct SpotAlert
 
 Q_DECLARE_METATYPE(SpotAlert::ALERTSOURCETYPE);
 
-#endif // SPOTALERT_H
+#endif // QLOG_DATA_SPOTALERT_H

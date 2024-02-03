@@ -1,5 +1,5 @@
-#ifndef NEWCONTACTWIDGET_H
-#define NEWCONTACTWIDGET_H
+#ifndef QLOG_UI_NEWCONTACTWIDGET_H
+#define QLOG_UI_NEWCONTACTWIDGET_H
 
 #include <QWidget>
 #include <QSqlRecord>
@@ -14,7 +14,7 @@
 #include "data/Data.h"
 #include "core/Gridsquare.h"
 #include "data/DxSpot.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "core/CallbookManager.h"
 #include "data/StationProfile.h"
 #include "core/PropConditions.h"
@@ -305,4 +305,4 @@ private:
 
 };
 
-#endif // NEWCONTACTWIDGET_H
+#endif // QLOG_UI_NEWCONTACTWIDGET_H

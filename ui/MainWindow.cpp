@@ -2,7 +2,6 @@
 #include <QLabel>
 #include <QColor>
 #include <QSpacerItem>
-#include <hamlib/rig.h>
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "ui/SettingsDialog.h"
@@ -10,7 +9,7 @@
 #include "ui/ExportDialog.h"
 #include "ui/LotwDialog.h"
 #include "core/Fldigi.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "core/Rotator.h"
 #include "core/CWKeyer.h"
 #include "core/Wsjtx.h"

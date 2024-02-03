@@ -1,5 +1,5 @@
-#ifndef CLUBLOG_H
-#define CLUBLOG_H
+#ifndef QLOG_CORE_CLUBLOG_H
+#define QLOG_CORE_CLUBLOG_H
 
 #include <QObject>
 #include <QSqlRecord>
@@ -41,4 +41,4 @@ private:
     const static QString CONFIG_CALLSIGN_KEY;
 };
 
-#endif // CLUBLOG_H
+#endif // QLOG_CORE_CLUBLOG_H

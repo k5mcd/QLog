@@ -1,5 +1,5 @@
-#ifndef LOTW_H
-#define LOTW_H
+#ifndef QLOG_CORE_LOTW_H
+#define QLOG_CORE_LOTW_H
 
 #include <QObject>
 #include <QNetworkReply>
@@ -45,4 +45,4 @@ private:
     void get(QList<QPair<QString, QString>> params);
 };
 
-#endif // LOTW_H
+#endif // QLOG_CORE_LOTW_H

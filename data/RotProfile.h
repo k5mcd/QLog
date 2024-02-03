@@ -1,5 +1,5 @@
-#ifndef ROTPROFILE_H
-#define ROTPROFILE_H
+#ifndef QLOG_DATA_ROTPROFILE_H
+#define QLOG_DATA_ROTPROFILE_H
 
 #include <QString>
 #include <QObject>
@@ -61,4 +61,4 @@ public:
 
 };
 
-#endif // ROTPROFILE_H
+#endif // QLOG_DATA_ROTPROFILE_H

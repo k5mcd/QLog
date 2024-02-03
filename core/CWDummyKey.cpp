@@ -1,6 +1,6 @@
 #include "CWDummyKey.h"
 #include "core/debug.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.data.cwdummykey");
 

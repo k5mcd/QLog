@@ -1,5 +1,5 @@
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef QLOG_UI_SETTINGSDIALOG_H
+#define QLOG_UI_SETTINGSDIALOG_H
 
 #include <QDialog>
 #include <QModelIndex>
@@ -18,6 +18,7 @@
 #include "data/CWShortcutProfile.h"
 #include "data/RotUsrButtonsProfile.h"
 #include "core/LogLocale.h"
+#include "rig/Rig.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -44,6 +45,7 @@ public slots:
     void rigTXOffsetChanged(int);
     void rigGetFreqChanged(int);
     void rigPortTypeChanged(int);
+    void rigInterfaceChanged(int);
 
     void addRotProfile();
     void delRotProfile();
@@ -113,7 +115,7 @@ public slots:
 private:
     void readSettings();
     void writeSettings();
-    void setUIBasedOnRigCaps(const struct rig_caps *caps);
+    void setUIBasedOnRigCaps(const RigCaps&);
     void refreshRigAssignedCWKeyCombo();
     void setValidationResultColor(QLineEdit *);
     QString getMemberListComboValue(const QComboBox *);
@@ -140,4 +142,4 @@ private:
     bool wwffFallback;
 };
 
-#endif // SETTINGSDIALOG_H
+#endif // QLOG_UI_SETTINGSDIALOG_H

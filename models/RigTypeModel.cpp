@@ -1,12 +1,10 @@
-#include <hamlib/rig.h>
 #include "RigTypeModel.h"
+#include "rig/Rig.h"
 
 RigTypeModel::RigTypeModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    rig_load_all_backends();
-    rig_list_foreach(addRig, this);
-    rigList.sort();
+
 }
 
 int RigTypeModel::rowCount(const QModelIndex&) const {
@@ -37,11 +35,22 @@ QModelIndex RigTypeModel::index(int row, int column, const QModelIndex& parent) 
         return QModelIndex();
 }
 
-int RigTypeModel::addRig(const struct rig_caps* caps, void* data)
+void RigTypeModel::select(int driverID)
 {
-    RigTypeModel* rigTypeModel = static_cast<RigTypeModel*>(data);
-    QString name = QString("%1 %2 (%3)").arg(caps->mfg_name, caps->model_name, caps->version);
-    rigTypeModel->rigList.append(name);
-    rigTypeModel->rigIds[name] = caps->rig_model;
-    return -1;
+    beginResetModel();
+    rigIds.clear();
+    rigList.clear();
+
+    if ( driverID == 0 )
+        return;
+
+    const QList<QPair<int, QString>> models = Rig::instance()->getModelList(static_cast<Rig::DriverID>(driverID));
+    for ( const QPair<int, QString> &model : models )
+    {
+        const QString &name = model.second;
+        rigIds[name] = model.first;
+        rigList.append(name);
+    }
+    rigList.sort();
+    endResetModel();
 }

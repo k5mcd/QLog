@@ -8,7 +8,7 @@
 #include <QTimeZone>
 #include <QKeyEvent>
 
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "core/Rotator.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"

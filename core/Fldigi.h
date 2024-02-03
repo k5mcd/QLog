@@ -1,5 +1,5 @@
-#ifndef FLDIGI_H
-#define FLDIGI_H
+#ifndef QLOG_CORE_FLDIGI_H
+#define QLOG_CORE_FLDIGI_H
 
 #include <QTcpServer>
 #include <QSqlRecord>
@@ -28,4 +28,4 @@ private:
     void incomingConnection(qintptr socket) override;
 };
 
-#endif // FLDIGI_H
+#endif // QLOG_CORE_FLDIGI_H

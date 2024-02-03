@@ -5,7 +5,7 @@
 
 #include "RigWidget.h"
 #include "ui_RigWidget.h"
-#include "core/Rig.h"
+#include "rig/macros.h"
 #include "core/debug.h"
 #include "models/SqlListModel.h"
 #include "data/Data.h"
@@ -222,7 +222,7 @@ void RigWidget::modeComboChanged(const QString &newMode)
 {
     FCT_IDENTIFICATION;
 
-    Rig::instance()->setMode(newMode);
+    Rig::instance()->setRawMode(newMode);
 }
 
 void RigWidget::rigProfileComboChanged(const QString &profileName)
@@ -296,7 +296,7 @@ void RigWidget::refreshModeCombo()
 
     ui->modeComboBox->blockSignals(true);
     QStringListModel* model = dynamic_cast<QStringListModel*>(ui->modeComboBox->model());
-    model->setStringList(Rig::instance()->getAvailableModes());
+    model->setStringList(Rig::instance()->getAvailableRawModes());
     ui->modeComboBox->setCurrentText(currSelection);
     ui->modeComboBox->blockSignals(false);
 }
@@ -318,6 +318,7 @@ void RigWidget::rigConnected()
     rigOnline = true;
     ui->bandComboBox->setEnabled(true);
     ui->modeComboBox->setEnabled(true);
+    refreshModeCombo();
 }
 
 void RigWidget::rigDisconnected()
@@ -346,7 +347,7 @@ void RigWidget::resetRigInfo()
 {
     QString empty;
 
-    updateMode(VFO1, empty, empty, empty, RIG_PASSBAND_NORMAL);
+    updateMode(VFO1, empty, empty, empty, 0);
     ui->pwrLabel->setText(QString(""));
     updateVFO(VFO1, empty);
     updateFrequency(VFO1, 0, 0, 0);

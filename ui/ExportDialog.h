@@ -1,5 +1,5 @@
-#ifndef EXPORTDIALOG_H
-#define EXPORTDIALOG_H
+#ifndef QLOG_UI_EXPORTDIALOG_H
+#define QLOG_UI_EXPORTDIALOG_H
 
 #include <QDialog>
 #include <QSqlRecord>
@@ -69,4 +69,4 @@ private:
     bool markQSOAsSent(LogFormat *format);
 };
 
-#endif // EXPORTDIALOG_H
+#endif // QLOG_UI_EXPORTDIALOG_H

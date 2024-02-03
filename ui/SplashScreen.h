@@ -1,5 +1,5 @@
-#ifndef SPLASHSCREEN_H
-#define SPLASHSCREEN_H
+#ifndef QLOG_UI_SPLASHSCREEN_H
+#define QLOG_UI_SPLASHSCREEN_H
 
 #include <QSplashScreen>
 #include <QThread>
@@ -30,4 +30,4 @@ public:
     }
 };
 
-#endif // SPLASHSCREEN_H
+#endif // QLOG_UI_SPLASHSCREEN_H

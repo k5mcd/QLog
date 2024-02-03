@@ -1,5 +1,5 @@
-#ifndef WWVSPOT_H
-#define WWVSPOT_H
+#ifndef QLOG_DATA_WWVSPOT_H
+#define QLOG_DATA_WWVSPOT_H
 
 #include <QtCore>
 
@@ -13,4 +13,4 @@ public:
     QString info2;
 };
 
-#endif // WWVSPOT_H
+#endif // QLOG_DATA_WWVSPOT_H

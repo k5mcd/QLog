@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef QLOG_UI_MAINWINDOW_H
+#define QLOG_UI_MAINWINDOW_H
 
 #include <QMainWindow>
 #include "ui/StatisticsWidget.h"
@@ -99,4 +99,4 @@ private:
     void setupLayoutMenu();
 };
 
-#endif // MAINWINDOW_H
+#endif // QLOG_UI_MAINWINDOW_H

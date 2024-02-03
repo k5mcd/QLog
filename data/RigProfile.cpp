@@ -5,6 +5,7 @@
 #include "RigProfile.h"
 #include "core/debug.h"
 #include "data/ProfileManager.h"
+#include "rig/Rig.h"
 
 MODULE_IDENTIFICATION("qlog.data.rigprofile");
 
@@ -18,7 +19,7 @@ QDataStream& operator<<(QDataStream& out, const RigProfile& v)
         << v.getVFOInfo << v.getPWRInfo << v.ritOffset
         << v.xitOffset << v.getRITInfo << v.getXITInfo
         << v.defaultPWR << v.getPTTInfo << v.QSYWiping
-        << v.getKeySpeed << v.assignedCWKey << v.keySpeedSync;
+        << v.getKeySpeed << v.assignedCWKey << v.keySpeedSync << v.driver;
 
     return out;
 }
@@ -52,6 +53,7 @@ QDataStream& operator>>(QDataStream& in, RigProfile& v)
     in >> v.getKeySpeed;
     in >> v.assignedCWKey;
     in >> v.keySpeedSync;
+    in >> v.driver;
 
     return in;
 }
@@ -70,7 +72,8 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
                                 "netport, baudrate, databits, stopbits, flowcontrol, parity, "
                                 "pollinterval, txfreq_start, txfreq_end, get_freq, get_mode, "
                                 "get_vfo, get_pwr, rit_offset, xit_offset, get_rit, get_xit, "
-                                "default_pwr, get_ptt, qsy_wiping, get_key_speed, assigned_cw_key, key_speed_sync "
+                                "default_pwr, get_ptt, qsy_wiping, get_key_speed, assigned_cw_key, "
+                                "key_speed_sync, driver "
                                 "FROM rig_profiles") )
     {
         qWarning()<< "Cannot prepare select";
@@ -108,6 +111,7 @@ RigProfilesManager::RigProfilesManager(QObject *parent) :
             profileDB.getKeySpeed = profileQuery.value(24).toBool();
             profileDB.assignedCWKey = profileQuery.value(25).toString();
             profileDB.keySpeedSync = profileQuery.value(26).toBool();
+            profileDB.driver = profileQuery.value(27).toInt();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -142,11 +146,13 @@ void RigProfilesManager::save()
     if ( ! insertQuery.prepare("INSERT INTO rig_profiles(profile_name, model, port_pathname, hostname, netport, "
                                "baudrate, databits, stopbits, flowcontrol, parity, pollinterval, txfreq_start, "
                                "txfreq_end, get_freq, get_mode, get_vfo, get_pwr, rit_offset, xit_offset, get_rit, "
-                               "get_xit, default_pwr, get_ptt, qsy_wiping, get_key_speed, assigned_cw_key, key_speed_sync ) "
+                               "get_xit, default_pwr, get_ptt, qsy_wiping, get_key_speed, assigned_cw_key, key_speed_sync, "
+                               "driver ) "
                         "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, "
                                ":baudrate, :databits, :stopbits, :flowcontrol, :parity, :pollinterval, :txfreq_start, "
                                ":txfreq_end, :get_freq, :get_mode, :get_vfo, :get_pwr, :rit_offset, :xit_offset, :get_rit, "
-                               ":get_xit, :default_pwr, :get_ptt, :qsy_wiping, :get_key_speed, :assigned_cw_key, :key_speed_sync)") )
+                               ":get_xit, :default_pwr, :get_ptt, :qsy_wiping, :get_key_speed, :assigned_cw_key, :key_speed_sync, "
+                               ":driver)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -186,6 +192,7 @@ void RigProfilesManager::save()
             insertQuery.bindValue(":get_key_speed", rigProfile.getKeySpeed);
             insertQuery.bindValue(":assigned_cw_key", rigProfile.assignedCWKey);
             insertQuery.bindValue(":key_speed_sync", rigProfile.keySpeedSync);
+            insertQuery.bindValue(":driver", rigProfile.driver);
 
             if ( ! insertQuery.exec() )
             {
@@ -230,6 +237,7 @@ bool RigProfile::operator==(const RigProfile &profile)
             && profile.getKeySpeed == this->getKeySpeed
             && profile.assignedCWKey == this->assignedCWKey
             && profile.keySpeedSync == this->keySpeedSync
+            && profile.driver == this->driver
             );
 }
 
@@ -248,6 +256,10 @@ QString RigProfile::toHTMLString() const
 RigProfile::rigPortType RigProfile::getPortType() const
 {
     FCT_IDENTIFICATION;
+
+    if ( driver == Rig::OMNIRIG_DRIVER
+        || driver == Rig::OMNIRIGV2_DRIVER )
+        return RigProfile::SPECIAL_OMNIRIG_ATTACHED;
 
     if ( !hostname.isEmpty()
          && portPath.isEmpty() )

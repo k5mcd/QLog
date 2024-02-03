@@ -1,5 +1,5 @@
-#ifndef WWFFENTITY_H
-#define WWFFENTITY_H
+#ifndef QLOG_DATA_WWFFENTITY_H
+#define QLOG_DATA_WWFFENTITY_H
 
 #include <QtCore>
 
@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif // WWFFENTITY_H
+#endif // QLOG_DATA_WWFFENTITY_H

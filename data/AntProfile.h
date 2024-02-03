@@ -1,5 +1,5 @@
-#ifndef ANTPROFILE_H
-#define ANTPROFILE_H
+#ifndef QLOG_DATA_ANTPROFILE_H
+#define QLOG_DATA_ANTPROFILE_H
 
 #include <QString>
 #include <QObject>
@@ -44,4 +44,4 @@ public:
 };
 
 
-#endif // ANTPROFILE_H
+#endif // QLOG_DATA_ANTPROFILE_H

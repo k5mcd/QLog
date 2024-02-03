@@ -1,5 +1,5 @@
-#ifndef DXCCTABLEMODEL_H
-#define DXCCTABLEMODEL_H
+#ifndef QLOG_MODELS_DXCCTABLEMODEL_H
+#define QLOG_MODELS_DXCCTABLEMODEL_H
 
 #include <QObject>
 #include <QSqlTableModel>
@@ -12,4 +12,4 @@ public:
     QVariant data(const QModelIndex &, int role = Qt::DisplayRole) const;
 };
 
-#endif // DXCCTABLEMODEL_H
+#endif // QLOG_MODELS_DXCCTABLEMODEL_H

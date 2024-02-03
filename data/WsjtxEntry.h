@@ -1,5 +1,5 @@
-#ifndef WSJTXENTRY_H
-#define WSJTXENTRY_H
+#ifndef QLOG_DATA_WSJTXENTRY_H
+#define QLOG_DATA_WSJTXENTRY_H
 
 #include "core/Wsjtx.h"
 #include "data/Data.h"
@@ -42,4 +42,4 @@ struct WsjtxEntry {
     }
 };
 
-#endif // WSJTXENTRY_H
+#endif // QLOG_DATA_WSJTXENTRY_H

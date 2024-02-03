@@ -1,5 +1,5 @@
-#ifndef AWARDSDIALOG_H
-#define AWARDSDIALOG_H
+#ifndef QLOG_UI_AWARDSDIALOG_H
+#define QLOG_UI_AWARDSDIALOG_H
 
 #include <QDialog>
 #include <QSqlQueryModel>
@@ -34,4 +34,4 @@ private:
     QString getSelectedAward();
 };
 
-#endif // AWARDSDIALOG_H
+#endif // QLOG_UI_AWARDSDIALOG_H

@@ -1,10 +1,10 @@
-#ifndef CWCATKEY_H
-#define CWCATKEY_H
+#ifndef QLOG_CORE_CWCATKEY_H
+#define QLOG_CORE_CWCATKEY_H
 
 #include <QObject>
 #include <QMutex>
 #include "CWKey.h"
-#include "Rig.h"
+#include "rig/Rig.h"
 
 class CWCatKey : public CWKey
 {
@@ -36,4 +36,4 @@ private slots:
     void rigKeySpeedChanged(VFOID, unsigned int);
 };
 
-#endif // CWCATKEY_H
+#endif // QLOG_CORE_CWCATKEY_H

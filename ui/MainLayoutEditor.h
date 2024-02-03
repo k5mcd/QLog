@@ -1,5 +1,5 @@
-#ifndef MAINLAYOUTEDITOR_H
-#define MAINLAYOUTEDITOR_H
+#ifndef QLOG_UI_MAINLAYOUTEDITOR_H
+#define QLOG_UI_MAINLAYOUTEDITOR_H
 
 #include <QDialog>
 #include <QPointer>
@@ -110,4 +110,4 @@ private:
     const QString statusUnSavedText = tr("Unsaved");
 };
 
-#endif // MAINLAYOUTEDITOR_H
+#endif // QLOG_UI_MAINLAYOUTEDITOR_H

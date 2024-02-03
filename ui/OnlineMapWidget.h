@@ -1,5 +1,5 @@
-#ifndef ONLINEMAPWIDGET_H
-#define ONLINEMAPWIDGET_H
+#ifndef QLOG_UI_ONLINEMAPWIDGET_H
+#define QLOG_UI_ONLINEMAPWIDGET_H
 
 #include <QWidget>
 #include <QWebEngineView>
@@ -7,7 +7,7 @@
 #include "ui/MapWebChannelHandler.h"
 #include "core/PropConditions.h"
 #include "ui/WebEnginePage.h"
-#include "core/Rig.h"
+#include "rig/Rig.h"
 #include "ui/NewContactWidget.h"
 #include "core/KSTChat.h"
 
@@ -61,4 +61,4 @@ private:
     void runJavaScript(QString &);
 };
 
-#endif // ONLINEMAPWIDGET_H
+#endif // QLOG_UI_ONLINEMAPWIDGET_H

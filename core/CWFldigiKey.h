@@ -1,5 +1,5 @@
-#ifndef CWFLDIGIKEY_H
-#define CWFLDIGIKEY_H
+#ifndef QLOG_CORE_CWFLDIGIKEY_H
+#define QLOG_CORE_CWFLDIGIKEY_H
 
 #include <QObject>
 #include <QNetworkAccessManager>
@@ -43,4 +43,4 @@ private slots:
     void getEcho();
 };
 
-#endif // CWFLDIGIKEY_H
+#endif // QLOG_CORE_CWFLDIGIKEY_H

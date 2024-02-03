@@ -1,5 +1,5 @@
-#ifndef BANDPLAN_H
-#define BANDPLAN_H
+#ifndef QLOG_DATA_BANDPLAN_H
+#define QLOG_DATA_BANDPLAN_H
 
 #include <QtCore>
 #include "Band.h"
@@ -34,4 +34,4 @@ public:
     BandPlan();
 };
 
-#endif // BANDPLAN_H
+#endif // QLOG_DATA_BANDPLAN_H

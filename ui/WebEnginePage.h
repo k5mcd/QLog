@@ -1,5 +1,5 @@
-#ifndef WEBENGINEPAGE_H
-#define WEBENGINEPAGE_H
+#ifndef QLOG_UI_WEBENGINEPAGE_H
+#define QLOG_UI_WEBENGINEPAGE_H
 
 #include <QWebEnginePage>
 
@@ -15,4 +15,4 @@ protected:
                                   const QString &sourceID) override;
 };
 
-#endif // WEBENGINEPAGE_H
+#endif // QLOG_UI_WEBENGINEPAGE_H

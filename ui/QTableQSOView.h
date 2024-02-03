@@ -1,5 +1,5 @@
-#ifndef QTABLEQSOVIEW_H
-#define QTABLEQSOVIEW_H
+#ifndef QLOG_UI_QTABLEQSOVIEW_H
+#define QLOG_UI_QTABLEQSOVIEW_H
 
 #include <QTableView>
 #include <QObject>
@@ -17,4 +17,4 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
 };
 
-#endif // QTABLEQSOVIEW_H
+#endif // QLOG_UI_QTABLEQSOVIEW_H

@@ -1,5 +1,5 @@
-#ifndef CWSHORTCUTPROFILE_H
-#define CWSHORTCUTPROFILE_H
+#ifndef QLOG_DATA_CWSHORTCUTPROFILE_H
+#define QLOG_DATA_CWSHORTCUTPROFILE_H
 
 #include <QString>
 #include <QObject>
@@ -46,4 +46,4 @@ public:
 
 };
 
-#endif // CWSHORTCUTPROFILE_H
+#endif // QLOG_DATA_CWSHORTCUTPROFILE_H

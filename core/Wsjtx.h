@@ -1,5 +1,5 @@
-#ifndef WSJTX_H
-#define WSJTX_H
+#ifndef QLOG_CORE_WSJTX_H
+#define QLOG_CORE_WSJTX_H
 
 #include <QObject>
 #include <QDateTime>
@@ -166,4 +166,4 @@ private:
     void forwardDatagram(const QNetworkDatagram &);
 };
 
-#endif // WSJTX_H
+#endif // QLOG_CORE_WSJTX_H
