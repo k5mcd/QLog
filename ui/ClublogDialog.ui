@@ -23,7 +23,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="clearReuploadLabel">
         <property name="text">
-         <string>Clear Clublog log before Upload</string>
+         <string>Clear Clublog and reupload QSOs</string>
         </property>
        </widget>
       </item>
