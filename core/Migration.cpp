@@ -24,9 +24,8 @@ bool Migration::run() {
     if (currentVersion == latestVersion) {
         qCDebug(runtime) << "Database schema already up to date";
         updateExternalResource();
-        //TODO Remove it !!!
         // temporarily added to create a trigger without calling db migration
-        refreshUploadStatusTrigger();
+        //refreshUploadStatusTrigger();
         return true;
     }
     else if (currentVersion < latestVersion) {
