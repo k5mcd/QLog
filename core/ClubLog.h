@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSqlRecord>
 #include <QSqlQuery>
+#include <QHash>
 
 class QNetworkReply;
 class QNetworkAccessManager;
@@ -55,6 +56,7 @@ private:
     const QString generateUploadCallsign(const QSqlRecord &record) const;
     QSqlRecord stripRecord(const QSqlRecord&);
     QSqlQuery query_updateRT;
+    QHash<unsigned long long, QSqlRecord> RTupdatesInProgress;
 
     const static QString SECURE_STORAGE_KEY;
     const static QString CONFIG_EMAIL_KEY;

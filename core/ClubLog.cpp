@@ -116,6 +116,8 @@ void ClubLog::sendRealtimeRequest(const OnlineCommand command,
 {
     FCT_IDENTIFICATION;
 
+    static QRegularExpression rx("[a-zA-Z]");
+
     qCDebug(function_parameters) << command << uploadCallsign;// << record;
 
     if ( !isUploadImmediatelyEnabled() )
@@ -132,28 +134,28 @@ void ClubLog::sendRealtimeRequest(const OnlineCommand command,
          || password.isEmpty() )
         return;
 
+    QUrl url;
     QUrlQuery query;
     query.addQueryItem("email", email);
     query.addQueryItem("callsign", uploadCallsign);
     query.addQueryItem("password", password);
     query.addQueryItem("api", API_KEY);
 
-    QByteArray data;
-    QTextStream stream(&data, QIODevice::ReadWrite);
-    AdiFormat adi(stream);
-    adi.exportContact(record);
-    stream.flush();
-    data.replace("\n", " ");
-    QUrl url;
-    static QRegularExpression rx("[a-zA-Z]");
-
     switch (command)
     {
     case ClubLog::INSERT_QSO:
-    case ClubLog::UPDATE_QSO:
+    {
         url.setUrl(API_LIVE_UPLOAD_URL);
+        QByteArray data;
+        QTextStream stream(&data, QIODevice::ReadWrite);
+        AdiFormat adi(stream);
+        adi.exportContact(record);
+        stream.flush();
+        data.replace("\n", " ");
         query.addQueryItem("adif", data);
+    }
         break;
+    case ClubLog::UPDATE_QSO:
     case ClubLog::DELETE_QSO:
         url.setUrl(API_LIVE_DELETE_URL);
         query.addQueryItem("dxcall", record.value("callsign").toByteArray());
@@ -170,10 +172,25 @@ void ClubLog::sendRealtimeRequest(const OnlineCommand command,
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     QNetworkReply *currentReply = nam->post(request, query.query(QUrl::FullyEncoded).toUtf8());
-    currentReply->setProperty("messageType", ( command == ClubLog::DELETE_QSO ) ? QVariant("realtimeDelete")
-                                                                                : QVariant("realtimeUpdate"));
+
+    QVariant messageType;
+    switch ( command )
+    {
+    case ClubLog::INSERT_QSO:
+        messageType = "realtimeInsert";
+        currentReply->setProperty("dxcall", record.value("callsign"));
+        break;
+    case ClubLog::UPDATE_QSO:
+        messageType = "realtimeUpdate";
+        RTupdatesInProgress.insert(record.value("id").toULongLong(), record);
+        break;
+    case ClubLog::DELETE_QSO:
+        messageType = "realtimeDelete";
+        break;
+    }
+
     currentReply->setProperty("contactID", record.value("id"));
-    currentReply->setProperty("dxcall", record.value("callsign"));
+    currentReply->setProperty("messageType", messageType);
     currentReply->setProperty("uploadCallsign", uploadCallsign);
     activeReplies << currentReply;
 }
@@ -280,9 +297,9 @@ void ClubLog::processReply(QNetworkReply* reply)
         emit uploadFileOK("OK");
     }
     /******************/
-    /* realtimeUpdate */
+    /* realtimeInsert */
     /******************/
-    else if ( messageType == "realtimeUpdate" )
+    else if ( messageType == "realtimeInsert" )
     {
         query_updateRT.bindValue(":id", reply->property("contactID"));
         query_updateRT.bindValue(":callsign", reply->property("dxcall")); //to be sure that the QSO with the ID is still the same sa before sending
@@ -293,6 +310,24 @@ void ClubLog::processReply(QNetworkReply* reply)
         else
         {
             emit QSOUploaded();
+        }
+    }
+    /******************/
+    /* realtimeUpdate */
+    /******************/
+    else if ( messageType == "realtimeUpdate")
+    {
+        QSqlRecord insertRecord = RTupdatesInProgress.take(reply->property("contactID").toULongLong());
+
+        if ( insertRecord != QSqlRecord() )
+        {
+            sendRealtimeRequest(ClubLog::INSERT_QSO,
+                                insertRecord,
+                                reply->property("uploadCallsign").toString());
+        }
+        else
+        {
+            qWarning() << "Cannot find record for update in Update In-Progress Table";
         }
     }
     /******************/
@@ -329,6 +364,7 @@ void ClubLog::abortRequest()
             i.remove();
         }
     }
+    RTupdatesInProgress.clear();
 }
 
 void ClubLog::insertQSOImmediately(const QSqlRecord &record)
