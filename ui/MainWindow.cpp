@@ -13,7 +13,6 @@
 #include "core/Rotator.h"
 #include "core/CWKeyer.h"
 #include "core/Wsjtx.h"
-#include "core/ClubLog.h"
 #include "data/Data.h"
 #include "core/debug.h"
 #include "ui/NewContactWidget.h"
@@ -39,7 +38,8 @@ MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     stats(new StatisticsWidget),
-    alertWidget(new AlertWidget)
+    alertWidget(new AlertWidget),
+    clublogRT(new ClubLog(this))
 {
     FCT_IDENTIFICATION;
 
@@ -163,20 +163,20 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(this, &MainWindow::altBackslash, Rig::instance(), &Rig::setPTT);
     connect(this, &MainWindow::manualMode, ui->newContactWidget, &NewContactWidget::setManualMode);
 
-    //ClubLog* clublog = new ClubLog(this);
-
     connect(ui->logbookWidget, &LogbookWidget::logbookUpdated, stats, &StatisticsWidget::refreshGraph);
     connect(ui->logbookWidget, &LogbookWidget::contactUpdated, &networknotification, &NetworkNotification::QSOUpdated);
+    connect(ui->logbookWidget, &LogbookWidget::clublogContactUpdated, clublogRT, &ClubLog::updateQSOImmediately);
     connect(ui->logbookWidget, &LogbookWidget::contactDeleted, &networknotification, &NetworkNotification::QSODeleted);
+    connect(ui->logbookWidget, &LogbookWidget::clublogContactDeleted, clublogRT, &ClubLog::deleteQSOImmediately);
 
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, ui->logbookWidget, &LogbookWidget::updateTable);
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, &networknotification, &NetworkNotification::QSOInserted);
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, ui->bandmapWidget, &BandmapWidget::spotsDxccStatusRecal);
     connect(ui->newContactWidget, &NewContactWidget::contactAdded, ui->dxWidget, &DxWidget::setLastQSO);
+    connect(ui->newContactWidget, &NewContactWidget::contactAdded, clublogRT, &ClubLog::insertQSOImmediately);
 
     connect(ui->newContactWidget, &NewContactWidget::newTarget, ui->mapWidget, &MapWidget::setTarget);
     connect(ui->newContactWidget, &NewContactWidget::newTarget, ui->onlineMapWidget, &OnlineMapWidget::setTarget);
-    //connect(ui->newContactWidget, &NewContactWidget::contactAdded, clublog, &ClubLog::uploadContact);
     connect(ui->newContactWidget, &NewContactWidget::filterCallsign, ui->logbookWidget, &LogbookWidget::filterCallsign);
     connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->bandmapWidget, &BandmapWidget::updateTunedFrequency);
     connect(ui->newContactWidget, &NewContactWidget::userFrequencyChanged, ui->onlineMapWidget, &OnlineMapWidget::setIBPBand);
@@ -223,6 +223,14 @@ MainWindow::MainWindow(QWidget* parent) :
 
     ui->onlineMapWidget->assignPropConditions(conditions);
     ui->newContactWidget->assignPropConditions(conditions);
+
+    connect(clublogRT, &ClubLog::uploadError, this, [this](const QString &msg)
+    {
+        qCInfo(runtime) << "Clublog RT Upload Error: " << msg;
+        QMessageBox::warning(this, tr("Clublog Immediately Upload Error"), msg);
+    });
+
+    connect(clublogRT, &ClubLog::QSOUploaded, ui->logbookWidget, &LogbookWidget::updateTable);
 
     if ( StationProfilesManager::instance()->profileNameList().isEmpty() )
     {
@@ -959,5 +967,6 @@ MainWindow::~MainWindow() {
     callsignLabel->deleteLater();
     locatorLabel->deleteLater();
     QSqlDatabase::database().close();
+    clublogRT->deleteLater();
     delete ui;
 }

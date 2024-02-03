@@ -3082,23 +3082,13 @@
             <widget class="QLineEdit" name="clublogEmailEdit"/>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="clublogCallsignLabel">
-             <property name="text">
-              <string>Callsign</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="clublogCallsignEdit"/>
-           </item>
-           <item row="3" column="0">
             <widget class="QLabel" name="clublogPasswordLabel">
              <property name="text">
               <string>Password</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="2" column="1">
             <widget class="QLineEdit" name="clublogPasswordEdit">
              <property name="echoMode">
               <enum>QLineEdit::Password</enum>
@@ -3117,6 +3107,26 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="clublogUploadImmediatelyCheckbox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>QSOs are uploaded immediately after saving</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="clublogUploadImmediatelyLabel">
+             <property name="text">
+              <string>Immediately Upload</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -3961,7 +3971,6 @@
   <tabstop>webLookupURLEdit</tabstop>
   <tabstop>webLookupURLTestButton</tabstop>
   <tabstop>clublogEmailEdit</tabstop>
-  <tabstop>clublogCallsignEdit</tabstop>
   <tabstop>clublogPasswordEdit</tabstop>
   <tabstop>eqslUsernameEdit</tabstop>
   <tabstop>eqslPasswordEdit</tabstop>
@@ -4890,6 +4899,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>clublogPasswordEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>clublogSettingChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>443</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>390</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clublogEmailEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>clublogSettingChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>443</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>390</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -4949,5 +4990,6 @@
   <slot>rotPortTypeChanged(int)</slot>
   <slot>hrdlogSettingChanged()</slot>
   <slot>rigInterfaceChanged(int)</slot>
+  <slot>clublogSettingChanged()</slot>
  </slots>
 </ui>

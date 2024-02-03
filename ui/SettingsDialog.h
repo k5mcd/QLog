@@ -111,6 +111,7 @@ public slots:
     void joinMulticastChanged(int);
     void adjustWSJTXMulticastAddrTextColor();
     void hrdlogSettingChanged();
+    void clublogSettingChanged();
 
 private:
     void readSettings();

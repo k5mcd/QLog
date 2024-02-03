@@ -6,11 +6,13 @@
 
 #include "ClublogDialog.h"
 #include "ui_ClublogDialog.h"
+#include "core/ClubLog.h"
 #include "core/debug.h"
 #include "core/ClubLog.h"
 #include "models/SqlListModel.h"
 #include "logformat/AdiFormat.h"
 #include "ui/ShowUploadDialog.h"
+#include "data/StationProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.clublogdialog");
 
@@ -56,18 +58,15 @@ void ClublogDialog::upload()
         qslUploadStatuses << "'N'";
     }
 
+    if ( ui->clearReuploadCheckbox->isChecked() )
+    {
+        //reupload all QSOs (except N)
+        qslUploadStatuses << "'Y'";
+    }
+
     /* https://clublog.freshdesk.com/support/solutions/articles/54905-how-to-upload-logs-directly-into-club-log */
     /* https://clublog.freshdesk.com/support/solutions/articles/53202-which-adif-fields-does-club-log-use- */
-    QString query_string = "SELECT start_time, "
-                           "       qsl_rdate, qsl_sdate, "
-                           "       callsign, operator, "
-                           "       mode, band, band_rx, freq, "
-                           "       qsl_rcvd, lotw_qsl_rcvd, "
-                           "       qsl_sent, dxcc, "
-                           "       prop_mode, credit_granted, "
-                           "       rst_sent, rst_rcvd, notes, "
-                           "       gridsquare, vucc_grids, sat_name ";
-    QString query_from   = "FROM contacts ";
+    QString query_string = QString("SELECT %1 FROM contacts ").arg(ClubLog::supportedDBFields.join(" , "));
     QString query_where =  QString("WHERE (upper(clublog_qso_upload_status) in (%1) OR clublog_qso_upload_status is NULL) ").arg(qslUploadStatuses.join(","));
     QString query_order = " ORDER BY start_time ";
 
@@ -83,7 +82,7 @@ void ClublogDialog::upload()
         query_where.append(" AND my_gridsquare = '" + ui->myGridCombo->currentText() + "'");
     }
 
-    query_string = query_string + query_from + query_where + query_order;
+    query_string = query_string  + query_where + query_order;
 
     qCDebug(runtime) << query_string;
 
@@ -93,7 +92,7 @@ void ClublogDialog::upload()
 
     while (query.next())
     {
-        QSqlRecord record = query.record();
+        const QSqlRecord &record = query.record();
 
         QSOList.append(" "
                        + record.value("start_time").toDateTime().toTimeSpec(Qt::UTC).toString(locale.formatDateTimeShortWithYYYY())
@@ -121,7 +120,7 @@ void ClublogDialog::upload()
 
             ClubLog *clublog = new ClubLog(dialog);
 
-            connect(clublog, &ClubLog::uploadOK, this, [this, dialog, query_where, count, clublog](const QString &msg)
+            connect(clublog, &ClubLog::uploadFileOK, this, [this, dialog, query_where, count, clublog](const QString &msg)
             {
                 dialog->done(QDialog::Accepted);
                 qCDebug(runtime) << "Clublog Upload OK: " << msg;
@@ -152,7 +151,9 @@ void ClublogDialog::upload()
                 clublog->deleteLater();
             });
 
-            clublog->uploadAdif(data);
+            clublog->uploadAdif(data,
+                                ui->myCallsignCombo->currentText(),
+                                ui->clearReuploadCheckbox->isChecked());
         }
     }
     else
@@ -179,6 +180,7 @@ void ClublogDialog::saveDialogState()
 
     settings.setValue("clublog/last_mycallsign", ui->myCallsignCombo->currentText());
     settings.setValue("clublog/last_mygrid", ui->myGridCombo->currentText());
+    //reupload will not be saved becasue it will be used only in exceptional cases - one-time selection
 }
 
 void ClublogDialog::loadDialogState()
@@ -187,7 +189,20 @@ void ClublogDialog::loadDialogState()
 
     QSettings settings;
 
-    ui->myCallsignCombo->setCurrentText(settings.value("clublog/last_mycallsign").toString());
-    ui->myGridCombo->setCurrentText(settings.value("clublog/last_mygrid").toString());
+    const StationProfile &profile = StationProfilesManager::instance()->getCurProfile1();
 
+    int index = ui->myCallsignCombo->findText(profile.callsign);
+    if ( index >= 0 )
+        ui->myCallsignCombo->setCurrentIndex(index);
+    else
+        ui->myCallsignCombo->setCurrentText(settings.value("clublog/last_mycallsign").toString());
+
+    index = ui->myGridCombo->findText(profile.locator);
+
+    if ( index >= 0 )
+        ui->myGridCombo->setCurrentIndex(index);
+    else
+        ui->myGridCombo->setCurrentText(settings.value("clublog/last_mygrid").toString());
+
+    //reupload will not be loaded becasue it will be used only in exceptional cases - one-time selection
 }

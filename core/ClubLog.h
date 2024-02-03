@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSqlRecord>
+#include <QSqlQuery>
 
 class QNetworkReply;
 class QNetworkAccessManager;
@@ -11,34 +12,53 @@ class ClubLog : public QObject
 {
     Q_OBJECT
 public:
+    enum OnlineCommand
+    {
+      INSERT_QSO,
+      UPDATE_QSO,
+      DELETE_QSO
+    };
     explicit ClubLog(QObject *parent = nullptr);
     ~ClubLog();
 
     static const QString getEmail();
-    static const QString getRegisteredCallsign();
+    static bool isUploadImmediatelyEnabled();
     static const QString getPassword();
 
-    static void saveRegistredCallsign(const QString &);
     static void saveUsernamePassword(const QString &, const QString &);
+    static void saveUploadImmediatelyConfig(bool value);
 
-    void uploadAdif(QByteArray &data);
-    void uploadContact(QSqlRecord record);
+    static QStringList supportedDBFields;
+
+    void uploadAdif(QByteArray &data,
+                    const QString &uploadCallsign,
+                    bool clearFlag = false);
+    void sendRealtimeRequest(const OnlineCommand command,
+                             const QSqlRecord &record,
+                             const QString &uploadCallsign);
 
 signals:
-    void uploadOK(QString);
+    void uploadFileOK(QString);
+    void QSOUploaded();
     void uploadError(QString);
 
 public slots:
     void processReply(QNetworkReply* reply);
     void abortRequest();
+    void insertQSOImmediately(const QSqlRecord &record);
+    void updateQSOImmediately(const QSqlRecord &record);
+    void deleteQSOImmediately(const QSqlRecord &record);
 
 private:
     QNetworkAccessManager* nam;
-    QNetworkReply *currentReply;
+    QList<QNetworkReply*> activeReplies;
+    const QString generateUploadCallsign(const QSqlRecord &record) const;
+    QSqlRecord stripRecord(const QSqlRecord&);
+    QSqlQuery query_updateRT;
 
     const static QString SECURE_STORAGE_KEY;
     const static QString CONFIG_EMAIL_KEY;
-    const static QString CONFIG_CALLSIGN_KEY;
+    const static QString CONFIG_UPLOAD_IMMEDIATELY_KEY;
 };
 
 #endif // QLOG_CORE_CLUBLOG_H

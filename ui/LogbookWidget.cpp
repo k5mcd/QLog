@@ -25,12 +25,14 @@
 #include "ui/QSODetailDialog.h"
 #include "core/MembershipQE.h"
 #include "core/GenericCallbook.h"
+#include "core/ClubLog.h"
 
 MODULE_IDENTIFICATION("qlog.ui.logbookwidget");
 
 LogbookWidget::LogbookWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::LogbookWidget)
+    ui(new Ui::LogbookWidget),
+    blockClublogSignals(false)
 {
     FCT_IDENTIFICATION;
 
@@ -488,23 +490,49 @@ void LogbookWidget::uploadClublog() {
 
     stream.flush();
 
-    clublog->uploadAdif(data);
+    //clublog->uploadAdif(data);
 }
 
-void LogbookWidget::deleteContact() {
+void LogbookWidget::deleteContact()
+{
     FCT_IDENTIFICATION;
 
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, tr("Delete"), tr("Delete the selected contacts?"),
                                   QMessageBox::Yes|QMessageBox::No);
 
-    if (reply != QMessageBox::Yes) return;
+    if ( reply != QMessageBox::Yes ) return;
 
-    foreach (QModelIndex index, ui->contactTable->selectionModel()->selectedRows()) {
+    const QModelIndexList& deletedRowIndexes = ui->contactTable->selectionModel()->selectedRows();
+
+    // Clublog does not accept batch DELETE operation
+    // ask if an operator wants to continue
+    if ( ClubLog::isUploadImmediatelyEnabled()
+         && deletedRowIndexes.count() > 5 )
+    {
+        reply = QMessageBox::question(this,
+                                      tr("Delete"),
+                                      tr("Clublog's <b>Immediately Send</b> supports only one-by-one deletion<br><br>"
+                                         "Do you want to continue despite the fact<br>"
+                                         "that the DELETE operation will not be sent to Clublog?"),
+                                      QMessageBox::Yes|QMessageBox::No);
+        if ( reply != QMessageBox::Yes )
+        {
+            return;
+        }
+        else
+        {
+            blockClublogSignals = true;
+        }
+    }
+
+    for ( const QModelIndex &index : deletedRowIndexes )
+    {
         model->removeRow(index.row());
     }
     ui->contactTable->clearSelection();
     updateTable();
+    blockClublogSignals = false;
 }
 
 void LogbookWidget::exportContact()
@@ -757,6 +785,7 @@ void LogbookWidget::doubleClickColumn(QModelIndex modelIndex)
         connect(&dialog, &QSODetailDialog::contactUpdated, this, [this](QSqlRecord& record)
         {
             emit contactUpdated(record);
+            emit clublogContactUpdated(record);
         });
         dialog.exec();
         updateTable();
@@ -777,6 +806,8 @@ void LogbookWidget::handleBeforeDelete(int row)
 
     QSqlRecord oldRecord = model->record(row);
     emit contactDeleted(oldRecord);
+    if ( !blockClublogSignals )
+        emit clublogContactDeleted(oldRecord);
 }
 
 void LogbookWidget::focusSearchCallsign()

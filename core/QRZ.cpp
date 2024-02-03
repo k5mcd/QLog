@@ -16,6 +16,8 @@
 #define API_URL "https://xmldata.qrz.com/xml/current/"
 #define API_LOGBOOK_URL "https://logbook.qrz.com/api"
 
+//https://www.qrz.com/docs/logbook/QRZLogbookAPI.html
+
 MODULE_IDENTIFICATION("qlog.core.qrz");
 
 QRZ::QRZ(QObject* parent) :

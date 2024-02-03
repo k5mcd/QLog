@@ -9,6 +9,7 @@
 #include "ui/AlertWidget.h"
 #include "core/PropConditions.h"
 #include "core/MembershipQE.h"
+#include "core/ClubLog.h"
 
 namespace Ui {
 class MainWindow;
@@ -92,6 +93,7 @@ private:
     PropConditions *conditions;
     QSettings settings;
     bool isFusionStyle;
+    ClubLog* clublogRT;
 
     void setDarkMode();
     void setLightMode();
