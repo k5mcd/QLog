@@ -1,4 +1,9 @@
 TBC - 0.32.0
+- [NEW] - Added Rig Interface Omnirig v1 (Windows only)
+- [NEW] - Added Rig Interface Omnirig v2 (Windows only)
+- [NEW] - Clublog - Added Clear Clublog and reupload QSOs
+- [NEW] - Clublog - Added Real-time Insert/Update/Delete
+- [CHANGED] - Clublog - Upload callsign is derived from the Current Profile Callsign
 - Fixed clang linker failed issue (issue #301)
 - Fixed SAT Mode U/U missing (issue #308 PR #309 thanks ea5wa)
 - Fixed Multiple QSO selection. Callsigns modified by mistake (issue #310)
