@@ -1578,7 +1578,7 @@ void SettingsDialog::rigChanged(int index)
     ui->rigGetXITCheckBox->setChecked(false);
 
     ui->rigGetPTTStateCheckBox->setEnabled(true);
-    ui->rigGetPTTStateCheckBox->setChecked(false);
+    ui->rigGetPTTStateCheckBox->setChecked(ui->rigPortTypeCombo->currentIndex() == RIGPORT_SPECIAL_OMNIRIG_INDEX);
 
     ui->rigQSYWipingCheckBox->setEnabled(true);
     ui->rigQSYWipingCheckBox->setChecked(true);
