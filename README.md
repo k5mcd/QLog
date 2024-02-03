@@ -10,7 +10,8 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 ## Features
 
 - Customizable GUI
-- Rig and rotator control via Hamlib
+- Rig controll via Hamlib, Omnirig v1 (Windows only), Omnirig v2 (Windows only)
+- Rotator control via Hamlib
 - HamQTH and QRZ.com callbook integration
 - DX cluster integration
 - **LoTW**, **eQSL**, **QRZ.com**, **Clublog**, **HRDLog.net**, **ON4KST Chat** integration (**eQSL includes QSL pictures download**)
@@ -35,6 +36,8 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 
 ### Supported Rigs
 * all supported by [Hamlib](https://hamlib.github.io/)
+* all supported by [Omnirig v1](https://www.dxatlas.com/omnirig/) (Windows only)
+* all supported by [Omnirig v2](https://www.hb9ryz.ch/omnirig/) (Windows only)
 
 ### Supported Rotators
 * all supported by [Hamlib](https://hamlib.github.io/)
@@ -97,9 +100,10 @@ Fedora **RPM packages** are available via GitHub [Releases](https://github.com/f
 Prerequisites:
 
 - Installed [Trusted QSL](http://www.arrl.org/tqsl-download) (Optional)
+- Installed [Omnirig v1](https://www.dxatlas.com/omnirig/) (Optional)
+- Installed [Omnirig v2](https://www.hb9ryz.ch/omnirig/) (Optional)
 
 Installation package is available via GitHub [Releases](https://github.com/foldynl/QLog/releases) .
-
 
 
 ## Compilation
