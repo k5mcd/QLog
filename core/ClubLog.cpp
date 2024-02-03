@@ -344,7 +344,10 @@ void ClubLog::updateQSOImmediately(const QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
 
-    if ( record.value("clublog_qso_upload_status").toString() == "N" )
+    const QString &uploadStatus = record.value("clublog_qso_upload_status").toString();
+
+    if ( uploadStatus.isEmpty()
+         || uploadStatus == "N" )
     {
         qCDebug(runtime) << "QSO would not be uploaded to Clublog - nothing to do";
         return;
@@ -358,7 +361,10 @@ void ClubLog::deleteQSOImmediately(const QSqlRecord &record)
 {
     FCT_IDENTIFICATION;
 
-    if ( record.value("clublog_qso_upload_status").toString() == "N" )
+    const QString &uploadStatus = record.value("clublog_qso_upload_status").toString();
+
+    if ( uploadStatus.isEmpty()
+         || uploadStatus == "N" )
     {
         qCDebug(runtime) << "QSO would not be uploaded to Clublog - nothing to do";
         return;
