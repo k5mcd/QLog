@@ -11,7 +11,7 @@ MODULE_IDENTIFICATION("qlog.ui.ColumnSettingDialog");
 
 ColumnSettingDialog::ColumnSettingDialog(QTableView *table,
                                          QWidget *parent,
-                                         QList<LogbookModel::column_id> columnIdExcludeFilter) :
+                                         const QList<LogbookModel::column_id> &columnIdExcludeFilter) :
     ColumnSettingGenericDialog(table->model(), parent),
     ui(new Ui::ColumnSettingDialog),
     table(table),
@@ -25,7 +25,7 @@ ColumnSettingDialog::ColumnSettingDialog(QTableView *table,
 ColumnSettingDialog::ColumnSettingDialog(const QAbstractItemModel *model,
                                          const QSet<int> &defaultStates,
                                          QWidget *parent,
-                                         QList<LogbookModel::column_id> columnIdExcludeFilter) :
+                                         const QList<LogbookModel::column_id> &columnIdExcludeFilter) :
     ColumnSettingGenericDialog(model, parent),
     ui(new Ui::ColumnSettingDialog),
     table(nullptr),
