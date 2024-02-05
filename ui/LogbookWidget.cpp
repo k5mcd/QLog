@@ -564,7 +564,7 @@ void LogbookWidget::editContact()
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this,
                                       tr("Update"),
-                                      tr("All selected rows will be updated to the same value.<br>Do you want to edit them?"),
+                                      tr("By updating, all selected rows will be affected. The value currently<br>edited in the column will be applied to all selected rows.<br>Do you want to edit them?"),
                                       QMessageBox::Yes|QMessageBox::No);
 
         if (reply != QMessageBox::Yes) return;

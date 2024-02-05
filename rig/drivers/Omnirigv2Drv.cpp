@@ -393,7 +393,7 @@ void OmnirigV2Drv::rigStatusChange(int rigID)
     {
         qCDebug(runtime) << "New status" << rig->StatusStr();
         emit errorOccured(tr("Rig status changed"),
-                          tr("Rig is offline"));
+                          tr("Rig is not connected"));
     }
 }
 
