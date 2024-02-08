@@ -47,7 +47,6 @@ private:
     void __rigTypeChange(int);
     void commandSleep();
     const QString getModeNormalizedText(const QString& rawMode, QString &submode);
-
     void checkChanges(int, bool force = false);
     bool checkFreqChange(int, bool);
     bool checkModeChange(int, bool);

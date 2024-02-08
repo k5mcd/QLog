@@ -480,7 +480,6 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
 
     ui->rigPortTypeCombo->setCurrentIndex(portIndex);
     ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(profile.model));
-
     ui->rigPortEdit->setText(profile.portPath);
     ui->rigHostNameEdit->setText(profile.hostname);
     ui->rigNetPortSpin->setValue(profile.netport);
@@ -655,6 +654,10 @@ void SettingsDialog::rigInterfaceChanged(int)
     {
         ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_HAMLIB_RIG_MODEL));
 
+    }
+    else
+    {
+        ui->rigModelSelect->setCurrentIndex(0);
     }
 }
 
@@ -1578,7 +1581,11 @@ void SettingsDialog::rigChanged(int index)
     ui->rigGetXITCheckBox->setChecked(false);
 
     ui->rigGetPTTStateCheckBox->setEnabled(true);
-    ui->rigGetPTTStateCheckBox->setChecked(ui->rigPortTypeCombo->currentIndex() == RIGPORT_SPECIAL_OMNIRIG_INDEX);
+    if ( ui->rigPortTypeCombo->currentIndex() == RIGPORT_SPECIAL_OMNIRIG_INDEX
+         || driverID == Rig::TCI_DRIVER )
+        ui->rigGetPTTStateCheckBox->setChecked(true);
+    else
+        ui->rigGetPTTStateCheckBox->setChecked(false);
 
     ui->rigQSYWipingCheckBox->setEnabled(true);
     ui->rigQSYWipingCheckBox->setChecked(true);

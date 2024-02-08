@@ -32,6 +32,7 @@ public:
 
 signals:
     // STATE Signals
+    void rigIsReady();
     void frequencyChanged(double, double, double);
     void pttChanged(bool);
     void modeChanged(QString, QString, QString, qint32);

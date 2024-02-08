@@ -155,6 +155,8 @@ bool OmnirigV2Drv::open()
         OmnirigV2Drv::rigStatusChange(rigProfile.model);
     });
 
+    emit rigIsReady();
+
     // TODO - solve timeout from library. Is it possible????
     return true;
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network xml charts webenginewidgets serialport dbus quickwidgets webchannel
+QT       += core gui sql network xml charts webenginewidgets serialport dbus quickwidgets webchannel websockets
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
@@ -112,6 +112,7 @@ SOURCES += \
         rig/RigCaps.cpp \
         rig/drivers/GenericDrv.cpp \
         rig/drivers/HamlibDrv.cpp \
+        rig/drivers/TCIDrv.cpp \
         ui/AlertRuleDetail.cpp \
         ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
@@ -237,6 +238,7 @@ HEADERS += \
         rig/RigCaps.h \
         rig/drivers/GenericDrv.h \
         rig/drivers/HamlibDrv.h \
+        rig/drivers/TCIDrv.h \
         rig/macros.h \
         ui/AlertRuleDetail.h \
         ui/AlertSettingDialog.h \

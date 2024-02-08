@@ -26,6 +26,7 @@ public:
         HAMLIB_DRIVER = 1,
         OMNIRIG_DRIVER = 2,
         OMNIRIGV2_DRIVER = 3,
+        TCI_DRIVER = 4
     };
 
     static Rig* instance();

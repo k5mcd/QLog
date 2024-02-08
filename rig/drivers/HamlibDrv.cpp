@@ -193,6 +193,7 @@ bool HamlibDrv::open()
 
     connect(&timer, &QTimer::timeout, this, &HamlibDrv::checkRigStateChange);
     timer.start(rigProfile.pollInterval);
+    emit rigIsReady();
     return true;
 }
 

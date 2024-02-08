@@ -153,6 +153,7 @@ bool OmnirigDrv::open()
         OmnirigDrv::rigStatusChange(rigProfile.model);
     });
 
+
     // TODO - solve timeout from library. Is it possible????
     return true;
 }

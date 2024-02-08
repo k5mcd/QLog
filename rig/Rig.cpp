@@ -6,6 +6,7 @@
 #include "rig/drivers/OmnirigDrv.h"
 #include "rig/drivers/Omnirigv2Drv.h"
 #endif
+#include "rig/drivers/TCIDrv.h"
 
 MODULE_IDENTIFICATION("qlog.rig.rig");
 
@@ -38,7 +39,10 @@ Rig::Rig(QObject *parent)
                                              &OmnirigV2Drv::getModelList,
                                              &OmnirigV2Drv::getCaps);
 #endif
-
+    drvMapping[TCI_DRIVER] = DrvParams(TCI_DRIVER,
+                                       "TCI",
+                                       &TCIDrv::getModelList,
+                                       &TCIDrv::getCaps);
 
 }
 
@@ -233,15 +237,6 @@ void Rig::__openRig()
         return;
     }
 
-    if ( !rigDriver->open() )
-    {
-        emit rigErrorPresent(tr("Cannot open Rig"),
-                             rigDriver->lastError());
-        qWarning() << rigDriver->lastError();
-        __closeRig();
-        return;
-    }
-
     connect( rigDriver, &GenericDrv::frequencyChanged, this, [this](double a, double b, double c)
     {
         emit frequencyChanged(VFO1, a, b, c);
@@ -292,18 +287,30 @@ void Rig::__openRig()
         emit rigErrorPresent(a, b);
     });
 
-    connected = true;
-
-    // Change Assigned CW Key
-    if ( !newRigProfile.assignedCWKey.isEmpty()
-         || newRigProfile.assignedCWKey != " ")
+    connect( rigDriver, &GenericDrv::rigIsReady, this, [this, newRigProfile]()
     {
-        emit rigCWKeyOpenRequest(newRigProfile.assignedCWKey);
+        connected = true;
+
+        // Change Assigned CW Key
+        if ( !newRigProfile.assignedCWKey.isEmpty()
+             || newRigProfile.assignedCWKey != " ")
+        {
+            emit rigCWKeyOpenRequest(newRigProfile.assignedCWKey);
+        }
+
+        emit rigConnected();
+
+        rigDriver->sendState();
+    });
+
+    if ( !rigDriver->open() )
+    {
+        emit rigErrorPresent(tr("Cannot open Rig"),
+                             rigDriver->lastError());
+        qWarning() << rigDriver->lastError();
+        __closeRig();
+        return;
     }
-
-    emit rigConnected();
-
-    rigDriver->sendState();
 }
 
 void Rig::close()
@@ -599,6 +606,9 @@ GenericDrv *Rig::getDriver( const RigProfile &profile )
         return new OmnirigV2Drv(profile, this);
         break;
 #endif
+    case Rig::TCI_DRIVER:
+        return new TCIDrv(profile, this);
+        break;
     default:
         qWarning() << "Unsupported Rig Driver " << profile.driver;
         return nullptr;
