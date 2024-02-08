@@ -3669,7 +3669,7 @@
     </message>
     <message>
         <location filename="../ui/LogbookWidget.cpp" line="567"/>
-        <source>By updating, all selected rows will be affected. The value currently&lt;br&gt;edited in the column will be applied to all selected rows.&lt;br&gt;Do you want to edit them?</source>
+        <source>By updating, all selected rows will be affected.&lt;br&gt;The value currently edited in the column will be applied to all selected rows.&lt;br&gt;&lt;br&gt;Do you want to edit them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
