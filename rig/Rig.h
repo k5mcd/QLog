@@ -4,14 +4,8 @@
 #include <QObject>
 #include <QTimer>
 #include <QMutex>
+#include <QHash>
 #include "rig/drivers/GenericDrv.h"
-#include "rig/drivers/HamlibDrv.h"
-#ifdef Q_OS_WIN
-#include "rig/drivers/OmnirigDrv.h"
-#include "rig/drivers/Omnirigv2Drv.h"
-#endif
-
-#include "macros.h"
 #include "RigCaps.h"
 
 enum VFOID
@@ -119,23 +113,7 @@ private:
         RigCaps (*getCapsFunction)(int);
     };
 
-    QMap<int, DrvParams> drvMapping =
-    {
-        {HAMLIB_DRIVER, DrvParams(HAMLIB_DRIVER,
-                                  "Hamlib",
-                                  &HamlibDrv::getModelList,
-                                  &HamlibDrv::getCaps) },
-#ifdef Q_OS_WIN
-        {OMNIRIG_DRIVER, DrvParams(OMNIRIG_DRIVER,
-                                  "Omnirig v1",
-                                  &OmnirigDrv::getModelList,
-                                  &OmnirigDrv::getCaps) },
-        {OMNIRIGV2_DRIVER, DrvParams(OMNIRIGV2_DRIVER,
-                                     "Omnirig v2",
-                                     &OmnirigV2Drv::getModelList,
-                                     &OmnirigV2Drv::getCaps) },
-#endif
-    };
+    QMap<int, DrvParams> drvMapping;
 
     void __closeRig();
     void __openRig();

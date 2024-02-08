@@ -1,6 +1,11 @@
 #include "Rig.h"
 #include "core/debug.h"
+#include "macros.h"
 #include "rig/drivers/HamlibDrv.h"
+#ifdef Q_OS_WIN
+#include "rig/drivers/OmnirigDrv.h"
+#include "rig/drivers/Omnirigv2Drv.h"
+#endif
 
 MODULE_IDENTIFICATION("qlog.rig.rig");
 
@@ -17,6 +22,23 @@ Rig::Rig(QObject *parent)
     connected(false)
 {
     FCT_IDENTIFICATION;
+
+    drvMapping[HAMLIB_DRIVER] = DrvParams(HAMLIB_DRIVER,
+                                          "Hamlib",
+                                          &HamlibDrv::getModelList,
+                                          &HamlibDrv::getCaps);
+#ifdef Q_OS_WIN
+    drvMapping[OMNIRIG_DRIVER] = DrvParams(OMNIRIG_DRIVER,
+                                           "Omnirig v1",
+                                           &OmnirigDrv::getModelList,
+                                           &OmnirigDrv::getCaps);
+
+    drvMapping[OMNIRIGV2_DRIVER] = DrvParams(OMNIRIGV2_DRIVER,
+                                             "Omnirig v2",
+                                             &OmnirigV2Drv::getModelList,
+                                             &OmnirigV2Drv::getCaps);
+#endif
+
 
 }
 

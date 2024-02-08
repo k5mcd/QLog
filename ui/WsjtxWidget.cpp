@@ -8,6 +8,7 @@
 #include "data/Data.h"
 #include "core/debug.h"
 #include "rig/Rig.h"
+#include "rig/macros.h"
 #include "data/StationProfile.h"
 #include "ui/ColumnSettingDialog.h"
 #include "ui/WsjtxFilterDialog.h"

@@ -9,6 +9,7 @@
 #include <QKeyEvent>
 
 #include "rig/Rig.h"
+#include "rig/macros.h"
 #include "core/Rotator.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
@@ -40,7 +41,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     uiDynamic(new NewContactDynamicWidgets(true, this)),
     prop_cond(nullptr),
     QSOFreq(0.0),
-    bandwidthFilter(RIG_PASSBAND_NORMAL),
+    bandwidthFilter(BANDWIDTH_UNKNOWN),
     rigOnline(false),
     isManualEnterMode(false)
 {
@@ -1303,7 +1304,7 @@ void NewContactWidget::QSYContactWiping(double newFreq)
         return;
     }
 
-    if ( QSYWipingWidth <= RIG_PASSBAND_NORMAL )
+    if ( QSYWipingWidth <= BANDWIDTH_UNKNOWN )
     {
         QSYWipingWidth = Rig::getNormalBandwidth(ui->modeEdit->currentText(),
                                                 ui->submodeEdit->currentText());
@@ -1323,7 +1324,7 @@ void NewContactWidget::QSYContactWiping(double newFreq)
          && rigOnline            // only if Rig is connected
          && QSOFreq > 0.0        // it means that Form is "dirty" and contain freq when it got dirty
          && !isQSOTimeStarted()  // operator is not in QSO
-         && QSYWipingWidth != RIG_PASSBAND_NORMAL
+         && QSYWipingWidth != BANDWIDTH_UNKNOWN
          && qAbs(QSOFreq - newFreq) > Hz2MHz(QSYWipingWidth) / 1.5 )  //1.5 is a magic constant - determined experimentally
     {
         resetContact();

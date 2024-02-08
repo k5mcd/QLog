@@ -13,6 +13,7 @@
 #include "data/Data.h"
 #include "data/BandPlan.h"
 #include "core/debug.h"
+#include "rig/macros.h"
 
 MODULE_IDENTIFICATION("qlog.ui.bandmapwidget");
 
