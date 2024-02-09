@@ -13,6 +13,7 @@ public:
             bool canGetXIT = false,
             bool canGetPTT = false,
             bool canGetKeySpeed = false,
+            bool canSendMorse = false,
             bool isNetworkOnly = false,
             bool needPolling = false,
             int serial_data_bits = 8,
@@ -27,6 +28,7 @@ public:
     bool canGetXIT;
     bool canGetPTT;
     bool canGetKeySpeed;
+    bool canSendMorse;
     int serialDataBits;
     int serialStopBits;
     bool isNetworkOnly;

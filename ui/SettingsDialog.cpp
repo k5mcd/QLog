@@ -1083,19 +1083,17 @@ void SettingsDialog::addCWKeyProfile()
     {
         // changing Key to Morse Over CAT model
         // needed to verify if all rigs where the key is assigned, supports Morse over CAT
-        QStringList availableRigProfileNames = rigProfManager->profileNameList();
+        const QStringList &availableRigProfileNames = rigProfManager->profileNameList();
 
-        for ( const QString &rigProfileName : qAsConst(availableRigProfileNames) )
+        for ( const QString &rigProfileName : availableRigProfileNames )
         {
             qCDebug(runtime) << "Checking Rig Profile" << rigProfileName;
-            RigProfile testedRig = rigProfManager->getProfile(rigProfileName);
+            const RigProfile &testedRig = rigProfManager->getProfile(rigProfileName);
 
             if ( testedRig.assignedCWKey == cwKeyNewProfile.profileName )
             {
-                const struct rig_caps *caps;
-                caps = rig_get_caps(testedRig.model);
-
-                if ( caps && caps->send_morse )
+                if ( Rig::instance()->getRigCaps(static_cast<Rig::DriverID>(testedRig.driver),
+                                                 testedRig.model).canSendMorse )
                 {
                     qCDebug(runtime) << testedRig.profileName << " has morse support - OK";
                 }
@@ -2360,26 +2358,25 @@ void SettingsDialog::refreshRigAssignedCWKeyCombo()
 {
     FCT_IDENTIFICATION;
 
-    QString cwKeyName = ui->rigAssignedCWKeyCombo->currentText();
-    QStringList availableCWProfileNames = cwKeyProfManager->profileNameList();
+    const QString &cwKeyName = ui->rigAssignedCWKeyCombo->currentText();
+    const QStringList &availableCWProfileNames = cwKeyProfManager->profileNameList();
     QStringList approvedCWProfiles;
-    const struct rig_caps *selectedRigCaps;
-    int rigID = ui->rigModelSelect->currentData().toInt();
 
-    selectedRigCaps = rig_get_caps(rigID);
+    const RigCaps &caps = Rig::instance()->getRigCaps(static_cast<Rig::DriverID>(ui->rigInterfaceCombo->currentData().toInt()),
+                                                      ui->rigModelSelect->currentData().toInt());
 
     approvedCWProfiles << EMPTY_CWKEY_PROFILE; // add empty profile (like NONE)
 
-    if ( selectedRigCaps && selectedRigCaps->send_morse )
+    if ( caps.canSendMorse )
     {
         approvedCWProfiles << availableCWProfileNames;
     }
     else
     {
         // remove unsupported Morse Over CAT Profile Names
-        for (const QString &cwProfileName : qAsConst(availableCWProfileNames))
+        for ( const QString &cwProfileName : availableCWProfileNames )
         {
-            CWKeyProfile testedKey = cwKeyProfManager->getProfile(cwProfileName);
+            const CWKeyProfile  &testedKey = cwKeyProfManager->getProfile(cwProfileName);
             if ( testedKey.model != CWKey::MORSEOVERCAT )
             {
                 approvedCWProfiles << cwProfileName;

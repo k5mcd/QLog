@@ -68,6 +68,7 @@ RigCaps HamlibDrv::getCaps(int model)
 
         //currently only CAT PTT is supported
         ret.canGetPTT = ( caps->get_ptt && (caps->ptt_type == RIG_PTT_RIG || caps->ptt_type == RIG_PTT_RIG_MICDATA));
+        ret.canSendMorse = ( caps->send_morse != nullptr );
 
         /* due to a hamlib issue #855 (https://github.com/Hamlib/Hamlib/issues/855)
          * the PWR will be disabled for 4.2.x and 4.3.x for NETRIG
