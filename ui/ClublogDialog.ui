@@ -42,6 +42,9 @@
       </item>
       <item row="3" column="1">
        <widget class="QCheckBox" name="clearReuploadCheckbox">
+        <property name="toolTip">
+         <string>This option deletes all QSOs in the Clublog&lt;br&gt;and based on filter, it uploads all QSOs regardless of their status.</string>
+        </property>
         <property name="text">
          <string/>
         </property>
