@@ -639,6 +639,8 @@ void SettingsDialog::rigInterfaceChanged(int)
     if ( !rigTypeModel )
         return;
 
+    ui->rigPortTypeCombo->removeItem(STACKED_WIDGET_SPECIAL_OMNIRIG_SETTING);
+
     Rig::DriverID driverID = static_cast<Rig::DriverID>(ui->rigInterfaceCombo->currentData().toInt());
 
     if ( driverID == Rig::OMNIRIG_DRIVER
@@ -652,7 +654,7 @@ void SettingsDialog::rigInterfaceChanged(int)
     if ( driverID == Rig::HAMLIB_DRIVER )
     {
         ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(DEFAULT_HAMLIB_RIG_MODEL));
-        ui->rigPortTypeCombo->removeItem(STACKED_WIDGET_SPECIAL_OMNIRIG_SETTING);
+
     }
 }
 
