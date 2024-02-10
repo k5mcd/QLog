@@ -42,6 +42,17 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Sat Feb 10 2024 Ladislav Foldyna - 0.32.0-1
+- [NEW] - Added Rig Interface Omnirig v1 (Windows only)
+- [NEW] - Added Rig Interface Omnirig v2 (Windows only)
+- [NEW] - Clublog - Added Clear Clublog and reupload QSOs
+- [NEW] - Clublog - Added Real-time Insert/Update/Delete
+- [CHANGED] - Clublog - Upload callsign is derived from the Current Profile Callsign
+- Fixed clang linker failed issue (issue #301)
+- Fixed SAT Mode U/U missing (issue #308 PR #309 thanks ea5wa)
+- Fixed Multiple QSO selection. Callsigns modified by mistake (issue #310)
+- Fixed Callbook query cache is not properly cleared when Callbook settings change (issue #313)
+
 * Fri Jan 5 2024 Ladislav Foldyna - 0.31.0-1
 - [NEW] - DXC - Improved Mode recognition
 - [NEW] - DXC - Switch Rig mode based on DXC Spot Mode (issue #217)

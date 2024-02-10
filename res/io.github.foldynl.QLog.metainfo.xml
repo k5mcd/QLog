@@ -47,6 +47,21 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.32.0" date="2024-02-10">
+      <description>
+        <ul>
+          <li>[NEW] - Added Rig Interface Omnirig v1 (Windows only)</li>
+          <li>[NEW] - Added Rig Interface Omnirig v2 (Windows only)</li>
+          <li>[NEW] - Clublog - Added Clear Clublog and reupload QSOs</li>
+          <li>[NEW] - Clublog - Added Real-time Insert/Update/Delete</li>
+          <li>[CHANGED] - Clublog - Upload callsign is derived from the Current Profile Callsign</li>
+          <li>Fixed clang linker failed issue (issue #301)</li>
+          <li>Fixed SAT Mode U/U missing (issue #308 PR #309 thanks ea5wa)</li>
+          <li>Fixed Multiple QSO selection. Callsigns modified by mistake (issue #310)</li>
+          <li>Fixed Callbook query cache is not properly cleared when Callbook settings change (issue #313)</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.31.0" date="2024-01-05">
       <description>
         <ul>
