@@ -58,6 +58,7 @@ private:
     void rspTRX(const QStringList &);
     void rspMODULATION(const QStringList &);
     void rspTUNE_DRIVE(const QStringList &);
+    void rspDRIVE(const QStringList &);
     void rspRIT_OFFSET(const QStringList &);
     void rspXIT_OFFSET(const QStringList &);
     void rspCW_MACROS_SPEED(const QStringList &);
@@ -87,6 +88,7 @@ private:
         {"trx", &TCIDrv::rspTRX},
         {"modulation", &TCIDrv::rspMODULATION},
         {"tune_drive", &TCIDrv::rspTUNE_DRIVE},
+        {"drive", &TCIDrv::rspDRIVE},
         {"rit_offset", &TCIDrv::rspRIT_OFFSET},
         {"xit_offset", &TCIDrv::rspXIT_OFFSET},
         {"cw_macros_speed", &TCIDrv::rspCW_MACROS_SPEED}

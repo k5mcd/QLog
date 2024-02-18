@@ -610,6 +610,18 @@ void TCIDrv::rspTUNE_DRIVE(const QStringList &cmdArgs)
     // arg1 - power output (in watts????)
     CHECK_PARAMS_COUNT(cmdArgs.size(), 2);
 
+
+    // NO ACTION NOW
+}
+
+void TCIDrv::rspDRIVE(const QStringList &cmdArgs)
+{
+    FCT_IDENTIFICATION;
+
+    // arg0 - rigid
+    // arg1 - power output (in watts)
+    CHECK_PARAMS_COUNT(cmdArgs.size(), 2);
+
     if ( !rigProfile.getPWRInfo )
         return;
 
