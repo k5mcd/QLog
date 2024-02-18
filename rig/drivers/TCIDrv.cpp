@@ -46,7 +46,9 @@ TCIDrv::TCIDrv(const RigProfile &profile, QObject *parent)
       receivedOnly(false),
       currFreq(0.0),
       currRIT(0.0),
-      currXIT(0.0)
+      currXIT(0.0),
+      RITEnabled(false),
+      XITEnabled(false)
 {
     FCT_IDENTIFICATION;
 
@@ -494,7 +496,7 @@ void TCIDrv::rspRECEIVE_ONLY(const QStringList &cmdArgs)
     // arg0 - received only (true), transceiver (false)
     CHECK_PARAMS_COUNT(cmdArgs.size(), 1);
 
-    receivedOnly = ( cmdArgs.at(0) == "true" );
+    receivedOnly = ( cmdArgs.at(0).toLower() == "true" );
 }
 
 void TCIDrv::rspMODULATIONS_LIST(const QStringList &cmdArgs)
@@ -668,13 +670,13 @@ void TCIDrv::rspRIT_OFFSET(const QStringList &cmdArgs)
 
     if ( ok )
     {
-        qCDebug(runtime) << "Rig RIT" << currRIT;
-        qCDebug(runtime) << "emitting RIT changed" << QSTRING_FREQ(Hz2MHz(currRIT));
+        qCDebug(runtime) << "Rig RIT" << RITEnabled << currRIT;
+        qCDebug(runtime) << "emitting RIT changed" << QSTRING_FREQ(Hz2MHz(getRawRIT()));
         qCDebug(runtime) << "emitting FREQ changed " << QSTRING_FREQ(Hz2MHz(currFreq))
                                                      << QSTRING_FREQ(Hz2MHz(getRITFreq()))
                                                      << QSTRING_FREQ(Hz2MHz(getXITFreq()));
 
-        emit ritChanged(Hz2MHz(currRIT));
+        emit ritChanged(Hz2MHz(getRawRIT()));
         emit frequencyChanged(Hz2MHz(currFreq),
                               Hz2MHz(getRITFreq()),
                               Hz2MHz(getXITFreq()));
@@ -707,13 +709,13 @@ void TCIDrv::rspXIT_OFFSET(const QStringList &cmdArgs)
 
     if ( ok )
     {
-        qCDebug(runtime) << "Rig XIT" << currRIT;
-        qCDebug(runtime) << "emitting XIT changed" << QSTRING_FREQ(Hz2MHz(currXIT));
+        qCDebug(runtime) << "Rig XIT" << XITEnabled << currXIT;
+        qCDebug(runtime) << "emitting XIT changed" << QSTRING_FREQ(Hz2MHz(getRawXIT()));
         qCDebug(runtime) << "emitting FREQ changed " << QSTRING_FREQ(Hz2MHz(currFreq))
                                                      << QSTRING_FREQ(Hz2MHz(getRITFreq()))
                                                      << QSTRING_FREQ(Hz2MHz(getXITFreq()));
 
-        emit ritChanged(Hz2MHz(currXIT));
+        emit xitChanged(Hz2MHz(getRawXIT()));
         emit frequencyChanged(Hz2MHz(currFreq),
                               Hz2MHz(getRITFreq()),
                               Hz2MHz(getXITFreq()));
@@ -745,13 +747,69 @@ void TCIDrv::rspCW_MACROS_SPEED(const QStringList &cmdArgs)
     }
 }
 
+void TCIDrv::rspRIT_ENABLE(const QStringList &cmdArgs)
+{
+    FCT_IDENTIFICATION;
+
+    // arg0 - rigid
+    // arg1 - status indicator.
+
+    CHECK_PARAMS_COUNT(cmdArgs.size(), 2);
+
+    if ( !rigProfile.getRITInfo )
+        return;
+
+    if ( cmdArgs.at(0) != QString::number(rigProfile.model - 1))
+    {
+        qCDebug(runtime) << "Command is not for QLog";
+        return;
+    }
+
+    RITEnabled = ( cmdArgs.at(1).toLower() == "true" );
+
+    qCDebug(runtime) << "Rig RIT status changed" << RITEnabled << currRIT;
+    qCDebug(runtime) << "emitting RIT changed" << QSTRING_FREQ(Hz2MHz(getRawRIT()));
+    emit ritChanged(Hz2MHz(getRawRIT()));
+    emit frequencyChanged(Hz2MHz(currFreq),
+                          Hz2MHz(getRITFreq()),
+                          Hz2MHz(getXITFreq()));
+}
+
+void TCIDrv::rspXIT_ENABLE(const QStringList &cmdArgs)
+{
+    FCT_IDENTIFICATION;
+
+    // arg0 - rigid
+    // arg1 - status indicator.
+
+    CHECK_PARAMS_COUNT(cmdArgs.size(), 2);
+
+    if ( !rigProfile.getXITInfo )
+        return;
+
+    if ( cmdArgs.at(0) != QString::number(rigProfile.model - 1))
+    {
+        qCDebug(runtime) << "Command is not for QLog";
+        return;
+    }
+
+    XITEnabled = ( cmdArgs.at(1).toLower() == "true" );
+
+    qCDebug(runtime) << "Rig XIT status changed" << XITEnabled << currXIT;
+    qCDebug(runtime) << "emitting XIT changed" << QSTRING_FREQ(Hz2MHz(getRawXIT()));
+    emit xitChanged(Hz2MHz(getRawXIT()));
+    emit frequencyChanged(Hz2MHz(currFreq),
+                          Hz2MHz(getRITFreq()),
+                          Hz2MHz(getXITFreq()));
+}
+
 #undef CHECK_PARAMS_COUNT
 
 double TCIDrv::getRITFreq()
 {
     FCT_IDENTIFICATION;
 
-    return currFreq + currRIT;
+    return currFreq + getRawRIT();
 }
 
 void TCIDrv::setRITFreq(double rit)
@@ -767,4 +825,14 @@ double TCIDrv::getXITFreq()
 void TCIDrv::setXITFreq(double xit)
 {
     currXIT = xit;
+}
+
+double TCIDrv::getRawRIT()
+{
+    return ( ( RITEnabled ) ? currRIT : 0.0 );
+}
+
+double TCIDrv::getRawXIT()
+{
+    return ( ( XITEnabled ) ? currXIT : 0.0 );
 }

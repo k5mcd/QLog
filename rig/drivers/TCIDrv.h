@@ -62,11 +62,15 @@ private:
     void rspRIT_OFFSET(const QStringList &);
     void rspXIT_OFFSET(const QStringList &);
     void rspCW_MACROS_SPEED(const QStringList &);
+    void rspRIT_ENABLE(const QStringList &);
+    void rspXIT_ENABLE(const QStringList &);
 
     double getRITFreq();
     void setRITFreq(double);
     double getXITFreq();
     void setXITFreq(double);
+    double getRawRIT();
+    double getRawXIT();
 
     QWebSocket ws;
     bool ready;
@@ -75,6 +79,8 @@ private:
     double currFreq;
     double currRIT;
     double currXIT;
+    bool RITEnabled;
+    bool XITEnabled;
 
     const QHash<QString, TCIDrv::parseFce> responseParsers =
     {
@@ -91,7 +97,9 @@ private:
         {"drive", &TCIDrv::rspDRIVE},
         {"rit_offset", &TCIDrv::rspRIT_OFFSET},
         {"xit_offset", &TCIDrv::rspXIT_OFFSET},
-        {"cw_macros_speed", &TCIDrv::rspCW_MACROS_SPEED}
+        {"cw_macros_speed", &TCIDrv::rspCW_MACROS_SPEED},
+        {"rit_enable", &TCIDrv::rspRIT_ENABLE},
+        {"xit_enable", &TCIDrv::rspXIT_ENABLE},
     };
 };
 
