@@ -235,17 +235,18 @@ void TCIDrv::sendState()
     FCT_IDENTIFICATION;
 
     // it seems that Rig sends its state at the begining of the session
-    // it needs to be tested
-#if 0
+    // but it has to be implmented due to "Exit From Manual Mode"
+
     sendCmd("vfo", true, QStringList("0")); //Freq
     sendCmd("trx", true); // PTT
     sendCmd("modulation", true); //Mode
     //sendCmd(); // Current VFO ????
-    sendCmd("tune_drive", true); //PWR
+    sendCmd("drive", true); //PWR
     sendCmd("rit_offset", true);
+    sendCmd("rit_enable", true);
     sendCmd("xit_offset", true);
+    sendCmd("xit_enable", true);
     sendCmd("cw_macros_speed", false);
-#endif
 }
 
 void TCIDrv::stopTimers()
@@ -253,6 +254,8 @@ void TCIDrv::stopTimers()
     FCT_IDENTIFICATION;
 
     // no timer
+
+    // send STOP command????
 
     // close the WebSocket here becuase this method is called
     // via queue signals. What caused that there is not warning
