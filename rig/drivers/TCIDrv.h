@@ -78,6 +78,7 @@ private:
     bool receivedOnly;
     QStringList modeList;
     double currFreq;
+    QString currMode;
     double currRIT;
     double currXIT;
     bool RITEnabled;

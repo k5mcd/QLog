@@ -110,6 +110,12 @@ void TCIDrv::setFrequency(double newFreq)
 
     unsigned long long internalFreq = static_cast<unsigned long long>(newFreq);
 
+    if ( internalFreq == currFreq )
+    {
+        qCDebug(runtime) << "The same Freq - skip change" << internalFreq << currFreq;
+        return;
+    }
+
     QStringList args = {"0", //VFOID
                         QString::number(internalFreq)
                        };
@@ -124,6 +130,12 @@ void TCIDrv::setRawMode(const QString &rawMode)
 
     if ( !rigProfile.getModeInfo || rawMode.isEmpty() )
         return;
+
+    if ( rawMode == currMode )
+    {
+        qCDebug(runtime) << "The same Mode - skip change" << rawMode << currMode;
+        return;
+    }
 
     QStringList args = {rawMode};
     sendCmd("modulation", true, args);
@@ -632,13 +644,13 @@ void TCIDrv::rspMODULATION(const QStringList &cmdArgs)
         return;
     }
 
-    const QString &rawModeText = cmdArgs.at(1);
+    currMode = cmdArgs.at(1);
     QString submode;
-    const QString mode = getModeNormalizedText(rawModeText, submode);
+    const QString mode = getModeNormalizedText(currMode, submode);
 
 
-    qCDebug(runtime) << "emitting MODE changed" << rawModeText << mode << submode;
-    emit modeChanged(rawModeText,
+    qCDebug(runtime) << "emitting MODE changed" << currMode << mode << submode;
+    emit modeChanged(currMode,
                      mode, submode,
                      0);  // TODO: bandwidth should also be emited
                           // when RX_FILTER_BAND is processed
