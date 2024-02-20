@@ -296,7 +296,7 @@ DXSpotNotificationMsg::DXSpotNotificationMsg(const DxSpot &spot, QObject *parent
     spotData["rcvtime"] = spot.time.toString("yyyyMMdd hh:mm:ss");
     spotData["freq"] = qRound(spot.freq * 10000.0) / 10000.0;
     spotData["band"] = spot.band;
-    spotData["mode"] = spot.modeGroup; 
+    spotData["mode"] = spot.modeGroupString; 
     spotData["comment"] = spot.comment;
     spotData["status"] = DxccStatus2String.value(spot.status, "unknown");
 

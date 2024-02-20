@@ -584,6 +584,25 @@ void Rig::sendStateImpl()
     rigDriver->sendState();
 }
 
+void Rig::sendDXSpot(DxSpot spot)
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "sendDXSpotImpl", Qt::QueuedConnection,
+                              Q_ARG(DxSpot, spot));
+}
+
+void Rig::sendDXSpotImpl(const DxSpot &spot)
+{
+    FCT_IDENTIFICATION;
+
+    MUTEXLOCKER;
+
+    if ( ! rigDriver )
+        return;
+
+    rigDriver->sendDXSpot(spot);
+}
 
 GenericDrv *Rig::getDriver( const RigProfile &profile )
 {

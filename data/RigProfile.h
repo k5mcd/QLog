@@ -29,7 +29,7 @@ public:
                    ritOffset = 0.0; xitOffset = 0.0, getRITInfo = false;
                    getXITInfo = true; defaultPWR = 0.0, getPTTInfo = false;
                    QSYWiping = false, getKeySpeed = false, keySpeedSync = false;
-                   driver = 0;
+                   driver = 0, dxSpot2Rig = false;
                  };
 
     QString profileName;
@@ -60,6 +60,7 @@ public:
     QString assignedCWKey;
     bool keySpeedSync;
     qint32 driver;
+    bool dxSpot2Rig;
 
     bool operator== (const RigProfile &profile);
     bool operator!= (const RigProfile &profile);

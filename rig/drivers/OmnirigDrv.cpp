@@ -331,6 +331,13 @@ void OmnirigDrv::stopTimers()
     return;
 }
 
+void OmnirigDrv::sendDXSpot(const DxSpot &)
+{
+    FCT_IDENTIFICATION;
+
+    //no action
+}
+
 void OmnirigDrv::__rigTypeChange(int rigID)
 {
     FCT_IDENTIFICATION;

@@ -6,7 +6,7 @@
 
 MODULE_IDENTIFICATION("qlog.data.bandplan");
 
-BandPlan::BandPlanModes BandPlan::freq2BandMode(const double freq)
+BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
 {
     FCT_IDENTIFICATION;
 
@@ -158,13 +158,11 @@ BandPlan::BandPlanModes BandPlan::freq2BandMode(const double freq)
     return BAND_MODE_PHONE;
 }
 
-const QString BandPlan::freq2BandModeGroupString(const double freq)
+const QString BandPlan::bandMode2BandModeGroupString(const BandPlanMode &bandPlanMode)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters) << freq;
-
-    switch ( freq2BandMode(freq) )
+    switch ( bandPlanMode )
     {
     case BAND_MODE_CW: return BandPlan::MODE_GROUP_STRING_CW;
 
@@ -176,17 +174,28 @@ const QString BandPlan::freq2BandModeGroupString(const double freq)
     case BAND_MODE_LSB:
     case BAND_MODE_USB:
         return BandPlan::MODE_GROUP_STRING_PHONE;
+
+    case BAND_MODE_UNKNOWN:
+        return QString();
     }
     return QString();
 }
 
-const QString BandPlan::freq2ExpectedMode(const double freq, QString &submode)
+const QString BandPlan::freq2BandModeGroupString(const double freq)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << freq;
 
-    switch ( freq2BandMode(freq) )
+    return bandMode2BandModeGroupString(freq2BandMode(freq));
+}
+
+const QString BandPlan::bandPlanMode2ExpectedMode(const BandPlanMode &bandPlanMode,
+                                                  QString &submode)
+{
+    FCT_IDENTIFICATION;
+
+    switch ( bandPlanMode )
     {
     case BAND_MODE_CW: {submode = QString(); return "CW";}
     case BAND_MODE_LSB: {submode = "LSB"; return "SSB";}
@@ -197,7 +206,17 @@ const QString BandPlan::freq2ExpectedMode(const double freq, QString &submode)
     default:
         submode = QString();
     }
+
     return QString();
+}
+
+const QString BandPlan::freq2ExpectedMode(const double freq, QString &submode)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << freq;
+
+    return bandPlanMode2ExpectedMode(freq2BandMode(freq), submode);
 }
 
 const Band BandPlan::freq2Band(double freq)

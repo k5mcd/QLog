@@ -465,7 +465,16 @@ void HamlibDrv::sendState()
 
 void HamlibDrv::stopTimers()
 {
+    FCT_IDENTIFICATION;
+
     timer.stop();
+}
+
+void HamlibDrv::sendDXSpot(const DxSpot &)
+{
+    FCT_IDENTIFICATION;
+
+    // no action
 }
 
 void HamlibDrv::checkChanges()

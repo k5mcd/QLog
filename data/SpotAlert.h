@@ -6,6 +6,7 @@
 #include <QMetaType>
 #include "Dxcc.h"
 #include "core/MembershipQE.h"
+#include "data/BandPlan.h"
 
 struct SpotAlert
 {
@@ -23,6 +24,7 @@ struct SpotAlert
     QString band;
     QList<ClubInfo> callsign_member;
     QString modeGroupString;
+    BandPlan::BandPlanMode bandPlanMode;
     DxccEntity dxcc;
     DxccStatus status;
     QString comment;

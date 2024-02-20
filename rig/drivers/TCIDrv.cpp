@@ -1,5 +1,10 @@
+#include <QColor>
+#include <QPalette>
+
 #include "TCIDrv.h"
 #include "rig/macros.h"
+#include "data/Data.h"
+#include "data/BandPlan.h"
 
 MODULE_IDENTIFICATION("qlog.rig.driver.tcidrv");
 
@@ -36,6 +41,7 @@ RigCaps TCIDrv::getCaps(int)
     ret.canSendMorse = true;
     ret.canGetKeySpeed = true;
     ret.canGetPWR = true;
+    ret.canProcessDXSpot = true;
 
     return ret;
 }
@@ -243,6 +249,33 @@ void TCIDrv::stopTimers()
     return;
 }
 
+void TCIDrv::sendDXSpot(const DxSpot &spot)
+{
+    FCT_IDENTIFICATION;
+
+    if ( !rigProfile.dxSpot2Rig )
+        return;
+
+    QPalette palette;
+    QColor spotColor = Data::statusToColor(spot.status, palette.color(QPalette::Text));
+    spotColor.setAlpha(0);
+
+    unsigned long long internalFreq = static_cast<unsigned long long>(MHz(spot.freq));
+
+    QString submode;
+    const QString &mode = BandPlan::bandPlanMode2ExpectedMode(spot.bandPlanMode, submode);
+
+    QStringList args = {
+        spot.callsign,
+        mode2RawMode(mode, submode),
+        QString::number(internalFreq),
+        QString::number(spotColor.rgba()),
+        ""
+    };
+
+    sendCmd("spot", 0, args);
+}
+
 void TCIDrv::onConnected()
 {
     FCT_IDENTIFICATION;
@@ -443,6 +476,13 @@ const QString TCIDrv::mode2RawMode(const QString &mode, const QString &submode)
 
     if ( mode == "AM" )
         return mode;
+
+    if ( mode == "FT8" )
+    {
+        if ( modeList.contains("FT8") )
+            return "FT8";
+        return "USB";
+    }
 
     return QString();
 }

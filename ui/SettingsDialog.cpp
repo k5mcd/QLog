@@ -429,6 +429,7 @@ void SettingsDialog::addRigProfile()
     profile.QSYWiping = ui->rigQSYWipingCheckBox->isChecked();
     profile.getKeySpeed = ui->rigGetKeySpeedCheckBox->isChecked();
     profile.keySpeedSync = ui->rigKeySpeedSyncCheckBox->isChecked();
+    profile.dxSpot2Rig = ui->rigDXSpots2RigCheckBox->isChecked();
 
     rigProfManager->addProfile(profile.profileName, profile);
 
@@ -504,6 +505,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigQSYWipingCheckBox->setChecked(profile.QSYWiping);
     ui->rigGetKeySpeedCheckBox->setChecked(profile.getKeySpeed);
     ui->rigKeySpeedSyncCheckBox->setChecked(profile.keySpeedSync);
+    ui->rigDXSpots2RigCheckBox->setChecked(profile.dxSpot2Rig);
 
     int flowControlIndex = ui->rigFlowControlSelect->findData(profile.flowcontrol.toLower());
     ui->rigFlowControlSelect->setCurrentIndex((flowControlIndex < 0) ? 0 : flowControlIndex);
@@ -552,6 +554,7 @@ void SettingsDialog::clearRigProfileForm()
     ui->rigQSYWipingCheckBox->setChecked(true);
     ui->rigGetKeySpeedCheckBox->setChecked(true);
     ui->rigKeySpeedSyncCheckBox->setChecked(false);
+    ui->rigDXSpots2RigCheckBox->setChecked(false);
     ui->rigAddProfileButton->setText(tr("Add"));
 }
 
@@ -1596,6 +1599,9 @@ void SettingsDialog::rigChanged(int index)
     ui->rigKeySpeedSyncCheckBox->setEnabled(true);
     ui->rigKeySpeedSyncCheckBox->setChecked(false);
 
+    ui->rigDXSpots2RigCheckBox->setEnabled(true);
+    ui->rigDXSpots2RigCheckBox->setChecked(false);
+
     setUIBasedOnRigCaps(caps);
 }
 
@@ -2340,6 +2346,12 @@ void SettingsDialog::setUIBasedOnRigCaps(const RigCaps &caps)
         ui->rigGetKeySpeedCheckBox->setChecked(false);
         ui->rigKeySpeedSyncCheckBox->setEnabled(false);
         ui->rigKeySpeedSyncCheckBox->setChecked(false);
+    }
+
+    if ( ! caps.canProcessDXSpot )
+    {
+        ui->rigDXSpots2RigCheckBox->setEnabled(false);
+        ui->rigDXSpots2RigCheckBox->setChecked(false);
     }
 
     if ( ui->rigAssignedCWKeyCombo->currentText() != EMPTY_CWKEY_PROFILE )
