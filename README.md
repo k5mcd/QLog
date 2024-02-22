@@ -10,7 +10,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 ## Features
 
 - Customizable GUI
-- Rig control via Hamlib, Omnirig v1 (Windows only), Omnirig v2 (Windows only)
+- Rig control via Hamlib, Omnirig v1 (Windows only), Omnirig v2 (Windows only), TCI
 - Rotator control via Hamlib
 - HamQTH and QRZ.com callbook integration
 - DX cluster integration
@@ -38,6 +38,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 * all supported by [Hamlib](https://hamlib.github.io/)
 * all supported by [Omnirig v1](https://www.dxatlas.com/omnirig/) (Windows only)
 * all supported by [Omnirig v2](https://www.hb9ryz.ch/omnirig/) (Windows only)
+* all supported by [TCI](https://eesdr.com/en/software-en/software-en)
 
 ### Supported Rotators
 * all supported by [Hamlib](https://hamlib.github.io/)
