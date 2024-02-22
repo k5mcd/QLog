@@ -213,7 +213,7 @@ private:
                        const QString &comment,
                        const QDateTime &dateTime = QDateTime());
 
-    QString modeGroupFromComment(const QString &comment) const;
+    BandPlan::BandPlanMode modeGroupFromComment(const QString &comment) const;
 };
 
 #endif // QLOG_UI_DXWIDGET_H

@@ -56,7 +56,8 @@ void AlertEvaluator::dxSpot(const DxSpot & spot)
         alert.callsign_member = spot.callsign_member;
         alert.freq = spot.freq;
         alert.band = spot.band;
-        alert.modeGroupString = spot.modeGroup;
+        alert.bandPlanMode = spot.bandPlanMode;
+        alert.modeGroupString = spot.modeGroupString;
         alert.dxcc = spot.dxcc;
         alert.status = spot.status;
         alert.comment = spot.comment;
@@ -95,8 +96,9 @@ void AlertEvaluator::WSJTXCQSpot(const WsjtxEntry &wsjtx)
         alert.callsign_member = wsjtx.callsign_member;
         alert.freq = wsjtx.freq;
         alert.band = wsjtx.band;
-        alert.modeGroupString = ((wsjtx.decodedMode == "FT8") ? BandPlan::MODE_GROUP_STRING_FT8
-                                                              : BandPlan::MODE_GROUP_STRING_DIGITAL );
+        alert.bandPlanMode = ((wsjtx.decodedMode == "FT8")  ? BandPlan::BAND_MODE_FT8
+                                                             : BandPlan::BAND_MODE_DIGITAL );
+        alert.modeGroupString = BandPlan::bandMode2BandModeGroupString(alert.bandPlanMode);
         alert.dxcc = wsjtx.dxcc;
         alert.comment = wsjtx.decode.message;
         alert.status = wsjtx.status;
@@ -326,7 +328,7 @@ bool AlertRule::match(const DxSpot &spot) const
 
     qCDebug(function_parameters) << "Country: " << spot.dxcc.dxcc
                                  << "Status: " << spot.status
-                                 << "ModeGroup: " << spot.modeGroup
+                                 << "ModeGroup: " << spot.modeGroupString
                                  << "Band: " << spot.band
                                  << "spotter Country: " << spot.dxcc_spotter.dxcc
                                  << "Continent: " << spot.dxcc.cont
@@ -341,7 +343,7 @@ bool AlertRule::match(const DxSpot &spot) const
          && (sourceMap & SpotAlert::DXSPOT)
          && (dxCountry == 0 || dxCountry == spot.dxcc.dxcc)
          && (spot.status & dxLogStatusMap)
-         && (mode == "*" || mode.contains("|" + spot.modeGroup))
+         && (mode == "*" || mode.contains("|" + spot.modeGroupString))
          && (band == "*" || band.contains("|" + spot.band))
          && (spotterCountry == 0 || spotterCountry == spot.dxcc_spotter.dxcc )
          && (dxContinent == "*" || dxContinent.contains("|" + spot.dxcc.cont))

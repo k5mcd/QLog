@@ -16,6 +16,7 @@ public:
             bool canSendMorse = false,
             bool isNetworkOnly = false,
             bool needPolling = false,
+            bool canProcessDXSpot = false,
             int serial_data_bits = 8,
             int serial_stop_bits = 1
             );
@@ -33,6 +34,7 @@ public:
     int serialStopBits;
     bool isNetworkOnly;
     bool needPolling;
+    bool canProcessDXSpot;
 };
 
 #endif // RIG_RIGCAPS_H

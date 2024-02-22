@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "data/RigProfile.h"
+#include "data/DxSpot.h"
 
 class GenericDrv : public QObject
 {
@@ -29,9 +30,11 @@ public:
     virtual void stopMorse() = 0;
     virtual void sendState() = 0;
     virtual void stopTimers() = 0;
+    virtual void sendDXSpot(const DxSpot &spot) = 0;
 
 signals:
     // STATE Signals
+    void rigIsReady();
     void frequencyChanged(double, double, double);
     void pttChanged(bool);
     void modeChanged(QString, QString, QString, qint32);

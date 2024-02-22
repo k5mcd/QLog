@@ -7,6 +7,7 @@
 #include <QHash>
 #include "rig/drivers/GenericDrv.h"
 #include "RigCaps.h"
+#include "data/DxSpot.h"
 
 enum VFOID
 {
@@ -26,6 +27,7 @@ public:
         HAMLIB_DRIVER = 1,
         OMNIRIG_DRIVER = 2,
         OMNIRIGV2_DRIVER = 3,
+        TCI_DRIVER = 4
     };
 
     static Rig* instance();
@@ -58,6 +60,7 @@ public slots:
     void sendMorse(const QString &text);
     void stopMorse();
     void sendState();
+    void sendDXSpot(DxSpot spot);
 
 signals:
     void frequencyChanged(VFOID, double, double, double);
@@ -88,6 +91,7 @@ private slots:
     void sendMorseImpl(const QString &text);
     void stopMorseImpl();
     void sendStateImpl();
+    void sendDXSpotImpl(const DxSpot &spot);
 
 private:
     class DrvParams

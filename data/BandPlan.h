@@ -13,8 +13,9 @@ public:
     static const QString MODE_GROUP_STRING_FT8;
     static const QString MODE_GROUP_STRING_PHONE;
 
-    enum BandPlanModes
+    enum BandPlanMode
     {
+        BAND_MODE_UNKNOWN,
         BAND_MODE_CW,
         BAND_MODE_DIGITAL,
         BAND_MODE_FT8,
@@ -23,8 +24,11 @@ public:
         BAND_MODE_PHONE
     };
 
-    static BandPlanModes freq2BandMode(const double freq);
+    static BandPlanMode freq2BandMode(const double freq);
+    static const QString bandMode2BandModeGroupString(const BandPlan::BandPlanMode &bandPlanMode);
     static const QString freq2BandModeGroupString(const double freq);
+    static const QString bandPlanMode2ExpectedMode(const BandPlan::BandPlanMode &bandPlanMode,
+                                                   QString &submode);
     static const QString freq2ExpectedMode(const double freq,
                                      QString &submode);
     static const Band freq2Band(double freq);

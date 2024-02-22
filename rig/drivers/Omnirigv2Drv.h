@@ -38,6 +38,7 @@ public:
     virtual void stopMorse() override;
     virtual void sendState() override;
     virtual void stopTimers() override;
+    virtual void sendDXSpot(const DxSpot &spot) override;
 
 private slots:
     void rigTypeChange(int);

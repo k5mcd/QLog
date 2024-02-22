@@ -153,6 +153,7 @@ bool OmnirigDrv::open()
         OmnirigDrv::rigStatusChange(rigProfile.model);
     });
 
+
     // TODO - solve timeout from library. Is it possible????
     return true;
 }
@@ -328,6 +329,13 @@ void OmnirigDrv::stopTimers()
 
     // not timer
     return;
+}
+
+void OmnirigDrv::sendDXSpot(const DxSpot &)
+{
+    FCT_IDENTIFICATION;
+
+    //no action
 }
 
 void OmnirigDrv::__rigTypeChange(int rigID)

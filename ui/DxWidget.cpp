@@ -56,7 +56,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
         case 2:
             return QString::number(spot.freq, 'f', 4);
         case 3:
-            return spot.modeGroup;
+            return spot.modeGroupString;
         case 4:
             return spot.spotter;
         case 5:
@@ -1497,17 +1497,20 @@ void DxWidget::processDxSpot(const QString &spotter,
     spot.band = BandPlan::freq2Band(spot.freq).name;
     spot.spotter = spotter;
     spot.comment = comment.trimmed();
-    spot.modeGroup = modeGroupFromComment(spot.comment);
-    if ( spot.modeGroup == QString() )
-        spot.modeGroup = BandPlan::freq2BandModeGroupString(spot.freq);
+    spot.bandPlanMode = modeGroupFromComment(spot.comment);
+    if ( spot.bandPlanMode == BandPlan::BAND_MODE_UNKNOWN )
+    {
+        spot.bandPlanMode = BandPlan::freq2BandMode(spot.freq);
+    }
+    spot.modeGroupString = BandPlan::bandMode2BandModeGroupString(spot.bandPlanMode);
     spot.dxcc = dxcc;
     spot.dxcc_spotter = dxcc_spotter;
-    spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, spot.modeGroup);
+    spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, spot.modeGroupString);
     spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
 
     emit newSpot(spot);
 
-    if ( spot.modeGroup.contains(moderegexp)
+    if ( spot.modeGroupString.contains(moderegexp)
          && spot.dxcc.cont.contains(contregexp)
          && spot.dxcc_spotter.cont.contains(spottercontregexp)
          && spot.band.contains(bandregexp)
@@ -1521,7 +1524,7 @@ void DxWidget::processDxSpot(const QString &spotter,
     }
 }
 
-QString DxWidget::modeGroupFromComment(const QString &comment) const
+BandPlan::BandPlanMode DxWidget::modeGroupFromComment(const QString &comment) const
 {
     FCT_IDENTIFICATION;
 
@@ -1534,30 +1537,30 @@ QString DxWidget::modeGroupFromComment(const QString &comment) const
 #endif
 
     if ( tokenizedComment.contains("CW", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_CW;
+        return BandPlan::BAND_MODE_CW;
 
     if ( tokenizedComment.contains("FT8", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_FT8;
+        return BandPlan::BAND_MODE_FT8;
 
     if ( tokenizedComment.contains("FT4", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+        return BandPlan::BAND_MODE_DIGITAL;
 
     if ( tokenizedComment.contains("MSK144", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+        return BandPlan::BAND_MODE_DIGITAL;
 
     if ( tokenizedComment.contains("RTTY", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+        return BandPlan::BAND_MODE_DIGITAL;
 
     if ( tokenizedComment.contains("SSTV", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+        return BandPlan::BAND_MODE_DIGITAL;
 
     if ( tokenizedComment.contains("PACKET", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_DIGITAL;
+        return BandPlan::BAND_MODE_DIGITAL;
 
     if ( tokenizedComment.contains("SSB", Qt::CaseInsensitive) )
-        return BandPlan::MODE_GROUP_STRING_PHONE;
+        return BandPlan::BAND_MODE_PHONE;
 
-    return QString();
+    return BandPlan::BAND_MODE_UNKNOWN;
 }
 
 DxWidget::~DxWidget()

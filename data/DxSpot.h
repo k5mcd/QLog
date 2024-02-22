@@ -4,15 +4,18 @@
 #include <QtCore>
 #include "Dxcc.h"
 #include "core/MembershipQE.h"
+#include "data/BandPlan.h"
 
-class DxSpot {
+class DxSpot
+{
 public:
     QDateTime time;
     QString callsign;
     QList<ClubInfo> callsign_member;
     double freq;
     QString band;
-    QString modeGroup;
+    QString modeGroupString;
+    BandPlan::BandPlanMode bandPlanMode;
     QString spotter;
     QString comment;
     DxccEntity dxcc;
@@ -39,9 +42,8 @@ public:
         }
         return ret;
     }
-
-
-
 };
+
+Q_DECLARE_METATYPE(DxSpot);
 
 #endif // QLOG_DATA_DXSPOT_H

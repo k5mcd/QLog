@@ -34,6 +34,7 @@ public:
     virtual void stopMorse() override;
     virtual void sendState() override;
     virtual void stopTimers() override;
+    virtual void sendDXSpot(const DxSpot &spot) override;
 
 private slots:
     void rigTypeChange(int);
@@ -47,7 +48,6 @@ private:
     void __rigTypeChange(int);
     void commandSleep();
     const QString getModeNormalizedText(const QString& rawMode, QString &submode);
-
     void checkChanges(int, bool force = false);
     bool checkFreqChange(int, bool);
     bool checkModeChange(int, bool);

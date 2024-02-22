@@ -11,6 +11,7 @@ RigCaps::RigCaps(bool canGetFreq,
                  bool canSendMorse,
                  bool isNetworkOnly,
                  bool needPolling,
+                 bool canProcessDXSpot,
                  int serial_data_bits,
                  int serial_stop_bits
                  ) :
@@ -26,7 +27,8 @@ RigCaps::RigCaps(bool canGetFreq,
     serialDataBits(serial_data_bits),
     serialStopBits(serial_stop_bits),
     isNetworkOnly(isNetworkOnly),
-    needPolling(needPolling)
+    needPolling(needPolling),
+    canProcessDXSpot(canProcessDXSpot)
 {
 
 }

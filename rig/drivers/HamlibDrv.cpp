@@ -193,6 +193,7 @@ bool HamlibDrv::open()
 
     connect(&timer, &QTimer::timeout, this, &HamlibDrv::checkRigStateChange);
     timer.start(rigProfile.pollInterval);
+    emit rigIsReady();
     return true;
 }
 
@@ -464,7 +465,16 @@ void HamlibDrv::sendState()
 
 void HamlibDrv::stopTimers()
 {
+    FCT_IDENTIFICATION;
+
     timer.stop();
+}
+
+void HamlibDrv::sendDXSpot(const DxSpot &)
+{
+    FCT_IDENTIFICATION;
+
+    // no action
 }
 
 void HamlibDrv::checkChanges()

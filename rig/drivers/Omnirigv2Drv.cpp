@@ -155,6 +155,8 @@ bool OmnirigV2Drv::open()
         OmnirigV2Drv::rigStatusChange(rigProfile.model);
     });
 
+    emit rigIsReady();
+
     // TODO - solve timeout from library. Is it possible????
     return true;
 
@@ -327,8 +329,17 @@ void OmnirigV2Drv::sendState()
 
 void OmnirigV2Drv::stopTimers()
 {
+    FCT_IDENTIFICATION;
+
     // not timer
     return;
+}
+
+void OmnirigV2Drv::sendDXSpot(const DxSpot &spot)
+{
+    FCT_IDENTIFICATION;
+
+    // no action
 }
 
 void OmnirigV2Drv::rigTypeChange(int rigID)
