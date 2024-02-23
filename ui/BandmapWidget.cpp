@@ -224,6 +224,7 @@ void BandmapWidget::updateStations()
                        QGraphicsItem::ItemIsSelectable |
                        text->flags());
         text->setProperty("freq", lower.key());
+        text->setProperty("bandmode", static_cast<int>(lower.value().bandPlanMode));
         text->setToolTip(lower.value().comment);
 
         min_y = text_y + text->boundingRect().height() / 2;
@@ -639,11 +640,12 @@ void BandmapWidget::focusZoomFreq(int, int)
 }
 
 void BandmapWidget::spotClicked(const QString &call,
-                                double freq)
+                                double freq,
+                                BandPlan::BandPlanMode mode)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters) << call << freq;
+    qCDebug(function_parameters) << call << freq << mode;
     qCDebug(runtime) << "Last Tuned DX" << lastTunedDX.callsign << lastTunedDX.freq;
 
     /* Do not emit the Spot two times - double click*/
@@ -651,7 +653,7 @@ void BandmapWidget::spotClicked(const QString &call,
          && lastTunedDX.freq == freq )
         return;
 
-    emit tuneDx(call, freq);
+    emit tuneDx(call, freq, mode);
     lastTunedDX.callsign = call;
     lastTunedDX.freq = freq;
 }
@@ -925,7 +927,8 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *evt)
         if ( focusedSpot )
         {
             emit spotClicked(focusedSpot->toPlainText().split(" ").first(),
-                             focusedSpot->property("freq").toDouble());
+                             focusedSpot->property("freq").toDouble(),
+                             static_cast<BandPlan::BandPlanMode>(focusedSpot->property("bandmode").toInt()));
 
         }
         evt->accept();

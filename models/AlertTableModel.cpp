@@ -114,6 +114,14 @@ double AlertTableModel::getFrequency(const QModelIndex &index)
     return ret;
 }
 
+BandPlan::BandPlanMode AlertTableModel::getBandPlanMode(const QModelIndex &index)
+{
+    alertListMutex.lock();
+    BandPlan::BandPlanMode ret = alertList.at(index.row()).bandPlanMode;
+    alertListMutex.unlock();
+    return ret;
+}
+
 void AlertTableModel::aging(const int clear_interval_sec)
 {
     if ( clear_interval_sec <= 0 ) return;
@@ -154,9 +162,9 @@ AlertTableModel::AlertTableRecord::AlertTableRecord(const SpotAlert &spotAlert) 
     freq(spotAlert.freq),
     band(spotAlert.band),
     mode(spotAlert.modeGroupString),
+    bandPlanMode(spotAlert.bandPlanMode),
     comment(spotAlert.comment),
     counter(0),
     status(spotAlert.status)
 {
-
 }

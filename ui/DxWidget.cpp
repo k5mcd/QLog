@@ -1,4 +1,4 @@
-#include <QDebug>
+﻿#include <QDebug>
 #include <QColor>
 #include <QSettings>
 #include <QMessageBox>
@@ -149,6 +149,11 @@ QString DxTableModel::getCallsign(const QModelIndex& index) {
 
 double DxTableModel::getFrequency(const QModelIndex& index) {
     return dxData.at(index.row()).freq;
+}
+
+BandPlan::BandPlanMode DxTableModel::getBandPlanode(const QModelIndex &index)
+{
+    return dxData.at(index.row()).bandPlanMode;
 }
 
 void DxTableModel::clear() {
@@ -1178,12 +1183,13 @@ void DxWidget::viewModeChanged(int index)
     ui->stack->setCurrentIndex(index);
 }
 
-void DxWidget::entryDoubleClicked(QModelIndex index) {
+void DxWidget::entryDoubleClicked(QModelIndex index)
+{
     FCT_IDENTIFICATION;
 
-    QString callsign = dxTableModel->getCallsign(index);
-    double frequency = dxTableModel->getFrequency(index);
-    emit tuneDx(callsign, frequency);
+    emit tuneDx(dxTableModel->getCallsign(index),
+                dxTableModel->getFrequency(index),
+                dxTableModel->getBandPlanode(index));
 }
 
 void DxWidget::actionFilter()
@@ -1502,6 +1508,11 @@ void DxWidget::processDxSpot(const QString &spotter,
     {
         spot.bandPlanMode = BandPlan::freq2BandMode(spot.freq);
     }
+    if ( spot.bandPlanMode == BandPlan::BAND_MODE_PHONE )
+    {
+        spot.bandPlanMode = (spot.freq < 10.0 ) ? BandPlan::BAND_MODE_LSB
+                                                : BandPlan::BAND_MODE_USB;
+    }
     spot.modeGroupString = BandPlan::bandMode2BandModeGroupString(spot.bandPlanMode);
     spot.dxcc = dxcc;
     spot.dxcc_spotter = dxcc_spotter;
@@ -1559,6 +1570,12 @@ BandPlan::BandPlanMode DxWidget::modeGroupFromComment(const QString &comment) co
 
     if ( tokenizedComment.contains("SSB", Qt::CaseInsensitive) )
         return BandPlan::BAND_MODE_PHONE;
+
+    if ( tokenizedComment.contains("USB", Qt::CaseInsensitive) )
+        return BandPlan::BAND_MODE_USB;
+
+    if ( tokenizedComment.contains("LSB", Qt::CaseInsensitive) )
+        return BandPlan::BAND_MODE_LSB;
 
     return BandPlan::BAND_MODE_UNKNOWN;
 }

@@ -20,6 +20,7 @@ public:
     void clear();
     QString getCallsign(const QModelIndex& index);
     double getFrequency(const QModelIndex& index);
+    BandPlan::BandPlanMode getBandPlanMode(const QModelIndex &index);
     void aging(const int clear_interval_sec);
 
 private:
@@ -31,6 +32,7 @@ private:
         double freq;
         QString band;
         QString mode;
+        BandPlan::BandPlanMode bandPlanMode;
         QString comment;
         long long counter;
         DxccStatus status;

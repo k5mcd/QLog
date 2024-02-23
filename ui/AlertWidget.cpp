@@ -65,11 +65,9 @@ void AlertWidget::clearAllAlerts()
 void AlertWidget::entryDoubleClicked(QModelIndex index)
 {
     FCT_IDENTIFICATION;
-
-
-    QString callsign = alertTableModel->getCallsign(index);
-    double frequency = alertTableModel->getFrequency(index);
-    emit tuneDx(callsign, frequency);
+    emit tuneDx(alertTableModel->getCallsign(index),
+                alertTableModel->getFrequency(index),
+                alertTableModel->getBandPlanMode(index));
 }
 
 void AlertWidget::alertAgingChanged(int)

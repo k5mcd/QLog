@@ -384,7 +384,9 @@ void MainWindow::processSpotAlert(SpotAlert alert)
 
     connect(alertTextButton, &QPushButton::clicked, this, [this, alert]()
     {
-        ui->newContactWidget->tuneDx(alert.callsign, alert.freq);
+        ui->newContactWidget->tuneDx(alert.callsign,
+                                     alert.freq,
+                                     alert.bandPlanMode);
     });
 
     if ( ui->actionBeepSettingAlert->isChecked() )

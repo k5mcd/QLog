@@ -39,6 +39,7 @@ public:
                   double freq_tolerance = DEDUPLICATION_FREQ_TOLERANCE);
     QString getCallsign(const QModelIndex& index);
     double getFrequency(const QModelIndex& index);
+    BandPlan::BandPlanMode getBandPlanode(const QModelIndex& index);
     void clear();
 
 private:
@@ -146,7 +147,7 @@ private slots:
     void displayedColumns();
 
 signals:
-    void tuneDx(QString, double);
+    void tuneDx(QString, double, BandPlan::BandPlanMode);
     void newSpot(DxSpot);
     void newWCYSpot(WCYSpot);
     void newWWVSpot(WWVSpot);

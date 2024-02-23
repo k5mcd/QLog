@@ -38,4 +38,6 @@ public:
     BandPlan();
 };
 
+Q_DECLARE_METATYPE(BandPlan::BandPlanMode);
+
 #endif // QLOG_DATA_BANDPLAN_H

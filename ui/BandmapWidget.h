@@ -29,7 +29,7 @@ public:
     explicit GraphicsScene(QObject *parent = nullptr) : QGraphicsScene(parent){};
 
 signals:
-    void spotClicked(QString, double);
+    void spotClicked(QString, double, BandPlan::BandPlanMode mode);
 
 protected:
     void mousePressEvent (QGraphicsSceneMouseEvent *evt) override;
@@ -65,7 +65,7 @@ public slots:
     void spotsDxccStatusRecal(const QSqlRecord &record);
 
 signals:
-    void tuneDx(QString, double);
+    void tuneDx(QString, double,  BandPlan::BandPlanMode);
     void nearestSpotFound(const DxSpot &);
 
 private:
@@ -91,7 +91,7 @@ private:
 
 private slots:
     void centerRXActionChecked(bool);
-    void spotClicked(const QString&, double);
+    void spotClicked(const QString&, double, BandPlan::BandPlanMode);
     void showContextMenu(const QPoint&);
     void updateStationTimer();
     void focusZoomFreq(int, int);

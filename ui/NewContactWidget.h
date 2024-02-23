@@ -21,6 +21,7 @@
 #include "core/LogLocale.h"
 #include "models/LogbookModel.h"
 #include "ui/EditLine.h"
+#include "data/BandPlan.h"
 
 namespace Ui {
 class NewContactWidget;
@@ -183,7 +184,9 @@ public slots:
     void refreshRigProfileCombo();
     void saveExternalContact(QSqlRecord record);
     void readGlobalSettings();
-    void tuneDx(const QString &callsign, double frequency);
+    void tuneDx(const QString &callsign,
+                double frequency,
+                const BandPlan::BandPlanMode mode);
     void fillCallsignGrid(const QString &callsign, const QString& grid);
     void showDx(const QString &callsign, const QString &grid);
     void resetContact();

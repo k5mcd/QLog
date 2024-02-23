@@ -28,7 +28,7 @@ public slots:
 
 signals:
     void alertsCleared();
-    void tuneDx(QString, double);
+    void tuneDx(QString, double, BandPlan::BandPlanMode);
 
 private:
     Ui::AlertWidget *ui;

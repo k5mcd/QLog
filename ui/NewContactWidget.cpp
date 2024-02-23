@@ -2426,11 +2426,13 @@ void NewContactWidget::setBandLabel(const QString &band)
     ui->bandRXLabel->setText(band);
 }
 
-void NewContactWidget::tuneDx(const QString &callsign, double frequency)
+void NewContactWidget::tuneDx(const QString &callsign,
+                              double frequency,
+                              const BandPlan::BandPlanMode bandPlanMode)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<callsign<< " " << frequency;
+    qCDebug(function_parameters) << callsign<< frequency << bandPlanMode;
 
     if ( isManualEnterMode )
     {
@@ -2441,8 +2443,16 @@ void NewContactWidget::tuneDx(const QString &callsign, double frequency)
     if ( frequency > 0.0 )
     {
         QString subMode;
-        const QString &mode = BandPlan::freq2ExpectedMode(frequency,
-                                                          subMode);
+        QString mode = BandPlan::bandPlanMode2ExpectedMode(bandPlanMode,
+                                                           subMode);
+
+        if ( mode.isEmpty() )
+        {
+            qCDebug(runtime) << "mode not found" << bandPlanMode;
+            mode = BandPlan::freq2ExpectedMode(frequency,
+                                               subMode);
+        }
+
         if ( !mode.isEmpty() )
         {
             // in case of SSB, do not sent 2 mode changes to rig
@@ -2476,7 +2486,7 @@ void NewContactWidget::fillCallsignGrid(const QString &callsign, const QString &
 {
     FCT_IDENTIFICATION;
     qCDebug(function_parameters) << callsign<< grid;
-    tuneDx(callsign, -1);
+    tuneDx(callsign, -1, BandPlan::BAND_MODE_UNKNOWN);
     uiDynamic->gridEdit->setText(grid);
 }
 

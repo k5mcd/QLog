@@ -418,6 +418,8 @@ int main(int argc, char* argv[])
     qRegisterMetaTypeStreamOperators<QSet<int>>("QSet<int>");
 #endif
     qRegisterMetaType<DxSpot>();
+    qRegisterMetaType<BandPlan::BandPlanMode>();
+
     set_debug_level(LEVEL_PRODUCTION); // you can set more verbose rules via
                                        // environment variable QT_LOGGING_RULES (project setting/debug)
 
