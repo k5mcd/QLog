@@ -124,7 +124,7 @@
       <item row="1" column="0" colspan="2">
        <widget class="QPushButton" name="downloadButton">
         <property name="text">
-         <string>Download</string>
+         <string>QSLs Download</string>
         </property>
        </widget>
       </item>
