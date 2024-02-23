@@ -150,11 +150,11 @@ To be honest, It is not easy to compile it under Windows but it is possible.
 
 for Debian:
 
-`sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev pkg-config`
+`sudo apt-get -y install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools libsqlite3-dev libhamlib++-dev libqt5charts5-dev qttools5-dev-tools libqt5keychain1 qt5keychain-dev qtwebengine5-dev build-essential libqt5serialport5-dev pkg-config libqt5websockets5-dev`
 
 for Debian (QT6):
 
-`sudo apt-get -y install libhamlib-dev build-essential pkg-config qt6-base-dev qtkeychain-qt6-dev qt6-webengine-dev libqt6charts6-dev libqt6serialport6-dev libqt6webenginecore6-bin libqt6svg6-dev libgl-dev`
+`sudo apt-get -y install libhamlib-dev build-essential pkg-config qt6-base-dev qtkeychain-qt6-dev qt6-webengine-dev libqt6charts6-dev libqt6serialport6-dev libqt6webenginecore6-bin libqt6svg6-dev libgl-dev libqt6websockets6-dev`
 
 for Fedora:
 
