@@ -1,5 +1,6 @@
 TBC - 0.33.0
 - [NEW] - Added Rig Interface TCI
+- Fixed Modal dialog blinks - Windows platform (issue #315)
 - Fixed LoTW and eQSL download are only QSLs dowloads - button label changed (issue #318)
 - Improved DXC Mode recognition
 
