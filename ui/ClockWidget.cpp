@@ -32,7 +32,7 @@ ClockWidget::ClockWidget(QWidget *parent) :
     ui->sunGraphicsView->setScene(sunScene.data());
 
     QFont font = clockItem->font();
-    font.setPointSize(25);
+    font.setPointSize(20);
     clockItem->setFont(font);
     clockScene->addItem(clockItem.data());
     ui->clockGraphicsView->setScene(clockScene.data());
