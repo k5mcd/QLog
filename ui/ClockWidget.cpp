@@ -15,7 +15,10 @@ MODULE_IDENTIFICATION("qlog.ui.clockwidget");
 
 ClockWidget::ClockWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ClockWidget)
+    ui(new Ui::ClockWidget),
+    sunScene(new QGraphicsScene(this)),
+    clockScene(new QGraphicsScene(this)),
+    clockItem(new QGraphicsTextItem)
 {
     FCT_IDENTIFICATION;
 
@@ -25,22 +28,26 @@ ClockWidget::ClockWidget(QWidget *parent) :
     connect(timer, &QTimer::timeout, this, &ClockWidget::updateClock);
     timer->start(500);
 
-    sunScene = new QGraphicsScene(this);
-
     sunScene->setSceneRect(0, 0, 200, 10);
-    ui->sunGraphicsView->setScene(sunScene);
-    ui->sunGraphicsView->setStyleSheet("background-color: transparent;");
+    ui->sunGraphicsView->setScene(sunScene.data());
+
+    QFont font = clockItem->font();
+    font.setPointSize(25);
+    clockItem->setFont(font);
+    clockScene->addItem(clockItem.data());
+    ui->clockGraphicsView->setScene(clockScene.data());
 
     updateClock();
     updateSun();
     updateSunGraph();
 }
 
-void ClockWidget::updateClock() {
+void ClockWidget::updateClock()
+{
     FCT_IDENTIFICATION;
 
     QDateTime now = QDateTime::currentDateTime().toTimeSpec(Qt::UTC);
-    ui->clockLabel->setText(now.toString(locale.formatTimeLongWithoutTZ()));
+    clockItem->setPlainText(now.toString(locale.formatTimeLongWithoutTZ()));
 
     if (now.time().second() == 0)
     {
@@ -57,7 +64,8 @@ void ClockWidget::updateClock() {
 //    }
 }
 
-void ClockWidget::updateSun() {
+void ClockWidget::updateSun()
+{
     FCT_IDENTIFICATION;
 
     Gridsquare myGrid (StationProfilesManager::instance()->getCurProfile1().locator);
@@ -95,7 +103,8 @@ void ClockWidget::updateSun() {
     }
 }
 
-void ClockWidget::updateSunGraph() {
+void ClockWidget::updateSunGraph()
+{
     FCT_IDENTIFICATION;
 
     QColor dayColor(255, 253, 59);
@@ -110,12 +119,14 @@ void ClockWidget::updateSunGraph() {
 
     sunScene->clear();
 
-    if (set > rise) {
+    if ( set > rise )
+    {
         sunScene->addRect(0, 0, rise, 10, QPen(Qt::NoPen), QBrush(nightColor, Qt::SolidPattern));
         sunScene->addRect(rise, 0, set-rise, 10, QPen(Qt::NoPen), QBrush(dayColor, Qt::SolidPattern));
         sunScene->addRect(set, 0, width-set, 10, QPen(Qt::NoPen), QBrush(nightColor, Qt::SolidPattern));
     }
-    else {
+    else
+    {
         sunScene->addRect(0, 0, set, 10, QPen(Qt::NoPen), QBrush(dayColor, Qt::SolidPattern));
         sunScene->addRect(set, 0, rise-set, 10, QPen(Qt::NoPen), QBrush(nightColor, Qt::SolidPattern));
         sunScene->addRect(rise, 0, width-rise, 10, QPen(Qt::NoPen), QBrush(dayColor, Qt::SolidPattern));
