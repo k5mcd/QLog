@@ -30,17 +30,42 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QLabel" name="clockLabel">
-     <property name="font">
-      <font>
-       <pointsize>25</pointsize>
-      </font>
+    <widget class="QGraphicsView" name="clockGraphicsView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="text">
-      <string>12:00:00</string>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="interactive">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -54,6 +79,9 @@
      </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>

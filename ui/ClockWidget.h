@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTime>
 #include "core/LogLocale.h"
+#include <QGraphicsItem>
 
 namespace Ui {
 class ClockWidget;
@@ -26,9 +27,9 @@ public slots:
 
 private:
     Ui::ClockWidget *ui;
-
-    QGraphicsScene* sunScene;
-
+    QScopedPointer<QGraphicsScene> sunScene;
+    QScopedPointer<QGraphicsScene> clockScene;
+    QScopedPointer<QGraphicsTextItem> clockItem;
     LogLocale locale;
     QTime sunrise;
     QTime sunset;
