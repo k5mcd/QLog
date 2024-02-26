@@ -166,7 +166,9 @@ LogbookWidget::LogbookWidget(QWidget *parent) :
     ui->modeFilter->blockSignals(false);
 
     ui->countryFilter->blockSignals(true);
-    countryModel = new SqlListModel("SELECT id, name FROM dxcc_entities WHERE id IN (SELECT DISTINCT dxcc FROM contacts) ORDER BY name;", tr("Country"), this);
+    countryModel = new SqlListModel("SELECT id, translate_to_locale(name) "
+                                    "FROM dxcc_entities WHERE id IN (SELECT DISTINCT dxcc FROM contacts) "
+                                    "ORDER BY 2 COLLATE LOCALEAWARE ASC;", tr("Country"), this);
     while (countryModel->canFetchMore())
     {
         countryModel->fetchMore();

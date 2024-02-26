@@ -222,7 +222,7 @@ QVariant LogbookModel::data(const QModelIndex &index, int role) const
                "<table>" +
                 " <tr>" +
                 "   <td><b>" + tr("Country") + ": </b></td>" +
-                "   <td>" + QSqlTableModel::data(this->index(index.row(), COLUMN_COUNTRY), Qt::DisplayRole).toString() + "</td>" +
+                "   <td>" + QCoreApplication::translate("DBStrings", QSqlTableModel::data(this->index(index.row(), COLUMN_COUNTRY), Qt::DisplayRole).toString().toUtf8().constData()) + "</td>" +
                 " </tr>" +
                " <tr>" +
                "   <td><b>" + tr("Band") + ": </b></td>" +

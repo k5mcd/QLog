@@ -435,7 +435,7 @@ void NewContactWidget::queryDxcc(const QString &callsign)
 
     if ( dxccEntity.dxcc )
     {
-        ui->dxccInfo->setText(dxccEntity.country);
+        ui->dxccInfo->setText(QCoreApplication::translate("DBStrings", dxccEntity.country.toUtf8().constData()));
         uiDynamic->cqzEdit->setText(QString::number(dxccEntity.cqz));
         uiDynamic->ituEdit->setText(QString::number(dxccEntity.ituz));
         updateCoordinates(dxccEntity.latlon[0], dxccEntity.latlon[1], COORD_DXCC);

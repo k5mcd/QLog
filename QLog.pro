@@ -289,7 +289,8 @@ HEADERS += \
         ui/SwitchButton.h \
         ui/WebEnginePage.h \
         ui/WsjtxFilterDialog.h \
-        ui/WsjtxWidget.h
+        ui/WsjtxWidget.h \
+        i18n/dbstrings.tri
 
 FORMS += \
         ui/AlertRuleDetail.ui \
@@ -421,7 +422,7 @@ unix:!macx {
    INSTALLS += target desktop icon metainfo
 
    INCLUDEPATH += /usr/local/include
-   LIBS += -L/usr/local/lib -lhamlib
+   LIBS += -L/usr/local/lib -lhamlib -lsqlite3
    equals(QT_MAJOR_VERSION, 6): LIBS += -lqt6keychain
    equals(QT_MAJOR_VERSION, 5): LIBS += -lqt5keychain
 }
@@ -434,7 +435,7 @@ macx: {
    }
 
    INCLUDEPATH += /usr/local/include
-   LIBS += -L/usr/local/lib -lhamlib
+   LIBS += -L/usr/local/lib -lhamlib -lsqlite3
    equals(QT_MAJOR_VERSION, 6): LIBS += -lqt6keychain
    equals(QT_MAJOR_VERSION, 5): LIBS += -lqt5keychain
    DISTFILES +=
@@ -472,4 +473,5 @@ DEFINES += HAMLIBVERSION_PATCH=$$HAMLIBVERSION_PATCH
 
 DISTFILES += \
     Changelog \
+    i18n/dbstrings.tri \
     res/data/sat_modes

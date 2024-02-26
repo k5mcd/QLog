@@ -70,7 +70,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
         case 9:
             return spot.memberList2StringList().join(", ");
         case 10:
-            return spot.dxcc.country;
+            return QCoreApplication::translate("DBStrings", spot.dxcc.country.toUtf8().constData());
         default:
             return QVariant();
         }
@@ -81,7 +81,7 @@ QVariant DxTableModel::data(const QModelIndex& index, int role) const
     }
     else if (index.column() == 1 && role == Qt::ToolTipRole) {
         DxSpot spot = dxData.at(index.row());
-        return spot.dxcc.country + " [" + Data::statusToText(spot.status) + "]";
+        return QCoreApplication::translate("DBStrings", spot.dxcc.country.toUtf8().constData()) + " [" + Data::statusToText(spot.status) + "]";
     }
     /*else if (index.column() == 1 && role == Qt::ForegroundRole) {
         DxSpot spot = dxData.at(index.row());

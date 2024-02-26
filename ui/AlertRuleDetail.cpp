@@ -52,7 +52,9 @@ AlertRuleDetail::AlertRuleDetail(const QString &ruleName, QWidget *parent) :
     /****************/
     /* DX Countries */
     /****************/
-    SqlListModel *countryModel = new SqlListModel("SELECT id, name FROM dxcc_entities ORDER BY name;",
+    SqlListModel *countryModel = new SqlListModel("SELECT id, translate_to_locale(name) "
+                                                  "FROM dxcc_entities "
+                                                  "ORDER BY 2 COLLATE LOCALEAWARE ASC;",
                                                   tr("All"), this);
     while (countryModel->canFetchMore())
     {
@@ -64,8 +66,15 @@ AlertRuleDetail::AlertRuleDetail(const QString &ruleName, QWidget *parent) :
     /********************/
     /* Spotter Coutries */
     /********************/
-
-    ui->spotterCountryCombo->setModel(countryModel);
+    SqlListModel *countryModel2 = new SqlListModel("SELECT id, translate_to_locale(name) "
+                                                  "FROM dxcc_entities "
+                                                  "ORDER BY 2 COLLATE LOCALEAWARE ASC;",
+                                                  tr("All"), this);
+    while (countryModel2->canFetchMore())
+    {
+        countryModel2->fetchMore();
+    }
+    ui->spotterCountryCombo->setModel(countryModel2);
     ui->spotterCountryCombo->setModelColumn(1);
 
     /**************/

@@ -666,7 +666,7 @@ QVariant UserListModel::data(const QModelIndex &index, int role) const
     }
     else if (index.column() == 0 && role == Qt::ToolTipRole)
     {
-        return userInfo.dxcc.country + " [" + Data::statusToText(userInfo.status) + "]";
+        return QCoreApplication::translate("DBStrings", userInfo.dxcc.country.toUtf8().constData()) + " [" + Data::statusToText(userInfo.status) + "]";
     }
     else if ( role == Qt::UserRole )
     {

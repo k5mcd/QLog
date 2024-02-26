@@ -55,7 +55,7 @@ QVariant WsjtxTableModel::data(const QModelIndex& index, int role) const
     }
     else if (index.column() == 0 && role == Qt::ToolTipRole)
     {
-        return  entry.dxcc.country + " [" + Data::statusToText(entry.status) + "]";
+        return  QCoreApplication::translate("DBStrings", entry.dxcc.country.toUtf8().constData()) + " [" + Data::statusToText(entry.status) + "]";
     }
 
     return QVariant();

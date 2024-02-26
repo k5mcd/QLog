@@ -493,12 +493,12 @@
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="669"/>
+        <location filename="../ui/BandmapWidget.cpp" line="671"/>
         <source>Show Band</source>
         <translation>Zobrazit pásmo</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="682"/>
+        <location filename="../ui/BandmapWidget.cpp" line="684"/>
         <source>Center RX</source>
         <translation>Centrovat RX</translation>
     </message>
@@ -885,25 +885,20 @@
         <translation>Hodiny</translation>
     </message>
     <message>
-        <location filename="../ui/ClockWidget.ui" line="40"/>
-        <source>12:00:00</source>
-        <translation>12:00:00</translation>
-    </message>
-    <message>
-        <location filename="../ui/ClockWidget.ui" line="116"/>
-        <location filename="../ui/ClockWidget.ui" line="219"/>
+        <location filename="../ui/ClockWidget.ui" line="144"/>
+        <location filename="../ui/ClockWidget.ui" line="247"/>
         <source>Sunrise</source>
         <translation>Východ</translation>
     </message>
     <message>
-        <location filename="../ui/ClockWidget.ui" line="159"/>
-        <location filename="../ui/ClockWidget.ui" line="262"/>
+        <location filename="../ui/ClockWidget.ui" line="187"/>
+        <location filename="../ui/ClockWidget.ui" line="290"/>
         <source>Sunset</source>
         <translation>Západ</translation>
     </message>
     <message>
-        <location filename="../ui/ClockWidget.cpp" line="93"/>
-        <location filename="../ui/ClockWidget.cpp" line="94"/>
+        <location filename="../ui/ClockWidget.cpp" line="101"/>
+        <location filename="../ui/ClockWidget.cpp" line="102"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
@@ -1081,6 +1076,1709 @@
         <location filename="../ui/ColumnSettingDialog.cpp" line="340"/>
         <source>Done</source>
         <translation>Dokončit</translation>
+    </message>
+</context>
+<context>
+    <name>DBStrings</name>
+    <message>
+        <location filename="dbstrings.tri" line="1"/>
+        <source>Afghanistan</source>
+        <translation>Afghánistán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="2"/>
+        <source>Agalega &amp; St. Brandon</source>
+        <translation>Agalega a St. Brandon</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="3"/>
+        <source>Aland Islands</source>
+        <translation>Alandské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="4"/>
+        <source>Alaska</source>
+        <translation>Aljaška</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="5"/>
+        <source>Albania</source>
+        <translation>Albánie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="6"/>
+        <source>Algeria</source>
+        <translation>Alžírsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="7"/>
+        <source>American Samoa</source>
+        <translation>Americká Samoa</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="8"/>
+        <source>Amsterdam &amp; St. Paul Is.</source>
+        <translation>Amsterdam a St. Paul Is.</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="9"/>
+        <source>Andaman &amp; Nicobar Is.</source>
+        <translation>Andaman &amp; Nicobar Is.</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="10"/>
+        <source>Andorra</source>
+        <translation>Andorra</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="11"/>
+        <source>Angola</source>
+        <translation>Angola</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="12"/>
+        <source>Anguilla</source>
+        <translation>Anguilla</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="13"/>
+        <source>Annobon Island</source>
+        <translation>Ostrov Annobon</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="14"/>
+        <source>Antarctica</source>
+        <translation>Antarktida</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="15"/>
+        <source>Antigua &amp; Barbuda</source>
+        <translation>Antigua a Barbuda</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="16"/>
+        <source>Argentina</source>
+        <translation>Argentina</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="17"/>
+        <source>Armenia</source>
+        <translation>Arménie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="18"/>
+        <source>Aruba</source>
+        <translation>Aruba</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="19"/>
+        <source>Ascension Island</source>
+        <translation>Ostrov Ascension</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="20"/>
+        <source>Asiatic Russia</source>
+        <translation>Asijské Rusko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="21"/>
+        <source>Asiatic Turkey</source>
+        <translation>Asijské Turecko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="22"/>
+        <source>Austral Islands</source>
+        <translation>Australské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="23"/>
+        <source>Australia</source>
+        <translation>Austrálie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="24"/>
+        <source>Austria</source>
+        <translation>Rakousko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="25"/>
+        <source>Aves Island</source>
+        <translation>Ostrov Aves</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="26"/>
+        <source>Azerbaijan</source>
+        <translation>Ázerbajdžán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="27"/>
+        <source>Azores</source>
+        <translation>Azory</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="28"/>
+        <source>Bahamas</source>
+        <translation>Bahamy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="29"/>
+        <source>Bahrain</source>
+        <translation>Bahrajn</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="30"/>
+        <source>Baker &amp; Howland Islands</source>
+        <translation>Bakerovy a Howlandovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="31"/>
+        <source>Balearic Islands</source>
+        <translation>Baleárské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="32"/>
+        <source>Banaba Island</source>
+        <translation>Ostrov Banaba</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="33"/>
+        <source>Bangladesh</source>
+        <translation>Bangladéš</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="34"/>
+        <source>Barbados</source>
+        <translation>Barbados</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="35"/>
+        <source>Belarus</source>
+        <translation>Bělorusko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="36"/>
+        <source>Belgium</source>
+        <translation>Belgie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="37"/>
+        <source>Belize</source>
+        <translation>Belize</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="38"/>
+        <source>Benin</source>
+        <translation>Benin</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="39"/>
+        <source>Bermuda</source>
+        <translation>Bermudy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="40"/>
+        <source>Bhutan</source>
+        <translation>Bhútán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="41"/>
+        <source>Bolivia</source>
+        <translation>Bolívie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="42"/>
+        <source>Bonaire</source>
+        <translation>Bonaire</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="43"/>
+        <source>Bosnia-Herzegovina</source>
+        <translation>Bosna a Hercegovina</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="44"/>
+        <source>Botswana</source>
+        <translation>Botswana</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="45"/>
+        <source>Bouvet</source>
+        <translation>Bouvet</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="46"/>
+        <source>Brazil</source>
+        <translation>Brazílie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="47"/>
+        <source>British Virgin Islands</source>
+        <translation>Britské Panenské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="48"/>
+        <source>Brunei Darussalam</source>
+        <translation>Brunej Darussalam</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="49"/>
+        <source>Bulgaria</source>
+        <translation>Bulharsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="50"/>
+        <source>Burkina Faso</source>
+        <translation>Burkina Faso</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="51"/>
+        <source>Burundi</source>
+        <translation>Burundi</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="52"/>
+        <source>Cambodia</source>
+        <translation>Kambodža</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="53"/>
+        <source>Cameroon</source>
+        <translation>Kamerun</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="54"/>
+        <source>Canada</source>
+        <translation>Kanada</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="55"/>
+        <source>Canary Islands</source>
+        <translation>Kanárské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="56"/>
+        <source>Cape Verde</source>
+        <translation>Kapverdy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="57"/>
+        <source>Cayman Islands</source>
+        <translation>Kajmanské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="58"/>
+        <source>Central African Republic</source>
+        <translation>Středoafrická republika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="59"/>
+        <source>Central Kiribati</source>
+        <translation>Střední Kiribati</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="60"/>
+        <source>Ceuta &amp; Melilla</source>
+        <translation>Ceuta a Melilla</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="61"/>
+        <source>Chad</source>
+        <translation>Čad</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="62"/>
+        <source>Chagos Islands</source>
+        <translation>ostrovy Chagos</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="63"/>
+        <source>Chatham Islands</source>
+        <translation>Chathamské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="64"/>
+        <source>Chesterfield Islands</source>
+        <translation>Chesterfieldovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="65"/>
+        <source>Chile</source>
+        <translation>Chile</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="66"/>
+        <source>China</source>
+        <translation>Čína</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="67"/>
+        <source>Christmas Island</source>
+        <translation>Vánoční ostrov</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="68"/>
+        <source>Clipperton Island</source>
+        <translation>Ostrov Clipperton</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="69"/>
+        <source>Cocos (Keeling) Islands</source>
+        <translation>Kokosové (Keelingovy) ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="70"/>
+        <source>Cocos Island</source>
+        <translation>Kokosový ostrov</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="71"/>
+        <source>Colombia</source>
+        <translation>Kolumbie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="72"/>
+        <source>Comoros</source>
+        <translation>Komory</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="73"/>
+        <source>Conway Reef</source>
+        <translation>Conwayský útes</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="74"/>
+        <source>Corsica</source>
+        <translation>Korsika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="75"/>
+        <source>Costa Rica</source>
+        <translation>Kostarika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="76"/>
+        <source>Cote d&apos;Ivoire</source>
+        <translation>Pobřeží slonoviny</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="77"/>
+        <source>Crete</source>
+        <translation>Kréta</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="78"/>
+        <source>Croatia</source>
+        <translation>Chorvatsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="79"/>
+        <source>Crozet Island</source>
+        <translation>Ostrov Crozet</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="80"/>
+        <source>Cuba</source>
+        <translation>Kuba</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="81"/>
+        <source>Curacao</source>
+        <translation>Curacao</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="82"/>
+        <source>Cyprus</source>
+        <translation>Kypr</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="83"/>
+        <source>Czech Republic</source>
+        <translation>Česká Republika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="84"/>
+        <source>DPR of Korea</source>
+        <translation>Korejská lidová republika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="85"/>
+        <source>Dem. Rep. of the Congo</source>
+        <translation>Dem. Rep. Konga</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="86"/>
+        <source>Denmark</source>
+        <translation>Dánsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="87"/>
+        <source>Desecheo Island</source>
+        <translation>Ostrov Desecheo</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="88"/>
+        <source>Djibouti</source>
+        <translation>Džibutsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="89"/>
+        <source>Dodecanese</source>
+        <translation>Dodecanese</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="90"/>
+        <source>Dominica</source>
+        <translation>Dominika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="91"/>
+        <source>Dominican Republic</source>
+        <translation>Dominikánská republika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="92"/>
+        <source>Ducie Island</source>
+        <translation>Ostrov Ducie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="93"/>
+        <source>East Malaysia</source>
+        <translation>Východní Malajsie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="94"/>
+        <source>Easter Island</source>
+        <translation>Velikonoční ostrov</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="95"/>
+        <source>Eastern Kiribati</source>
+        <translation>východní Kiribati</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="96"/>
+        <source>Ecuador</source>
+        <translation>Ekvádor</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="97"/>
+        <source>Egypt</source>
+        <translation>Egypt</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="98"/>
+        <source>El Salvador</source>
+        <translation>El Salvador</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="99"/>
+        <source>England</source>
+        <translation>Anglie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="100"/>
+        <source>Equatorial Guinea</source>
+        <translation>Rovníková Guinea</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="101"/>
+        <source>Eritrea</source>
+        <translation>Eritrea</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="102"/>
+        <source>Estonia</source>
+        <translation>Estonsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="103"/>
+        <source>Ethiopia</source>
+        <translation>Etiopie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="104"/>
+        <source>European Russia</source>
+        <translation>evropské Rusko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="105"/>
+        <source>Falkland Islands</source>
+        <translation>Falklandy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="106"/>
+        <source>Faroe Islands</source>
+        <translation>Faerské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="107"/>
+        <source>Fed. Rep. of Germany</source>
+        <translation>Německo</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="108"/>
+        <source>Fernando de Noronha</source>
+        <translation>Fernando de Noronha</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="109"/>
+        <source>Fiji</source>
+        <translation>Fidži</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="110"/>
+        <source>Finland</source>
+        <translation>Finsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="111"/>
+        <source>France</source>
+        <translation>Francie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="112"/>
+        <source>Franz Josef Land</source>
+        <translation>Země Františka Josefa</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="113"/>
+        <source>French Guiana</source>
+        <translation>Francouzská Guyana</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="114"/>
+        <source>French Polynesia</source>
+        <translation>Francouzská Polynésie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="115"/>
+        <source>Gabon</source>
+        <translation>Gabon</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="116"/>
+        <source>Galapagos Islands</source>
+        <translation>Galapágy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="117"/>
+        <source>Georgia</source>
+        <translation>Gruzie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="118"/>
+        <source>Ghana</source>
+        <translation>Ghana</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="119"/>
+        <source>Gibraltar</source>
+        <translation>Gibraltar</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="120"/>
+        <source>Glorioso Islands</source>
+        <translation>Ostrovy Glorioso</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="121"/>
+        <source>Greece</source>
+        <translation>Řecko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="122"/>
+        <source>Greenland</source>
+        <translation>Grónsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="123"/>
+        <source>Grenada</source>
+        <translation>Grenada</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="124"/>
+        <source>Guadeloupe</source>
+        <translation>Guadeloupe</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="125"/>
+        <source>Guam</source>
+        <translation>Guam</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="126"/>
+        <source>Guantanamo Bay</source>
+        <translation>Guantánamo</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="127"/>
+        <source>Guatemala</source>
+        <translation>Guatemala</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="128"/>
+        <source>Guernsey</source>
+        <translation>Guernsey</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="129"/>
+        <source>Guinea</source>
+        <translation>Guinea</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="130"/>
+        <source>Guinea-Bissau</source>
+        <translation>Guinea-Bissau</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="131"/>
+        <source>Guyana</source>
+        <translation>Guyana</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="132"/>
+        <source>Haiti</source>
+        <translation>Haiti</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="133"/>
+        <source>Hawaii</source>
+        <translation>Havaj</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="134"/>
+        <source>Heard Island</source>
+        <translation>Heardův ostrov</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="135"/>
+        <source>Honduras</source>
+        <translation>Honduras</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="136"/>
+        <source>Hong Kong</source>
+        <translation>Hong Kong</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="137"/>
+        <source>Hungary</source>
+        <translation>Maďarsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="138"/>
+        <source>ITU HQ</source>
+        <translation>ITU HQ</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="139"/>
+        <source>Iceland</source>
+        <translation>Island</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="140"/>
+        <source>India</source>
+        <translation>Indie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="141"/>
+        <source>Indonesia</source>
+        <translation>Indonésie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="142"/>
+        <source>Iran</source>
+        <translation>Írán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="143"/>
+        <source>Iraq</source>
+        <translation>Irák</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="144"/>
+        <source>Ireland</source>
+        <translation>Irsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="145"/>
+        <source>Isle of Man</source>
+        <translation>Ostrov Man</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="146"/>
+        <source>Israel</source>
+        <translation>Izrael</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="147"/>
+        <source>Italy</source>
+        <translation>Itálie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="148"/>
+        <source>Jamaica</source>
+        <translation>Jamaica</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="149"/>
+        <source>Jan Mayen</source>
+        <translation>Jan Mayen</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="150"/>
+        <source>Japan</source>
+        <translation>Japonsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="151"/>
+        <source>Jersey</source>
+        <translation>Jersey</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="152"/>
+        <source>Johnston Island</source>
+        <translation>Ostrov Johnston</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="153"/>
+        <source>Jordan</source>
+        <translation>Jordán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="154"/>
+        <source>Juan Fernandez Islands</source>
+        <translation>Ostrovy Juana Fernandeze</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="155"/>
+        <source>Juan de Nova &amp; Europa</source>
+        <translation>Juan de Nova a Evropa</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="156"/>
+        <source>Kaliningrad</source>
+        <translation>Kaliningrad</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="157"/>
+        <source>Kazakhstan</source>
+        <translation>Kazachstán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="158"/>
+        <source>Kenya</source>
+        <translation>Keňa</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="159"/>
+        <source>Kerguelen Islands</source>
+        <translation>Kerguelenské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="160"/>
+        <source>Kermadec Islands</source>
+        <translation>ostrovy Kermadec</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="161"/>
+        <source>Kingdom of Eswatini</source>
+        <translation>Království Eswatini</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="162"/>
+        <source>Kure Island</source>
+        <translation>Ostrov Kure</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="163"/>
+        <source>Kuwait</source>
+        <translation>Kuvajt</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="164"/>
+        <source>Kyrgyzstan</source>
+        <translation>Kyrgyzstán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="165"/>
+        <source>Lakshadweep Islands</source>
+        <translation>Ostrovy Lakshadweep</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="166"/>
+        <source>Laos</source>
+        <translation>Laos</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="167"/>
+        <source>Latvia</source>
+        <translation>Lotyšsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="168"/>
+        <source>Lebanon</source>
+        <translation>Libanon</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="169"/>
+        <source>Lesotho</source>
+        <translation>Lesotho</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="170"/>
+        <source>Liberia</source>
+        <translation>Libérie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="171"/>
+        <source>Libya</source>
+        <translation>Libye</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="172"/>
+        <source>Liechtenstein</source>
+        <translation>Lichtenštejnsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="173"/>
+        <source>Lithuania</source>
+        <translation>Litva</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="174"/>
+        <source>Lord Howe Island</source>
+        <translation>Ostrov lorda Howea</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="175"/>
+        <source>Luxembourg</source>
+        <translation>Lucembursko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="176"/>
+        <source>Macao</source>
+        <translation>Macao</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="177"/>
+        <source>Macquarie Island</source>
+        <translation>Ostrov Macquarie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="178"/>
+        <source>Madagascar</source>
+        <translation>Madagaskar</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="179"/>
+        <source>Madeira Islands</source>
+        <translation>ostrovy Madeira</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="180"/>
+        <source>Malawi</source>
+        <translation>Malawi</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="181"/>
+        <source>Maldives</source>
+        <translation>Maledivy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="182"/>
+        <source>Mali</source>
+        <translation>Mali</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="183"/>
+        <source>Malpelo Island</source>
+        <translation>Ostrov Malpelo</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="184"/>
+        <source>Malta</source>
+        <translation>Malta</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="185"/>
+        <source>Mariana Islands</source>
+        <translation>Mariánské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="186"/>
+        <source>Market Reef</source>
+        <translation>Market Reef</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="187"/>
+        <source>Marquesas Islands</source>
+        <translation>Markézské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="188"/>
+        <source>Marshall Islands</source>
+        <translation>Marshallovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="189"/>
+        <source>Martinique</source>
+        <translation>Martinik</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="190"/>
+        <source>Mauritania</source>
+        <translation>Mauritánie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="191"/>
+        <source>Mauritius</source>
+        <translation>Mauricius</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="192"/>
+        <source>Mayotte</source>
+        <translation>Mayotte</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="193"/>
+        <source>Mellish Reef</source>
+        <translation>Mellish Reef</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="194"/>
+        <source>Mexico</source>
+        <translation>Mexiko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="195"/>
+        <source>Micronesia</source>
+        <translation>Mikronésie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="196"/>
+        <source>Midway Island</source>
+        <translation>Ostrov Midway</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="197"/>
+        <source>Minami Torishima</source>
+        <translation>Minami Torishima</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="198"/>
+        <source>Moldova</source>
+        <translation>Moldavsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="199"/>
+        <source>Monaco</source>
+        <translation>Monako</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="200"/>
+        <source>Mongolia</source>
+        <translation>Mongolsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="201"/>
+        <source>Montenegro</source>
+        <translation>Černá Hora</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="202"/>
+        <source>Montserrat</source>
+        <translation>Montserrat</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="203"/>
+        <source>Morocco</source>
+        <translation>Maroko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="204"/>
+        <source>Mount Athos</source>
+        <translation>Hora Athos</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="205"/>
+        <source>Mozambique</source>
+        <translation>Mosambik</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="206"/>
+        <source>Myanmar</source>
+        <translation>Myanmar</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="207"/>
+        <source>N.Z. Subantarctic Is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="208"/>
+        <source>Namibia</source>
+        <translation>Namibie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="209"/>
+        <source>Nauru</source>
+        <translation>Nauru</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="210"/>
+        <source>Navassa Island</source>
+        <translation>Ostrov Navassa</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="211"/>
+        <source>Nepal</source>
+        <translation>Nepál</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="212"/>
+        <source>Netherlands</source>
+        <translation>Holandsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="213"/>
+        <source>New Caledonia</source>
+        <translation>Nová Kaledonie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="214"/>
+        <source>New Zealand</source>
+        <translation>Nový Zéland</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="215"/>
+        <source>Nicaragua</source>
+        <translation>Nikaragua</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="216"/>
+        <source>Niger</source>
+        <translation>Niger</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="217"/>
+        <source>Nigeria</source>
+        <translation>Nigérie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="218"/>
+        <source>Niue</source>
+        <translation>Niue</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="219"/>
+        <source>Norfolk Island</source>
+        <translation>Ostrov Norfolk</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="220"/>
+        <source>North Cook Islands</source>
+        <translation>Severní Cookovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="221"/>
+        <source>North Macedonia</source>
+        <translation>Severní Makedonie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="222"/>
+        <source>Northern Ireland</source>
+        <translation>Severní Irsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="223"/>
+        <source>Norway</source>
+        <translation>Norsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="224"/>
+        <source>Ogasawara</source>
+        <translation>Ogasawara</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="225"/>
+        <source>Oman</source>
+        <translation>Omán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="226"/>
+        <source>Pakistan</source>
+        <translation>Pákistán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="227"/>
+        <source>Palau</source>
+        <translation>Palau</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="228"/>
+        <source>Palestine</source>
+        <translation>Palestina</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="229"/>
+        <source>Palmyra &amp; Jarvis Islands</source>
+        <translation>Palmýra a ostrovy Jarvis</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="230"/>
+        <source>Panama</source>
+        <translation>Panama</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="231"/>
+        <source>Papua New Guinea</source>
+        <translation>Papua-Nová Guinea</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="232"/>
+        <source>Paraguay</source>
+        <translation>Paraguay</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="233"/>
+        <source>Peru</source>
+        <translation>Peru</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="234"/>
+        <source>Peter 1 Island</source>
+        <translation>Ostrov Petr 1</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="235"/>
+        <source>Philippines</source>
+        <translation>Filipíny</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="236"/>
+        <source>Pitcairn Island</source>
+        <translation>Ostrov Pitcairn</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="237"/>
+        <source>Poland</source>
+        <translation>Polsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="238"/>
+        <source>Portugal</source>
+        <translation>Portugalsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="239"/>
+        <source>Pr. Edward &amp; Marion Is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="240"/>
+        <source>Pratas Island</source>
+        <translation>Ostrov Pratas</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="241"/>
+        <source>Puerto Rico</source>
+        <translation>Portoriko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="242"/>
+        <source>Qatar</source>
+        <translation>Katar</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="243"/>
+        <source>Republic of Korea</source>
+        <translation>Korejská republika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="244"/>
+        <source>Republic of Kosovo</source>
+        <translation>Kosovská republika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="245"/>
+        <source>Republic of South Sudan</source>
+        <translation>Republika Jižní Súdán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="246"/>
+        <source>Republic of the Congo</source>
+        <translation>Republika Kongo</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="247"/>
+        <source>Reunion Island</source>
+        <translation>Ostrov Réunion</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="248"/>
+        <source>Revillagigedo</source>
+        <translation>Revillagigedo</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="249"/>
+        <source>Rodriguez Island</source>
+        <translation>Rodriguezův ostrov</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="250"/>
+        <source>Romania</source>
+        <translation>Rumunsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="251"/>
+        <source>Rotuma Island</source>
+        <translation>Ostrov Rotuma</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="252"/>
+        <source>Rwanda</source>
+        <translation>Rwanda</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="253"/>
+        <source>Saba &amp; St. Eustatius</source>
+        <translation>Saba &amp; St. Eustatius</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="254"/>
+        <source>Sable Island</source>
+        <translation>Sable Island</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="255"/>
+        <source>Samoa</source>
+        <translation>Samoa</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="256"/>
+        <source>San Andres &amp; Providencia</source>
+        <translation>San Andres &amp; Providencie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="257"/>
+        <source>San Felix &amp; San Ambrosio</source>
+        <translation>San Felix a San Ambrosio</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="258"/>
+        <source>San Marino</source>
+        <translation>San Marino</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="259"/>
+        <source>Sao Tome &amp; Principe</source>
+        <translation>Svatý Tomáš a Princův ostrov</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="260"/>
+        <source>Sardinia</source>
+        <translation>Sardinie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="261"/>
+        <source>Saudi Arabia</source>
+        <translation>Saudská arábie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="262"/>
+        <source>Scarborough Reef</source>
+        <translation>Útes Scarborough</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="263"/>
+        <source>Scotland</source>
+        <translation>Skotsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="264"/>
+        <source>Senegal</source>
+        <translation>Senegal</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="265"/>
+        <source>Serbia</source>
+        <translation>Srbsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="266"/>
+        <source>Seychelles</source>
+        <translation>Seychely</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="267"/>
+        <source>Sierra Leone</source>
+        <translation>Sierra Leone</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="268"/>
+        <source>Singapore</source>
+        <translation>Singapur</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="269"/>
+        <source>Sint Maarten</source>
+        <translation>Svatý Martin</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="270"/>
+        <source>Slovak Republic</source>
+        <translation>Slovenská republika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="271"/>
+        <source>Slovenia</source>
+        <translation>Slovinsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="272"/>
+        <source>Solomon Islands</source>
+        <translation>Solomonovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="273"/>
+        <source>Somalia</source>
+        <translation>Somálsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="274"/>
+        <source>South Africa</source>
+        <translation>Jižní Afrika</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="275"/>
+        <source>South Cook Islands</source>
+        <translation>Jižní Cookovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="276"/>
+        <source>South Georgia Island</source>
+        <translation>Ostrov Jižní Georgie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="277"/>
+        <source>South Orkney Islands</source>
+        <translation>Jižní Orknejské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="278"/>
+        <source>South Sandwich Islands</source>
+        <translation>Jižní Sandwichovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="279"/>
+        <source>South Shetland Islands</source>
+        <translation>Jižní Shetlandské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="280"/>
+        <source>Sov Mil Order of Malta</source>
+        <translation>Maltézský řád Sov Mil</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="281"/>
+        <source>Spain</source>
+        <translation>Španělsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="282"/>
+        <source>Spratly Islands</source>
+        <translation>Spratlyho ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="283"/>
+        <source>Sri Lanka</source>
+        <translation>Srí Lanka</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="284"/>
+        <source>St. Barthelemy</source>
+        <translation>Svatý Bartoloměj</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="285"/>
+        <source>St. Helena</source>
+        <translation>Svatá Helena</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="286"/>
+        <source>St. Kitts &amp; Nevis</source>
+        <translation>Svatý Kryštof a Nevis</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="287"/>
+        <source>St. Lucia</source>
+        <translation>Svatá Lucie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="288"/>
+        <source>St. Martin</source>
+        <translation>Svatý Martin</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="289"/>
+        <source>St. Paul Island</source>
+        <translation>Ostrov svatého Pavla</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="290"/>
+        <source>St. Peter &amp; St. Paul</source>
+        <translation>Svatý Petr a Svatý Pavel</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="291"/>
+        <source>St. Pierre &amp; Miquelon</source>
+        <translation>St. Pierre a Miquelon</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="292"/>
+        <source>St. Vincent</source>
+        <translation>Svatý Vincent</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="293"/>
+        <source>Sudan</source>
+        <translation>Súdán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="294"/>
+        <source>Suriname</source>
+        <translation>Surinam</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="295"/>
+        <source>Svalbard</source>
+        <translation>Svalbard</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="296"/>
+        <source>Swains Island</source>
+        <translation>Ostrov Swains</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="297"/>
+        <source>Sweden</source>
+        <translation>Švédsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="298"/>
+        <source>Switzerland</source>
+        <translation>Švýcarsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="299"/>
+        <source>Syria</source>
+        <translation>Sýrie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="300"/>
+        <source>Taiwan</source>
+        <translation>Tchaj-wan</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="301"/>
+        <source>Tajikistan</source>
+        <translation>Tádžikistán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="302"/>
+        <source>Tanzania</source>
+        <translation>Tanzanie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="303"/>
+        <source>Temotu Province</source>
+        <translation>Provincie Temotu</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="304"/>
+        <source>Thailand</source>
+        <translation>Thajsko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="305"/>
+        <source>The Gambia</source>
+        <translation>Gambie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="306"/>
+        <source>Timor - Leste</source>
+        <translation>Timor – Východní</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="307"/>
+        <source>Togo</source>
+        <translation>Togo</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="308"/>
+        <source>Tokelau Islands</source>
+        <translation>Tokelauské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="309"/>
+        <source>Tonga</source>
+        <translation>Tonga</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="310"/>
+        <source>Trindade &amp; Martim Vaz</source>
+        <translation>Trindade a Martim Vazovi</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="311"/>
+        <source>Trinidad &amp; Tobago</source>
+        <translation>Trinidad a Tobago</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="312"/>
+        <source>Tristan da Cunha &amp; Gough Islands</source>
+        <translation>Tristan da Cunha a Goughovy ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="313"/>
+        <source>Tromelin Island</source>
+        <translation>Ostrov Tromelin</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="314"/>
+        <source>Tunisia</source>
+        <translation>Tunisko</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="315"/>
+        <source>Turkmenistan</source>
+        <translation>Turkmenistán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="316"/>
+        <source>Turks &amp; Caicos Islands</source>
+        <translation>Ostrovy Turks a Caicos</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="317"/>
+        <source>Tuvalu</source>
+        <translation>Tuvalu</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="318"/>
+        <source>UK Base Areas on Cyprus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="319"/>
+        <source>US Virgin Islands</source>
+        <translation>Americké Panenské ostrovy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="320"/>
+        <source>Uganda</source>
+        <translation>Uganda</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="321"/>
+        <source>Ukraine</source>
+        <translation>Ukrajina</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="322"/>
+        <source>United Arab Emirates</source>
+        <translation>Spojené arabské emiráty</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="323"/>
+        <source>United Nations HQ</source>
+        <translation>Sídlo Organizace spojených národů</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="324"/>
+        <source>United States</source>
+        <translation>Spojené státy</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="325"/>
+        <source>Uruguay</source>
+        <translation>Uruguay</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="326"/>
+        <source>Uzbekistan</source>
+        <translation>Uzbekistán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="327"/>
+        <source>Vanuatu</source>
+        <translation>Vanuatu</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="328"/>
+        <source>Vatican City</source>
+        <translation>Vatikán</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="329"/>
+        <source>Venezuela</source>
+        <translation>Venezuela</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="330"/>
+        <source>Vietnam</source>
+        <translation>Vietnam</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="331"/>
+        <source>Wake Island</source>
+        <translation>Ostrov Wake</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="332"/>
+        <source>Wales</source>
+        <translation>Wales</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="333"/>
+        <source>Wallis &amp; Futuna Islands</source>
+        <translation>Ostrovy Wallis a Futuna</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="334"/>
+        <source>West Malaysia</source>
+        <translation>Západní Malajsie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="335"/>
+        <source>Western Kiribati</source>
+        <translation>Západní Kiribati</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="336"/>
+        <source>Western Sahara</source>
+        <translation>Západní Sahara</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="337"/>
+        <source>Willis Island</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="338"/>
+        <source>Yemen</source>
+        <translation>Jemen</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="339"/>
+        <source>Zambia</source>
+        <translation>Zambie</translation>
+    </message>
+    <message>
+        <location filename="dbstrings.tri" line="340"/>
+        <source>Zimbabwe</source>
+        <translation>Zimbabwe</translation>
     </message>
 </context>
 <context>
@@ -1475,7 +3173,7 @@
     </message>
     <message>
         <location filename="../ui/DxWidget.ui" line="94"/>
-        <location filename="../ui/DxWidget.cpp" line="584"/>
+        <location filename="../ui/DxWidget.cpp" line="589"/>
         <source>Connect</source>
         <translation>Připojit</translation>
     </message>
@@ -1600,52 +3298,52 @@
         <translation>Filtr DXC</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="534"/>
+        <location filename="../ui/DxWidget.cpp" line="539"/>
         <source>Connecting...</source>
         <translation>Připojování...</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="578"/>
+        <location filename="../ui/DxWidget.cpp" line="583"/>
         <source>DX Cluster is temporarily unavailable</source>
         <translation>DX Cluster je dočasně nedostupný</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="880"/>
+        <location filename="../ui/DxWidget.cpp" line="885"/>
         <source>DXC Server Error</source>
         <translation>Chyba DXC Serveru</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="881"/>
+        <location filename="../ui/DxWidget.cpp" line="886"/>
         <source>An invalid callsign</source>
         <translation>Nesprávná značka</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="894"/>
+        <location filename="../ui/DxWidget.cpp" line="899"/>
         <source>DX Cluster Password</source>
         <translation>DX Cluster Heslo</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="895"/>
+        <location filename="../ui/DxWidget.cpp" line="900"/>
         <source>Security Notice</source>
         <translation>Bezpečnostní upozornění</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="895"/>
+        <location filename="../ui/DxWidget.cpp" line="900"/>
         <source>The password can be sent via an unsecured channel</source>
         <translation>Heslo může být posláno přes nezabezpečený kanál</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="897"/>
+        <location filename="../ui/DxWidget.cpp" line="902"/>
         <source>Server</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="899"/>
+        <location filename="../ui/DxWidget.cpp" line="904"/>
         <source>Username</source>
         <translation>Uživatelské jméno</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="1167"/>
+        <location filename="../ui/DxWidget.cpp" line="1172"/>
         <source>Disconnect</source>
         <translation>Odpojit</translation>
     </message>
@@ -1801,6 +3499,11 @@
         <translation>eQSL QTH Profil</translation>
     </message>
     <message>
+        <location filename="../ui/Eqsldialog.ui" line="127"/>
+        <source>QSLs Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/Eqsldialog.ui" line="33"/>
         <source>Show Selection</source>
         <translation>Zobrazit výběr</translation>
@@ -1812,7 +3515,6 @@
     </message>
     <message>
         <location filename="../ui/Eqsldialog.ui" line="111"/>
-        <location filename="../ui/Eqsldialog.ui" line="127"/>
         <source>Download</source>
         <translation>Stahnout</translation>
     </message>
@@ -2198,33 +3900,33 @@
 <context>
     <name>HamlibDrv</name>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="110"/>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="145"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="111"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="146"/>
         <source>Initialization Error</source>
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="170"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="171"/>
         <source>Unsupported Rig Driver</source>
         <translation>Nepodporovaný ovladač</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="276"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="278"/>
         <source>Set Frequency Error</source>
         <translation>Chyba v nastavení frekvence</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="353"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="355"/>
         <source>Set PTT Error</source>
         <translation>Chyba v získaní stavu PTT</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="587"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="598"/>
         <source>Get Frequency Error</source>
         <translation>Chyba v získání frekvence</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="644"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="655"/>
         <source>Get Mode Error</source>
         <translation>Chyba v získání druhu provozu</translation>
     </message>
@@ -3849,7 +5551,6 @@
     </message>
     <message>
         <location filename="../ui/LotwDialog.ui" line="87"/>
-        <location filename="../ui/LotwDialog.ui" line="131"/>
         <source>Download</source>
         <translation>Stáhnout</translation>
     </message>
@@ -3867,6 +5568,11 @@
         <location filename="../ui/LotwDialog.ui" line="112"/>
         <source>Start Date:</source>
         <translation>Datum:</translation>
+    </message>
+    <message>
+        <location filename="../ui/LotwDialog.ui" line="131"/>
+        <source>QSLs Download</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/LotwDialog.cpp" line="49"/>
@@ -4329,7 +6035,7 @@
         <translation>Vymazat upozornění</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="829"/>
+        <location filename="../ui/MainWindow.cpp" line="832"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
@@ -4359,63 +6065,63 @@
         <translation>Stiskni pro naladění alertu</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="230"/>
+        <location filename="../ui/MainWindow.cpp" line="231"/>
         <source>Clublog Immediately Upload Error</source>
         <translation>Chyba Okamžitého nahrávání do Clublog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="309"/>
-        <location filename="../ui/MainWindow.cpp" line="319"/>
-        <location filename="../ui/MainWindow.cpp" line="329"/>
+        <location filename="../ui/MainWindow.cpp" line="310"/>
+        <location filename="../ui/MainWindow.cpp" line="320"/>
+        <location filename="../ui/MainWindow.cpp" line="330"/>
         <source>&lt;b&gt;Error Detail:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Detail chyby:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="530"/>
+        <location filename="../ui/MainWindow.cpp" line="533"/>
         <source>Classic</source>
         <translation>Klasické</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="714"/>
-        <location filename="../ui/MainWindow.cpp" line="730"/>
-        <location filename="../ui/MainWindow.cpp" line="746"/>
-        <location filename="../ui/MainWindow.cpp" line="762"/>
-        <location filename="../ui/MainWindow.cpp" line="780"/>
+        <location filename="../ui/MainWindow.cpp" line="717"/>
+        <location filename="../ui/MainWindow.cpp" line="733"/>
+        <location filename="../ui/MainWindow.cpp" line="749"/>
+        <location filename="../ui/MainWindow.cpp" line="765"/>
+        <location filename="../ui/MainWindow.cpp" line="783"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="714"/>
+        <location filename="../ui/MainWindow.cpp" line="717"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>LoTW není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="730"/>
+        <location filename="../ui/MainWindow.cpp" line="733"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>eQSL není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="746"/>
+        <location filename="../ui/MainWindow.cpp" line="749"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>Clublog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="762"/>
+        <location filename="../ui/MainWindow.cpp" line="765"/>
         <source>HRDLog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>HRDLog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="780"/>
+        <location filename="../ui/MainWindow.cpp" line="783"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>QRZ.com není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="800"/>
+        <location filename="../ui/MainWindow.cpp" line="803"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Based on Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Záloženo na Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="873"/>
+        <location filename="../ui/MainWindow.cpp" line="876"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
@@ -4613,7 +6319,7 @@
         <translation>Člen:</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3155"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3165"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation>World Wide Flora &amp; Fauna</translation>
     </message>
@@ -4681,7 +6387,7 @@
         <translation>Stanice</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3136"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3146"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>DARC DOK (kód uzemí) (např A01)</translation>
     </message>
@@ -4821,47 +6527,47 @@
         <translation>Potvrzeno</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2544"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2554"/>
         <source>GE</source>
         <translation>GE</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2554"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2564"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2560"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2570"/>
         <source>GA</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2831"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2841"/>
         <source> m</source>
         <translation> m</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3018"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3028"/>
         <source>Callbook search is active</source>
         <translation>Hledání v Callbooku je aktivní</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3024"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3034"/>
         <source>Callbook search is inactive</source>
         <translation>Hledání v Callbooku není aktivní</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3133"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3143"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>dva nebo čtyři sousední lokátory, každý o délce čtyř znaků (např. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3159"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3169"/>
         <source>Special Activity Group</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3163"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3173"/>
         <source>Special Activity Group Information</source>
         <translation></translation>
     </message>
@@ -4887,17 +6593,17 @@
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/OmnirigDrv.cpp" line="445"/>
+        <location filename="../rig/drivers/OmnirigDrv.cpp" line="453"/>
         <source>Rig status changed</source>
         <translation>Změna stavu Rigu</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/OmnirigDrv.cpp" line="446"/>
+        <location filename="../rig/drivers/OmnirigDrv.cpp" line="454"/>
         <source>Rig is not connected</source>
         <translation>Rig není připojen</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/OmnirigDrv.cpp" line="462"/>
+        <location filename="../rig/drivers/OmnirigDrv.cpp" line="470"/>
         <source>Omnirig Error</source>
         <translation>Omnirig chyba</translation>
     </message>
@@ -4933,17 +6639,17 @@
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/Omnirigv2Drv.cpp" line="395"/>
+        <location filename="../rig/drivers/Omnirigv2Drv.cpp" line="406"/>
         <source>Rig status changed</source>
         <translation>Změna stavu Rigu</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/Omnirigv2Drv.cpp" line="396"/>
+        <location filename="../rig/drivers/Omnirigv2Drv.cpp" line="407"/>
         <source>Rig is not connected</source>
         <translation>Rig není připojen</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/Omnirigv2Drv.cpp" line="412"/>
+        <location filename="../rig/drivers/Omnirigv2Drv.cpp" line="423"/>
         <source>Omnirig Error</source>
         <translation>Omnirig chyba</translation>
     </message>
@@ -4999,7 +6705,7 @@
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../core/main.cpp" line="366"/>
+        <location filename="../core/main.cpp" line="409"/>
         <source>QLog Help</source>
         <translation>QLog Help</translation>
     </message>
@@ -5014,9 +6720,9 @@
         <location filename="../core/Migration.cpp" line="309"/>
         <location filename="../ui/ExportDialog.cpp" line="116"/>
         <location filename="../ui/ImportDialog.cpp" line="227"/>
-        <location filename="../ui/MainWindow.cpp" line="307"/>
-        <location filename="../ui/MainWindow.cpp" line="317"/>
-        <location filename="../ui/MainWindow.cpp" line="327"/>
+        <location filename="../ui/MainWindow.cpp" line="308"/>
+        <location filename="../ui/MainWindow.cpp" line="318"/>
+        <location filename="../ui/MainWindow.cpp" line="328"/>
         <location filename="../ui/SettingsDialog.cpp" line="267"/>
         <location filename="../ui/SettingsDialog.cpp" line="277"/>
         <location filename="../ui/SettingsDialog.cpp" line="285"/>
@@ -5027,14 +6733,14 @@
         <location filename="../ui/SettingsDialog.cpp" line="325"/>
         <location filename="../ui/SettingsDialog.cpp" line="334"/>
         <location filename="../ui/SettingsDialog.cpp" line="358"/>
-        <location filename="../ui/SettingsDialog.cpp" line="673"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1049"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1111"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1157"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1401"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1408"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1417"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1780"/>
+        <location filename="../ui/SettingsDialog.cpp" line="681"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1057"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1117"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1163"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1407"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1414"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1423"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1793"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
@@ -5081,10 +6787,10 @@
         <translation>Síťová chyba. Nepovedlo se stáhnout Club List pro</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="437"/>
-        <location filename="../core/main.cpp" line="452"/>
-        <location filename="../core/main.cpp" line="462"/>
-        <location filename="../core/main.cpp" line="469"/>
+        <location filename="../core/main.cpp" line="483"/>
+        <location filename="../core/main.cpp" line="498"/>
+        <location filename="../core/main.cpp" line="508"/>
+        <location filename="../core/main.cpp" line="515"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="364"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
@@ -5098,47 +6804,47 @@
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="438"/>
+        <location filename="../core/main.cpp" line="484"/>
         <source>QLog is already running</source>
         <translation>QLog již běží</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="453"/>
+        <location filename="../core/main.cpp" line="499"/>
         <source>Could not connect to database.</source>
         <translation>Nelze se připojit k databázi.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="463"/>
+        <location filename="../core/main.cpp" line="509"/>
         <source>Could not export a QLog database to ADIF as a backup.&lt;p&gt;Try to export your log to ADIF manually</source>
         <translation>Nelze exportovat QLog databázi do ADIF jako backup.&lt;p&gt;Pokuste se ručně exportovat log do ADIF</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="470"/>
+        <location filename="../core/main.cpp" line="516"/>
         <source>Database migration failed.</source>
         <translation>Migrace databaze selhala.</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="491"/>
+        <location filename="../ui/DxWidget.cpp" line="496"/>
         <source>DXC Server Name Error</source>
         <translation>Chyba jména DXC Serveru</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="492"/>
+        <location filename="../ui/DxWidget.cpp" line="497"/>
         <source>DXC Server address must be in format&lt;p&gt;&lt;b&gt;[username@]hostname:port&lt;/b&gt; (ex. hamqth.com:7300)&lt;/p&gt;</source>
         <translation>Adresa DXC Serveru musí být ve formátu &lt;p&gt;&lt;b&gt;[uživatel@]hostname:port&lt;/b&gt; (např. hamqth.com:7300)&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="930"/>
+        <location filename="../ui/DxWidget.cpp" line="935"/>
         <source>DX Cluster Password</source>
         <translation>DX Cluster heslo</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="931"/>
+        <location filename="../ui/DxWidget.cpp" line="936"/>
         <source>Invalid Password</source>
         <translation>Nesprávné heslo</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="1099"/>
+        <location filename="../ui/DxWidget.cpp" line="1104"/>
         <source>DXC Server Connection Error</source>
         <translation>Chyba připojení k DXC serveru</translation>
     </message>
@@ -5200,7 +6906,7 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="268"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1781"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1794"/>
         <source>Please, define at least one Station Locations Profile</source>
         <translation>Prosím, definujte alespoň jeden Profil Stanice</translation>
     </message>
@@ -5225,37 +6931,37 @@
         <translation>&lt;b&gt;Rozsah TX&lt;/b&gt;: Koncová frekvence nesmí být menší než počáteční.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="674"/>
+        <location filename="../ui/SettingsDialog.cpp" line="682"/>
         <source>Rotator port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>Port musí být platný COM port.&lt;br&gt;Použijte COMxx pro Windows, pro ostatní cestu k souboru zařízení</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1050"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1058"/>
         <source>CW Keyer port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>Port musí být platný COM port.&lt;br&gt;Použijte COMxx pro Windows, pro ostatní cestu k souboru zařízení</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1112"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1118"/>
         <source>Cannot change the CW Keyer Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Nelze změnit Model klíče na &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;Nasledující zařízení nepodporuji Morse over CAT support &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1158"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1164"/>
         <source>Cannot delete the CW Keyer Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Nelze vymazat Profil Klíče&lt;br&gt;Profil je pouzívám temito zařízeními:&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1409"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1415"/>
         <source>Gridsquare has an invalid format</source>
         <translation>Lokátor má chybný formát</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1418"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1424"/>
         <source>VUCC Grids have an invalid format (must be 2 or 4 Gridsquares separated by &apos;,&apos;)</source>
         <translation>VUCC lokátor má neplatný formát (musí být 2 nebo 4 lokátory oddělené &apos;,&apos;)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1402"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1408"/>
         <source>Callsign has an invalid format</source>
         <translation>Značka má chybný formát</translation>
     </message>
@@ -5285,17 +6991,17 @@
         </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="308"/>
+        <location filename="../ui/MainWindow.cpp" line="309"/>
         <source>&lt;b&gt;Rig Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rig:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="318"/>
+        <location filename="../ui/MainWindow.cpp" line="319"/>
         <source>&lt;b&gt;Rotator Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rotátoru:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="328"/>
+        <location filename="../ui/MainWindow.cpp" line="329"/>
         <source>&lt;b&gt;CW Keyer Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba CW Klíče:&lt;/b&gt; </translation>
     </message>
@@ -5313,68 +7019,74 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="1062"/>
+        <location filename="../ui/DxWidget.cpp" line="1067"/>
         <source>Cannot connect to DXC Server &lt;p&gt;Reason &lt;b&gt;: </source>
         <translation>Nelse se připojit k DXC serveru &lt;p&gt;Důvod &lt;b&gt;: </translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="430"/>
-        <location filename="../ui/DxWidget.cpp" line="1069"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="317"/>
+        <location filename="../ui/DxWidget.cpp" line="1074"/>
         <source>Connection Refused</source>
         <translation>Spojení odmítnuto</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="433"/>
-        <location filename="../ui/DxWidget.cpp" line="1072"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="321"/>
+        <location filename="../ui/DxWidget.cpp" line="1077"/>
         <source>Host closed the connection</source>
         <translation>Server uzavřel spojení</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="438"/>
-        <location filename="../ui/DxWidget.cpp" line="1077"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="326"/>
+        <location filename="../ui/DxWidget.cpp" line="1082"/>
         <source>Host not found</source>
         <translation>Server nenalezen</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="441"/>
-        <location filename="../ui/DxWidget.cpp" line="1080"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="329"/>
+        <location filename="../ui/DxWidget.cpp" line="1085"/>
         <source>Timeout</source>
         <translation>Timeout</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="446"/>
-        <location filename="../ui/DxWidget.cpp" line="1084"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="333"/>
+        <location filename="../ui/DxWidget.cpp" line="1089"/>
         <source>Network Error</source>
         <translation>Chyba sítě</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="450"/>
-        <location filename="../ui/DxWidget.cpp" line="1087"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="336"/>
+        <location filename="../ui/DxWidget.cpp" line="1092"/>
         <source>Internal Error</source>
         <translation>Interní Chyba</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="449"/>
+        <location filename="../core/main.cpp" line="495"/>
         <source>Opening Database</source>
         <translation>Načítání Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="457"/>
+        <location filename="../core/main.cpp" line="503"/>
         <source>Backuping Database</source>
         <translation>Záloha Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="466"/>
+        <location filename="../core/main.cpp" line="512"/>
         <source>Migrating Database</source>
         <translation>Migrace Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="474"/>
+        <location filename="../core/main.cpp" line="520"/>
         <source>Starting Application</source>
         <translation>Start aplikace</translation>
     </message>
     <message>
-        <location filename="../data/RigProfile.cpp" line="251"/>
+        <location filename="../data/RigProfile.cpp" line="256"/>
         <source>My Rig</source>
         <translation>Můj Rig</translation>
     </message>
@@ -6426,22 +8138,22 @@
 <context>
     <name>Rig</name>
     <message>
-        <location filename="../rig/Rig.cpp" line="219"/>
+        <location filename="../rig/Rig.cpp" line="223"/>
         <source>No Rig Profile selected</source>
         <translation>Není vybrán žádný Rig profil</translation>
     </message>
     <message>
-        <location filename="../rig/Rig.cpp" line="231"/>
+        <location filename="../rig/Rig.cpp" line="235"/>
         <source>Initialization Error</source>
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../rig/Rig.cpp" line="232"/>
+        <location filename="../rig/Rig.cpp" line="236"/>
         <source>Internal Error</source>
         <translation>Interní Chyba</translation>
     </message>
     <message>
-        <location filename="../rig/Rig.cpp" line="238"/>
+        <location filename="../rig/Rig.cpp" line="308"/>
         <source>Cannot open Rig</source>
         <translation>Rig nelze připojit</translation>
     </message>
@@ -6553,8 +8265,8 @@
         <location filename="../ui/SettingsDialog.ui" line="542"/>
         <location filename="../ui/SettingsDialog.ui" line="851"/>
         <location filename="../ui/SettingsDialog.ui" line="1363"/>
-        <location filename="../ui/SettingsDialog.ui" line="2146"/>
-        <location filename="../ui/SettingsDialog.ui" line="2508"/>
+        <location filename="../ui/SettingsDialog.ui" line="2160"/>
+        <location filename="../ui/SettingsDialog.ui" line="2522"/>
         <source>Profile Name</source>
         <translation>Jméno profilu</translation>
     </message>
@@ -6564,8 +8276,8 @@
         <location filename="../ui/SettingsDialog.ui" line="787"/>
         <location filename="../ui/SettingsDialog.ui" line="810"/>
         <location filename="../ui/SettingsDialog.ui" line="1303"/>
-        <location filename="../ui/SettingsDialog.ui" line="2102"/>
-        <location filename="../ui/SettingsDialog.ui" line="2483"/>
+        <location filename="../ui/SettingsDialog.ui" line="2116"/>
+        <location filename="../ui/SettingsDialog.ui" line="2497"/>
         <source>Delete</source>
         <translation>Vymazat</translation>
     </message>
@@ -6580,28 +8292,28 @@
         <location filename="../ui/SettingsDialog.ui" line="780"/>
         <location filename="../ui/SettingsDialog.ui" line="803"/>
         <location filename="../ui/SettingsDialog.ui" line="1326"/>
-        <location filename="../ui/SettingsDialog.ui" line="2095"/>
-        <location filename="../ui/SettingsDialog.ui" line="2476"/>
+        <location filename="../ui/SettingsDialog.ui" line="2109"/>
+        <location filename="../ui/SettingsDialog.ui" line="2490"/>
         <location filename="../ui/SettingsDialog.cpp" line="382"/>
-        <location filename="../ui/SettingsDialog.cpp" line="556"/>
-        <location filename="../ui/SettingsDialog.cpp" line="681"/>
-        <location filename="../ui/SettingsDialog.cpp" line="804"/>
-        <location filename="../ui/SettingsDialog.cpp" line="851"/>
-        <location filename="../ui/SettingsDialog.cpp" line="948"/>
-        <location filename="../ui/SettingsDialog.cpp" line="963"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1032"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1118"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1215"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1230"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1352"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1425"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1514"/>
+        <location filename="../ui/SettingsDialog.cpp" line="558"/>
+        <location filename="../ui/SettingsDialog.cpp" line="689"/>
+        <location filename="../ui/SettingsDialog.cpp" line="812"/>
+        <location filename="../ui/SettingsDialog.cpp" line="859"/>
+        <location filename="../ui/SettingsDialog.cpp" line="956"/>
+        <location filename="../ui/SettingsDialog.cpp" line="971"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1040"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1124"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1221"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1236"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1358"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1431"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1520"/>
         <source>Add</source>
         <translation>Přidat</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="163"/>
-        <location filename="../ui/SettingsDialog.ui" line="3201"/>
+        <location filename="../ui/SettingsDialog.ui" line="3215"/>
         <source>Callsign</source>
         <translation>Značka</translation>
     </message>
@@ -6687,7 +8399,7 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1316"/>
-        <location filename="../ui/SettingsDialog.ui" line="2115"/>
+        <location filename="../ui/SettingsDialog.ui" line="2129"/>
         <source>List of all available Rigs</source>
         <translation>Seznam všech dostupných Rig</translation>
     </message>
@@ -6706,63 +8418,63 @@
         <location filename="../ui/SettingsDialog.ui" line="737"/>
         <location filename="../ui/SettingsDialog.ui" line="1784"/>
         <location filename="../ui/SettingsDialog.ui" line="2046"/>
-        <location filename="../ui/SettingsDialog.ui" line="2225"/>
-        <location filename="../ui/SettingsDialog.ui" line="2416"/>
+        <location filename="../ui/SettingsDialog.ui" line="2239"/>
+        <location filename="../ui/SettingsDialog.ui" line="2430"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="660"/>
         <location filename="../ui/SettingsDialog.ui" line="1813"/>
-        <location filename="../ui/SettingsDialog.ui" line="2239"/>
+        <location filename="../ui/SettingsDialog.ui" line="2253"/>
         <source>Baudrate</source>
         <translation>Baudrate</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="703"/>
-        <location filename="../ui/SettingsDialog.ui" line="2282"/>
+        <location filename="../ui/SettingsDialog.ui" line="2296"/>
         <source>1200</source>
         <translation>1200</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="698"/>
         <location filename="../ui/SettingsDialog.ui" line="1860"/>
-        <location filename="../ui/SettingsDialog.ui" line="2277"/>
+        <location filename="../ui/SettingsDialog.ui" line="2291"/>
         <source>2400</source>
         <translation>2400</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="693"/>
         <location filename="../ui/SettingsDialog.ui" line="1855"/>
-        <location filename="../ui/SettingsDialog.ui" line="2272"/>
+        <location filename="../ui/SettingsDialog.ui" line="2286"/>
         <source>4800</source>
         <translation>4800</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="688"/>
         <location filename="../ui/SettingsDialog.ui" line="1850"/>
-        <location filename="../ui/SettingsDialog.ui" line="2267"/>
+        <location filename="../ui/SettingsDialog.ui" line="2281"/>
         <source>9600</source>
         <translation>9600</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="683"/>
         <location filename="../ui/SettingsDialog.ui" line="1845"/>
-        <location filename="../ui/SettingsDialog.ui" line="2262"/>
+        <location filename="../ui/SettingsDialog.ui" line="2276"/>
         <source>19200</source>
         <translation>19200</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="678"/>
         <location filename="../ui/SettingsDialog.ui" line="1840"/>
-        <location filename="../ui/SettingsDialog.ui" line="2257"/>
+        <location filename="../ui/SettingsDialog.ui" line="2271"/>
         <source>38400</source>
         <translation>38400</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="673"/>
         <location filename="../ui/SettingsDialog.ui" line="1835"/>
-        <location filename="../ui/SettingsDialog.ui" line="2252"/>
+        <location filename="../ui/SettingsDialog.ui" line="2266"/>
         <source>57600</source>
         <translation>57600</translation>
     </message>
@@ -6783,19 +8495,19 @@
         <translation>TX Offset (XIT)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2083"/>
+        <location filename="../ui/SettingsDialog.ui" line="2097"/>
         <source>Rotators</source>
         <translation>Rotátory</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="668"/>
-        <location filename="../ui/SettingsDialog.ui" line="2247"/>
+        <location filename="../ui/SettingsDialog.ui" line="2261"/>
         <source>115200</source>
         <translation>115200</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1873"/>
-        <location filename="../ui/SettingsDialog.ui" line="2290"/>
+        <location filename="../ui/SettingsDialog.ui" line="2304"/>
         <source>Data Bits</source>
         <translation>Data Bits</translation>
     </message>
@@ -6827,7 +8539,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="333"/>
         <location filename="../ui/SettingsDialog.ui" line="1297"/>
-        <location filename="../ui/SettingsDialog.ui" line="2089"/>
+        <location filename="../ui/SettingsDialog.ui" line="2103"/>
         <source>Profiles</source>
         <translation>Profily</translation>
     </message>
@@ -6884,10 +8596,10 @@
         <location filename="../ui/SettingsDialog.ui" line="1206"/>
         <location filename="../ui/SettingsDialog.ui" line="1239"/>
         <location filename="../ui/SettingsDialog.ui" line="1272"/>
-        <location filename="../ui/SettingsDialog.ui" line="2555"/>
-        <location filename="../ui/SettingsDialog.ui" line="2600"/>
-        <location filename="../ui/SettingsDialog.ui" line="2633"/>
-        <location filename="../ui/SettingsDialog.ui" line="2666"/>
+        <location filename="../ui/SettingsDialog.ui" line="2569"/>
+        <location filename="../ui/SettingsDialog.ui" line="2614"/>
+        <location filename="../ui/SettingsDialog.ui" line="2647"/>
+        <location filename="../ui/SettingsDialog.ui" line="2680"/>
         <source>Short Desciption of the Button (up to 7 chars)</source>
         <translation>Kratký popisek tlačítka (max 7 znaků)</translation>
     </message>
@@ -6960,10 +8672,10 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1548"/>
-        <location filename="../ui/SettingsDialog.ui" line="2684"/>
-        <location filename="../ui/SettingsDialog.ui" line="2709"/>
-        <location filename="../ui/SettingsDialog.ui" line="2734"/>
-        <location filename="../ui/SettingsDialog.ui" line="2759"/>
+        <location filename="../ui/SettingsDialog.ui" line="2698"/>
+        <location filename="../ui/SettingsDialog.ui" line="2723"/>
+        <location filename="../ui/SettingsDialog.ui" line="2748"/>
+        <location filename="../ui/SettingsDialog.ui" line="2773"/>
         <source>Blank</source>
         <translation>Nevyplněno</translation>
     </message>
@@ -6974,49 +8686,49 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1969"/>
-        <location filename="../ui/SettingsDialog.ui" line="2325"/>
+        <location filename="../ui/SettingsDialog.ui" line="2339"/>
         <source>5</source>
         <translation>5</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1964"/>
-        <location filename="../ui/SettingsDialog.ui" line="2320"/>
+        <location filename="../ui/SettingsDialog.ui" line="2334"/>
         <source>6</source>
         <translation>6</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1959"/>
-        <location filename="../ui/SettingsDialog.ui" line="2315"/>
+        <location filename="../ui/SettingsDialog.ui" line="2329"/>
         <source>7</source>
         <translation>7</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1954"/>
-        <location filename="../ui/SettingsDialog.ui" line="2310"/>
+        <location filename="../ui/SettingsDialog.ui" line="2324"/>
         <source>8</source>
         <translation>8</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1977"/>
-        <location filename="../ui/SettingsDialog.ui" line="2333"/>
+        <location filename="../ui/SettingsDialog.ui" line="2347"/>
         <source>Stop Bits</source>
         <translation>Stop Bits</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1994"/>
-        <location filename="../ui/SettingsDialog.ui" line="2344"/>
+        <location filename="../ui/SettingsDialog.ui" line="2358"/>
         <source>1</source>
         <translation>1</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1999"/>
-        <location filename="../ui/SettingsDialog.ui" line="2349"/>
+        <location filename="../ui/SettingsDialog.ui" line="2363"/>
         <source>2</source>
         <translation>2</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1892"/>
-        <location filename="../ui/SettingsDialog.ui" line="2297"/>
+        <location filename="../ui/SettingsDialog.ui" line="2311"/>
         <source>Flow Control</source>
         <translation>Flow Control</translation>
     </message>
@@ -7040,7 +8752,7 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1920"/>
-        <location filename="../ui/SettingsDialog.ui" line="2367"/>
+        <location filename="../ui/SettingsDialog.ui" line="2381"/>
         <source>Parity</source>
         <translation>Parity</translation>
     </message>
@@ -7087,7 +8799,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="727"/>
         <location filename="../ui/SettingsDialog.ui" line="2031"/>
-        <location filename="../ui/SettingsDialog.ui" line="2401"/>
+        <location filename="../ui/SettingsDialog.ui" line="2415"/>
         <source>Host Name</source>
         <translation>Název serveru</translation>
     </message>
@@ -7226,48 +8938,48 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="1737"/>
-        <location filename="../ui/SettingsDialog.ui" line="2173"/>
+        <location filename="../ui/SettingsDialog.ui" line="2187"/>
         <source>Port Type</source>
         <translation>Typ Portu</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2181"/>
+        <location filename="../ui/SettingsDialog.ui" line="2195"/>
         <location filename="../ui/SettingsDialog.cpp" line="82"/>
         <source>Serial</source>
         <translation>Serial</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2454"/>
+        <location filename="../ui/SettingsDialog.ui" line="2468"/>
         <source>User Buttons Profiles</source>
         <translation>Uživatelská tlačítka</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2530"/>
+        <location filename="../ui/SettingsDialog.ui" line="2544"/>
         <source>Button 1</source>
         <translation>Tlačítko 1</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2581"/>
+        <location filename="../ui/SettingsDialog.ui" line="2595"/>
         <source>Button 2</source>
         <translation>Tlačítko 2</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2620"/>
+        <location filename="../ui/SettingsDialog.ui" line="2634"/>
         <source>Button 3</source>
         <translation>Tlačítko 3</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2653"/>
+        <location filename="../ui/SettingsDialog.ui" line="2667"/>
         <source>Button 4</source>
         <translation>Tlačítko 4</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="405"/>
         <location filename="../ui/SettingsDialog.ui" line="424"/>
-        <location filename="../ui/SettingsDialog.ui" line="2687"/>
-        <location filename="../ui/SettingsDialog.ui" line="2712"/>
-        <location filename="../ui/SettingsDialog.ui" line="2737"/>
-        <location filename="../ui/SettingsDialog.ui" line="2762"/>
+        <location filename="../ui/SettingsDialog.ui" line="2701"/>
+        <location filename="../ui/SettingsDialog.ui" line="2726"/>
+        <location filename="../ui/SettingsDialog.ui" line="2751"/>
+        <location filename="../ui/SettingsDialog.ui" line="2776"/>
         <source>°</source>
         <translation>°</translation>
     </message>
@@ -7292,299 +9004,304 @@
         <translation>TX </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2937"/>
+        <location filename="../ui/SettingsDialog.ui" line="2081"/>
+        <source>DX Spots to Rig</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="2951"/>
         <source>Web Lookup Button</source>
         <translation>Hledání na Webu</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2943"/>
+        <location filename="../ui/SettingsDialog.ui" line="2957"/>
         <source>URL</source>
         <translation>URL</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2952"/>
+        <location filename="../ui/SettingsDialog.ui" line="2966"/>
         <source>Specify the URL to use for quick search. The &lt;DXCALL&gt; macro will be replaced by the current callsign</source>
         <translation>Zadejte URL, kterou chcete použít pro rychlé vyhledávání. Makro &lt;DXCALL&gt; bude nahrazeno aktuální volací značkou</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2959"/>
+        <location filename="../ui/SettingsDialog.ui" line="2973"/>
         <source>Test URL with your Callsign</source>
         <translation>Test URL s vlastní značkou</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2962"/>
+        <location filename="../ui/SettingsDialog.ui" line="2976"/>
         <source>Test</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2988"/>
+        <location filename="../ui/SettingsDialog.ui" line="3002"/>
         <source>Clubs</source>
         <translation>Kluby</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2994"/>
+        <location filename="../ui/SettingsDialog.ui" line="3008"/>
         <source>Active Lists</source>
         <translation>Seznam aktivních</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3127"/>
+        <location filename="../ui/SettingsDialog.ui" line="3141"/>
         <source>Immediately Upload</source>
         <translation>Okamžítý Upload</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3195"/>
+        <location filename="../ui/SettingsDialog.ui" line="3209"/>
         <source>HRDLog</source>
         <translation>HRDLog</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3211"/>
-        <location filename="../ui/SettingsDialog.ui" line="3221"/>
+        <location filename="../ui/SettingsDialog.ui" line="3225"/>
+        <location filename="../ui/SettingsDialog.ui" line="3235"/>
         <source>It is not a password. It is the upload code received via email after the registration to HRDLOG..net</source>
         <translation>Toto není heslo. Toto je kód pro nahrávání, který jste obdrželi e-mailem po registraci na HRDLOG.net</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3214"/>
+        <location filename="../ui/SettingsDialog.ui" line="3228"/>
         <source>Upload Code</source>
         <translation>Upload Code</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3231"/>
-        <location filename="../ui/SettingsDialog.ui" line="3244"/>
+        <location filename="../ui/SettingsDialog.ui" line="3245"/>
+        <location filename="../ui/SettingsDialog.ui" line="3258"/>
         <source>If it is enabled and Rig is connected then QLog periodically sends On-Air messages to HRDLog</source>
         <translation>Pokud je povoleno a Rig je připojen, pak QLog pravidelně odesílá zprávy On-Air do HRDLog</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3234"/>
+        <location filename="../ui/SettingsDialog.ui" line="3248"/>
         <source>Send On-Air</source>
         <translation>Odesílat On-Air</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3437"/>
+        <location filename="../ui/SettingsDialog.ui" line="3451"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3509"/>
+        <location filename="../ui/SettingsDialog.ui" line="3523"/>
         <source>&lt;b&gt;Security Notice:&lt;/b&gt; QLog stores all passwords in the Secure Storage. Unfortunately, ON4KST uses a protocol where this password is sent over an unsecured channel as plaintext.&lt;/p&gt;&lt;p&gt;Please exercise caution when choosing your password for this service, as your password is sent over an unsecured channel in plaintext form.&lt;/p&gt;</source>
         <translation>&lt;b&gt;Oznámení o zabezpečení:&lt;/b&gt; QLog ukládá všechna hesla do zabezpečeného úložiště. ON4KST bohužel používá protokol, kde je toto heslo odesíláno přes nezabezpečený kanál jako prostý text.&lt;/p&gt;&lt;p&gt;Při výběru hesla pro tuto službu buďte opatrní, protože vaše heslo je odesíláno přes nezabezpečený kanál v podobě prostého textu.&lt; /p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3625"/>
+        <location filename="../ui/SettingsDialog.ui" line="3639"/>
         <source>Raw UDP Forward</source>
         <translation>UDP Forward</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3632"/>
+        <location filename="../ui/SettingsDialog.ui" line="3646"/>
         <source>&lt;p&gt;List of IP addresses to which QLog forwards raw UDP WSJT-X packets.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Seznam IP adres, na které QLog přeposílá nezměněné UDP WSJTX pakety. &lt;/p&gt;Adresy jsou odděleny mezerou a mají formát IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3671"/>
+        <location filename="../ui/SettingsDialog.ui" line="3685"/>
         <source>Join Multicast</source>
         <translation>Použít Multicast</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3684"/>
+        <location filename="../ui/SettingsDialog.ui" line="3698"/>
         <source>Enable/Disable Multicast option for WSJTX</source>
         <translation>Povolit/zakázat možnost Multicast pro WSJTX</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3694"/>
+        <location filename="../ui/SettingsDialog.ui" line="3708"/>
         <source>Multicast Address</source>
         <translation>Multicast Adresa</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3709"/>
+        <location filename="../ui/SettingsDialog.ui" line="3723"/>
         <source>Specify Multicast Address. &lt;br&gt;On some Linux systems it may be necessary to enable multicast on the loop-back network interface.</source>
         <translation>Zadejte Multicast adresu. &lt;br&gt;Na některých Linux systémech může být nutné povolit Multicast pro Loopback interface.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3716"/>
+        <location filename="../ui/SettingsDialog.ui" line="3730"/>
         <source>TTL</source>
         <translation>TTL</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3729"/>
+        <location filename="../ui/SettingsDialog.ui" line="3743"/>
         <source>Time-To-Live determines the range&lt;br&gt; over which a multicast packet is propagated in your intranet. </source>
         <translation>Time-To-Live určuje vzdálenost&lt;br&gt;, do které se paket Multicastu v síti šíří. </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3750"/>
+        <location filename="../ui/SettingsDialog.ui" line="3764"/>
         <source>Notifications</source>
         <translation>Notifikace</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3779"/>
+        <location filename="../ui/SettingsDialog.ui" line="3793"/>
         <source>DX Spots</source>
         <translation>DX Spoty</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3786"/>
+        <location filename="../ui/SettingsDialog.ui" line="3800"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with DX Cluster Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Seznam IP adres, na které QLog přeposílá UDP notificate z DX Clusteru. &lt;/p&gt;Adresy jsou odděleny mezerou a mají formát IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3813"/>
+        <location filename="../ui/SettingsDialog.ui" line="3827"/>
         <source>QSO Changes </source>
         <translation>Změny QSO </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3820"/>
+        <location filename="../ui/SettingsDialog.ui" line="3834"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about a new/updated/deleted QSO in the log.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Seznam IP adres, na které QLog přeposílá UDP notificate o novém/aktualizovaném/vymazaném QSO. &lt;/p&gt;Adresy jsou odděleny mezerou a mají formát IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3830"/>
+        <location filename="../ui/SettingsDialog.ui" line="3844"/>
         <source>Wsjtx CQ Spots</source>
         <translation>Wsjtx CQ Spoty</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3837"/>
+        <location filename="../ui/SettingsDialog.ui" line="3851"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with WSJTX CQ Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Seznam IP adres, na které QLog přeposílá UDP notificate s WSJTX CQ Spoty. &lt;/p&gt;Adresy jsou odděleny mezerou a mají formát IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3796"/>
+        <location filename="../ui/SettingsDialog.ui" line="3810"/>
         <source>Spot Alerts</source>
         <translation>Upozornění na Spoty</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3803"/>
+        <location filename="../ui/SettingsDialog.ui" line="3817"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about user Spot Alerts.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Seznam IP adres, na které QLog přeposílá UDP notifikace Upozornění na Spoty. &lt;/p&gt;Adresy jsou odděleny mezerou a mají formát IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3756"/>
+        <location filename="../ui/SettingsDialog.ui" line="3770"/>
         <source>LogID</source>
         <translation>LogID</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3766"/>
+        <location filename="../ui/SettingsDialog.ui" line="3780"/>
         <source>&lt;p&gt;Assigned LogID to the current log.&lt;/p&gt;The LogID is sent in the Network Nofitication messages as a unique instance identified.&lt;p&gt; The ID is generated automatically and cannot be changed&lt;/&gt;</source>
         <translation>&lt;p&gt;LogID pro aktuální log&lt;/p&gt;LogID se posílá ve všech UDP notifikacích jako unikátní identifikátor.&lt;p&gt; ID je generováno automaticky a nemůže být změněno.&lt;/&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2818"/>
+        <location filename="../ui/SettingsDialog.ui" line="2832"/>
         <source>Callbook</source>
         <translation>Callbook</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2824"/>
+        <location filename="../ui/SettingsDialog.ui" line="2838"/>
         <source>Query Order</source>
         <translation>Pořadí dotazů</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2830"/>
+        <location filename="../ui/SettingsDialog.ui" line="2844"/>
         <source>Primary</source>
         <translation>Primární</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2842"/>
+        <location filename="../ui/SettingsDialog.ui" line="2856"/>
         <source>Secondary</source>
         <translation>Sekundární</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2857"/>
+        <location filename="../ui/SettingsDialog.ui" line="2871"/>
         <location filename="../ui/SettingsDialog.cpp" line="215"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1962"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1975"/>
         <source>HamQTH</source>
         <translation>HamQTH</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2863"/>
-        <location filename="../ui/SettingsDialog.ui" line="2903"/>
-        <location filename="../ui/SettingsDialog.ui" line="3157"/>
-        <location filename="../ui/SettingsDialog.ui" line="3290"/>
-        <location filename="../ui/SettingsDialog.ui" line="3472"/>
+        <location filename="../ui/SettingsDialog.ui" line="2877"/>
+        <location filename="../ui/SettingsDialog.ui" line="2917"/>
+        <location filename="../ui/SettingsDialog.ui" line="3171"/>
+        <location filename="../ui/SettingsDialog.ui" line="3304"/>
+        <location filename="../ui/SettingsDialog.ui" line="3486"/>
         <source>Username</source>
         <translation>Uživatelské jméno</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2877"/>
-        <location filename="../ui/SettingsDialog.ui" line="2917"/>
-        <location filename="../ui/SettingsDialog.ui" line="3087"/>
-        <location filename="../ui/SettingsDialog.ui" line="3167"/>
-        <location filename="../ui/SettingsDialog.ui" line="3300"/>
-        <location filename="../ui/SettingsDialog.ui" line="3482"/>
+        <location filename="../ui/SettingsDialog.ui" line="2891"/>
+        <location filename="../ui/SettingsDialog.ui" line="2931"/>
+        <location filename="../ui/SettingsDialog.ui" line="3101"/>
+        <location filename="../ui/SettingsDialog.ui" line="3181"/>
+        <location filename="../ui/SettingsDialog.ui" line="3314"/>
+        <location filename="../ui/SettingsDialog.ui" line="3496"/>
         <source>Password</source>
         <translation>Heslo</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2897"/>
-        <location filename="../ui/SettingsDialog.ui" line="3383"/>
+        <location filename="../ui/SettingsDialog.ui" line="2911"/>
+        <location filename="../ui/SettingsDialog.ui" line="3397"/>
         <location filename="../ui/SettingsDialog.cpp" line="216"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1955"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1968"/>
         <source>QRZ.com</source>
         <translation>QRZ.com</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3655"/>
+        <location filename="../ui/SettingsDialog.ui" line="3669"/>
         <source>Port where QLog listens an incoming traffic from WSJT-X</source>
         <translation>Port, kde QLog poslouchá příchozí zprávy z WSJT-X</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3635"/>
-        <location filename="../ui/SettingsDialog.ui" line="3789"/>
-        <location filename="../ui/SettingsDialog.ui" line="3806"/>
-        <location filename="../ui/SettingsDialog.ui" line="3823"/>
-        <location filename="../ui/SettingsDialog.ui" line="3840"/>
+        <location filename="../ui/SettingsDialog.ui" line="3649"/>
+        <location filename="../ui/SettingsDialog.ui" line="3803"/>
+        <location filename="../ui/SettingsDialog.ui" line="3820"/>
+        <location filename="../ui/SettingsDialog.ui" line="3837"/>
+        <location filename="../ui/SettingsDialog.ui" line="3854"/>
         <source>ex. 192.168.1.1:1234 192.168.2.1:1234</source>
         <translation>např. 192.168.1.1:1234 192.168.2.1:1234</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3135"/>
+        <location filename="../ui/SettingsDialog.ui" line="3149"/>
         <source>eQSL</source>
         <translation>eQSL</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3333"/>
+        <location filename="../ui/SettingsDialog.ui" line="3347"/>
         <source>Browse</source>
         <translation>Procházet</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3284"/>
+        <location filename="../ui/SettingsDialog.ui" line="3298"/>
         <source>LoTW</source>
         <translation>LoTW</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3314"/>
+        <location filename="../ui/SettingsDialog.ui" line="3328"/>
         <source>TQSL Path</source>
         <translation>Cesta k TQSL</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3326"/>
+        <location filename="../ui/SettingsDialog.ui" line="3340"/>
         <source>Use default path</source>
         <translation>Použít výchozí cestu</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2186"/>
-        <location filename="../ui/SettingsDialog.ui" line="3613"/>
+        <location filename="../ui/SettingsDialog.ui" line="2200"/>
+        <location filename="../ui/SettingsDialog.ui" line="3627"/>
         <location filename="../ui/SettingsDialog.cpp" line="83"/>
         <source>Network</source>
         <translation>Síť</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3619"/>
+        <location filename="../ui/SettingsDialog.ui" line="3633"/>
         <source>Wsjtx</source>
         <translation>Wsjtx</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3642"/>
+        <location filename="../ui/SettingsDialog.ui" line="3656"/>
         <source>Port </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3055"/>
+        <location filename="../ui/SettingsDialog.ui" line="3069"/>
         <source>ClubLog</source>
         <translation>ClubLog</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3077"/>
+        <location filename="../ui/SettingsDialog.ui" line="3091"/>
         <source>E-Mail</source>
         <translation>E-Mail</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3389"/>
+        <location filename="../ui/SettingsDialog.ui" line="3403"/>
         <source>Log API Key  </source>
         <translation>Log API Key  </translation>
     </message>
@@ -7601,13 +9318,13 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="653"/>
         <location filename="../ui/SettingsDialog.ui" line="1797"/>
-        <location filename="../ui/SettingsDialog.ui" line="2232"/>
+        <location filename="../ui/SettingsDialog.ui" line="2246"/>
         <source>Use COMxx for Window or path to COM port under Unix-like OS</source>
         <translation>Použijte COMxx pro Windows or cestu ke COM portu pro Unix-like OS</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="823"/>
-        <location filename="../ui/SettingsDialog.ui" line="2466"/>
+        <location filename="../ui/SettingsDialog.ui" line="2480"/>
         <source>List of all available CW Shortcuts Profiles</source>
         <translation>Seznam všech dostupných CW Shortcut Profilů</translation>
     </message>
@@ -7622,43 +9339,43 @@
         <translation>QSY Výmaz</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2163"/>
+        <location filename="../ui/SettingsDialog.ui" line="2177"/>
         <source>Rot Model</source>
         <translation>Rot Model</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3020"/>
+        <location filename="../ui/SettingsDialog.ui" line="3034"/>
         <source>Sync &amp;&amp; QSL</source>
         <translation>Sync &amp;&amp; QSL</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3117"/>
+        <location filename="../ui/SettingsDialog.ui" line="3131"/>
         <source>QSOs are uploaded immediately</source>
         <translation>QSO jsou okamžítě nahrána</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3375"/>
+        <location filename="../ui/SettingsDialog.ui" line="3389"/>
         <source>Using an internal TQSL instance</source>
         <translation>Používám interní TQSL</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3537"/>
+        <location filename="../ui/SettingsDialog.ui" line="3551"/>
         <source>Bands</source>
         <translation>Pásma</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3560"/>
+        <location filename="../ui/SettingsDialog.ui" line="3574"/>
         <source>Modes</source>
         <translation>Druhy provozu</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3583"/>
+        <location filename="../ui/SettingsDialog.ui" line="3597"/>
         <location filename="../ui/SettingsDialog.cpp" line="139"/>
         <source>DXCC</source>
         <translation>DXCC</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3595"/>
+        <location filename="../ui/SettingsDialog.ui" line="3609"/>
         <source>Use start date:</source>
         <translation>Počáteční datum:</translation>
     </message>
@@ -7681,8 +9398,8 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="214"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1954"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1961"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1967"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1974"/>
         <source>Disabled</source>
         <translation>Vypnuto</translation>
     </message>
@@ -7693,14 +9410,14 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="350"/>
-        <location filename="../ui/SettingsDialog.cpp" line="665"/>
-        <location filename="../ui/SettingsDialog.cpp" line="845"/>
-        <location filename="../ui/SettingsDialog.cpp" line="957"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1041"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1224"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1383"/>
+        <location filename="../ui/SettingsDialog.cpp" line="673"/>
+        <location filename="../ui/SettingsDialog.cpp" line="853"/>
+        <location filename="../ui/SettingsDialog.cpp" line="965"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1049"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1230"/>
         <location filename="../ui/SettingsDialog.cpp" line="1389"/>
         <location filename="../ui/SettingsDialog.cpp" line="1395"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1401"/>
         <source>Must not be empty</source>
         <translation>Nesmí být prázdné</translation>
     </message>
@@ -7713,25 +9430,25 @@
         <location filename="../ui/SettingsDialog.cpp" line="313"/>
         <location filename="../ui/SettingsDialog.cpp" line="321"/>
         <location filename="../ui/SettingsDialog.cpp" line="380"/>
-        <location filename="../ui/SettingsDialog.cpp" line="519"/>
-        <location filename="../ui/SettingsDialog.cpp" line="679"/>
-        <location filename="../ui/SettingsDialog.cpp" line="781"/>
-        <location filename="../ui/SettingsDialog.cpp" line="849"/>
-        <location filename="../ui/SettingsDialog.cpp" line="926"/>
-        <location filename="../ui/SettingsDialog.cpp" line="961"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1017"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1116"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1198"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1228"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1321"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1423"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1491"/>
+        <location filename="../ui/SettingsDialog.cpp" line="520"/>
+        <location filename="../ui/SettingsDialog.cpp" line="687"/>
+        <location filename="../ui/SettingsDialog.cpp" line="789"/>
+        <location filename="../ui/SettingsDialog.cpp" line="857"/>
+        <location filename="../ui/SettingsDialog.cpp" line="934"/>
+        <location filename="../ui/SettingsDialog.cpp" line="969"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1025"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1122"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1204"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1234"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1327"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1429"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1497"/>
         <source>Modify</source>
         <translation>Upravit</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="84"/>
-        <location filename="../ui/SettingsDialog.cpp" line="647"/>
+        <location filename="../ui/SettingsDialog.cpp" line="651"/>
         <source>Special - Omnirig</source>
         <translation>Special - Omnirig</translation>
     </message>
@@ -7791,17 +9508,17 @@
         <translation>Ultimate</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1716"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1729"/>
         <source>Select File</source>
         <translation>Vybrat soubor</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2470"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2488"/>
         <source>members</source>
         <translation>členů</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2478"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2496"/>
         <source>Required internet connection during application start</source>
         <translation>Je vyžadováno připojení do internetu během startu aplikace</translation>
     </message>
@@ -8054,6 +9771,44 @@
     </message>
 </context>
 <context>
+    <name>TCIDrv</name>
+    <message>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="19"/>
+        <source>Rig 0</source>
+        <translation type="unfinished">Rig 0</translation>
+    </message>
+    <message>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="20"/>
+        <source>Rig 1</source>
+        <translation type="unfinished">Rig 1</translation>
+    </message>
+    <message>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="21"/>
+        <source>Rig 2</source>
+        <translation type="unfinished">Rig 2</translation>
+    </message>
+    <message>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="22"/>
+        <source>Rig 3</source>
+        <translation type="unfinished">Rig 3</translation>
+    </message>
+    <message>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="339"/>
+        <source>Error Occured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="543"/>
+        <source>Rig status changed</source>
+        <translation type="unfinished">Změna stavu Rigu</translation>
+    </message>
+    <message>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="544"/>
+        <source>Rig is not connected</source>
+        <translation type="unfinished">Rig není připojen</translation>
+    </message>
+</context>
+<context>
     <name>TimestampFormatDelegate</name>
     <message>
         <location filename="../ui/StyleItemDelegate.h" line="112"/>
@@ -8064,17 +9819,17 @@
 <context>
     <name>ToAllTableModel</name>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="338"/>
+        <location filename="../ui/DxWidget.cpp" line="343"/>
         <source>Time</source>
         <translation>Čas</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="339"/>
+        <location filename="../ui/DxWidget.cpp" line="344"/>
         <source>Spotter</source>
         <translation>Spotter</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="340"/>
+        <location filename="../ui/DxWidget.cpp" line="345"/>
         <source>Message</source>
         <translation>Zpráva</translation>
     </message>
@@ -8110,47 +9865,47 @@
 <context>
     <name>WCYTableModel</name>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="208"/>
+        <location filename="../ui/DxWidget.cpp" line="213"/>
         <source>Time</source>
         <translation>Čas</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="209"/>
+        <location filename="../ui/DxWidget.cpp" line="214"/>
         <source>K</source>
         <translation>K</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="210"/>
+        <location filename="../ui/DxWidget.cpp" line="215"/>
         <source>expK</source>
         <translation>expK</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="211"/>
+        <location filename="../ui/DxWidget.cpp" line="216"/>
         <source>A</source>
         <translation>A</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="212"/>
+        <location filename="../ui/DxWidget.cpp" line="217"/>
         <source>R</source>
         <translation>R</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="213"/>
+        <location filename="../ui/DxWidget.cpp" line="218"/>
         <source>SFI</source>
         <translation>SFI</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="214"/>
+        <location filename="../ui/DxWidget.cpp" line="219"/>
         <source>SA</source>
         <translation>SA</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="215"/>
+        <location filename="../ui/DxWidget.cpp" line="220"/>
         <source>GMF</source>
         <translation>GMF</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="216"/>
+        <location filename="../ui/DxWidget.cpp" line="221"/>
         <source>Au</source>
         <translation>Au</translation>
     </message>
@@ -8158,27 +9913,27 @@
 <context>
     <name>WWVTableModel</name>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="277"/>
+        <location filename="../ui/DxWidget.cpp" line="282"/>
         <source>Time</source>
         <translation>Čas</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="278"/>
+        <location filename="../ui/DxWidget.cpp" line="283"/>
         <source>SFI</source>
         <translation>SFI</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="279"/>
+        <location filename="../ui/DxWidget.cpp" line="284"/>
         <source>A</source>
         <translation>A</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="280"/>
+        <location filename="../ui/DxWidget.cpp" line="285"/>
         <source>K</source>
         <translation>K</translation>
     </message>
     <message>
-        <location filename="../ui/DxWidget.cpp" line="281"/>
+        <location filename="../ui/DxWidget.cpp" line="286"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
@@ -8375,32 +10130,32 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../core/main.cpp" line="385"/>
+        <location filename="../core/main.cpp" line="428"/>
         <source>Run with the specific namespace.</source>
         <translation>Spustit ve specifickém jmeném prostoru.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="386"/>
+        <location filename="../core/main.cpp" line="429"/>
         <source>namespace</source>
         <translation>namespace</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="388"/>
+        <location filename="../core/main.cpp" line="431"/>
         <source>Translation file - absolute or relative path and QM file name.</source>
         <translation>Soubor s překladem - absolutní nebo relativní cesta a jméno QM souboru.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="389"/>
+        <location filename="../core/main.cpp" line="432"/>
         <source>path/QM-filename</source>
         <translation>path/QM-filename</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="391"/>
+        <location filename="../core/main.cpp" line="434"/>
         <source>Set language. &lt;code&gt; example: &apos;en&apos; or &apos;en_US&apos;. Ignore environment setting.</source>
         <translation>Nastavit jazyk. Příklad &lt;code&gt;: &apos;en&apos; nebo &apos;en_US&apos;. Ignoruje OS nastavení.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="392"/>
+        <location filename="../core/main.cpp" line="435"/>
         <source>code</source>
         <translation>kód</translation>
     </message>

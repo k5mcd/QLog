@@ -252,7 +252,9 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     ui->satModeEdit->setModel(satModesModel);
 
     /* Country */
-    SqlListModel* countryModel = new SqlListModel("SELECT id, name FROM dxcc_entities ORDER BY name;", "", this);
+    SqlListModel* countryModel = new SqlListModel("SELECT id, translate_to_locale(name), name  "
+                                                  "FROM dxcc_entities "
+                                                  "ORDER BY 2 COLLATE LOCALEAWARE ASC;", "", this);
     while ( countryModel->canFetchMore() )
     {
         countryModel->fetchMore();
@@ -861,8 +863,8 @@ bool QSODetailDialog::doValidation()
     DxccEntity dxccEntity = Data::instance()->lookupDxcc(ui->callsignEdit->text());
 
     allValid &= highlightInvalid(ui->countryLabel,
-                                 dxccEntity.dxcc && ui->countryCombo->currentText() != dxccEntity.country,
-                                 tr("Based on callsign, DXCC Country is different from the entered value - expecting ") + "<b> " + dxccEntity.country + "</b>");
+                                 dxccEntity.dxcc && ui->countryCombo->currentText() != QCoreApplication::translate("DBStrings", dxccEntity.country.toUtf8().constData()),
+                                 tr("Based on callsign, DXCC Country is different from the entered value - expecting ") + "<b> " + QCoreApplication::translate("DBStrings", dxccEntity.country.toUtf8().constData()) + "</b>");
 
     allValid &= highlightInvalid(ui->contLabel,
                                  dxccEntity.dxcc && ui->contEdit->currentText() != dxccEntity.cont,
@@ -1767,11 +1769,13 @@ void QSOEditMapperDelegate::setModelData(QWidget *editor,
         if ( combo )
         {
             int row = combo->currentIndex();
-            QModelIndex idx = combo->model()->index(row,0);
-            QVariant data = combo->model()->data(idx);
+            QModelIndex idxDXCC = combo->model()->index(row,0);
+            QModelIndex idxCountryEN = combo->model()->index(row,2);
+            QVariant dataDXCC = combo->model()->data(idxDXCC);
+            QVariant dataCountryEN = combo->model()->data(idxCountryEN);
 
-            model->setData(index, data);
-            model->setData(model->index(index.row(), LogbookModel::COLUMN_COUNTRY_INTL),combo->currentText());
+            model->setData(index, dataDXCC);
+            model->setData(model->index(index.row(), LogbookModel::COLUMN_COUNTRY_INTL),dataCountryEN);
         }
         return;
     }

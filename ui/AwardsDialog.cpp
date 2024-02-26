@@ -7,7 +7,7 @@
 #include "data/Band.h"
 #include "data/Data.h"
 #include "data/BandPlan.h"
-
+#include <QSqlError>
 MODULE_IDENTIFICATION("qlog.ui.awardsdialog");
 
 AwardsDialog::AwardsDialog(QWidget *parent) :
@@ -91,7 +91,7 @@ void AwardsDialog::refreshTable(int)
 
     if ( awardSelected == "dxcc" )
     {
-        headersColumns = "d.name col1, d.prefix col2 ";
+        headersColumns = "translate_to_locale(d.name) col1, d.prefix col2 ";
         uniqColumns = "c.dxcc";
         sqlPart = " FROM dxcc_entities d "
                   "     LEFT OUTER JOIN contacts c ON d.id = c.dxcc "
@@ -263,9 +263,10 @@ void AwardsDialog::refreshTable(int)
                     "       from dxcc_summary d "
                     "GROUP BY 2,3 "
                     ") "
-                    "ORDER BY 1,2 ");
+                    "ORDER BY 1,2 COLLATE LOCALEAWARE ASC ");
 
     qDebug(runtime) << detailedViewModel->query().lastQuery();
+    qInfo() << detailedViewModel->query().lastError();
 
     detailedViewModel->setHeaderData(1, Qt::Horizontal, "");
     detailedViewModel->setHeaderData(2, Qt::Horizontal, "");
