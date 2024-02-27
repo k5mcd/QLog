@@ -290,7 +290,8 @@ HEADERS += \
         ui/WebEnginePage.h \
         ui/WsjtxFilterDialog.h \
         ui/WsjtxWidget.h \
-        i18n/dbstrings.tri
+        i18n/dbstrings.tri \
+        i18n/datastrings.tri
 
 FORMS += \
         ui/AlertRuleDetail.ui \

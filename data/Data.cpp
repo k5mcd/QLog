@@ -568,21 +568,22 @@ void Data::loadContests() {
     }
 }
 
-void Data::loadPropagationModes() {
+void Data::loadPropagationModes()
+{
     FCT_IDENTIFICATION;
 
     QFile file(":/res/data/propagation_modes.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
-    for (auto &object : qAsConst(objects))
+    const QList<QVariant> objects = QJsonDocument::fromJson(data).toVariant().toList();
+
+    for ( const QVariant &object : objects )
     {
-        QVariantMap propagationModeData = object.toMap();
+        const QVariantMap &propagationModeData = object.toMap();
 
-        QString id = propagationModeData.value("id").toString();
-        QString name = propagationModeData.value("name").toString();
-
+        const QString &id = propagationModeData.value("id").toString();
+        const QString &name = tr(propagationModeData.value("name").toString().toUtf8().constData());
         propagationModes.insert(id, name);
     }
 }
