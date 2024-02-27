@@ -130,9 +130,9 @@ DxccStatus Data::dxccStatus(int dxcc, const QString &band, const QString &mode) 
     qCDebug(function_parameters) << dxcc << " " << band << " " << mode;
 
     QString filter;
-
     QSettings settings;
-    QVariant start = settings.value("dxcc/start");
+    const QVariant &start = settings.value("dxcc/start");
+
     if ( start.toDate().isValid() )
     {
         filter = QString("AND start_time >= '%1'").arg(start.toDate().toString("yyyy-MM-dd"));
@@ -549,21 +549,20 @@ QString Data::getIANATimeZone(double lat, double lon)
     return ret;
 }
 
-void Data::loadContests() {
+void Data::loadContests()
+{
     FCT_IDENTIFICATION;
 
     QFile file(":/res/data/contests.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    auto objectList = QJsonDocument::fromJson(data).toVariant().toList();
-    for (auto &object : qAsConst(objectList))
+    const QList<QVariant> objectList = QJsonDocument::fromJson(data).toVariant().toList();
+    for ( const QVariant &object : objectList )
     {
-        QVariantMap contestData = object.toMap();
-
-        QString id = contestData.value("id").toString();
-        QString name = contestData.value("name").toString();
-
+        const QVariantMap &contestData = object.toMap();
+        const QString &id = contestData.value("id").toString();
+        const QString &name = contestData.value("name").toString();
         contests.insert(id, name);
     }
 }
@@ -581,7 +580,6 @@ void Data::loadPropagationModes()
     for ( const QVariant &object : objects )
     {
         const QVariantMap &propagationModeData = object.toMap();
-
         const QString &id = propagationModeData.value("id").toString();
         const QString &name = tr(propagationModeData.value("name").toString().toUtf8().constData());
         propagationModes.insert(id, name);
@@ -600,17 +598,15 @@ void Data::loadLegacyModes()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    QVariantMap modes = QJsonDocument::fromJson(data).toVariant().toMap();
-    auto keys = modes.keys();
+    QVariantMap extModes = QJsonDocument::fromJson(data).toVariant().toMap();
+    const QList<QString> keys = extModes.keys();
 
-    for (auto &key : qAsConst(keys))
+    for ( const QString &key : keys )
     {
-        QVariantMap legacyModeData = modes[key].toMap();
-
-        QString mode = legacyModeData.value("mode").toString();
-        QString submode = legacyModeData.value("submode").toString();
+        const QVariantMap &legacyModeData = extModes[key].toMap();
+        const QString &mode = legacyModeData.value("mode").toString();
+        const QString &submode = legacyModeData.value("submode").toString();
         QPair<QString, QString> modes = QPair<QString, QString>(mode, submode);
-
         legacyModes.insert(key, modes);
     }
 }
@@ -623,14 +619,13 @@ void Data::loadDxccFlags()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
-    for (auto &object : qAsConst(objects))
+    const QList<QVariant> &objects = QJsonDocument::fromJson(data).toVariant().toList();
+
+    for ( const QVariant &object : objects )
     {
-        QVariantMap dxccData = object.toMap();
-
+        const QVariantMap &dxccData = object.toMap();
         int id = dxccData.value("id").toInt();
-        QString flag = dxccData.value("flag").toString();
-
+        const QString &flag = dxccData.value("flag").toString();
         flags.insert(id, flag);
     }
 }
@@ -643,14 +638,12 @@ void Data::loadSatModes()
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray data = file.readAll();
 
-    auto objects = QJsonDocument::fromJson(data).toVariant().toList();
-    for (auto &object : qAsConst(objects))
+    const QList<QVariant> &objects = QJsonDocument::fromJson(data).toVariant().toList();
+    for ( const QVariant &object : objects )
     {
-        QVariantMap satModesData = object.toMap();
-
-        QString id = satModesData.value("id").toString();
-        QString name = satModesData.value("name").toString();
-
+        const QVariantMap &satModesData = object.toMap();
+        const QString &id = satModesData.value("id").toString();
+        const QString &name = satModesData.value("name").toString();
         satModes.insert(id, name);
     }
 }
@@ -663,8 +656,8 @@ void Data::loadIOTA()
 
     while ( query.next() )
     {
-        QString iotaID = query.value(0).toString();
-        QString islandName = query.value(1).toString();
+        const QString &iotaID = query.value(0).toString();
+        const QString &islandName = query.value(1).toString();
         iotaRef.insert(iotaID, islandName);
     }
 }
@@ -677,7 +670,7 @@ void Data::loadSOTA()
 
     while ( query.next() )
     {
-        QString summitCode = query.value(0).toString();
+        const QString &summitCode = query.value(0).toString();
         sotaRefID.insert(summitCode, QString());
     }
 }
@@ -688,7 +681,7 @@ void Data::loadWWFF()
 
     while ( query.next() )
     {
-        QString reference = query.value(0).toString();
+        const QString &reference = query.value(0).toString();
         wwffRefID.insert(reference, QString());
     }
 }
@@ -701,7 +694,7 @@ void Data::loadPOTA()
 
     while ( query.next() )
     {
-        QString reference = query.value(0).toString();
+        const QString &reference = query.value(0).toString();
         potaRefID.insert(reference, QString());
     }
 }
