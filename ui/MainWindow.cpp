@@ -125,6 +125,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->statusBar->addPermanentWidget(darkIconLabel);
 
     connect(this, &MainWindow::themeChanged, ui->bandmapWidget, &BandmapWidget::update);
+    connect(this, &MainWindow::themeChanged, ui->clockWidget, &ClockWidget::updateClock);
     connect(this, &MainWindow::themeChanged, ui->onlineMapWidget, &OnlineMapWidget::changeTheme);
     connect(this, &MainWindow::themeChanged, stats, &StatisticsWidget::changeTheme);
 
