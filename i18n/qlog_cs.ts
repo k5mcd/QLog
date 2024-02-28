@@ -2764,7 +2764,7 @@
     <message>
         <location filename="dbstrings.tri" line="337"/>
         <source>Willis Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrov Willis</translation>
     </message>
     <message>
         <location filename="dbstrings.tri" line="338"/>
@@ -3602,7 +3602,7 @@
     <message>
         <location filename="../ui/Eqsldialog.ui" line="127"/>
         <source>QSLs Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout QSL</translation>
     </message>
     <message>
         <location filename="../ui/Eqsldialog.ui" line="33"/>
@@ -5673,7 +5673,7 @@
     <message>
         <location filename="../ui/LotwDialog.ui" line="131"/>
         <source>QSLs Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout QSL</translation>
     </message>
     <message>
         <location filename="../ui/LotwDialog.cpp" line="49"/>
@@ -9107,7 +9107,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2081"/>
         <source>DX Spots to Rig</source>
-        <translation type="unfinished"></translation>
+        <translation>DX Spoty do Rigu</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2951"/>
@@ -9876,37 +9876,37 @@
     <message>
         <location filename="../rig/drivers/TCIDrv.cpp" line="19"/>
         <source>Rig 0</source>
-        <translation type="unfinished">Rig 0</translation>
+        <translation>Rig 0</translation>
     </message>
     <message>
         <location filename="../rig/drivers/TCIDrv.cpp" line="20"/>
         <source>Rig 1</source>
-        <translation type="unfinished">Rig 1</translation>
+        <translation>Rig 1</translation>
     </message>
     <message>
         <location filename="../rig/drivers/TCIDrv.cpp" line="21"/>
         <source>Rig 2</source>
-        <translation type="unfinished">Rig 2</translation>
+        <translation>Rig 2</translation>
     </message>
     <message>
         <location filename="../rig/drivers/TCIDrv.cpp" line="22"/>
         <source>Rig 3</source>
-        <translation type="unfinished">Rig 3</translation>
+        <translation>Rig 3</translation>
     </message>
     <message>
         <location filename="../rig/drivers/TCIDrv.cpp" line="339"/>
         <source>Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastala chyba</translation>
     </message>
     <message>
         <location filename="../rig/drivers/TCIDrv.cpp" line="543"/>
         <source>Rig status changed</source>
-        <translation type="unfinished">Změna stavu Rigu</translation>
+        <translation>Změna stavu Rigu</translation>
     </message>
     <message>
         <location filename="../rig/drivers/TCIDrv.cpp" line="544"/>
         <source>Rig is not connected</source>
-        <translation type="unfinished">Rig není připojen</translation>
+        <translation>Rig není připojen</translation>
     </message>
 </context>
 <context>
