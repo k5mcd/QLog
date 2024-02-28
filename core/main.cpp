@@ -184,7 +184,14 @@ static bool openDatabase() {
         }
     }
 
-    QVariant v = db.driver()->handle();
+    return true;
+}
+
+static bool createSQLFunctions()
+{
+    FCT_IDENTIFICATION;
+
+    QVariant v = QSqlDatabase::database().driver()->handle();
 
     if ( v.isValid()
          && qstrcmp(v.typeName(), "sqlite3*") == 0 )
@@ -225,6 +232,7 @@ static bool openDatabase() {
             return false;
         }
     }
+
     return true;
 }
 
@@ -513,6 +521,13 @@ int main(int argc, char* argv[])
     if (!migrateDatabase()) {
         QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
                               QMessageBox::tr("Database migration failed."));
+        return 1;
+    }
+
+    if ( !createSQLFunctions() )
+    {
+        QMessageBox::critical(nullptr, QMessageBox::tr("QLog Error"),
+                              QMessageBox::tr("Could not connect to database (2)."));
         return 1;
     }
 
