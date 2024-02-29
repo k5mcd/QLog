@@ -898,8 +898,8 @@
         <translation>SU</translation>
     </message>
     <message>
-        <location filename="../ui/ClockWidget.cpp" line="101"/>
-        <location filename="../ui/ClockWidget.cpp" line="102"/>
+        <location filename="../ui/ClockWidget.cpp" line="103"/>
+        <location filename="../ui/ClockWidget.cpp" line="104"/>
         <source>N/A</source>
         <translation></translation>
     </message>
@@ -6129,7 +6129,7 @@
         <translation>Alerts löschen</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="832"/>
+        <location filename="../ui/MainWindow.cpp" line="833"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
@@ -6160,63 +6160,63 @@
         <translation>Drücken zum Einstellen des Alarms</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="231"/>
+        <location filename="../ui/MainWindow.cpp" line="232"/>
         <source>Clublog Immediately Upload Error</source>
         <translation>Clublog-Sofort-Upload-Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="310"/>
-        <location filename="../ui/MainWindow.cpp" line="320"/>
-        <location filename="../ui/MainWindow.cpp" line="330"/>
+        <location filename="../ui/MainWindow.cpp" line="311"/>
+        <location filename="../ui/MainWindow.cpp" line="321"/>
+        <location filename="../ui/MainWindow.cpp" line="331"/>
         <source>&lt;b&gt;Error Detail:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Fehler-Detail:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="533"/>
+        <location filename="../ui/MainWindow.cpp" line="534"/>
         <source>Classic</source>
         <translation>Klassisch</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="717"/>
-        <location filename="../ui/MainWindow.cpp" line="733"/>
-        <location filename="../ui/MainWindow.cpp" line="749"/>
-        <location filename="../ui/MainWindow.cpp" line="765"/>
-        <location filename="../ui/MainWindow.cpp" line="783"/>
+        <location filename="../ui/MainWindow.cpp" line="718"/>
+        <location filename="../ui/MainWindow.cpp" line="734"/>
+        <location filename="../ui/MainWindow.cpp" line="750"/>
+        <location filename="../ui/MainWindow.cpp" line="766"/>
+        <location filename="../ui/MainWindow.cpp" line="784"/>
         <source>QLog Warning</source>
         <translation>QLog Warnung</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="717"/>
+        <location filename="../ui/MainWindow.cpp" line="718"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>LoTW ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="733"/>
+        <location filename="../ui/MainWindow.cpp" line="734"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>eQSL ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="749"/>
+        <location filename="../ui/MainWindow.cpp" line="750"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>Clublog ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="765"/>
+        <location filename="../ui/MainWindow.cpp" line="766"/>
         <source>HRDLog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>HRDLog ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="783"/>
+        <location filename="../ui/MainWindow.cpp" line="784"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>QRZ.com ist nicht richtig eingerichtet.&lt;p&gt; Bitte verwende den &lt;b&gt;Einstellungen&lt;/b&gt; Dialog, um es einzurichten.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="803"/>
+        <location filename="../ui/MainWindow.cpp" line="804"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Based on Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="876"/>
+        <location filename="../ui/MainWindow.cpp" line="877"/>
         <source>N/A</source>
         <translation></translation>
     </message>
@@ -6800,7 +6800,7 @@
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../core/main.cpp" line="408"/>
+        <location filename="../core/main.cpp" line="416"/>
         <source>QLog Help</source>
         <translation>QLog Hilfe</translation>
     </message>
@@ -6808,10 +6808,11 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../core/main.cpp" line="482"/>
-        <location filename="../core/main.cpp" line="497"/>
-        <location filename="../core/main.cpp" line="507"/>
-        <location filename="../core/main.cpp" line="514"/>
+        <location filename="../core/main.cpp" line="490"/>
+        <location filename="../core/main.cpp" line="505"/>
+        <location filename="../core/main.cpp" line="515"/>
+        <location filename="../core/main.cpp" line="522"/>
+        <location filename="../core/main.cpp" line="529"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="373"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
@@ -6825,24 +6826,29 @@
         <translation>QLog Fehler</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="483"/>
+        <location filename="../core/main.cpp" line="491"/>
         <source>QLog is already running</source>
         <translation>QLog wird bereits ausgeführt</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="498"/>
+        <location filename="../core/main.cpp" line="506"/>
         <source>Could not connect to database.</source>
         <translation>Keine Verbindung zur Datenbank möglich.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="508"/>
+        <location filename="../core/main.cpp" line="516"/>
         <source>Could not export a QLog database to ADIF as a backup.&lt;p&gt;Try to export your log to ADIF manually</source>
         <translation>Kann QLog-Datenbank nicht als Backup nach ADIF exportieren.&lt;p&gt;Versuchen Sie, Ihr Log manuell nach ADIF zu exportieren</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="515"/>
+        <location filename="../core/main.cpp" line="523"/>
         <source>Database migration failed.</source>
         <translation>Migration der Datenbank fehlgeschlagen.</translation>
+    </message>
+    <message>
+        <location filename="../core/main.cpp" line="530"/>
+        <source>Could not connect to database (2).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/MembershipQE.cpp" line="209"/>
@@ -6852,9 +6858,9 @@
         <location filename="../core/Migration.cpp" line="309"/>
         <location filename="../ui/ExportDialog.cpp" line="116"/>
         <location filename="../ui/ImportDialog.cpp" line="227"/>
-        <location filename="../ui/MainWindow.cpp" line="308"/>
-        <location filename="../ui/MainWindow.cpp" line="318"/>
-        <location filename="../ui/MainWindow.cpp" line="328"/>
+        <location filename="../ui/MainWindow.cpp" line="309"/>
+        <location filename="../ui/MainWindow.cpp" line="319"/>
+        <location filename="../ui/MainWindow.cpp" line="329"/>
         <location filename="../ui/SettingsDialog.cpp" line="267"/>
         <location filename="../ui/SettingsDialog.cpp" line="277"/>
         <location filename="../ui/SettingsDialog.cpp" line="285"/>
@@ -7085,17 +7091,17 @@
         </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="309"/>
+        <location filename="../ui/MainWindow.cpp" line="310"/>
         <source>&lt;b&gt;Rig Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Rig Fehler:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="319"/>
+        <location filename="../ui/MainWindow.cpp" line="320"/>
         <source>&lt;b&gt;Rotator Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Rotor Fehler:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="329"/>
+        <location filename="../ui/MainWindow.cpp" line="330"/>
         <source>&lt;b&gt;CW Keyer Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;CW-Keyer Fehler:&lt;/b&gt; </translation>
     </message>
@@ -7160,22 +7166,22 @@
         <translation>Interner Fehler</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="494"/>
+        <location filename="../core/main.cpp" line="502"/>
         <source>Opening Database</source>
         <translation>Datenbank öffnen</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="502"/>
+        <location filename="../core/main.cpp" line="510"/>
         <source>Backuping Database</source>
         <translation>Datenbank sichern</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="511"/>
+        <location filename="../core/main.cpp" line="519"/>
         <source>Migrating Database</source>
         <translation>Datenbank migrieren</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="519"/>
+        <location filename="../core/main.cpp" line="534"/>
         <source>Starting Application</source>
         <translation>Anwendung starten</translation>
     </message>
@@ -10220,32 +10226,32 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../core/main.cpp" line="427"/>
+        <location filename="../core/main.cpp" line="435"/>
         <source>Run with the specific namespace.</source>
         <translation>Im spezifischen Namensraum ausführen.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="428"/>
+        <location filename="../core/main.cpp" line="436"/>
         <source>namespace</source>
         <translation>Namensraum</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="430"/>
+        <location filename="../core/main.cpp" line="438"/>
         <source>Translation file - absolute or relative path and QM file name.</source>
         <translation>Übersetzungsdatei - Absoluter oder relativer Pfad und Name der QM-Datei.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="431"/>
+        <location filename="../core/main.cpp" line="439"/>
         <source>path/QM-filename</source>
         <translation>path/QM-filename</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="433"/>
+        <location filename="../core/main.cpp" line="441"/>
         <source>Set language. &lt;code&gt; example: &apos;en&apos; or &apos;en_US&apos;. Ignore environment setting.</source>
         <translation>Sprache einstellen. Beispiel &lt;code&gt;: &apos;en&apos; oder &apos;en_US&apos;. Ignoriert Betriebssystemeinstellungen.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="434"/>
+        <location filename="../core/main.cpp" line="442"/>
         <source>code</source>
         <translation>code</translation>
     </message>

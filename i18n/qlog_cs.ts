@@ -898,8 +898,8 @@
         <translation>Západ</translation>
     </message>
     <message>
-        <location filename="../ui/ClockWidget.cpp" line="101"/>
-        <location filename="../ui/ClockWidget.cpp" line="102"/>
+        <location filename="../ui/ClockWidget.cpp" line="103"/>
+        <location filename="../ui/ClockWidget.cpp" line="104"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
@@ -6136,7 +6136,7 @@
         <translation>Vymazat upozornění</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="832"/>
+        <location filename="../ui/MainWindow.cpp" line="833"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
@@ -6166,63 +6166,63 @@
         <translation>Stiskni pro naladění alertu</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="231"/>
+        <location filename="../ui/MainWindow.cpp" line="232"/>
         <source>Clublog Immediately Upload Error</source>
         <translation>Chyba Okamžitého nahrávání do Clublog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="310"/>
-        <location filename="../ui/MainWindow.cpp" line="320"/>
-        <location filename="../ui/MainWindow.cpp" line="330"/>
+        <location filename="../ui/MainWindow.cpp" line="311"/>
+        <location filename="../ui/MainWindow.cpp" line="321"/>
+        <location filename="../ui/MainWindow.cpp" line="331"/>
         <source>&lt;b&gt;Error Detail:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Detail chyby:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="533"/>
+        <location filename="../ui/MainWindow.cpp" line="534"/>
         <source>Classic</source>
         <translation>Klasické</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="717"/>
-        <location filename="../ui/MainWindow.cpp" line="733"/>
-        <location filename="../ui/MainWindow.cpp" line="749"/>
-        <location filename="../ui/MainWindow.cpp" line="765"/>
-        <location filename="../ui/MainWindow.cpp" line="783"/>
+        <location filename="../ui/MainWindow.cpp" line="718"/>
+        <location filename="../ui/MainWindow.cpp" line="734"/>
+        <location filename="../ui/MainWindow.cpp" line="750"/>
+        <location filename="../ui/MainWindow.cpp" line="766"/>
+        <location filename="../ui/MainWindow.cpp" line="784"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="717"/>
+        <location filename="../ui/MainWindow.cpp" line="718"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>LoTW není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="733"/>
+        <location filename="../ui/MainWindow.cpp" line="734"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>eQSL není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="749"/>
+        <location filename="../ui/MainWindow.cpp" line="750"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>Clublog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="765"/>
+        <location filename="../ui/MainWindow.cpp" line="766"/>
         <source>HRDLog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>HRDLog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="783"/>
+        <location filename="../ui/MainWindow.cpp" line="784"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>QRZ.com není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="803"/>
+        <location filename="../ui/MainWindow.cpp" line="804"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Based on Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Záloženo na Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="876"/>
+        <location filename="../ui/MainWindow.cpp" line="877"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
@@ -6806,7 +6806,7 @@
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../core/main.cpp" line="408"/>
+        <location filename="../core/main.cpp" line="416"/>
         <source>QLog Help</source>
         <translation>QLog Help</translation>
     </message>
@@ -6821,9 +6821,9 @@
         <location filename="../core/Migration.cpp" line="309"/>
         <location filename="../ui/ExportDialog.cpp" line="116"/>
         <location filename="../ui/ImportDialog.cpp" line="227"/>
-        <location filename="../ui/MainWindow.cpp" line="308"/>
-        <location filename="../ui/MainWindow.cpp" line="318"/>
-        <location filename="../ui/MainWindow.cpp" line="328"/>
+        <location filename="../ui/MainWindow.cpp" line="309"/>
+        <location filename="../ui/MainWindow.cpp" line="319"/>
+        <location filename="../ui/MainWindow.cpp" line="329"/>
         <location filename="../ui/SettingsDialog.cpp" line="267"/>
         <location filename="../ui/SettingsDialog.cpp" line="277"/>
         <location filename="../ui/SettingsDialog.cpp" line="285"/>
@@ -6888,10 +6888,11 @@
         <translation>Síťová chyba. Nepovedlo se stáhnout Club List pro</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="482"/>
-        <location filename="../core/main.cpp" line="497"/>
-        <location filename="../core/main.cpp" line="507"/>
-        <location filename="../core/main.cpp" line="514"/>
+        <location filename="../core/main.cpp" line="490"/>
+        <location filename="../core/main.cpp" line="505"/>
+        <location filename="../core/main.cpp" line="515"/>
+        <location filename="../core/main.cpp" line="522"/>
+        <location filename="../core/main.cpp" line="529"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="373"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
@@ -6905,24 +6906,29 @@
         <translation>Chyba QLog</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="483"/>
+        <location filename="../core/main.cpp" line="491"/>
         <source>QLog is already running</source>
         <translation>QLog již běží</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="498"/>
+        <location filename="../core/main.cpp" line="506"/>
         <source>Could not connect to database.</source>
         <translation>Nelze se připojit k databázi.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="508"/>
+        <location filename="../core/main.cpp" line="516"/>
         <source>Could not export a QLog database to ADIF as a backup.&lt;p&gt;Try to export your log to ADIF manually</source>
         <translation>Nelze exportovat QLog databázi do ADIF jako backup.&lt;p&gt;Pokuste se ručně exportovat log do ADIF</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="515"/>
+        <location filename="../core/main.cpp" line="523"/>
         <source>Database migration failed.</source>
         <translation>Migrace databaze selhala.</translation>
+    </message>
+    <message>
+        <location filename="../core/main.cpp" line="530"/>
+        <source>Could not connect to database (2).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/DxWidget.cpp" line="496"/>
@@ -7092,17 +7098,17 @@
         </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="309"/>
+        <location filename="../ui/MainWindow.cpp" line="310"/>
         <source>&lt;b&gt;Rig Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rig:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="319"/>
+        <location filename="../ui/MainWindow.cpp" line="320"/>
         <source>&lt;b&gt;Rotator Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rotátoru:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="329"/>
+        <location filename="../ui/MainWindow.cpp" line="330"/>
         <source>&lt;b&gt;CW Keyer Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba CW Klíče:&lt;/b&gt; </translation>
     </message>
@@ -7167,22 +7173,22 @@
         <translation>Interní Chyba</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="494"/>
+        <location filename="../core/main.cpp" line="502"/>
         <source>Opening Database</source>
         <translation>Načítání Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="502"/>
+        <location filename="../core/main.cpp" line="510"/>
         <source>Backuping Database</source>
         <translation>Záloha Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="511"/>
+        <location filename="../core/main.cpp" line="519"/>
         <source>Migrating Database</source>
         <translation>Migrace Databáze</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="519"/>
+        <location filename="../core/main.cpp" line="534"/>
         <source>Starting Application</source>
         <translation>Start aplikace</translation>
     </message>
@@ -10231,32 +10237,32 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../core/main.cpp" line="427"/>
+        <location filename="../core/main.cpp" line="435"/>
         <source>Run with the specific namespace.</source>
         <translation>Spustit ve specifickém jmeném prostoru.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="428"/>
+        <location filename="../core/main.cpp" line="436"/>
         <source>namespace</source>
         <translation>namespace</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="430"/>
+        <location filename="../core/main.cpp" line="438"/>
         <source>Translation file - absolute or relative path and QM file name.</source>
         <translation>Soubor s překladem - absolutní nebo relativní cesta a jméno QM souboru.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="431"/>
+        <location filename="../core/main.cpp" line="439"/>
         <source>path/QM-filename</source>
         <translation>path/QM-filename</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="433"/>
+        <location filename="../core/main.cpp" line="441"/>
         <source>Set language. &lt;code&gt; example: &apos;en&apos; or &apos;en_US&apos;. Ignore environment setting.</source>
         <translation>Nastavit jazyk. Příklad &lt;code&gt;: &apos;en&apos; nebo &apos;en_US&apos;. Ignoruje OS nastavení.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="434"/>
+        <location filename="../core/main.cpp" line="442"/>
         <source>code</source>
         <translation>kód</translation>
     </message>
