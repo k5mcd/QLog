@@ -4,7 +4,7 @@ TBC - 0.33.0
 - Improved DXC Mode recognition
 - Fixed Modal dialog blinks - Windows platform (issue #315)
 - Fixed LoTW and eQSL download are only QSLs dowloads - button label changed (issue #318)
-- Fixed i18n: Country Names (prop-modes) are translated (issue #322)
+- Fixed i18n: Country Names and Prop-modes are translated (issue #322)
 
 2024/02/10 - 0.32.0
 - [NEW] - Added Rig Interface Omnirig v1 (Windows only)
