@@ -456,8 +456,21 @@ win32: {
       }
    }
 
-   SOURCES += rig/drivers/OmnirigDrv.cpp rig/drivers/Omnirigv2Drv.cpp OmniRig2.cpp
-   HEADERS += rig/drivers/OmnirigDrv.h rig/drivers/Omnirigv2Drv.h OmniRig2.h
+   INCLUDEPATH += \
+        /usr/local/include \
+        $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/
+
+   SOURCES += \
+        rig/drivers/OmnirigDrv.cpp \
+        rig/drivers/Omnirigv2Drv.cpp \
+        OmniRig2.cpp \
+        $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/sqlite3.c
+
+   HEADERS += \
+        rig/drivers/OmnirigDrv.h \
+        rig/drivers/Omnirigv2Drv.h \
+        OmniRig2.h \
+        $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/sqlite3.h
 
    TARGET = qlog
    QMAKE_TARGET_COMPANY = OK1MLG

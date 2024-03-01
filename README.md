@@ -143,6 +143,9 @@ C:/Qt/6.4.1/msvc2019_64/bin/qmake.exe C:\Users\devel\development\QLog\QLog.pro -
 Prerequisites
 
 - Visual Studio 2019
+- QT with source codes
+- Omnirig v1 and v2
+- qtkeychain package (via vcpkg)
 
 To be honest, It is not easy to compile it under Windows but it is possible.
 
