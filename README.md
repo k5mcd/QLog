@@ -158,7 +158,7 @@ for Debian (QT6):
 
 for Fedora:
 
-`dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel qt5-qtserialport-devel pkg-config`
+`dnf install qt5-qtbase-devel qt5-qtwebengine-devel qt5-qtcharts-devel hamlib-devel qtkeychain-qt5-devel qt5-qtserialport-devel pkg-config qt5-qtwebsockets-devel libsqlite3x-devel`
 
 for both:
 
