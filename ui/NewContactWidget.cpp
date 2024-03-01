@@ -43,7 +43,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     QSOFreq(0.0),
     bandwidthFilter(BANDWIDTH_UNKNOWN),
     rigOnline(false),
-    isManualEnterMode(false)
+    isManualEnterMode(false),
+    callbookSearchPaused(false)
 {
     FCT_IDENTIFICATION;
 
@@ -420,7 +421,8 @@ void NewContactWidget::editCallsignFinished()
     if ( callsign.size() >= 3 )
     {
         queryMemberList();
-        callbookManager.queryCallsign(callsign);
+        if ( !callbookSearchPaused )
+                callbookManager.queryCallsign(callsign);
     }
 }
 
@@ -1257,12 +1259,11 @@ bool NewContactWidget::eventFilter(QObject *object, QEvent *event)
     //       if Callbook is not active then Callsign enter causes "save QSO" event too.
     //       The callsign exception was added to make it possible to quickly insert QSOs during pile-up.
     //       Therefore there is no condition for an active QSO timer.
-
     if ( event->type() == QEvent::KeyPress
          && static_cast<QKeyEvent *>(event)
          && ( static_cast<QKeyEvent *>(event)->key() == Qt::Key_Return
               || static_cast<QKeyEvent *>(event)->key() == Qt::Key_Enter )
-         && ( ( object == ui->callsignEdit && !callbookManager.isActive() )
+         && ( ( object == ui->callsignEdit && (!callbookManager.isActive() || callbookSearchPaused) )
               || ( object != ui->callsignEdit
                    && object != uiDynamic->potaEdit
                    && object != uiDynamic->sotaEdit
@@ -3023,16 +3024,33 @@ void NewContactWidget::setCallbookStatusEnabled(bool callbookEnabled)
 
     if ( callbookEnabled )
     {
-        ui->callsignEdit->removeEventFilter(this);
-        ui->callbookStatusLabel->setText("<img src=':/icons/search-globe_green.svg'>");
-        ui->callbookStatusLabel->setToolTip(tr("Callbook search is active"));
+        ui->callbookStatusButton->setIcon((callbookSearchPaused) ? QIcon(":/icons/search-globe_orange.svg")
+                                                                 : QIcon(":/icons/search-globe_green.svg"));
     }
     else
     {
-        ui->callsignEdit->installEventFilter(this);
-        ui->callbookStatusLabel->setText("<img src=':/icons/search-globe_red.svg'>");
-        ui->callbookStatusLabel->setToolTip(tr("Callbook search is inactive"));
+        callbookSearchPaused = false;
+        ui->callbookStatusButton->setIcon(QIcon(":/icons/search-globe_red.svg"));
     }
+
+    if ( !callbookEnabled || callbookSearchPaused )
+    {
+        ui->callbookStatusButton->setToolTip(tr("Callbook search is inactive"));
+        ui->callsignEdit->installEventFilter(this);
+    }
+    else
+    {
+        ui->callbookStatusButton->setToolTip(tr("Callbook search is active"));
+        ui->callsignEdit->removeEventFilter(this);
+    }
+}
+
+void NewContactWidget::changeCallbookSearchStatus()
+{
+    FCT_IDENTIFICATION;
+
+    callbookSearchPaused = !callbookSearchPaused;
+    setCallbookStatusEnabled(callbookManager.isActive());
 }
 
 NewContactWidget::~NewContactWidget() {

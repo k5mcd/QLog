@@ -233,6 +233,7 @@ private slots:
     void formFieldChanged();
     void useNearestCallsign();
     void setCallbookStatusEnabled(bool);
+    void changeCallbookSearchStatus();
 
     void stationProfileComboChanged(const QString&);
     void rigProfileComboChanged(const QString&);
@@ -305,6 +306,7 @@ private:
     bool isManualEnterMode;
     LogLocale locale;
     QDateTime timeOff;
+    bool callbookSearchPaused;
 
 };
 

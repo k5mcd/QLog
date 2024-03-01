@@ -130,15 +130,24 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="callbookStatusLabel">
+            <widget class="QPushButton" name="callbookStatusButton">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="maximumSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
              <property name="text">
               <string/>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -708,20 +717,20 @@
             </property>
             <property name="date">
              <date>
-              <year>2000</year>
-              <month>1</month>
-              <day>1</day>
+              <year>1999</year>
+              <month>12</month>
+              <day>31</day>
              </date>
             </property>
             <property name="maximumDate">
              <date>
-              <year>2200</year>
-              <month>1</month>
-              <day>1</day>
+              <year>1999</year>
+              <month>12</month>
+              <day>31</day>
              </date>
             </property>
             <property name="currentSection">
-             <enum>QDateTimeEdit::MinuteSection</enum>
+             <enum>QDateTimeEdit::HourSection</enum>
             </property>
             <property name="displayFormat">
              <string notr="true">HH:mm:ss</string>
@@ -1938,6 +1947,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>callbookStatusButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewContactWidget</receiver>
+   <slot>changeCallbookSearchStatus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>17</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>485</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveContact()</slot>
@@ -1967,5 +1992,6 @@
   <slot>timeOnChanged()</slot>
   <slot>potaEditFinished()</slot>
   <slot>potaChanged(QString)</slot>
+  <slot>changeCallbookSearchStatus()</slot>
  </slots>
 </ui>
