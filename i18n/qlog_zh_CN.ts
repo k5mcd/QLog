@@ -6330,330 +6330,330 @@
         <translation>呼号</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="179"/>
+        <location filename="../ui/NewContactWidget.ui" line="188"/>
         <source>RX: </source>
         <translation>接收: </translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="227"/>
+        <location filename="../ui/NewContactWidget.ui" line="236"/>
         <source>TX: </source>
         <translation>发射: </translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="249"/>
+        <location filename="../ui/NewContactWidget.ui" line="258"/>
         <source> MHz</source>
         <translation> MHz</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="296"/>
+        <location filename="../ui/NewContactWidget.ui" line="305"/>
         <source>80m</source>
         <translation>80m</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="305"/>
+        <location filename="../ui/NewContactWidget.ui" line="314"/>
         <source>RSTs</source>
         <translation>RST发</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="312"/>
+        <location filename="../ui/NewContactWidget.ui" line="321"/>
         <source>RSTr</source>
         <translation>RST收</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="368"/>
+        <location filename="../ui/NewContactWidget.ui" line="377"/>
         <source>59</source>
         <translation>59</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="417"/>
+        <location filename="../ui/NewContactWidget.ui" line="426"/>
         <source>Mode</source>
         <translation>模式</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="566"/>
+        <location filename="../ui/NewContactWidget.ui" line="575"/>
         <source>Lookup the call on the web. The query URL can be changed in Settings -&gt; Callbook</source>
         <translation>在网络上查找呼号。查询 URL 可以在 &lt;b&gt;设置 -&gt; 电台黄页&lt;/b&gt; 中更改</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="569"/>
+        <location filename="../ui/NewContactWidget.ui" line="578"/>
         <source>Web</source>
         <translation>网站</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="643"/>
+        <location filename="../ui/NewContactWidget.ui" line="652"/>
         <source>Time On</source>
         <translation>开始时间</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="690"/>
+        <location filename="../ui/NewContactWidget.ui" line="699"/>
         <source>Date</source>
         <translation>日期</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="517"/>
+        <location filename="../ui/NewContactWidget.ui" line="526"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="697"/>
+        <location filename="../ui/NewContactWidget.ui" line="706"/>
         <source>Duration</source>
         <translation>周期</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="653"/>
+        <location filename="../ui/NewContactWidget.ui" line="662"/>
         <source>Reset</source>
         <translation>重置</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="754"/>
+        <location filename="../ui/NewContactWidget.ui" line="763"/>
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="995"/>
+        <location filename="../ui/NewContactWidget.ui" line="1004"/>
         <source>&amp;Details</source>
         <translation>详情(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1020"/>
+        <location filename="../ui/NewContactWidget.ui" line="1029"/>
         <source>QSL Send Status</source>
         <translation>QSL 发送状态</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1035"/>
-        <location filename="../ui/NewContactWidget.ui" line="1173"/>
+        <location filename="../ui/NewContactWidget.ui" line="1044"/>
+        <location filename="../ui/NewContactWidget.ui" line="1182"/>
         <source>Paper</source>
         <translation>卡片</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1057"/>
-        <location filename="../ui/NewContactWidget.ui" line="1095"/>
-        <location filename="../ui/NewContactWidget.ui" line="1133"/>
+        <location filename="../ui/NewContactWidget.ui" line="1066"/>
+        <location filename="../ui/NewContactWidget.ui" line="1104"/>
+        <location filename="../ui/NewContactWidget.ui" line="1142"/>
         <source>&lt;b&gt;Yes&lt;/b&gt; - an outgoing QSL card has been sent; the QSO has been uploaded to, and accepted by, the online service&lt;br/&gt;&lt;b&gt;No&lt;/b&gt; - do not send an outgoing QSL card; do not upload the QSO to the online service&lt;br/&gt;&lt;b&gt;Requested&lt;/b&gt; - the contacted station has requested a QSL card; the contacted station has requested the QSO be uploaded to the online service&lt;br/&gt;&lt;b&gt;Queued&lt;/b&gt; - an outgoing QSL card has been selected to be sent; a QSO has been selected to be uploaded to the online service&lt;br/&gt;</source>
         <translation>&lt;b&gt;是&lt;/b&gt; -已发出 QSL 卡; QSO 已上传至在线服务&lt;br/&gt;&lt;b&gt;否&lt;/b&gt; -不发送 QSL 卡;&lt;br/&gt;&lt;b&gt;已请求&lt;/b&gt; -被联系站点已请求一张 QSL 卡; 被联系站点已请求将 QSO 上传到在线服务&lt;br/&gt;&lt;b&gt;排队&lt;/b&gt; 已选择要发送的 QSL 卡; QSO 已上传至网上服务&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1073"/>
+        <location filename="../ui/NewContactWidget.ui" line="1082"/>
         <source>LoTW</source>
         <translation>LoTW</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1111"/>
+        <location filename="../ui/NewContactWidget.ui" line="1120"/>
         <source>eQSL</source>
         <translation>eQSL</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1158"/>
+        <location filename="../ui/NewContactWidget.ui" line="1167"/>
         <source>QSL Send via</source>
         <translation>QSL 发送通过</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1217"/>
+        <location filename="../ui/NewContactWidget.ui" line="1226"/>
         <source>QSL via</source>
         <translation>QSL 通过</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1330"/>
+        <location filename="../ui/NewContactWidget.ui" line="1339"/>
         <source>Propagation Mode</source>
         <translation>传播模式</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1365"/>
+        <location filename="../ui/NewContactWidget.ui" line="1374"/>
         <source>D&amp;XCC</source>
         <translation>D&amp;XCC</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1442"/>
+        <location filename="../ui/NewContactWidget.ui" line="1451"/>
         <source>M&amp;y Station</source>
         <translation>我的电台(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1450"/>
+        <location filename="../ui/NewContactWidget.ui" line="1459"/>
         <source>Station</source>
         <translation>电台</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1467"/>
+        <location filename="../ui/NewContactWidget.ui" line="1476"/>
         <source>Rig</source>
         <translation>设备</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1490"/>
+        <location filename="../ui/NewContactWidget.ui" line="1499"/>
         <source>Antenna</source>
         <translation>天线</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1513"/>
+        <location filename="../ui/NewContactWidget.ui" line="1522"/>
         <source>Power</source>
         <translation>功率</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1529"/>
+        <location filename="../ui/NewContactWidget.ui" line="1538"/>
         <source>Blank</source>
         <translation>空白</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1532"/>
+        <location filename="../ui/NewContactWidget.ui" line="1541"/>
         <source> W</source>
         <translation> W</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1570"/>
+        <location filename="../ui/NewContactWidget.ui" line="1579"/>
         <source>My &amp;Notes</source>
         <translation>我的笔记(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.ui" line="1613"/>
+        <location filename="../ui/NewContactWidget.ui" line="1622"/>
         <source>Member:</source>
         <translation>成员:</translation>
-    </message>
-    <message>
-        <location filename="../ui/NewContactWidget.cpp" line="67"/>
-        <location filename="../ui/NewContactWidget.cpp" line="80"/>
-        <location filename="../ui/NewContactWidget.cpp" line="93"/>
-        <source>No</source>
-        <translation>否</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="68"/>
         <location filename="../ui/NewContactWidget.cpp" line="81"/>
         <location filename="../ui/NewContactWidget.cpp" line="94"/>
-        <source>Yes</source>
-        <translation>是</translation>
+        <source>No</source>
+        <translation>否</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="69"/>
         <location filename="../ui/NewContactWidget.cpp" line="82"/>
         <location filename="../ui/NewContactWidget.cpp" line="95"/>
-        <source>Requested</source>
-        <translation>已请求</translation>
+        <source>Yes</source>
+        <translation>是</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="70"/>
         <location filename="../ui/NewContactWidget.cpp" line="83"/>
         <location filename="../ui/NewContactWidget.cpp" line="96"/>
-        <source>Queued</source>
-        <translation>排队中</translation>
+        <source>Requested</source>
+        <translation>已请求</translation>
     </message>
     <message>
         <location filename="../ui/NewContactWidget.cpp" line="71"/>
         <location filename="../ui/NewContactWidget.cpp" line="84"/>
         <location filename="../ui/NewContactWidget.cpp" line="97"/>
+        <source>Queued</source>
+        <translation>排队中</translation>
+    </message>
+    <message>
+        <location filename="../ui/NewContactWidget.cpp" line="72"/>
+        <location filename="../ui/NewContactWidget.cpp" line="85"/>
+        <location filename="../ui/NewContactWidget.cpp" line="98"/>
         <source>Ignored</source>
         <translation>已忽视</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="107"/>
+        <location filename="../ui/NewContactWidget.cpp" line="108"/>
         <source>Bureau</source>
         <translation>卡片局</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="108"/>
+        <location filename="../ui/NewContactWidget.cpp" line="109"/>
         <source>Direct</source>
         <translation>直邮</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="109"/>
+        <location filename="../ui/NewContactWidget.cpp" line="110"/>
         <source>Electronic</source>
         <translation>电子卡片</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="201"/>
+        <location filename="../ui/NewContactWidget.cpp" line="202"/>
         <source>QLog Error</source>
         <translation>QLog错误</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="201"/>
+        <location filename="../ui/NewContactWidget.cpp" line="202"/>
         <source>Callbook login failed</source>
         <translation>电台黄页登陆失败</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1875"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1876"/>
         <source>New Entity!</source>
         <translation>新实体！</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1878"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1879"/>
         <source>New Band!</source>
         <translation>新波段！</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1881"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1882"/>
         <source>New Mode!</source>
         <translation>新模式！</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1884"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1885"/>
         <source>New Band &amp; Mode!</source>
         <translation>新波段与模式！</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1887"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1888"/>
         <source>New Slot!</source>
         <translation>新组合！</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1890"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1891"/>
         <source>Worked</source>
         <translation>已通联</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1893"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1894"/>
         <source>Confirmed</source>
         <translation>已确认</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2554"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2555"/>
         <source>GE</source>
         <translation>GE</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2564"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2565"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2570"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2571"/>
         <source>GA</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2841"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2842"/>
         <source> m</source>
         <translation> m</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3028"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3043"/>
         <source>Callbook search is active</source>
         <translation>电台黄页搜索可用</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3034"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3038"/>
         <source>Callbook search is inactive</source>
         <translation>电台黄页搜索不可用</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3143"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3161"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>两个或四个相邻的梅登黑德网格定位器，每个四个字符长，(例如 EN98, FM08, EM97, FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3146"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3164"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>联络电台的DARC DOK (地区位置代码) (例如 A01)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3165"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3183"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation>世界动植物 (可选参数)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3169"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3187"/>
         <source>Special Activity Group</source>
         <translation>特别活动或兴趣团体名称</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3173"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3191"/>
         <source>Special Activity Group Information</source>
         <translation>特别活动或兴趣团体信息</translation>
     </message>
@@ -6881,7 +6881,7 @@
         <location filename="../ui/AlertRuleDetail.cpp" line="373"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1437"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1438"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="593"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="604"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="613"/>
@@ -7025,7 +7025,7 @@
         <translation>&lt;b&gt;CW 键控器出错:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1438"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1439"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>你的呼号为空。请先设置台站配置文件</translation>
     </message>
