@@ -1,3 +1,13 @@
+qlog (0.33.0-1) UNRELEASED; urgency=low
+  * [NEW] - Added Rig Interface TCI
+  * [NEW] - Callbook search can be temporarily paused
+  * Improved DXC Mode recognition
+  * Fixed Modal dialog blinks - Windows platform (issue #315)
+  * Fixed LoTW and eQSL download are only QSLs dowloads - button label changed (issue #318)
+  * Fixed i18n: Country Names and Prop-modes are translated (issue #322)
+
+ -- foldynl <foldyna@gmail.com>  Fri, 8 Mar 2024 11:49:26 +0100
+
 qlog (0.32.0-1) UNRELEASED; urgency=low
   * [NEW] - Added Rig Interface Omnirig v1 (Windows only)
   * [NEW] - Added Rig Interface Omnirig v2 (Windows only)

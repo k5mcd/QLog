@@ -42,6 +42,14 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Fri Mar 8 2024 Ladislav Foldyna - 0.33.0-1
+- [NEW] - Added Rig Interface TCI
+- [NEW] - Callbook search can be temporarily paused
+- Improved DXC Mode recognition
+- Fixed Modal dialog blinks - Windows platform (issue #315)
+- Fixed LoTW and eQSL download are only QSLs dowloads - button label changed (issue #318)
+- Fixed i18n: Country Names and Prop-modes are translated (issue #322)
+
 * Sat Feb 10 2024 Ladislav Foldyna - 0.32.0-1
 - [NEW] - Added Rig Interface Omnirig v1 (Windows only)
 - [NEW] - Added Rig Interface Omnirig v2 (Windows only)

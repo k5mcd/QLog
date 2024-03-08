@@ -47,6 +47,18 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.33.0" date="2024-03-08">
+      <description>
+        <ul>
+          <li>[NEW] - Added Rig Interface TCI</li>
+          <li>[NEW] - Callbook search can be temporarily paused</li>
+          <li>Improved DXC Mode recognition</li>
+          <li>Fixed Modal dialog blinks - Windows platform (issue #315)</li>
+          <li>Fixed LoTW and eQSL download are only QSLs dowloads - button label changed (issue #318)</li>
+          <li>Fixed i18n: Country Names and Prop-modes are translated (issue #322)</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.32.0" date="2024-02-10">
       <description>
         <ul>
