@@ -42,6 +42,12 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Sat Mar 9 2024 Ladislav Foldyna - 0.33.1-1
+- Fixed Rotator offline map is incorrectly centered (issue #324)
+- Fixed Hamlib integration not working (issue #325)
+- Fixed issue when Hamlib reopen rig caused Initialization Error
+- Fixed issue when Omnirig Drv did not emit rigIsReady signal
+
 * Fri Mar 8 2024 Ladislav Foldyna - 0.33.0-1
 - [NEW] - Added Rig Interface TCI
 - [NEW] - Callbook search can be temporarily paused

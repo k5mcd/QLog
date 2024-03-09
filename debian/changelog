@@ -1,3 +1,11 @@
+qlog (0.33.1-1) UNRELEASED; urgency=critical
+  * Fixed Rotator offline map is incorrectly centered (issue #324)
+  * Fixed Hamlib integration not working (issue #325)
+  * Fixed issue when Hamlib reopen rig caused Initialization Error
+  * Fixed issue when Omnirig Drv did not emit rigIsReady signal
+
+ -- foldynl <foldyna@gmail.com>  Sat, 9 Mar 2024 13:37:01 +0100
+
 qlog (0.33.0-1) UNRELEASED; urgency=low
   * [NEW] - Added Rig Interface TCI
   * [NEW] - Callbook search can be temporarily paused

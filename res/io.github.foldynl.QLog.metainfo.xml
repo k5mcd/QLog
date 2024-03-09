@@ -47,6 +47,16 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.33.1" date="2024-03-09">
+      <description>
+        <ul>
+          <li>Fixed Rotator offline map is incorrectly centered (issue #324)</li>
+          <li>Fixed Hamlib integration not working (issue #325)</li>
+          <li>Fixed issue when Hamlib reopen rig caused Initialization Error</li>
+          <li>Fixed issue when Omnirig Drv did not emit rigIsReady signal</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.33.0" date="2024-03-08">
       <description>
         <ul>

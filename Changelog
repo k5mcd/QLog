@@ -1,4 +1,4 @@
-TBC - 0.33.1
+2024/03/09 - 0.33.1
 - Fixed Rotator offline map is incorrectly centered (issue #324)
 - Fixed Hamlib integration not working (issue #325)
 - Fixed issue when Hamlib reopen rig caused Initialization Error
