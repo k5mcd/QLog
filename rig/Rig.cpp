@@ -300,7 +300,7 @@ void Rig::__openRig()
 
         emit rigConnected();
 
-        rigDriver->sendState();
+        sendState();
     });
 
     if ( !rigDriver->open() )
