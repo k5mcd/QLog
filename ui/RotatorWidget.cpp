@@ -256,27 +256,33 @@ void RotatorWidget::redrawMap()
     double lat = myGrid.getLatitude();
     double lon = myGrid.getLongitude();
 
-    double lambda0 = (lon / 180.0) * (2.0 * M_PI);
+    double lambda0 = (lon / 180.0) * M_PI;
     double phi1 = - (lat / 90.0) * (0.5 * M_PI);
 
     for (int x = 0; x < map.width(); x++) {
         double x2 = 2.0 * M_PI * (static_cast<double>(x) / static_cast<double>(map.width()) - 0.5);
         for (int y = 0; y < map.height(); y++) {
             double y2 = 2.0 * M_PI * (static_cast<double>(y) / static_cast<double>(map.height()) - 0.5);
-            double c = sqrt(x2*x2 + y2*y2);
-            double phi = asin(cos(c) * sin(phi1) + y2 * sin(c) * cos(phi1) / c);
+            double c = sqrt(x2 * x2 + y2 * y2);
 
             if (c < M_PI) {
-                double lambda = lambda0 + atan2(x2*sin(c), c*cos(phi1)*cos(c) - y2*sin(phi1)*sin(c));
+                double phi = asin(cos(c) * sin(phi1) + y2 * sin(c) * cos(phi1) / c);
 
-                double s = (lambda/(2*M_PI)) + 0.5;
-                double t = (phi/M_PI) + 0.5;
+                double lambda;
+                if (c != 0) {
+                    lambda = lambda0 + atan2(x2 * sin(c), c * cos(phi1) * cos(c) - y2 * sin(phi1) * sin(c));
+                } else {
+                    lambda = lambda0;
+                }
+
+                double s = (lambda / (2 * M_PI)) + 0.5;
+                double t = (phi / M_PI) + 0.5;
 
                 int x3 = static_cast<int>(s * static_cast<double>(source.width())) % source.width();
-                x3 = x3 < 0 ? x3 + source.width() : x3;
-
                 int y3 = static_cast<int>(t * static_cast<double>(source.height())) % source.height();
-                y3 = y3 < 0 ? y3 + source.height() : y3;
+
+                if (x3 < 0) x3 += source.width();
+                if (y3 < 0) y3 += source.height();
 
                 map.setPixelColor(x, y, source.pixelColor(x3, y3));
             }
