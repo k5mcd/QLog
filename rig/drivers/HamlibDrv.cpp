@@ -102,6 +102,7 @@ HamlibDrv::HamlibDrv(const RigProfile &profile,
 {
     FCT_IDENTIFICATION;
 
+    rig_load_all_backends();
     rig = rig_init(rigProfile.model);
 
     if ( !rig )
