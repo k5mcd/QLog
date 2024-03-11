@@ -18,7 +18,7 @@
 #include "Migration.h"
 #include "ui/MainWindow.h"
 #include "rig/Rig.h"
-#include "Rotator.h"
+#include "rotator/Rotator.h"
 #include "CWKeyer.h"
 #include "AppGuard.h"
 #include "logformat/AdxFormat.h"

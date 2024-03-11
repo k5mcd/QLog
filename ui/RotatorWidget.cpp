@@ -3,6 +3,7 @@
 #include <QMenu>
 #include <QMouseEvent>
 #include "core/Rotator.h"
+#include "rotator/Rotator.h"
 #include "RotatorWidget.h"
 #include "ui_RotatorWidget.h"
 #include "core/debug.h"

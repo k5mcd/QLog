@@ -78,7 +78,6 @@ SOURCES += \
         core/PropConditions.cpp \
         core/QRZ.cpp \
         core/QSLStorage.cpp \
-        core/Rotator.cpp \
         core/SerialPort.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
@@ -113,6 +112,7 @@ SOURCES += \
         rig/drivers/GenericDrv.cpp \
         rig/drivers/HamlibDrv.cpp \
         rig/drivers/TCIDrv.cpp \
+        rotator/Rotator.cpp \
         ui/AlertRuleDetail.cpp \
         ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
@@ -194,7 +194,6 @@ HEADERS += \
         core/PropConditions.h \
         core/QRZ.h \
         core/QSLStorage.h \
-        core/Rotator.h \
         core/SerialPort.h \
         core/Wsjtx.h \
         core/debug.h \
@@ -240,6 +239,7 @@ HEADERS += \
         rig/drivers/HamlibDrv.h \
         rig/drivers/TCIDrv.h \
         rig/macros.h \
+        rotator/Rotator.h \
         ui/AlertRuleDetail.h \
         ui/AlertSettingDialog.h \
         ui/AlertWidget.h \

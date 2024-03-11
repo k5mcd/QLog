@@ -1,5 +1,5 @@
-#ifndef QLOG_CORE_ROTATOR_H
-#define QLOG_CORE_ROTATOR_H
+#ifndef QLOG_ROTATOR_ROTATOR_H
+#define QLOG_ROTATOR_ROTATOR_H
 
 #include <QtCore>
 #include <hamlib/rotator.h>
@@ -59,4 +59,4 @@ private:
     bool forceSendState;
 };
 
-#endif // QLOG_CORE_ROTATOR_H
+#endif // QLOG_ROTATOR_ROTATOR_H

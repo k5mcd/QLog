@@ -10,7 +10,7 @@
 #include "ui/LotwDialog.h"
 #include "core/Fldigi.h"
 #include "rig/Rig.h"
-#include "core/Rotator.h"
+#include "rotator/Rotator.h"
 #include "core/CWKeyer.h"
 #include "core/Wsjtx.h"
 #include "data/Data.h"

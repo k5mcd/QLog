@@ -11,7 +11,7 @@
 #include "ui/ColumnSettingDialog.h"
 #include "ui/StyleItemDelegate.h"
 #include "KSTHighlighterSettingDialog.h"
-#include "core/Rotator.h"
+#include "rotator/Rotator.h"
 
 MODULE_IDENTIFICATION("qlog.ui.kstchatwidget");
 

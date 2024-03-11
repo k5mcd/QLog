@@ -1,5 +1,5 @@
 #include <hamlib/rotator.h>
-#include "Rotator.h"
+#include "rotator/Rotator.h"
 #include "core/debug.h"
 #include "data/RotProfile.h"
 #include "data/AntProfile.h"
@@ -10,7 +10,7 @@
 #include <unistd.h>
 #endif
 
-MODULE_IDENTIFICATION("qlog.core.rotator");
+MODULE_IDENTIFICATION("qlog.rotator.rotator");
 
 #ifndef HAMLIB_FILPATHLEN
 #define HAMLIB_FILPATHLEN FILPATHLEN

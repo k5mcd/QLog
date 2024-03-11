@@ -16,7 +16,7 @@
 #include "core/PropConditions.h"
 #include "data/Band.h"
 #include "data/Data.h"
-#include "core/Rotator.h"
+#include "rotator/Rotator.h"
 #include "rig/Rig.h"
 #include "data/BandPlan.h"
 

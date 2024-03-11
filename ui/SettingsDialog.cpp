@@ -30,7 +30,7 @@
 #include "core/NetworkNotification.h"
 #include "rig/Rig.h"
 #include "rig/RigCaps.h"
-#include "core/Rotator.h"
+#include "rotator/Rotator.h"
 #include "core/LogParam.h"
 #include "core/Callsign.h"
 #include "core/CWKeyer.h"
