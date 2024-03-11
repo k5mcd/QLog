@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <QMutex>
 #include <QHash>
-#include "rig/drivers/GenericDrv.h"
+#include "rig/drivers/GenericRigDrv.h"
 #include "RigCaps.h"
 #include "data/DxSpot.h"
 
@@ -121,11 +121,11 @@ private:
 
     void __closeRig();
     void __openRig();
-    GenericDrv *getDriver(const RigProfile &profile);
+    GenericRigDrv *getDriver(const RigProfile &profile);
 
 private:
     QTimer* timer;
-    GenericDrv *rigDriver;
+    GenericRigDrv *rigDriver;
     QMutex rigLock;
     bool connected;
 };

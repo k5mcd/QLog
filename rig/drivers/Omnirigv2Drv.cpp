@@ -47,7 +47,7 @@ RigCaps OmnirigV2Drv::getCaps(int)
 
 OmnirigV2Drv::OmnirigV2Drv(const RigProfile &profile,
                            QObject *parent)
-    : GenericDrv(profile, parent),
+    : GenericRigDrv(profile, parent),
       currFreq(0),
       currRIT(0),
       currXIT(0),

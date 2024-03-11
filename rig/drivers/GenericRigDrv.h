@@ -1,18 +1,18 @@
-#ifndef RIG_DRIVERS_GENERICDRV_H
-#define RIG_DRIVERS_GENERICDRV_H
+#ifndef RIG_DRIVERS_GENERICRIGDRV_H
+#define RIG_DRIVERS_GENERICRIGDRV_H
 
 #include <QObject>
 #include "data/RigProfile.h"
 #include "data/DxSpot.h"
 
-class GenericDrv : public QObject
+class GenericRigDrv : public QObject
 {
     Q_OBJECT
 public:
 
-    explicit GenericDrv(const RigProfile &profile,
+    explicit GenericRigDrv(const RigProfile &profile,
                         QObject *parent = nullptr);
-    virtual ~GenericDrv() {};
+    virtual ~GenericRigDrv() {};
     const RigProfile getCurrRigProfile() const;
     const QString lastError() const;
 
@@ -53,4 +53,4 @@ protected:
     bool opened;
 };
 
-#endif // RIG_DRIVERS_GENERICDRV_H
+#endif // RIG_DRIVERS_GENERICRIGDRV_H

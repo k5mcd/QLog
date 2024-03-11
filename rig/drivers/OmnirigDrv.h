@@ -1,7 +1,7 @@
 #ifndef RIG_DRIVERS_OMNIRIGDRV_H
 #define RIG_DRIVERS_OMNIRIGDRV_H
 
-#include "GenericDrv.h"
+#include "GenericRigDrv.h"
 #include "rig/RigCaps.h"
 
 // OmniRig.h is generated automatically by dumpcpp
@@ -9,7 +9,7 @@
 // Currently supported is OmniRig v1
 #include "OmniRig.h"
 
-class OmnirigDrv : public GenericDrv
+class OmnirigDrv : public GenericRigDrv
 {
     Q_OBJECT
 

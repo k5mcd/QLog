@@ -237,17 +237,17 @@ void Rig::__openRig()
         return;
     }
 
-    connect( rigDriver, &GenericDrv::frequencyChanged, this, [this](double a, double b, double c)
+    connect( rigDriver, &GenericRigDrv::frequencyChanged, this, [this](double a, double b, double c)
     {
         emit frequencyChanged(VFO1, a, b, c);
     });
 
-    connect( rigDriver, &GenericDrv::pttChanged, this, [this](bool a)
+    connect( rigDriver, &GenericRigDrv::pttChanged, this, [this](bool a)
     {
         emit pttChanged(VFO1, a);
     });
 
-    connect( rigDriver, &GenericDrv::modeChanged, this, [this](const QString &a,
+    connect( rigDriver, &GenericRigDrv::modeChanged, this, [this](const QString &a,
                                                                const QString &b,
                                                                const QString &c,
              qint32 d)
@@ -255,39 +255,39 @@ void Rig::__openRig()
         emit modeChanged(VFO1, a, b, c, d);
     });
 
-    connect( rigDriver, &GenericDrv::vfoChanged, this, [this](const QString &a)
+    connect( rigDriver, &GenericRigDrv::vfoChanged, this, [this](const QString &a)
     {
         emit vfoChanged(VFO1, a);
     });
 
-    connect( rigDriver, &GenericDrv::powerChanged, this, [this](double a)
+    connect( rigDriver, &GenericRigDrv::powerChanged, this, [this](double a)
     {
         emit powerChanged(VFO1, a);
     });
 
-    connect( rigDriver, &GenericDrv::ritChanged, this, [this](double a)
+    connect( rigDriver, &GenericRigDrv::ritChanged, this, [this](double a)
     {
         emit ritChanged(VFO1, a);
     });
 
-    connect( rigDriver, &GenericDrv::xitChanged, this, [this](double a)
+    connect( rigDriver, &GenericRigDrv::xitChanged, this, [this](double a)
     {
         emit xitChanged(VFO1, a);
     });
 
-    connect( rigDriver, &GenericDrv::keySpeedChanged, this, [this](unsigned int a)
+    connect( rigDriver, &GenericRigDrv::keySpeedChanged, this, [this](unsigned int a)
     {
         emit keySpeedChanged(VFO1, a);
     });
 
-    connect( rigDriver, &GenericDrv::errorOccured, this, [this](const QString &a,
+    connect( rigDriver, &GenericRigDrv::errorOccured, this, [this](const QString &a,
                                                                 const QString &b)
     {
         close();
         emit rigErrorPresent(a, b);
     });
 
-    connect( rigDriver, &GenericDrv::rigIsReady, this, [this, newRigProfile]()
+    connect( rigDriver, &GenericRigDrv::rigIsReady, this, [this, newRigProfile]()
     {
         connected = true;
 
@@ -604,7 +604,7 @@ void Rig::sendDXSpotImpl(const DxSpot &spot)
     rigDriver->sendDXSpot(spot);
 }
 
-GenericDrv *Rig::getDriver( const RigProfile &profile )
+GenericRigDrv *Rig::getDriver( const RigProfile &profile )
 {
     FCT_IDENTIFICATION;
 

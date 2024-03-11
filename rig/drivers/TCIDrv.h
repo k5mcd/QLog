@@ -3,10 +3,10 @@
 
 #include <QtWebSockets>
 #include <QHash>
-#include "GenericDrv.h"
+#include "GenericRigDrv.h"
 #include "rig/RigCaps.h"
 
-class TCIDrv : public GenericDrv
+class TCIDrv : public GenericRigDrv
 {
     Q_OBJECT
 

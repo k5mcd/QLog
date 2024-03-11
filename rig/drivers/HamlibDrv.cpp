@@ -86,7 +86,7 @@ RigCaps HamlibDrv::getCaps(int model)
 
 HamlibDrv::HamlibDrv(const RigProfile &profile,
                            QObject *parent)
-    : GenericDrv(profile, parent),
+    : GenericRigDrv(profile, parent),
       rig(nullptr),
       forceSendState(false),
       currPTT(false),

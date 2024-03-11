@@ -109,7 +109,7 @@ SOURCES += \
         models/WsjtxTableModel.cpp \
         rig/Rig.cpp \
         rig/RigCaps.cpp \
-        rig/drivers/GenericDrv.cpp \
+        rig/drivers/GenericRigDrv.cpp \
         rig/drivers/HamlibDrv.cpp \
         rig/drivers/TCIDrv.cpp \
         rotator/Rotator.cpp \
@@ -235,7 +235,7 @@ HEADERS += \
         models/WsjtxTableModel.h \
         rig/Rig.h \
         rig/RigCaps.h \
-        rig/drivers/GenericDrv.h \
+        rig/drivers/GenericRigDrv.h \
         rig/drivers/HamlibDrv.h \
         rig/drivers/TCIDrv.h \
         rig/macros.h \

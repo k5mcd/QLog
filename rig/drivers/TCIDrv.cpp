@@ -47,7 +47,7 @@ RigCaps TCIDrv::getCaps(int)
 }
 
 TCIDrv::TCIDrv(const RigProfile &profile, QObject *parent)
-    : GenericDrv(profile, parent),
+    : GenericRigDrv(profile, parent),
       ready(false),
       receivedOnly(false),
       currFreq(0.0),

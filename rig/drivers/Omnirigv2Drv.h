@@ -1,7 +1,7 @@
 #ifndef OMNIRIGV2DRV_H
 #define OMNIRIGV2DRV_H
 
-#include "GenericDrv.h"
+#include "GenericRigDrv.h"
 #include "rig/RigCaps.h"
 
 // OmniRig.h is generated automatically by dumpcpp
@@ -10,7 +10,7 @@
 #include "OmniRig2.h"
 
 //don't inherit Omnirigv1, it won't do any good because it's a different namespace
-class OmnirigV2Drv : public GenericDrv
+class OmnirigV2Drv : public GenericRigDrv
 {
     Q_OBJECT
 
