@@ -1,5 +1,5 @@
-﻿#ifndef RIG_DRIVERS_HAMLIBDRV_H
-#define RIG_DRIVERS_HAMLIBDRV_H
+﻿#ifndef RIG_DRIVERS_HAMLIBRIGDRV_H
+#define RIG_DRIVERS_HAMLIBRIGDRV_H
 
 #include <QObject>
 #include <QTimer>
@@ -8,14 +8,14 @@
 #include "GenericRigDrv.h"
 #include "rig/RigCaps.h"
 
-class HamlibDrv : public GenericRigDrv
+class HamlibRigDrv : public GenericRigDrv
 {
 public:
     static QList<QPair<int, QString>> getModelList();
     static RigCaps getCaps(int model);
-    explicit HamlibDrv(const RigProfile &profile,
+    explicit HamlibRigDrv(const RigProfile &profile,
                           QObject *parent = nullptr);
-    virtual ~HamlibDrv();
+    virtual ~HamlibRigDrv();
 
     virtual bool open() override;
     virtual bool isMorseOverCatSupported() override;
@@ -83,4 +83,4 @@ private:
 
 };
 
-#endif // RIG_DRIVERS_HAMLIBDRV_H
+#endif // RIG_DRIVERS_HAMLIBRIGDRV_H

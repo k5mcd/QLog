@@ -1,5 +1,5 @@
-#ifndef OMNIRIGV2DRV_H
-#define OMNIRIGV2DRV_H
+#ifndef OMNIRIGV2RIGRIGDRV_H
+#define OMNIRIGV2RIGRIGDRV_H
 
 #include "GenericRigDrv.h"
 #include "rig/RigCaps.h"
@@ -9,8 +9,10 @@
 // Currently supported is OmniRig v2
 #include "OmniRig2.h"
 
+namespace RigDrivers
+{
 //don't inherit Omnirigv1, it won't do any good because it's a different namespace
-class OmnirigV2Drv : public GenericRigDrv
+class OmnirigV2RigDrv : public GenericRigDrv
 {
     Q_OBJECT
 
@@ -19,10 +21,10 @@ public:
     static QList<QPair<int, QString>> getModelList();
     static RigCaps getCaps(int);
 
-    explicit OmnirigV2Drv(const RigProfile &profile,
+    explicit OmnirigV2RigDrv(const RigProfile &profile,
                           QObject *parent = nullptr);
 
-    virtual ~OmnirigV2Drv();
+    virtual ~OmnirigV2RigDrv();
 
     virtual bool open() override;
     virtual bool isMorseOverCatSupported() override;
@@ -89,4 +91,5 @@ private:
                                       {OmniRigV2::PM_FM, "FM"}
                                      };
 };
-#endif // OMNIRIGV2DRV_H
+}
+#endif // OMNIRIGV2RIGRIGDRV_H

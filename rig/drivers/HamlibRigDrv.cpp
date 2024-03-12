@@ -7,7 +7,7 @@
 #endif
 
 #include <QRegularExpression>
-#include "HamlibDrv.h"
+#include "HamlibRigDrv.h"
 #include "core/debug.h"
 #include "rig/macros.h"
 #include "core/SerialPort.h"
@@ -21,8 +21,7 @@
                         qCDebug(runtime) << "Using Drv"
 
 MODULE_IDENTIFICATION("qlog.rig.driver.hamlibdrv");
-
-QList<QPair<int, QString>> HamlibDrv::getModelList()
+QList<QPair<int, QString>> HamlibRigDrv::getModelList()
 {
     FCT_IDENTIFICATION;
 
@@ -34,7 +33,7 @@ QList<QPair<int, QString>> HamlibDrv::getModelList()
     return ret;
 }
 
-int HamlibDrv::addRig(const rig_caps *caps, void *data)
+int HamlibRigDrv::addRig(const rig_caps *caps, void *data)
 {
     QList<QPair<int, QString>> *list = static_cast<QList<QPair<int, QString>>*>(data);
 
@@ -46,7 +45,7 @@ int HamlibDrv::addRig(const rig_caps *caps, void *data)
     return -1;
 }
 
-RigCaps HamlibDrv::getCaps(int model)
+RigCaps HamlibRigDrv::getCaps(int model)
 {
     FCT_IDENTIFICATION;
 
@@ -84,7 +83,7 @@ RigCaps HamlibDrv::getCaps(int model)
     return ret;
 }
 
-HamlibDrv::HamlibDrv(const RigProfile &profile,
+HamlibRigDrv::HamlibRigDrv(const RigProfile &profile,
                            QObject *parent)
     : GenericRigDrv(profile, parent),
       rig(nullptr),
@@ -115,7 +114,7 @@ HamlibDrv::HamlibDrv(const RigProfile &profile,
     rig_set_debug(RIG_DEBUG_BUG);
 }
 
-HamlibDrv::~HamlibDrv()
+HamlibRigDrv::~HamlibRigDrv()
 {
     FCT_IDENTIFICATION;
 
@@ -135,7 +134,7 @@ HamlibDrv::~HamlibDrv()
     drvLock.unlock();
 }
 
-bool HamlibDrv::open()
+bool HamlibRigDrv::open()
 {
     FCT_IDENTIFICATION;
 
@@ -192,13 +191,13 @@ bool HamlibDrv::open()
     currXIT = MHz(rigProfile.xitOffset);
     morseOverCatSupported = ( rig->caps->send_morse != nullptr );
 
-    connect(&timer, &QTimer::timeout, this, &HamlibDrv::checkRigStateChange);
+    connect(&timer, &QTimer::timeout, this, &HamlibRigDrv::checkRigStateChange);
     timer.start(rigProfile.pollInterval);
     emit rigIsReady();
     return true;
 }
 
-bool HamlibDrv::isMorseOverCatSupported()
+bool HamlibRigDrv::isMorseOverCatSupported()
 {
     FCT_IDENTIFICATION;
 
@@ -207,7 +206,7 @@ bool HamlibDrv::isMorseOverCatSupported()
     return morseOverCatSupported;
 }
 
-QStringList HamlibDrv::getAvailableModes()
+QStringList HamlibRigDrv::getAvailableModes()
 {
     FCT_IDENTIFICATION;
 
@@ -250,7 +249,7 @@ QStringList HamlibDrv::getAvailableModes()
     return modeList;
 }
 
-void HamlibDrv::setFrequency(double newFreq)
+void HamlibRigDrv::setFrequency(double newFreq)
 {
     FCT_IDENTIFICATION;
 
@@ -282,7 +281,7 @@ void HamlibDrv::setFrequency(double newFreq)
     commandSleep();
 }
 
-void HamlibDrv::setRawMode(const QString &rawMode)
+void HamlibRigDrv::setRawMode(const QString &rawMode)
 {
     FCT_IDENTIFICATION;
 
@@ -302,7 +301,7 @@ void HamlibDrv::setRawMode(const QString &rawMode)
     __setMode(rig_parse_mode(rawMode.toLatin1()));
 }
 
-void HamlibDrv::setMode(const QString &mode, const QString &subMode)
+void HamlibRigDrv::setMode(const QString &mode, const QString &subMode)
 {
     FCT_IDENTIFICATION;
 
@@ -311,7 +310,7 @@ void HamlibDrv::setMode(const QString &mode, const QString &subMode)
     setRawMode((subMode.isEmpty()) ? mode : subMode);
 }
 
-void HamlibDrv::__setMode(rmode_t newModeID)
+void HamlibRigDrv::__setMode(rmode_t newModeID)
 {
     FCT_IDENTIFICATION;
 
@@ -330,7 +329,7 @@ void HamlibDrv::__setMode(rmode_t newModeID)
     }
 }
 
-void HamlibDrv::setPTT(bool newPTTState)
+void HamlibRigDrv::setPTT(bool newPTTState)
 {
     FCT_IDENTIFICATION;
 
@@ -362,7 +361,7 @@ void HamlibDrv::setPTT(bool newPTTState)
     commandSleep();
 }
 
-void HamlibDrv::setKeySpeed(qint16 wpm)
+void HamlibRigDrv::setKeySpeed(qint16 wpm)
 {
     FCT_IDENTIFICATION;
 
@@ -382,7 +381,7 @@ void HamlibDrv::setKeySpeed(qint16 wpm)
     __setKeySpeed(wpm);
 }
 
-void HamlibDrv::syncKeySpeed(qint16 wpm)
+void HamlibRigDrv::syncKeySpeed(qint16 wpm)
 {
     FCT_IDENTIFICATION;
 
@@ -402,7 +401,7 @@ void HamlibDrv::syncKeySpeed(qint16 wpm)
     __setKeySpeed(wpm);
 }
 
-void HamlibDrv::sendMorse(const QString &text)
+void HamlibRigDrv::sendMorse(const QString &text)
 {
     FCT_IDENTIFICATION;
 
@@ -430,7 +429,7 @@ void HamlibDrv::sendMorse(const QString &text)
     commandSleep();
 }
 
-void HamlibDrv::stopMorse()
+void HamlibRigDrv::stopMorse()
 {
     FCT_IDENTIFICATION;
 
@@ -455,7 +454,7 @@ void HamlibDrv::stopMorse()
     commandSleep();
 }
 
-void HamlibDrv::sendState()
+void HamlibRigDrv::sendState()
 {
     FCT_IDENTIFICATION;
 
@@ -464,21 +463,21 @@ void HamlibDrv::sendState()
     forceSendState = true;
 }
 
-void HamlibDrv::stopTimers()
+void HamlibRigDrv::stopTimers()
 {
     FCT_IDENTIFICATION;
 
     timer.stop();
 }
 
-void HamlibDrv::sendDXSpot(const DxSpot &)
+void HamlibRigDrv::sendDXSpot(const DxSpot &)
 {
     FCT_IDENTIFICATION;
 
     // no action
 }
 
-void HamlibDrv::checkChanges()
+void HamlibRigDrv::checkChanges()
 {
     FCT_IDENTIFICATION;
 
@@ -497,7 +496,7 @@ void HamlibDrv::checkChanges()
     checkKeySpeedChange();
 }
 
-void HamlibDrv::checkRigStateChange()
+void HamlibRigDrv::checkRigStateChange()
 {
     FCT_IDENTIFICATION;
 
@@ -518,7 +517,7 @@ void HamlibDrv::checkRigStateChange()
     drvLock.unlock();
 }
 
-void HamlibDrv::checkPTTChange()
+void HamlibRigDrv::checkPTTChange()
 {
     FCT_IDENTIFICATION;
 
@@ -563,7 +562,7 @@ void HamlibDrv::checkPTTChange()
     }
 }
 
-bool HamlibDrv::checkFreqChange()
+bool HamlibRigDrv::checkFreqChange()
 {
     FCT_IDENTIFICATION;
 
@@ -609,7 +608,7 @@ bool HamlibDrv::checkFreqChange()
     return true;
 }
 
-bool HamlibDrv::checkModeChange()
+bool HamlibRigDrv::checkModeChange()
 {
     FCT_IDENTIFICATION;
 
@@ -666,7 +665,7 @@ bool HamlibDrv::checkModeChange()
     return true;
 }
 
-void HamlibDrv::checkVFOChange()
+void HamlibRigDrv::checkVFOChange()
 {
     FCT_IDENTIFICATION;
 
@@ -709,7 +708,7 @@ void HamlibDrv::checkVFOChange()
     }
 }
 
-void HamlibDrv::checkPWRChange()
+void HamlibRigDrv::checkPWRChange()
 {
     FCT_IDENTIFICATION;
 
@@ -763,7 +762,7 @@ void HamlibDrv::checkPWRChange()
     }
 }
 
-void HamlibDrv::checkRITChange()
+void HamlibRigDrv::checkRITChange()
 {
     FCT_IDENTIFICATION;
 
@@ -831,7 +830,7 @@ void HamlibDrv::checkRITChange()
     }
 }
 
-void HamlibDrv::checkXITChange()
+void HamlibRigDrv::checkXITChange()
 {
     FCT_IDENTIFICATION;
 
@@ -899,7 +898,7 @@ void HamlibDrv::checkXITChange()
     }
 }
 
-void HamlibDrv::checkKeySpeedChange()
+void HamlibRigDrv::checkKeySpeedChange()
 {
     FCT_IDENTIFICATION;
 
@@ -939,29 +938,29 @@ void HamlibDrv::checkKeySpeedChange()
     }
 }
 
-double HamlibDrv::getRITFreq()
+double HamlibRigDrv::getRITFreq()
 {
     FCT_IDENTIFICATION;
 
     return currFreq + currRIT;
 }
 
-void HamlibDrv::setRITFreq(double rit)
+void HamlibRigDrv::setRITFreq(double rit)
 {
     currRIT = rit;
 }
 
-double HamlibDrv::getXITFreq()
+double HamlibRigDrv::getXITFreq()
 {
     return currFreq + currXIT;
 }
 
-void HamlibDrv::setXITFreq(double xit)
+void HamlibRigDrv::setXITFreq(double xit)
 {
     currXIT = xit;
 }
 
-void HamlibDrv::__setKeySpeed(qint16 wpm)
+void HamlibRigDrv::__setKeySpeed(qint16 wpm)
 {
     FCT_IDENTIFICATION;
 
@@ -986,7 +985,7 @@ void HamlibDrv::__setKeySpeed(qint16 wpm)
     commandSleep();
 }
 
-void HamlibDrv::commandSleep()
+void HamlibRigDrv::commandSleep()
 {
 #ifdef Q_OS_WIN
         Sleep(100);
@@ -995,7 +994,7 @@ void HamlibDrv::commandSleep()
 #endif
 }
 
-const QString HamlibDrv::getModeNormalizedText(const rmode_t mode,
+const QString HamlibRigDrv::getModeNormalizedText(const rmode_t mode,
                                                   QString &submode) const
 {
     submode = QString();
@@ -1029,20 +1028,20 @@ const QString HamlibDrv::getModeNormalizedText(const rmode_t mode,
     }
 }
 
-const QString HamlibDrv::hamlibMode2String(const rmode_t mode) const
+const QString HamlibRigDrv::hamlibMode2String(const rmode_t mode) const
 {
     const char *rawMode = rig_strrmode(mode);
 
     return QString(rawMode);
 }
 
-const QString HamlibDrv::hamlibVFO2String(const vfo_t vfo) const
+const QString HamlibRigDrv::hamlibVFO2String(const vfo_t vfo) const
 {
     const char *rawVFO = rig_strvfo(vfo);
     return QString(rawVFO);
 }
 
-serial_handshake_e HamlibDrv::stringToHamlibFlowControl(const QString &in_flowcontrol)
+serial_handshake_e HamlibRigDrv::stringToHamlibFlowControl(const QString &in_flowcontrol)
 {
     FCT_IDENTIFICATION;
 
@@ -1058,7 +1057,7 @@ serial_handshake_e HamlibDrv::stringToHamlibFlowControl(const QString &in_flowco
     return RIG_HANDSHAKE_NONE;
 }
 
-serial_parity_e HamlibDrv::stringToHamlibParity(const QString &in_parity)
+serial_parity_e HamlibRigDrv::stringToHamlibParity(const QString &in_parity)
 {
     FCT_IDENTIFICATION;
 
@@ -1078,7 +1077,7 @@ serial_parity_e HamlibDrv::stringToHamlibParity(const QString &in_parity)
     return RIG_PARITY_NONE;
 }
 
-QString HamlibDrv::hamlibErrorString(int errorCode)
+QString HamlibRigDrv::hamlibErrorString(int errorCode)
 {
     FCT_IDENTIFICATION;
 

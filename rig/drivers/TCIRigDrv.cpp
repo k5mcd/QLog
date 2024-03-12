@@ -1,7 +1,7 @@
 #include <QColor>
 #include <QPalette>
 
-#include "TCIDrv.h"
+#include "TCIRigDrv.h"
 #include "rig/macros.h"
 #include "data/Data.h"
 #include "data/BandPlan.h"
@@ -10,7 +10,7 @@ MODULE_IDENTIFICATION("qlog.rig.driver.tcidrv");
 
 // https://github.com/ExpertSDR3/TCI/blob/main/TCI%20Protocol.pdf
 
-QList<QPair<int, QString> > TCIDrv::getModelList()
+QList<QPair<int, QString> > TCIRigDrv::getModelList()
 {
     FCT_IDENTIFICATION;
 
@@ -24,7 +24,7 @@ QList<QPair<int, QString> > TCIDrv::getModelList()
     return ret;
 }
 
-RigCaps TCIDrv::getCaps(int)
+RigCaps TCIRigDrv::getCaps(int)
 {
     FCT_IDENTIFICATION;
 
@@ -46,7 +46,7 @@ RigCaps TCIDrv::getCaps(int)
     return ret;
 }
 
-TCIDrv::TCIDrv(const RigProfile &profile, QObject *parent)
+TCIRigDrv::TCIRigDrv(const RigProfile &profile, QObject *parent)
     : GenericRigDrv(profile, parent),
       ready(false),
       receivedOnly(false),
@@ -58,23 +58,23 @@ TCIDrv::TCIDrv(const RigProfile &profile, QObject *parent)
 {
     FCT_IDENTIFICATION;
 
-    connect(&ws, &QWebSocket::connected, this, &TCIDrv::onConnected);
+    connect(&ws, &QWebSocket::connected, this, &TCIRigDrv::onConnected);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 0))
     connect(&ws, QOverload<QAbstractSocket::SocketError>::of(&QWebSocket::error),
-            this, &TCIDrv::onSocketError);
+            this, &TCIRigDrv::onSocketError);
 #else
-    connect(&ws, &QWebSocket::errorOccurred, this, &TCIDrv::onSocketError);
+    connect(&ws, &QWebSocket::errorOccurred, this, &TCIRigDrv::onSocketError);
 #endif
 }
 
-TCIDrv::~TCIDrv()
+TCIRigDrv::~TCIRigDrv()
 {
     FCT_IDENTIFICATION;
 
-    TCIDrv::stopTimers();
+    TCIRigDrv::stopTimers();
 }
 
-bool TCIDrv::open()
+bool TCIRigDrv::open()
 {
     FCT_IDENTIFICATION;
 
@@ -87,19 +87,19 @@ bool TCIDrv::open()
     return true;
 }
 
-bool TCIDrv::isMorseOverCatSupported()
+bool TCIRigDrv::isMorseOverCatSupported()
 {
     FCT_IDENTIFICATION;
 
     return true;
 }
 
-QStringList TCIDrv::getAvailableModes()
+QStringList TCIRigDrv::getAvailableModes()
 {
     return modeList;
 }
 
-void TCIDrv::setFrequency(double newFreq)
+void TCIRigDrv::setFrequency(double newFreq)
 {
     FCT_IDENTIFICATION;
 
@@ -122,7 +122,7 @@ void TCIDrv::setFrequency(double newFreq)
     sendCmd("vfo", true, args);
 }
 
-void TCIDrv::setRawMode(const QString &rawMode)
+void TCIRigDrv::setRawMode(const QString &rawMode)
 {
     FCT_IDENTIFICATION;
 
@@ -141,7 +141,7 @@ void TCIDrv::setRawMode(const QString &rawMode)
     sendCmd("modulation", true, args);
 }
 
-void TCIDrv::setMode(const QString &mode, const QString &subMode)
+void TCIRigDrv::setMode(const QString &mode, const QString &subMode)
 {
     FCT_IDENTIFICATION;
 
@@ -150,7 +150,7 @@ void TCIDrv::setMode(const QString &mode, const QString &subMode)
     setRawMode(mode2RawMode(mode, subMode));
 }
 
-void TCIDrv::setPTT(bool newPTTState)
+void TCIRigDrv::setPTT(bool newPTTState)
 {
     FCT_IDENTIFICATION;
 
@@ -169,7 +169,7 @@ void TCIDrv::setPTT(bool newPTTState)
     sendCmd("trx", true, args);
 }
 
-void TCIDrv::setKeySpeed(qint16 wpm)
+void TCIRigDrv::setKeySpeed(qint16 wpm)
 {
     FCT_IDENTIFICATION;
 
@@ -188,7 +188,7 @@ void TCIDrv::setKeySpeed(qint16 wpm)
     sendCmd("cw_keyer_speed", false, args);
 }
 
-void TCIDrv::syncKeySpeed(qint16 wpm)
+void TCIRigDrv::syncKeySpeed(qint16 wpm)
 {
     FCT_IDENTIFICATION;
 
@@ -200,7 +200,7 @@ void TCIDrv::syncKeySpeed(qint16 wpm)
     setKeySpeed(wpm);
 }
 
-void TCIDrv::sendMorse(const QString &text)
+void TCIRigDrv::sendMorse(const QString &text)
 {
     FCT_IDENTIFICATION;
 
@@ -217,7 +217,7 @@ void TCIDrv::sendMorse(const QString &text)
     sendCmd("cw_macros", false, args);
 }
 
-void TCIDrv::stopMorse()
+void TCIRigDrv::stopMorse()
 {
     FCT_IDENTIFICATION;
 
@@ -230,7 +230,7 @@ void TCIDrv::stopMorse()
     sendCmd("cw_macros_stop", false);
 }
 
-void TCIDrv::sendState()
+void TCIRigDrv::sendState()
 {
     FCT_IDENTIFICATION;
 
@@ -253,7 +253,7 @@ void TCIDrv::sendState()
     sendCmd("cw_macros_speed", false);
 }
 
-void TCIDrv::stopTimers()
+void TCIRigDrv::stopTimers()
 {
     FCT_IDENTIFICATION;
 
@@ -268,7 +268,7 @@ void TCIDrv::stopTimers()
     return;
 }
 
-void TCIDrv::sendDXSpot(const DxSpot &spot)
+void TCIRigDrv::sendDXSpot(const DxSpot &spot)
 {
     FCT_IDENTIFICATION;
 
@@ -293,19 +293,19 @@ void TCIDrv::sendDXSpot(const DxSpot &spot)
     sendCmd("spot", 0, args);
 }
 
-void TCIDrv::onConnected()
+void TCIRigDrv::onConnected()
 {
     FCT_IDENTIFICATION;
 
     qCDebug(runtime) << "Rig is connected";
 
     connect(&ws, &QWebSocket::textMessageReceived,
-            this, &TCIDrv::onTextMessageReceived);
+            this, &TCIRigDrv::onTextMessageReceived);
 
     // QLog has to wait for READY message to complete connection = to emit RigReady
 }
 
-void TCIDrv::onSocketError(QAbstractSocket::SocketError socker_error)
+void TCIRigDrv::onSocketError(QAbstractSocket::SocketError socker_error)
 {
     FCT_IDENTIFICATION;
 
@@ -342,7 +342,7 @@ void TCIDrv::onSocketError(QAbstractSocket::SocketError socker_error)
                      error_msg);
 }
 
-void TCIDrv::onTextMessageReceived(const QString &message)
+void TCIRigDrv::onTextMessageReceived(const QString &message)
 {
     FCT_IDENTIFICATION;
 
@@ -376,7 +376,7 @@ void TCIDrv::onTextMessageReceived(const QString &message)
 
         const QString &cmdName = cmdElemets.at(0).toLower().trimmed();
         QStringList cmdArgs;
-        TCIDrv::parseFce parser = responseParsers.value(cmdName);
+        TCIRigDrv::parseFce parser = responseParsers.value(cmdName);
 
         if ( !parser )
         {
@@ -401,7 +401,7 @@ void TCIDrv::onTextMessageReceived(const QString &message)
     }
 }
 
-void TCIDrv::sendCmd(const QString &cmd,
+void TCIRigDrv::sendCmd(const QString &cmd,
                      bool addRigID,
                      const QStringList& args)
 {
@@ -430,7 +430,7 @@ void TCIDrv::sendCmd(const QString &cmd,
     ws.sendTextMessage(cmdText);
 }
 
-const QString TCIDrv::getModeNormalizedText(const QString &rawMode, QString &submode)
+const QString TCIRigDrv::getModeNormalizedText(const QString &rawMode, QString &submode)
 {
     FCT_IDENTIFICATION;
 
@@ -477,7 +477,7 @@ const QString TCIDrv::getModeNormalizedText(const QString &rawMode, QString &sub
     return QString();
 }
 
-const QString TCIDrv::mode2RawMode(const QString &mode, const QString &submode)
+const QString TCIRigDrv::mode2RawMode(const QString &mode, const QString &submode)
 {
     FCT_IDENTIFICATION;
 
@@ -509,7 +509,7 @@ const QString TCIDrv::mode2RawMode(const QString &mode, const QString &submode)
     { qCWarning(runtime) << "Incorrect number of arguments" << size << min; \
       return; }
 
-void TCIDrv::rspPROTOCOL(const QStringList &cmdArgs)
+void TCIRigDrv::rspPROTOCOL(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -521,7 +521,7 @@ void TCIDrv::rspPROTOCOL(const QStringList &cmdArgs)
                      << "Procotol version:" << cmdArgs.at(1);
 }
 
-void TCIDrv::rspREADY(const QStringList &)
+void TCIRigDrv::rspREADY(const QStringList &)
 {
     FCT_IDENTIFICATION;
 
@@ -529,14 +529,14 @@ void TCIDrv::rspREADY(const QStringList &)
     emit rigIsReady();
 }
 
-void TCIDrv::rspSTART(const QStringList &)
+void TCIRigDrv::rspSTART(const QStringList &)
 {
     FCT_IDENTIFICATION;
 
     ready = true;
 }
 
-void TCIDrv::rspSTOP(const QStringList &)
+void TCIRigDrv::rspSTOP(const QStringList &)
 {
     FCT_IDENTIFICATION;
 
@@ -546,7 +546,7 @@ void TCIDrv::rspSTOP(const QStringList &)
                       tr("Rig is not connected"));
 }
 
-void TCIDrv::rspRECEIVE_ONLY(const QStringList &cmdArgs)
+void TCIRigDrv::rspRECEIVE_ONLY(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -556,7 +556,7 @@ void TCIDrv::rspRECEIVE_ONLY(const QStringList &cmdArgs)
     receivedOnly = ( cmdArgs.at(0).toLower() == "true" );
 }
 
-void TCIDrv::rspMODULATIONS_LIST(const QStringList &cmdArgs)
+void TCIRigDrv::rspMODULATIONS_LIST(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -567,7 +567,7 @@ void TCIDrv::rspMODULATIONS_LIST(const QStringList &cmdArgs)
     qCDebug(runtime) << modeList;
 }
 
-void TCIDrv::rspVFO(const QStringList &cmdArgs)
+void TCIRigDrv::rspVFO(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -607,7 +607,7 @@ void TCIDrv::rspVFO(const QStringList &cmdArgs)
     }
 }
 
-void TCIDrv::rspTRX(const QStringList &cmdArgs)
+void TCIRigDrv::rspTRX(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -632,7 +632,7 @@ void TCIDrv::rspTRX(const QStringList &cmdArgs)
     emit pttChanged(ptt);
 }
 
-void TCIDrv::rspMODULATION(const QStringList &cmdArgs)
+void TCIRigDrv::rspMODULATION(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -661,7 +661,7 @@ void TCIDrv::rspMODULATION(const QStringList &cmdArgs)
                           // when RX_FILTER_BAND is processed
 }
 
-void TCIDrv::rspTUNE_DRIVE(const QStringList &cmdArgs)
+void TCIRigDrv::rspTUNE_DRIVE(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -673,7 +673,7 @@ void TCIDrv::rspTUNE_DRIVE(const QStringList &cmdArgs)
     // NO ACTION NOW
 }
 
-void TCIDrv::rspDRIVE(const QStringList &cmdArgs)
+void TCIRigDrv::rspDRIVE(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -705,7 +705,7 @@ void TCIDrv::rspDRIVE(const QStringList &cmdArgs)
     }
 }
 
-void TCIDrv::rspRIT_OFFSET(const QStringList &cmdArgs)
+void TCIRigDrv::rspRIT_OFFSET(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -744,7 +744,7 @@ void TCIDrv::rspRIT_OFFSET(const QStringList &cmdArgs)
     }
 }
 
-void TCIDrv::rspXIT_OFFSET(const QStringList &cmdArgs)
+void TCIRigDrv::rspXIT_OFFSET(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -783,7 +783,7 @@ void TCIDrv::rspXIT_OFFSET(const QStringList &cmdArgs)
     }
 }
 
-void TCIDrv::rspCW_MACROS_SPEED(const QStringList &cmdArgs)
+void TCIRigDrv::rspCW_MACROS_SPEED(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -804,7 +804,7 @@ void TCIDrv::rspCW_MACROS_SPEED(const QStringList &cmdArgs)
     }
 }
 
-void TCIDrv::rspRIT_ENABLE(const QStringList &cmdArgs)
+void TCIRigDrv::rspRIT_ENABLE(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -832,7 +832,7 @@ void TCIDrv::rspRIT_ENABLE(const QStringList &cmdArgs)
                           Hz2MHz(getXITFreq()));
 }
 
-void TCIDrv::rspXIT_ENABLE(const QStringList &cmdArgs)
+void TCIRigDrv::rspXIT_ENABLE(const QStringList &cmdArgs)
 {
     FCT_IDENTIFICATION;
 
@@ -862,34 +862,35 @@ void TCIDrv::rspXIT_ENABLE(const QStringList &cmdArgs)
 
 #undef CHECK_PARAMS_COUNT
 
-double TCIDrv::getRITFreq()
+double TCIRigDrv::getRITFreq()
 {
     FCT_IDENTIFICATION;
 
     return currFreq + getRawRIT();
 }
 
-void TCIDrv::setRITFreq(double rit)
+void TCIRigDrv::setRITFreq(double rit)
 {
     currRIT = rit;
 }
 
-double TCIDrv::getXITFreq()
+double TCIRigDrv::getXITFreq()
 {
     return currFreq + currXIT;
 }
 
-void TCIDrv::setXITFreq(double xit)
+void TCIRigDrv::setXITFreq(double xit)
 {
     currXIT = xit;
 }
 
-double TCIDrv::getRawRIT()
+double TCIRigDrv::getRawRIT()
 {
     return ( ( RITEnabled ) ? currRIT : 0.0 );
 }
 
-double TCIDrv::getRawXIT()
+double TCIRigDrv::getRawXIT()
 {
     return ( ( XITEnabled ) ? currXIT : 0.0 );
 }
+

@@ -20,7 +20,8 @@ public:
     };
 
     RotProfile() { model = DEFAULT_ROT_MODEL; netport = 0;
-                   baudrate = 0; databits = 0; stopbits = 0.0;};
+                   baudrate = 0; databits = 0; stopbits = 0.0;
+                   driver = 0;};
 
     QString profileName;
     qint32 model;
@@ -32,6 +33,7 @@ public:
     float stopbits;
     QString flowcontrol;
     QString parity;
+    qint32 driver;
 
     bool operator== (const RotProfile &profile);
     bool operator!= (const RotProfile &profile);

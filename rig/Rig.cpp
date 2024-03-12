@@ -1,12 +1,12 @@
 #include "Rig.h"
 #include "core/debug.h"
 #include "macros.h"
-#include "rig/drivers/HamlibDrv.h"
+#include "rig/drivers/HamlibRigDrv.h"
 #ifdef Q_OS_WIN
 #include "rig/drivers/OmnirigDrv.h"
 #include "rig/drivers/Omnirigv2Drv.h"
 #endif
-#include "rig/drivers/TCIDrv.h"
+#include "rig/drivers/TCIRigDrv.h"
 
 MODULE_IDENTIFICATION("qlog.rig.rig");
 
@@ -26,8 +26,8 @@ Rig::Rig(QObject *parent)
 
     drvMapping[HAMLIB_DRIVER] = DrvParams(HAMLIB_DRIVER,
                                           "Hamlib",
-                                          &HamlibDrv::getModelList,
-                                          &HamlibDrv::getCaps);
+                                          &HamlibRigDrv::getModelList,
+                                          &HamlibRigDrv::getCaps);
 #ifdef Q_OS_WIN
     drvMapping[OMNIRIG_DRIVER] = DrvParams(OMNIRIG_DRIVER,
                                            "Omnirig v1",
@@ -41,8 +41,8 @@ Rig::Rig(QObject *parent)
 #endif
     drvMapping[TCI_DRIVER] = DrvParams(TCI_DRIVER,
                                        "TCI",
-                                       &TCIDrv::getModelList,
-                                       &TCIDrv::getCaps);
+                                       &TCIRigDrv::getModelList,
+                                       &TCIRigDrv::getCaps);
 
 }
 
@@ -82,6 +82,8 @@ qint32 Rig::getNormalBandwidth(const QString &mode, const QString &)
 
 const QList<QPair<int, QString>> Rig::getModelList(const DriverID &id) const
 {
+    FCT_IDENTIFICATION;
+
     QList<QPair<int, QString>> ret;
 
     if ( drvMapping.contains(id)
@@ -176,17 +178,17 @@ void Rig::update()
         return;
     }
 
-    RigProfile currCWProfile = RigProfilesManager::instance()->getCurProfile1();
+    RigProfile currRigProfile = RigProfilesManager::instance()->getCurProfile1();
     /***********************************************************/
     /* Is Opened Profile still the globaly used Rig Profile ? */
     /* if NO then reconnect it                                 */
     /***********************************************************/
-    if ( currCWProfile != rigDriver->getCurrRigProfile())
+    if ( currRigProfile != rigDriver->getCurrRigProfile())
     {
         /* Rig Profile Changed
          * Need to reconnect Rig
          */
-        qCDebug(runtime) << "Reconnecting to a new RIG - " << currCWProfile.profileName;
+        qCDebug(runtime) << "Reconnecting to a new RIG - " << currRigProfile.profileName;
         qCDebug(runtime) << "Old - " << rigDriver->getCurrRigProfile().profileName;
         __openRig();
     }
@@ -615,7 +617,7 @@ GenericRigDrv *Rig::getDriver( const RigProfile &profile )
     switch ( profile.driver )
     {
     case Rig::HAMLIB_DRIVER:
-        return new HamlibDrv(profile, this);
+        return new HamlibRigDrv(profile, this);
         break;
 #ifdef Q_OS_WIN
     case Rig::OMNIRIG_DRIVER:
@@ -626,7 +628,7 @@ GenericRigDrv *Rig::getDriver( const RigProfile &profile )
         break;
 #endif
     case Rig::TCI_DRIVER:
-        return new TCIDrv(profile, this);
+        return new TCIRigDrv(profile, this);
         break;
     default:
         qWarning() << "Unsupported Rig Driver " << profile.driver;

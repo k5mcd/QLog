@@ -53,6 +53,7 @@ public slots:
     void doubleClickRotProfile(QModelIndex);
     void clearRotProfileForm();
     void rotPortTypeChanged(int);
+    void rotInterfaceChanged(int);
 
     void addRotUsrButtonsProfile();
     void delRotUsrButtonsProfile();

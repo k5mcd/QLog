@@ -1,12 +1,12 @@
-#ifndef TCIDRV_H
-#define TCIDRV_H
+#ifndef RIG_DRIVERS_TCIRIGDRV_H
+#define RIG_DRIVERS_TCIRIGDRV_H
 
 #include <QtWebSockets>
 #include <QHash>
 #include "GenericRigDrv.h"
 #include "rig/RigCaps.h"
 
-class TCIDrv : public GenericRigDrv
+class TCIRigDrv : public GenericRigDrv
 {
     Q_OBJECT
 
@@ -14,9 +14,9 @@ public:
     static QList<QPair<int, QString>> getModelList();
     static RigCaps getCaps(int);
 
-    explicit TCIDrv(const RigProfile &profile,
+    explicit TCIRigDrv(const RigProfile &profile,
                     QObject *parent = nullptr);
-    virtual ~TCIDrv();
+    virtual ~TCIRigDrv();
 
     virtual bool open() override;
     virtual bool isMorseOverCatSupported() override;
@@ -40,7 +40,7 @@ private slots:
     void onSocketError(QAbstractSocket::SocketError socker_error);
 private:
 
-    typedef void (TCIDrv::*parseFce)(const QStringList&);
+    typedef void (TCIRigDrv::*parseFce)(const QStringList&);
 
     void sendCmd(const QString &cmd,
                  bool addRigID,
@@ -84,25 +84,25 @@ private:
     bool RITEnabled;
     bool XITEnabled;
 
-    const QHash<QString, TCIDrv::parseFce> responseParsers =
+    const QHash<QString, TCIRigDrv::parseFce> responseParsers =
     {
-        {"protocol", &TCIDrv::rspPROTOCOL},
-        {"ready", &TCIDrv::rspREADY},
-        {"start", &TCIDrv::rspSTART},
-        {"stop", &TCIDrv::rspSTOP},
-        {"receive_only", &TCIDrv::rspRECEIVE_ONLY},
-        {"modulations_list", &TCIDrv::rspMODULATIONS_LIST},
-        {"vfo", &TCIDrv::rspVFO},
-        {"trx", &TCIDrv::rspTRX},
-        {"modulation", &TCIDrv::rspMODULATION},
-        {"tune_drive", &TCIDrv::rspTUNE_DRIVE},
-        {"drive", &TCIDrv::rspDRIVE},
-        {"rit_offset", &TCIDrv::rspRIT_OFFSET},
-        {"xit_offset", &TCIDrv::rspXIT_OFFSET},
-        {"cw_macros_speed", &TCIDrv::rspCW_MACROS_SPEED},
-        {"rit_enable", &TCIDrv::rspRIT_ENABLE},
-        {"xit_enable", &TCIDrv::rspXIT_ENABLE},
+        {"protocol", &TCIRigDrv::rspPROTOCOL},
+        {"ready", &TCIRigDrv::rspREADY},
+        {"start", &TCIRigDrv::rspSTART},
+        {"stop", &TCIRigDrv::rspSTOP},
+        {"receive_only", &TCIRigDrv::rspRECEIVE_ONLY},
+        {"modulations_list", &TCIRigDrv::rspMODULATIONS_LIST},
+        {"vfo", &TCIRigDrv::rspVFO},
+        {"trx", &TCIRigDrv::rspTRX},
+        {"modulation", &TCIRigDrv::rspMODULATION},
+        {"tune_drive", &TCIRigDrv::rspTUNE_DRIVE},
+        {"drive", &TCIRigDrv::rspDRIVE},
+        {"rit_offset", &TCIRigDrv::rspRIT_OFFSET},
+        {"xit_offset", &TCIRigDrv::rspXIT_OFFSET},
+        {"cw_macros_speed", &TCIRigDrv::rspCW_MACROS_SPEED},
+        {"rit_enable", &TCIRigDrv::rspRIT_ENABLE},
+        {"xit_enable", &TCIRigDrv::rspXIT_ENABLE},
     };
 };
 
-#endif // TCIDRV_H
+#endif // RIG_DRIVERS_TCIRIGDRV_H

@@ -1,5 +1,5 @@
-#ifndef RIG_DRIVERS_OMNIRIGDRV_H
-#define RIG_DRIVERS_OMNIRIGDRV_H
+#ifndef RIG_DRIVERS_OMNIRIGRIGDRV_H
+#define RIG_DRIVERS_OMNIRIGRIGDRV_H
 
 #include "GenericRigDrv.h"
 #include "rig/RigCaps.h"
@@ -7,18 +7,20 @@
 // OmniRig.h is generated automatically by dumpcpp
 // omnirig must be installed before compilation
 // Currently supported is OmniRig v1
-#include "OmniRig.h"
+#include "OmniRigRig.h"
 
-class OmnirigDrv : public GenericRigDrv
+namespace RigDrivers
+{
+class OmnirigRigDrv : public GenericRigDrv
 {
     Q_OBJECT
 
 public:
     static QList<QPair<int, QString>> getModelList();
     static RigCaps getCaps(int model);
-    explicit OmnirigDrv(const RigProfile &profile,
+    explicit OmnirigRigDrv(const RigProfile &profile,
                         QObject *parent = nullptr);
-    virtual ~OmnirigDrv();
+    virtual ~OmnirigRigDrv();
 
     virtual bool open() override;
     virtual bool isMorseOverCatSupported() override;
@@ -84,5 +86,5 @@ private:
                                       {OmniRig::PM_FM, "FM"}
                                      };
 };
-
-#endif // RIG_DRIVERS_OMNIRIGDRV_H
+}
+#endif // RIG_DRIVERS_OMNIRIGRIGDRV_H

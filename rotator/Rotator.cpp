@@ -1,42 +1,40 @@
-#include <hamlib/rotator.h>
 #include "rotator/Rotator.h"
 #include "core/debug.h"
-#include "data/RotProfile.h"
-#include "data/AntProfile.h"
-
-#ifdef Q_OS_WIN
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
+#include "rotator/drivers/HamlibRotDrv.h"
 
 MODULE_IDENTIFICATION("qlog.rotator.rotator");
 
-#ifndef HAMLIB_FILPATHLEN
-#define HAMLIB_FILPATHLEN FILPATHLEN
-#endif
+#define MUTEXLOCKER     qCDebug(runtime) << "Waiting for Rot mutex"; \
+                        QMutexLocker locker(&rotLock); \
+                        qCDebug(runtime) << "Using Rot"
 
-// at this moment it is not needed to define customized poll interval.
-// poll interval is build-in 500ms
-#define STARTING_UPDATE_INTERVAL 500
-#define SLOW_UPDATE_INTERVAL 2000
+
+#define TIME_PERIOD 1000
 
 Rotator::Rotator(QObject *parent) :
-    SerialPort(parent),
+    QObject{parent},
     timer(nullptr),
-    forceSendState(false)
+    rotDriver(nullptr),
+    connected(false),
+    cacheAzimuth(0.0),
+    cacheElevation(0.0)
 {
     FCT_IDENTIFICATION;
 
-    azimuth = 0.0;
-    elevation = 0.0;
-    rot = nullptr;
-    rig_set_debug(RIG_DEBUG_ERR);
+    drvMapping[HAMLIB_DRIVER] = DrvParams(HAMLIB_DRIVER,
+                                          "Hamlib",
+                                          &HamlibRotDrv::getModelList,
+                                          &HamlibRotDrv::getCaps);
 }
 
 Rotator::~Rotator()
 {
     FCT_IDENTIFICATION;
+
+    if ( timer )
+        timer->deleteLater();
+
+    __closeRot();
 }
 
 Rotator* Rotator::instance() {
@@ -50,126 +48,142 @@ double Rotator::getAzimuth()
 {
     FCT_IDENTIFICATION;
 
-    QMutexLocker locker(&rotLock);
-    return azimuth;
+    MUTEXLOCKER;
+    return cacheAzimuth;
 }
 
 double Rotator::getElevation()
 {
     FCT_IDENTIFICATION;
 
-    QMutexLocker locker(&rotLock);
-    return elevation;
+    MUTEXLOCKER;
+    return cacheElevation;
 }
 
 bool Rotator::isRotConnected()
 {
     FCT_IDENTIFICATION;
 
-    return (rot) ? true : false;
+    return connected;
+}
+
+const QList<QPair<int, QString> > Rotator::getModelList(const DriverID &id) const
+{
+    FCT_IDENTIFICATION;
+
+    QList<QPair<int, QString>> ret;
+
+    if ( drvMapping.contains(id)
+         && drvMapping.value(id).getModeslListFunction != nullptr )
+    {
+        ret = (drvMapping.value(id).getModeslListFunction)();
+    }
+    return ret;
+}
+
+const QList<QPair<int, QString> > Rotator::getDriverList() const
+{
+    FCT_IDENTIFICATION;
+
+    QList<QPair<int, QString>> ret;
+
+    const QList<int> &keys = drvMapping.keys();
+
+    for ( const int &key : keys )
+    {
+        ret << QPair<int, QString>(key, drvMapping[key].driverName);
+    }
+
+    return ret;
+}
+
+const RotCaps Rotator::getRotCaps(const DriverID &id, int model) const
+{
+    FCT_IDENTIFICATION;
+
+    if ( drvMapping.contains(id)
+         && drvMapping.value(id).getCapsFunction != nullptr)
+    {
+        return (drvMapping.value(id).getCapsFunction)(model);
+    }
+    return RotCaps();
 }
 
 void Rotator::stopTimer()
 {
     FCT_IDENTIFICATION;
-    bool check = QMetaObject::invokeMethod(Rotator::instance(), &Rotator::stopTimerImplt, Qt::QueuedConnection);
+
+    MUTEXLOCKER;
+    bool check = QMetaObject::invokeMethod(Rotator::instance(),
+                                           &Rotator::stopTimerImplt,
+                                           Qt::QueuedConnection);
     Q_ASSERT( check );
 }
 
-void Rotator::sendState()
+void Rotator::stopTimerImplt()
 {
     FCT_IDENTIFICATION;
 
-    if ( ! rot )
-        return;
+    if ( rotDriver )
+    {
+        rotDriver->stopTimers();
+    }
 
-    QMutexLocker locker(&rotLock);
-    forceSendState = true;
+    if ( timer )
+    {
+        timer->stop();
+        timer->deleteLater();
+        timer = nullptr;
+    }
 }
 
-void Rotator::start() {
+void Rotator::start()
+{
     FCT_IDENTIFICATION;
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Rotator::update);
-    timer->start(STARTING_UPDATE_INTERVAL);
+    timer->start(TIME_PERIOD);
 }
 
 void Rotator::update()
 {
     FCT_IDENTIFICATION;
 
-    if ( !isRotConnected() )
+    qCDebug(runtime) << "Waiting for rot mutex";
+
+    if ( !rotLock.tryLock(200) )
     {
-        forceSendState = false;
-        /* rot is not connected, slow down */
-        timer->start(SLOW_UPDATE_INTERVAL);
+        qCDebug(runtime) << "Waited too long";
         return;
     }
 
-    if (!rotLock.tryLock(200)) return;
+    qCDebug(runtime) << "Updating Rot";
 
-    RotProfile currRotProfile = RotProfilesManager::instance()->getCurProfile1();
-
-    /***********************************************************/
-    /* Is Opened Profile still the globbaly used Rot Profile ? */
-    /* if NO then reconnect it                                 */
-    /***********************************************************/
-    if ( currRotProfile != connectedRotProfile)
+    if ( !rotDriver )
     {
-        /* Rot Profile Changed
-         * Need to reconnect rig
-         */
-        qCDebug(runtime) << "Reconnecting to a new RIG - " << currRotProfile.profileName << "; Old - " << connectedRotProfile.profileName;
-        __openRot();
-        timer->start(STARTING_UPDATE_INTERVAL); // fix time is correct, it is not necessary to change.
-        forceSendState = false;
         rotLock.unlock();
         return;
     }
 
-    /*************/
-    /* Get AZ/EL */
-    /*************/
-    azimuth_t az;
-    elevation_t el;
-
-    if ( rot->caps->get_position )
+    RotProfile currRotProfile = RotProfilesManager::instance()->getCurProfile1();
+    /***********************************************************/
+    /* Is Opened Profile still the globaly used Rot Profile ? */
+    /* if NO then reconnect it                                 */
+    /***********************************************************/
+    if ( currRotProfile != rotDriver->getCurrRotProfile())
     {
-        int status = rot_get_position(rot, &az, &el);
-        if ( status == RIG_OK )
-        {
-            double newAzimuth = az;
-            double newElevation = el;
-            // Azimuth Normalization (-180,180) -> (0,360) - ADIF defined interval is 0-360
-            newAzimuth += AntProfilesManager::instance()->getCurProfile1().azimuthOffset;
-            newAzimuth = (newAzimuth < 0.0 ) ? 360.0 + newAzimuth : newAzimuth;
-
-            if ( newAzimuth != this->azimuth
-                 || newElevation != this->elevation
-                 || forceSendState)
-            {
-                this->azimuth = newAzimuth;
-                this->elevation = newElevation;
-                emit positionChanged(azimuth, elevation);
-            }
-        }
-        else
-        {
-            __closeRot();
-            emit rotErrorPresent(tr("Get Position Error"),
-                                 hamlibErrorString(status));
-        }
+        /* Rot Profile Changed
+         * Need to reconnect Rot
+         */
+        qCDebug(runtime) << "Reconnecting to a new ROT - " << currRotProfile.profileName;
+        qCDebug(runtime) << "Old - " << rotDriver->getCurrRotProfile().profileName;
+        __openRot();
     }
-    else
-    {
-        qCDebug(runtime) << "Get POSITION is disabled";
-    }
-
-    timer->start(STARTING_UPDATE_INTERVAL);
-    forceSendState = false;
+    timer->start(TIME_PERIOD);
     rotLock.unlock();
 }
+
 void Rotator::open()
 {
     FCT_IDENTIFICATION;
@@ -181,15 +195,34 @@ void Rotator::openImpl()
 {
     FCT_IDENTIFICATION;
 
-    rotLock.lock();
+    MUTEXLOCKER;
     __openRot();
-    rotLock.unlock();
+}
+
+void Rotator::sendState()
+{
+    FCT_IDENTIFICATION;
+
+    QMetaObject::invokeMethod(this, "sendStateImpl", Qt::QueuedConnection);
+}
+
+void Rotator::sendStateImpl()
+{
+    FCT_IDENTIFICATION;
+
+    MUTEXLOCKER;
+
+    if ( ! rotDriver )
+        return;
+
+    rotDriver->sendState();
 }
 
 void Rotator::__openRot()
 {
     FCT_IDENTIFICATION;
 
+    // if rot is active then close it
     __closeRot();
 
     RotProfile newRotProfile = RotProfilesManager::instance()->getCurProfile1();
@@ -203,84 +236,65 @@ void Rotator::__openRot()
 
     qCDebug(runtime) << "Opening profile name: " << newRotProfile.profileName;
 
-    rot = rot_init(newRotProfile.model);
+    rotDriver = getDriver(newRotProfile);
 
-    if ( !isRotConnected() )
+    if ( !rotDriver )
     {
         // initialization failed
         emit rotErrorPresent(tr("Initialization Error"),
-                             QString());
+                             tr("Internal Error"));
         return;
     }
 
-    if ( newRotProfile.getPortType() == RotProfile::NETWORK_ATTACHED )
+    connect(rotDriver, &GenericRotDrv::positioningChanged, this, [this](double a, double b)
     {
-        // handling network rotator
-        QString portString = newRotProfile.hostname + ":" + QString::number(newRotProfile.netport);
-        strncpy(rot->state.rotport.pathname, portString.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
-    }
-    else
-    {
-        // handling serial rotator
-        strncpy(rot->state.rotport.pathname, newRotProfile.portPath.toLocal8Bit().constData(), HAMLIB_FILPATHLEN - 1);
-        rot->state.rotport.parm.serial.rate = newRotProfile.baudrate;
-        rot->state.rotport.parm.serial.data_bits = newRotProfile.databits;
-        rot->state.rotport.parm.serial.stop_bits = newRotProfile.stopbits;
-        rot->state.rotport.parm.serial.handshake = stringToHamlibFlowControl(newRotProfile.flowcontrol);
-        rot->state.rotport.parm.serial.parity = stringToParity(newRotProfile.parity);
-    }
+        cacheAzimuth = a;
+        cacheElevation = b;
+        emit positionChanged(a, b);
+    });
 
-    int status = rot_open(rot);
-
-    if (status != RIG_OK)
+    connect(rotDriver, &GenericRotDrv::errorOccured, this, [this](const QString &a,
+                                                                const QString &b)
     {
+        close();
+        emit rotErrorPresent(a, b);
+    });
+
+    connect(rotDriver, &GenericRotDrv::rotIsReady, this, [this, newRotProfile]()
+    {
+        connected = true;
+
+        emit rotConnected();
+
+        sendState();
+    });
+
+    if ( !rotDriver->open() )
+    {
+        emit rotErrorPresent(tr("Cannot open Rotator"),
+                             rotDriver->lastError());
+        qWarning() << rotDriver->lastError();
         __closeRot();
-        emit rotErrorPresent(tr("Open Connection Error"),
-                             hamlibErrorString(status));
         return;
     }
-
-    emit rotConnected();
-
-    connectedRotProfile = newRotProfile;
 }
 
-QString Rotator::hamlibErrorString(int errorCode)
+GenericRotDrv *Rotator::getDriver(const RotProfile &profile)
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters) << errorCode;
-    static QRegularExpression re("[\r\n]");
+    qCDebug(runtime) << profile.driver;
 
-    QStringList errorList = QString(rigerror(errorCode)).split(re);
-    QString ret;
-
-    if ( errorList.size() >= 1 )
+    switch ( profile.driver )
     {
-        ret = errorList.at(0);
+    case Rotator::HAMLIB_DRIVER:
+        return new HamlibRotDrv(profile, this);
+        break;
+    default:
+        qWarning() << "Unsupported Rotator Driver " << profile.driver;
     }
 
-    qCDebug(runtime) << ret;
-
-    return ret;
-}
-
-void Rotator::__closeRot()
-{
-    FCT_IDENTIFICATION;
-
-    connectedRotProfile = RotProfile();
-    azimuth = 0.0;
-    elevation = 0.0;
-
-    if (isRotConnected())
-    {
-        rot_close(rot);
-        rot_cleanup(rot);
-        rot = nullptr;
-    }
-
-    emit rotDisconnected();
+    return nullptr;
 }
 
 void Rotator::close()
@@ -290,63 +304,31 @@ void Rotator::close()
     QMetaObject::invokeMethod(this, &Rotator::closeImpl, Qt::QueuedConnection);
 }
 
+
 void Rotator::closeImpl()
 {
     FCT_IDENTIFICATION;
 
-    rotLock.lock();
+    MUTEXLOCKER;
     __closeRot();
-    rotLock.unlock();
 }
 
-void Rotator::setPositionImpl(double azimuth, double elevation)
+void Rotator::__closeRot()
 {
     FCT_IDENTIFICATION;
 
-    qCDebug(function_parameters)<<azimuth<< " " << elevation;
-
-    if ( !isRotConnected() ) return;
-
-    azimuth -= AntProfilesManager::instance()->getCurProfile1().azimuthOffset;
-
-    rotLock.lock();
-
-    if ( azimuth > 180.0 )
+    if ( !rotDriver )
     {
-        azimuth = azimuth - 360.0;
+        qCDebug(runtime) << "Driver is not active";
+        return;
     }
 
-    int status = rot_set_position(rot, static_cast<azimuth_t>(azimuth), static_cast<elevation_t>(elevation));
-
-    if (status != RIG_OK)
-    {
-        __closeRot();
-        emit rotErrorPresent(tr("Set Possition Error"),
-                             hamlibErrorString(status));
-    }
-
-    // wait a moment because Rigs are slow and they are not possible to set and get
-    // mode so quickly (get mode is called in the main thread's update() function
-#ifdef Q_OS_WIN
-    Sleep(100);
-#else
-    usleep(100000);
-#endif
-
-    rotLock.unlock();
+    delete rotDriver;
+    rotDriver = nullptr;
+    connected = false;
+    emit rotDisconnected();
 }
 
-void Rotator::stopTimerImplt()
-{
-    FCT_IDENTIFICATION;
-
-    if ( timer )
-    {
-        timer->stop();
-        timer->deleteLater();
-        timer = nullptr;
-    }
-}
 
 void Rotator::setPosition(double azimuth, double elevation)
 {
@@ -355,3 +337,20 @@ void Rotator::setPosition(double azimuth, double elevation)
     QMetaObject::invokeMethod(this, "setPositionImpl", Qt::QueuedConnection,
                               Q_ARG(double,azimuth), Q_ARG(double,elevation));
 }
+
+
+void Rotator::setPositionImpl(double azimuth, double elevation)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters)<<azimuth<< " " << elevation;
+
+    MUTEXLOCKER;
+
+    if ( ! rotDriver )
+        return;
+
+    rotDriver->setPosition(azimuth, elevation);
+}
+
+#undef MUTEXLOCKER

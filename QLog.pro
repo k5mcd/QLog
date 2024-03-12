@@ -110,9 +110,12 @@ SOURCES += \
         rig/Rig.cpp \
         rig/RigCaps.cpp \
         rig/drivers/GenericRigDrv.cpp \
-        rig/drivers/HamlibDrv.cpp \
-        rig/drivers/TCIDrv.cpp \
+        rig/drivers/HamlibRigDrv.cpp \
+        rig/drivers/TCIRigDrv.cpp \
+        rotator/RotCaps.cpp \
         rotator/Rotator.cpp \
+        rotator/drivers/GenericRotDrv.cpp \
+        rotator/drivers/HamlibRotDrv.cpp \
         ui/AlertRuleDetail.cpp \
         ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
@@ -236,10 +239,13 @@ HEADERS += \
         rig/Rig.h \
         rig/RigCaps.h \
         rig/drivers/GenericRigDrv.h \
-        rig/drivers/HamlibDrv.h \
-        rig/drivers/TCIDrv.h \
+        rig/drivers/HamlibRigDrv.h \
+        rig/drivers/TCIRigDrv.h \
         rig/macros.h \
+        rotator/RotCaps.h \
         rotator/Rotator.h \
+        rotator/drivers/GenericRotDrv.h \
+        rotator/drivers/HamlibRotDrv.h \
         ui/AlertRuleDetail.h \
         ui/AlertSettingDialog.h \
         ui/AlertWidget.h \
@@ -461,14 +467,15 @@ win32: {
         $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/
 
    SOURCES += \
-        rig/drivers/OmnirigDrv.cpp \
-        rig/drivers/Omnirigv2Drv.cpp \
+        rig/drivers/OmnirigRigDrv.cpp \
+        rig/drivers/Omnirigv2RigDrv.cpp \
         OmniRig2.cpp \
         $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/sqlite3.c
 
+
    HEADERS += \
-        rig/drivers/OmnirigDrv.h \
-        rig/drivers/Omnirigv2Drv.h \
+        rig/drivers/OmnirigRigDrv.h \
+        rig/drivers/Omnirigv2RigDrv.h \
         OmniRig2.h \
         $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/sqlite3.h
 
