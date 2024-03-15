@@ -16,7 +16,8 @@ public:
     enum DriverID
     {
         UNDEF_DRIVER = 0,
-        HAMLIB_DRIVER = 1
+        HAMLIB_DRIVER = 1,
+        PSTROTATOR_DRIVER = 2
     };
 
     static Rotator* instance();

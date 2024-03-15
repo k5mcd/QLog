@@ -1,6 +1,7 @@
 #include "rotator/Rotator.h"
 #include "core/debug.h"
 #include "rotator/drivers/HamlibRotDrv.h"
+#include "rotator/drivers/PSTRotDrv.h"
 
 MODULE_IDENTIFICATION("qlog.rotator.rotator");
 
@@ -25,6 +26,10 @@ Rotator::Rotator(QObject *parent) :
                                           "Hamlib",
                                           &HamlibRotDrv::getModelList,
                                           &HamlibRotDrv::getCaps);
+    drvMapping[PSTROTATOR_DRIVER] = DrvParams(PSTROTATOR_DRIVER,
+                                          "PSTRotator",
+                                          &PSTRotDrv::getModelList,
+                                          &PSTRotDrv::getCaps);
 }
 
 Rotator::~Rotator()
@@ -289,6 +294,9 @@ GenericRotDrv *Rotator::getDriver(const RotProfile &profile)
     {
     case Rotator::HAMLIB_DRIVER:
         return new HamlibRotDrv(profile, this);
+        break;
+    case Rotator::PSTROTATOR_DRIVER:
+        return new PSTRotDrv(profile, this);
         break;
     default:
         qWarning() << "Unsupported Rotator Driver " << profile.driver;

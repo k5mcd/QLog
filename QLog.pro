@@ -116,6 +116,7 @@ SOURCES += \
         rotator/Rotator.cpp \
         rotator/drivers/GenericRotDrv.cpp \
         rotator/drivers/HamlibRotDrv.cpp \
+        rotator/drivers/PSTRotDrv.cpp \
         ui/AlertRuleDetail.cpp \
         ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
@@ -246,6 +247,7 @@ HEADERS += \
         rotator/Rotator.h \
         rotator/drivers/GenericRotDrv.h \
         rotator/drivers/HamlibRotDrv.h \
+        rotator/drivers/PSTRotDrv.h \
         ui/AlertRuleDetail.h \
         ui/AlertSettingDialog.h \
         ui/AlertWidget.h \

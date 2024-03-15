@@ -363,3 +363,4 @@ void HamlibRotDrv::commandSleep()
 }
 
 #undef MUTEXLOCKER
+#undef POOL_INTERVAL

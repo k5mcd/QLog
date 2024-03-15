@@ -796,7 +796,6 @@ void SettingsDialog::clearRotProfileForm()
     ui->rotStopBitsSelect->setCurrentIndex(0);
     ui->rotFlowControlSelect->setCurrentIndex(0);
     ui->rotParitySelect->setCurrentIndex(0);
-    ui->rotPortTypeCombo->setCurrentIndex(RIGPORT_SERIAL_INDEX);
 
     ui->rotAddProfileButton->setText(tr("Add"));
 }
