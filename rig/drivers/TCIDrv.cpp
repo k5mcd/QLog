@@ -283,7 +283,7 @@ void TCIDrv::sendDXSpot(const DxSpot &spot)
         mode2RawMode(mode, submode),
         QString::number(internalFreq),
         QString::number(spotColor.rgba()),
-        ""
+        spot.callsign
     };
 
     sendCmd("spot", 0, args);
