@@ -1,5 +1,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
+#include <QMenu>
 #include "core/Rotator.h"
 #include "RotatorWidget.h"
 #include "ui_RotatorWidget.h"
@@ -40,6 +41,13 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
     connect(Rotator::instance(), &Rotator::rotConnected, this, &RotatorWidget::rotConnected);
     connect(Rotator::instance(), &Rotator::rotDisconnected, this, &RotatorWidget::rotDisconnected);
 
+    QMenu *qsoBearingMenu = new QMenu(this);
+    qsoBearingMenu->addAction(ui->actionQSO_SP);
+    qsoBearingMenu->addAction(ui->actionQSO_LP);
+
+    ui->qsoBearingButton->setMenu(qsoBearingMenu);
+    ui->qsoBearingButton->setDefaultAction(ui->actionQSO_SP);
+
     rotDisconnected();
 }
 
@@ -48,6 +56,49 @@ void RotatorWidget::gotoPosition()
     FCT_IDENTIFICATION;
 
     setBearing(ui->gotoDoubleSpinBox->value());
+}
+
+double RotatorWidget::getQSOBearing()
+{
+    FCT_IDENTIFICATION;
+
+    double qsoBearing = (contact) ? contact->getQSOBearing()
+                                  : qQNaN();
+
+    qCDebug(runtime) << "QSO Bearing:" << qsoBearing;
+
+    return qsoBearing;
+}
+
+void RotatorWidget::qsoBearingLP()
+{
+    FCT_IDENTIFICATION;
+
+    ui->qsoBearingButton->setDefaultAction(ui->actionQSO_LP);
+
+    double qsoBearing = getQSOBearing();
+
+    if ( qIsNaN(qsoBearing) )
+        return;
+
+    qsoBearing -= 180;
+
+    if ( qsoBearing < 0 )
+        qsoBearing += 360;
+
+    setBearing(qsoBearing);
+}
+
+void RotatorWidget::qsoBearingSP()
+{
+    FCT_IDENTIFICATION;
+
+    ui->qsoBearingButton->setDefaultAction(ui->actionQSO_SP);
+
+    double qsoBearing = getQSOBearing();
+
+    if ( !qIsNaN(qsoBearing) )
+        setBearing(qsoBearing);
 }
 
 void RotatorWidget::setBearing(double in_azimuth)
@@ -90,21 +141,6 @@ void RotatorWidget::resizeEvent(QResizeEvent* event) {
 
     ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
     QWidget::resizeEvent(event);
-}
-
-void RotatorWidget::qsoBearingClicked()
-{
-    FCT_IDENTIFICATION;
-
-    if ( contact )
-    {
-        double newBearing = contact->getQSOBearing();
-        qCDebug(runtime) << "QSO Bearing:" << newBearing;
-        if ( !qIsNaN(newBearing) )
-        {
-            setBearing(newBearing);
-        }
-    }
 }
 
 void RotatorWidget::userButton1()
