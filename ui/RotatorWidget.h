@@ -39,7 +39,7 @@ public slots:
 protected:
     void showEvent(QShowEvent* event);
     void resizeEvent(QResizeEvent* event);
-
+    virtual void mousePressEvent(QMouseEvent *event);
 
 private slots:
     void userButton1();

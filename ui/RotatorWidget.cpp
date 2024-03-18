@@ -1,6 +1,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
 #include <QMenu>
+#include <QMouseEvent>
 #include "core/Rotator.h"
 #include "RotatorWidget.h"
 #include "ui_RotatorWidget.h"
@@ -12,6 +13,7 @@
 MODULE_IDENTIFICATION("qlog.ui.rotatorwidget");
 
 #define MAP_RESOLUTION 1000
+#define GLOBE_RADIUS 100.0
 
 RotatorWidget::RotatorWidget(QWidget *parent) :
     QWidget(parent),
@@ -107,6 +109,9 @@ void RotatorWidget::setBearing(double in_azimuth)
 
     qCDebug(function_parameters) << in_azimuth;
 
+    if ( !ui->gotoDoubleSpinBox->isEnabled() )
+        return;
+
     azimuth = in_azimuth;
     Rotator::instance()->setPosition(azimuth, 0);
     destinationAzimuthNeedle->setRotation(in_azimuth);
@@ -141,6 +146,31 @@ void RotatorWidget::resizeEvent(QResizeEvent* event) {
 
     ui->compassView->fitInView(compassScene->sceneRect(), Qt::KeepAspectRatio);
     QWidget::resizeEvent(event);
+}
+
+void RotatorWidget::mousePressEvent(QMouseEvent *event)
+{
+    FCT_IDENTIFICATION;
+
+    if( event->button() == Qt::LeftButton )
+    {
+        QPointF clickPos = ui->compassView->mapToScene(ui->compassView->mapFromGlobal(event->globalPos()));
+
+        qreal dx = clickPos.x();
+        qreal dy = -1 * clickPos.y();
+
+        if ( qSqrt(qPow(dx, 2) + qPow(dy, 2)) <= GLOBE_RADIUS ) // distance between click and center of the globe
+        {
+            double angle = qRadiansToDegrees(qAtan2(dx, dy));
+
+            if ( angle < 0 )
+                angle += 360;
+
+            setBearing(std::round(angle));
+        }
+    }
+
+    QWidget::mousePressEvent(event);
 }
 
 void RotatorWidget::userButton1()
@@ -332,10 +362,10 @@ void RotatorWidget::redrawMap()
     QGraphicsPixmapItem *pixMapItem = compassScene->addPixmap(QPixmap::fromImage(map));
     pixMapItem->moveBy(-MAP_RESOLUTION/2, -MAP_RESOLUTION/2);
     pixMapItem->setTransformOriginPoint(MAP_RESOLUTION/2, MAP_RESOLUTION/2);
-    pixMapItem->setScale(200.0/MAP_RESOLUTION);
+    pixMapItem->setScale(GLOBE_RADIUS * 2/MAP_RESOLUTION);
 
     // circle around the globe - globe "antialiasing"
-    compassScene->addEllipse(-100, -100, 200, 200, QPen(QColor(100, 100, 100), 2),
+    compassScene->addEllipse(-100, -100, GLOBE_RADIUS * 2, GLOBE_RADIUS * 2, QPen(QColor(100, 100, 100), 2),
                                              QBrush(QColor(0, 0, 0), Qt::NoBrush));
 
     // point in the middle of globe
