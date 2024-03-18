@@ -281,17 +281,17 @@ void RotatorWidget::redrawMap()
     ui->compassView->setScene(compassScene);
     ui->compassView->setStyleSheet("background-color: transparent;");
 
-    compassScene->setSceneRect(-100, -100, 200, 200);
-
     QImage source(":/res/map/nasabluemarble.jpg");
-
     QImage map(MAP_RESOLUTION, MAP_RESOLUTION, QImage::Format_ARGB32);
-
     Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
     double lat = myGrid.getLatitude();
     double lon = myGrid.getLongitude();
 
+    if ( qIsNaN(lat) || qIsNaN(lon) )
+        return;
+
+    // transform image to azimuthal map
     double lambda0 = (lon / 180.0) * M_PI;
     double phi1 = - (lat / 90.0) * (0.5 * M_PI);
 
@@ -328,17 +328,21 @@ void RotatorWidget::redrawMap()
         }
     }
 
+    // draw azimuthal map
     QGraphicsPixmapItem *pixMapItem = compassScene->addPixmap(QPixmap::fromImage(map));
     pixMapItem->moveBy(-MAP_RESOLUTION/2, -MAP_RESOLUTION/2);
     pixMapItem->setTransformOriginPoint(MAP_RESOLUTION/2, MAP_RESOLUTION/2);
     pixMapItem->setScale(200.0/MAP_RESOLUTION);
 
+    // circle around the globe - globe "antialiasing"
     compassScene->addEllipse(-100, -100, 200, 200, QPen(QColor(100, 100, 100), 2),
                                              QBrush(QColor(0, 0, 0), Qt::NoBrush));
 
+    // point in the middle of globe
     compassScene->addEllipse(-1, -1, 2, 2, QPen(Qt::NoPen),
                                              QBrush(QColor(0, 0, 0), Qt::SolidPattern));
 
+    // draw needles
     QPainterPath path;
     path.lineTo(-1, 0);
     path.lineTo(0, -70);
@@ -348,7 +352,7 @@ void RotatorWidget::redrawMap()
                     QBrush(QColor(255, 191, 0), Qt::SolidPattern));
     compassNeedle->setRotation(azimuth);
     destinationAzimuthNeedle = compassScene->addPath(path, QPen(Qt::NoPen),
-                    QBrush(QColor(255,0,255), Qt::SolidPattern));
+                                                     QBrush(QColor(255,0,255), Qt::SolidPattern));
     destinationAzimuthNeedle->setRotation(azimuth);
 }
 
