@@ -99,16 +99,18 @@ void MapWidget::drawLine(const QPoint &pointA, const QPoint &pointB)
     qCDebug(function_parameters) << pointA << pointB;
 
     QPainterPath path;
-    path.moveTo(pointA);
-
     double latA, lonA, latB, lonB;
+    double f = 0;
+    double steps = 200.0;
+
+    path.moveTo(pointA);
     pointToRad(pointA, latA, lonA);
     pointToRad(pointB, latB, lonB);
+    double prevLon = lonA;
 
     double d = 2.0*asin(sqrt(pow(sin(latA-latB)/2, 2) + cos(latA)* cos(latB) * pow(sin((lonA-lonB)/2), 2)));
 
-    double f = 0;
-    for ( int i = 0; i < 1000; i++ )
+    for ( int i = 0; i < steps; i++ )
     {
         double A = sin((1.0-f)*d)/sin(d);
         double B = sin(f*d)/sin(d);
@@ -121,11 +123,24 @@ void MapWidget::drawLine(const QPoint &pointA, const QPoint &pointB)
         if ( qIsNaN(lat) || qIsNaN(lon))
             continue;
 
-        QPoint p = radToPoint(lat, lon);
+        if ( qAbs(prevLon - lon) > M_PI )
+        {
+            double endpoint = (prevLon > 0 ) ? M_PI : -M_PI;
+            path.lineTo(radToPoint(lat,endpoint));
+            path.closeSubpath();
+
+            items << scene->addPath(QPainterPath(path), QPen(QColor(255, 0, 0)),
+                                    QBrush(QColor(255, 0, 0), Qt::SolidPattern));
+
+            path.clear();
+            path.moveTo(radToPoint(lat, -1 * endpoint));
+        }
+        const QPoint &p = radToPoint(lat, lon);
         path.lineTo(p);
         path.moveTo(p);
+        prevLon = lon;
 
-        f += 0.001;
+        f += 1.0 / steps;
     }
 
     path.lineTo(pointB);
