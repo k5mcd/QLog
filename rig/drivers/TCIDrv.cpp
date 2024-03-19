@@ -275,9 +275,7 @@ void TCIDrv::sendDXSpot(const DxSpot &spot)
     if ( !rigProfile.dxSpot2Rig )
         return;
 
-    QPalette palette;
-    QColor spotColor = Data::statusToColor(spot.status, palette.color(QPalette::Text));
-    spotColor.setAlpha(0);
+    const QColor &spotColor = Data::statusToColor(spot.status, QColor(187,194,195));
 
     unsigned long long internalFreq = static_cast<unsigned long long>(MHz(spot.freq));
 
@@ -289,7 +287,7 @@ void TCIDrv::sendDXSpot(const DxSpot &spot)
         mode2RawMode(mode, submode),
         QString::number(internalFreq),
         QString::number(spotColor.rgba()),
-        ""
+        spot.callsign
     };
 
     sendCmd("spot", 0, args);
