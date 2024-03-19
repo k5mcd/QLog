@@ -78,7 +78,7 @@
     <addaction name="actionAwards"/>
     <addaction name="actionStatistics"/>
    </widget>
-   <widget class="QMenu" name="menuRig">
+   <widget class="QMenu" name="menuEquipment">
     <property name="title">
      <string>&amp;Equipment</string>
     </property>
@@ -140,7 +140,7 @@
    <addaction name="menuFile"/>
    <addaction name="menuLogbook"/>
    <addaction name="menuServices"/>
-   <addaction name="menuRig"/>
+   <addaction name="menuEquipment"/>
    <addaction name="menuWindow"/>
    <addaction name="menuLayout"/>
    <addaction name="menuHelp"/>
