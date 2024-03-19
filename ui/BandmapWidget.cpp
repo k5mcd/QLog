@@ -915,25 +915,17 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *evt)
 {
     FCT_IDENTIFICATION;
 
-    if ( (evt->buttons() & (Qt::MiddleButton | Qt::RightButton) ) )
-    {
-        evt->accept();
-    }
-    else
+    if ( evt->button() & Qt::LeftButton )
     {
         QGraphicsItem *item = itemAt(evt->scenePos(), QTransform());
         QGraphicsTextItem *focusedSpot = dynamic_cast<QGraphicsTextItem*>(item);
 
-        if ( focusedSpot )
-        {
+        if ( focusedSpot && focusedSpot->property("freq").isValid() )
             emit spotClicked(focusedSpot->toPlainText().split(" ").first(),
                              focusedSpot->property("freq").toDouble(),
                              static_cast<BandPlan::BandPlanMode>(focusedSpot->property("bandmode").toInt()));
-
-        }
-        evt->accept();
-        //QGraphicsScene::mousePressEvent(evt);
     }
+    evt->accept();
 }
 
 void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
