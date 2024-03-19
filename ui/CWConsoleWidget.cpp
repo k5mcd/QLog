@@ -5,7 +5,7 @@
 #include "ui_CWConsoleWidget.h"
 #include "core/debug.h"
 #include "data/CWKeyProfile.h"
-#include "core/CWKeyer.h"
+#include "cwkey/CWKeyer.h"
 #include "data/CWShortcutProfile.h"
 
 MODULE_IDENTIFICATION("qlog.ui.cwconsolewidget");

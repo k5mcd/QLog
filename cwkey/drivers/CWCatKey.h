@@ -1,5 +1,5 @@
-#ifndef QLOG_CORE_CWCATKEY_H
-#define QLOG_CORE_CWCATKEY_H
+#ifndef QLOG_CWKEY_DRIVERS_CWCATKEY_H
+#define QLOG_CWKEY_DRIVERS_CWCATKEY_H
 
 #include <QObject>
 #include <QMutex>
@@ -36,4 +36,4 @@ private slots:
     void rigKeySpeedChanged(VFOID, unsigned int);
 };
 
-#endif // QLOG_CORE_CWCATKEY_H
+#endif // QLOG_CWKEY_DRIVERS_CWCATKEY_H

@@ -1,7 +1,7 @@
 #include "CWDaemonKey.h"
 #include "core/debug.h"
 
-MODULE_IDENTIFICATION("qlog.data.cwdaemonkey");
+MODULE_IDENTIFICATION("qlog.cwkey.driver.cwdaemonkey");
 
 CWDaemonKey::CWDaemonKey(const QString &hostname,
                          const quint16 port,

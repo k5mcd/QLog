@@ -2,7 +2,7 @@
 #include "CWKey.h"
 #include "core/debug.h"
 
-MODULE_IDENTIFICATION("qlog.data.cwkey");
+MODULE_IDENTIFICATION("qlog.cwkey.driver.cwkey");
 
 CWKey::CWKey(CWKeyModeID mode, qint32 defaultWPM, QObject *parent) :
     QObject(parent),

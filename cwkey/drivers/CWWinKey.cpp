@@ -6,7 +6,7 @@
 
 /* Based on WinKey v2 Spec: https://k1el.tripod.com/WinkeyUSBman.pdf */
 
-MODULE_IDENTIFICATION("qlog.data.cwwinkey");
+MODULE_IDENTIFICATION("qlog.cwkey.driver.cwwinkey");
 
 CWWinKey2::CWWinKey2(const QString &portName,
                      const qint32 baudrate,

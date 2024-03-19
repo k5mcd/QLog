@@ -3,7 +3,7 @@
 #include "CWFldigiKey.h"
 #include "core/debug.h"
 
-MODULE_IDENTIFICATION("qlog.data.cwfldigikey");
+MODULE_IDENTIFICATION("qlog.cwkey.driver.cwfldigikey");
 
 //reponse timeout in ms
 #define RESPONSE_TIMEOUT 10000

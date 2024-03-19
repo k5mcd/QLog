@@ -1,15 +1,15 @@
 #include "CWKeyer.h"
-#include "CWKey.h"
-#include "CWDummyKey.h"
-#include "CWWinKey.h"
-#include "CWCatKey.h"
-#include "CWDaemonKey.h"
-#include "CWFldigiKey.h"
+#include "cwkey/drivers/CWKey.h"
+#include "cwkey/drivers/CWDummyKey.h"
+#include "cwkey/drivers/CWWinKey.h"
+#include "cwkey/drivers/CWCatKey.h"
+#include "cwkey/drivers/CWDaemonKey.h"
+#include "cwkey/drivers/CWFldigiKey.h"
 #include "core/debug.h"
 #include "data/CWKeyProfile.h"
 #include "rig/Rig.h"
 
-MODULE_IDENTIFICATION("qlog.core.cwkeyer");
+MODULE_IDENTIFICATION("qlog.cwkey.cwkeyer");
 
 #define TIME_PERIOD 1000
 

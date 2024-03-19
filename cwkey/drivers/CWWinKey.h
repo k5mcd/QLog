@@ -1,5 +1,5 @@
-#ifndef QLOG_CORE_CWWINKEY_H
-#define QLOG_CORE_CWWINKEY_H
+#ifndef QLOG_CWKEY_DRIVERS_CWWINKEY_H
+#define QLOG_CWKEY_DRIVERS_CWWINKEY_H
 
 #include <QMutex>
 #include "CWKey.h"
@@ -49,4 +49,4 @@ private slots:
     void handleReadyRead();
 };
 
-#endif // QLOG_CORE_CWWINKEY_H
+#endif // QLOG_CWKEY_DRIVERS_CWWINKEY_H

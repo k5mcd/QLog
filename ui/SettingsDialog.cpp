@@ -33,7 +33,7 @@
 #include "rotator/RotCaps.h"
 #include "core/LogParam.h"
 #include "core/Callsign.h"
-#include "core/CWKeyer.h"
+#include "cwkey/CWKeyer.h"
 #include "core/MembershipQE.h"
 #include "models/SqlListModel.h"
 #include "core/GenericCallbook.h"

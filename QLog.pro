@@ -48,13 +48,6 @@ CONFIG *= link_pkgconfig
 SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
-        core/CWCatKey.cpp \
-        core/CWDaemonKey.cpp \
-        core/CWDummyKey.cpp \
-        core/CWFldigiKey.cpp \
-        core/CWKey.cpp \
-        core/CWKeyer.cpp \
-        core/CWWinKey.cpp \
         core/CallbookManager.cpp \
         core/Callsign.cpp \
         core/ClubLog.cpp \
@@ -83,6 +76,13 @@ SOURCES += \
         core/debug.cpp \
         core/main.cpp \
         core/zonedetect.c \
+        cwkey/CWKeyer.cpp \
+        cwkey/drivers/CWCatKey.cpp \
+        cwkey/drivers/CWDaemonKey.cpp \
+        cwkey/drivers/CWDummyKey.cpp \
+        cwkey/drivers/CWFldigiKey.cpp \
+        cwkey/drivers/CWKey.cpp \
+        cwkey/drivers/CWWinKey.cpp \
         data/AntProfile.cpp \
         data/BandPlan.cpp \
         data/CWKeyProfile.cpp \
@@ -168,13 +168,6 @@ SOURCES += \
 HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
-        core/CWCatKey.h \
-        core/CWDaemonKey.h \
-        core/CWDummyKey.h \
-        core/CWFldigiKey.h \
-        core/CWKey.h \
-        core/CWKeyer.h \
-        core/CWWinKey.h \
         core/CallbookManager.h \
         core/Callsign.h \
         core/ClubLog.h \
@@ -202,6 +195,13 @@ HEADERS += \
         core/Wsjtx.h \
         core/debug.h \
         core/zonedetect.h \
+        cwkey/CWKeyer.h \
+        cwkey/drivers/CWCatKey.h \
+        cwkey/drivers/CWDaemonKey.h \
+        cwkey/drivers/CWDummyKey.h \
+        cwkey/drivers/CWFldigiKey.h \
+        cwkey/drivers/CWKey.h \
+        cwkey/drivers/CWWinKey.h \
         data/AntProfile.h \
         data/Band.h \
         data/BandPlan.h \

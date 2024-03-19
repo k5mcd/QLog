@@ -6,7 +6,7 @@
 #include <QDataStream>
 
 #include "data/ProfileManager.h"
-#include "core/CWKey.h"
+#include "cwkey/drivers/CWKey.h"
 
 #define DEFAULT_CWKEY_MODEL 0
 

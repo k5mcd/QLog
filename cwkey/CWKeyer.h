@@ -1,9 +1,9 @@
-#ifndef QLOG_CORE_CWKEYER_H
-#define QLOG_CORE_CWKEYER_H
+#ifndef QLOG_CWKEY_CWKEYER_H
+#define QLOG_CWKEY_CWKEYER_H
 
 #include <QObject>
 
-#include "core/CWKey.h"
+#include "cwkey/drivers/CWKey.h"
 #include "data/CWKeyProfile.h"
 
 class CWKeyer : public QObject
@@ -59,4 +59,4 @@ private:
     QTimer* timer;
 };
 
-#endif // QLOG_CORE_CWKEYER_H
+#endif // QLOG_CWKEY_CWKEYER_H

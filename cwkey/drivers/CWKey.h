@@ -1,5 +1,5 @@
-#ifndef QLOG_CORE_CWKEY_H
-#define QLOG_CORE_CWKEY_H
+#ifndef QLOG_CWKEY_DRIVERS_CWKEY_H
+#define QLOG_CWKEY_DRIVERS_CWKEY_H
 
 #include <QObject>
 #include <QtSerialPort>
@@ -132,4 +132,4 @@ protected:
     bool canSetKeySpeed;
 };
 
-#endif // QLOG_CORE_CWKEY_H
+#endif // QLOG_CWKEY_DRIVERS_CWKEY_H

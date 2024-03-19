@@ -2,7 +2,7 @@
 #include "core/debug.h"
 #include "rig/Rig.h"
 
-MODULE_IDENTIFICATION("qlog.data.cwcatkey");
+MODULE_IDENTIFICATION("qlog.cwkey.driver.cwcatkey");
 
 CWCatKey::CWCatKey(const CWKey::CWKeyModeID mode,
                    const qint32 defaultSpeed,

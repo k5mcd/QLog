@@ -19,7 +19,7 @@
 #include "ui/MainWindow.h"
 #include "rig/Rig.h"
 #include "rotator/Rotator.h"
-#include "CWKeyer.h"
+#include "cwkey/CWKeyer.h"
 #include "AppGuard.h"
 #include "logformat/AdxFormat.h"
 #include "ui/SettingsDialog.h"

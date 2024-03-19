@@ -11,7 +11,7 @@
 #include "core/Fldigi.h"
 #include "rig/Rig.h"
 #include "rotator/Rotator.h"
-#include "core/CWKeyer.h"
+#include "cwkey/CWKeyer.h"
 #include "core/Wsjtx.h"
 #include "data/Data.h"
 #include "core/debug.h"

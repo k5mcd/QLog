@@ -2,7 +2,7 @@
 #include "core/debug.h"
 #include "rig/Rig.h"
 
-MODULE_IDENTIFICATION("qlog.data.cwdummykey");
+MODULE_IDENTIFICATION("qlog.cwkey.driver.cwdummykey");
 
 CWDummyKey::CWDummyKey(QObject *parent)
     : CWKey(CWKey::IAMBIC_B, 25, parent),
