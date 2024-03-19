@@ -1,5 +1,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
+#include <QMenu>
+#include <QMouseEvent>
 #include "core/Rotator.h"
 #include "RotatorWidget.h"
 #include "ui_RotatorWidget.h"
@@ -11,6 +13,7 @@
 MODULE_IDENTIFICATION("qlog.ui.rotatorwidget");
 
 #define MAP_RESOLUTION 1000
+#define GLOBE_RADIUS 100.0
 
 RotatorWidget::RotatorWidget(QWidget *parent) :
     QWidget(parent),
@@ -40,6 +43,13 @@ RotatorWidget::RotatorWidget(QWidget *parent) :
     connect(Rotator::instance(), &Rotator::rotConnected, this, &RotatorWidget::rotConnected);
     connect(Rotator::instance(), &Rotator::rotDisconnected, this, &RotatorWidget::rotDisconnected);
 
+    QMenu *qsoBearingMenu = new QMenu(this);
+    qsoBearingMenu->addAction(ui->actionQSO_SP);
+    qsoBearingMenu->addAction(ui->actionQSO_LP);
+
+    ui->qsoBearingButton->setMenu(qsoBearingMenu);
+    ui->qsoBearingButton->setDefaultAction(ui->actionQSO_SP);
+
     rotDisconnected();
 }
 
@@ -50,11 +60,57 @@ void RotatorWidget::gotoPosition()
     setBearing(ui->gotoDoubleSpinBox->value());
 }
 
+double RotatorWidget::getQSOBearing()
+{
+    FCT_IDENTIFICATION;
+
+    double qsoBearing = (contact) ? contact->getQSOBearing()
+                                  : qQNaN();
+
+    qCDebug(runtime) << "QSO Bearing:" << qsoBearing;
+
+    return qsoBearing;
+}
+
+void RotatorWidget::qsoBearingLP()
+{
+    FCT_IDENTIFICATION;
+
+    ui->qsoBearingButton->setDefaultAction(ui->actionQSO_LP);
+
+    double qsoBearing = getQSOBearing();
+
+    if ( qIsNaN(qsoBearing) )
+        return;
+
+    qsoBearing -= 180;
+
+    if ( qsoBearing < 0 )
+        qsoBearing += 360;
+
+    setBearing(qsoBearing);
+}
+
+void RotatorWidget::qsoBearingSP()
+{
+    FCT_IDENTIFICATION;
+
+    ui->qsoBearingButton->setDefaultAction(ui->actionQSO_SP);
+
+    double qsoBearing = getQSOBearing();
+
+    if ( !qIsNaN(qsoBearing) )
+        setBearing(qsoBearing);
+}
+
 void RotatorWidget::setBearing(double in_azimuth)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters) << in_azimuth;
+
+    if ( !ui->gotoDoubleSpinBox->isEnabled() )
+        return;
 
     azimuth = in_azimuth;
     Rotator::instance()->setPosition(azimuth, 0);
@@ -92,19 +148,29 @@ void RotatorWidget::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
 }
 
-void RotatorWidget::qsoBearingClicked()
+void RotatorWidget::mousePressEvent(QMouseEvent *event)
 {
     FCT_IDENTIFICATION;
 
-    if ( contact )
+    if( event->button() == Qt::LeftButton )
     {
-        double newBearing = contact->getQSOBearing();
-        qCDebug(runtime) << "QSO Bearing:" << newBearing;
-        if ( !qIsNaN(newBearing) )
+        QPointF clickPos = ui->compassView->mapToScene(ui->compassView->mapFromGlobal(event->globalPos()));
+
+        qreal dx = clickPos.x();
+        qreal dy = -1 * clickPos.y();
+
+        if ( qSqrt(qPow(dx, 2) + qPow(dy, 2)) <= GLOBE_RADIUS ) // distance between click and center of the globe
         {
-            setBearing(newBearing);
+            double angle = qRadiansToDegrees(qAtan2(dx, dy));
+
+            if ( angle < 0 )
+                angle += 360;
+
+            setBearing(std::round(angle));
         }
     }
+
+    QWidget::mousePressEvent(event);
 }
 
 void RotatorWidget::userButton1()
@@ -245,17 +311,17 @@ void RotatorWidget::redrawMap()
     ui->compassView->setScene(compassScene);
     ui->compassView->setStyleSheet("background-color: transparent;");
 
-    compassScene->setSceneRect(-100, -100, 200, 200);
-
     QImage source(":/res/map/nasabluemarble.jpg");
-
     QImage map(MAP_RESOLUTION, MAP_RESOLUTION, QImage::Format_ARGB32);
-
     Gridsquare myGrid(StationProfilesManager::instance()->getCurProfile1().locator);
 
     double lat = myGrid.getLatitude();
     double lon = myGrid.getLongitude();
 
+    if ( qIsNaN(lat) || qIsNaN(lon) )
+        return;
+
+    // transform image to azimuthal map
     double lambda0 = (lon / 180.0) * M_PI;
     double phi1 = - (lat / 90.0) * (0.5 * M_PI);
 
@@ -292,17 +358,21 @@ void RotatorWidget::redrawMap()
         }
     }
 
+    // draw azimuthal map
     QGraphicsPixmapItem *pixMapItem = compassScene->addPixmap(QPixmap::fromImage(map));
     pixMapItem->moveBy(-MAP_RESOLUTION/2, -MAP_RESOLUTION/2);
     pixMapItem->setTransformOriginPoint(MAP_RESOLUTION/2, MAP_RESOLUTION/2);
-    pixMapItem->setScale(200.0/MAP_RESOLUTION);
+    pixMapItem->setScale(GLOBE_RADIUS * 2/MAP_RESOLUTION);
 
-    compassScene->addEllipse(-100, -100, 200, 200, QPen(QColor(100, 100, 100), 2),
+    // circle around the globe - globe "antialiasing"
+    compassScene->addEllipse(-100, -100, GLOBE_RADIUS * 2, GLOBE_RADIUS * 2, QPen(QColor(100, 100, 100), 2),
                                              QBrush(QColor(0, 0, 0), Qt::NoBrush));
 
+    // point in the middle of globe
     compassScene->addEllipse(-1, -1, 2, 2, QPen(Qt::NoPen),
                                              QBrush(QColor(0, 0, 0), Qt::SolidPattern));
 
+    // draw needles
     QPainterPath path;
     path.lineTo(-1, 0);
     path.lineTo(0, -70);
@@ -312,7 +382,7 @@ void RotatorWidget::redrawMap()
                     QBrush(QColor(255, 191, 0), Qt::SolidPattern));
     compassNeedle->setRotation(azimuth);
     destinationAzimuthNeedle = compassScene->addPath(path, QPen(Qt::NoPen),
-                    QBrush(QColor(255,0,255), Qt::SolidPattern));
+                                                     QBrush(QColor(255,0,255), Qt::SolidPattern));
     destinationAzimuthNeedle->setRotation(azimuth);
 }
 

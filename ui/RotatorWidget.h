@@ -39,21 +39,23 @@ public slots:
 protected:
     void showEvent(QShowEvent* event);
     void resizeEvent(QResizeEvent* event);
-
+    virtual void mousePressEvent(QMouseEvent *event);
 
 private slots:
-    void qsoBearingClicked();
     void userButton1();
     void userButton2();
     void userButton3();
     void userButton4();
     void gotoPosition();
+    void qsoBearingLP();
+    void qsoBearingSP();
 
 private:
     void refreshRotProfileCombo();
     void refreshRotUserButtonProfileCombo();
     void refreshRotUserButtons();
     void setUserButtonDesc(QPushButton *button, const QString&, const double);
+    double getQSOBearing();
 
     QGraphicsPathItem* compassNeedle;
     QGraphicsPathItem* destinationAzimuthNeedle;

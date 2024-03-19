@@ -146,24 +146,21 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="qsoBearingButton">
+      <widget class="QToolButton" name="qsoBearingButton">
        <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>16777215</height>
-        </size>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>QSO</string>
+        <string/>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::MenuButtonPopup</enum>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
        </property>
       </widget>
      </item>
@@ -271,6 +268,22 @@
     </layout>
    </item>
   </layout>
+  <action name="actionQSO_LP">
+   <property name="text">
+    <string>QSO LP</string>
+   </property>
+   <property name="toolTip">
+    <string>QSO Long Path</string>
+   </property>
+  </action>
+  <action name="actionQSO_SP">
+   <property name="text">
+    <string>QSO SP</string>
+   </property>
+   <property name="toolTip">
+    <string>QSO Short Path</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -302,22 +315,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>132</x>
-     <y>128</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qsoBearingButton</sender>
-   <signal>clicked()</signal>
-   <receiver>RotatorWidget</receiver>
-   <slot>qsoBearingClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>93</x>
-     <y>244</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
      <y>128</y>
     </hint>
    </hints>
@@ -402,15 +399,48 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionQSO_LP</sender>
+   <signal>triggered()</signal>
+   <receiver>RotatorWidget</receiver>
+   <slot>qsoBearingLP()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>193</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionQSO_SP</sender>
+   <signal>triggered()</signal>
+   <receiver>RotatorWidget</receiver>
+   <slot>qsoBearingSP()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>193</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>gotoPosition()</slot>
   <slot>rotProfileComboChanged(QString)</slot>
-  <slot>qsoBearingClicked()</slot>
   <slot>userButton1()</slot>
   <slot>userButton2()</slot>
   <slot>userButton3()</slot>
   <slot>userButton4()</slot>
   <slot>rotUserButtonProfileComboChanged(QString)</slot>
+  <slot>qsoBearingSP()</slot>
+  <slot>qsoBearingLP()</slot>
  </slots>
 </ui>
