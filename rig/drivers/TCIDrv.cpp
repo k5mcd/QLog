@@ -238,7 +238,11 @@ void TCIDrv::sendState()
     // but it has to be implmented due to "Exit From Manual Mode"
 
     sendCmd("vfo", true, QStringList("0")); //Freq
-    sendCmd("trx", true); // PTT
+    // sendCmd("trx", true); // PTT
+                             // Disabled because if this command is received by Thetis
+                             // then Thetis unexpectedly closes the connection.
+                             // Expert SDR software does not do this.
+
     sendCmd("modulation", true); //Mode
     //sendCmd(); // Current VFO ????
     sendCmd("drive", true); //PWR
