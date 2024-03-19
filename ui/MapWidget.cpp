@@ -132,7 +132,11 @@ void MapWidget::drawLine(const QPoint &pointA, const QPoint &pointB)
             items << scene->addPath(QPainterPath(path), QPen(QColor(255, 0, 0)),
                                     QBrush(QColor(255, 0, 0), Qt::SolidPattern));
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
             path.clear();
+#else /* Due to ubuntu 20.04 where qt5.12 is present */
+            path = QPainterPath();
+#endif
             path.moveTo(radToPoint(lat, -1 * endpoint));
         }
         const QPoint &p = radToPoint(lat, lon);
