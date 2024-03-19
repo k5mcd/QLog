@@ -1,4 +1,9 @@
 TBC - 0.34.0
+- [NEW] - Rotator Widget - QSO button provides Short/Long Path (issue #330)
+- Fixed TCI - Thetis Connection issue (issue #327)
+- Fixed TCI - Spots To Rig are not displayed (issue #328)
+- Fixed Bandmap emits frequency labels (issue #333)
+- Fixed Offline Map - Improved Path drawing
 
 2024/03/09 - 0.33.1
 - Fixed Rotator offline map is incorrectly centered (issue #324)
