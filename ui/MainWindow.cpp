@@ -250,6 +250,9 @@ MainWindow::MainWindow(QWidget* parent) :
                                         SLOT(shortcutALTBackslash()),
                                         nullptr, Qt::ApplicationShortcut);
     shortcut->setAutoRepeat(false);
+
+    restoreKeepConnState();
+    restoreConnectionStates();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -289,8 +292,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
-void MainWindow::rigConnect() {
+void MainWindow::rigConnect()
+{
     FCT_IDENTIFICATION;
+
+    saveConnectionStates();
 
     if ( ui->actionConnectRig->isChecked() )
     {
@@ -485,6 +491,13 @@ void MainWindow::saveProfileLayoutGeometry()
     }
 }
 
+void MainWindow::setEquipmentKeepStates(bool)
+{
+    FCT_IDENTIFICATION;
+
+    saveConnectionStates();
+}
+
 void MainWindow::setDarkMode()
 {
     FCT_IDENTIFICATION;
@@ -584,8 +597,75 @@ void MainWindow::setupLayoutMenu()
     }
 }
 
-void MainWindow::rotConnect() {
+void MainWindow::saveConnectionStates()
+{
     FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue("equipment/keepconstate", ui->actionEquipmentKeepStates->isChecked());
+
+    if ( ui->actionEquipmentKeepStates->isChecked() )
+    {
+        settings.setValue("equipment/rigconnected", ui->actionConnectRig->isChecked());
+        settings.setValue("equipment/rotconnected", ui->actionConnectRotator->isChecked());
+        settings.setValue("equipment/cwkeyconnected", ui->actionConnectCWKeyer->isChecked());
+    }
+}
+
+void MainWindow::restoreConnectionStates()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    if ( ui->actionEquipmentKeepStates->isChecked() )
+    {
+        if ( settings.value("equipment/rigconnected", false).toBool() )
+        {
+            QTimer::singleShot(2000, this, [this]()
+            {
+                if ( !ui->actionConnectRig->isChecked() )
+                    ui->actionConnectRig->setChecked(true);
+            });
+        }
+
+        if ( settings.value("equipment/rotconnected", false).toBool() )
+        {
+            QTimer::singleShot(2500, this, [this]()
+            {
+                if ( !ui->actionConnectRotator->isChecked() )
+                    ui->actionConnectRotator->setChecked(true);
+            });
+        }
+
+        if ( settings.value("equipment/cwkeyconnected", false).toBool() )
+        {
+            QTimer::singleShot(3000, this, [this]()
+            {
+                if ( !ui->actionConnectCWKeyer->isChecked() )
+                    ui->actionConnectCWKeyer->setChecked(true);
+            });
+        }
+    }
+}
+
+void MainWindow::restoreKeepConnState()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    ui->actionEquipmentKeepStates->blockSignals(true);
+    ui->actionEquipmentKeepStates->setChecked(settings.value("equipment/keepconstate", false).toBool());
+    ui->actionEquipmentKeepStates->blockSignals(false);
+}
+
+void MainWindow::rotConnect()
+{
+    FCT_IDENTIFICATION;
+
+    saveConnectionStates();
 
     if ( ui->actionConnectRotator->isChecked() )
     {
@@ -595,12 +675,13 @@ void MainWindow::rotConnect() {
     {
         Rotator::instance()->close();
     }
-
 }
 
 void MainWindow::cwKeyerConnect()
 {
     FCT_IDENTIFICATION;
+
+    saveConnectionStates();;
 
     if ( ui->actionConnectCWKeyer->isChecked() )
     {
@@ -954,8 +1035,11 @@ void MainWindow::alertRuleSetting()
     emit alertRulesChanged();
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
     FCT_IDENTIFICATION;
+
+    saveConnectionStates();
 
     CWKeyer::instance()->close();
     QThread::msleep(500);
