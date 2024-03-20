@@ -75,6 +75,7 @@ private slots:
     void showEditLayout();
     void setLayoutGeometry();
     void saveProfileLayoutGeometry();
+    void setEquipmentKeepStates(bool);
 
 private:
     Ui::MainWindow* ui;
@@ -99,6 +100,9 @@ private:
     void setLightMode();
 
     void setupLayoutMenu();
+    void saveConnectionStates();
+    void restoreConnectionStates();
+    void restoreKeepConnState();
 };
 
 #endif // QLOG_UI_MAINWINDOW_H

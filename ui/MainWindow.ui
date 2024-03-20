@@ -85,6 +85,8 @@
     <addaction name="actionConnectRig"/>
     <addaction name="actionConnectCWKeyer"/>
     <addaction name="actionConnectRotator"/>
+    <addaction name="separator"/>
+    <addaction name="actionEquipmentKeepStates"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -550,6 +552,17 @@
     <string>Save Arrangement</string>
    </property>
   </action>
+  <action name="actionEquipmentKeepStates">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Keep States</string>
+   </property>
+   <property name="toolTip">
+    <string>Restore connection states after application restart</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -774,7 +787,7 @@
   </connection>
   <connection>
    <sender>actionConnectRig</sender>
-   <signal>triggered()</signal>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
    <slot>rigConnect()</slot>
    <hints>
@@ -870,7 +883,7 @@
   </connection>
   <connection>
    <sender>actionConnectRotator</sender>
-   <signal>triggered()</signal>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
    <slot>rotConnect()</slot>
    <hints>
@@ -1110,7 +1123,7 @@
   </connection>
   <connection>
    <sender>actionConnectCWKeyer</sender>
-   <signal>triggered()</signal>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
    <slot>cwKeyerConnect()</slot>
    <hints>
@@ -1268,6 +1281,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionEquipmentKeepStates</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>setEquipmentKeepStates(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>settingsChanged()</signal>
@@ -1298,5 +1327,6 @@
   <slot>showEditLayout()</slot>
   <slot>showHRDLog()</slot>
   <slot>saveProfileLayoutGeometry()</slot>
+  <slot>setEquipmentKeepStates(bool)</slot>
  </slots>
 </ui>
