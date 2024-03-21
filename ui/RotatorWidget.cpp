@@ -365,7 +365,7 @@ void RotatorWidget::redrawMap()
     pixMapItem->setScale(GLOBE_RADIUS * 2/MAP_RESOLUTION);
 
     // circle around the globe - globe "antialiasing"
-    compassScene->addEllipse(-100, -100, GLOBE_RADIUS * 2, GLOBE_RADIUS * 2, QPen(QColor(100, 100, 100), 2),
+    compassScene->addEllipse(-100, -100, GLOBE_RADIUS * 2, GLOBE_RADIUS * 2, QPen(QColor(100, 100, 100)),
                                              QBrush(QColor(0, 0, 0), Qt::NoBrush));
 
     // point in the middle of globe
@@ -374,14 +374,14 @@ void RotatorWidget::redrawMap()
 
     // draw needles
     QPainterPath path;
-    path.lineTo(-1, 0);
-    path.lineTo(0, -70);
-    path.lineTo(1, 0);
+    path.lineTo(-2, 0);
+    path.lineTo(0, -90);
+    path.lineTo(2, 0);
     path.closeSubpath();
     compassNeedle = compassScene->addPath(path, QPen(Qt::NoPen),
                     QBrush(QColor(255, 191, 0), Qt::SolidPattern));
     compassNeedle->setRotation(azimuth);
-    destinationAzimuthNeedle = compassScene->addPath(path, QPen(Qt::NoPen),
+    destinationAzimuthNeedle = compassScene->addPath(QPainterPath(path), QPen(Qt::NoPen),
                                                      QBrush(QColor(255,0,255), Qt::SolidPattern));
     destinationAzimuthNeedle->setRotation(azimuth);
 }
