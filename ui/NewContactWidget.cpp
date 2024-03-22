@@ -3229,6 +3229,9 @@ QWidget *NewContactDynamicWidgets::getRowWidget(int index)
 {
     FCT_IDENTIFICATION;
 
+    if ( !widgetMapping.contains(index) )
+        return nullptr;
+
     widgetMapping.value(index).rowWidget->setHidden(false);
     widgetMapping.value(index).label->setHidden(false);
     widgetMapping.value(index).label->setFocusPolicy(Qt::NoFocus);
@@ -3243,6 +3246,9 @@ QWidget *NewContactDynamicWidgets::getRowWidget(int index)
 QWidget *NewContactDynamicWidgets::getLabel(int index)
 {
     FCT_IDENTIFICATION;
+
+    if ( !widgetMapping.contains(index) )
+        return nullptr;
 
     widgetMapping.value(index).label->setHidden(false);
     widgetMapping.value(index).label->setFocusPolicy(Qt::NoFocus);
