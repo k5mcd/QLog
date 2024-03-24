@@ -1826,7 +1826,7 @@ void SettingsDialog::sotaEditFinished()
     {
         sotaFallback = false;
         ui->stationQTHEdit->setText(sotaInfo.summitName);
-        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+        Gridsquare SOTAGrid(sotaInfo.latitude, sotaInfo.longitude);
         if ( SOTAGrid.isValid() )
         {
             ui->stationLocatorEdit->setText(SOTAGrid.getGrid());

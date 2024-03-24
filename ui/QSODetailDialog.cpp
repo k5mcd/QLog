@@ -917,7 +917,7 @@ bool QSODetailDialog::doValidation()
                                  && ui->qthEdit->text().toUpper() != sotaInfo.summitName.toUpper(),
                                  tr("Based on SOTA Summit, QTH does not match SOTA Summit Name - expecting ")+ "<b> " + sotaInfo.summitName + "</b>");
 
-    Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+    Gridsquare SOTAGrid(sotaInfo.latitude, sotaInfo.longitude);
 
     allValid &= highlightInvalid(ui->gridLabel,
                                  sotaInfo.summitCode.toUpper() == ui->sotaEdit->text().toUpper()
@@ -960,7 +960,7 @@ bool QSODetailDialog::doValidation()
                                  && ui->myQTHEdit->text().toUpper() != mySotaInfo.summitName.toUpper(),
                                  tr("Based on SOTA Summit, my QTH does not match SOTA Summit Name - expecting ")+ "<b> " + mySotaInfo.summitName + "</b>");
 
-    Gridsquare MySOTAGrid(mySotaInfo.gridref2, mySotaInfo.gridref1);
+    Gridsquare MySOTAGrid(mySotaInfo.latitude, mySotaInfo.longitude);
 
     allValid &= highlightInvalid(ui->myGridLabel,
                                  mySotaInfo.summitCode.toUpper() == ui->mySOTAEdit->text().toUpper()
