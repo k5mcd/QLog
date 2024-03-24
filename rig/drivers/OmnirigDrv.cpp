@@ -526,7 +526,7 @@ bool OmnirigDrv::checkFreqChange(int params, bool force)
         return false;
     }
 
-    unsigned int vfo_freq;
+    unsigned int vfo_freq = 0;
     if ( rigProfile.getFreqInfo
          && ( params & OmniRig::PM_FREQA
               || params & OmniRig::PM_FREQB
