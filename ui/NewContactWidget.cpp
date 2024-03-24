@@ -2803,7 +2803,7 @@ void NewContactWidget::sotaChanged(const QString &newSOTA)
         uiDynamic->qthEdit->clear();
     }
 
-    Gridsquare SOTAGrid(lastSOTA.gridref2, lastSOTA.gridref1);
+    Gridsquare SOTAGrid(lastSOTA.latitude, lastSOTA.longitude);
     if ( uiDynamic->gridEdit->text() == SOTAGrid.getGrid() )
     {
         uiDynamic->gridEdit->clear();
@@ -2834,7 +2834,7 @@ void NewContactWidget::sotaEditFinished()
     if ( isSOTAValid(&sotaInfo) )
     {
         uiDynamic->qthEdit->setText(sotaInfo.summitName);
-        Gridsquare SOTAGrid(sotaInfo.gridref2, sotaInfo.gridref1);
+        Gridsquare SOTAGrid(sotaInfo.latitude, sotaInfo.longitude);
         if ( SOTAGrid.isValid() )
         {
             uiDynamic->gridEdit->setText(SOTAGrid.getGrid());
