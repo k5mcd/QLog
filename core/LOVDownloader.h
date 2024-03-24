@@ -75,7 +75,7 @@ private:
                                    "sat_info",
                                    10)},
         {SOTASUMMITS, SourceDefinition(SOTASUMMITS,
-                                   "https://www.sotadata.org.uk/summitslist.csv",
+                                   "https://mapping.sota.org.uk/summitslist.csv",
                                    "summitslist.csv",
                                    "last_sotasummits_update",
                                    "sota_summits",
