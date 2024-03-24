@@ -197,7 +197,7 @@ void HRDLog::sendOnAir(double freq, const QString &mode)
     params.addQueryItem("Callsign", getRegisteredCallsign());
     params.addQueryItem("Code", getUploadCode());
     params.addQueryItem("App", "QLog");
-    params.addQueryItem("Frequency", QString::number(MHz(freq)));
+    params.addQueryItem("Frequency", QString::number(static_cast<unsigned long long>(MHz(freq))));
     params.addQueryItem("Mode", mode);
     params.addQueryItem("Radio", " ");
 
