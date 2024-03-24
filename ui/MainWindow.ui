@@ -86,7 +86,7 @@
     <addaction name="actionConnectCWKeyer"/>
     <addaction name="actionConnectRotator"/>
     <addaction name="separator"/>
-    <addaction name="actionEquipmentKeepStates"/>
+    <addaction name="actionEquipmentKeepOptions"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -552,15 +552,15 @@
     <string>Save Arrangement</string>
    </property>
   </action>
-  <action name="actionEquipmentKeepStates">
+  <action name="actionEquipmentKeepOptions">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Keep States</string>
+    <string>Keep Options</string>
    </property>
    <property name="toolTip">
-    <string>Restore connection states after application restart</string>
+    <string>Restore connection options after application restart</string>
    </property>
   </action>
  </widget>
@@ -1282,10 +1282,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionEquipmentKeepStates</sender>
+   <sender>actionEquipmentKeepOptions</sender>
    <signal>triggered(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>setEquipmentKeepStates(bool)</slot>
+   <slot>setEquipmentKeepOptions(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -1327,6 +1327,6 @@
   <slot>showEditLayout()</slot>
   <slot>showHRDLog()</slot>
   <slot>saveProfileLayoutGeometry()</slot>
-  <slot>setEquipmentKeepStates(bool)</slot>
+  <slot>setEquipmentKeepOptions(bool)</slot>
  </slots>
 </ui>

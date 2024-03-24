@@ -4001,33 +4001,33 @@
 <context>
     <name>HamlibDrv</name>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="111"/>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="146"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="112"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="147"/>
         <source>Initialization Error</source>
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="171"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="172"/>
         <source>Unsupported Rig Driver</source>
         <translation>Nepodporovaný ovladač</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="278"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="279"/>
         <source>Set Frequency Error</source>
         <translation>Chyba v nastavení frekvence</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="355"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="356"/>
         <source>Set PTT Error</source>
         <translation>Chyba v získaní stavu PTT</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="598"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="599"/>
         <source>Get Frequency Error</source>
         <translation>Chyba v získání frekvence</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibDrv.cpp" line="655"/>
+        <location filename="../rig/drivers/HamlibDrv.cpp" line="656"/>
         <source>Get Mode Error</source>
         <translation>Chyba v získání druhu provozu</translation>
     </message>
@@ -5896,262 +5896,272 @@
         <translation>&amp;Zařízení</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="91"/>
+        <location filename="../ui/MainWindow.ui" line="93"/>
         <source>&amp;Help</source>
         <translation>&amp;Nápověda</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="101"/>
+        <location filename="../ui/MainWindow.ui" line="103"/>
         <source>&amp;Window</source>
         <translation>Z&amp;obrazení</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="116"/>
+        <location filename="../ui/MainWindow.ui" line="118"/>
         <source>Se&amp;rvice</source>
         <translation>Sl&amp;užby</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="126"/>
+        <location filename="../ui/MainWindow.ui" line="128"/>
         <source>La&amp;yout</source>
         <translation>&amp;Rozvržení</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="152"/>
+        <location filename="../ui/MainWindow.ui" line="154"/>
         <source>Toolbar</source>
         <translation>Toolbar</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="180"/>
-        <location filename="../ui/MainWindow.ui" line="423"/>
+        <location filename="../ui/MainWindow.ui" line="182"/>
+        <location filename="../ui/MainWindow.ui" line="425"/>
         <source>Clock</source>
         <translation>Hodiny</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="189"/>
-        <location filename="../ui/MainWindow.ui" line="376"/>
+        <location filename="../ui/MainWindow.ui" line="191"/>
+        <location filename="../ui/MainWindow.ui" line="378"/>
         <source>Map</source>
         <translation>Mapa</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="202"/>
-        <location filename="../ui/MainWindow.ui" line="367"/>
+        <location filename="../ui/MainWindow.ui" line="204"/>
+        <location filename="../ui/MainWindow.ui" line="369"/>
         <source>DX Cluster</source>
         <translation>DX Cluster</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="211"/>
+        <location filename="../ui/MainWindow.ui" line="213"/>
         <source>WSJTX</source>
         <translation>WSJTX</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="220"/>
-        <location filename="../ui/MainWindow.ui" line="408"/>
+        <location filename="../ui/MainWindow.ui" line="222"/>
+        <location filename="../ui/MainWindow.ui" line="410"/>
         <source>Rotator</source>
         <translation>Rotátor</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="229"/>
-        <location filename="../ui/MainWindow.ui" line="413"/>
+        <location filename="../ui/MainWindow.ui" line="231"/>
+        <location filename="../ui/MainWindow.ui" line="415"/>
         <source>Bandmap</source>
         <translation>Bandmap</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="238"/>
-        <location filename="../ui/MainWindow.ui" line="418"/>
+        <location filename="../ui/MainWindow.ui" line="240"/>
+        <location filename="../ui/MainWindow.ui" line="420"/>
         <source>Rig</source>
         <translation>Rig</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="247"/>
-        <location filename="../ui/MainWindow.ui" line="442"/>
+        <location filename="../ui/MainWindow.ui" line="249"/>
+        <location filename="../ui/MainWindow.ui" line="444"/>
         <source>Online Map</source>
         <translation>Online Mapa</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="256"/>
-        <location filename="../ui/MainWindow.ui" line="497"/>
+        <location filename="../ui/MainWindow.ui" line="258"/>
+        <location filename="../ui/MainWindow.ui" line="499"/>
         <source>CW Console</source>
         <translation>CW Konzole</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="265"/>
-        <location filename="../ui/MainWindow.ui" line="542"/>
+        <location filename="../ui/MainWindow.ui" line="267"/>
+        <location filename="../ui/MainWindow.ui" line="544"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="278"/>
+        <location filename="../ui/MainWindow.ui" line="280"/>
         <source>&amp;Quit</source>
         <translation>&amp;Ukončit</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="281"/>
+        <location filename="../ui/MainWindow.ui" line="283"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="293"/>
+        <location filename="../ui/MainWindow.ui" line="295"/>
         <source>&amp;Settings</source>
         <translation>&amp;Nastavení</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="317"/>
+        <location filename="../ui/MainWindow.ui" line="319"/>
         <source>&amp;Import</source>
         <translation>&amp;Import</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="326"/>
+        <location filename="../ui/MainWindow.ui" line="328"/>
         <source>&amp;Export</source>
         <translation>&amp;Export</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="527"/>
+        <location filename="../ui/MainWindow.ui" line="529"/>
         <source>Mailing List...</source>
         <translation>Mailing List...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="532"/>
+        <location filename="../ui/MainWindow.ui" line="534"/>
         <source>Edit</source>
         <translation>Upravit</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="537"/>
+        <location filename="../ui/MainWindow.ui" line="539"/>
         <source>HRDLog</source>
         <translation>HRDLog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="547"/>
-        <location filename="../ui/MainWindow.ui" line="550"/>
+        <location filename="../ui/MainWindow.ui" line="549"/>
+        <location filename="../ui/MainWindow.ui" line="552"/>
         <source>Save Arrangement</source>
         <translation>Uložit uspořádání</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="334"/>
+        <location filename="../ui/MainWindow.ui" line="560"/>
+        <source>Keep Options</source>
+        <translation>Zachovat nastavení</translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="563"/>
+        <source>Restore connection options after application restart</source>
+        <translation>Obnovit možnosti připojení po restartu aplikace</translation>
+    </message>
+    <message>
+        <location filename="../ui/MainWindow.ui" line="336"/>
         <source>Connect R&amp;ig</source>
         <translation>Připojit R&amp;ig</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="130"/>
+        <location filename="../ui/MainWindow.ui" line="132"/>
         <source>Profiles</source>
         <translation>Profily</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="343"/>
+        <location filename="../ui/MainWindow.ui" line="345"/>
         <source>&amp;About</source>
         <translation>&amp;O aplikaci</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="385"/>
+        <location filename="../ui/MainWindow.ui" line="387"/>
         <source>S&amp;tatistics</source>
         <translation>S&amp;tatistiky</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="395"/>
+        <location filename="../ui/MainWindow.ui" line="397"/>
         <source>&amp;LotW</source>
         <translation>&amp;LotW</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="403"/>
+        <location filename="../ui/MainWindow.ui" line="405"/>
         <source>Connect R&amp;otator</source>
         <translation>Připojit R&amp;otátor</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="432"/>
+        <location filename="../ui/MainWindow.ui" line="434"/>
         <source>QSO &amp;Filters</source>
         <translation>&amp;Filtry QSO</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="437"/>
+        <location filename="../ui/MainWindow.ui" line="439"/>
         <source>&amp;eQSL</source>
         <translation>&amp;eQSL</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="451"/>
+        <location filename="../ui/MainWindow.ui" line="453"/>
         <source>&amp;Awards</source>
         <translation>&amp;Diplomy</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="456"/>
+        <location filename="../ui/MainWindow.ui" line="458"/>
         <source>&amp;Clublog</source>
         <translation>&amp;Clublog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="461"/>
+        <location filename="../ui/MainWindow.ui" line="463"/>
         <source>&amp;QRZ.com</source>
         <translation>&amp;QRZ.com</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="484"/>
+        <location filename="../ui/MainWindow.ui" line="486"/>
         <source>Beep</source>
         <translation>Pípnutí</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="492"/>
+        <location filename="../ui/MainWindow.ui" line="494"/>
         <source>Connect &amp;CW Keyer</source>
         <translation>Připojit &amp;CW Klíč</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="506"/>
+        <location filename="../ui/MainWindow.ui" line="508"/>
         <source>&amp;Wiki</source>
         <translation>&amp;Wiki</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="511"/>
+        <location filename="../ui/MainWindow.ui" line="513"/>
         <source>Report &amp;Bug...</source>
         <translation>Nahlásít &amp;Bug...</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="519"/>
+        <location filename="../ui/MainWindow.ui" line="521"/>
         <source>&amp;Manual Entry</source>
         <translation>&amp;Ruční zadání</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="522"/>
+        <location filename="../ui/MainWindow.ui" line="524"/>
         <source>Switch New Contact dialog to the manually entry mode&lt;br/&gt;(time, freq, profiles etc. are not taken from their common sources)</source>
         <translation>Přepnout QSO okno do režimu ručního zadávání&lt;br/&gt;(hodnoty času, frekvence, profilů atd. nejsou přebírány z jejich běžných zdrojů)</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="305"/>
+        <location filename="../ui/MainWindow.ui" line="307"/>
         <source>New Contact</source>
         <translation>Nový kontakt</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="308"/>
+        <location filename="../ui/MainWindow.ui" line="310"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="466"/>
+        <location filename="../ui/MainWindow.ui" line="468"/>
         <source>Edit Rules</source>
         <translation>Upravit pravidla</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="471"/>
+        <location filename="../ui/MainWindow.ui" line="473"/>
         <source>Show Alerts</source>
         <translation>Zobrazit upozornění</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="476"/>
+        <location filename="../ui/MainWindow.ui" line="478"/>
         <source>Clear Alerts</source>
         <translation>Vymazat upozornění</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="833"/>
+        <location filename="../ui/MainWindow.cpp" line="915"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="355"/>
+        <location filename="../ui/MainWindow.ui" line="357"/>
         <source>Save Contact</source>
         <translation>Uložit kontakt</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="358"/>
+        <location filename="../ui/MainWindow.ui" line="360"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="390"/>
+        <location filename="../ui/MainWindow.ui" line="392"/>
         <source>Wsjtx</source>
         <translation>Wsjtx</translation>
     </message>
@@ -6166,63 +6176,63 @@
         <translation>Stiskni pro naladění alertu</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="232"/>
+        <location filename="../ui/MainWindow.cpp" line="233"/>
         <source>Clublog Immediately Upload Error</source>
         <translation>Chyba Okamžitého nahrávání do Clublog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="311"/>
-        <location filename="../ui/MainWindow.cpp" line="321"/>
-        <location filename="../ui/MainWindow.cpp" line="331"/>
+        <location filename="../ui/MainWindow.cpp" line="318"/>
+        <location filename="../ui/MainWindow.cpp" line="328"/>
+        <location filename="../ui/MainWindow.cpp" line="338"/>
         <source>&lt;b&gt;Error Detail:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Detail chyby:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="534"/>
+        <location filename="../ui/MainWindow.cpp" line="548"/>
         <source>Classic</source>
         <translation>Klasické</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="718"/>
-        <location filename="../ui/MainWindow.cpp" line="734"/>
-        <location filename="../ui/MainWindow.cpp" line="750"/>
-        <location filename="../ui/MainWindow.cpp" line="766"/>
-        <location filename="../ui/MainWindow.cpp" line="784"/>
+        <location filename="../ui/MainWindow.cpp" line="800"/>
+        <location filename="../ui/MainWindow.cpp" line="816"/>
+        <location filename="../ui/MainWindow.cpp" line="832"/>
+        <location filename="../ui/MainWindow.cpp" line="848"/>
+        <location filename="../ui/MainWindow.cpp" line="866"/>
         <source>QLog Warning</source>
         <translation>Upozornění QLog</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="718"/>
+        <location filename="../ui/MainWindow.cpp" line="800"/>
         <source>LoTW is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>LoTW není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="734"/>
+        <location filename="../ui/MainWindow.cpp" line="816"/>
         <source>eQSL is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>eQSL není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="750"/>
+        <location filename="../ui/MainWindow.cpp" line="832"/>
         <source>Clublog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>Clublog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="766"/>
+        <location filename="../ui/MainWindow.cpp" line="848"/>
         <source>HRDLog is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>HRDLog není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="784"/>
+        <location filename="../ui/MainWindow.cpp" line="866"/>
         <source>QRZ.com is not configured properly.&lt;p&gt; Please, use &lt;b&gt;Settings&lt;/b&gt; dialog to configure it.&lt;/p&gt;</source>
         <translation>QRZ.com není správně nastaven.&lt;p&gt; Prosím, použijte dialog &lt;b&gt;Nastavení&lt;/b&gt; pro konfiguraci služby.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="804"/>
+        <location filename="../ui/MainWindow.cpp" line="886"/>
         <source>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Based on Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Icon by &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satellite images by &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect by &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone Database by &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</source>
         <translation>&lt;h1&gt;QLog %1&lt;/h1&gt;&lt;p&gt;&amp;copy; 2019 Thomas Gatzweiler DL2IC&lt;br/&gt;&amp;copy; 2021-2024 Ladislav Foldyna OK1MLG&lt;/p&gt;&lt;p&gt;Záloženo na Qt %2&lt;br/&gt;%3&lt;br/&gt;%4&lt;br/&gt;%5&lt;/p&gt;&lt;p&gt;Ikony &lt;a href=&apos;http://www.iconshock.com&apos;&gt;Icon Shock&lt;/a&gt;&lt;br /&gt;Satelitní snímky &lt;a href=&apos;http://www.nasa.gov&apos;&gt;NASA&lt;/a&gt;&lt;br /&gt;ZoneDetect &lt;a href=&apos;https://github.com/BertoldVdb/ZoneDetect&apos;&gt;Bertold Van den Bergh&lt;/a&gt;&lt;br /&gt;TimeZone &lt;a href=&apos;https://github.com/evansiroky/timezone-boundary-builder&apos;&gt;Evan Siroky&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="877"/>
+        <location filename="../ui/MainWindow.cpp" line="959"/>
         <source>N/A</source>
         <translation>-</translation>
     </message>
@@ -6694,17 +6704,17 @@
         <translation>Chyba inicializace</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/OmnirigDrv.cpp" line="453"/>
+        <location filename="../rig/drivers/OmnirigDrv.cpp" line="454"/>
         <source>Rig status changed</source>
         <translation>Změna stavu Rigu</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/OmnirigDrv.cpp" line="454"/>
+        <location filename="../rig/drivers/OmnirigDrv.cpp" line="455"/>
         <source>Rig is not connected</source>
         <translation>Rig není připojen</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/OmnirigDrv.cpp" line="470"/>
+        <location filename="../rig/drivers/OmnirigDrv.cpp" line="471"/>
         <source>Omnirig Error</source>
         <translation>Omnirig chyba</translation>
     </message>
@@ -6821,9 +6831,9 @@
         <location filename="../core/Migration.cpp" line="309"/>
         <location filename="../ui/ExportDialog.cpp" line="116"/>
         <location filename="../ui/ImportDialog.cpp" line="227"/>
-        <location filename="../ui/MainWindow.cpp" line="309"/>
-        <location filename="../ui/MainWindow.cpp" line="319"/>
-        <location filename="../ui/MainWindow.cpp" line="329"/>
+        <location filename="../ui/MainWindow.cpp" line="316"/>
+        <location filename="../ui/MainWindow.cpp" line="326"/>
+        <location filename="../ui/MainWindow.cpp" line="336"/>
         <location filename="../ui/SettingsDialog.cpp" line="267"/>
         <location filename="../ui/SettingsDialog.cpp" line="277"/>
         <location filename="../ui/SettingsDialog.cpp" line="285"/>
@@ -7098,17 +7108,17 @@
         </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="310"/>
+        <location filename="../ui/MainWindow.cpp" line="317"/>
         <source>&lt;b&gt;Rig Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rig:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="320"/>
+        <location filename="../ui/MainWindow.cpp" line="327"/>
         <source>&lt;b&gt;Rotator Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba Rotátoru:&lt;/b&gt; </translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.cpp" line="330"/>
+        <location filename="../ui/MainWindow.cpp" line="337"/>
         <source>&lt;b&gt;CW Keyer Error:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Chyba CW Klíče:&lt;/b&gt; </translation>
     </message>
@@ -7132,42 +7142,42 @@
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="430"/>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="317"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="319"/>
         <location filename="../ui/DxWidget.cpp" line="1074"/>
         <source>Connection Refused</source>
         <translation>Spojení odmítnuto</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="433"/>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="321"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="323"/>
         <location filename="../ui/DxWidget.cpp" line="1077"/>
         <source>Host closed the connection</source>
         <translation>Server uzavřel spojení</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="438"/>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="326"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="328"/>
         <location filename="../ui/DxWidget.cpp" line="1082"/>
         <source>Host not found</source>
         <translation>Server nenalezen</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="441"/>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="329"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="331"/>
         <location filename="../ui/DxWidget.cpp" line="1085"/>
         <source>Timeout</source>
         <translation>Timeout</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="446"/>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="333"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="335"/>
         <location filename="../ui/DxWidget.cpp" line="1089"/>
         <source>Network Error</source>
         <translation>Chyba sítě</translation>
     </message>
     <message>
         <location filename="../core/KSTChat.cpp" line="450"/>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="336"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="338"/>
         <location filename="../ui/DxWidget.cpp" line="1092"/>
         <source>Internal Error</source>
         <translation>Interní Chyba</translation>
@@ -8349,9 +8359,24 @@
         <translation>Goto</translation>
     </message>
     <message>
-        <location filename="../ui/RotatorWidget.ui" line="166"/>
-        <source>QSO</source>
-        <translation>QSO</translation>
+        <location filename="../ui/RotatorWidget.ui" line="273"/>
+        <source>QSO LP</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../ui/RotatorWidget.ui" line="276"/>
+        <source>QSO Long Path</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../ui/RotatorWidget.ui" line="281"/>
+        <source>QSO SP</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../ui/RotatorWidget.ui" line="284"/>
+        <source>QSO Short Path</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -9900,17 +9925,17 @@
         <translation>Rig 3</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="339"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="341"/>
         <source>Error Occured</source>
         <translation>Nastala chyba</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="543"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="545"/>
         <source>Rig status changed</source>
         <translation>Změna stavu Rigu</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/TCIDrv.cpp" line="544"/>
+        <location filename="../rig/drivers/TCIDrv.cpp" line="546"/>
         <source>Rig is not connected</source>
         <translation>Rig není připojen</translation>
     </message>
