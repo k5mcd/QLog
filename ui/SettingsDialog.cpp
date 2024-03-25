@@ -56,6 +56,7 @@ MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
 #define RIG_NET_DEFAULT_PORT 4532
 #define ROT_NET_DEFAULT_PORT 4533
+#define ROT_NET_DEFAULT_PSTROT 12000
 #define CW_NET_CWDAEMON_PORT 6789
 #define CW_NET_FLDIGI_PORT 7362
 #define CW_DEFAULT_KEY_SPEED 20
@@ -787,16 +788,15 @@ void SettingsDialog::clearRotProfileForm()
     ui->rotHostNameEdit->setPlaceholderText(QString());
 
     ui->rotProfileNameEdit->clear();
-    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
     ui->rotPortEdit->clear();
     ui->rotHostNameEdit->clear();
-    ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
     ui->rotBaudSelect->setCurrentIndex(0);
     ui->rotDataBitsSelect->setCurrentIndex(0);
     ui->rotStopBitsSelect->setCurrentIndex(0);
     ui->rotFlowControlSelect->setCurrentIndex(0);
     ui->rotParitySelect->setCurrentIndex(0);
 
+    rotInterfaceChanged(ui->rotInterfaceCombo->currentIndex());
     ui->rotAddProfileButton->setText(tr("Add"));
 }
 
@@ -845,10 +845,12 @@ void SettingsDialog::rotInterfaceChanged(int)
     if ( driverID == Rotator::HAMLIB_DRIVER )
     {
         ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_HAMLIB_RIG_MODEL));
+        ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
     }
     else
     {
-        ui->rigModelSelect->setCurrentIndex(0);
+        ui->rotModelSelect->setCurrentIndex(0);
+        ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PSTROT);
     }
 }
 
