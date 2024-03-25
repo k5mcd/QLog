@@ -42,6 +42,17 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Mon Mar 25 2024 Ladislav Foldyna - 0.34.0-1
+- [NEW] - Rotator Widget - Azimuth by Clicking
+- [NEW] - Rotator Widget - QSO button provides Short/Long Path (issue #330)
+- [NEW] - Equipment Menu - Added Keep Options between application restart (issue #331)
+- Fixed TCI - Thetis Connection issue (issue #327)
+- Fixed TCI - Spots To Rig are not displayed (issue #328)
+- Fixed Bandmap unintentionally emits frequency labels (issue #333)
+- Fixed Failing to load grid square for G and EI SOTA summits (issue #336)
+- Fixed HRDLog On-Air message is not sent (issue #337)
+- Fixed Offline Map - Improved Path drawing
+
 * Sat Mar 9 2024 Ladislav Foldyna - 0.33.1-1
 - Fixed Rotator offline map is incorrectly centered (issue #324)
 - Fixed Hamlib integration not working (issue #325)

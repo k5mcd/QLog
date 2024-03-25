@@ -47,6 +47,21 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.34.0" date="2024-03-25">
+      <description>
+        <ul>
+          <li>[NEW] - Rotator Widget - Azimuth by Clicking</li>
+          <li>[NEW] - Rotator Widget - QSO button provides Short/Long Path (issue #330)</li>
+          <li>[NEW] - Equipment Menu - Added Keep Options between application restart (issue #331)</li>
+          <li>Fixed TCI - Thetis Connection issue (issue #327)</li>
+          <li>Fixed TCI - Spots To Rig are not displayed (issue #328)</li>
+          <li>Fixed Bandmap unintentionally emits frequency labels (issue #333)</li>
+          <li>Fixed Failing to load grid square for G and EI SOTA summits (issue #336)</li>
+          <li>Fixed HRDLog On-Air message is not sent (issue #337)</li>
+          <li>Fixed Offline Map - Improved Path drawing</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.33.1" date="2024-03-09">
       <description>
         <ul>

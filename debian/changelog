@@ -1,3 +1,16 @@
+qlog (0.34.0-1) UNRELEASED; urgency=low
+  * [NEW] - Rotator Widget - Azimuth by Clicking
+  * [NEW] - Rotator Widget - QSO button provides Short/Long Path (issue #330)
+  * [NEW] - Equipment Menu - Added Keep Options between application restart (issue #331)
+  * Fixed TCI - Thetis Connection issue (issue #327)
+  * Fixed TCI - Spots To Rig are not displayed (issue #328)
+  * Fixed Bandmap unintentionally emits frequency labels (issue #333)
+  * Fixed Failing to load grid square for G and EI SOTA summits (issue #336)
+  * Fixed HRDLog On-Air message is not sent (issue #337)
+  * Fixed Offline Map - Improved Path drawing
+
+ -- foldynl <foldyna@gmail.com>  Mon, 25 Mar 2024 13:54:20 +0100
+
 qlog (0.33.1-1) UNRELEASED; urgency=critical
   * Fixed Rotator offline map is incorrectly centered (issue #324)
   * Fixed Hamlib integration not working (issue #325)
