@@ -1,10 +1,9 @@
 #include "Rig.h"
 #include "core/debug.h"
-#include "macros.h"
 #include "rig/drivers/HamlibRigDrv.h"
 #ifdef Q_OS_WIN
-#include "rig/drivers/OmnirigDrv.h"
-#include "rig/drivers/Omnirigv2Drv.h"
+#include "rig/drivers/OmnirigRigDrv.h"
+#include "rig/drivers/Omnirigv2RigDrv.h"
 #endif
 #include "rig/drivers/TCIRigDrv.h"
 
@@ -31,13 +30,13 @@ Rig::Rig(QObject *parent)
 #ifdef Q_OS_WIN
     drvMapping[OMNIRIG_DRIVER] = DrvParams(OMNIRIG_DRIVER,
                                            "Omnirig v1",
-                                           &OmnirigDrv::getModelList,
-                                           &OmnirigDrv::getCaps);
+                                           &OmnirigRigDrv::getModelList,
+                                           &OmnirigRigDrv::getCaps);
 
     drvMapping[OMNIRIGV2_DRIVER] = DrvParams(OMNIRIGV2_DRIVER,
                                              "Omnirig v2",
-                                             &OmnirigV2Drv::getModelList,
-                                             &OmnirigV2Drv::getCaps);
+                                             &OmnirigV2RigDrv::getModelList,
+                                             &OmnirigV2RigDrv::getCaps);
 #endif
     drvMapping[TCI_DRIVER] = DrvParams(TCI_DRIVER,
                                        "TCI",
@@ -621,10 +620,10 @@ GenericRigDrv *Rig::getDriver( const RigProfile &profile )
         break;
 #ifdef Q_OS_WIN
     case Rig::OMNIRIG_DRIVER:
-        return new OmnirigDrv(profile, this);
+        return new OmnirigRigDrv(profile, this);
         break;
     case Rig::OMNIRIGV2_DRIVER:
-        return new OmnirigV2Drv(profile, this);
+        return new OmnirigV2RigDrv(profile, this);
         break;
 #endif
     case Rig::TCI_DRIVER:

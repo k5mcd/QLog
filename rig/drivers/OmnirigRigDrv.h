@@ -7,10 +7,8 @@
 // OmniRig.h is generated automatically by dumpcpp
 // omnirig must be installed before compilation
 // Currently supported is OmniRig v1
-#include "OmniRigRig.h"
+#include "Omnirig.h"
 
-namespace RigDrivers
-{
 class OmnirigRigDrv : public GenericRigDrv
 {
     Q_OBJECT
@@ -86,5 +84,5 @@ private:
                                       {OmniRig::PM_FM, "FM"}
                                      };
 };
-}
+
 #endif // RIG_DRIVERS_OMNIRIGRIGDRV_H
