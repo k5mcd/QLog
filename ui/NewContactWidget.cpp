@@ -10,7 +10,7 @@
 
 #include "rig/Rig.h"
 #include "rig/macros.h"
-#include "core/Rotator.h"
+#include "rotator/Rotator.h"
 #include "NewContactWidget.h"
 #include "ui_NewContactWidget.h"
 #include "core/debug.h"

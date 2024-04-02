@@ -1,12 +1,10 @@
-#include <hamlib/rotator.h>
+#include "rotator/Rotator.h"
 #include "RotTypeModel.h"
 
 RotTypeModel::RotTypeModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    rot_load_all_backends();
-    rot_list_foreach(addRot, this);
-    rotList.sort();
+
 }
 
 int RotTypeModel::rowCount(const QModelIndex&) const {
@@ -37,11 +35,23 @@ QModelIndex RotTypeModel::index(int row, int column, const QModelIndex& parent) 
         return QModelIndex();
 }
 
-int RotTypeModel::addRot(const struct rot_caps* caps, void* data)
+void RotTypeModel::select(int driverID)
 {
-    RotTypeModel* rotTypeModel = static_cast<RotTypeModel*>(data);
-    QString name = QString("%1 %2 (%3)").arg(caps->mfg_name, caps->model_name, caps->version);
-    rotTypeModel->rotList.append(name);
-    rotTypeModel->rotIds[name] = caps->rot_model;
-    return -1;
+    beginResetModel();
+    rotIds.clear();
+    rotList.clear();
+
+    if ( driverID == 0 )
+        return;
+
+    const QList<QPair<int, QString>> models = Rotator::instance()->getModelList(static_cast<Rotator::DriverID>(driverID));
+    for ( const QPair<int, QString> &model : models )
+    {
+        const QString &name = model.second;
+        rotIds[name] = model.first;
+        rotList.append(name);
+    }
+    rotList.sort();
+    endResetModel();
 }
+

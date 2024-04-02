@@ -48,13 +48,6 @@ CONFIG *= link_pkgconfig
 SOURCES += \
         core/AlertEvaluator.cpp \
         core/AppGuard.cpp \
-        core/CWCatKey.cpp \
-        core/CWDaemonKey.cpp \
-        core/CWDummyKey.cpp \
-        core/CWFldigiKey.cpp \
-        core/CWKey.cpp \
-        core/CWKeyer.cpp \
-        core/CWWinKey.cpp \
         core/CallbookManager.cpp \
         core/Callsign.cpp \
         core/ClubLog.cpp \
@@ -78,12 +71,18 @@ SOURCES += \
         core/PropConditions.cpp \
         core/QRZ.cpp \
         core/QSLStorage.cpp \
-        core/Rotator.cpp \
         core/SerialPort.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
         core/zonedetect.c \
+        cwkey/CWKeyer.cpp \
+        cwkey/drivers/CWCatKey.cpp \
+        cwkey/drivers/CWDaemonKey.cpp \
+        cwkey/drivers/CWDummyKey.cpp \
+        cwkey/drivers/CWFldigiKey.cpp \
+        cwkey/drivers/CWKey.cpp \
+        cwkey/drivers/CWWinKey.cpp \
         data/AntProfile.cpp \
         data/BandPlan.cpp \
         data/CWKeyProfile.cpp \
@@ -110,9 +109,14 @@ SOURCES += \
         models/WsjtxTableModel.cpp \
         rig/Rig.cpp \
         rig/RigCaps.cpp \
-        rig/drivers/GenericDrv.cpp \
-        rig/drivers/HamlibDrv.cpp \
-        rig/drivers/TCIDrv.cpp \
+        rig/drivers/GenericRigDrv.cpp \
+        rig/drivers/HamlibRigDrv.cpp \
+        rig/drivers/TCIRigDrv.cpp \
+        rotator/RotCaps.cpp \
+        rotator/Rotator.cpp \
+        rotator/drivers/GenericRotDrv.cpp \
+        rotator/drivers/HamlibRotDrv.cpp \
+        rotator/drivers/PSTRotDrv.cpp \
         ui/AlertRuleDetail.cpp \
         ui/AlertSettingDialog.cpp \
         ui/AlertWidget.cpp \
@@ -164,13 +168,6 @@ SOURCES += \
 HEADERS += \
         core/AlertEvaluator.h \
         core/AppGuard.h \
-        core/CWCatKey.h \
-        core/CWDaemonKey.h \
-        core/CWDummyKey.h \
-        core/CWFldigiKey.h \
-        core/CWKey.h \
-        core/CWKeyer.h \
-        core/CWWinKey.h \
         core/CallbookManager.h \
         core/Callsign.h \
         core/ClubLog.h \
@@ -194,11 +191,17 @@ HEADERS += \
         core/PropConditions.h \
         core/QRZ.h \
         core/QSLStorage.h \
-        core/Rotator.h \
         core/SerialPort.h \
         core/Wsjtx.h \
         core/debug.h \
         core/zonedetect.h \
+        cwkey/CWKeyer.h \
+        cwkey/drivers/CWCatKey.h \
+        cwkey/drivers/CWDaemonKey.h \
+        cwkey/drivers/CWDummyKey.h \
+        cwkey/drivers/CWFldigiKey.h \
+        cwkey/drivers/CWKey.h \
+        cwkey/drivers/CWWinKey.h \
         data/AntProfile.h \
         data/Band.h \
         data/BandPlan.h \
@@ -236,10 +239,15 @@ HEADERS += \
         models/WsjtxTableModel.h \
         rig/Rig.h \
         rig/RigCaps.h \
-        rig/drivers/GenericDrv.h \
-        rig/drivers/HamlibDrv.h \
-        rig/drivers/TCIDrv.h \
+        rig/drivers/GenericRigDrv.h \
+        rig/drivers/HamlibRigDrv.h \
+        rig/drivers/TCIRigDrv.h \
         rig/macros.h \
+        rotator/RotCaps.h \
+        rotator/Rotator.h \
+        rotator/drivers/GenericRotDrv.h \
+        rotator/drivers/HamlibRotDrv.h \
+        rotator/drivers/PSTRotDrv.h \
         ui/AlertRuleDetail.h \
         ui/AlertSettingDialog.h \
         ui/AlertWidget.h \
@@ -461,14 +469,15 @@ win32: {
         $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/
 
    SOURCES += \
-        rig/drivers/OmnirigDrv.cpp \
-        rig/drivers/Omnirigv2Drv.cpp \
+        rig/drivers/OmnirigRigDrv.cpp \
+        rig/drivers/Omnirigv2RigDrv.cpp \
         OmniRig2.cpp \
         $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/sqlite3.c
 
+
    HEADERS += \
-        rig/drivers/OmnirigDrv.h \
-        rig/drivers/Omnirigv2Drv.h \
+        rig/drivers/OmnirigRigDrv.h \
+        rig/drivers/Omnirigv2RigDrv.h \
         OmniRig2.h \
         $$[QT_INSTALL_PREFIX]/../Src/qtbase/src/3rdparty/sqlite/sqlite3.h
 

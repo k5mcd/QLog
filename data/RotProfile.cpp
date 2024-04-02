@@ -13,7 +13,7 @@ QDataStream& operator<<(QDataStream& out, const RotProfile& v)
     out << v.profileName << v.model << v.portPath
         << v.hostname << v.netport << v.baudrate
         << v.databits << v.stopbits << v.flowcontrol
-        << v.parity;
+        << v.parity << v.driver;
 
     return out;
 }
@@ -30,6 +30,7 @@ QDataStream& operator>>(QDataStream& in, RotProfile& v)
     in >> v.stopbits;
     in >> v.flowcontrol;
     in >> v.parity;
+    in >> v.driver;
 
     return in;
 }
@@ -44,7 +45,7 @@ RotProfilesManager::RotProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity FROM rot_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, driver FROM rot_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -64,6 +65,7 @@ RotProfilesManager::RotProfilesManager(QObject *parent) :
             profileDB.stopbits =  profileQuery.value(7).toFloat();
             profileDB.flowcontrol =  profileQuery.value(8).toString();
             profileDB.parity =  profileQuery.value(9).toString();
+            profileDB.driver = profileQuery.value(10).toInt();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -95,8 +97,8 @@ void RotProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO rot_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity) "
-                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity)") )
+    if ( ! insertQuery.prepare("INSERT INTO rot_profiles(profile_name, model, port_pathname, hostname, netport, baudrate, databits, stopbits, flowcontrol, parity, driver) "
+                        "VALUES (:profile_name, :model, :port_pathname, :hostname, :netport, :baudrate, :databits, :stopbits, :flowcontrol, :parity, :driver)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -119,6 +121,7 @@ void RotProfilesManager::save()
             insertQuery.bindValue(":stopbits", rigProfile.stopbits);
             insertQuery.bindValue(":flowcontrol", rigProfile.flowcontrol);
             insertQuery.bindValue(":parity", rigProfile.parity);
+            insertQuery.bindValue(":driver", rigProfile.driver);
 
             if ( ! insertQuery.exec() )
             {
@@ -146,7 +149,8 @@ bool RotProfile::operator==(const RotProfile &profile)
             && profile.databits == this->databits
             && profile.stopbits == this->stopbits
             && profile.flowcontrol == this->flowcontrol
-            && profile.parity == this->parity);
+            && profile.parity == this->parity
+            && profile.driver == this->driver);
 }
 
 bool RotProfile::operator!=(const RotProfile &profile)

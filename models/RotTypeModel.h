@@ -12,7 +12,7 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role) const;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
-    static int addRot(const struct rot_caps* caps, void* data);
+    void select(int driverID);
 
 private:
     QStringList rotList;

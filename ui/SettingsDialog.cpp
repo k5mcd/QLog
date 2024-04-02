@@ -1,7 +1,6 @@
 #include <QSettings>
 #include <QStringListModel>
 #include <QSqlTableModel>
-#include <hamlib/rotator.h>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDesktopServices>
@@ -30,10 +29,11 @@
 #include "core/NetworkNotification.h"
 #include "rig/Rig.h"
 #include "rig/RigCaps.h"
-#include "core/Rotator.h"
+#include "rotator/Rotator.h"
+#include "rotator/RotCaps.h"
 #include "core/LogParam.h"
 #include "core/Callsign.h"
-#include "core/CWKeyer.h"
+#include "cwkey/CWKeyer.h"
 #include "core/MembershipQE.h"
 #include "models/SqlListModel.h"
 #include "core/GenericCallbook.h"
@@ -56,6 +56,7 @@ MODULE_IDENTIFICATION("qlog.ui.settingdialog");
 
 #define RIG_NET_DEFAULT_PORT 4532
 #define ROT_NET_DEFAULT_PORT 4533
+#define ROT_NET_DEFAULT_PSTROT 12000
 #define CW_NET_CWDAEMON_PORT 6789
 #define CW_NET_FLDIGI_PORT 7362
 #define CW_DEFAULT_KEY_SPEED 20
@@ -125,6 +126,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     for ( const QPair<int, QString> &driver : Rig::instance()->getDriverList() )
     {
         ui->rigInterfaceCombo->addItem(driver.second, driver.first);
+    }
+
+    for ( const QPair<int, QString> &driver : Rotator::instance()->getDriverList() )
+    {
+        ui->rotInterfaceCombo->addItem(driver.second, driver.first);
     }
 
     QStringListModel* rigModel = new QStringListModel();
@@ -214,8 +220,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui->primaryCallbookCombo->addItem(tr("Disabled"), QVariant(GenericCallbook::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("HamQTH"),   QVariant(HamQTH::CALLBOOK_NAME));
     ui->primaryCallbookCombo->addItem(tr("QRZ.com"),  QVariant(QRZ::CALLBOOK_NAME));
-
-    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
 
     ui->rigFlowControlSelect->addItem(tr("None"), SerialPort::SERIAL_FLOWCONTROL_NONE);
     ui->rigFlowControlSelect->addItem(tr("Hardware"), SerialPort::SERIAL_FLOWCONTROL_HARDWARE);
@@ -693,39 +697,25 @@ void SettingsDialog::addRotProfile()
 
     profile.profileName = ui->rotProfileNameEdit->text();
 
+    profile.driver = ui->rotInterfaceCombo->currentData().toInt();
+
     profile.model = ui->rotModelSelect->currentData().toInt();
 
-    profile.hostname = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                QString() :
-                ui->rotHostNameEdit->text();
+    if ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_NETWORK_SETTING )
+    {
+        profile.hostname = ui->rotHostNameEdit->text();
+        profile.netport = ui->rotNetPortSpin->value();
+    }
 
-    profile.netport = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                0 :
-                ui->rotNetPortSpin->value();
-
-    profile.portPath = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                ui->rotPortEdit->text() :
-                QString();
-
-    profile.baudrate = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                ui->rotBaudSelect->currentText().toInt() :
-                0;
-
-    profile.databits = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                ui->rotDataBitsSelect->currentText().toInt():
-                0;
-
-    profile.stopbits = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                ui->rotStopBitsSelect->currentText().toFloat() :
-                0;
-
-    profile.flowcontrol = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                ui->rotFlowControlSelect->currentData().toString() :
-                QString();
-
-    profile.parity = ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING ) ?
-                ui->rotParitySelect->currentData().toString():
-                QString();
+    if ( ui->rotStackedWidget->currentIndex() == STACKED_WIDGET_SERIAL_SETTING )
+    {
+        profile.portPath = ui->rotPortEdit->text();
+        profile.baudrate =  ui->rotBaudSelect->currentText().toInt();
+        profile.databits = ui->rotDataBitsSelect->currentText().toInt();
+        profile.stopbits = ui->rotStopBitsSelect->currentText().toFloat();
+        profile.flowcontrol = ui->rotFlowControlSelect->currentData().toString();
+        profile.parity = ui->rotParitySelect->currentData().toString();
+    }
 
     rotProfManager->addProfile(profile.profileName, profile);
 
@@ -763,11 +753,11 @@ void SettingsDialog::doubleClickRotProfile(QModelIndex i)
 {
     FCT_IDENTIFICATION;
 
-    RotProfile profile;
-
-    profile = rotProfManager->getProfile(ui->rotProfilesListView->model()->data(i).toString());
+    const RotProfile &profile = rotProfManager->getProfile(ui->rotProfilesListView->model()->data(i).toString());
 
     ui->rotProfileNameEdit->setText(profile.profileName);
+
+    ui->rotInterfaceCombo->setCurrentIndex(ui->rotInterfaceCombo->findData(profile.driver));
 
     ui->rotPortTypeCombo->setCurrentIndex( (profile.getPortType() == RotProfile::SERIAL_ATTACHED) ? ROTPORT_SERIAL_INDEX
                                                                                                   : ROTPORT_NETWORK_INDEX);
@@ -798,17 +788,15 @@ void SettingsDialog::clearRotProfileForm()
     ui->rotHostNameEdit->setPlaceholderText(QString());
 
     ui->rotProfileNameEdit->clear();
-    ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_ROT_MODEL));
     ui->rotPortEdit->clear();
     ui->rotHostNameEdit->clear();
-    ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
     ui->rotBaudSelect->setCurrentIndex(0);
     ui->rotDataBitsSelect->setCurrentIndex(0);
     ui->rotStopBitsSelect->setCurrentIndex(0);
     ui->rotFlowControlSelect->setCurrentIndex(0);
     ui->rotParitySelect->setCurrentIndex(0);
-    ui->rotPortTypeCombo->setCurrentIndex(RIGPORT_SERIAL_INDEX);
 
+    rotInterfaceChanged(ui->rotInterfaceCombo->currentIndex());
     ui->rotAddProfileButton->setText(tr("Add"));
 }
 
@@ -816,25 +804,23 @@ void SettingsDialog::rotPortTypeChanged(int index)
 {
     FCT_IDENTIFICATION;
 
-    int rotID = ui->rotModelSelect->currentData().toInt();
-    const struct rot_caps *caps = rot_get_caps(rotID);
-
     switch (index)
     {
     // Serial
     case ROTPORT_SERIAL_INDEX:
-        ui->rotStackedWidget->setCurrentIndex(0);
-        if ( caps )
-        {
-            ui->rotDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
-            ui->rotStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
-        }
+    {
+        const RotCaps &caps = Rotator::instance()->getRotCaps(static_cast<Rotator::DriverID>(ui->rotInterfaceCombo->currentData().toInt()),
+                                                              ui->rotModelSelect->currentData().toInt());
+        ui->rotStackedWidget->setCurrentIndex(STACKED_WIDGET_SERIAL_SETTING);
+        ui->rotDataBitsSelect->setCurrentText(QString::number(caps.serialDataBits));
+        ui->rotStopBitsSelect->setCurrentText(QString::number(caps.serialStopBits));
         ui->rotHostNameEdit->clear();
+    }
         break;
 
         // Network
     case RIGPORT_NETWORK_INDEX:
-        ui->rotStackedWidget->setCurrentIndex(1);
+        ui->rotStackedWidget->setCurrentIndex(STACKED_WIDGET_NETWORK_SETTING);
         ui->rotPortEdit->clear();
         ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
         break;
@@ -842,6 +828,30 @@ void SettingsDialog::rotPortTypeChanged(int index)
         qWarning() << "Unsupported Rot Port" << index;
     }
 
+}
+void SettingsDialog::rotInterfaceChanged(int)
+{
+    FCT_IDENTIFICATION;
+
+    RotTypeModel* rotTypeModel = qobject_cast<RotTypeModel*> (ui->rotModelSelect->model());
+
+    if ( !rotTypeModel )
+        return;
+
+    Rotator::DriverID driverID = static_cast<Rotator::DriverID>(ui->rotInterfaceCombo->currentData().toInt());
+
+    rotTypeModel->select(driverID);
+
+    if ( driverID == Rotator::HAMLIB_DRIVER )
+    {
+        ui->rotModelSelect->setCurrentIndex(ui->rotModelSelect->findData(DEFAULT_HAMLIB_RIG_MODEL));
+        ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PORT);
+    }
+    else
+    {
+        ui->rotModelSelect->setCurrentIndex(0);
+        ui->rotNetPortSpin->setValue(ROT_NET_DEFAULT_PSTROT);
+    }
 }
 
 void SettingsDialog::addRotUsrButtonsProfile()
@@ -1609,12 +1619,14 @@ void SettingsDialog::rotChanged(int index)
 {
     FCT_IDENTIFICATION;
 
-    const struct rot_caps *caps;
+    qCDebug(function_parameters) << index;
 
-    QModelIndex rot_index = ui->rotModelSelect->model()->index(index, 0);
-    int rotID = rot_index.internalId();
+    int rotID = ui->rotModelSelect->currentData().toInt();
 
-    if ( rotID == ROT_MODEL_NETROTCTL )
+    Rotator::DriverID driverID = static_cast<Rotator::DriverID>(ui->rotInterfaceCombo->currentData().toInt());
+    const RotCaps &caps = Rotator::instance()->getRotCaps(driverID, rotID);
+
+    if ( caps.isNetworkOnly )
     {
         ui->rotPortTypeCombo->setCurrentIndex(ROTPORT_NETWORK_INDEX);
         ui->rotPortTypeCombo->setEnabled(false);
@@ -1624,15 +1636,10 @@ void SettingsDialog::rotChanged(int index)
         ui->rotPortTypeCombo->setEnabled(true);
     }
 
-    caps = rot_get_caps(rotID);
-
-    if ( caps )
+    if ( ui->rotPortTypeCombo->currentIndex() == RIGPORT_SERIAL_INDEX )
     {
-        if ( ui->rotPortTypeCombo->currentIndex() == RIGPORT_SERIAL_INDEX )
-        {
-            ui->rotDataBitsSelect->setCurrentText(QString::number(caps->serial_data_bits));
-            ui->rotStopBitsSelect->setCurrentText(QString::number(caps->serial_stop_bits));
-        }
+        ui->rotDataBitsSelect->setCurrentText(QString::number(caps.serialDataBits));
+        ui->rotStopBitsSelect->setCurrentText(QString::number(caps.serialStopBits));
     }
 }
 
