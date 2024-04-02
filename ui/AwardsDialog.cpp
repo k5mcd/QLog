@@ -266,7 +266,6 @@ void AwardsDialog::refreshTable(int)
                     "ORDER BY 1,2 COLLATE LOCALEAWARE ASC ");
 
     qDebug(runtime) << detailedViewModel->query().lastQuery();
-    qInfo() << detailedViewModel->query().lastError();
 
     detailedViewModel->setHeaderData(1, Qt::Horizontal, "");
     detailedViewModel->setHeaderData(2, Qt::Horizontal, "");
