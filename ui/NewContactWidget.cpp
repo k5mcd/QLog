@@ -49,6 +49,8 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     FCT_IDENTIFICATION;
 
     ui->setupUi(this);
+    ui->rstRcvdEdit->spaceForbidden(true);
+    ui->rstSentEdit->spaceForbidden(true);
 
     setupCustomUi();
 
@@ -3125,6 +3127,7 @@ NewContactDynamicWidgets::NewContactDynamicWidgets(bool allocateWidgets,
         gridEdit->setMaxLength(10);
         gridEdit->setSizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Maximum);
         gridEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridRegEx(), gridEdit));
+        gridEdit->spaceForbidden(true);
 
         contEdit->setMaximumSize(QSize(50, 16777215));
         contEdit->setSizeAdjustPolicy(QComboBox::AdjustToContents);
@@ -3141,11 +3144,13 @@ NewContactDynamicWidgets::NewContactDynamicWidgets(bool allocateWidgets,
         ituEdit->setSizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Maximum);
         ituEdit->setMaxLength(2);
         ituEdit->setValidator(new QIntValidator(Data::getITUZMin(), Data::getITUZMax(), ituEdit));
+        ituEdit->spaceForbidden(true);
 
         cqzEdit->setMaximumSize(QSize(40, 16777215));
         cqzEdit->setMaxLength(2);
         cqzEdit->setSizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Maximum);
         cqzEdit->setValidator(new QIntValidator(Data::getCQZMin(), Data::getCQZMax(), cqzEdit));
+        cqzEdit->spaceForbidden(true);
 
         //stateEdit->setMaximumSize(QSize(200, 16777215));
 
@@ -3155,6 +3160,7 @@ NewContactDynamicWidgets::NewContactDynamicWidgets(bool allocateWidgets,
         ageEdit->setMaximumSize(QSize(40, 16777215));
         ageEdit->setMaxLength(3);
         ageEdit->setValidator(new QIntValidator(0, 999, ageEdit));
+        ageEdit->spaceForbidden(true);
 
         //vuccEdit->setMaximumSize(QSize(200, 16777215));
         vuccEdit->setValidator(new QRegularExpressionValidator(Gridsquare::gridVUCCRegEx(), vuccEdit));
@@ -3169,6 +3175,7 @@ NewContactDynamicWidgets::NewContactDynamicWidgets(bool allocateWidgets,
         iotaCompleter->setFilterMode(Qt::MatchContains);
         iotaCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
         iotaEdit->setCompleter(iotaCompleter);
+        iotaEdit->spaceForbidden(true);
 
         //potaEdit->setMaximumSize(QSize(200, 16777215));
         //potaEdit->setFocusPolicy(Qt::ClickFocus);

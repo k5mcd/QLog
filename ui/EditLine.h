@@ -11,10 +11,13 @@ class NewContactEditLine : public QLineEdit
 public:
     explicit NewContactEditLine(QWidget *parent = nullptr);
     void setText(const QString & text);
+    void spaceForbidden(bool);
 
 protected:
     void focusInEvent(QFocusEvent* event) override;
     void focusOutEvent(QFocusEvent* event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    bool spaceForbiddenFlag;
 };
 
 #endif // QLOG_UI_EDITLINE_H
