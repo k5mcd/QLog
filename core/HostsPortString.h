@@ -19,6 +19,8 @@ class HostsPortString : public QObject
 {
     Q_OBJECT
 public:
+    static const QRegularExpression hostsPortRegEx();
+
     explicit HostsPortString(const QString &, QObject *parent=nullptr);
 
     QList<HostPortAddress> getAddrList() const;

@@ -1,7 +1,13 @@
+#include <QRegularExpression>
 #include "HostsPortString.h"
 #include "debug.h"
 
 MODULE_IDENTIFICATION("qlog.core.hostsportstring");
+
+const QRegularExpression HostsPortString::hostsPortRegEx()
+{
+    return QRegularExpression("^((((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])\\.?\\b){4}):[0-9]{1,5}\\s*)+$");
+}
 
 HostsPortString::HostsPortString(const QString &addressesString, QObject *parent) :
     QObject(parent)
@@ -15,9 +21,9 @@ HostsPortString::HostsPortString(const QString &addressesString, QObject *parent
         return;
     }
 
-    QStringList addressTokens = addressesString.split(" ");
+    const QStringList &addressTokens = addressesString.split(" ");
 
-    for ( const QString &addrToken : qAsConst(addressTokens) )
+    for ( const QString &addrToken : addressTokens )
     {
         qCDebug(runtime) << "Processing address " << addrToken;
 

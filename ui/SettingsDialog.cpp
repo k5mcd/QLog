@@ -38,6 +38,7 @@
 #include "models/SqlListModel.h"
 #include "core/GenericCallbook.h"
 #include "core/KSTChat.h"
+#include "core/HostsPortString.h"
 
 #define STACKED_WIDGET_SERIAL_SETTING  0
 #define STACKED_WIDGET_NETWORK_SETTING 1
@@ -192,6 +193,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     static QRegularExpression multicastAddress("^2(?:2[4-9]|3\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d?|0)){3}$");
 
     ui->wsjtMulticastAddressEdit->setValidator(new QRegularExpressionValidator(multicastAddress, this));
+
+    ui->notifQSOEdit->setValidator(new QRegularExpressionValidator(HostsPortString::hostsPortRegEx(), this));
+    ui->notifDXSpotsEdit->setValidator(new QRegularExpressionValidator(HostsPortString::hostsPortRegEx(), this));
+    ui->notifWSJTXCQSpotsEdit->setValidator(new QRegularExpressionValidator(HostsPortString::hostsPortRegEx(), this));
+    ui->notifSpotAlertEdit->setValidator(new QRegularExpressionValidator(HostsPortString::hostsPortRegEx(), this));
 
     iotaCompleter = new QCompleter(Data::instance()->iotaIDList(), this);
     iotaCompleter->setCaseSensitivity(Qt::CaseInsensitive);
