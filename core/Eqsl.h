@@ -16,7 +16,7 @@ public:
     explicit EQSL(QObject *parent = nullptr);
     ~EQSL();
 
-    void update(QDate, QString);
+    void update(const QDate&, bool, const QString&);
     void uploadAdif(QByteArray &);
     void getQSLImage(const QSqlRecord&);
 

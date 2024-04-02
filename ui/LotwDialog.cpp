@@ -232,14 +232,7 @@ void LotwDialog::loadDialogState()
     else
         ui->myGridCombo->setCurrentText(settings.value("lotw/last_mygrid").toString());
 
-    if (settings.value("lotw/last_update").isValid()) {
-        QDate last_update = settings.value("lotw/last_update").toDate();
-        ui->dateEdit->setDate(last_update);
-    }
-    else {
-        ui->dateEdit->setDate(QDateTime::currentDateTimeUtc().date());
-    }
-
+    ui->dateEdit->setDate(settings.value("lotw/last_update", QDate(1900, 1, 1)).toDate());
     ui->qslRadioButton->setChecked(settings.value("lotw/last_qsoqsl",0).toBool());
     ui->qsoRadioButton->setChecked(!settings.value("lotw/last_qsoqsl",0).toBool());
 }
