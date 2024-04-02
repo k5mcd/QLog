@@ -2,7 +2,8 @@
 #include "EditLine.h"
 
 NewContactEditLine::NewContactEditLine(QWidget *parent) :
-    QLineEdit(parent)
+    QLineEdit(parent),
+    spaceForbiddenFlag(false)
 {
 
 }
@@ -11,12 +12,19 @@ void NewContactEditLine::focusInEvent(QFocusEvent *event)
 {
     QLineEdit::focusInEvent(event);
 
-//   Deselect text when focus - maybe later
-//    if ( hasSelectedText() )
-//    {
-//        deselect();
-//    }
+    Qt::FocusReason reason = event->reason();
 
+    if ( reason != Qt::ActiveWindowFocusReason &&
+         reason != Qt::PopupFocusReason )
+    {
+        end(false);
+    }
+
+    //Deselect text when focus
+    if ( hasSelectedText() )
+    {
+        deselect();
+    }
 }
 
 void NewContactEditLine::focusOutEvent(QFocusEvent *event)
@@ -32,8 +40,21 @@ void NewContactEditLine::focusOutEvent(QFocusEvent *event)
     }
 }
 
+void NewContactEditLine::keyPressEvent(QKeyEvent *event)
+{
+    if ( spaceForbiddenFlag && event->key() == Qt::Key_Space )
+        focusNextChild();
+    else
+        QLineEdit::keyPressEvent(event);
+}
+
 void NewContactEditLine::setText(const QString &text)
 {
     QLineEdit::setText(text);
     home(false);
+}
+
+void NewContactEditLine::spaceForbidden(bool inSpaceForbidden)
+{
+    spaceForbiddenFlag = inSpaceForbidden;
 }
