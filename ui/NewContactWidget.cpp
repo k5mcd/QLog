@@ -382,7 +382,6 @@ void NewContactWidget::callsignChanged()
         if ( nextLineEdit )
         {
             nextLineEdit->setFocus();
-            nextLineEdit->selectAll();
             startContactTimer();
         }
     }
@@ -3082,6 +3081,7 @@ void NewContactWidget::changeCallsignManually(const QString &callsign, double fr
 
     QSOFreq = freq; // Important !!! - to prevent QSY Contact Reset when the frequency is set
     ui->callsignEdit->setText(callsign);
+    ui->callsignEdit->end(false);
     callsignChanged();
     editCallsignFinished();
     stopContactTimer();
