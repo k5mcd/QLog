@@ -1,5 +1,7 @@
 TBC - 0.35.0
 - [NEW] - Added Rot Interface PSTRotator Network
+- [CHANGED] - Spacebar is used as a focus changer for fields where space is not allowed
+- [CHANGED] - Focus does not select text in the input fields
 
 2024/03/25 - 0.34.0
 - [NEW] - Rotator Widget - Azimuth by Clicking
