@@ -51,12 +51,15 @@ void Lotw::update(const QDate &start_date, bool qso_since, const QString &statio
     params.append(qMakePair(QString("qso_qsldetail"), QString("yes")));
     params.append(qMakePair(QString("qso_owncall"), station_callsign));
 
-    QString start = start_date.toString("yyyy-MM-dd");
-    if (qso_since) {
+    const QString &start = start_date.toString("yyyy-MM-dd");
+
+    if (qso_since)
+    {
         params.append(qMakePair(QString("qso_qsl"), QString("no")));
         params.append(qMakePair(QString("qso_qsorxsince"), start));
     }
-    else {
+    else
+    {
         params.append(qMakePair(QString("qso_qsl"), QString("yes")));
         params.append(qMakePair(QString("qso_qslsince"), start));
     }
