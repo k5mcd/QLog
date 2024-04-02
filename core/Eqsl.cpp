@@ -50,21 +50,34 @@ EQSL::~EQSL()
     qslStorage->deleteLater();
 }
 
-void EQSL::update(QDate start_date, QString qthNick)
+void EQSL::update(const QDate &start_date, bool qso_since, const QString &qthNick)
 {
     FCT_IDENTIFICATION;
-    qCDebug(function_parameters) << start_date << " " << qthNick;
+
+    qCDebug(function_parameters) << start_date << qso_since << qthNick;
 
     QList<QPair<QString, QString>> params;
+
     if ( !qthNick.isEmpty() )
     {
         params.append(qMakePair(QString("QTHNickname"), qthNick));
     }
 
-    QString start = start_date.toString("yyyyMMdd");
-    if (start_date.isValid())
+    if ( start_date.isValid() )
     {
-        params.append(qMakePair(QString("RcvdSince"), start));
+        if ( qso_since )
+        {
+            const QString &start = start_date.toString("MM/dd/yyyy");
+            const QString &stop = QDate::currentDate().addDays(1).toString("MM/dd/yyyy");
+            params.append(qMakePair(QString("LimitDateLo"), start));
+            params.append(qMakePair(QString("LimitDateHi"), stop));
+        }
+        else
+        {
+            //qsl_since
+            const QString &start = start_date.toString("yyyyMMdd");
+            params.append(qMakePair(QString("RcvdSince"), start));
+        }
     }
 
     get(params);
