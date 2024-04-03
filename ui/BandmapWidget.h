@@ -57,6 +57,8 @@ public:
 public slots:
     void update();
     void updateTunedFrequency(VFOID, double, double, double);
+    void updateMode(VFOID, const QString &, const QString &mode,
+                    const QString &subMode, qint32 width);
     void addSpot(DxSpot spot);
     void spotAgingChanged(int);
     void clearSpots();
@@ -117,6 +119,7 @@ private:
     double zoomFreq;
     int zoomWidgetYOffset;
     bool bandmapAnimation;
+    QString currBandMode;
 
     struct LastTuneDx
     {

@@ -174,6 +174,8 @@ signals:
     void newTarget(double lat, double lon);
     void filterCallsign(QString call);
     void userFrequencyChanged(VFOID, double, double, double);
+    void userModeChanged(VFOID, const QString &, const QString &mode,
+                         const QString &subMode, qint32 width);
     void markQSO(DxSpot spot);
 
     void stationProfileChanged();

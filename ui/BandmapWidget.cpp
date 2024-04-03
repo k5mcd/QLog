@@ -44,6 +44,9 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     ui->setupUi(this);
 
     double freq = settings.value("newcontact/frequency", 3.5).toDouble();
+    const QString &mode = settings.value("newcontact/mode", "CW").toString();
+    const QString &submode = settings.value("newcontact/submode").toString();
+
     freq += RigProfilesManager::instance()->getCurProfile1().ritOffset;
 
     keepRXCenter = settings.value("bandmap/centerrx", true).toBool();
@@ -67,13 +70,15 @@ BandmapWidget::BandmapWidget(QWidget *parent) :
     Rig* rig = Rig::instance();
     connect(rig, &Rig::frequencyChanged,
             this, &BandmapWidget::updateTunedFrequency);
+    connect(rig, &Rig::modeChanged,
+            this, &BandmapWidget::updateMode);
 
     update_timer = new QTimer;
     connect(update_timer, &QTimer::timeout, this, &BandmapWidget::updateStationTimer);
     update_timer->start(BANDMAP_MAX_REFRESH_TIME);
 
+    updateMode(VFO1, QString(), mode, submode, 0);
     updateTunedFrequency(VFO1, freq, freq, freq);
-    update();
 }
 
 void BandmapWidget::update()
@@ -118,6 +123,13 @@ void BandmapWidget::update()
     /****************/
     for ( int i = 0; i <= steps; i++ )
     {
+        double plottedFreq = currentBand.start + step * i;
+        // Add colored square
+        if ( !currBandMode.isEmpty()
+             && i < steps
+             && currBandMode == BandPlan::freq2BandModeGroupString(plottedFreq) )
+            bandmapScene->addRect(0, i * PIXELSPERSTEP, 10, 10, QPen(Qt::NoPen), QBrush(QColor(102, 153, 255, 100)));
+
         bandmapScene->addLine(0,
                               i * PIXELSPERSTEP,
                               (i % 5 == 0) ? 15 : 10,
@@ -126,7 +138,7 @@ void BandmapWidget::update()
 
         if (i % 5 == 0)
         {
-            QGraphicsTextItem* text = bandmapScene->addText(QString::number(currentBand.start + step*i, 'f', digits));
+            QGraphicsTextItem* text = bandmapScene->addText(QString::number(plottedFreq, 'f', digits));
             text->setPos(- (text->boundingRect().width()) - 10,
                          i * PIXELSPERSTEP - (text->boundingRect().height() / 2));
         }
@@ -732,6 +744,22 @@ void BandmapWidget::updateTunedFrequency(VFOID vfoid, double vfoFreq, double rit
     }
 
     updateNearestSpot();
+}
+
+void BandmapWidget::updateMode(VFOID, const QString &, const QString &mode,
+                               const QString &subMode, qint32 width)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << mode << subMode << width;
+
+    const QString &newMode = BandPlan::modeToModeGroup(mode);
+
+    if ( currBandMode != newMode )
+    {
+        currBandMode = newMode;
+        update();
+    }
 }
 
 BandmapWidget::~BandmapWidget()

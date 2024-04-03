@@ -829,6 +829,9 @@ void NewContactWidget::changeMode()
     if ( !isManualEnterMode )
     {
         rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+        emit userModeChanged(VFO1, QString(),
+                             ui->modeEdit->currentText(), ui->submodeEdit->currentText(),
+                             bandwidthFilter);
     }
 }
 
@@ -863,6 +866,9 @@ void NewContactWidget::subModeChanged()
     }
 
     rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
+    emit userModeChanged(VFO1, QString(),
+                         ui->modeEdit->currentText(), ui->submodeEdit->currentText(),
+                         bandwidthFilter);
 }
 
 void NewContactWidget::updateTXBand(double freq)
@@ -2472,6 +2478,7 @@ void NewContactWidget::tuneDx(const QString &callsign,
             {
                 rig->setMode(ui->modeEdit->currentText(), ui->submodeEdit->currentText());
             }
+            emit userModeChanged(VFO1, QString(), mode, subMode, bandwidthFilter);
         }
     }
     else

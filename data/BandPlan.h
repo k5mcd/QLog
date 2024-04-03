@@ -35,6 +35,7 @@ public:
     static const QList<Band> bandsList(const bool onlyDXCCBands = false,
                                        const bool onlyEnabled = false);
     static const QString modeToDXCCModeGroup(const QString &mode);
+    static const QString modeToModeGroup(const QString &mode);
     BandPlan();
 };
 

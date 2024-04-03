@@ -349,6 +349,14 @@ const QString BandPlan::modeToDXCCModeGroup(const QString &mode)
     return QString();
 }
 
+const QString BandPlan::modeToModeGroup(const QString &mode)
+{
+    FCT_IDENTIFICATION;
+
+    return ( mode == "FT8" ) ? BandPlan::MODE_GROUP_STRING_FT8
+                             : BandPlan::modeToDXCCModeGroup(mode);
+}
+
 BandPlan::BandPlan()
 {
     FCT_IDENTIFICATION;
