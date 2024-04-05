@@ -784,7 +784,7 @@ QHash<QString, AdiFormat::ExportParams> AdiFormat::DB2ADIFExportParams =
     { "band_rx", ExportParams("band_rx", &AdiFormat::toLower)},
     { "check", ExportParams("check")},
     { "class", ExportParams("class")},
-    { "clublog_qso_upload_date", ExportParams("clublog_qso_upload_date")},
+    { "clublog_qso_upload_date", ExportParams("clublog_qso_upload_date", &AdiFormat::toYYYYMMDD)},
     { "clublog_qso_upload_status", ExportParams("clublog_qso_upload_status")},
     { "comment", ExportParams("comment")},
     { "contacted_op", ExportParams("contacted_op")},
