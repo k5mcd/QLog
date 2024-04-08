@@ -240,7 +240,7 @@ void HamQTH::processReply(QNetworkReply* reply) {
         }
         else if (xml.name() == QString("nick") )
         {
-            data["name"] = xml.readElementText();
+            data["nick"] = xml.readElementText();
         }
         else if (xml.name() == QString("qth") )
         {
@@ -278,9 +278,9 @@ void HamQTH::processReply(QNetworkReply* reply) {
         {
             data["dxcc"] = xml.readElementText();
         }
-        else if (xml.name() == QString("addr_name") )
+        else if (xml.name() == QString("adr_name") )
         {
-            data["lname"] = xml.readElementText();
+            data["name_fmt"] = xml.readElementText();
         }
         else if (xml.name() == QString("adr_street1") )
         {

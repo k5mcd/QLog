@@ -476,13 +476,16 @@ void QRZ::processReply(QNetworkReply* reply) {
             }
             else if (xml.name() == QString("nickname") )
             {
-                data["name"] = xml.readElementText();
+                data["nick"] = xml.readElementText();
             }
             else if (xml.name() == QString("url") )
             {
                 data["url"] = xml.readElementText();
             }
-
+            else if (xml.name() ==  QString("name_fmt"))
+            {
+                data["name_fmt"] = xml.readElementText();
+            }
         }
 
         if (data.size())
