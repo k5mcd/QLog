@@ -18,7 +18,7 @@ CWFldigiKey::CWFldigiKey(const QString &hostname,
     nam(new QNetworkAccessManager(this)),
     hostname(hostname),
     port(port),
-    TX("^r")
+    RXString("^r")
 {
     FCT_IDENTIFICATION;
 }
@@ -126,7 +126,7 @@ bool CWFldigiKey::sendText(const QString &text)
     }
 
     QList<QPair<QString, QString>> params;
-    params << QPair<QString, QString>("string", text + TX);
+    params << QPair<QString, QString>("string", text + RXString);
 
     if ( !sendXMLRPCCall("text.add_tx", resp, &params) )
     {

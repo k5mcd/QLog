@@ -33,7 +33,7 @@ protected:
     QString hostname;
     quint16 port;
 
-    const QString TX;
+    const QString RXString;
 
 private:
     bool sendXMLRPCCall(const QString&,
