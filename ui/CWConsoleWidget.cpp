@@ -162,6 +162,7 @@ void CWConsoleWidget::allowMorseSending(bool allow)
         ui->haltButton->setEnabled(allow);
         ui->cwKeySpeedSpinBox->setEnabled(allow);
     }
+    ui->clearButton->setEnabled(allow);
     ui->cwConsoleText->setEnabled(allow);
     ui->cwSendEdit->setEnabled(allow);
     ui->cwShortcutProfileCombo->setEnabled(allow);
