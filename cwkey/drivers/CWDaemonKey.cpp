@@ -63,8 +63,11 @@ bool CWDaemonKey::sendText(const QString &text)
         return false;
     }
 
+    QString chpString(text);
+    chpString.replace("\n", "");
+
     //do not solve possible socket errors - it is the UDP connection
-    return (sendData(text.toLatin1()) > 0) ? true : false;
+    return (sendData(chpString.toLatin1()) > 0) ? true : false;
 }
 
 bool CWDaemonKey::setWPM(const qint16 wpm)

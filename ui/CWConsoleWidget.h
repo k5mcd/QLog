@@ -39,7 +39,7 @@ private slots:
     void cwKeySpeedChanged(int);
     void cwKeySpeedIncrease();
     void cwKeySpeedDecrease();
-    void cwSendButtonPressed();
+    void cwSendButtonPressed(bool insertNewLine = true);
     void rigDisconnectHandler();
     void rigConnectHandler();
 
@@ -52,16 +52,22 @@ private slots:
     void cwKeyMacroF7();
     void haltButtonPressed();
 
+    void sendWordSwitched(int);
+    void cwTextChanged(QString);
 
 private:
     Ui::CWConsoleWidget *ui;
     bool cwKeyOnline;
     const NewContactWidget *contact;
+    bool sendWord;
 
-    void sendCWText(const QString &);
+    void sendCWText(const QString &, bool insertNewLine = true);
     void expandMacros(QString &);
     void shortcutComboMove(int);
     void allowMorseSending(bool);
+
+    void saveSendWordConfig(bool);
+    bool getSendWordConfig();
 
 };
 

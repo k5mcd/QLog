@@ -18,7 +18,8 @@ CWFldigiKey::CWFldigiKey(const QString &hostname,
     nam(new QNetworkAccessManager(this)),
     hostname(hostname),
     port(port),
-    RXString("^r")
+    RXString("^r"),
+    transmittingText(false)
 {
     FCT_IDENTIFICATION;
 }
@@ -113,23 +114,37 @@ bool CWFldigiKey::sendText(const QString &text)
 
     QByteArray resp;
 
-    if ( !sendXMLRPCCall("text.clear_tx", resp) )
+    if ( !transmittingText )
     {
-        emit keyError(tr("Cannot send the Clear command to FLDigi"), lastError());
-        return false;
-    }
+        if ( !sendXMLRPCCall("text.clear_tx", resp) )
+        {
+            emit keyError(tr("Cannot send the Clear command to FLDigi"), lastError());
+            return false;
+        }
 
-    if ( !sendXMLRPCCall("main.tx", resp) )
-    {
-        emit keyError(tr("Cannot send the TX command to FLDigi"), lastError());
-        return false;
+        if ( !sendXMLRPCCall("main.tx", resp) )
+        {
+            emit keyError(tr("Cannot send the TX command to FLDigi"), lastError());
+            return false;
+        }
+        transmittingText = true;
     }
 
     QList<QPair<QString, QString>> params;
-    params << QPair<QString, QString>("string", text + RXString);
+
+    QString chpString(text);
+
+    if ( chpString.contains("\n") )
+    {
+        chpString.replace("\n", RXString);
+        transmittingText = false;
+    }
+
+    params << QPair<QString, QString>("string", chpString );
 
     if ( !sendXMLRPCCall("text.add_tx", resp, &params) )
     {
+        transmittingText = false;
         emit keyError(tr("Cannot send the Text command to FLDigi"), lastError());
         return false;
     }

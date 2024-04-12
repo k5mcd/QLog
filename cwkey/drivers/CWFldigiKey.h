@@ -34,6 +34,7 @@ protected:
     quint16 port;
 
     const QString RXString;
+    bool transmittingText;
 
 private:
     bool sendXMLRPCCall(const QString&,

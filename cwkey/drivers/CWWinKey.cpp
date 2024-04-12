@@ -237,7 +237,9 @@ bool CWWinKey2::sendText(const QString &text)
     qCDebug(runtime) << "Waiting for WriteBuffer Mutex";
     writeBufferMutex.lock();
     qCDebug(runtime) << "Appending input string";
-    writeBuffer.append(text.toLocal8Bit().data());
+    QString chpString(text);
+    chpString.replace("\n", "");
+    writeBuffer.append(chpString.toLocal8Bit().data());
     writeBufferMutex.unlock();
 
     tryAsyncWrite();

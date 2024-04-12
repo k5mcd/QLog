@@ -14,7 +14,8 @@ CWConsoleWidget::CWConsoleWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CWConsoleWidget),
     cwKeyOnline(false),
-    contact(nullptr)
+    contact(nullptr),
+    sendWord(false)
 {
     FCT_IDENTIFICATION;
 
@@ -35,6 +36,8 @@ CWConsoleWidget::CWConsoleWidget(QWidget *parent) :
     connect(Rig::instance(), &Rig::rigConnected, this, &CWConsoleWidget::rigConnectHandler);
     connect(Rig::instance(), &Rig::rigDisconnected, this, &CWConsoleWidget::rigDisconnectHandler);
 
+    connect(ui->modeSwitch, &SwitchButton::stateChanged, this, &CWConsoleWidget::sendWordSwitched);
+
     /**************/
     /* SHORTCUTs  */
     /**************/
@@ -42,6 +45,9 @@ CWConsoleWidget::CWConsoleWidget(QWidget *parent) :
     new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Down), this, SLOT(cwKeySpeedDecrease()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Right), this, SLOT(cwShortcutProfileIncrease()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::ALT | Qt::Key_Left), this, SLOT(cwShortcutProfileDecrease()), nullptr, Qt::ApplicationShortcut);
+
+    sendWord = getSendWordConfig();
+    ui->modeSwitch->setChecked(sendWord);
 
     cwKeyDisconnected();
 }
@@ -173,6 +179,25 @@ void CWConsoleWidget::allowMorseSending(bool allow)
     ui->macroButton5->setEnabled(allow);
     ui->macroButton6->setEnabled(allow);
     ui->macroButton7->setEnabled(allow);
+    ui->modeSwitch->setEnabled(allow);
+}
+
+void CWConsoleWidget::saveSendWordConfig(bool state)
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    settings.setValue("cwconsole/sendWord", state);
+}
+
+bool CWConsoleWidget::getSendWordConfig()
+{
+    FCT_IDENTIFICATION;
+
+    QSettings settings;
+
+    return settings.value("cwconsole/sendWord", false).toBool();
 }
 
 void CWConsoleWidget::refreshKeyProfileCombo()
@@ -308,7 +333,7 @@ void CWConsoleWidget::cwKeySpeedDecrease()
     ui->cwKeySpeedSpinBox->setValue(ui->cwKeySpeedSpinBox->value() - 2);
 }
 
-void CWConsoleWidget::cwSendButtonPressed()
+void CWConsoleWidget::cwSendButtonPressed(bool insertNewLine)
 {
     FCT_IDENTIFICATION;
 
@@ -317,7 +342,7 @@ void CWConsoleWidget::cwSendButtonPressed()
         return;
     }
 
-    sendCWText(ui->cwSendEdit->text());
+    sendCWText(ui->cwSendEdit->text(), insertNewLine);
     ui->cwSendEdit->clear();
 }
 
@@ -413,6 +438,28 @@ void CWConsoleWidget::haltButtonPressed()
     CWKeyer::instance()->imediatellyStop();
 }
 
+void CWConsoleWidget::sendWordSwitched(int mode)
+{
+    FCT_IDENTIFICATION;
+
+    sendWord = (mode == Qt::Checked) ? true: false;
+
+    ui->sendModeLabel->setText(sendWord ? tr("Word") : tr("Whole"));
+    saveSendWordConfig(sendWord);
+}
+
+void CWConsoleWidget::cwTextChanged(QString text)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << text << text.endsWith(" ") << text.size() << sendWord;
+
+    if ( sendWord && text.size() > 0 && text.endsWith(" ") )
+    {
+        cwSendButtonPressed(false);
+    }
+}
+
 void CWConsoleWidget::setWPM(qint32 wpm)
 {
     FCT_IDENTIFICATION;
@@ -423,17 +470,22 @@ void CWConsoleWidget::setWPM(qint32 wpm)
     ui->cwKeySpeedSpinBox->blockSignals(false);
 }
 
-void CWConsoleWidget::sendCWText(const QString &text)
+void CWConsoleWidget::sendCWText(const QString &text, bool insertNewLine)
 {
     FCT_IDENTIFICATION;
 
     QString expandedText(text.toUpper());
 
     expandMacros(expandedText);
-    ui->cwConsoleText->moveCursor(QTextCursor::End);
-    ui->cwConsoleText->insertPlainText(expandedText + QString("\n"));
+
     qCDebug(runtime) << "CW text" << expandedText;
-    CWKeyer::instance()->sendText(expandedText + QString(" ")); //insert extra space do divide words in echo console
+    QString newLine = (insertNewLine ? QString("\n")
+                                     : QString());
+    CWKeyer::instance()->sendText(expandedText + QString(" ") + newLine); //insert extra space do divide words in echo console
+
+    newLine.replace("\n", QString::fromUtf8("\u23ce\n")); // UTF8 Return char
+    ui->cwConsoleText->moveCursor(QTextCursor::End);
+    ui->cwConsoleText->insertPlainText(expandedText + newLine);
 }
 
 void CWConsoleWidget::expandMacros(QString &text)
