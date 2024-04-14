@@ -33,9 +33,9 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
         else if (freq >= 1.842 && freq < 2.000) return BAND_MODE_LSB;
     }
     // 80m
-    else if (freq > 3.500 && freq < 4.000)
+    else if (freq >= 3.500 && freq < 4.000)
     {
-        if (freq > 3.500 && freq < 3.573) return BAND_MODE_CW;
+        if (freq >= 3.500 && freq < 3.573) return BAND_MODE_CW;
         else if (freq >= 3.573 && freq < 3.575) return BAND_MODE_FT8;
         else if (freq >= 3.575 && freq < 3.580) return BAND_MODE_CW;
         else if (freq >= 3.580 && freq < 3.620) return BAND_MODE_DIGITAL;
