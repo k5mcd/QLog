@@ -2,7 +2,6 @@
 #define ROTATOR_DRIVERS_PSTROTDRV_H
 
 #include <QUdpSocket>
-#include <QHostInfo>
 #include <QTimer>
 #include "GenericRotDrv.h"
 #include "rotator/RotCaps.h"
@@ -39,7 +38,7 @@ private:
     QTimer timeoutTimer;
     QUdpSocket receiveSocket;
     QMutex drvLock;
-    QHostInfo hostInfo;
+    QHostAddress rotatorAddress;
 };
 
 #endif // ROTATOR_DRIVERS_PSTROTDRV_H

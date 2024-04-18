@@ -1,4 +1,5 @@
 #include <QNetworkDatagram>
+#include <QHostInfo>
 #include "core/debug.h"
 #include "PSTRotDrv.h"
 
@@ -62,30 +63,41 @@ bool PSTRotDrv::open()
 
     if ( !rc )
     {
-        lastErrorText = tr("Initialization Error");
+        lastErrorText = tr("Cannot bind a port") + " " + rotProfile.netport;
         qCDebug(runtime) << "Rot is not initialized - cannot bind port address" << rotProfile.netport;
         return false;
     }
 
     qCDebug(runtime) << "Listening port" << rotProfile.netport + 1;
 
-    hostInfo = QHostInfo::fromName(rotProfile.hostname);
-
+    const QHostInfo &hostInfo = QHostInfo::fromName(rotProfile.hostname);
     if ( hostInfo.error() != QHostInfo::NoError )
     {
-        lastErrorText = tr("Initialization Error");
+        lastErrorText = tr("Cannot get IP Address for") + " " + rotProfile.hostname;
         qCWarning(runtime) << "Cannot get Rotator hostname" << hostInfo.errorString();
         return false;
     }
 
-    if ( hostInfo.addresses().size() < 1 )
+    const QList<QHostAddress> addresses = hostInfo.addresses();
+    for ( const QHostAddress &address : addresses )
     {
-        lastErrorText = tr("Initialization Error");
-        qCWarning(runtime) << "No IP Address for " << rotProfile.hostname;
+        // currently, it seems that PSTRotator supports only IPv4 Addresses
+        // therefore it is necessary to filter out IPv6 adresses
+        if ( address.protocol() == QAbstractSocket::IPv4Protocol )
+        {
+            rotatorAddress = address;
+            qCDebug(runtime) << "Found IPv4 address " << address;
+        }
+    }
+
+    if ( rotatorAddress.isNull() )
+    {
+        lastErrorText = tr("No IPv4 Address for") + " " + rotProfile.hostname;
+        qCWarning(runtime) << "No IPv4 Address for " << rotProfile.hostname;
         return false;
     }
 
-    qCDebug(runtime) << hostInfo.addresses();
+    qCDebug(runtime) << rotatorAddress;
 
     connect(&receiveSocket, &QUdpSocket::readyRead,
             this, &PSTRotDrv::readPendingDatagrams);
@@ -183,7 +195,7 @@ void PSTRotDrv::sendCommand(const QString &cmd)
     QUdpSocket sendSocket;
 
     sendSocket.writeDatagram(cmd.toUtf8(),
-                             hostInfo.addresses().at(0),
+                             rotatorAddress,
                              rotProfile.netport);
     commandSleep();
 }
