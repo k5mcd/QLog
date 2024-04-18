@@ -6822,24 +6822,32 @@
 <context>
     <name>PSTRotDrv</name>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="26"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="27"/>
         <source>Rot 1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="65"/>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="76"/>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="83"/>
-        <source>Initialization Error</source>
-        <translation>Chyba inicializace</translation>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="66"/>
+        <source>Cannot bind a port</source>
+        <translation>Port nelze použít</translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="101"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="76"/>
+        <source>Cannot get IP Address for</source>
+        <translation>Nelze získat IP adresa pro</translation>
+    </message>
+    <message>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="95"/>
+        <source>No IPv4 Address for</source>
+        <translation>Neexistuje IPv4 adresa pro</translation>
+    </message>
+    <message>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="113"/>
         <source>Error Occured</source>
         <translation>Nastala chyba</translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="102"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="114"/>
         <source>Operation Timeout</source>
         <translation>Timeout</translation>
     </message>

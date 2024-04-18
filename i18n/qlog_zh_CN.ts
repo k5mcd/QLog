@@ -6807,24 +6807,32 @@
 <context>
     <name>PSTRotDrv</name>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="26"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="27"/>
         <source>Rot 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="65"/>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="76"/>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="83"/>
-        <source>Initialization Error</source>
-        <translation type="unfinished">初始化出错</translation>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="66"/>
+        <source>Cannot bind a port</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="101"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="76"/>
+        <source>Cannot get IP Address for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="95"/>
+        <source>No IPv4 Address for</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="113"/>
         <source>Error Occured</source>
         <translation type="unfinished">发生错误</translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="102"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="114"/>
         <source>Operation Timeout</source>
         <translation type="unfinished"></translation>
     </message>

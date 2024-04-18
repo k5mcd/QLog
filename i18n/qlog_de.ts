@@ -6816,24 +6816,32 @@
 <context>
     <name>PSTRotDrv</name>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="26"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="27"/>
         <source>Rot 1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="65"/>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="76"/>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="83"/>
-        <source>Initialization Error</source>
-        <translation>Initialisierungsfehler</translation>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="66"/>
+        <source>Cannot bind a port</source>
+        <translation>Ein Port kann nicht gebunden werden</translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="101"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="76"/>
+        <source>Cannot get IP Address for</source>
+        <translation>IP-Adresse kann nicht abgerufen werden</translation>
+    </message>
+    <message>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="95"/>
+        <source>No IPv4 Address for</source>
+        <translation>Keine IPv4-Adresse für</translation>
+    </message>
+    <message>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="113"/>
         <source>Error Occured</source>
         <translation>Fahler</translation>
     </message>
     <message>
-        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="102"/>
+        <location filename="../rotator/drivers/PSTRotDrv.cpp" line="114"/>
         <source>Operation Timeout</source>
         <translation>Zeitüberschreitung</translation>
     </message>
