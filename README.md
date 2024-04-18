@@ -11,7 +11,7 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 
 - Customizable GUI
 - Rig control via Hamlib, Omnirig v1 (Windows only), Omnirig v2 (Windows only), TCI
-- Rotator control via Hamlib
+- Rotator control via Hamlib, PSTRotator
 - HamQTH and QRZ.com callbook integration
 - DX cluster integration
 - **LoTW**, **eQSL**, **QRZ.com**, **Clublog**, **HRDLog.net**, **ON4KST Chat** integration (**eQSL includes QSL pictures download**)
