@@ -53,19 +53,6 @@ protected:
     QUdpSocket socket;
 };
 
-class CWKeyWebServiceInterface : public CWKeyIPInterface
-{
-public:
-    explicit CWKeyWebServiceInterface(const QString &hostname,
-                               const quint16 port);
-    ~CWKeyWebServiceInterface() {};
-
-protected:
-    virtual qint64 sendData(const QByteArray &data) override;
-    virtual bool isSocketReady() override;
-
-};
-
 class CWKey : public QObject
 {
     Q_OBJECT;
