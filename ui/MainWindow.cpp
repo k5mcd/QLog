@@ -31,6 +31,7 @@
 #include "ui/EditLayoutDialog.h"
 #include "core/HRDLog.h"
 #include "ui/HRDLogDialog.h"
+#include "ui/ProfileImageWidget.h"
 
 MODULE_IDENTIFICATION("qlog.ui.mainwindow");
 
@@ -76,6 +77,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->rigDockWidget->hide();
     ui->cwConsoleDockWidget->hide();
     ui->chatDockWidget->hide();
+    ui->profileImageDockWidget->hide();
 
     setupLayoutMenu();
 
@@ -190,6 +192,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(ui->newContactWidget, &NewContactWidget::antProfileChanged, ui->onlineMapWidget, &OnlineMapWidget::flyToMyQTH);
     connect(ui->newContactWidget, &NewContactWidget::markQSO, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->newContactWidget, &NewContactWidget::rigProfileChanged, ui->rigWidget, &RigWidget::refreshRigProfileCombo);
+    connect(ui->newContactWidget, &NewContactWidget::callboolImageUrl, ui->profileImageWidget, &ProfileImageWidget::loadImageFromUrl);
 
     connect(ui->dxWidget, &DxWidget::newFilteredSpot, ui->bandmapWidget, &BandmapWidget::addSpot);
     connect(ui->dxWidget, &DxWidget::newFilteredSpot, Rig::instance(), &Rig::sendDXSpot);

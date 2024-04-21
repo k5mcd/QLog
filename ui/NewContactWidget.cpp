@@ -650,6 +650,8 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
         ui->lotwLabel->setText("LoTW");
     }
 
+    emit callboolImageUrl(data.value("image_url"));
+
     lastCallbookQueryData = QMap<QString, QString>(data);
 }
 
@@ -941,6 +943,7 @@ void NewContactWidget::clearCallbookQueryFields()
     ui->qslViaEdit->clear();
     ui->eqslLabel->setText(QString());
     ui->lotwLabel->setText(QString());
+    emit callboolImageUrl("");
 }
 
 void NewContactWidget::clearMemberQueryFields()

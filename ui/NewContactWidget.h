@@ -181,6 +181,7 @@ signals:
     void stationProfileChanged();
     void rigProfileChanged();
     void antProfileChanged();
+    void callboolImageUrl(const QString&);
 
 public slots:
     void refreshRigProfileCombo();

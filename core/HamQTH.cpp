@@ -342,6 +342,16 @@ void HamQTH::processReply(QNetworkReply* reply) {
         {
             data["url"] = xml.readElementText();
         }
+        else if (xml.name() == QString("picture"))
+        {
+            data["image_url"] = xml.readElementText();
+
+            // HamQTH sends "http" URLs, which are redirected automatically
+            // to their "https" variants. It's pointless to implement redirection
+            // so let's replace http with https
+            if ( !data["image_url"].contains("https"))
+               data["image_url"].replace("http", "https");
+        }
     }
 
     reply->deleteLater();

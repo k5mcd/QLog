@@ -149,6 +149,7 @@ SOURCES += \
         ui/NewContactWidget.cpp \
         ui/OnlineMapWidget.cpp \
         ui/PaperQSLDialog.cpp \
+        ui/ProfileImageWidget.cpp \
         ui/QSLImportStatDialog.cpp \
         ui/QSODetailDialog.cpp \
         ui/QSOFilterDetail.cpp \
@@ -281,6 +282,7 @@ HEADERS += \
         ui/NewContactWidget.h \
         ui/OnlineMapWidget.h \
         ui/PaperQSLDialog.h \
+        ui/ProfileImageWidget.h \
         ui/QSLImportStatDialog.h \
         ui/QSODetailDialog.h \
         ui/QSOFilterDetail.h \
@@ -330,6 +332,7 @@ FORMS += \
         ui/MainWindow.ui \
         ui/NewContactWidget.ui \
         ui/PaperQSLDialog.ui \
+        ui/ProfileImageWidget.ui \
         ui/QSLImportStatDialog.ui \
         ui/QSODetailDialog.ui \
         ui/QSOFilterDetail.ui \

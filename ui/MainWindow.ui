@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>913</width>
-    <height>514</height>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,6 +108,7 @@
     <addaction name="actionCWConsole"/>
     <addaction name="actionDXClusterWindow"/>
     <addaction name="actionMapWindow"/>
+    <addaction name="actionProfileImage"/>
     <addaction name="actionOnlineMap"/>
     <addaction name="actionRig"/>
     <addaction name="actionRotator"/>
@@ -270,6 +271,15 @@
     <number>2</number>
    </attribute>
    <widget class="ChatWidget" name="chatWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="profileImageDockWidget">
+   <property name="windowTitle">
+    <string>Profile Image</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="ProfileImageWidget" name="profileImageWidget"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -563,6 +573,11 @@
     <string>Restore connection options after application restart</string>
    </property>
   </action>
+  <action name="actionProfileImage">
+   <property name="text">
+    <string>Profile Image</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -650,6 +665,12 @@
    <class>ChatWidget</class>
    <extends>QWidget</extends>
    <header>ui/ChatWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProfileImageWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/ProfileImageWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1294,6 +1315,22 @@
     <hint type="destinationlabel">
      <x>456</x>
      <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionProfileImage</sender>
+   <signal>triggered()</signal>
+   <receiver>profileImageDockWidget</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>883</x>
+     <y>518</y>
     </hint>
    </hints>
   </connection>

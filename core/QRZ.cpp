@@ -486,6 +486,10 @@ void QRZ::processReply(QNetworkReply* reply) {
             {
                 data["name_fmt"] = xml.readElementText();
             }
+            else if (xml.name() == QString("image"))
+            {
+                data["image_url"] = xml.readElementText();
+            }
         }
 
         if (data.size())
