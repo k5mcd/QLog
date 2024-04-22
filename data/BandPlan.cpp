@@ -195,6 +195,8 @@ const QString BandPlan::bandPlanMode2ExpectedMode(const BandPlanMode &bandPlanMo
 {
     FCT_IDENTIFICATION;
 
+    submode = QString();
+
     switch ( bandPlanMode )
     {
     case BAND_MODE_CW: {submode = QString(); return "CW";}
