@@ -75,7 +75,7 @@ void ProfileImageWidget::loadImageFromUrl(const QString &urlAddress)
             if ( mimeType.name().contains("image", Qt::CaseInsensitive))
             {
                // QByteArray->QString in arg is due to QT5.12
-               imageLabel->setToolTip(QString("<img src='data:%0;base64, %1'>").arg(mimeType.name(), imageData.toBase64()));
+               imageLabel->setToolTip(QString("<img src='data:%0;base64, %1'>").arg(mimeType.name(), QString(imageData.toBase64())));
             }
         }
         else
