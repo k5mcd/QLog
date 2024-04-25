@@ -144,6 +144,9 @@ private:
     bool isSOTAQueryValid;
     bool isWWFFQueryValid;
     bool isPOTAQueryValid;
+
+    static const char translitTab[];
+    static const int tranlitIndexMap[];
 };
 
 #endif // QLOG_DATA_DATA_H
