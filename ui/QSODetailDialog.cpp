@@ -1131,49 +1131,37 @@ void QSODetailDialog::callsignFound(const QMap<QString, QString> &data)
 
     if ( ui->gridEdit->text().isEmpty()
          || data.value("gridsquare").contains(ui->gridEdit->text()) )
-    {
         ui->gridEdit->setText(data.value("gridsquare"));
-    }
 
     if ( ui->qthEdit->text().isEmpty() )
-    {
         ui->qthEdit->setText(data.value("qth"));
-    }
 
     if ( ui->dokEdit->text().isEmpty() )
-    {
         ui->dokEdit->setText(data.value("dok"));
-    }
 
     if ( ui->iotaEdit->text().isEmpty() )
-    {
         ui->iotaEdit->setText(data.value("iota"));
-    }
 
     if ( ui->emailEdit->text().isEmpty() )
-    {
         ui->emailEdit->setText(data.value("email"));
-    }
 
     if ( ui->countyEdit->text().isEmpty() )
-    {
         ui->countyEdit->setText(data.value("county"));
-    }
 
     if ( ui->qslViaEdit->text().isEmpty() )
-    {
         ui->qslViaEdit->setText(data.value("qsl_via"));
-    }
 
     if ( ui->urlEdit->text().isEmpty() )
-    {
         ui->urlEdit->setText(data.value("url"));
-    }
 
     if ( ui->stateEdit->text().isEmpty() )
-    {
         ui->stateEdit->setText(data.value("us_state"));
-    }
+
+    if ( ui->ituEdit->text().isEmpty() )
+        ui->ituEdit->setText(data.value("ituz"));
+
+    if ( ui->cqEdit->text().isEmpty() )
+        ui->cqEdit->setText(data.value("cqz"));
 }
 
 void QSODetailDialog::callsignNotFound(const QString &)

@@ -650,6 +650,14 @@ void NewContactWidget::callsignResult(const QMap<QString, QString>& data)
         ui->lotwLabel->setText("LoTW");
     }
 
+    // always replace cqz/itu
+
+    if ( !data.value("ituz").isEmpty() )
+        uiDynamic->ituEdit->setText(data.value("ituz"));
+
+    if ( !data.value("cqz").isEmpty() )
+        uiDynamic->cqzEdit->setText(data.value("cqz"));
+
     emit callboolImageUrl(data.value("image_url"));
 
     lastCallbookQueryData = QMap<QString, QString>(data);
@@ -1665,12 +1673,21 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
 
     if ( !dxcc.country.isEmpty() )
     {
-        record.setValue("country", Data::removeAccents(dxcc.country));
-        record.setValue("country_intl", dxcc.country);
-        record.setValue("cqz", dxcc.cqz);
-        record.setValue("ituz", dxcc.ituz);
-        record.setValue("cont", dxcc.cont);
-        record.setValue("dxcc", dxcc.dxcc);
+        if ( record.value("country_intl").toString().isEmpty()
+             && record.value("country").toString().isEmpty() )
+            record.setValue("country_intl", dxcc.country);
+
+        if ( record.value("cqz").toString().isEmpty() )
+            record.setValue("cqz", dxcc.cqz);
+
+        if ( record.value("ituz").toString().isEmpty() )
+            record.setValue("ituz", dxcc.ituz);
+
+        if ( record.value("cont").toString().isEmpty() )
+            record.setValue("cont", dxcc.cont);
+
+        if ( record.value("dxcc").toString().isEmpty() )
+            record.setValue("dxcc", dxcc.dxcc);
     }
 
     // add information from callbook if it is a known callsign
