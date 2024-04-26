@@ -1150,31 +1150,23 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
        record.setValue("station_callsign", profile.callsign.toUpper());
     }
 
-    QString myCallsign = record.value("station_callsign").toString();
-
-    DxccEntity dxccEntity = Data::instance()->lookupDxcc(myCallsign);
-
-    if ( dxccEntity.dxcc )
+    if ( record.value("my_dxcc").toString().isEmpty()
+         && profile.dxcc != 0 )
     {
-        if ( record.value("my_dxcc").toString().isEmpty() )
-        {
-            record.setValue("my_dxcc", dxccEntity.dxcc);
-        }
+        record.setValue("my_dxcc", profile.dxcc);
+        record.setValue("my_country_intl", profile.country);
+    }
 
-        if ( record.value("my_itu_zone").toString().isEmpty() )
-        {
-            record.setValue("my_itu_zone", dxccEntity.ituz);
-        }
+    if ( record.value("my_itu_zone").toString().isEmpty()
+         && profile.ituz != 0 )
+    {
+        record.setValue("my_itu_zone", profile.ituz);
+    }
 
-        if ( record.value("my_cq_zone").toString().isEmpty() )
-        {
-            record.setValue("my_cq_zone", dxccEntity.cqz);
-        }
-
-        if ( record.value("my_country_intl").toString().isEmpty() )
-        {
-            record.setValue("my_country_intl", dxccEntity.country);
-        }
+    if ( record.value("my_cq_zone").toString().isEmpty()
+         && profile.cqz != 0 )
+    {
+        record.setValue("my_cq_zone", profile.cqz);
     }
 
     if ( record.value("my_name_intl").toString().isEmpty()
@@ -1659,7 +1651,7 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
 {
     FCT_IDENTIFICATION;
 
-    QString savedCallsign = record.value("callsign").toString();
+    const QString &savedCallsign = record.value("callsign").toString();
 
     if ( savedCallsign.isEmpty() ) return;
 
@@ -1669,7 +1661,7 @@ void NewContactWidget::saveExternalContact(QSqlRecord record)
     QSqlField idField = model.record().field(model.fieldIndex("id"));
     model.removeColumn(model.fieldIndex("id"));
 
-    DxccEntity dxcc = Data::instance()->lookupDxcc(record.value("callsign").toString());
+    const DxccEntity &dxcc = Data::instance()->lookupDxcc(savedCallsign);
 
     if ( !dxcc.country.isEmpty() )
     {
@@ -2160,11 +2152,10 @@ void NewContactWidget::setNearestSpotColor(const QString &call)
 
     QPalette palette;
 
-
-    DxccEntity spotEntity = Data::instance()->lookupDxcc(call);
-    DxccStatus status = Data::dxccStatus(spotEntity.dxcc,
-                                         ui->bandRXLabel->text(),
-                                         ui->modeEdit->currentText());
+    const DxccEntity &spotEntity = Data::instance()->lookupDxcc(call);
+    const DxccStatus &status = Data::dxccStatus(spotEntity.dxcc,
+                                                ui->bandRXLabel->text(),
+                                                ui->modeEdit->currentText());
     palette.setColor(QPalette::WindowText,
                      Data::statusToColor(status,
                                          palette.color(QPalette::Text)));

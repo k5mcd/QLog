@@ -92,7 +92,7 @@ public slots:
     void rotStackWidgetChanged(int);
     void cwKeyStackWidgetChanged(int);
     void tqslPathBrowse();
-    void adjustCallsignTextColor();
+    void stationCallsignChanged();
     void adjustLocatorTextColor();
     void adjustVUCCLocatorTextColor();
     void adjustRotCOMPortTextColor();

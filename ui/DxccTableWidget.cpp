@@ -52,22 +52,13 @@ void DxccTableWidget::setDxcc(int dxcc, Band highlightedBand)
 
         QString filter("1 = 1");
         StationProfile profile = StationProfilesManager::instance()->getCurProfile1();
-        QVariant start = settings.value("dxcc/start");
+        const QVariant &start = settings.value("dxcc/start");
         QStringList stmt_band_part1;
         QStringList stmt_band_part2;
 
         if ( profile != StationProfile() )
         {
-            DxccEntity dxccEntity = Data::instance()->lookupDxcc(profile.callsign);
-
-            if ( dxccEntity.dxcc )
-            {
-                filter.append(QString(" AND c.my_dxcc = %1").arg(dxccEntity.dxcc));
-            }
-            else
-            {
-                filter.append(QString(" AND c.station_callsign = '%1'").arg(profile.callsign));
-            }
+            filter.append(QString(" AND c.my_dxcc = %1").arg(profile.dxcc));
         }
 
         if ( start.toDate().isValid() )

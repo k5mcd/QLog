@@ -500,6 +500,7 @@ unsigned long LogFormat::runImport(QTextStream& importLogStream,
             continue;
         }
 
+        qInfo() << "ladas" << record;
         if ( record.value(RECORDIDX(LogbookModel::COLUMN_MY_DXCC)).toString().isEmpty() )
         {
             record.setValue(RECORDIDX(LogbookModel::COLUMN_MY_DXCC), dxccEntity.dxcc);

@@ -14,7 +14,7 @@ class StationProfile
 {
 
 public:
-    StationProfile() {};
+    StationProfile() : ituz(0), cqz(0), dxcc(0) {};
 
     QString profileName;
     QString callsign;
@@ -28,6 +28,10 @@ public:
     QString sigInfo;
     QString vucc;
     QString wwff;
+    int ituz;
+    int cqz;
+    int dxcc;
+    QString country;
 
     bool operator== (const StationProfile &profile);
     bool operator!= (const StationProfile &profile);

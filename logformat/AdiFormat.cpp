@@ -247,9 +247,9 @@ void AdiFormat::mapContact2SQLRecord(QMap<QString, QVariant> &contact,
     /* Set default values if not present */
     if ( defaults )
     {
-        QStringList keys = defaults->keys();
+        const QStringList &keys = defaults->keys();
 
-        for ( const QString &key : qAsConst(keys) )
+        for ( const QString &key : keys )
         {
             if ( contact.value(key).toString().isEmpty() )
             {
@@ -449,7 +449,7 @@ void AdiFormat::contactFields2SQLRecord(QMap<QString, QVariant> &contact, QSqlRe
     record.setValue("mode", mode);
     record.setValue("submode", submode);
 
-    QDate date_on = parseDate(contact.take("qso_date").toString());
+    const QDate &date_on = parseDate(contact.take("qso_date").toString());
     QDate date_off = parseDate(contact.take("qso_date_off").toString());
 
     if ( date_off.isNull() || !date_off.isValid() )

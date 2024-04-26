@@ -37,6 +37,7 @@ private:
     bool fillMyDXCC();
     bool createTriggers();
     bool importQSLCards2DB();
+    bool fillCQITUZStationProfiles();
     QString fixIntlField(QSqlQuery &query, const QString &columName, const QString &columnNameIntl);
     bool refreshUploadStatusTrigger();
 

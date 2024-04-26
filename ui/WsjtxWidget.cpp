@@ -74,6 +74,11 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
             entry.decodedMode = currMode;
             entry.spotter = profile.callsign.toUpper();
             entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
+            // fix dxcc_spotter based on station prifile setting - cont is not calculated
+            entry.dxcc_spotter.country = profile.country;
+            entry.dxcc_spotter.cqz = profile.cqz;
+            entry.dxcc_spotter.ituz = profile.ituz;
+            entry.dxcc.dxcc = profile.dxcc;
             entry.distance = 0.0;
             entry.callsign_member = MembershipQE::instance()->query(entry.callsign);
 
@@ -135,6 +140,11 @@ void WsjtxWidget::decodeReceived(WsjtxDecode decode)
                 entry.decodedMode = currMode;
                 entry.spotter = profile.callsign.toUpper();
                 entry.dxcc_spotter = Data::instance()->lookupDxcc(entry.spotter);
+                // fix dxcc_spotter based on station prifile setting - cont is not calculated
+                entry.dxcc_spotter.country = profile.country;
+                entry.dxcc_spotter.cqz = profile.cqz;
+                entry.dxcc_spotter.ituz = profile.ituz;
+                entry.dxcc.dxcc = profile.dxcc;
                 entry.distance = 0.0;
                 // it is not needed to update entry.callsign_clubs because addOrReplaceEntry does not
                 // update it. Only CQ provides the club membeship info
