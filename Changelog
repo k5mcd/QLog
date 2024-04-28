@@ -5,6 +5,7 @@ TBC - 0.35.0
 - [NEW] - CW Console - Added Word/Whole mode switch
 - [NEW] - Added Callbook Profile Image Widget
 - [NEW] - ASCII conversion based on Text-Unidecode/iconv algorith (issue #316 #350)
+- [NEW] - ITU/CQ Zones can be defined in Station Profile (issue #358)
 - [CHANGED] - Spacebar is used as a focus changer for fields where space is not allowed
 - [CHANGED] - Focus does not select text in the input fields
 - Fixed incorrect ADIF date format for clublog_qso_upload_date (issue #342)
