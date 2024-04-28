@@ -44,11 +44,14 @@ public:
 public slots:
     void loadImageFromUrl(const QString &url);
 
+private slots:
+    void processReply(QNetworkReply* reply);
+
 private:
     Ui::ProfileImageWidget *ui;
     AspectRatioLabel *imageLabel;
-    QNetworkAccessManager *nm;
-    QNetworkReply *reply;
+    QNetworkAccessManager *nam;
+    QNetworkReply *currentReply;
     QMimeDatabase mimeDatabase;
     QMimeType mimeType;
 };

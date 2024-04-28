@@ -9,8 +9,8 @@ ProfileImageWidget::ProfileImageWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ProfileImageWidget),
     imageLabel(new AspectRatioLabel(this)),
-    nm(new QNetworkAccessManager(this)),
-    reply(nullptr)
+    nam(new QNetworkAccessManager(this)),
+    currentReply(nullptr)
 {
     FCT_IDENTIFICATION;
 
@@ -20,20 +20,22 @@ ProfileImageWidget::ProfileImageWidget(QWidget *parent) :
     imageLabel->setAlignment(Qt::AlignCenter);
     imageLabel->setMinimumSize(sizeHint());
     layout->addWidget(imageLabel);
+
+    connect(nam, &QNetworkAccessManager::finished,
+            this, &ProfileImageWidget::processReply);
 }
 
 ProfileImageWidget::~ProfileImageWidget()
 {
     FCT_IDENTIFICATION;
 
-    delete ui;
-    if ( reply )
-    {
-        reply->abort();
-        reply->deleteLater();
-    }
+    if ( currentReply )
+        currentReply->abort();
+
+    nam->deleteLater();
     imageLabel->deleteLater();
-    nm->deleteLater();
+
+    delete ui;
 }
 
 void ProfileImageWidget::loadImageFromUrl(const QString &urlAddress)
@@ -49,43 +51,56 @@ void ProfileImageWidget::loadImageFromUrl(const QString &urlAddress)
         return;
     }
 
-    if ( reply )
+    if ( currentReply )
     {
         qCDebug(runtime) << "Previous request is still running";
-        reply->abort();
-        reply->deleteLater();
+        currentReply->abort();
+        currentReply->deleteLater();
     }
 
     QUrl url(urlAddress);
-    QNetworkRequest request(url);
 
-    reply = nm->get(request);
-    connect(reply, &QNetworkReply::finished, this, [this]()
+    currentReply = nam->get(QNetworkRequest(url));
+}
+
+void ProfileImageWidget::processReply(QNetworkReply *reply)
+{
+    FCT_IDENTIFICATION;
+
+    /* always process one requests per class */
+    currentReply = nullptr;
+
+    int replyStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+    if ( reply->error() != QNetworkReply::NoError
+         || replyStatusCode < 200
+         || replyStatusCode >= 300)
     {
-        if ( reply->error() == QNetworkReply::NoError )
+        qCDebug(runtime) << "Download Image error: URL " << reply->request().url().toString();
+        qCDebug(runtime) << "Download Image error:" << reply->errorString();
+
+        if ( reply->error() != QNetworkReply::OperationCanceledError )
         {
-            QByteArray imageData = reply->readAll();
-            QPixmap pixmap;
-
-            pixmap.loadFromData(imageData);
-            imageLabel->setPixmap(pixmap);
-            imageLabel->setScaledContents(true);
-            mimeType = mimeDatabase.mimeTypeForData(imageData);
-
-            if ( mimeType.name().contains("image", Qt::CaseInsensitive))
-            {
-               // QByteArray->QString in arg is due to QT5.12
-               imageLabel->setToolTip(QString("<img src='data:%0;base64, %1'>").arg(mimeType.name(), QString(imageData.toBase64())));
-            }
+            reply->deleteLater();
         }
-        else
-        {
-            qCWarning(runtime) << "Profile Image download error:" << reply->errorString();
-        }
+        return;
+    }
 
-        reply->deleteLater();
-        reply = nullptr;
-    });
+    QByteArray imageData = reply->readAll();
+    QPixmap pixmap;
+
+    pixmap.loadFromData(imageData);
+    imageLabel->setPixmap(pixmap);
+    imageLabel->setScaledContents(true);
+    mimeType = mimeDatabase.mimeTypeForData(imageData);
+
+    if ( mimeType.name().contains("image", Qt::CaseInsensitive))
+    {
+        // QByteArray->QString in arg is due to QT5.12
+        imageLabel->setToolTip(QString("<img src='data:%0;base64, %1'>").arg(mimeType.name(), QString(imageData.toBase64())));
+    }
+
+    reply->deleteLater();
 }
 
 AspectRatioLabel::AspectRatioLabel(QWidget* parent, Qt::WindowFlags f) :
