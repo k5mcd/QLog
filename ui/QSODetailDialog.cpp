@@ -108,9 +108,11 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
 
     /* ITU Zones Validators */
     ui->ituEdit->setValidator(new QIntValidator(Data::getITUZMin(), Data::getITUZMax(), this));
+    ui->myITUEdit->setValidator(new QIntValidator(Data::getITUZMin(), Data::getITUZMax(), this));
 
     /* CQ Zones Validators */
-    ui->ituEdit->setValidator(new QIntValidator(Data::getCQZMin(), Data::getCQZMax(), this));
+    ui->cqEdit->setValidator(new QIntValidator(Data::getCQZMin(), Data::getCQZMax(), this));
+    ui->myCQEdit->setValidator(new QIntValidator(Data::getCQZMin(), Data::getCQZMax(), this));
 
     /* Submode mapping */
     QStringListModel* submodeModel = new QStringListModel(this);
@@ -256,11 +258,20 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
                                                   "FROM dxcc_entities "
                                                   "ORDER BY 2 COLLATE LOCALEAWARE ASC;", "", this);
     while ( countryModel->canFetchMore() )
-    {
         countryModel->fetchMore();
-    }
+
     ui->countryCombo->setModel(countryModel);
     ui->countryCombo->setModelColumn(1);
+
+    /* My Country Combo */
+    SqlListModel* myCountryModel = new SqlListModel("SELECT id, translate_to_locale(name), name  "
+                                                  "FROM dxcc_entities "
+                                                  "ORDER BY 2 COLLATE LOCALEAWARE ASC;", " ", this);
+    while ( myCountryModel->canFetchMore() )
+        myCountryModel->fetchMore();
+
+    ui->myCountryCombo->setModel(myCountryModel);
+    ui->myCountryCombo->setModelColumn(1);
 
     /* Band Combos */
     SqlListModel* bandModel = new SqlListModel("SELECT name FROM bands ORDER BY start_freq;", tr("Blank"), this);
@@ -323,6 +334,9 @@ QSODetailDialog::QSODetailDialog(const QSqlRecord &qso,
     /* My Station */
     mapper->addMapping(ui->myCallsignEdit, LogbookModel::COLUMN_STATION_CALLSIGN);
     mapper->addMapping(ui->myOperatorNameEdit, LogbookModel::COLUMN_MY_NAME_INTL);
+    mapper->addMapping(ui->myCountryCombo, LogbookModel::COLUMN_MY_DXCC);
+    mapper->addMapping(ui->myITUEdit, LogbookModel::COLUMN_MY_ITU_ZONE);
+    mapper->addMapping(ui->myCQEdit, LogbookModel::COLUMN_MY_CQ_ZONE);
     mapper->addMapping(ui->myQTHEdit, LogbookModel::COLUMN_MY_CITY_INTL);
     mapper->addMapping(ui->myGridEdit, LogbookModel::COLUMN_MY_GRIDSQUARE);
     mapper->addMapping(ui->mySOTAEdit, LogbookModel::COLUMN_MY_SOTA_REF);
@@ -860,7 +874,7 @@ bool QSODetailDialog::doValidation()
                                  !ui->gridEdit->text().isEmpty() && !ui->gridEdit->hasAcceptableInput(),
                                  tr("DX Grid has an incorrect format"));
 
-    DxccEntity dxccEntity = Data::instance()->lookupDxcc(ui->callsignEdit->text());
+    const DxccEntity &dxccEntity = Data::instance()->lookupDxcc(ui->callsignEdit->text());
 
     allValid &= highlightInvalid(ui->countryLabel,
                                  dxccEntity.dxcc && ui->countryCombo->currentText() != QCoreApplication::translate("DBStrings", dxccEntity.country.toUtf8().constData()),
@@ -882,6 +896,8 @@ bool QSODetailDialog::doValidation()
                                  !ui->vuccEdit->text().isEmpty() && !ui->vuccEdit->hasAcceptableInput(),
                                  tr("VUCC has an incorrect format"));
 
+    const DxccEntity &myDxccEntity = Data::instance()->lookupDxcc(ui->myCallsignEdit->text());
+
     allValid &= highlightInvalid(ui->myCallsignLabel,
                                  ui->myCallsignEdit->text().isEmpty(),
                                  tr("Own Callsign must not be empty"));
@@ -897,6 +913,18 @@ bool QSODetailDialog::doValidation()
     allValid &= highlightInvalid(ui->myVUCCLabel,
                                  !ui->myVUCCEdit->text().isEmpty() && !ui->myVUCCEdit->hasAcceptableInput(),
                                  tr("Own VUCC Grids have an incorrect format"));
+
+    allValid &= highlightInvalid(ui->myITULabel,
+                                 myDxccEntity.dxcc && ui->myITUEdit->text() != QString::number(myDxccEntity.ituz),
+                                 tr("Based on own callsign, own DXCC ITU is different from the entered value - expecting ") + "<b> " + QString::number(myDxccEntity.ituz) + "</b>");
+
+    allValid &= highlightInvalid(ui->myCQLabel,
+                                 myDxccEntity.dxcc && ui->myCQEdit->text() != QString::number(myDxccEntity.cqz),
+                                 tr("Based on own callsign, own DXCC CQZ is different from the entered value - expecting ") + "<b> " + QString::number(myDxccEntity.cqz) + "</b>");
+
+    allValid &= highlightInvalid(ui->myCountryLabel,
+                                 myDxccEntity.dxcc && ui->myCountryCombo->currentText() != QCoreApplication::translate("DBStrings", myDxccEntity.country.toUtf8().constData()),
+                                 tr("Based on own callsign, own DXCC Country is different from the entered value - expecting ") + "<b> " + QCoreApplication::translate("DBStrings", myDxccEntity.country.toUtf8().constData()) + "</b>");
 
     SOTAEntity sotaInfo;
     POTAEntity potaInfo;
@@ -1103,49 +1131,37 @@ void QSODetailDialog::callsignFound(const QMap<QString, QString> &data)
 
     if ( ui->gridEdit->text().isEmpty()
          || data.value("gridsquare").contains(ui->gridEdit->text()) )
-    {
         ui->gridEdit->setText(data.value("gridsquare"));
-    }
 
     if ( ui->qthEdit->text().isEmpty() )
-    {
         ui->qthEdit->setText(data.value("qth"));
-    }
 
     if ( ui->dokEdit->text().isEmpty() )
-    {
         ui->dokEdit->setText(data.value("dok"));
-    }
 
     if ( ui->iotaEdit->text().isEmpty() )
-    {
         ui->iotaEdit->setText(data.value("iota"));
-    }
 
     if ( ui->emailEdit->text().isEmpty() )
-    {
         ui->emailEdit->setText(data.value("email"));
-    }
 
     if ( ui->countyEdit->text().isEmpty() )
-    {
         ui->countyEdit->setText(data.value("county"));
-    }
 
     if ( ui->qslViaEdit->text().isEmpty() )
-    {
         ui->qslViaEdit->setText(data.value("qsl_via"));
-    }
 
     if ( ui->urlEdit->text().isEmpty() )
-    {
         ui->urlEdit->setText(data.value("url"));
-    }
 
     if ( ui->stateEdit->text().isEmpty() )
-    {
         ui->stateEdit->setText(data.value("us_state"));
-    }
+
+    if ( ui->ituEdit->text().isEmpty() )
+        ui->ituEdit->setText(data.value("ituz"));
+
+    if ( ui->cqEdit->text().isEmpty() )
+        ui->cqEdit->setText(data.value("cqz"));
 }
 
 void QSODetailDialog::callsignNotFound(const QString &)
@@ -1622,7 +1638,8 @@ void QSOEditMapperDelegate::setEditorData(QWidget *editor,
         }
         return;
     }
-    else if ( editor->objectName() == "countryCombo" )
+    else if ( editor->objectName() == "countryCombo"
+              || editor->objectName() == "myCountryCombo" )
     {
         QComboBox* combo = qobject_cast<QComboBox*>(editor);
 
@@ -1762,20 +1779,24 @@ void QSOEditMapperDelegate::setModelData(QWidget *editor,
             return;
         }
     }
-    else if ( editor->objectName() == "countryCombo" )
+    else if ( editor->objectName() == "countryCombo"
+              || editor->objectName() == "myCountryCombo" )
     {
         QComboBox* combo = static_cast<QComboBox*>(editor);
 
         if ( combo )
         {
             int row = combo->currentIndex();
-            QModelIndex idxDXCC = combo->model()->index(row,0);
-            QModelIndex idxCountryEN = combo->model()->index(row,2);
+            const QModelIndex &idxDXCC = combo->model()->index(row,0);
+            const QModelIndex &idxCountryEN = combo->model()->index(row,2);
             QVariant dataDXCC = combo->model()->data(idxDXCC);
             QVariant dataCountryEN = combo->model()->data(idxCountryEN);
 
             model->setData(index, dataDXCC);
-            model->setData(model->index(index.row(), LogbookModel::COLUMN_COUNTRY_INTL),dataCountryEN);
+            model->setData(model->index(index.row(),
+                                        (editor->objectName() == "countryCombo" ) ? LogbookModel::COLUMN_COUNTRY_INTL
+                                                                                  : LogbookModel::COLUMN_MY_COUNTRY_INTL),
+                           dataCountryEN);
         }
         return;
     }
@@ -2070,29 +2091,6 @@ bool QSODetailDialog::LogbookModelPrivate::setData(const QModelIndex &index, con
             else
             {
                 depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ALTITUDE), QVariant(), role); // clazy:exclude=skipped-base-method
-            }
-            break;
-        }
-
-        case COLUMN_STATION_CALLSIGN:
-        {
-            DxccEntity dxccEntity = Data::instance()->lookupDxcc(value.toString().toUpper());
-
-            if ( dxccEntity.dxcc )
-            {
-                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_DXCC), dxccEntity.dxcc, role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ITU_ZONE), dxccEntity.ituz, role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_CQ_ZONE), dxccEntity.cqz, role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY_INTL), dxccEntity.country, role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY), Data::removeAccents(dxccEntity.country), role); // clazy:exclude=skipped-base-method
-            }
-            else
-            {
-                depend_update_result = QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_CQ_ZONE), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_ITU_ZONE), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_DXCC), QVariant(QString()),role); // clazy:exclude=skipped-base-method
-                depend_update_result = depend_update_result && QSqlTableModel::setData(this->index(index.row(), COLUMN_MY_COUNTRY_INTL), QVariant(QString()),role); // clazy:exclude=skipped-base-method
             }
             break;
         }

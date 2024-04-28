@@ -304,6 +304,11 @@ void ImportDialog::runImport() {
         {
             defaults["my_pota_ref"] = Data::removeAccents(selectedStationProfile.pota.toUpper());
         }
+
+        defaults["my_dxcc"] = QString::number(selectedStationProfile.dxcc);
+        defaults["my_itu_zone"] = QString::number(selectedStationProfile.ituz);
+        defaults["my_cq_zone"] = QString::number(selectedStationProfile.cqz);
+        defaults["my_country_intl"] = selectedStationProfile.country;
     }
 
     LogFormat* format = LogFormat::open(ui->typeSelect->currentText(), in);

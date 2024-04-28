@@ -200,6 +200,9 @@ bool Migration::functionMigration(int version)
     case 23:
         ret = importQSLCards2DB();
         break;
+    case 26:
+        ret = fillCQITUZStationProfiles();
+        break;
     default:
         ret = true;
     }
@@ -563,6 +566,62 @@ bool Migration::importQSLCards2DB()
 
     settings.remove("paperqsl/qslfolder");
     settings.remove("eqsl/qslfolder");
+    return true;
+}
+
+bool Migration::fillCQITUZStationProfiles()
+{
+    FCT_IDENTIFICATION;
+
+    QSqlQuery query;
+    QSqlQuery update;
+
+    if ( !query.prepare( "SELECT DISTINCT callsign FROM station_profiles" ) )
+    {
+        qWarning()<< " Cannot prepare a migration script - fillCQITUZStationProfiles 1" << query.lastError();
+        return false;
+    }
+
+    if( !query.exec() )
+    {
+        qWarning()<< "Cannot exec a migration script - fillCQITUZStationProfiles 1" << query.lastError();
+        return false;
+    }
+
+    if ( !update.prepare("UPDATE station_profiles "
+                         "SET ituz = :ituz, cqz = :cqz, dxcc = :dxcc, country = :country "
+                         "WHERE upper(callsign) = :callsign") )
+    {
+        qWarning()<< " Cannot prepare a migration script - fillCQITUZStationProfiles 2" << update.lastError();
+        return false;
+    }
+
+    // it is a hack because the migration is running before migration (start/stop database).
+    // It caused that SQL prepared in contructor are incorrectly created.
+    // Therefore, Data are create temporary here
+    Data tmp;
+
+    while( query.next() )
+    {
+        const QString &myCallsign = query.value("callsign").toString().toUpper();
+        const DxccEntity &dxccEntity = tmp.lookupDxcc(myCallsign);
+
+        if ( dxccEntity.dxcc )
+        {
+            update.bindValue(":ituz",  dxccEntity.ituz);
+            update.bindValue(":cqz",   dxccEntity.cqz);
+            update.bindValue(":dxcc",  dxccEntity.dxcc);
+            update.bindValue(":country",  dxccEntity.country);
+            update.bindValue(":callsign", myCallsign);
+
+            if ( !update.exec())
+            {
+                qWarning() << "Cannot exec a migration script - fillCQITUZStationProfiles 2" << update.lastError();
+                return false;
+            }
+        }
+    }
+
     return true;
 }
 

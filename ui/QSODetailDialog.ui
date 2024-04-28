@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1039</width>
-    <height>719</height>
+    <height>751</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1292,54 +1292,54 @@
          <item row="1" column="1">
           <widget class="NewContactEditLine" name="myOperatorNameEdit"/>
          </item>
-         <item row="2" column="0">
+         <item row="4" column="0">
           <widget class="QLabel" name="myGridLabel">
            <property name="text">
             <string>Gridsquare</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item row="4" column="1">
           <widget class="NewContactEditLine" name="myGridEdit"/>
          </item>
-         <item row="3" column="0">
+         <item row="5" column="0">
           <widget class="QLabel" name="myQTHLabel">
            <property name="text">
             <string>QTH</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="5" column="1">
           <widget class="NewContactEditLine" name="myQTHEdit"/>
          </item>
-         <item row="4" column="0">
+         <item row="6" column="0">
           <widget class="QLabel" name="myRigLabel">
            <property name="text">
             <string>Rig</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
+         <item row="6" column="1">
           <widget class="NewContactEditLine" name="myRigEdit"/>
          </item>
-         <item row="5" column="0">
+         <item row="7" column="0">
           <widget class="QLabel" name="myAntLabel">
            <property name="text">
             <string>Antenna</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
+         <item row="7" column="1">
           <widget class="NewContactEditLine" name="myAntEdit"/>
          </item>
-         <item row="6" column="0">
+         <item row="8" column="0">
           <widget class="QLabel" name="powerLabel">
            <property name="text">
             <string>Power</string>
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
+         <item row="8" column="1">
           <widget class="QDoubleSpinBox" name="powerEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -1366,6 +1366,82 @@
             <double>0.000000000000000</double>
            </property>
           </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="myCountryLabel">
+           <property name="text">
+            <string>Country</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="myCountryCombo"/>
+         </item>
+         <item row="3" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_15">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="myITULabel">
+             <property name="text">
+              <string>ITU</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="NewContactEditLine" name="myITUEdit">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="myCQLabel">
+             <property name="text">
+              <string>CQ</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="NewContactEditLine" name="myCQEdit">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
@@ -2090,14 +2166,14 @@
    <header location="global">QtWebEngineWidgets/QWebEngineView</header>
   </customwidget>
   <customwidget>
-   <class>DxccTableWidget</class>
-   <extends>QTableView</extends>
-   <header>ui/DxccTableWidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>NewContactEditLine</class>
    <extends>QLineEdit</extends>
    <header>ui/EditLine.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DxccTableWidget</class>
+   <extends>QTableView</extends>
+   <header>ui/DxccTableWidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -137,6 +137,19 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QStringListModel* rigModel = new QStringListModel();
     ui->rigProfilesListView->setModel(rigModel);
 
+    /* Country Combo */
+    SqlListModel* countryModel = new SqlListModel("SELECT id, translate_to_locale(name), name  "
+                                                  "FROM dxcc_entities "
+                                                  "ORDER BY 2 COLLATE LOCALEAWARE ASC;", " ", this);
+    while ( countryModel->canFetchMore() )
+        countryModel->fetchMore();
+
+    ui->stationCountryCombo->setModel(countryModel);
+    ui->stationCountryCombo->setModelColumn(1);
+
+    ui->stationCQZEdit->setValidator(new QIntValidator(Data::getCQZMin(), Data::getCQZMax(), ui->stationCQZEdit));
+    ui->stationITUEdit->setValidator(new QIntValidator(Data::getITUZMin(), Data::getITUZMax(), ui->stationITUEdit));
+
     modeTableModel = new QSqlTableModel(this);
     modeTableModel->setTable("modes");
     modeTableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
@@ -1442,6 +1455,27 @@ void SettingsDialog::addStationProfile()
         }
     }
 
+    if ( ui->stationCountryCombo->currentIndex() == 0 )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("Country must not be empty"));
+        return;
+    }
+
+    if ( ui->stationCQZEdit->text().isEmpty() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("CQZ must not be empty"));
+        return;
+    }
+
+    if ( ui->stationITUEdit->text().isEmpty() )
+    {
+        QMessageBox::warning(nullptr, QMessageBox::tr("QLog Warning"),
+                             QMessageBox::tr("ITU must not be empty"));
+        return;
+    }
+
     if ( ui->stationAddProfileButton->text() == tr("Modify"))
     {
         ui->stationAddProfileButton->setText(tr("Add"));
@@ -1461,6 +1495,16 @@ void SettingsDialog::addStationProfile()
     profile.sigInfo = ui->stationSIGInfoEdit->text();
     profile.vucc = ui->stationVUCCEdit->text().toUpper();
     profile.wwff = ui->stationWWFFEdit->text().toUpper();
+    profile.cqz = ui->stationCQZEdit->text().toInt();
+    profile.ituz = ui->stationITUEdit->text().toInt();
+
+    int row = ui->stationCountryCombo->currentIndex();
+    const QModelIndex &idxDXCC = ui->stationCountryCombo->model()->index(row,0);
+    const QVariant &dataDXCC = ui->stationCountryCombo->model()->data(idxDXCC);
+    const QModelIndex &idxCountryEN = ui->stationCountryCombo->model()->index(row,2);
+    QVariant dataCountryEN = ui->stationCountryCombo->model()->data(idxCountryEN);
+    profile.dxcc = dataDXCC.toInt();
+    profile.country = dataCountryEN.toString();
 
     stationProfManager->addProfile(profile.profileName, profile);
 
@@ -1492,7 +1536,10 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     profile = stationProfManager->getProfile(ui->stationProfilesListView->model()->data(i).toString());
 
     ui->stationProfileNameEdit->setText(profile.profileName);
+    ui->stationCallsignEdit->blockSignals(true);
     ui->stationCallsignEdit->setText(profile.callsign);
+    setValidationResultColor(ui->stationCallsignEdit);
+    ui->stationCallsignEdit->blockSignals(false);
     ui->stationLocatorEdit->setText(profile.locator);
     ui->stationOperatorEdit->setText(profile.operatorName);
     ui->stationQTHEdit->setText(profile.qthName);
@@ -1509,6 +1556,13 @@ void SettingsDialog::doubleClickStationProfile(QModelIndex i)
     ui->stationWWFFEdit->blockSignals(true);
     ui->stationWWFFEdit->setText(profile.wwff);
     ui->stationWWFFEdit->blockSignals(false);
+    ui->stationCQZEdit->setText(QString::number(profile.cqz));
+    ui->stationITUEdit->setText(QString::number(profile.ituz));
+    const QModelIndexList &countryIndex = ui->stationCountryCombo->model()->match(ui->stationCountryCombo->model()->index(0,0),
+                                                                           Qt::DisplayRole, profile.dxcc,
+                                                                           1, Qt::MatchExactly);
+    if ( countryIndex.size() >= 1 )
+        ui->stationCountryCombo->setCurrentIndex(countryIndex.at(0).row());
 
     ui->stationAddProfileButton->setText(tr("Modify"));
 }
@@ -1532,6 +1586,9 @@ void SettingsDialog::clearStationProfileForm()
     ui->stationSIGInfoEdit->clear();
     ui->stationVUCCEdit->clear();
     ui->stationWWFFEdit->clear();
+    ui->stationCQZEdit->clear();
+    ui->stationITUEdit->clear();
+    ui->stationCountryCombo->setCurrentIndex(0);
 
     ui->stationAddProfileButton->setText(tr("Add"));
 }
@@ -1755,11 +1812,31 @@ void SettingsDialog::tqslPathBrowse()
     }
 }
 
-void SettingsDialog::adjustCallsignTextColor()
+void SettingsDialog::stationCallsignChanged()
 {
     FCT_IDENTIFICATION;
 
     setValidationResultColor(ui->stationCallsignEdit);
+
+    const QString &callsign = ui->stationCallsignEdit->text();
+    const DxccEntity &dxccEntity = Data::instance()->lookupDxcc(callsign);
+
+    if ( dxccEntity.dxcc )
+    {
+        ui->stationITUEdit->setText(QString::number(dxccEntity.ituz));
+        ui->stationCQZEdit->setText(QString::number(dxccEntity.cqz));
+        const QModelIndexList &countryIndex = ui->stationCountryCombo->model()->match(ui->stationCountryCombo->model()->index(0,0),
+                                                                               Qt::DisplayRole, dxccEntity.dxcc,
+                                                                               1, Qt::MatchExactly);
+        if ( countryIndex.size() >= 1 )
+            ui->stationCountryCombo->setCurrentIndex(countryIndex.at(0).row());
+    }
+    else
+    {
+        ui->stationCountryCombo->setCurrentIndex(0);
+        ui->stationCQZEdit->clear();
+        ui->stationITUEdit->clear();
+    }
 }
 
 void SettingsDialog::adjustLocatorTextColor()

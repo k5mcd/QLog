@@ -13,7 +13,7 @@ QDataStream& operator<<(QDataStream& out, const StationProfile& v)
     out << v.profileName << v.callsign << v.locator
         << v.operatorName << v.qthName << v.iota
         << v.sota << v.sig << v.sigInfo << v.vucc
-        << v.wwff << v.pota;
+        << v.wwff << v.pota << v.ituz << v.cqz << v.dxcc << v.country;
     return out;
 }
 
@@ -31,6 +31,10 @@ QDataStream& operator>>(QDataStream& in, StationProfile& v)
     in >> v.vucc;
     in >> v.wwff;
     in >> v.pota;
+    in >> v.ituz;
+    in >> v.cqz;
+    in >> v.dxcc;
+    in >> v.country;
 
     return in;
 }
@@ -45,7 +49,10 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
 
     QSqlQuery profileQuery;
 
-    if ( ! profileQuery.prepare("SELECT profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc, pota FROM station_profiles") )
+    if ( ! profileQuery.prepare("SELECT profile_name, callsign, locator, "
+                                "operator_name, qth_name, iota, sota, sig, sig_info, vucc, pota, "
+                                "ituz, cqz, dxcc, country "
+                                "FROM station_profiles") )
     {
         qWarning()<< "Cannot prepare select";
     }
@@ -66,6 +73,10 @@ StationProfilesManager::StationProfilesManager(QObject *parent) :
             profileDB.sigInfo =  profileQuery.value(8).toString();
             profileDB.vucc =  profileQuery.value(9).toString();
             profileDB.pota = profileQuery.value(10).toString();
+            profileDB.ituz = profileQuery.value(11).toInt();
+            profileDB.cqz = profileQuery.value(12).toInt();
+            profileDB.dxcc = profileQuery.value(13).toInt();
+            profileDB.country = profileQuery.value(14).toString();
 
             addProfile(profileDB.profileName, profileDB);
         }
@@ -98,8 +109,8 @@ void StationProfilesManager::save()
         return;
     }
 
-    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc, wwff, pota) "
-                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc, :wwff, :pota)") )
+    if ( ! insertQuery.prepare("INSERT INTO station_profiles(profile_name, callsign, locator, operator_name, qth_name, iota, sota, sig, sig_info, vucc, wwff, pota, ituz, cqz, dxcc, country) "
+                        "VALUES (:profile_name, :callsign, :locator, :operator_name, :qth_name, :iota, :sota, :sig, :sig_info, :vucc, :wwff, :pota, :ituz, :cqz, :dxcc, :country)") )
     {
         qWarning() << "cannot prepare Insert statement";
         return;
@@ -107,8 +118,8 @@ void StationProfilesManager::save()
 
     if ( deleteQuery.exec() )
     {
-        auto keys = profileNameList();
-        for ( auto &key: qAsConst(keys) )
+        const QStringList &keys = profileNameList();
+        for ( const QString &key : keys )
         {
             StationProfile stationProfile = getProfile(key);
 
@@ -124,6 +135,10 @@ void StationProfilesManager::save()
             insertQuery.bindValue(":vucc", stationProfile.vucc);
             insertQuery.bindValue(":wwff", stationProfile.wwff);
             insertQuery.bindValue(":pota", stationProfile.pota);
+            insertQuery.bindValue(":ituz", stationProfile.ituz);
+            insertQuery.bindValue(":cqz", stationProfile.cqz);
+            insertQuery.bindValue(":dxcc", stationProfile.dxcc);
+            insertQuery.bindValue(":country", stationProfile.country);
 
             if ( ! insertQuery.exec() )
             {
@@ -152,7 +167,11 @@ bool StationProfile::operator==(const StationProfile &profile)
             && profile.sigInfo == this->sigInfo
             && profile.vucc == this->vucc
             && profile.wwff == this->wwff
-            && profile.pota == this->pota);
+            && profile.pota == this->pota
+            && profile.ituz == this->ituz
+            && profile.cqz == this->cqz
+            && profile.dxcc == this->dxcc
+            && profile.country == this->country);
 }
 
 bool StationProfile::operator!=(const StationProfile &profile)
@@ -172,6 +191,9 @@ QString StationProfile::toHTMLString() const
                   ((!sigInfo.isEmpty()) ? "<b>" + QObject::tr("My Spec. Interes Activity Info") + ":</b> " + sigInfo + "<br/>" : "" )+
                   ((!vucc.isEmpty()) ? "<b>" + QObject::tr("My VUCC Grids") + ":</b> " + vucc + "<br/>" : "") +
                   ((!wwff.isEmpty()) ? "<b>" + QObject::tr("My WWFF") + ":</b> " + wwff + "<br/>" : "") +
-                  ((!pota.isEmpty()) ? "<b>" + QObject::tr("My POTA Ref") + ":</b> " + pota : "");
+                  ((!pota.isEmpty()) ? "<b>" + QObject::tr("My POTA Ref") + ":</b> " + pota : "") +
+                  ((ituz != 0) ? "<b>" + QObject::tr("My ITU") + ":</b> " + QString::number(ituz) : "") + " " +
+                  ((cqz != 0) ? "<b>" + QObject::tr("My CQZ") + ":</b> " + QString::number(cqz) : "") + " " +
+                  ((dxcc != 0) ? "<b>" + QObject::tr("My DXCC") + ":</b> " + QString::number(dxcc) : "");
     return ret;
 }

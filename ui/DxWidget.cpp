@@ -1493,8 +1493,6 @@ void DxWidget::processDxSpot(const QString &spotter,
     qCDebug(function_parameters) << spotter << freq << call << comment << dateTime << dateTime.isNull();
 
     DxSpot spot;
-    DxccEntity dxcc = Data::instance()->lookupDxcc(call);
-    DxccEntity dxcc_spotter = Data::instance()->lookupDxcc(spotter);
 
     spot.time = (dateTime.isNull()) ? QDateTime::currentDateTime().toTimeSpec(Qt::UTC)
                                     : dateTime;
@@ -1514,8 +1512,8 @@ void DxWidget::processDxSpot(const QString &spotter,
                                                 : BandPlan::BAND_MODE_USB;
     }
     spot.modeGroupString = BandPlan::bandMode2BandModeGroupString(spot.bandPlanMode);
-    spot.dxcc = dxcc;
-    spot.dxcc_spotter = dxcc_spotter;
+    spot.dxcc = Data::instance()->lookupDxcc(call);
+    spot.dxcc_spotter = Data::instance()->lookupDxcc(spotter);
     spot.status = Data::dxccStatus(spot.dxcc.dxcc, spot.band, spot.modeGroupString);
     spot.callsign_member = MembershipQE::instance()->query(spot.callsign);
 
