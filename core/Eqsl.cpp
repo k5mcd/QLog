@@ -369,12 +369,12 @@ void EQSL::processReply(QNetworkReply* reply)
     {
         //getting the first page where a ADIF filename is present
 
-        QString replayString(reply->readAll());
+        QString replyString(reply->readAll());
 
-        qCDebug(runtime) << replayString;
+        qCDebug(runtime) << replyString;
 
-        if ( replayString.contains("No such Username/Password found")
-             || replayString.contains("No such Callsign found") )
+        if ( replyString.contains("No such Username/Password found")
+             || replyString.contains("No such Callsign found") )
         {
             qCDebug(runtime) << "Incorrect Password or QTHProfile Id";
             emit updateFailed(tr("Incorrect Password or QTHProfile Id"));
@@ -382,14 +382,14 @@ void EQSL::processReply(QNetworkReply* reply)
         else
         {
             static QRegularExpression re("/downloadedfiles/(.*.adi)\">.ADI file");
-            QRegularExpressionMatch match = re.match(replayString);
+            QRegularExpressionMatch match = re.match(replyString);
 
             if ( match.hasMatch() )
             {
                 QString filename = match.captured(1);
                 downloadADIF(filename);
             }
-            else if ( replayString.contains("You have no log entries"))
+            else if ( replyString.contains("You have no log entries"))
             {
                 emit updateComplete(QSLMergeStat());
             }
@@ -407,18 +407,18 @@ void EQSL::processReply(QNetworkReply* reply)
     {
         //getting the first page where an Image filename is present
 
-        QString replayString(reply->readAll());
+        QString replyString(reply->readAll());
 
-        qCDebug(runtime) << replayString;
+        qCDebug(runtime) << replyString;
 
-        if ( replayString.contains("No such Username/Password found") )
+        if ( replyString.contains("No such Username/Password found") )
         {
             emit QSLImageError(tr("Incorrect Username or password"));
         }
         else
         {
             static QRegularExpression re("<img src=\"(.*)\" alt");
-            QRegularExpressionMatch match = re.match(replayString);
+            QRegularExpressionMatch match = re.match(replyString);
 
             if ( match.hasMatch() )
             {
@@ -430,7 +430,7 @@ void EQSL::processReply(QNetworkReply* reply)
             else
             {
                 static QRegularExpression rError("Error: (.*)");
-                QRegularExpressionMatch matchError = rError.match(replayString);
+                QRegularExpressionMatch matchError = rError.match(replyString);
 
                 if (matchError.hasMatch() )
                 {
@@ -440,7 +440,7 @@ void EQSL::processReply(QNetworkReply* reply)
                 else
                 {
                     static QRegularExpression rWarning("Warning: (.*) --");
-                    QRegularExpressionMatch matchWarning = rWarning.match(replayString);
+                    QRegularExpressionMatch matchWarning = rWarning.match(replyString);
 
                     if ( matchWarning.hasMatch() )
                     {
@@ -449,7 +449,7 @@ void EQSL::processReply(QNetworkReply* reply)
                     }
                     else
                     {
-                        qCInfo(runtime) << replayString;
+                        qCInfo(runtime) << replyString;
                         emit QSLImageError(tr("Unknown Error"));
                     }
 
@@ -546,17 +546,17 @@ void EQSL::processReply(QNetworkReply* reply)
     /******************/
     else if ( messageType == "uploadADIFFile" )
     {
-        QString replayString(reply->readAll());
-        qCDebug(runtime) << replayString;
+        QString replyString(reply->readAll());
+        qCDebug(runtime) << replyString;
 
         static QRegularExpression rOK("Result: (.*)");
-        QRegularExpressionMatch matchOK = rOK.match(replayString);
+        QRegularExpressionMatch matchOK = rOK.match(replyString);
         static QRegularExpression rError("Error: (.*)");
-        QRegularExpressionMatch matchError = rError.match(replayString);
+        QRegularExpressionMatch matchError = rError.match(replyString);
         static QRegularExpression rWarning("Warning: (.*)");
-        QRegularExpressionMatch matchWarning = rWarning.match(replayString);
+        QRegularExpressionMatch matchWarning = rWarning.match(replyString);
         static QRegularExpression rCaution("Caution: (.*)");
-        QRegularExpressionMatch matchCaution = rCaution.match(replayString);
+        QRegularExpressionMatch matchCaution = rCaution.match(replyString);
         QString msg;
 
         if ( matchOK.hasMatch() )
@@ -582,7 +582,7 @@ void EQSL::processReply(QNetworkReply* reply)
         else
         {
             qCInfo(runtime) << "Unknown Reply ";
-            qCInfo(runtime) << replayString;
+            qCInfo(runtime) << replyString;
             emit uploadError(tr("Unknown Reply from eQSL"));
         }
     }
