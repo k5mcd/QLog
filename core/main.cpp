@@ -390,6 +390,22 @@ static void debugMessageOutput(QtMsgType type, const QMessageLogContext &context
     }
 }
 
+#ifdef Q_OS_LINUX
+void wayland_hacks()
+{
+    // due to QT's issue, Dock widget is not working (cannot be docked) under QT5, < ?6.7? on Linux
+    // Therefore it is necessary to force set XCB (X11)
+    const QByteArray &sessionType = qgetenv("XDG_SESSION_TYPE").toLower();
+    const QByteArray &disableXCBFallback = qgetenv("QLOG_DISABLE_XCB");
+    if ( sessionType.contains("wayland")
+         && disableXCBFallback == QByteArray() )
+    {
+        qInfo() << "Force XCB";
+        qputenv("QT_QPA_PLATFORM", "xcb");
+    }
+}
+#endif
+
 int main(int argc, char* argv[])
 {
 
@@ -398,6 +414,9 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+#ifdef Q_OS_LINUX
+    wayland_hacks();
+#endif
 
     bool stylePresent = false;
 
