@@ -211,6 +211,9 @@ void CallbookManager::processCallsignResult(const QMap<QString, QString> &data)
         newdata["born"] = data["born"];
         newdata["name"] = data["name"];
         newdata["url"] = data["url"];
+        newdata["name_fmt"] = data["name_fmt"];
+        newdata["nick"] = data["nick"];
+        newdata["image_url"] = data["image_url"];
 
         queryCache.insert(currentQueryCallsign, new QMap<QString, QString>(newdata));
         emit callsignResult(newdata);
