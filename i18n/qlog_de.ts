@@ -2834,22 +2834,22 @@
         <translation>Gearbeitet</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="498"/>
+        <location filename="../data/Data.cpp" line="514"/>
         <source>Hz</source>
         <translation>Hz</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="505"/>
+        <location filename="../data/Data.cpp" line="521"/>
         <source>kHz</source>
         <translation>kHz</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="512"/>
+        <location filename="../data/Data.cpp" line="528"/>
         <source>GHz</source>
         <translation>GHz</translation>
     </message>
     <message>
-        <location filename="../data/Data.cpp" line="517"/>
+        <location filename="../data/Data.cpp" line="533"/>
         <source>MHz</source>
         <translation>MHz</translation>
     </message>
@@ -3489,7 +3489,7 @@
 <context>
     <name>DxccTableWidget</name>
     <message>
-        <location filename="../ui/DxccTableWidget.cpp" line="115"/>
+        <location filename="../ui/DxccTableWidget.cpp" line="106"/>
         <source>Mode</source>
         <translation>Betriebsart</translation>
     </message>
@@ -3502,32 +3502,32 @@
         <translation>Falsches Passwort oder QTHProfil-Id</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="395"/>
+        <location filename="../core/Eqsl.cpp" line="399"/>
         <source>ADIF file not found in eQSL response</source>
         <translation>Keine ADIF-Datei in der eQSL-Antwort gefunden</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="412"/>
+        <location filename="../core/Eqsl.cpp" line="416"/>
         <source>Incorrect Username or password</source>
         <translation>Falscher Benutzername oder Passwort</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="449"/>
+        <location filename="../core/Eqsl.cpp" line="453"/>
         <source>Unknown Error</source>
         <translation>Unbekannter Fehler</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="473"/>
+        <location filename="../core/Eqsl.cpp" line="477"/>
         <source>Cannot opet temporary file</source>
         <translation>Kann temporäre Datei nicht öffnen</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="524"/>
+        <location filename="../core/Eqsl.cpp" line="528"/>
         <source>Cannot save the image to file</source>
         <translation>Kann das Bild nicht in die Datei speichern</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="582"/>
+        <location filename="../core/Eqsl.cpp" line="586"/>
         <source>Unknown Reply from eQSL</source>
         <translation>Unbekannte Antwort von eQSL</translation>
     </message>
@@ -4248,12 +4248,12 @@
         <translation>Details</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="356"/>
+        <location filename="../ui/ImportDialog.cpp" line="361"/>
         <source>Import Result</source>
         <translation>Ergebnis des Imports</translation>
     </message>
     <message>
-        <location filename="../ui/ImportDialog.cpp" line="365"/>
+        <location filename="../ui/ImportDialog.cpp" line="370"/>
         <source>Save Details...</source>
         <translation>Details speichern...</translation>
     </message>
@@ -6346,52 +6346,52 @@
 <context>
     <name>Migration</name>
     <message>
-        <location filename="../core/Migration.cpp" line="269"/>
+        <location filename="../core/Migration.cpp" line="272"/>
         <source>DXCC Entities</source>
         <translation>DXCC Einträge</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="272"/>
+        <location filename="../core/Migration.cpp" line="275"/>
         <source>Sats Info</source>
         <translation>SAT Info</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="275"/>
+        <location filename="../core/Migration.cpp" line="278"/>
         <source>SOTA Summits</source>
         <translation>SOTA Gipfel</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="278"/>
+        <location filename="../core/Migration.cpp" line="281"/>
         <source>WWFF Records</source>
         <translation>WWFF Datensätze</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="281"/>
+        <location filename="../core/Migration.cpp" line="284"/>
         <source>IOTA Records</source>
         <translation>IOTA Datensätze</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="284"/>
+        <location filename="../core/Migration.cpp" line="287"/>
         <source>POTA Records</source>
         <translation>POTA Datensätze</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="287"/>
+        <location filename="../core/Migration.cpp" line="290"/>
         <source>Membership Directory Records</source>
         <translation>Mitgliedschaftsverzeichnis</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="291"/>
+        <location filename="../core/Migration.cpp" line="294"/>
         <source>List of Values</source>
         <translation>Werteliste</translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="294"/>
+        <location filename="../core/Migration.cpp" line="297"/>
         <source>Updating </source>
         <translation>Aktualisieren </translation>
     </message>
     <message>
-        <location filename="../core/Migration.cpp" line="310"/>
+        <location filename="../core/Migration.cpp" line="313"/>
         <source> Update Failed</source>
         <translation> Aktualisierung fehlgeschlagen</translation>
     </message>
@@ -6459,7 +6459,7 @@
         <translation>&amp;Details</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3177"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3185"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>DARC-DOK (Ortsverbandkenner) der kontaktierten Station (z.B. A01)</translation>
     </message>
@@ -6489,7 +6489,7 @@
         <translation>Dauer</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3197"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3205"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation></translation>
     </message>
@@ -6657,82 +6657,82 @@
         <translation>Callbook-Anmeldung fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1883"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1892"/>
         <source>New Entity!</source>
         <translation>Neuer Eintrag!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1886"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1895"/>
         <source>New Band!</source>
         <translation>Neues Band!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1889"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1898"/>
         <source>New Mode!</source>
         <translation>Neue Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1892"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1901"/>
         <source>New Band &amp; Mode!</source>
         <translation>Neues Band &amp; Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1895"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1904"/>
         <source>New Slot!</source>
         <translation>Neuer Slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1898"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1907"/>
         <source>Worked</source>
         <translation>Gearbeitet</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1901"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1910"/>
         <source>Confirmed</source>
         <translation>Bestätigt</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2563"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2571"/>
         <source>GE</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2573"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2581"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2579"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2587"/>
         <source>GA</source>
         <translation>GT</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2850"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2858"/>
         <source> m</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3051"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3059"/>
         <source>Callbook search is active</source>
         <translation>Callbook-Suche ist aktiv</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3046"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3054"/>
         <source>Callbook search is inactive</source>
         <translation>Callbook-Suche ist inaktiv</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3174"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3182"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>zwei oder vier nebeneinander liegende, jeweils vier Zeichen lange Gitterfelder (z. B. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3201"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3209"/>
         <source>Special Activity Group</source>
         <translation>Spezielle Aktivitätsgruppe</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3205"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3213"/>
         <source>Special Activity Group Information</source>
         <translation></translation>
     </message>
@@ -6911,7 +6911,7 @@
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../core/main.cpp" line="416"/>
+        <location filename="../core/main.cpp" line="435"/>
         <source>QLog Help</source>
         <translation>QLog Hilfe</translation>
     </message>
@@ -6919,11 +6919,11 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../core/main.cpp" line="490"/>
-        <location filename="../core/main.cpp" line="505"/>
-        <location filename="../core/main.cpp" line="515"/>
-        <location filename="../core/main.cpp" line="522"/>
-        <location filename="../core/main.cpp" line="529"/>
+        <location filename="../core/main.cpp" line="509"/>
+        <location filename="../core/main.cpp" line="524"/>
+        <location filename="../core/main.cpp" line="534"/>
+        <location filename="../core/main.cpp" line="541"/>
+        <location filename="../core/main.cpp" line="548"/>
         <location filename="../ui/AlertRuleDetail.cpp" line="373"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
@@ -6931,33 +6931,33 @@
         <location filename="../ui/QSOFilterDetail.cpp" line="593"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="604"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="613"/>
-        <location filename="../ui/SettingsDialog.cpp" line="376"/>
-        <location filename="../ui/SettingsDialog.cpp" line="384"/>
+        <location filename="../ui/SettingsDialog.cpp" line="389"/>
+        <location filename="../ui/SettingsDialog.cpp" line="397"/>
         <source>QLog Error</source>
         <translation>QLog Fehler</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="491"/>
+        <location filename="../core/main.cpp" line="510"/>
         <source>QLog is already running</source>
         <translation>QLog wird bereits ausgeführt</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="506"/>
+        <location filename="../core/main.cpp" line="525"/>
         <source>Could not connect to database.</source>
         <translation>Keine Verbindung zur Datenbank möglich.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="516"/>
+        <location filename="../core/main.cpp" line="535"/>
         <source>Could not export a QLog database to ADIF as a backup.&lt;p&gt;Try to export your log to ADIF manually</source>
         <translation>Kann QLog-Datenbank nicht als Backup nach ADIF exportieren.&lt;p&gt;Versuchen Sie, Ihr Log manuell nach ADIF zu exportieren</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="523"/>
+        <location filename="../core/main.cpp" line="542"/>
         <source>Database migration failed.</source>
         <translation>Migration der Datenbank fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="530"/>
+        <location filename="../core/main.cpp" line="549"/>
         <source>Could not connect to database (2).</source>
         <translation>Keine Verbindung zur Datenbank möglich (2).</translation>
     </message>
@@ -6966,30 +6966,33 @@
         <location filename="../core/MembershipQE.cpp" line="216"/>
         <location filename="../core/MembershipQE.cpp" line="342"/>
         <location filename="../core/MembershipQE.cpp" line="349"/>
-        <location filename="../core/Migration.cpp" line="309"/>
+        <location filename="../core/Migration.cpp" line="312"/>
         <location filename="../ui/ExportDialog.cpp" line="116"/>
         <location filename="../ui/ImportDialog.cpp" line="227"/>
         <location filename="../ui/MainWindow.cpp" line="320"/>
         <location filename="../ui/MainWindow.cpp" line="330"/>
         <location filename="../ui/MainWindow.cpp" line="340"/>
-        <location filename="../ui/SettingsDialog.cpp" line="277"/>
-        <location filename="../ui/SettingsDialog.cpp" line="287"/>
-        <location filename="../ui/SettingsDialog.cpp" line="295"/>
-        <location filename="../ui/SettingsDialog.cpp" line="303"/>
-        <location filename="../ui/SettingsDialog.cpp" line="311"/>
-        <location filename="../ui/SettingsDialog.cpp" line="319"/>
-        <location filename="../ui/SettingsDialog.cpp" line="327"/>
-        <location filename="../ui/SettingsDialog.cpp" line="335"/>
-        <location filename="../ui/SettingsDialog.cpp" line="344"/>
-        <location filename="../ui/SettingsDialog.cpp" line="368"/>
-        <location filename="../ui/SettingsDialog.cpp" line="691"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1073"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1133"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1179"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1423"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1430"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1439"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1806"/>
+        <location filename="../ui/SettingsDialog.cpp" line="290"/>
+        <location filename="../ui/SettingsDialog.cpp" line="300"/>
+        <location filename="../ui/SettingsDialog.cpp" line="308"/>
+        <location filename="../ui/SettingsDialog.cpp" line="316"/>
+        <location filename="../ui/SettingsDialog.cpp" line="324"/>
+        <location filename="../ui/SettingsDialog.cpp" line="332"/>
+        <location filename="../ui/SettingsDialog.cpp" line="340"/>
+        <location filename="../ui/SettingsDialog.cpp" line="348"/>
+        <location filename="../ui/SettingsDialog.cpp" line="357"/>
+        <location filename="../ui/SettingsDialog.cpp" line="381"/>
+        <location filename="../ui/SettingsDialog.cpp" line="704"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1086"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1146"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1192"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1436"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1443"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1452"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1460"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1467"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1474"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1883"/>
         <source>QLog Warning</source>
         <translation>QLog Warnung</translation>
     </message>
@@ -7117,63 +7120,78 @@
         <translation>Kann QSO-Filterbedingungen nicht passend zum Typ aktualisieren - </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="278"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1807"/>
+        <location filename="../ui/SettingsDialog.cpp" line="291"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1884"/>
         <source>Please, define at least one Station Locations Profile</source>
         <translation>Bitte definieren Sie mindestens ein Stationsstandortprofil</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="345"/>
+        <location filename="../ui/SettingsDialog.cpp" line="358"/>
         <source>WSJTX Multicast is enabled but the Address is not a multicast address.</source>
         <translation>WSJTX Multicast ist aktiviert, aber die Adresse ist keine Multicast-Adresse.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="369"/>
+        <location filename="../ui/SettingsDialog.cpp" line="382"/>
         <source>Rig port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>Rig port muss ein gültiger COM-Port sein.&lt;br&gt;Für Windows verwende COMxx, für Unix-ähnliche Betriebssysteme verwende einen Pfad zum Gerät</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="377"/>
+        <location filename="../ui/SettingsDialog.cpp" line="390"/>
         <source>&lt;b&gt;TX Range&lt;/b&gt;: Max Frequency must not be 0.</source>
         <translation>&lt;b&gt;TX-Bereich&lt;/b&gt;: Max Frequenz darf nicht 0 sein.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="385"/>
+        <location filename="../ui/SettingsDialog.cpp" line="398"/>
         <source>&lt;b&gt;TX Range&lt;/b&gt;: Max Frequency must not be under Min Frequency.</source>
         <translation>&lt;b&gt;TX-Bereich&lt;/b&gt;: Die Maximalfrequenz darf nicht niedriger als die Minimalfrequenz sein.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="692"/>
+        <location filename="../ui/SettingsDialog.cpp" line="705"/>
         <source>Rotator port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>Rotor-Port muss ein gültiger COM-Port sein.&lt;br&gt;Für Windows verwenden Sie COMxx, für Unix-ähnliche Betriebssysteme verwenden Sie einen Pfad zum Gerät</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1074"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1087"/>
         <source>CW Keyer port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>CW Keyer Port muss ein gültiger COM-Port sein.&lt;br&gt;Für Windows verwenden Sie COMxx, für unix-ähnliche Betriebssysteme verwenden Sie einen Pfad zum Gerät</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1134"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1147"/>
         <source>Cannot change the CW Keyer Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Kann das CW-Keyer Modell nicht zu &lt;b&gt;CW-über-CAT&lt;/b&gt; ändern.&lt;br&gt;Keine CW-über-CAT Unterstützung für Rig(s) &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1180"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1193"/>
         <source>Cannot delete the CW Keyer Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Kann das CW-Keyer Profil nicht löschen.&lt;br&gt;Das Profil wird verwendet von Rig(s): &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1431"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1444"/>
         <source>Gridsquare has an invalid format</source>
         <translation>Gitterfeld hat ein falsches Format</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1440"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1453"/>
         <source>VUCC Grids have an invalid format (must be 2 or 4 Gridsquares separated by &apos;,&apos;)</source>
         <translation>VUCC Gitterfeld hat ein falsches Format (es müssen 2 oder 4 Gitterfelder sein, getrennt durch &apos;,&apos;)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1424"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1461"/>
+        <source>Country must not be empty</source>
+        <translation>Das Land darf nicht leer sein</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="1468"/>
+        <source>CQZ must not be empty</source>
+        <translation>CQZ darf nicht leer sein</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="1475"/>
+        <source>ITU must not be empty</source>
+        <translation>ITU darf nicht leer sein</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.cpp" line="1437"/>
         <source>Callsign has an invalid format</source>
         <translation>Rufzeichen hat ein falsches Format</translation>
     </message>
@@ -7277,22 +7295,22 @@
         <translation>Interner Fehler</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="502"/>
+        <location filename="../core/main.cpp" line="521"/>
         <source>Opening Database</source>
         <translation>Datenbank öffnen</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="510"/>
+        <location filename="../core/main.cpp" line="529"/>
         <source>Backuping Database</source>
         <translation>Datenbank sichern</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="519"/>
+        <location filename="../core/main.cpp" line="538"/>
         <source>Migrating Database</source>
         <translation>Datenbank migrieren</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="534"/>
+        <location filename="../core/main.cpp" line="553"/>
         <source>Starting Application</source>
         <translation>Anwendung starten</translation>
     </message>
@@ -7302,62 +7320,77 @@
         <translation>Eigener Rig</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="165"/>
+        <location filename="../data/StationProfile.cpp" line="184"/>
         <source>Logging Station Callsign</source>
         <translation>Logging-Station Rufzeichen</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="166"/>
+        <location filename="../data/StationProfile.cpp" line="185"/>
         <source>My Gridsquare</source>
         <translation>Eigenes Gitterfeld</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="167"/>
+        <location filename="../data/StationProfile.cpp" line="186"/>
         <source>My Name</source>
         <translation>Eigener Name</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="168"/>
+        <location filename="../data/StationProfile.cpp" line="187"/>
         <source>My City</source>
         <translation>Eigene Stadt</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="169"/>
+        <location filename="../data/StationProfile.cpp" line="188"/>
         <source>My IOTA</source>
         <translation>Eigene IOTA Nummer</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="170"/>
+        <location filename="../data/StationProfile.cpp" line="189"/>
         <source>My SOTA</source>
         <translation>Eigene SOTA Nummer</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="171"/>
+        <location filename="../data/StationProfile.cpp" line="190"/>
         <source>My Special Interest Activity</source>
         <translation>Eigene spezielle Interessenaktivität</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="172"/>
+        <location filename="../data/StationProfile.cpp" line="191"/>
         <source>My Spec. Interes Activity Info</source>
         <translation>Eigene spezielle Interessenaktivität Info</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="173"/>
+        <location filename="../data/StationProfile.cpp" line="192"/>
         <source>My VUCC Grids</source>
         <translation>Eigenes VUCC Gitterfeld</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="174"/>
+        <location filename="../data/StationProfile.cpp" line="193"/>
         <source>My WWFF</source>
         <translation>Eigener WWFF</translation>
     </message>
     <message>
-        <location filename="../data/StationProfile.cpp" line="175"/>
+        <location filename="../data/StationProfile.cpp" line="194"/>
         <source>My POTA Ref</source>
         <translation>Eigene POTA Ref</translation>
     </message>
+    <message>
+        <location filename="../data/StationProfile.cpp" line="195"/>
+        <source>My ITU</source>
+        <translation>Eigene ITU Zone</translation>
+    </message>
+    <message>
+        <location filename="../data/StationProfile.cpp" line="196"/>
+        <source>My CQZ</source>
+        <translation>Eigene CQZ</translation>
+    </message>
+    <message>
+        <location filename="../data/StationProfile.cpp" line="197"/>
+        <source>My DXCC</source>
+        <translation>Eigenes DXCC Land</translation>
+    </message>
     <message numerus="yes">
-        <location filename="../ui/ImportDialog.cpp" line="349"/>
+        <location filename="../ui/ImportDialog.cpp" line="354"/>
         <source>&lt;b&gt;Imported&lt;/b&gt;: %n contact(s)</source>
         <translation>
             <numerusform>&lt;b&gt;Importiert&lt;/b&gt;: %n Kontakt(e)</numerusform>
@@ -7365,7 +7398,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../ui/ImportDialog.cpp" line="350"/>
+        <location filename="../ui/ImportDialog.cpp" line="355"/>
         <source>&lt;b&gt;Warning(s)&lt;/b&gt;: %n</source>
         <translation>
             <numerusform>&lt;b&gt;Warnungen&lt;/b&gt;: %n</numerusform>
@@ -7373,7 +7406,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../ui/ImportDialog.cpp" line="351"/>
+        <location filename="../ui/ImportDialog.cpp" line="356"/>
         <source>&lt;b&gt;Error(s)&lt;/b&gt;: %n</source>
         <translation>
             <numerusform>&lt;b&gt;Fehler&lt;/b&gt;: %n</numerusform>
@@ -7576,11 +7609,11 @@
         <location filename="../ui/QSODetailDialog.ui" line="411"/>
         <location filename="../ui/QSODetailDialog.ui" line="465"/>
         <location filename="../ui/QSODetailDialog.ui" line="1354"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1588"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1682"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1720"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1768"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="266"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1664"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1758"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1796"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1844"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="277"/>
         <source>Blank</source>
         <translation>Leer</translation>
     </message>
@@ -7643,6 +7676,7 @@
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="744"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1373"/>
         <source>Country</source>
         <translation>Land</translation>
     </message>
@@ -7653,11 +7687,13 @@
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="761"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1388"/>
         <source>ITU</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="790"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1411"/>
         <source>CQ</source>
         <translation></translation>
     </message>
@@ -7718,25 +7754,25 @@
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1003"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1383"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1459"/>
         <source>IOTA</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1029"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1393"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1469"/>
         <source>POTA</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1039"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1403"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1479"/>
         <source>SOTA</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1069"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1423"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1499"/>
         <source>SIG</source>
         <translation></translation>
     </message>
@@ -7746,7 +7782,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="2039"/>
+        <location filename="../ui/QSODetailDialog.ui" line="2115"/>
         <source>Member:</source>
         <translation>Mitglied:</translation>
     </message>
@@ -7768,13 +7804,13 @@
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="956"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1446"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1522"/>
         <source>VUCC</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.ui" line="1059"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1413"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1489"/>
         <source>WWFF</source>
         <translation></translation>
     </message>
@@ -7839,113 +7875,113 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1433"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1509"/>
         <source>Sig Info</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1469"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1545"/>
         <source>&amp;QSL</source>
         <translation>&amp;QSL</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1495"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1502"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1520"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1527"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1559"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1571"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1578"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1596"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1603"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1635"/>
         <source>-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1539"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1615"/>
         <source>Manage QSL Card</source>
         <translation>QSL-Karte verwalten</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1627"/>
         <location filename="../ui/QSODetailDialog.ui" line="1703"/>
-        <location filename="../ui/QSODetailDialog.ui" line="1741"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1779"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1817"/>
         <source>&lt;b&gt;Yes&lt;/b&gt; - an outgoing QSL card has been sent; the QSO has been uploaded to, and accepted by, the online service&lt;br/&gt;&lt;b&gt;No&lt;/b&gt; - do not send an outgoing QSL card; do not upload the QSO to the online service&lt;br/&gt;&lt;b&gt;Requested&lt;/b&gt; - the contacted station has requested a QSL card; the contacted station has requested the QSO be uploaded to the online service&lt;br/&gt;&lt;b&gt;Queued&lt;/b&gt; - an outgoing QSL card has been selected to be sent; a QSO has been selected to be uploaded to the online service&lt;br/&gt;</source>
         <translation>&lt;b&gt;Ja&lt;/b&gt; - eine ausgehende QSL-Karte wurde gesendet; das QSO wurde in den Online-Dienst hochgeladen und von diesem akzeptiert.&lt;br/&gt;&lt;b&gt;Nein&lt;/b&gt; - keine ausgehende QSL-Karte senden; das QSO nicht in den Online-Dienst hochladen.&lt;br/&gt;&lt;b&gt;Angefordert&lt;/b&gt; - die kontaktierte Station hat eine QSL-Karte angefordert; die kontaktierte Station hat angefordert, dass das QSO in den Online-Dienst hochgeladen wird.&lt;br/&gt;&lt;b&gt;Wartend&lt;/b&gt; - eine ausgehende QSL-Karte wurde zum Senden ausgewählt; ein QSO wurde zum Hochladen in den Online-Dienst ausgewählt.&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1573"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1649"/>
         <source>QSL Sent via</source>
         <translation>QSL Ausgang via</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1813"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1889"/>
         <source>Received Message: </source>
         <translation>Eingegangene Nachricht: </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1826"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1902"/>
         <source>Received</source>
         <translation>Eingang</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1667"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1743"/>
         <source>Paper</source>
         <translation>Papier</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1868"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1944"/>
         <source>LoTW</source>
         <translation>LoTW</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1887"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1963"/>
         <source>eQSL</source>
         <translation>eQSL</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1849"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1925"/>
         <source>QSL via</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1486"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1562"/>
         <source>Sent</source>
         <translation>Ausgang</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1753"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1829"/>
         <source>Show QSL Card</source>
         <translation>QSL-Karte ansehen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1804"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1880"/>
         <source>&lt;b&gt;Yes&lt;/b&gt; - an incoming QSL card has been received; the QSO has been confirmed by the online service&lt;br/&gt;&lt;b&gt;No&lt;/b&gt; - an incoming QSL card has not been received; the QSO has not been confirmed by the online service&lt;br/&gt;&lt;b&gt;Requested&lt;/b&gt; - the logging station has requested a QSL card; the logging station has requested the QSO be uploaded to the online service&lt;br/&gt;</source>
         <translation>&lt;b&gt;Ja&lt;/b&gt; - eine eingehende QSL-Karte wurde angenommen; das QSO wurde vom Online-Dienst bestätigt.&lt;br/&gt;&lt;b&gt;Nein&lt;/b&gt; - eine eingehende QSL-Karte wurde nicht angenommen; das QSO wurde vom Online-Dienst nicht bestätigt.&lt;br/&gt;&lt;b&gt;Angefordert&lt;/b&gt; - die loggende Station hat eine QSL-Karte angefordert; die loggende Station hat verlangt, dass das QSO in den Online-Dienst hochgeladen wird.&lt;br/&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1919"/>
+        <location filename="../ui/QSODetailDialog.ui" line="1995"/>
         <source>&amp;Contest</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1935"/>
+        <location filename="../ui/QSODetailDialog.ui" line="2011"/>
         <source>Contest Name</source>
         <translation>Contest Name</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1945"/>
+        <location filename="../ui/QSODetailDialog.ui" line="2021"/>
         <source>RcvNr</source>
         <translation>Nr. erhalten</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1959"/>
+        <location filename="../ui/QSODetailDialog.ui" line="2035"/>
         <source>RcvExch</source>
         <translation>Info erhalten</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1973"/>
+        <location filename="../ui/QSODetailDialog.ui" line="2049"/>
         <source>SendNr</source>
         <translation>Nr. gesendet</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.ui" line="1987"/>
+        <location filename="../ui/QSODetailDialog.ui" line="2063"/>
         <source>SendExch</source>
         <translation>Info gesendet</translation>
     </message>
@@ -7960,278 +7996,293 @@
         <translation>&amp;Suchen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="188"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="199"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="210"/>
-        <source>No</source>
-        <translation>Nein</translation>
-    </message>
-    <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="189"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="200"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="211"/>
-        <source>Yes</source>
-        <translation>Ja</translation>
-    </message>
-    <message>
         <location filename="../ui/QSODetailDialog.cpp" line="190"/>
         <location filename="../ui/QSODetailDialog.cpp" line="201"/>
         <location filename="../ui/QSODetailDialog.cpp" line="212"/>
-        <source>Requested</source>
-        <translation>Angefordert</translation>
+        <source>No</source>
+        <translation>Nein</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="191"/>
         <location filename="../ui/QSODetailDialog.cpp" line="202"/>
         <location filename="../ui/QSODetailDialog.cpp" line="213"/>
-        <source>Queued</source>
-        <translation>Wartend</translation>
+        <source>Yes</source>
+        <translation>Ja</translation>
     </message>
     <message>
         <location filename="../ui/QSODetailDialog.cpp" line="192"/>
         <location filename="../ui/QSODetailDialog.cpp" line="203"/>
         <location filename="../ui/QSODetailDialog.cpp" line="214"/>
+        <source>Requested</source>
+        <translation>Angefordert</translation>
+    </message>
+    <message>
+        <location filename="../ui/QSODetailDialog.cpp" line="193"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="204"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="215"/>
+        <source>Queued</source>
+        <translation>Wartend</translation>
+    </message>
+    <message>
+        <location filename="../ui/QSODetailDialog.cpp" line="194"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="205"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="216"/>
         <source>Ignored</source>
         <translation>Ignoriert</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="229"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="231"/>
         <source>Bureau</source>
         <translation>Büro</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="230"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="232"/>
         <source>Direct</source>
         <translation>Direkt</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="231"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="233"/>
         <source>Electronic</source>
         <translation>Elektronisch</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="394"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="408"/>
         <source>Submit changes</source>
         <translation>Änderungen übermitteln</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="394"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="408"/>
         <source>Really submit all changes?</source>
         <translation>Wirklich alle Änderungen übermitteln?</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="403"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="449"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="648"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="1172"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="417"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="463"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="662"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1188"/>
         <source>QLog Error</source>
         <translation>QLog Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="403"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="417"/>
         <source>Cannot save all changes - internal error</source>
         <translation>Es können nicht alle Änderungen gespeichert werden - interner Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="449"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="463"/>
         <source>Cannot save all changes - try to reset all changes</source>
         <translation>Es können nicht alle Änderungen gespeichert werden - versuchen Sie, alle Änderungen zurückzusetzen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="588"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="602"/>
         <source>QSO Detail</source>
         <translation>QSO Detail</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="588"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="602"/>
         <source>Edit QSO</source>
         <translation>QSO Bearbeiten</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="630"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="644"/>
         <source>Downloading eQSL Image</source>
         <translation>eQSL-Bild herunterladen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="630"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="644"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="648"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="662"/>
         <source>eQSL Download Image failed: </source>
         <translation>eQSL-Bild download fehlgeschlagen: </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="833"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="847"/>
         <source>DX Callsign must not be empty</source>
         <translation>DX-Rufzeichen darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="837"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="851"/>
         <source>DX callsign has an incorrect format</source>
         <translation>DX-Rufzeichen hat ein falsches Format</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="841"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="851"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="855"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="865"/>
         <source>TX Frequency or Band must be filled</source>
         <translation>TX-Frequenz oder -Band muss ausgefüllt sein</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="861"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="895"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="875"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="911"/>
         <source>DX Grid has an incorrect format</source>
         <translation>DX Gitterfeld hat ein fehlerhaftes Format</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="867"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="881"/>
         <source>Based on callsign, DXCC Country is different from the entered value - expecting </source>
         <translation>Aufgrund des Rufzeichens unterscheidet sich das DXCC-Land vom eingegebenen Wert - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="871"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="885"/>
         <source>Based on callsign, DXCC Continent is different from the entered value - expecting </source>
         <translation>Aufgrund des Rufzeichens unterscheidet sich der DXCC-Kontinent vom eingegebenen Wert - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="875"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="889"/>
         <source>Based on callsign, DXCC ITU is different from the entered value - expecting </source>
         <translation>Aufgrund des Rufzeichens unterscheidet sich das DXCC-ITU vom eingegebenen Wert - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="879"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="893"/>
         <source>Based on callsign, DXCC CQZ is different from the entered value - expecting </source>
         <translation>Aufgrund des Rufzeichens unterscheidet sich die DXCC-CQZ vom eingegebenen Wert - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="883"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="897"/>
         <source>VUCC has an incorrect format</source>
         <translation>VUCC hat ein fehlerhaftes Format</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="887"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="903"/>
         <source>Own Callsign must not be empty</source>
         <translation>Eigenes Rufzeichen darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="891"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="907"/>
         <source>Own callsign has an incorrect format</source>
         <translation>Eigenes Rufzeichen hat ein fehlerhaftes Format</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="899"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="915"/>
         <source>Own VUCC Grids have an incorrect format</source>
         <translation>Eigenes VUCC Gitterfeld hat ein fehlerhaftes Format</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="990"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="919"/>
+        <source>Based on own callsign, own DXCC ITU is different from the entered value - expecting </source>
+        <translation>Basierend auf dem eigenen Rufzeichen ist das eigene DXCC ITU unterschiedlich vom eingegebenen Wert - erwartet </translation>
+    </message>
+    <message>
+        <location filename="../ui/QSODetailDialog.cpp" line="923"/>
+        <source>Based on own callsign, own DXCC CQZ is different from the entered value - expecting </source>
+        <translation>Basierend auf dem eigenen Rufzeichen ist das eigene DXCC CQZ unterschiedlich vom eingegebenen Wert - erwartet </translation>
+    </message>
+    <message>
+        <location filename="../ui/QSODetailDialog.cpp" line="927"/>
+        <source>Based on own callsign, own DXCC Country is different from the entered value - expecting </source>
+        <translation>Basierend auf dem eigenen Rufzeichen ist das eigene DXCC-Land unterschiedlich vom eingegebenen Wert - erwartet </translation>
+    </message>
+    <message>
+        <location filename="../ui/QSODetailDialog.cpp" line="1018"/>
         <source>LoTW Sent Status to &lt;b&gt;No&lt;/b&gt; does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank</source>
         <translation>LoTW Sent Status &lt;b&gt;Nein&lt;/b&gt; macht keinen Sinn, wenn ein QSL Sent Datum gesetzt ist. Setzen Sie das Datum auf 1.1.1900, um das Datumsfeld leer zu lassen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="998"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1026"/>
         <source>Date should be present for LoTW Sent Status &lt;b&gt;Yes&lt;/b&gt;</source>
         <translation>Ein Datum sollte für LoTW Sent Status &lt;b&gt;Ja&lt;/b&gt; angegeben werden</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1003"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1031"/>
         <source>eQSL Sent Status to &lt;b&gt;No&lt;/b&gt; does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank</source>
         <translation>eQSL Sent Status &lt;b&gt;Nein&lt;/b&gt; macht keinen Sinn, wenn ein QSL Sent Datum eingestellt ist. Setzen Sie Datum auf 1.1.1900, um das Datumsfeld leer zu lassen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1011"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1039"/>
         <source>Date should be present for eQSL Sent Status &lt;b&gt;Yes&lt;/b&gt;</source>
         <translation>Ein Datum sollte für eQSL Sent Status &lt;b&gt;Ja&lt;/b&gt; angegeben werden</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1016"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1044"/>
         <source>Paper Sent Status to &lt;b&gt;No&lt;/b&gt; does not make any sense if QSL Sent Date is set. Set Date to 1.1.1900 to leave the date field blank</source>
         <translation>Papier Sent Status &lt;b&gt;Nein&lt;/b&gt; macht keinen Sinn, wenn ein QSL Sent Datum gesetzt ist. Setzen Sie das Datum auf 1.1.1900, um das Datumsfeld leer zu lassen</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1024"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1052"/>
         <source>Date should be present for Paper Sent Status &lt;b&gt;Yes&lt;/b&gt;</source>
         <translation>Ein Datum sollte für Papier Sent Status &lt;b&gt;Ja&lt;/b&gt; angegeben werden</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="918"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="946"/>
         <source>Based on SOTA Summit, QTH does not match SOTA Summit Name - expecting </source>
         <translation>Auf Grundlage der SOTA-Daten stimmt das QTH nicht mit dem SOTA Gipfelname überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="847"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="861"/>
         <source>TX Band should be </source>
         <translation>TX-Band sollte sein </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="857"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="871"/>
         <source>RX Band should be </source>
         <translation>RX-Band sollte sein </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="927"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="955"/>
         <source>Based on SOTA Summit, Grid does not match SOTA Grid - expecting </source>
         <translation>Auf Grundlage der SOTA-Daten, stimmt das Gitterfeld nicht mit dem SOTA Gitterfeld überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="933"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="961"/>
         <source>Based on POTA record, QTH does not match POTA Name - expecting </source>
         <translation>Auf Grundlage der POTA Daten, stimmt das QTH nicht mit dem POTA-Namen überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="942"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="970"/>
         <source>Based on POTA record, Grid does not match POTA Grid - expecting </source>
         <translation>Auf Grundlage der POTA Daten, stimmt das Gitterfeld nicht mit dem POTA-Gitterfeld überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="961"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="989"/>
         <source>Based on SOTA Summit, my QTH does not match SOTA Summit Name - expecting </source>
         <translation>Auf Grundlage der SOTA-Daten stimmt das eigene QTH nicht mit dem SOTA Gipfelnamen überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="970"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="998"/>
         <source>Based on SOTA Summit, my Grid does not match SOTA Grid - expecting </source>
         <translation>Auf Grundlage der SOTA-Daten stimmt das eigene Gitterfeld nicht mit dem SOTA Gitterfeld überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="976"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1004"/>
         <source>Based on POTA record, my QTH does not match POTA Name - expecting </source>
         <translation>Auf Grundlage der POTA Daten, stimmt das eigene QTH nicht mit dem POTA-Namen überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="985"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1013"/>
         <source>Based on POTA record, my Grid does not match POTA Grid - expecting </source>
         <translation>Auf Grundlage der POTA Daten, stimmt das eigene Gitterfeld nicht mit dem POTA-Gitterfeld überein - erwartend </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1172"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1188"/>
         <source>Callbook error: </source>
         <translation>Callbook-Fehler: </translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1307"/>
-        <location filename="../ui/QSODetailDialog.cpp" line="1312"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1323"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1328"/>
         <source>&lt;b&gt;Warning: &lt;/b&gt;</source>
         <translation>&lt;b&gt;Warnung: &lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1502"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1518"/>
         <source>Validation</source>
         <translation>Überprüfung</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="1502"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="1518"/>
         <source>Yellow marked fields are invalid.&lt;p&gt;Nevertheless, save the changes?&lt;/p&gt;</source>
         <translation>Gelb markierte Felder sind ungültig.&lt;p&gt;Dennoch die Änderungen speichern?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2165"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2163"/>
         <source>&amp;Save</source>
         <translation>&amp;Speichern</translation>
     </message>
     <message>
-        <location filename="../ui/QSODetailDialog.cpp" line="2166"/>
+        <location filename="../ui/QSODetailDialog.cpp" line="2164"/>
         <source>&amp;Edit</source>
         <translation>B&amp;earbeiten</translation>
     </message>
@@ -8477,192 +8528,192 @@
         <translation>Station</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="163"/>
-        <location filename="../ui/SettingsDialog.ui" line="3225"/>
+        <location filename="../ui/SettingsDialog.ui" line="334"/>
+        <location filename="../ui/SettingsDialog.ui" line="3311"/>
         <source>Callsign</source>
         <translation>Rufzeichen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1291"/>
+        <location filename="../ui/SettingsDialog.ui" line="1377"/>
         <source>Rigs</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="261"/>
-        <location filename="../ui/SettingsDialog.ui" line="450"/>
-        <location filename="../ui/SettingsDialog.ui" line="787"/>
-        <location filename="../ui/SettingsDialog.ui" line="810"/>
-        <location filename="../ui/SettingsDialog.ui" line="1303"/>
-        <location filename="../ui/SettingsDialog.ui" line="2116"/>
-        <location filename="../ui/SettingsDialog.ui" line="2507"/>
+        <location filename="../ui/SettingsDialog.ui" line="104"/>
+        <location filename="../ui/SettingsDialog.ui" line="536"/>
+        <location filename="../ui/SettingsDialog.ui" line="873"/>
+        <location filename="../ui/SettingsDialog.ui" line="896"/>
+        <location filename="../ui/SettingsDialog.ui" line="1389"/>
+        <location filename="../ui/SettingsDialog.ui" line="2202"/>
+        <location filename="../ui/SettingsDialog.ui" line="2593"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="254"/>
-        <location filename="../ui/SettingsDialog.ui" line="443"/>
-        <location filename="../ui/SettingsDialog.ui" line="780"/>
-        <location filename="../ui/SettingsDialog.ui" line="803"/>
-        <location filename="../ui/SettingsDialog.ui" line="1326"/>
-        <location filename="../ui/SettingsDialog.ui" line="2109"/>
-        <location filename="../ui/SettingsDialog.ui" line="2500"/>
-        <location filename="../ui/SettingsDialog.cpp" line="392"/>
-        <location filename="../ui/SettingsDialog.cpp" line="568"/>
-        <location filename="../ui/SettingsDialog.cpp" line="699"/>
-        <location filename="../ui/SettingsDialog.cpp" line="806"/>
-        <location filename="../ui/SettingsDialog.cpp" line="875"/>
-        <location filename="../ui/SettingsDialog.cpp" line="972"/>
-        <location filename="../ui/SettingsDialog.cpp" line="987"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1056"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1140"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1237"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1252"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1374"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1447"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1536"/>
+        <location filename="../ui/SettingsDialog.ui" line="97"/>
+        <location filename="../ui/SettingsDialog.ui" line="529"/>
+        <location filename="../ui/SettingsDialog.ui" line="866"/>
+        <location filename="../ui/SettingsDialog.ui" line="889"/>
+        <location filename="../ui/SettingsDialog.ui" line="1412"/>
+        <location filename="../ui/SettingsDialog.ui" line="2195"/>
+        <location filename="../ui/SettingsDialog.ui" line="2586"/>
+        <location filename="../ui/SettingsDialog.cpp" line="405"/>
+        <location filename="../ui/SettingsDialog.cpp" line="581"/>
+        <location filename="../ui/SettingsDialog.cpp" line="712"/>
+        <location filename="../ui/SettingsDialog.cpp" line="819"/>
+        <location filename="../ui/SettingsDialog.cpp" line="888"/>
+        <location filename="../ui/SettingsDialog.cpp" line="985"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1000"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1069"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1153"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1250"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1265"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1387"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1481"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1593"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="559"/>
+        <location filename="../ui/SettingsDialog.ui" line="645"/>
         <source>Model</source>
         <translation>Modell</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="170"/>
+        <location filename="../ui/SettingsDialog.ui" line="74"/>
         <source>SOTA (Optional parameter)</source>
         <translation>SOTA (optional)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="125"/>
+        <location filename="../ui/SettingsDialog.ui" line="88"/>
         <source>SOTA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="81"/>
+        <location filename="../ui/SettingsDialog.ui" line="341"/>
         <source>SIG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="207"/>
+        <location filename="../ui/SettingsDialog.ui" line="327"/>
         <source>IOTA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="214"/>
-        <location filename="../ui/SettingsDialog.ui" line="351"/>
-        <location filename="../ui/SettingsDialog.ui" line="542"/>
-        <location filename="../ui/SettingsDialog.ui" line="851"/>
-        <location filename="../ui/SettingsDialog.ui" line="1363"/>
-        <location filename="../ui/SettingsDialog.ui" line="2160"/>
-        <location filename="../ui/SettingsDialog.ui" line="2532"/>
+        <location filename="../ui/SettingsDialog.ui" line="355"/>
+        <location filename="../ui/SettingsDialog.ui" line="437"/>
+        <location filename="../ui/SettingsDialog.ui" line="628"/>
+        <location filename="../ui/SettingsDialog.ui" line="937"/>
+        <location filename="../ui/SettingsDialog.ui" line="1449"/>
+        <location filename="../ui/SettingsDialog.ui" line="2246"/>
+        <location filename="../ui/SettingsDialog.ui" line="2618"/>
         <source>Profile Name</source>
         <translation>Profilname</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="156"/>
+        <location filename="../ui/SettingsDialog.ui" line="300"/>
         <source>IOTA  (Optional parameter)</source>
         <translation>IOTA (optional)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="139"/>
+        <location filename="../ui/SettingsDialog.ui" line="144"/>
         <source>SIG Information (Optional parameter)</source>
         <translation>SIG Information (optional)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="221"/>
+        <location filename="../ui/SettingsDialog.ui" line="273"/>
         <source>VUCC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="132"/>
+        <location filename="../ui/SettingsDialog.ui" line="154"/>
         <source>QTH</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="235"/>
+        <location filename="../ui/SettingsDialog.ui" line="290"/>
         <source>VUCC  Grids (Optional parameter). Ex. EN98,FM08,EM97,FM07</source>
         <translation>VUCC Gitterfelder (optional). Beisp. EN98,FM08,EM97,FM07</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="660"/>
-        <location filename="../ui/SettingsDialog.ui" line="1813"/>
-        <location filename="../ui/SettingsDialog.ui" line="2253"/>
+        <location filename="../ui/SettingsDialog.ui" line="746"/>
+        <location filename="../ui/SettingsDialog.ui" line="1899"/>
+        <location filename="../ui/SettingsDialog.ui" line="2339"/>
         <source>Baudrate</source>
         <translation>Baudrate</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1538"/>
+        <location filename="../ui/SettingsDialog.ui" line="1624"/>
         <source>Default PWR</source>
         <translation>Standard-Ausgangsleistung</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1545"/>
+        <location filename="../ui/SettingsDialog.ui" line="1631"/>
         <source>Enter default PWR (ex. when Rig is disconnected)</source>
         <translation>Standard-Ausgangsleistung eingeben (z.B. wenn der Rig nicht verbunden ist)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1551"/>
+        <location filename="../ui/SettingsDialog.ui" line="1637"/>
         <source> W</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="703"/>
-        <location filename="../ui/SettingsDialog.ui" line="2296"/>
+        <location filename="../ui/SettingsDialog.ui" line="789"/>
+        <location filename="../ui/SettingsDialog.ui" line="2382"/>
         <source>1200</source>
         <translation>1200</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="698"/>
-        <location filename="../ui/SettingsDialog.ui" line="1860"/>
-        <location filename="../ui/SettingsDialog.ui" line="2291"/>
+        <location filename="../ui/SettingsDialog.ui" line="784"/>
+        <location filename="../ui/SettingsDialog.ui" line="1946"/>
+        <location filename="../ui/SettingsDialog.ui" line="2377"/>
         <source>2400</source>
         <translation>2400</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="693"/>
-        <location filename="../ui/SettingsDialog.ui" line="1855"/>
-        <location filename="../ui/SettingsDialog.ui" line="2286"/>
+        <location filename="../ui/SettingsDialog.ui" line="779"/>
+        <location filename="../ui/SettingsDialog.ui" line="1941"/>
+        <location filename="../ui/SettingsDialog.ui" line="2372"/>
         <source>4800</source>
         <translation>4800</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="688"/>
-        <location filename="../ui/SettingsDialog.ui" line="1850"/>
-        <location filename="../ui/SettingsDialog.ui" line="2281"/>
+        <location filename="../ui/SettingsDialog.ui" line="774"/>
+        <location filename="../ui/SettingsDialog.ui" line="1936"/>
+        <location filename="../ui/SettingsDialog.ui" line="2367"/>
         <source>9600</source>
         <translation>9600</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="683"/>
-        <location filename="../ui/SettingsDialog.ui" line="1845"/>
-        <location filename="../ui/SettingsDialog.ui" line="2276"/>
+        <location filename="../ui/SettingsDialog.ui" line="769"/>
+        <location filename="../ui/SettingsDialog.ui" line="1931"/>
+        <location filename="../ui/SettingsDialog.ui" line="2362"/>
         <source>19200</source>
         <translation>19200</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="678"/>
-        <location filename="../ui/SettingsDialog.ui" line="1840"/>
-        <location filename="../ui/SettingsDialog.ui" line="2271"/>
+        <location filename="../ui/SettingsDialog.ui" line="764"/>
+        <location filename="../ui/SettingsDialog.ui" line="1926"/>
+        <location filename="../ui/SettingsDialog.ui" line="2357"/>
         <source>38400</source>
         <translation>38400</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="673"/>
-        <location filename="../ui/SettingsDialog.ui" line="1835"/>
-        <location filename="../ui/SettingsDialog.ui" line="2266"/>
+        <location filename="../ui/SettingsDialog.ui" line="759"/>
+        <location filename="../ui/SettingsDialog.ui" line="1921"/>
+        <location filename="../ui/SettingsDialog.ui" line="2352"/>
         <source>57600</source>
         <translation>57600</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="668"/>
-        <location filename="../ui/SettingsDialog.ui" line="2261"/>
+        <location filename="../ui/SettingsDialog.ui" line="754"/>
+        <location filename="../ui/SettingsDialog.ui" line="2347"/>
         <source>115200</source>
         <translation>115200</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1873"/>
-        <location filename="../ui/SettingsDialog.ui" line="2304"/>
+        <location filename="../ui/SettingsDialog.ui" line="1959"/>
+        <location filename="../ui/SettingsDialog.ui" line="2390"/>
         <source>Data Bits</source>
         <translation>Daten Bit</translation>
     </message>
@@ -8672,447 +8723,447 @@
         <translation> Profile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="314"/>
+        <location filename="../ui/SettingsDialog.ui" line="400"/>
         <source>Equipment</source>
         <translation>Geräte</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="327"/>
+        <location filename="../ui/SettingsDialog.ui" line="413"/>
         <source>Antennas</source>
         <translation>Antennen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="333"/>
-        <location filename="../ui/SettingsDialog.ui" line="1297"/>
-        <location filename="../ui/SettingsDialog.ui" line="2103"/>
+        <location filename="../ui/SettingsDialog.ui" line="419"/>
+        <location filename="../ui/SettingsDialog.ui" line="1383"/>
+        <location filename="../ui/SettingsDialog.ui" line="2189"/>
         <source>Profiles</source>
         <translation>Profile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="365"/>
+        <location filename="../ui/SettingsDialog.ui" line="451"/>
         <source>Description</source>
         <translation>Beschreibung</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="653"/>
-        <location filename="../ui/SettingsDialog.ui" line="1797"/>
-        <location filename="../ui/SettingsDialog.ui" line="2246"/>
+        <location filename="../ui/SettingsDialog.ui" line="739"/>
+        <location filename="../ui/SettingsDialog.ui" line="1883"/>
+        <location filename="../ui/SettingsDialog.ui" line="2332"/>
         <source>Use COMxx for Window or path to COM port under Unix-like OS</source>
         <translation>Verwende COMxx für Windows oder den Pfad zum COM-Anschluss unter Unix-ähnlichen Betriebssystemen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="823"/>
-        <location filename="../ui/SettingsDialog.ui" line="2490"/>
+        <location filename="../ui/SettingsDialog.ui" line="909"/>
+        <location filename="../ui/SettingsDialog.ui" line="2576"/>
         <source>List of all available CW Shortcuts Profiles</source>
         <translation>Liste der verfügbaren CW Funktionstastenprofile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1390"/>
+        <location filename="../ui/SettingsDialog.ui" line="1476"/>
         <source>Rig Model</source>
         <translation>Rig Modell</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1400"/>
-        <location filename="../ui/SettingsDialog.ui" line="1412"/>
-        <location filename="../ui/SettingsDialog.ui" line="1438"/>
+        <location filename="../ui/SettingsDialog.ui" line="1486"/>
+        <location filename="../ui/SettingsDialog.ui" line="1498"/>
+        <location filename="../ui/SettingsDialog.ui" line="1524"/>
         <source>Minimum and maximum TX frequencies. Specific ranges are derived from allowed Band in the Setting.</source>
         <translation>Niedrigste und höchste Sendefrequenzen. Die spezifischen Bereiche ergeben sich aus dem zulässigen Band in der Einstellung.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1403"/>
+        <location filename="../ui/SettingsDialog.ui" line="1489"/>
         <source>TX Range</source>
         <translation>TX Frequenzbereich</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1428"/>
+        <location filename="../ui/SettingsDialog.ui" line="1514"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1454"/>
+        <location filename="../ui/SettingsDialog.ui" line="1540"/>
         <source>MHz</source>
         <translation>MHz</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1485"/>
+        <location filename="../ui/SettingsDialog.ui" line="1571"/>
         <source>Enter manually RIT or Transverter Offset</source>
         <translation>Eingabe RIT oder Transverter Offset</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1514"/>
+        <location filename="../ui/SettingsDialog.ui" line="1600"/>
         <source>Enter manually XIT or Transverter offset</source>
         <translation>Eingabe XIT oder Transverter Offset</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1969"/>
-        <location filename="../ui/SettingsDialog.ui" line="2339"/>
+        <location filename="../ui/SettingsDialog.ui" line="2055"/>
+        <location filename="../ui/SettingsDialog.ui" line="2425"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1964"/>
-        <location filename="../ui/SettingsDialog.ui" line="2334"/>
+        <location filename="../ui/SettingsDialog.ui" line="2050"/>
+        <location filename="../ui/SettingsDialog.ui" line="2420"/>
         <source>6</source>
         <translation>6</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1959"/>
-        <location filename="../ui/SettingsDialog.ui" line="2329"/>
+        <location filename="../ui/SettingsDialog.ui" line="2045"/>
+        <location filename="../ui/SettingsDialog.ui" line="2415"/>
         <source>7</source>
         <translation>7</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1954"/>
-        <location filename="../ui/SettingsDialog.ui" line="2324"/>
+        <location filename="../ui/SettingsDialog.ui" line="2040"/>
+        <location filename="../ui/SettingsDialog.ui" line="2410"/>
         <source>8</source>
         <translation>8</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1977"/>
-        <location filename="../ui/SettingsDialog.ui" line="2347"/>
+        <location filename="../ui/SettingsDialog.ui" line="2063"/>
+        <location filename="../ui/SettingsDialog.ui" line="2433"/>
         <source>Stop Bits</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1994"/>
-        <location filename="../ui/SettingsDialog.ui" line="2358"/>
+        <location filename="../ui/SettingsDialog.ui" line="2080"/>
+        <location filename="../ui/SettingsDialog.ui" line="2444"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1999"/>
-        <location filename="../ui/SettingsDialog.ui" line="2363"/>
+        <location filename="../ui/SettingsDialog.ui" line="2085"/>
+        <location filename="../ui/SettingsDialog.ui" line="2449"/>
         <source>2</source>
         <translation>2</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1892"/>
-        <location filename="../ui/SettingsDialog.ui" line="2311"/>
+        <location filename="../ui/SettingsDialog.ui" line="1978"/>
+        <location filename="../ui/SettingsDialog.ui" line="2397"/>
         <source>Flow Control</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="230"/>
-        <location filename="../ui/SettingsDialog.cpp" line="240"/>
+        <location filename="../ui/SettingsDialog.cpp" line="243"/>
+        <location filename="../ui/SettingsDialog.cpp" line="253"/>
         <source>None</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="231"/>
-        <location filename="../ui/SettingsDialog.cpp" line="241"/>
+        <location filename="../ui/SettingsDialog.cpp" line="244"/>
+        <location filename="../ui/SettingsDialog.cpp" line="254"/>
         <source>Hardware</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="232"/>
-        <location filename="../ui/SettingsDialog.cpp" line="242"/>
+        <location filename="../ui/SettingsDialog.cpp" line="245"/>
+        <location filename="../ui/SettingsDialog.cpp" line="255"/>
         <source>Software</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1920"/>
-        <location filename="../ui/SettingsDialog.ui" line="2381"/>
+        <location filename="../ui/SettingsDialog.ui" line="2006"/>
+        <location filename="../ui/SettingsDialog.ui" line="2467"/>
         <source>Parity</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="234"/>
-        <location filename="../ui/SettingsDialog.cpp" line="244"/>
+        <location filename="../ui/SettingsDialog.cpp" line="247"/>
+        <location filename="../ui/SettingsDialog.cpp" line="257"/>
         <source>No</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="235"/>
-        <location filename="../ui/SettingsDialog.cpp" line="245"/>
+        <location filename="../ui/SettingsDialog.cpp" line="248"/>
+        <location filename="../ui/SettingsDialog.cpp" line="258"/>
         <source>Even</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="236"/>
-        <location filename="../ui/SettingsDialog.cpp" line="246"/>
+        <location filename="../ui/SettingsDialog.cpp" line="249"/>
+        <location filename="../ui/SettingsDialog.cpp" line="259"/>
         <source>Odd</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="238"/>
-        <location filename="../ui/SettingsDialog.cpp" line="248"/>
+        <location filename="../ui/SettingsDialog.cpp" line="251"/>
+        <location filename="../ui/SettingsDialog.cpp" line="261"/>
         <source>Space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="237"/>
-        <location filename="../ui/SettingsDialog.cpp" line="247"/>
+        <location filename="../ui/SettingsDialog.cpp" line="250"/>
+        <location filename="../ui/SettingsDialog.cpp" line="260"/>
         <source>Mark</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1708"/>
+        <location filename="../ui/SettingsDialog.ui" line="1794"/>
         <source>Poll Interval</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1721"/>
+        <location filename="../ui/SettingsDialog.ui" line="1807"/>
         <source> ms</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="727"/>
-        <location filename="../ui/SettingsDialog.ui" line="2031"/>
-        <location filename="../ui/SettingsDialog.ui" line="2415"/>
+        <location filename="../ui/SettingsDialog.ui" line="813"/>
+        <location filename="../ui/SettingsDialog.ui" line="2117"/>
+        <location filename="../ui/SettingsDialog.ui" line="2501"/>
         <source>Host Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="744"/>
+        <location filename="../ui/SettingsDialog.ui" line="830"/>
         <source>HamLib does not support to change a destination port.</source>
         <translation>HamLib unterstützt keine Änderung eines Zielports.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1643"/>
+        <location filename="../ui/SettingsDialog.ui" line="1729"/>
         <source>Power</source>
         <translation>Leistung</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1602"/>
+        <location filename="../ui/SettingsDialog.ui" line="1688"/>
         <source>VFO</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1678"/>
+        <location filename="../ui/SettingsDialog.ui" line="1764"/>
         <source>RX Offset (RIT)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1488"/>
-        <location filename="../ui/SettingsDialog.ui" line="1520"/>
+        <location filename="../ui/SettingsDialog.ui" line="1574"/>
+        <location filename="../ui/SettingsDialog.ui" line="1606"/>
         <source> MHz</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="67"/>
+        <location filename="../ui/SettingsDialog.ui" line="259"/>
         <source>World Wide Flora &amp; Fauna (Optional parameter)</source>
         <translation>World Wide Flora &amp; Fauna (optional)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="149"/>
+        <location filename="../ui/SettingsDialog.ui" line="127"/>
         <source>WWFF</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1592"/>
+        <location filename="../ui/SettingsDialog.ui" line="1678"/>
         <source>Mode</source>
         <translation>Betriebsart</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1619"/>
+        <location filename="../ui/SettingsDialog.ui" line="1705"/>
         <source>Freq</source>
         <translation>Frequenz</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1671"/>
+        <location filename="../ui/SettingsDialog.ui" line="1757"/>
         <source>TX Offset (XIT)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1653"/>
+        <location filename="../ui/SettingsDialog.ui" line="1739"/>
         <source>PTT State</source>
         <translation>PTT Status</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="586"/>
+        <location filename="../ui/SettingsDialog.ui" line="672"/>
         <source>Default Speed</source>
         <translation>Standard WPM</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="602"/>
+        <location filename="../ui/SettingsDialog.ui" line="688"/>
         <source> WPM</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="797"/>
+        <location filename="../ui/SettingsDialog.ui" line="883"/>
         <source>CW Shortcut Profiles</source>
         <translation>CW Funktionstasten Profile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="873"/>
+        <location filename="../ui/SettingsDialog.ui" line="959"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="898"/>
-        <location filename="../ui/SettingsDialog.ui" line="969"/>
-        <location filename="../ui/SettingsDialog.ui" line="1140"/>
-        <location filename="../ui/SettingsDialog.ui" line="1173"/>
-        <location filename="../ui/SettingsDialog.ui" line="1206"/>
-        <location filename="../ui/SettingsDialog.ui" line="1239"/>
-        <location filename="../ui/SettingsDialog.ui" line="1272"/>
-        <location filename="../ui/SettingsDialog.ui" line="2579"/>
-        <location filename="../ui/SettingsDialog.ui" line="2624"/>
-        <location filename="../ui/SettingsDialog.ui" line="2657"/>
-        <location filename="../ui/SettingsDialog.ui" line="2690"/>
+        <location filename="../ui/SettingsDialog.ui" line="984"/>
+        <location filename="../ui/SettingsDialog.ui" line="1055"/>
+        <location filename="../ui/SettingsDialog.ui" line="1226"/>
+        <location filename="../ui/SettingsDialog.ui" line="1259"/>
+        <location filename="../ui/SettingsDialog.ui" line="1292"/>
+        <location filename="../ui/SettingsDialog.ui" line="1325"/>
+        <location filename="../ui/SettingsDialog.ui" line="1358"/>
+        <location filename="../ui/SettingsDialog.ui" line="2665"/>
+        <location filename="../ui/SettingsDialog.ui" line="2710"/>
+        <location filename="../ui/SettingsDialog.ui" line="2743"/>
+        <location filename="../ui/SettingsDialog.ui" line="2776"/>
         <source>Short Desciption of the Button (up to 7 chars)</source>
         <translation>Kurzbeschreibung der Schaltfläche (bis zu 7 Zeichen)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="950"/>
+        <location filename="../ui/SettingsDialog.ui" line="1036"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1127"/>
+        <location filename="../ui/SettingsDialog.ui" line="1213"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1160"/>
+        <location filename="../ui/SettingsDialog.ui" line="1246"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1193"/>
+        <location filename="../ui/SettingsDialog.ui" line="1279"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1226"/>
+        <location filename="../ui/SettingsDialog.ui" line="1312"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1259"/>
+        <location filename="../ui/SettingsDialog.ui" line="1345"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1548"/>
-        <location filename="../ui/SettingsDialog.ui" line="2708"/>
-        <location filename="../ui/SettingsDialog.ui" line="2733"/>
-        <location filename="../ui/SettingsDialog.ui" line="2758"/>
-        <location filename="../ui/SettingsDialog.ui" line="2783"/>
+        <location filename="../ui/SettingsDialog.ui" line="1634"/>
+        <location filename="../ui/SettingsDialog.ui" line="2794"/>
+        <location filename="../ui/SettingsDialog.ui" line="2819"/>
+        <location filename="../ui/SettingsDialog.ui" line="2844"/>
+        <location filename="../ui/SettingsDialog.ui" line="2869"/>
         <source>Blank</source>
         <translation>Leer</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1577"/>
+        <location filename="../ui/SettingsDialog.ui" line="1663"/>
         <source>Rig Features</source>
         <translation>Rig Merkmale</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1629"/>
+        <location filename="../ui/SettingsDialog.ui" line="1715"/>
         <source>QSY Wiping</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="74"/>
+        <location filename="../ui/SettingsDialog.ui" line="348"/>
         <source>POTA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="228"/>
+        <location filename="../ui/SettingsDialog.ui" line="134"/>
         <source>SIG (Optional parameter).</source>
         <translation>SIG (optional).</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="245"/>
+        <location filename="../ui/SettingsDialog.ui" line="362"/>
         <source>SIG Info</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1699"/>
+        <location filename="../ui/SettingsDialog.ui" line="1785"/>
         <source>CW Speed Sync</source>
         <translation>WPM-Sync</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2097"/>
+        <location filename="../ui/SettingsDialog.ui" line="2183"/>
         <source>Rotators</source>
         <translation>Rotoren</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2177"/>
+        <location filename="../ui/SettingsDialog.ui" line="2263"/>
         <source>Rot Model</source>
         <translation>Rotor Modell</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2848"/>
+        <location filename="../ui/SettingsDialog.ui" line="2934"/>
         <source>Query Order</source>
         <translation>Reihenfolge der Abfrage</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2854"/>
+        <location filename="../ui/SettingsDialog.ui" line="2940"/>
         <source>Primary</source>
         <translation>Primär</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2866"/>
+        <location filename="../ui/SettingsDialog.ui" line="2952"/>
         <source>Secondary</source>
         <translation>Sekundär</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2921"/>
-        <location filename="../ui/SettingsDialog.ui" line="3407"/>
-        <location filename="../ui/SettingsDialog.cpp" line="228"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1981"/>
+        <location filename="../ui/SettingsDialog.ui" line="3007"/>
+        <location filename="../ui/SettingsDialog.ui" line="3493"/>
+        <location filename="../ui/SettingsDialog.cpp" line="241"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2058"/>
         <source>QRZ.com</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3141"/>
+        <location filename="../ui/SettingsDialog.ui" line="3227"/>
         <source>QSOs are uploaded immediately</source>
         <translation>QSOs werden sofort hochgeladen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3399"/>
+        <location filename="../ui/SettingsDialog.ui" line="3485"/>
         <source>Using an internal TQSL instance</source>
         <translation>Verwendung einer internen TQSL</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3679"/>
+        <location filename="../ui/SettingsDialog.ui" line="3765"/>
         <source>Port where QLog listens an incoming traffic from WSJT-X</source>
         <translation>Port, an dem QLog auf eingehenden Datenverkehr von WSJT-X wartet</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3649"/>
+        <location filename="../ui/SettingsDialog.ui" line="3735"/>
         <source>Raw UDP Forward</source>
         <translation>UDP Rohdaten-Weiterleitung</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="177"/>
+        <location filename="../ui/SettingsDialog.ui" line="369"/>
         <source>Profile name that is used as the alias for the Callsign, Gridsquare, Operator name, and QTH (required parameter) </source>
         <translation>Profilname, der als Alias für Rufzeichen, QTH-Locator, Operator-Name und QTH verwendet wird (erforderlich) </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="490"/>
+        <location filename="../ui/SettingsDialog.ui" line="576"/>
         <source>CW Keyers</source>
         <translation>CW-Keyer</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="496"/>
+        <location filename="../ui/SettingsDialog.ui" line="582"/>
         <source>Keyer Profiles</source>
         <translation>Keyer Profile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="514"/>
+        <location filename="../ui/SettingsDialog.ui" line="600"/>
         <source>List of all available CW Keyers</source>
         <translation>Liste der verfügbaren CW Keyer</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="569"/>
+        <location filename="../ui/SettingsDialog.ui" line="655"/>
         <source>Keyer Mode</source>
         <translation>Keyer Modus</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="599"/>
+        <location filename="../ui/SettingsDialog.ui" line="685"/>
         <source>N/A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="916"/>
-        <location filename="../ui/SettingsDialog.ui" line="981"/>
-        <location filename="../ui/SettingsDialog.ui" line="1004"/>
-        <location filename="../ui/SettingsDialog.ui" line="1027"/>
-        <location filename="../ui/SettingsDialog.ui" line="1050"/>
-        <location filename="../ui/SettingsDialog.ui" line="1073"/>
-        <location filename="../ui/SettingsDialog.ui" line="1096"/>
+        <location filename="../ui/SettingsDialog.ui" line="1002"/>
+        <location filename="../ui/SettingsDialog.ui" line="1067"/>
+        <location filename="../ui/SettingsDialog.ui" line="1090"/>
+        <location filename="../ui/SettingsDialog.ui" line="1113"/>
+        <location filename="../ui/SettingsDialog.ui" line="1136"/>
+        <location filename="../ui/SettingsDialog.ui" line="1159"/>
+        <location filename="../ui/SettingsDialog.ui" line="1182"/>
         <source>&lt;DXCALL&gt; = DX Callsign
 &lt;NAME&gt; = DX Operator Name
 &lt;RST&gt; = Report 599
@@ -9148,595 +9199,610 @@
 &lt;MYPWR&gt; = Eigene Leistung in W</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1567"/>
+        <location filename="../ui/SettingsDialog.ui" line="1653"/>
         <source>Assigned CW Keyer</source>
         <translation>Zugeordneter CW-Keyer</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1692"/>
+        <location filename="../ui/SettingsDialog.ui" line="1778"/>
         <source>CW Keyer Speed</source>
         <translation>CW-Keyer WPM</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1737"/>
-        <location filename="../ui/SettingsDialog.ui" line="2187"/>
+        <location filename="../ui/SettingsDialog.ui" line="1823"/>
+        <location filename="../ui/SettingsDialog.ui" line="2273"/>
         <source>Port Type</source>
         <translation>Port Typ</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2195"/>
+        <location filename="../ui/SettingsDialog.ui" line="2281"/>
         <location filename="../ui/SettingsDialog.cpp" line="84"/>
         <source>Serial</source>
         <translation>Serial</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2478"/>
+        <location filename="../ui/SettingsDialog.ui" line="2564"/>
         <source>User Buttons Profiles</source>
         <translation>Funktionstasten Profile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2554"/>
+        <location filename="../ui/SettingsDialog.ui" line="2640"/>
         <source>Button 1</source>
         <translation>Taste 1</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2605"/>
+        <location filename="../ui/SettingsDialog.ui" line="2691"/>
         <source>Button 2</source>
         <translation>Taste 2</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2644"/>
+        <location filename="../ui/SettingsDialog.ui" line="2730"/>
         <source>Button 3</source>
         <translation>Taste 3</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2677"/>
+        <location filename="../ui/SettingsDialog.ui" line="2763"/>
         <source>Button 4</source>
         <translation>Taste 4</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="405"/>
-        <location filename="../ui/SettingsDialog.ui" line="424"/>
-        <location filename="../ui/SettingsDialog.ui" line="2711"/>
-        <location filename="../ui/SettingsDialog.ui" line="2736"/>
-        <location filename="../ui/SettingsDialog.ui" line="2761"/>
-        <location filename="../ui/SettingsDialog.ui" line="2786"/>
+        <location filename="../ui/SettingsDialog.ui" line="491"/>
+        <location filename="../ui/SettingsDialog.ui" line="510"/>
+        <location filename="../ui/SettingsDialog.ui" line="2797"/>
+        <location filename="../ui/SettingsDialog.ui" line="2822"/>
+        <location filename="../ui/SettingsDialog.ui" line="2847"/>
+        <location filename="../ui/SettingsDialog.ui" line="2872"/>
         <source>°</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="118"/>
+        <location filename="../ui/SettingsDialog.ui" line="113"/>
         <source>Operator Name</source>
         <translation>Operator Name</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="379"/>
+        <location filename="../ui/SettingsDialog.ui" line="204"/>
+        <source>ITU</source>
+        <translation>ITU</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="227"/>
+        <source>CQZ</source>
+        <translation>CQZ</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="280"/>
+        <source>Country</source>
+        <translation>Land</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsDialog.ui" line="465"/>
         <source>Azimuth Beamwidth </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="386"/>
+        <location filename="../ui/SettingsDialog.ui" line="472"/>
         <source>Azimuth Offset</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="399"/>
+        <location filename="../ui/SettingsDialog.ui" line="485"/>
         <source>Valid range value is 0° - 100° (0° Unspecified)</source>
         <translation>Gültiger Wertebereich: 0° - 100° (0° unbestimmt)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="402"/>
+        <location filename="../ui/SettingsDialog.ui" line="488"/>
         <source>Unspecified</source>
         <translation>Unbestimmt</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1380"/>
-        <location filename="../ui/SettingsDialog.ui" line="2462"/>
+        <location filename="../ui/SettingsDialog.ui" line="1466"/>
+        <location filename="../ui/SettingsDialog.ui" line="2548"/>
         <source>Interface</source>
         <translation>Interface</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1463"/>
+        <location filename="../ui/SettingsDialog.ui" line="1549"/>
         <source>Offsets</source>
         <translation>Offset</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1472"/>
+        <location filename="../ui/SettingsDialog.ui" line="1558"/>
         <source>RX</source>
         <translation>RX</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1507"/>
+        <location filename="../ui/SettingsDialog.ui" line="1593"/>
         <source>TX </source>
         <translation>TX </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2081"/>
+        <location filename="../ui/SettingsDialog.ui" line="2167"/>
         <source>DX Spots to Rig</source>
         <translation>DX-Spots zum Rig</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2961"/>
+        <location filename="../ui/SettingsDialog.ui" line="3047"/>
         <source>Web Lookup Button</source>
         <translation>Schaltfläche Web Suche</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2967"/>
+        <location filename="../ui/SettingsDialog.ui" line="3053"/>
         <source>URL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2976"/>
+        <location filename="../ui/SettingsDialog.ui" line="3062"/>
         <source>Specify the URL to use for quick search. The &lt;DXCALL&gt; macro will be replaced by the current callsign</source>
         <translation>Geben Sie die URL an, die für die Schnellsuche verwendet werden soll. Das Makro &lt;DXCALL&gt; wird durch das aktuelle Rufzeichen ersetzt</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2983"/>
+        <location filename="../ui/SettingsDialog.ui" line="3069"/>
         <source>Test URL with your Callsign</source>
         <translation>Prüfen Sie die URL mit Ihrem Rufzeichen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2986"/>
+        <location filename="../ui/SettingsDialog.ui" line="3072"/>
         <source>Test</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3012"/>
+        <location filename="../ui/SettingsDialog.ui" line="3098"/>
         <source>Clubs</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3018"/>
+        <location filename="../ui/SettingsDialog.ui" line="3104"/>
         <source>Active Lists</source>
         <translation>Aktive Listen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3151"/>
+        <location filename="../ui/SettingsDialog.ui" line="3237"/>
         <source>Immediately Upload</source>
         <translation>Sofort-Upload</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3219"/>
+        <location filename="../ui/SettingsDialog.ui" line="3305"/>
         <source>HRDLog</source>
         <translation>HRDLog</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3235"/>
-        <location filename="../ui/SettingsDialog.ui" line="3245"/>
+        <location filename="../ui/SettingsDialog.ui" line="3321"/>
+        <location filename="../ui/SettingsDialog.ui" line="3331"/>
         <source>It is not a password. It is the upload code received via email after the registration to HRDLOG..net</source>
         <translation>Das ist kein Passwort. Es handelt sich um den Upload-Code, den sie nach der Registrierung bei HRDLOG.net per E-Mail erhalten haben</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3238"/>
+        <location filename="../ui/SettingsDialog.ui" line="3324"/>
         <source>Upload Code</source>
         <translatorcomment>Do not translate.</translatorcomment>
         <translation>Upload Code</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3255"/>
-        <location filename="../ui/SettingsDialog.ui" line="3268"/>
+        <location filename="../ui/SettingsDialog.ui" line="3341"/>
+        <location filename="../ui/SettingsDialog.ui" line="3354"/>
         <source>If it is enabled and Rig is connected then QLog periodically sends On-Air messages to HRDLog</source>
         <translation>Wenn es aktiviert ist und Rig angeschlossen ist, sendet QLog regelmäßig On-Air-Nachrichten an HRDLog</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3258"/>
+        <location filename="../ui/SettingsDialog.ui" line="3344"/>
         <source>Send On-Air</source>
         <translation>On-Air senden</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3461"/>
+        <location filename="../ui/SettingsDialog.ui" line="3547"/>
         <source>Chat</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3533"/>
+        <location filename="../ui/SettingsDialog.ui" line="3619"/>
         <source>&lt;b&gt;Security Notice:&lt;/b&gt; QLog stores all passwords in the Secure Storage. Unfortunately, ON4KST uses a protocol where this password is sent over an unsecured channel as plaintext.&lt;/p&gt;&lt;p&gt;Please exercise caution when choosing your password for this service, as your password is sent over an unsecured channel in plaintext form.&lt;/p&gt;</source>
         <translation>&lt;b&gt;Sicherheitshinweis:&lt;/b&gt; QLog speichert alle Passwörter im Secure Storage. Leider verwendet ON4KST ein Protokoll, bei dem dieses Passwort über einen ungesicherten Kanal im Klartext gesendet wird.&lt;/p&gt;&lt;p&gt;Bitte seien Sie vorsichtig, wenn Sie Ihr Passwort für diesen Dienst wählen, da Ihr Passwort über einen ungesicherten Kanal im Klartext gesendet wird.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3656"/>
+        <location filename="../ui/SettingsDialog.ui" line="3742"/>
         <source>&lt;p&gt;List of IP addresses to which QLog forwards raw UDP WSJT-X packets.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Liste der IP-Adressen, an die QLog unbearbeitete UDP WSJT-X-Pakete weiterleitet.&lt;/p&gt;Die IP-Adressen werden durch ein Leerzeichen getrennt und haben die Form IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3695"/>
+        <location filename="../ui/SettingsDialog.ui" line="3781"/>
         <source>Join Multicast</source>
         <translation>Multicast verbinden</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3708"/>
+        <location filename="../ui/SettingsDialog.ui" line="3794"/>
         <source>Enable/Disable Multicast option for WSJTX</source>
         <translation>Aktivieren/Deaktivieren der Multicast-Option für WSJTX</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3718"/>
+        <location filename="../ui/SettingsDialog.ui" line="3804"/>
         <source>Multicast Address</source>
         <translation>Multicast Adresse</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3733"/>
+        <location filename="../ui/SettingsDialog.ui" line="3819"/>
         <source>Specify Multicast Address. &lt;br&gt;On some Linux systems it may be necessary to enable multicast on the loop-back network interface.</source>
         <translation>Geben Sie die Multicast-Adresse an. &lt;br&gt;Auf einigen Linux-Systemen kann es erforderlich sein, Multicast auf der Loopback-Netzwerkschnittstelle zu aktivieren.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3740"/>
+        <location filename="../ui/SettingsDialog.ui" line="3826"/>
         <source>TTL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3753"/>
+        <location filename="../ui/SettingsDialog.ui" line="3839"/>
         <source>Time-To-Live determines the range&lt;br&gt; over which a multicast packet is propagated in your intranet. </source>
         <translation>Time-To-Live bestimmt den Bereich&lt;br&gt;, über den ein Multicast-Paket in Ihrem Intranet verbreitet wird. </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3774"/>
+        <location filename="../ui/SettingsDialog.ui" line="3860"/>
         <source>Notifications</source>
         <translation>Benachrichtigungen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3803"/>
+        <location filename="../ui/SettingsDialog.ui" line="3889"/>
         <source>DX Spots</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3810"/>
+        <location filename="../ui/SettingsDialog.ui" line="3896"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with DX Cluster Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Liste der IP-Adressen, an die QLog UDP-Notification-Pakete mit DX Cluster Spots sendet.&lt;/p&gt;Die IP-Adressen sind durch ein Leerzeichen getrennt und haben das Format IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3837"/>
+        <location filename="../ui/SettingsDialog.ui" line="3923"/>
         <source>QSO Changes </source>
         <translation>QSO Änderungen </translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3844"/>
+        <location filename="../ui/SettingsDialog.ui" line="3930"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about a new/updated/deleted QSO in the log.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Liste der IP-Adressen, an die QLog UDP-Benachrichtigungspakete über ein neues/aktualisiertes/gelöschtes QSO im Log sendet.&lt;/p&gt;Die IP-Adressen sind durch ein Leerzeichen getrennt und haben das Format IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3854"/>
+        <location filename="../ui/SettingsDialog.ui" line="3940"/>
         <source>Wsjtx CQ Spots</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3861"/>
+        <location filename="../ui/SettingsDialog.ui" line="3947"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets with WSJTX CQ Spots.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Liste der IP-Adressen, an die QLog UDP-Benachrichtigungspakete mit WSJTX CQ Spots sendet.&lt;/p&gt;Die IP-Adressen sind durch ein Leerzeichen getrennt und haben das Format IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3820"/>
+        <location filename="../ui/SettingsDialog.ui" line="3906"/>
         <source>Spot Alerts</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3827"/>
+        <location filename="../ui/SettingsDialog.ui" line="3913"/>
         <source>&lt;p&gt; List of IP addresses to which QLog sends  UDP notification packets about user Spot Alerts.&lt;/p&gt;The IP addresses are separated by a space and have the form IP:PORT</source>
         <translation>&lt;p&gt;Liste der IP-Adressen, an die QLog UDP-Benachrichtigungspakete über User Spot Alerts sendet.&lt;/p&gt;Die IP-Adressen sind durch ein Leerzeichen getrennt und haben das Format IP:PORT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3780"/>
+        <location filename="../ui/SettingsDialog.ui" line="3866"/>
         <source>LogID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3790"/>
+        <location filename="../ui/SettingsDialog.ui" line="3876"/>
         <source>&lt;p&gt;Assigned LogID to the current log.&lt;/p&gt;The LogID is sent in the Network Nofitication messages as a unique instance identified.&lt;p&gt; The ID is generated automatically and cannot be changed&lt;/&gt;</source>
         <translation>&lt;p&gt;Zugeordnete LogID für das aktuelle Protokoll.&lt;/p&gt;Die LogID wird in den Netzwerk-Notifizierungsmeldungen als eindeutige Instanzkennung gesendet.&lt;p&gt;Die ID wird automatisch generiert und kann nicht geändert werden&lt;/&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3659"/>
-        <location filename="../ui/SettingsDialog.ui" line="3813"/>
-        <location filename="../ui/SettingsDialog.ui" line="3830"/>
-        <location filename="../ui/SettingsDialog.ui" line="3847"/>
-        <location filename="../ui/SettingsDialog.ui" line="3864"/>
+        <location filename="../ui/SettingsDialog.ui" line="3745"/>
+        <location filename="../ui/SettingsDialog.ui" line="3899"/>
+        <location filename="../ui/SettingsDialog.ui" line="3916"/>
+        <location filename="../ui/SettingsDialog.ui" line="3933"/>
+        <location filename="../ui/SettingsDialog.ui" line="3950"/>
         <source>ex. 192.168.1.1:1234 192.168.2.1:1234</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3159"/>
+        <location filename="../ui/SettingsDialog.ui" line="3245"/>
         <source>eQSL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3357"/>
+        <location filename="../ui/SettingsDialog.ui" line="3443"/>
         <source>Browse</source>
         <translation>Durchsuchen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3308"/>
+        <location filename="../ui/SettingsDialog.ui" line="3394"/>
         <source>LoTW</source>
         <translation>LoTW</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3338"/>
+        <location filename="../ui/SettingsDialog.ui" line="3424"/>
         <source>TQSL Path</source>
         <translation>TQSL Pfad</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3350"/>
+        <location filename="../ui/SettingsDialog.ui" line="3436"/>
         <source>Use default path</source>
         <translation>Benutze Standardpfad</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2200"/>
-        <location filename="../ui/SettingsDialog.ui" line="3637"/>
+        <location filename="../ui/SettingsDialog.ui" line="2286"/>
+        <location filename="../ui/SettingsDialog.ui" line="3723"/>
         <location filename="../ui/SettingsDialog.cpp" line="85"/>
         <source>Network</source>
         <translation>Netzwerk</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3643"/>
+        <location filename="../ui/SettingsDialog.ui" line="3729"/>
         <source>Wsjtx</source>
         <translation>Wsjtx</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3666"/>
+        <location filename="../ui/SettingsDialog.ui" line="3752"/>
         <source>Port </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3079"/>
+        <location filename="../ui/SettingsDialog.ui" line="3165"/>
         <source>ClubLog</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3101"/>
+        <location filename="../ui/SettingsDialog.ui" line="3187"/>
         <source>E-Mail</source>
         <translation>E-Mail</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3413"/>
+        <location filename="../ui/SettingsDialog.ui" line="3499"/>
         <source>Log API Key  </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3044"/>
+        <location filename="../ui/SettingsDialog.ui" line="3130"/>
         <source>Sync &amp;&amp; QSL</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3561"/>
+        <location filename="../ui/SettingsDialog.ui" line="3647"/>
         <source>Bands</source>
         <translation>Bänder</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3584"/>
+        <location filename="../ui/SettingsDialog.ui" line="3670"/>
         <source>Modes</source>
         <translation>Betriebsarten</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3607"/>
-        <location filename="../ui/SettingsDialog.cpp" line="146"/>
+        <location filename="../ui/SettingsDialog.ui" line="3693"/>
+        <location filename="../ui/SettingsDialog.cpp" line="159"/>
         <source>DXCC</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="3619"/>
+        <location filename="../ui/SettingsDialog.ui" line="3705"/>
         <source>Use start date:</source>
         <translation>Verwende Startdatum:</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="646"/>
-        <location filename="../ui/SettingsDialog.ui" line="737"/>
-        <location filename="../ui/SettingsDialog.ui" line="1784"/>
-        <location filename="../ui/SettingsDialog.ui" line="2046"/>
-        <location filename="../ui/SettingsDialog.ui" line="2239"/>
-        <location filename="../ui/SettingsDialog.ui" line="2430"/>
+        <location filename="../ui/SettingsDialog.ui" line="732"/>
+        <location filename="../ui/SettingsDialog.ui" line="823"/>
+        <location filename="../ui/SettingsDialog.ui" line="1870"/>
+        <location filename="../ui/SettingsDialog.ui" line="2132"/>
+        <location filename="../ui/SettingsDialog.ui" line="2325"/>
+        <location filename="../ui/SettingsDialog.ui" line="2516"/>
         <source>Port</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="277"/>
+        <location filename="../ui/SettingsDialog.ui" line="376"/>
         <source>Operator name (Optional parameter)</source>
         <translation>Operator-Name (optional)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="105"/>
+        <location filename="../ui/SettingsDialog.ui" line="307"/>
         <source>Station Gridsquare (Mandatory parameter)</source>
         <translation>Stations-Gitterfeld (erforderlich)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="284"/>
+        <location filename="../ui/SettingsDialog.ui" line="161"/>
         <source>Callsign (Mandatory parameter)</source>
         <translation>Rufzeichen (erforderlich)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="200"/>
+        <location filename="../ui/SettingsDialog.ui" line="67"/>
         <source>Gridsquare</source>
         <translation>Gitterfeld</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="190"/>
+        <location filename="../ui/SettingsDialog.ui" line="180"/>
         <source>List of all available Station Profiles</source>
         <translation>Liste der verfügbaren Stations-Profile</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="270"/>
+        <location filename="../ui/SettingsDialog.ui" line="320"/>
         <source>QTH Name (Optional parameter)</source>
         <translation>QTH Name (optional)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="1316"/>
-        <location filename="../ui/SettingsDialog.ui" line="2129"/>
+        <location filename="../ui/SettingsDialog.ui" line="1402"/>
+        <location filename="../ui/SettingsDialog.ui" line="2215"/>
         <source>List of all available Rigs</source>
         <translation>Liste der verfügbaren Rigs</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="463"/>
+        <location filename="../ui/SettingsDialog.ui" line="549"/>
         <source>List of all available Antennas</source>
         <translation>Liste der verfügbaren Antennen</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2842"/>
+        <location filename="../ui/SettingsDialog.ui" line="2928"/>
         <source>Callbook</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2881"/>
-        <location filename="../ui/SettingsDialog.cpp" line="227"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1988"/>
+        <location filename="../ui/SettingsDialog.ui" line="2967"/>
+        <location filename="../ui/SettingsDialog.cpp" line="240"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2065"/>
         <source>HamQTH</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2887"/>
-        <location filename="../ui/SettingsDialog.ui" line="2927"/>
-        <location filename="../ui/SettingsDialog.ui" line="3181"/>
-        <location filename="../ui/SettingsDialog.ui" line="3314"/>
-        <location filename="../ui/SettingsDialog.ui" line="3496"/>
+        <location filename="../ui/SettingsDialog.ui" line="2973"/>
+        <location filename="../ui/SettingsDialog.ui" line="3013"/>
+        <location filename="../ui/SettingsDialog.ui" line="3267"/>
+        <location filename="../ui/SettingsDialog.ui" line="3400"/>
+        <location filename="../ui/SettingsDialog.ui" line="3582"/>
         <source>Username</source>
         <translation>Benutzername</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.ui" line="2901"/>
-        <location filename="../ui/SettingsDialog.ui" line="2941"/>
-        <location filename="../ui/SettingsDialog.ui" line="3111"/>
-        <location filename="../ui/SettingsDialog.ui" line="3191"/>
-        <location filename="../ui/SettingsDialog.ui" line="3324"/>
-        <location filename="../ui/SettingsDialog.ui" line="3506"/>
+        <location filename="../ui/SettingsDialog.ui" line="2987"/>
+        <location filename="../ui/SettingsDialog.ui" line="3027"/>
+        <location filename="../ui/SettingsDialog.ui" line="3197"/>
+        <location filename="../ui/SettingsDialog.ui" line="3277"/>
+        <location filename="../ui/SettingsDialog.ui" line="3410"/>
+        <location filename="../ui/SettingsDialog.ui" line="3592"/>
         <source>Password</source>
         <translation>Passwort</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="144"/>
-        <location filename="../ui/SettingsDialog.cpp" line="161"/>
+        <location filename="../ui/SettingsDialog.cpp" line="157"/>
+        <location filename="../ui/SettingsDialog.cpp" line="174"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="145"/>
+        <location filename="../ui/SettingsDialog.cpp" line="158"/>
         <source>Report</source>
         <translation>Bericht</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="147"/>
-        <location filename="../ui/SettingsDialog.cpp" line="164"/>
+        <location filename="../ui/SettingsDialog.cpp" line="160"/>
+        <location filename="../ui/SettingsDialog.cpp" line="177"/>
         <source>State</source>
         <translation>Staat</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="162"/>
+        <location filename="../ui/SettingsDialog.cpp" line="175"/>
         <source>Start (MHz)</source>
         <translation>Beginn (MHz)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="163"/>
+        <location filename="../ui/SettingsDialog.cpp" line="176"/>
         <source>End (MHz)</source>
         <translation>Ende (MHz)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="226"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1980"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1987"/>
+        <location filename="../ui/SettingsDialog.cpp" line="239"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2057"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2064"/>
         <source>Disabled</source>
         <translation>Inaktiv</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="250"/>
+        <location filename="../ui/SettingsDialog.cpp" line="263"/>
         <source>Dummy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="251"/>
+        <location filename="../ui/SettingsDialog.cpp" line="264"/>
         <source>Morse Over CAT</source>
         <translation>CW-über-CAT</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="252"/>
+        <location filename="../ui/SettingsDialog.cpp" line="265"/>
         <source>WinKey v2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="253"/>
+        <location filename="../ui/SettingsDialog.cpp" line="266"/>
         <source>CWDaemon</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="254"/>
+        <location filename="../ui/SettingsDialog.cpp" line="267"/>
         <source>FLDigi</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="257"/>
+        <location filename="../ui/SettingsDialog.cpp" line="270"/>
         <source>Single Paddle</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="258"/>
+        <location filename="../ui/SettingsDialog.cpp" line="271"/>
         <source>IAMBIC A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="259"/>
+        <location filename="../ui/SettingsDialog.cpp" line="272"/>
         <source>IAMBIC B</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="260"/>
+        <location filename="../ui/SettingsDialog.cpp" line="273"/>
         <source>Ultimate</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="282"/>
+        <location filename="../ui/SettingsDialog.cpp" line="295"/>
         <source>Press &lt;b&gt;Modify&lt;/b&gt; to confirm the profile changes or &lt;b&gt;Cancel&lt;/b&gt;.</source>
         <translation>Drücken Sie &lt;b&gt;Ändern&lt;/b&gt;, um die Profiländerungen zu bestätigen oder &lt;b&gt;Abbrechen&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="360"/>
-        <location filename="../ui/SettingsDialog.cpp" line="683"/>
-        <location filename="../ui/SettingsDialog.cpp" line="869"/>
-        <location filename="../ui/SettingsDialog.cpp" line="981"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1065"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1246"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1405"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1411"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1417"/>
+        <location filename="../ui/SettingsDialog.cpp" line="373"/>
+        <location filename="../ui/SettingsDialog.cpp" line="696"/>
+        <location filename="../ui/SettingsDialog.cpp" line="882"/>
+        <location filename="../ui/SettingsDialog.cpp" line="994"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1078"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1259"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1418"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1424"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1430"/>
         <source>Must not be empty</source>
         <translation>Darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2501"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2578"/>
         <source>members</source>
         <translation>Mitglieder</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2509"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2586"/>
         <source>Required internet connection during application start</source>
         <translation>Erfordert Internetverbindung beim Start der Anwendung</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="284"/>
-        <location filename="../ui/SettingsDialog.cpp" line="291"/>
-        <location filename="../ui/SettingsDialog.cpp" line="299"/>
-        <location filename="../ui/SettingsDialog.cpp" line="307"/>
-        <location filename="../ui/SettingsDialog.cpp" line="315"/>
-        <location filename="../ui/SettingsDialog.cpp" line="323"/>
-        <location filename="../ui/SettingsDialog.cpp" line="331"/>
-        <location filename="../ui/SettingsDialog.cpp" line="390"/>
-        <location filename="../ui/SettingsDialog.cpp" line="530"/>
-        <location filename="../ui/SettingsDialog.cpp" line="697"/>
-        <location filename="../ui/SettingsDialog.cpp" line="785"/>
-        <location filename="../ui/SettingsDialog.cpp" line="873"/>
-        <location filename="../ui/SettingsDialog.cpp" line="950"/>
-        <location filename="../ui/SettingsDialog.cpp" line="985"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1041"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1138"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1220"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1250"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1343"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1445"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1513"/>
+        <location filename="../ui/SettingsDialog.cpp" line="297"/>
+        <location filename="../ui/SettingsDialog.cpp" line="304"/>
+        <location filename="../ui/SettingsDialog.cpp" line="312"/>
+        <location filename="../ui/SettingsDialog.cpp" line="320"/>
+        <location filename="../ui/SettingsDialog.cpp" line="328"/>
+        <location filename="../ui/SettingsDialog.cpp" line="336"/>
+        <location filename="../ui/SettingsDialog.cpp" line="344"/>
+        <location filename="../ui/SettingsDialog.cpp" line="403"/>
+        <location filename="../ui/SettingsDialog.cpp" line="543"/>
+        <location filename="../ui/SettingsDialog.cpp" line="710"/>
+        <location filename="../ui/SettingsDialog.cpp" line="798"/>
+        <location filename="../ui/SettingsDialog.cpp" line="886"/>
+        <location filename="../ui/SettingsDialog.cpp" line="963"/>
+        <location filename="../ui/SettingsDialog.cpp" line="998"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1054"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1151"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1233"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1263"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1356"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1479"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1567"/>
         <source>Modify</source>
         <translation>Ändern</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="86"/>
-        <location filename="../ui/SettingsDialog.cpp" line="661"/>
+        <location filename="../ui/SettingsDialog.cpp" line="674"/>
         <source>Special - Omnirig</source>
         <translation>Special - Omnirig</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1742"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1799"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
@@ -10348,32 +10414,32 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../core/main.cpp" line="435"/>
+        <location filename="../core/main.cpp" line="454"/>
         <source>Run with the specific namespace.</source>
         <translation>Im spezifischen Namensraum ausführen.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="436"/>
+        <location filename="../core/main.cpp" line="455"/>
         <source>namespace</source>
         <translation>Namensraum</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="438"/>
+        <location filename="../core/main.cpp" line="457"/>
         <source>Translation file - absolute or relative path and QM file name.</source>
         <translation>Übersetzungsdatei - Absoluter oder relativer Pfad und Name der QM-Datei.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="439"/>
+        <location filename="../core/main.cpp" line="458"/>
         <source>path/QM-filename</source>
         <translation>path/QM-filename</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="441"/>
+        <location filename="../core/main.cpp" line="460"/>
         <source>Set language. &lt;code&gt; example: &apos;en&apos; or &apos;en_US&apos;. Ignore environment setting.</source>
         <translation>Sprache einstellen. Beispiel &lt;code&gt;: &apos;en&apos; oder &apos;en_US&apos;. Ignoriert Betriebssystemeinstellungen.</translation>
     </message>
     <message>
-        <location filename="../core/main.cpp" line="442"/>
+        <location filename="../core/main.cpp" line="461"/>
         <source>code</source>
         <translation>code</translation>
     </message>
