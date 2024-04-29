@@ -389,6 +389,10 @@ void EQSL::processReply(QNetworkReply* reply)
                 QString filename = match.captured(1);
                 downloadADIF(filename);
             }
+            else if ( replayString.contains("You have no log entries"))
+            {
+                emit updateComplete(QSLMergeStat());
+            }
             else
             {
                 qCInfo(runtime) << "File not found in HTTP reply ";
