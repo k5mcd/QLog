@@ -55,7 +55,6 @@ void ProfileImageWidget::loadImageFromUrl(const QString &urlAddress)
     {
         qCDebug(runtime) << "Previous request is still running";
         currentReply->abort();
-        currentReply->deleteLater();
     }
 
     QUrl url(urlAddress);
