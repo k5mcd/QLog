@@ -226,8 +226,8 @@ void BandmapWidget::updateStations()
                                                   text_y,
                                                   QPen(QColor(192,192,192))));
 
-        QString callsignTmp = lower.value().callsign;
-        QString timeTmp = lower.value().time.toString(locale.formatTimeShort());
+        const QString &callsignTmp = lower.value().callsign;
+        const QString &timeTmp = lower.value().time.toString(locale.formatTimeShort());
 
         QGraphicsTextItem* text = bandmapScene->addText(callsignTmp + " @ " + timeTmp);
         text->document()->setDocumentMargin(0);
@@ -237,12 +237,18 @@ void BandmapWidget::updateStations()
                        text->flags());
         text->setProperty("freq", lower.key());
         text->setProperty("bandmode", static_cast<int>(lower.value().bandPlanMode));
-        text->setToolTip(lower.value().comment);
+        QString unit;
+        unsigned char decP;
+        double spotFreq = Data::MHz2UserFriendlyFreq(lower.key(), unit, decP);
+        text->setToolTip(QString("<b>%1</b><br/>%2 %3; %4<br/>%5").arg(callsignTmp,
+                                                             QString::number(spotFreq, 'f', decP),
+                                                             unit,
+                                                             lower.value().modeGroupString,
+                                                             lower.value().comment));
 
         min_y = text_y + text->boundingRect().height() / 2;
 
-        QColor textColor = Data::statusToColor(lower.value().status, qApp->palette().color(QPalette::Text));
-        text->setDefaultTextColor(textColor);
+        text->setDefaultTextColor(Data::statusToColor(lower.value().status, qApp->palette().color(QPalette::Text)));
         textItemList.append(text);
     }
 
