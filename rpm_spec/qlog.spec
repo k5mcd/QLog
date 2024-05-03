@@ -42,6 +42,21 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Fri May 3 2024 Ladislav Foldyna - 0.35.0-1
+- [NEW] - Added Rot Interface PSTRotator Network
+- [NEW] - Added QSO/QSL Since option to eQSL Dialog
+- [NEW] - Bandmap - Current Mode segment visualisation
+- [NEW] - CW Console - Added Word/Whole mode switch
+- [NEW] - Added Callbook Profile Image Widget
+- [NEW] - ASCII conversion based on Text-Unidecode/iconv algorithm (issue #316 #350)
+- [NEW] - ITU/CQ Zones can be defined in Station Profile (issue #358)
+- [CHANGED] - Spacebar is used as a focus changer for fields where space is not allowed
+- [CHANGED] - Focus does not select text in the input fields
+- [CHANGED] - Force XCB under Linux Wayland
+- [CHANGED] - Bandmap - Added Callsign/Freq/Mode to tooltip (issue #355)
+- Fixed incorrect ADIF date format for clublog_qso_upload_date (issue #342)
+- Fixed The last name from Callbooks queries (issue #346)
+
 * Mon Mar 25 2024 Ladislav Foldyna - 0.34.0-1
 - [NEW] - Rotator Widget - Azimuth by Clicking
 - [NEW] - Rotator Widget - QSO button provides Short/Long Path (issue #330)

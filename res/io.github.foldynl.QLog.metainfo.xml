@@ -47,6 +47,25 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.35.0" date="2024-05-03">
+      <description>
+        <ul>
+          <li>[NEW] - Added Rot Interface PSTRotator Network</li>
+          <li>[NEW] - Added QSO/QSL Since option to eQSL Dialog</li>
+          <li>[NEW] - Bandmap - Current Mode segment visualisation</li>
+          <li>[NEW] - CW Console - Added Word/Whole mode switch</li>
+          <li>[NEW] - Added Callbook Profile Image Widget</li>
+          <li>[NEW] - ASCII conversion based on Text-Unidecode/iconv algorithm (issue #316 #350)</li>
+          <li>[NEW] - ITU/CQ Zones can be defined in Station Profile (issue #358)</li>
+          <li>[CHANGED] - Spacebar is used as a focus changer for fields where space is not allowed</li>
+          <li>[CHANGED] - Focus does not select text in the input fields</li>
+          <li>[CHANGED] - Force XCB under Linux Wayland</li>
+          <li>[CHANGED] - Bandmap - Added Callsign/Freq/Mode to tooltip (issue #355)</li>
+          <li>Fixed incorrect ADIF date format for clublog_qso_upload_date (issue #342)</li>
+          <li>Fixed The last name from Callbooks queries (issue #346)</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.34.0" date="2024-03-25">
       <description>
         <ul>
