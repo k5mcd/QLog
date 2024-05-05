@@ -135,7 +135,8 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
         if (freq >= 144.000 && freq < 144.100) return BAND_MODE_CW;
         else if (freq >= 144.100 && freq <  144.174) return BAND_MODE_USB;
         else if (freq >= 144.174 && freq <= 144.176) return BAND_MODE_FT8;
-        else if (freq >  144.176 && freq <  144.400) return BAND_MODE_USB;
+        else if (freq >  144.176 && freq <  144.360) return BAND_MODE_USB;
+        else if (freq >= 144.360 && freq <  144.400) return BAND_MODE_DIGITAL;
         else if (freq >  144.400 && freq <  144.491) return BAND_MODE_CW;
         else if (freq >= 144.491 && freq <  144.975) return BAND_MODE_DIGITAL;
         else if (freq >= 144.975 && freq <  148.000) return BAND_MODE_USB;
