@@ -1,3 +1,9 @@
+qlog (0.35.1-1) UNRELEASED; urgency=low
+  * Fixed Free QRZ callbook - Name is not populating (issue #363)
+  * Fixed Incorrect CW segment freqs (issue #365)
+
+ -- foldynl <foldyna@gmail.com>  Mon, 6 May 2024 19:28:13 +0200
+
 qlog (0.35.0-1) UNRELEASED; urgency=low
   * [NEW] - Added Rot Interface PSTRotator Network
   * [NEW] - Added QSO/QSL Since option to eQSL Dialog

@@ -42,6 +42,10 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Mon May 6 2024 Ladislav Foldyna - 0.35.1-1
+- Fixed Free QRZ callbook - Name is not populating (issue #363)
+- Fixed Incorrect CW segment freqs (issue #365)
+
 * Fri May 3 2024 Ladislav Foldyna - 0.35.0-1
 - [NEW] - Added Rot Interface PSTRotator Network
 - [NEW] - Added QSO/QSL Since option to eQSL Dialog

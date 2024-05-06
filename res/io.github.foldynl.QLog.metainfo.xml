@@ -47,6 +47,14 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.35.1" date="2024-05-06">
+      <description>
+        <ul>
+          <li>Fixed Free QRZ callbook - Name is not populating (issue #363)</li>
+          <li>Fixed Incorrect CW segment freqs (issue #365)</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.35.0" date="2024-05-03">
       <description>
         <ul>
