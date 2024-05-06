@@ -1,5 +1,6 @@
 TBC - 0.35.1
 - Fixed Free QRZ callbook - Name is not populating (issue #363)
+- Fixed Incorrect CW segment freqs (issue #365)
 
 2024/05/03 - 0.35.0
 - [NEW] - Added Rot Interface PSTRotator Network
