@@ -35,11 +35,11 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
     // 80m
     else if (freq >= 3.500 && freq < 4.000)
     {
-        if (freq >= 3.500 && freq < 3.573) return BAND_MODE_CW;
+        if (freq >= 3.500 && freq < 3.570) return BAND_MODE_CW;
+        else if (freq >= 3.570 && freq < 3.573) return BAND_MODE_DIGITAL;
         else if (freq >= 3.573 && freq < 3.575) return BAND_MODE_FT8;
-        else if (freq >= 3.575 && freq < 3.580) return BAND_MODE_CW;
-        else if (freq >= 3.580 && freq < 3.620) return BAND_MODE_DIGITAL;
-        else if (freq >= 3.620 && freq < 4.000) return BAND_MODE_LSB;
+        else if (freq >= 3.575 && freq < 3.600) return BAND_MODE_DIGITAL;
+        else if (freq >= 3.600 && freq < 4.000) return BAND_MODE_LSB;
     }
     // 60m
     else if (freq >= 5.3515 && freq <= 5.354) return BAND_MODE_CW;
@@ -49,18 +49,18 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
     else if (freq >= 7.000 && freq < 7.300)
     {
         if (freq >= 7.000 && freq < 7.040) return BAND_MODE_CW;
-        else if (freq >= 7.040 && freq < 7.053) return BAND_MODE_DIGITAL;
-        else if (freq >= 7.053 && freq < 7.074) return BAND_MODE_LSB;
+        else if (freq >= 7.040 && freq < 7.060) return BAND_MODE_DIGITAL;
+        else if (freq >= 7.060 && freq < 7.074) return BAND_MODE_LSB;
         else if (freq >= 7.074 && freq < 7.076) return BAND_MODE_FT8;
         else if (freq >= 7.076 && freq < 7.300) return BAND_MODE_LSB;
     }
     // 30m
     else if (freq >= 10.100 && freq < 10.150)
     {
-        if (freq >= 10.100 && freq < 10.136) return BAND_MODE_CW;
+        if (freq >= 10.100 && freq < 10.130) return BAND_MODE_CW;
+        else if (freq >= 10.130 && freq < 10.136) return BAND_MODE_DIGITAL;
         else if (freq >= 10.136 && freq < 10.138) return BAND_MODE_FT8;
-        else if (freq >= 10.138 && freq < 10.140) return BAND_MODE_CW;
-        else if (freq >= 10.140 && freq < 10.150) return BAND_MODE_DIGITAL;
+        else if (freq >= 10.138 && freq < 10.150) return BAND_MODE_DIGITAL;
     }
     // 20m
     else if (freq >= 14.000 && freq < 14.350)
@@ -68,19 +68,19 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
         if (freq >= 14.000 && freq < 14.070) return BAND_MODE_CW;
         else if (freq >= 14.070 && freq < 14.074) return BAND_MODE_DIGITAL;
         else if (freq >= 14.074 && freq < 14.076) return BAND_MODE_FT8;
-        else if (freq >= 14.076 && freq < 14.098) return BAND_MODE_DIGITAL;
-        else if (freq >= 14.098 && freq < 14.112) return BAND_MODE_CW;
-        else if (freq >= 14.112 && freq < 14.350) return BAND_MODE_USB;
+        else if (freq >= 14.076 && freq < 14.099) return BAND_MODE_DIGITAL;
+        else if (freq >= 14.099 && freq < 14.101) return BAND_MODE_CW;
+        else if (freq >= 14.101 && freq < 14.350) return BAND_MODE_USB;
     }
     // 17m
-    else if (freq >= 18.068 && freq < 18.268)
+    else if (freq >= 18.068 && freq < 18.168)
     {
         if (freq >= 18.068 && freq < 18.095) return BAND_MODE_CW;
         else if (freq >= 18.095 && freq < 18.100) return BAND_MODE_DIGITAL;
         else if (freq >= 18.100 && freq < 18.102) return BAND_MODE_FT8;
         else if (freq >= 18.102 && freq < 18.109) return BAND_MODE_DIGITAL;
-        else if (freq >= 18.109 && freq < 18.120) return BAND_MODE_CW;
-        else if (freq >= 18.120 && freq < 18.268) return BAND_MODE_USB;
+        else if (freq >= 18.109 && freq < 18.111) return BAND_MODE_CW;
+        else if (freq >= 18.111 && freq < 18.168) return BAND_MODE_USB;
     }
     // 15m
     else if (freq >= 21.000 && freq < 21.450)
@@ -98,17 +98,18 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
         if (freq >= 24.890 && freq < 24.915) return BAND_MODE_CW;
         else if (freq >= 24.915 && freq < 24.917) return BAND_MODE_FT8;
         else if (freq >= 24.917 && freq < 24.929) return BAND_MODE_DIGITAL;
-        else if (freq >= 24.929 && freq < 24.940) return BAND_MODE_CW;
-        else if (freq >= 24.940 && freq < 24.990) return BAND_MODE_USB;
+        else if (freq >= 24.929 && freq < 24.931) return BAND_MODE_CW;
+        else if (freq >= 24.931 && freq < 24.990) return BAND_MODE_USB;
     }
     // 10m
     else if (freq >= 28.000 && freq < 29.700)
     {
-        if (freq >= 28.000 && freq < 28.074) return BAND_MODE_CW;
+        if (freq >= 28.000 && freq < 28.070) return BAND_MODE_CW;
+        else if (freq >= 28.070 && freq < 28.074) return BAND_MODE_DIGITAL;
         else if (freq >= 28.074 && freq < 28.076) return BAND_MODE_FT8;
-        else if (freq >= 28.076 && freq < 28.150) return BAND_MODE_DIGITAL;
-        else if (freq >= 28.150 && freq < 28.320) return BAND_MODE_CW;
-        else if (freq >= 28.320 && freq < 29.700) return BAND_MODE_USB;
+        else if (freq >= 28.076 && freq < 28.190) return BAND_MODE_DIGITAL;
+        else if (freq >= 28.190 && freq < 28.225) return BAND_MODE_CW;
+        else if (freq >= 28.225 && freq < 29.700) return BAND_MODE_USB;
     }
     // 6m
     else if (freq >= 50.000 && freq < 54.000)
@@ -136,7 +137,9 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
         else if (freq >= 144.174 && freq <= 144.176) return BAND_MODE_FT8;
         else if (freq >  144.176 && freq <  144.360) return BAND_MODE_USB;
         else if (freq >= 144.360 && freq <  144.400) return BAND_MODE_DIGITAL;
-        else if (freq >= 144.400 && freq <  148.000) return BAND_MODE_USB;
+        else if (freq >  144.400 && freq <  144.491) return BAND_MODE_CW;
+        else if (freq >= 144.491 && freq <  144.975) return BAND_MODE_DIGITAL;
+        else if (freq >= 144.975 && freq <  148.000) return BAND_MODE_USB;
     }
     // 1.25m
     else if (freq >= 222.0 && freq < 222.150) return BAND_MODE_CW;
@@ -144,7 +147,9 @@ BandPlan::BandPlanMode BandPlan::freq2BandMode(const double freq)
 
     // 70cm
     else if (freq >= 430.0 && freq < 432.0) return BAND_MODE_USB;
-    else if (freq >= 432.0 && freq < 432.10) return BAND_MODE_CW;
+    else if (freq >= 432.0 && freq < 432.065) return BAND_MODE_CW;
+    else if (freq >= 432.065 && freq < 432.067) return BAND_MODE_FT8;
+    else if (freq >= 432.067 && freq < 432.1) return BAND_MODE_CW;
     else if (freq >= 432.1 && freq < 440.0) return BAND_MODE_USB;
 
     // 33cm
