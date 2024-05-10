@@ -83,7 +83,7 @@ void EQSL::update(const QDate &start_date, bool qso_since, const QString &qthNic
     get(params);
 }
 
-void EQSL::uploadAdif(QByteArray &data)
+void EQSL::uploadAdif(const QByteArray &data)
 {
     FCT_IDENTIFICATION;
 
@@ -149,17 +149,14 @@ void EQSL::getQSLImage(const QSqlRecord &qso)
     /* QSL image is not in Cache */
     qCDebug(runtime) << "QSL is not in Cache";
 
-    QSettings settings;
-    QString username = settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(EQSL::SECURE_STORAGE_KEY,
-                                                                username);
-
-    QDateTime time_start = qso.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
+    const QString &username = getUsername();
+    const QString &password = getPassword();
+    const QDateTime &time_start = qso.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
 
     QUrlQuery query;
 
-    query.addQueryItem("UserName", username);
-    query.addQueryItem("Password", password);
+    query.addQueryItem("UserName", username.toUtf8().toPercentEncoding());
+    query.addQueryItem("Password", password.toUtf8().toPercentEncoding());
     query.addQueryItem("CallsignFrom", qso.value("callsign").toString());
     query.addQueryItem("QSOYear", time_start.toString("yyyy"));
     query.addQueryItem("QSOMonth", time_start.toString("MM"));
@@ -191,8 +188,7 @@ const QString EQSL::getUsername()
 
     QSettings settings;
 
-    return settings.value(EQSL::CONFIG_USERNAME_KEY).toString();
-
+    return settings.value(EQSL::CONFIG_USERNAME_KEY).toString().trimmed();
 }
 
 const QString EQSL::getPassword()
@@ -210,7 +206,7 @@ void EQSL::saveUsernamePassword(const QString &newUsername, const QString &newPa
 
     QSettings settings;
 
-    QString oldUsername = getUsername();
+    const QString &oldUsername = getUsername();
 
     if ( oldUsername != newUsername )
     {
@@ -223,18 +219,18 @@ void EQSL::saveUsernamePassword(const QString &newUsername, const QString &newPa
                                               newPassword);
 }
 
-void EQSL::get(QList<QPair<QString, QString>> params)
+void EQSL::get(const QList<QPair<QString, QString>> &params)
 {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = getUsername();
-    QString password = getPassword();
+    const QString &username = getUsername();
+    const QString &password = getPassword();
 
     QUrlQuery query;
     query.setQueryItems(params);
-    query.addQueryItem("UserName", username);
-    query.addQueryItem("Password", password);
+    query.addQueryItem("UserName", username.toUtf8().toPercentEncoding());
+    query.addQueryItem("Password", password.toUtf8().toPercentEncoding());
 
     QUrl url(DOWNLOAD_1ST_PAGE);
     url.setQuery(query);
@@ -297,9 +293,9 @@ QString EQSL::QSLImageFilename(const QSqlRecord &qso)
 
     /* QSL Fileformat YYYYMMDD_ID_Call_eqsl.jpg */
 
-    QDateTime time_start = qso.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
+    const QDateTime &time_start = qso.value("start_time").toDateTime().toTimeSpec(Qt::UTC);
 
-    QString ret = QString("%1_%2_%3_eqsl.jpg").arg(time_start.toString("yyyyMMdd"),
+    const QString &ret = QString("%1_%2_%3_eqsl.jpg").arg(time_start.toString("yyyyMMdd"),
                                                    qso.value("id").toString(),
                                                    qso.value("callsign").toString().replace(QRegularExpression(QString::fromUtf8("[-`~!@#$%^&*()_—+=|:;<>«»,.?/{}\'\"]")),"_"));
     qCDebug(runtime) << "EQSL Image Filename: " << ret;
@@ -312,8 +308,8 @@ bool EQSL::isQSLImageInCache(const QSqlRecord &qso, QString &fullPath)
 
     bool isFileExists = false;
 
-    QString expectingFilename = QSLImageFilename(qso);
-    QSLObject eqsl = qslStorage->getQSL(qso, QSLObject::EQSL, expectingFilename);
+    const QString &expectingFilename = QSLImageFilename(qso);
+    const QSLObject &eqsl = qslStorage->getQSL(qso, QSLObject::EQSL, expectingFilename);
     QFile f(tempDir.path() + QDir::separator() + eqsl.getQSLName());
     qCDebug(runtime) << "Using temp file" << f.fileName();
     fullPath = f.fileName();
@@ -358,7 +354,7 @@ void EQSL::processReply(QNetworkReply* reply)
         return;
     }
 
-    QString messageType = reply->property("messageType").toString();
+    const QString &messageType = reply->property("messageType").toString();
 
     qCDebug(runtime) << "Received Message Type: " << messageType;
 
@@ -386,7 +382,7 @@ void EQSL::processReply(QNetworkReply* reply)
 
             if ( match.hasMatch() )
             {
-                QString filename = match.captured(1);
+                const QString &filename = match.captured(1);
                 downloadADIF(filename);
             }
             else if ( replyString.contains("You have no log entries"))
@@ -479,7 +475,7 @@ void EQSL::processReply(QNetworkReply* reply)
             return;
         }
 
-        QByteArray data = reply->readAll();
+        const QByteArray &data = reply->readAll();
 
         tempFile.write(data);
         tempFile.flush();
@@ -517,9 +513,9 @@ void EQSL::processReply(QNetworkReply* reply)
         qint64 size = reply->size();
         qCDebug(runtime) << "Reply size: " << size;
 
-        QByteArray data = reply->readAll();
+        const QByteArray &data = reply->readAll();
 
-        QString onDiskFilename = reply->property("onDiskFilename").toString();
+        const QString &onDiskFilename = reply->property("onDiskFilename").toString();
         qulonglong qsoID = reply->property("QSORecordID").toULongLong();
 
         QFile file(onDiskFilename);

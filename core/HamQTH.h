@@ -25,7 +25,7 @@ public:
     QString getDisplayName() override;
 
 public slots:
-    void queryCallsign(QString callsign) override;
+    void queryCallsign(const QString &callsign) override;
     void abortQuery() override;
 
 private slots:

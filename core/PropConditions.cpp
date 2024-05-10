@@ -1,6 +1,5 @@
 #include <QNetworkAccessManager>
 #include <QUrl>
-#include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QTimer>

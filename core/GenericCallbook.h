@@ -29,7 +29,7 @@ signals:
     void callsignNotFound(QString);
 
 public slots:
-    virtual void queryCallsign(QString callsign) = 0;
+    virtual void queryCallsign(const QString &callsign) = 0;
     virtual void abortQuery() = 0;
 
 };

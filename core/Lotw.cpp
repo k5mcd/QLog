@@ -152,7 +152,7 @@ const QString Lotw::getUsername()
 
     QSettings settings;
 
-    return settings.value(Lotw::CONFIG_USERNAME_KEY).toString();
+    return settings.value(Lotw::CONFIG_USERNAME_KEY).toString().trimmed();
 
 }
 
@@ -162,7 +162,6 @@ const QString Lotw::getPassword()
 
     return CredentialStore::instance()->getPassword(Lotw::SECURE_STORAGE_KEY,
                                                     getUsername());
-
 }
 
 const QString Lotw::getTQSLPath(const QString &defaultPath)
@@ -186,7 +185,7 @@ void Lotw::saveUsernamePassword(const QString &newUsername, const QString &newPa
 
     QSettings settings;
 
-    QString oldUsername = getUsername();
+    const QString &oldUsername = getUsername();
     if ( oldUsername != newUsername )
     {
         CredentialStore::instance()->deletePassword(Lotw::SECURE_STORAGE_KEY,
@@ -217,13 +216,13 @@ void Lotw::get(QList<QPair<QString, QString>> params)
 {
     FCT_IDENTIFICATION;
 
-    QString username = getUsername();
-    QString password = getPassword();
+    const QString &username = getUsername();
+    const QString &password = getPassword();
 
     QUrlQuery query;
     query.setQueryItems(params);
-    query.addQueryItem("login", username);
-    query.addQueryItem("password", password);
+    query.addQueryItem("login", username.toUtf8().toPercentEncoding());
+    query.addQueryItem("password", password.toUtf8().toPercentEncoding());
 
     QUrl url(ADIF_API);
     url.setQuery(query);
@@ -276,7 +275,7 @@ void Lotw::processReply(QNetworkReply* reply)
         return;
     }
 
-    QByteArray data = reply->readAll();
+    const QByteArray &data = reply->readAll();
 
     qCDebug(runtime) << data;
 

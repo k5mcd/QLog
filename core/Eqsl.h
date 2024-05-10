@@ -17,7 +17,7 @@ public:
     ~EQSL();
 
     void update(const QDate&, bool, const QString&);
-    void uploadAdif(QByteArray &);
+    void uploadAdif(const QByteArray&);
     void getQSLImage(const QSqlRecord&);
 
     static const QString getUsername();
@@ -42,7 +42,7 @@ private:
     QNetworkAccessManager* nam;
     QSLStorage *qslStorage;
 
-    void get(QList<QPair<QString, QString>>);
+    void get(const QList<QPair<QString, QString> > &);
     void downloadADIF(const QString &);
     void downloadImage(const QString &, const QString &, const qulonglong);
     QString QSLImageFilename(const QSqlRecord &);

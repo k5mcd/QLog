@@ -45,7 +45,7 @@ QRZ::~QRZ()
     }
 }
 
-void QRZ::queryCallsign(QString callsign)
+void QRZ::queryCallsign(const QString &callsign)
 {
     FCT_IDENTIFICATION;
 
@@ -62,7 +62,7 @@ void QRZ::queryCallsign(QString callsign)
     QUrlQuery query;
     query.addQueryItem("s", sessionId);
 
-    Callsign qCall(callsign);
+    const Callsign qCall(callsign);
 
     if (qCall.isValid())
     {
@@ -124,7 +124,7 @@ void QRZ::actionInsert(QByteArray& data, const QString &insertPolicy)
 {
     FCT_IDENTIFICATION;
 
-    QString logbookAPIKey = getLogbookAPIKey();
+    const QString &logbookAPIKey = getLogbookAPIKey();
 
     QUrlQuery params;
     params.addQueryItem("KEY", logbookAPIKey);
@@ -177,7 +177,7 @@ const QString QRZ::getUsername()
 
     QSettings settings;
 
-    return settings.value(QRZ::CONFIG_USERNAME_KEY).toString();
+    return settings.value(QRZ::CONFIG_USERNAME_KEY).toString().trimmed();
 }
 
 const QString QRZ::getPassword()
@@ -206,7 +206,7 @@ void QRZ::saveUsernamePassword(const QString &newUsername, const QString &newPas
 
     QSettings settings;
 
-    QString oldUsername = getUsername();
+    const QString &oldUsername = getUsername();
     if ( oldUsername != newUsername )
     {
         CredentialStore::instance()->deletePassword(QRZ::SECURE_STORAGE_KEY,
@@ -251,8 +251,8 @@ void QRZ::authenticate()
 {
     FCT_IDENTIFICATION;
 
-    QString username = getUsername();
-    QString password = getPassword();
+    const QString &username = getUsername();
+    const QString &password = getPassword();
 
     if ( incorrectLogin && password == lastSeenPassword)
     {
@@ -262,10 +262,11 @@ void QRZ::authenticate()
         return;
     }
 
-    if (!username.isEmpty() && !password.isEmpty()) {
+    if ( !username.isEmpty() && !password.isEmpty() )
+    {
         QUrlQuery query;
-        query.addQueryItem("username", username);
-        query.addQueryItem("password", password);
+        query.addQueryItem("username", username.toUtf8().toPercentEncoding());
+        query.addQueryItem("password", password.toUtf8().toPercentEncoding());
         query.addQueryItem("agent", "QLog");
 
         QUrl url(API_URL);
@@ -313,7 +314,7 @@ void QRZ::processReply(QNetworkReply* reply) {
         return;
     }
 
-    QString messageType = reply->property("messageType").toString();
+    const QString &messageType = reply->property("messageType").toString();
 
     qCDebug(runtime) << "Received Message Type: " << messageType;
 
@@ -323,7 +324,7 @@ void QRZ::processReply(QNetworkReply* reply) {
     if ( messageType == "callsignInfoQuery"
          || messageType == "authenticate" )
     {
-        QByteArray response = reply->readAll();
+        const QByteArray &response = reply->readAll();
         qCDebug(runtime) << response;
         QXmlStreamReader xml(response);
 
@@ -510,7 +511,7 @@ void QRZ::processReply(QNetworkReply* reply) {
          QString replayString(reply->readAll());
          qCDebug(runtime) << replayString;
 
-         QMap<QString, QString> data = parseActionResponse(replayString);
+         const QMap<QString, QString> &data = parseActionResponse(replayString);
 
          QString status = data.value("RESULT", "FAILED");
 
@@ -549,12 +550,10 @@ QMap<QString, QString> QRZ::parseActionResponse(const QString &reponseString)
 
     qCDebug(function_parameters) << reponseString;
 
-    QStringList parsedResponse;
     QMap<QString, QString> data;
+    QStringList parsedResponse(reponseString.split("&"));
 
-    parsedResponse << reponseString.split("&");
-
-    for (auto &param : qAsConst(parsedResponse))
+    for ( const QString &param : parsedResponse )
     {
         QStringList parsedParams;
         parsedParams << param.split("=");
