@@ -37,7 +37,11 @@ private slots:
     void checkRigStateChange();
 
 private:
-    static int addRig(const struct rig_caps* caps, void* data);
+#if ( HAMLIBVERSION_MAJOR >= 4 && HAMLIBVERSION_MINOR >= 6 )
+    static int addRig(rig_caps *caps, void* data);
+#else
+    static int addRig(const rig_caps *caps, void* data);
+#endif
     void checkPTTChange();
     bool checkFreqChange();
     bool checkModeChange();
