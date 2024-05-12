@@ -632,21 +632,21 @@ void LogbookWidget::updateTable()
 
     QStringList filterString;
 
-    QString callsignFilterValue = ui->callsignFilter->text();
+    const QString &callsignFilterValue = ui->callsignFilter->text();
 
     if ( !callsignFilterValue.isEmpty() )
     {
         filterString.append(QString("callsign LIKE '%%1%'").arg(callsignFilterValue.toUpper()));
     }
 
-    QString bandFilterValue = ui->bandFilter->currentText();
+    const QString &bandFilterValue = ui->bandFilter->currentText();
 
     if ( ui->bandFilter->currentIndex() != 0 && !bandFilterValue.isEmpty())
     {
         filterString.append(QString("band = '%1'").arg(bandFilterValue));
     }
 
-    QString modeFilterValue = ui->modeFilter->currentText();
+    const QString &modeFilterValue = ui->modeFilter->currentText();
 
     if ( ui->modeFilter->currentIndex() != 0 && !modeFilterValue.isEmpty() )
     {
@@ -656,13 +656,13 @@ void LogbookWidget::updateTable()
     /* Refresh dynamic Country selection combobox */
     /* It is important to block its signals */
     ui->countryFilter->blockSignals(true);
-    QString country = ui->countryFilter->currentText();
+    const QString &country = ui->countryFilter->currentText();
     countryModel->refresh();
     ui->countryFilter->setCurrentText(country);
     ui->countryFilter->blockSignals(false);
 
     int row = ui->countryFilter->currentIndex();
-    QModelIndex idx = ui->countryFilter->model()->index(row,0);
+    const QModelIndex &idx = ui->countryFilter->model()->index(row,0);
     QVariant data = ui->countryFilter->model()->data(idx);
 
     if ( ui->countryFilter->currentIndex() != 0 )
@@ -678,7 +678,7 @@ void LogbookWidget::updateTable()
     /* Refresh dynamic User Filter selection combobox */
     /* block the signals !!! */
     ui->userFilter->blockSignals(true);
-    QString userFilterString = ui->userFilter->currentText();
+    const QString &userFilterString = ui->userFilter->currentText();
     userFilterModel->refresh();
     ui->userFilter->setCurrentText(userFilterString);
     ui->userFilter->blockSignals(false);
@@ -849,7 +849,7 @@ void LogbookWidget::handleBeforeDelete(int row)
 {
     FCT_IDENTIFICATION;
 
-    QSqlRecord oldRecord = model->record(row);
+    const QSqlRecord &oldRecord = model->record(row);
     emit contactDeleted(oldRecord);
     if ( !blockClublogSignals )
         emit clublogContactDeleted(oldRecord);
