@@ -484,6 +484,7 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     ui->rigProfileNameEdit->setText(profile.profileName);
 
     ui->rigInterfaceCombo->setCurrentIndex(ui->rigInterfaceCombo->findData(profile.driver));
+    ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(profile.model));
 
     int portIndex;
     switch ( profile.getPortType() )
@@ -503,7 +504,6 @@ void SettingsDialog::doubleClickRigProfile(QModelIndex i)
     }
 
     ui->rigPortTypeCombo->setCurrentIndex(portIndex);
-    ui->rigModelSelect->setCurrentIndex(ui->rigModelSelect->findData(profile.model));
     ui->rigPortEdit->setText(profile.portPath);
     ui->rigHostNameEdit->setText(profile.hostname);
     ui->rigNetPortSpin->setValue(profile.netport);
@@ -622,6 +622,8 @@ void SettingsDialog::rigGetFreqChanged(int)
 void SettingsDialog::rigPortTypeChanged(int index)
 {
     FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << index;
 
     switch (index)
     {
