@@ -33,7 +33,11 @@ QList<QPair<int, QString>> HamlibRigDrv::getModelList()
     return ret;
 }
 
-int HamlibRigDrv::addRig(const rig_caps *caps, void *data)
+#if ( HAMLIBVERSION_MAJOR >= 4 && HAMLIBVERSION_MINOR >= 6 )
+int HamlibRigDrv::addRig(rig_caps *caps, void* data)
+#else
+int HamlibRigDrv::addRig(const rig_caps *caps, void* data)
+#endif
 {
     QList<QPair<int, QString>> *list = static_cast<QList<QPair<int, QString>>*>(data);
 
