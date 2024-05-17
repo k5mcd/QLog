@@ -63,7 +63,7 @@ const QString HRDLog::getRegisteredCallsign()
     FCT_IDENTIFICATION;
     QSettings settings;
 
-    return settings.value(HRDLog::CONFIG_CALLSIGN_KEY).toString();
+    return settings.value(HRDLog::CONFIG_CALLSIGN_KEY).toString().trimmed();
 }
 
 const QString HRDLog::getUploadCode()
@@ -118,14 +118,14 @@ void HRDLog::uploadAdif(const QByteArray &data,
     FCT_IDENTIFICATION;
 
     QUrlQuery params;
-    params.addQueryItem("Callsign", getRegisteredCallsign());
-    params.addQueryItem("Code", getUploadCode());
+    params.addQueryItem("Callsign", getRegisteredCallsign().toUtf8().toPercentEncoding());
+    params.addQueryItem("Code", getUploadCode().toUtf8().toPercentEncoding());
     params.addQueryItem("App", "QLog");
     params.addQueryItem("ADIFData", data.trimmed().toPercentEncoding());
 
     if ( update )
     {
-        params.addQueryItem("ADIFKey", data);
+        params.addQueryItem("ADIFKey", data.trimmed().toPercentEncoding());
         params.addQueryItem("Cmd", "UPDATE");
     }
 
@@ -194,8 +194,8 @@ void HRDLog::sendOnAir(double freq, const QString &mode)
 
     QUrlQuery params;
 
-    params.addQueryItem("Callsign", getRegisteredCallsign());
-    params.addQueryItem("Code", getUploadCode());
+    params.addQueryItem("Callsign", getRegisteredCallsign().toUtf8().toPercentEncoding());
+    params.addQueryItem("Code", getUploadCode().toUtf8().toPercentEncoding());
     params.addQueryItem("App", "QLog");
     params.addQueryItem("Frequency", QString::number(static_cast<unsigned long long>(MHz(freq))));
     params.addQueryItem("Mode", mode);
@@ -242,11 +242,11 @@ void HRDLog::processReply(QNetworkReply *reply)
         return;
     }
 
-    QString messageType = reply->property("messageType").toString();
+    const QString &messageType = reply->property("messageType").toString();
 
     qCDebug(runtime) << "Received Message Type: " << messageType;
 
-    QByteArray response = reply->readAll();
+    const QByteArray &response = reply->readAll();
     qCDebug(runtime) << response;
 
     /*************/

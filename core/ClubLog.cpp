@@ -60,7 +60,7 @@ const QString ClubLog::getEmail()
 
     QSettings settings;
 
-    return settings.value(ClubLog::CONFIG_EMAIL_KEY).toString();
+    return settings.value(ClubLog::CONFIG_EMAIL_KEY).toString().trimmed();
 
 }
 
@@ -136,9 +136,9 @@ void ClubLog::sendRealtimeRequest(const OnlineCommand command,
 
     QUrl url;
     QUrlQuery query;
-    query.addQueryItem("email", email);
-    query.addQueryItem("callsign", uploadCallsign);
-    query.addQueryItem("password", password);
+    query.addQueryItem("email", email.toUtf8().toPercentEncoding());
+    query.addQueryItem("callsign", uploadCallsign.toUtf8().toPercentEncoding());
+    query.addQueryItem("password", password.toUtf8().toPercentEncoding());
     query.addQueryItem("api", API_KEY);
 
     switch (command)
@@ -152,7 +152,7 @@ void ClubLog::sendRealtimeRequest(const OnlineCommand command,
         adi.exportContact(record);
         stream.flush();
         data.replace("\n", " ");
-        query.addQueryItem("adif", data);
+        query.addQueryItem("adif", data.trimmed().toPercentEncoding());
     }
         break;
     case ClubLog::UPDATE_QSO:

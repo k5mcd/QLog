@@ -84,13 +84,14 @@ QString HamQTH::getDisplayName()
     return QString(tr("HamQTH"));
 }
 
-void HamQTH::queryCallsign(QString callsign)
+void HamQTH::queryCallsign(const QString &callsign)
 {
     FCT_IDENTIFICATION;
 
     qCDebug(function_parameters)<< callsign;
 
-    if (sessionId.isEmpty()) {
+    if (sessionId.isEmpty())
+    {
         queuedCallsign = callsign;
         authenticate();
         return;
@@ -132,9 +133,9 @@ void HamQTH::authenticate() {
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
-    QString password = CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
-                                                                username);
+    const QString &username = settings.value(HamQTH::CONFIG_USERNAME_KEY).toString();
+    const QString &password = CredentialStore::instance()->getPassword(HamQTH::SECURE_STORAGE_KEY,
+                                                                       username);
 
     if ( incorrectLogin && password == lastSeenPassword)
     {
@@ -144,10 +145,11 @@ void HamQTH::authenticate() {
         return;
     }
 
-    if (!username.isEmpty() && !password.isEmpty()) {
+    if (!username.isEmpty() && !password.isEmpty())
+    {
         QUrlQuery query;
-        query.addQueryItem("u", username);
-        query.addQueryItem("p", password);
+        query.addQueryItem("u", username.toUtf8().toPercentEncoding());
+        query.addQueryItem("p", password.toUtf8().toPercentEncoding());
 
         QUrl url(API_URL);
         url.setQuery(query);
@@ -186,7 +188,7 @@ void HamQTH::processReply(QNetworkReply* reply) {
         return;
     }
 
-    QByteArray response = reply->readAll();
+    const QByteArray &response = reply->readAll();
     qCDebug(runtime) << response;
     QXmlStreamReader xml(response);
 
