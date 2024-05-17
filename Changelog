@@ -1,4 +1,7 @@
 TBC - 0.35.2
+- Fixed Password with plus is incorrectly sent to online services (issue #366)
+- Fixed Compilation issue under v4.6 (issue #368)
+- Fixed Network Rig configuration is not saved (issue #370)
 
 2024/05/06 - 0.35.1
 - Fixed Free QRZ callbook - Name is not populating (issue #363)
