@@ -22,7 +22,7 @@ public:
 signals:
     void logbookUpdated();
     void contactUpdated(QSqlRecord&);
-    void contactDeleted(QSqlRecord&);
+    void contactDeleted(const QSqlRecord&);
 
     // Clublog special signals
     // unfortunately, special rules are applied for uploading to Clublog.
@@ -31,7 +31,7 @@ signals:
     // That is why these 2 special signals are emitted.
     // contactUpdated, contactDeleted signals are also emitted in these cases
     void clublogContactUpdated(QSqlRecord&);
-    void clublogContactDeleted(QSqlRecord&);
+    void clublogContactDeleted(const QSqlRecord&);
 
 public slots:
     void filterCallsign(const QString &call);

@@ -505,7 +505,7 @@ void LogbookWidget::deleteContact()
 
     if ( reply != QMessageBox::Yes ) return;
 
-    const QModelIndexList& deletedRowIndexes = ui->contactTable->selectionModel()->selectedRows();
+    QModelIndexList deletedRowIndexes = ui->contactTable->selectionModel()->selectedRows();
 
     // Clublog does not accept batch DELETE operation
     // ask if an operator wants to continue
@@ -528,11 +528,51 @@ void LogbookWidget::deleteContact()
         }
     }
 
-    for ( const QModelIndex &index : deletedRowIndexes )
+    std::sort(deletedRowIndexes.begin(),
+              deletedRowIndexes.end(),
+              [](const QModelIndex &a, const QModelIndex &b)
     {
+        return a.row() > b.row();
+    });
+
+    QProgressDialog *progress = new QProgressDialog(tr("Deleting QSOs"),
+                                                    tr("Cancel"),
+                                                    0,
+                                                    deletedRowIndexes.size(),
+                                                    this);
+    progress->setWindowModality(Qt::WindowModal);
+    progress->setValue(0);
+    progress->setAttribute(Qt::WA_DeleteOnClose, true);
+    progress->setAutoClose(true);
+    progress->show();
+
+    // disable Updates and current connection between model and QTableView
+    // to improve performance
+    ui->contactTable->setUpdatesEnabled(false);
+    ui->contactTable->setModel(nullptr);
+    QCoreApplication::processEvents();
+
+    int cnt = 0;
+
+    for ( const QModelIndex &index : qAsConst(deletedRowIndexes) )
+    {
+        cnt++;
         model->removeRow(index.row());
+
+        if ( progress->wasCanceled() )
+            break;
+
+        if ( cnt % 50 == 0 )
+            progress->setValue(cnt);
     }
-    ui->contactTable->clearSelection();
+
+    progress->setValue(deletedRowIndexes.size());
+    progress->done(QDialog::Accepted);
+
+    // enable connection between model and QTableView
+    ui->contactTable->setModel(model);
+    ui->contactTable->setUpdatesEnabled(true);
+
     updateTable();
     blockClublogSignals = false;
 }
@@ -592,21 +632,21 @@ void LogbookWidget::updateTable()
 
     QStringList filterString;
 
-    QString callsignFilterValue = ui->callsignFilter->text();
+    const QString &callsignFilterValue = ui->callsignFilter->text();
 
     if ( !callsignFilterValue.isEmpty() )
     {
         filterString.append(QString("callsign LIKE '%%1%'").arg(callsignFilterValue.toUpper()));
     }
 
-    QString bandFilterValue = ui->bandFilter->currentText();
+    const QString &bandFilterValue = ui->bandFilter->currentText();
 
     if ( ui->bandFilter->currentIndex() != 0 && !bandFilterValue.isEmpty())
     {
         filterString.append(QString("band = '%1'").arg(bandFilterValue));
     }
 
-    QString modeFilterValue = ui->modeFilter->currentText();
+    const QString &modeFilterValue = ui->modeFilter->currentText();
 
     if ( ui->modeFilter->currentIndex() != 0 && !modeFilterValue.isEmpty() )
     {
@@ -616,13 +656,13 @@ void LogbookWidget::updateTable()
     /* Refresh dynamic Country selection combobox */
     /* It is important to block its signals */
     ui->countryFilter->blockSignals(true);
-    QString country = ui->countryFilter->currentText();
+    const QString &country = ui->countryFilter->currentText();
     countryModel->refresh();
     ui->countryFilter->setCurrentText(country);
     ui->countryFilter->blockSignals(false);
 
     int row = ui->countryFilter->currentIndex();
-    QModelIndex idx = ui->countryFilter->model()->index(row,0);
+    const QModelIndex &idx = ui->countryFilter->model()->index(row,0);
     QVariant data = ui->countryFilter->model()->data(idx);
 
     if ( ui->countryFilter->currentIndex() != 0 )
@@ -638,7 +678,7 @@ void LogbookWidget::updateTable()
     /* Refresh dynamic User Filter selection combobox */
     /* block the signals !!! */
     ui->userFilter->blockSignals(true);
-    QString userFilterString = ui->userFilter->currentText();
+    const QString &userFilterString = ui->userFilter->currentText();
     userFilterModel->refresh();
     ui->userFilter->setCurrentText(userFilterString);
     ui->userFilter->blockSignals(false);
@@ -691,7 +731,10 @@ void LogbookWidget::updateTable()
     qCDebug(runtime) << "SQL filter summary: " << filterString.join(" AND ");
     model->setFilter(filterString.join(" AND "));
     qCDebug(runtime) << model->query().lastQuery();
+
     model->select();
+    while (model->canFetchMore())
+        model->fetchMore();
 
     ui->contactTable->resizeColumnsToContents();
 
@@ -806,7 +849,7 @@ void LogbookWidget::handleBeforeDelete(int row)
 {
     FCT_IDENTIFICATION;
 
-    QSqlRecord oldRecord = model->record(row);
+    const QSqlRecord &oldRecord = model->record(row);
     emit contactDeleted(oldRecord);
     if ( !blockClublogSignals )
         emit clublogContactDeleted(oldRecord);
