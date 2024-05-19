@@ -376,19 +376,31 @@ defineReplace(findPackage) {
     return($$eval($$pkg))
 }
 
+defineReplace(removeNonDigi) {
+    output = $$1
+    output = $$replace(output, [^0-9], " ")
+    output = $$split(output, " ")
+    return($$member(output, 0))
+}
+
 isEmpty(HAMLIBVERSION_MAJOR) {
    HAMLIBVERSIONSTRING =  $$findPackage(hamlib)
    HAMLIBVERSIONS = $$split(HAMLIBVERSIONSTRING, ".")
    HAMLIBVERSION_MAJOR = $$member(HAMLIBVERSIONS, 0)
    HAMLIBVERSION_MINOR = $$member(HAMLIBVERSIONS, 1)
    HAMLIBVERSION_PATCH = $$member(HAMLIBVERSIONS, 2)
+}
 
-   isEmpty(HAMLIBVERSION_MINOR){
-      HAMLIBVERSION_MINOR=0
-   }
-   isEmpty(HAMLIBVERSION_PATCH){
-     HAMLIBVERSION_PATCH=0
-   }
+HAMLIBVERSION_MINOR = $$removeNonDigi($$HAMLIBVERSION_MINOR)
+
+isEmpty(HAMLIBVERSION_MINOR){
+   HAMLIBVERSION_MINOR=0
+}
+
+HAMLIBVERSION_PATCH = $$removeNonDigi($$HAMLIBVERSION_PATCH)
+
+isEmpty(HAMLIBVERSION_PATCH){
+  HAMLIBVERSION_PATCH=0
 }
 
 !isEmpty(HAMLIBINCLUDEPATH) {
