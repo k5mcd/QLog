@@ -494,12 +494,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="683"/>
+        <location filename="../ui/BandmapWidget.cpp" line="689"/>
         <source>Show Band</source>
         <translation>Band anzeigen</translation>
     </message>
     <message>
-        <location filename="../ui/BandmapWidget.cpp" line="696"/>
+        <location filename="../ui/BandmapWidget.cpp" line="702"/>
         <source>Center RX</source>
         <translation>RX zentrieren</translation>
     </message>
@@ -3497,37 +3497,37 @@
 <context>
     <name>EQSL</name>
     <message>
-        <location filename="../core/Eqsl.cpp" line="380"/>
+        <location filename="../core/Eqsl.cpp" line="376"/>
         <source>Incorrect Password or QTHProfile Id</source>
         <translation>Falsches Passwort oder QTHProfil-Id</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="399"/>
+        <location filename="../core/Eqsl.cpp" line="395"/>
         <source>ADIF file not found in eQSL response</source>
         <translation>Keine ADIF-Datei in der eQSL-Antwort gefunden</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="416"/>
+        <location filename="../core/Eqsl.cpp" line="412"/>
         <source>Incorrect Username or password</source>
         <translation>Falscher Benutzername oder Passwort</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="453"/>
+        <location filename="../core/Eqsl.cpp" line="449"/>
         <source>Unknown Error</source>
         <translation>Unbekannter Fehler</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="477"/>
+        <location filename="../core/Eqsl.cpp" line="473"/>
         <source>Cannot opet temporary file</source>
         <translation>Kann temporäre Datei nicht öffnen</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="528"/>
+        <location filename="../core/Eqsl.cpp" line="524"/>
         <source>Cannot save the image to file</source>
         <translation>Kann das Bild nicht in die Datei speichern</translation>
     </message>
     <message>
-        <location filename="../core/Eqsl.cpp" line="586"/>
+        <location filename="../core/Eqsl.cpp" line="582"/>
         <source>Unknown Reply from eQSL</source>
         <translation>Unbekannte Antwort von eQSL</translation>
     </message>
@@ -4028,33 +4028,33 @@
 <context>
     <name>HamlibRigDrv</name>
     <message>
-        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="111"/>
-        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="146"/>
+        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="115"/>
+        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="150"/>
         <source>Initialization Error</source>
         <translation>Initialisierungsfehler</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="171"/>
+        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="175"/>
         <source>Unsupported Rig Driver</source>
         <translation>Nicht unterstützter Rig-Treiber</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="278"/>
+        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="282"/>
         <source>Set Frequency Error</source>
         <translation>Fehler bei der Frequenzeinstellung</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="355"/>
+        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="359"/>
         <source>Set PTT Error</source>
         <translation>Fehler beim Auslösen der PTT</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="598"/>
+        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="602"/>
         <source>Get Frequency Error</source>
         <translation>Fehler bei der Frequenzabfrage</translation>
     </message>
     <message>
-        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="655"/>
+        <location filename="../rig/drivers/HamlibRigDrv.cpp" line="659"/>
         <source>Get Mode Error</source>
         <translation>Fehler bei der Mode-Abfrage</translation>
     </message>
@@ -5533,32 +5533,38 @@
         <translation>Clublog &lt;b&gt;Sofort Upload&lt;/b&gt; unterstützt nur das Löschen eines Datensatzes nach dem anderen.&lt;br&gt;&lt;br&gt;Möchten Sie fortfahren, obwohl&lt;br&gt;der DELETE-Vorgang nicht an Clublog gesendet wird?</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="568"/>
+        <location filename="../ui/LogbookWidget.cpp" line="538"/>
+        <source>Deleting QSOs</source>
+        <translation>QSOs Löschen</translation>
+    </message>
+    <message>
+        <location filename="../ui/LogbookWidget.cpp" line="608"/>
         <source>Update</source>
         <translation>Aktualisieren</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="569"/>
+        <location filename="../ui/LogbookWidget.cpp" line="609"/>
         <source>By updating, all selected rows will be affected.&lt;br&gt;The value currently edited in the column will be applied to all selected rows.&lt;br&gt;&lt;br&gt;Do you want to edit them?</source>
         <translation>Durch die Aktualisierung werden alle ausgewählten Zeilen beeinflusst.&lt;br&gt;Der aktuell bearbeitete Wert in der Spalte wird auf alle ausgewählten Zeilen angewendet.&lt;br&gt;Möchten Sie fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="741"/>
+        <location filename="../ui/LogbookWidget.cpp" line="784"/>
         <source>Downloading eQSL Image</source>
         <translation>eQSL-Bild herunterladen</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="741"/>
+        <location filename="../ui/LogbookWidget.cpp" line="539"/>
+        <location filename="../ui/LogbookWidget.cpp" line="784"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="759"/>
+        <location filename="../ui/LogbookWidget.cpp" line="802"/>
         <source>QLog Error</source>
         <translation>QLog Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/LogbookWidget.cpp" line="759"/>
+        <location filename="../ui/LogbookWidget.cpp" line="802"/>
         <source>eQSL Download Image failed: </source>
         <translation>eQSL-Bild download fehlgeschlagen: </translation>
     </message>
@@ -5636,12 +5642,12 @@
         <translation>Unerwarteter Fehler von TQSL</translation>
     </message>
     <message>
-        <location filename="../core/Lotw.cpp" line="275"/>
+        <location filename="../core/Lotw.cpp" line="274"/>
         <source>Cannot open temporary file</source>
         <translation>Kann temporäre Datei nicht öffnen</translation>
     </message>
     <message>
-        <location filename="../core/Lotw.cpp" line="287"/>
+        <location filename="../core/Lotw.cpp" line="286"/>
         <source>Incorrect Loging or password</source>
         <translation>Fehlerhafte Anmeldung oder falsches Passwort</translation>
     </message>
@@ -6459,7 +6465,7 @@
         <translation>&amp;Details</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3185"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3188"/>
         <source>the contacted station&apos;s DARC DOK (District Location Code) (ex. A01)</source>
         <translation>DARC-DOK (Ortsverbandkenner) der kontaktierten Station (z.B. A01)</translation>
     </message>
@@ -6489,7 +6495,7 @@
         <translation>Dauer</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3205"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3208"/>
         <source>World Wide Flora &amp; Fauna</source>
         <translation></translation>
     </message>
@@ -6657,82 +6663,82 @@
         <translation>Callbook-Anmeldung fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1892"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1895"/>
         <source>New Entity!</source>
         <translation>Neuer Eintrag!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1895"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1898"/>
         <source>New Band!</source>
         <translation>Neues Band!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1898"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1901"/>
         <source>New Mode!</source>
         <translation>Neue Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1901"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1904"/>
         <source>New Band &amp; Mode!</source>
         <translation>Neues Band &amp; Betriebsart!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1904"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1907"/>
         <source>New Slot!</source>
         <translation>Neuer Slot!</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1907"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1910"/>
         <source>Worked</source>
         <translation>Gearbeitet</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1910"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1913"/>
         <source>Confirmed</source>
         <translation>Bestätigt</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2571"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2574"/>
         <source>GE</source>
         <translation>GA</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2581"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2584"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2587"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2590"/>
         <source>GA</source>
         <translation>GT</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="2858"/>
+        <location filename="../ui/NewContactWidget.cpp" line="2861"/>
         <source> m</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3059"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3062"/>
         <source>Callbook search is active</source>
         <translation>Callbook-Suche ist aktiv</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3054"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3057"/>
         <source>Callbook search is inactive</source>
         <translation>Callbook-Suche ist inaktiv</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3182"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3185"/>
         <source>two or four adjacent Maidenhead grid locators, each four characters long, (ex. EN98,FM08,EM97,FM07)</source>
         <translation>zwei oder vier nebeneinander liegende, jeweils vier Zeichen lange Gitterfelder (z. B. EN98,FM08,EM97,FM07)</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3209"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3212"/>
         <source>Special Activity Group</source>
         <translation>Spezielle Aktivitätsgruppe</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="3213"/>
+        <location filename="../ui/NewContactWidget.cpp" line="3216"/>
         <source>Special Activity Group Information</source>
         <translation></translation>
     </message>
@@ -6927,7 +6933,7 @@
         <location filename="../ui/AlertRuleDetail.cpp" line="373"/>
         <location filename="../ui/ExportDialog.cpp" line="125"/>
         <location filename="../ui/KSTChatWidget.cpp" line="268"/>
-        <location filename="../ui/NewContactWidget.cpp" line="1445"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1448"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="593"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="604"/>
         <location filename="../ui/QSOFilterDetail.cpp" line="613"/>
@@ -6982,17 +6988,17 @@
         <location filename="../ui/SettingsDialog.cpp" line="348"/>
         <location filename="../ui/SettingsDialog.cpp" line="357"/>
         <location filename="../ui/SettingsDialog.cpp" line="381"/>
-        <location filename="../ui/SettingsDialog.cpp" line="704"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1086"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1146"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1192"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1436"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1443"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1452"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1460"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1467"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1474"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1883"/>
+        <location filename="../ui/SettingsDialog.cpp" line="706"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1088"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1148"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1194"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1438"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1445"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1454"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1462"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1469"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1476"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1885"/>
         <source>QLog Warning</source>
         <translation>QLog Warnung</translation>
     </message>
@@ -7064,7 +7070,7 @@
         <translation>DXC Server Verbindungsfehler</translation>
     </message>
     <message>
-        <location filename="../ui/NewContactWidget.cpp" line="1446"/>
+        <location filename="../ui/NewContactWidget.cpp" line="1449"/>
         <source>Your callsign is empty. Please, set your Station Profile</source>
         <translation>Ihr Rufzeichen ist nicht angegeben. Bitte richten Sie Ihr Stationsprofil ein</translation>
     </message>
@@ -7121,7 +7127,7 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="291"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1884"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1886"/>
         <source>Please, define at least one Station Locations Profile</source>
         <translation>Bitte definieren Sie mindestens ein Stationsstandortprofil</translation>
     </message>
@@ -7146,52 +7152,52 @@
         <translation>&lt;b&gt;TX-Bereich&lt;/b&gt;: Die Maximalfrequenz darf nicht niedriger als die Minimalfrequenz sein.</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="705"/>
+        <location filename="../ui/SettingsDialog.cpp" line="707"/>
         <source>Rotator port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>Rotor-Port muss ein gültiger COM-Port sein.&lt;br&gt;Für Windows verwenden Sie COMxx, für Unix-ähnliche Betriebssysteme verwenden Sie einen Pfad zum Gerät</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1087"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1089"/>
         <source>CW Keyer port must be a valid COM port.&lt;br&gt;For Windows use COMxx, for unix-like OS use a path to device</source>
         <translation>CW Keyer Port muss ein gültiger COM-Port sein.&lt;br&gt;Für Windows verwenden Sie COMxx, für unix-ähnliche Betriebssysteme verwenden Sie einen Pfad zum Gerät</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1147"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1149"/>
         <source>Cannot change the CW Keyer Model to &lt;b&gt;Morse over CAT&lt;/b&gt;&lt;br&gt;No Morse over CAT support for Rig(s) &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Kann das CW-Keyer Modell nicht zu &lt;b&gt;CW-über-CAT&lt;/b&gt; ändern.&lt;br&gt;Keine CW-über-CAT Unterstützung für Rig(s) &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1193"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1195"/>
         <source>Cannot delete the CW Keyer Profile&lt;br&gt;The CW Key Profile is used by Rig(s): &lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Kann das CW-Keyer Profil nicht löschen.&lt;br&gt;Das Profil wird verwendet von Rig(s): &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1444"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1446"/>
         <source>Gridsquare has an invalid format</source>
         <translation>Gitterfeld hat ein falsches Format</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1453"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1455"/>
         <source>VUCC Grids have an invalid format (must be 2 or 4 Gridsquares separated by &apos;,&apos;)</source>
         <translation>VUCC Gitterfeld hat ein falsches Format (es müssen 2 oder 4 Gitterfelder sein, getrennt durch &apos;,&apos;)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1461"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1463"/>
         <source>Country must not be empty</source>
         <translation>Das Land darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1468"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1470"/>
         <source>CQZ must not be empty</source>
         <translation>CQZ darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1475"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1477"/>
         <source>ITU must not be empty</source>
         <translation>ITU darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1437"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1439"/>
         <source>Callsign has an invalid format</source>
         <translation>Rufzeichen hat ein falsches Format</translation>
     </message>
@@ -7432,7 +7438,7 @@
         <translation>QRZ.com</translation>
     </message>
     <message>
-        <location filename="../core/QRZ.cpp" line="538"/>
+        <location filename="../core/QRZ.cpp" line="539"/>
         <source>General Error</source>
         <translation>Allgemeiner Fehler</translation>
     </message>
@@ -8559,18 +8565,18 @@
         <location filename="../ui/SettingsDialog.ui" line="2586"/>
         <location filename="../ui/SettingsDialog.cpp" line="405"/>
         <location filename="../ui/SettingsDialog.cpp" line="581"/>
-        <location filename="../ui/SettingsDialog.cpp" line="712"/>
-        <location filename="../ui/SettingsDialog.cpp" line="819"/>
-        <location filename="../ui/SettingsDialog.cpp" line="888"/>
-        <location filename="../ui/SettingsDialog.cpp" line="985"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1000"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1069"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1153"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1250"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1265"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1387"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1481"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1593"/>
+        <location filename="../ui/SettingsDialog.cpp" line="714"/>
+        <location filename="../ui/SettingsDialog.cpp" line="821"/>
+        <location filename="../ui/SettingsDialog.cpp" line="890"/>
+        <location filename="../ui/SettingsDialog.cpp" line="987"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1002"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1071"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1155"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1252"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1267"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1389"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1483"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1595"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
@@ -9102,7 +9108,7 @@
         <location filename="../ui/SettingsDialog.ui" line="3007"/>
         <location filename="../ui/SettingsDialog.ui" line="3493"/>
         <location filename="../ui/SettingsDialog.cpp" line="241"/>
-        <location filename="../ui/SettingsDialog.cpp" line="2058"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2060"/>
         <source>QRZ.com</source>
         <translation></translation>
     </message>
@@ -9640,7 +9646,7 @@
     <message>
         <location filename="../ui/SettingsDialog.ui" line="2967"/>
         <location filename="../ui/SettingsDialog.cpp" line="240"/>
-        <location filename="../ui/SettingsDialog.cpp" line="2065"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2067"/>
         <source>HamQTH</source>
         <translation></translation>
     </message>
@@ -9692,8 +9698,8 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="239"/>
-        <location filename="../ui/SettingsDialog.cpp" line="2057"/>
-        <location filename="../ui/SettingsDialog.cpp" line="2064"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2059"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2066"/>
         <source>Disabled</source>
         <translation>Inaktiv</translation>
     </message>
@@ -9749,24 +9755,24 @@
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="373"/>
-        <location filename="../ui/SettingsDialog.cpp" line="696"/>
-        <location filename="../ui/SettingsDialog.cpp" line="882"/>
-        <location filename="../ui/SettingsDialog.cpp" line="994"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1078"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1259"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1418"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1424"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1430"/>
+        <location filename="../ui/SettingsDialog.cpp" line="698"/>
+        <location filename="../ui/SettingsDialog.cpp" line="884"/>
+        <location filename="../ui/SettingsDialog.cpp" line="996"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1080"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1261"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1420"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1426"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1432"/>
         <source>Must not be empty</source>
         <translation>Darf nicht leer sein</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2578"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2580"/>
         <source>members</source>
         <translation>Mitglieder</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="2586"/>
+        <location filename="../ui/SettingsDialog.cpp" line="2588"/>
         <source>Required internet connection during application start</source>
         <translation>Erfordert Internetverbindung beim Start der Anwendung</translation>
     </message>
@@ -9780,29 +9786,29 @@
         <location filename="../ui/SettingsDialog.cpp" line="344"/>
         <location filename="../ui/SettingsDialog.cpp" line="403"/>
         <location filename="../ui/SettingsDialog.cpp" line="543"/>
-        <location filename="../ui/SettingsDialog.cpp" line="710"/>
-        <location filename="../ui/SettingsDialog.cpp" line="798"/>
-        <location filename="../ui/SettingsDialog.cpp" line="886"/>
-        <location filename="../ui/SettingsDialog.cpp" line="963"/>
-        <location filename="../ui/SettingsDialog.cpp" line="998"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1054"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1151"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1233"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1263"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1356"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1479"/>
-        <location filename="../ui/SettingsDialog.cpp" line="1567"/>
+        <location filename="../ui/SettingsDialog.cpp" line="712"/>
+        <location filename="../ui/SettingsDialog.cpp" line="800"/>
+        <location filename="../ui/SettingsDialog.cpp" line="888"/>
+        <location filename="../ui/SettingsDialog.cpp" line="965"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1000"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1056"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1153"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1235"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1265"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1358"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1481"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1569"/>
         <source>Modify</source>
         <translation>Ändern</translation>
     </message>
     <message>
         <location filename="../ui/SettingsDialog.cpp" line="86"/>
-        <location filename="../ui/SettingsDialog.cpp" line="674"/>
+        <location filename="../ui/SettingsDialog.cpp" line="676"/>
         <source>Special - Omnirig</source>
         <translation>Special - Omnirig</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsDialog.cpp" line="1799"/>
+        <location filename="../ui/SettingsDialog.cpp" line="1801"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
