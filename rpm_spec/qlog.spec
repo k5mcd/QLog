@@ -42,6 +42,12 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Tue May 21 2024 Ladislav Foldyna - 0.35.2-1
+- Improved delete performance; added delete progress bar (issue #351)
+- Fixed Password with plus is incorrectly sent to online services (issue #366)
+- Fixed Compilation issue under v4.6 (issue #368)
+- Fixed Network Rig configuration is not saved (issue #370)
+
 * Mon May 6 2024 Ladislav Foldyna - 0.35.1-1
 - Fixed Free QRZ callbook - Name is not populating (issue #363)
 - Fixed Incorrect CW segment freqs (issue #365)

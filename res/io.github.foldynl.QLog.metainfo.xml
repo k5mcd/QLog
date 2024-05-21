@@ -47,6 +47,16 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.35.2" date="2024-05-21">
+      <description>
+        <ul>
+          <li>Improved delete performance; added delete progress bar (issue #351)</li>
+          <li>Fixed Password with plus is incorrectly sent to online services (issue #366)</li>
+          <li>Fixed Compilation issue under v4.6 (issue #368)</li>
+          <li>Fixed Network Rig configuration is not saved (issue #370)</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.35.1" date="2024-05-06">
       <description>
         <ul>

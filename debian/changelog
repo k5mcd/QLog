@@ -1,3 +1,11 @@
+qlog (0.35.2-1) UNRELEASED; urgency=low
+  * Improved delete performance; added delete progress bar (issue #351)
+  * Fixed Password with plus is incorrectly sent to online services (issue #366)
+  * Fixed Compilation issue under v4.6 (issue #368)
+  * Fixed Network Rig configuration is not saved (issue #370)
+
+ -- foldynl <foldyna@gmail.com>  Tue, 21 May 2024 19:57:13 +0200
+
 qlog (0.35.1-1) UNRELEASED; urgency=low
   * Fixed Free QRZ callbook - Name is not populating (issue #363)
   * Fixed Incorrect CW segment freqs (issue #365)

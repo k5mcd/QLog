@@ -1,4 +1,4 @@
-TBC - 0.35.2
+2024/05/21 - 0.35.2
 - Improved delete performance; added delete progress bar (issue #351)
 - Fixed Password with plus is incorrectly sent to online services (issue #366)
 - Fixed Compilation issue under v4.6 (issue #368)
