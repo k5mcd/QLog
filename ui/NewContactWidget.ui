@@ -190,7 +190,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QDoubleSpinBox" name="freqRXEdit">
+              <widget class="FreqQSpinBox" name="freqRXEdit">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -238,7 +238,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QDoubleSpinBox" name="freqTXEdit">
+              <widget class="FreqQSpinBox" name="freqTXEdit">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -1663,6 +1663,11 @@
    <class>DxccTableWidget</class>
    <extends>QTableView</extends>
    <header>ui/DxccTableWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FreqQSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>ui/FreqQSpinBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
