@@ -2,6 +2,7 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QLineEdit>
+#include <QShortcut>
 
 #include "RigWidget.h"
 #include "ui_RigWidget.h"
@@ -65,6 +66,9 @@ RigWidget::RigWidget(QWidget *parent) :
     resetRigInfo();
 
     rigDisconnected();
+
+    new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_PageUp), this, SLOT(bandUp()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_PageDown), this, SLOT(bandDown()), nullptr, Qt::ApplicationShortcut);
 }
 
 RigWidget::~RigWidget()
@@ -331,6 +335,32 @@ void RigWidget::rigDisconnected()
     resetRigInfo();
     ui->bandComboBox->setEnabled(false);
     ui->modeComboBox->setEnabled(false);
+}
+
+void RigWidget::bandUp()
+{
+    FCT_IDENTIFICATION;
+
+    if ( !rigOnline )
+        return;
+
+    int currentIndex = ui->bandComboBox->currentIndex();
+
+    if ( currentIndex < ui->bandComboBox->count() - 1)
+        ui->bandComboBox->setCurrentIndex(currentIndex + 1);
+}
+
+void RigWidget::bandDown()
+{
+    FCT_IDENTIFICATION;
+
+    if ( !rigOnline )
+        return;
+
+    int currentIndex = ui->bandComboBox->currentIndex();
+
+    if ( currentIndex > 0 )
+        ui->bandComboBox->setCurrentIndex(currentIndex - 1);
 }
 
 void RigWidget::sendOnAirState()

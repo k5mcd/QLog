@@ -38,6 +38,8 @@ public slots:
     void reloadSettings();
     void rigConnected();
     void rigDisconnected();
+    void bandUp();
+    void bandDown();
 
 private slots:
     void sendOnAirState();

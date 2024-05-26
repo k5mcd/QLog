@@ -357,6 +357,9 @@ void NewContactWidget::readGlobalSettings()
 
     // recalculate all stats
     queryDxcc(ui->callsignEdit->text().toUpper());
+
+    ui->freqRXEdit->loadBands();
+    ui->freqTXEdit->loadBands();
 }
 
 /* function is called when an operator change Callsign Edit */

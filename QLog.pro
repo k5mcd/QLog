@@ -134,6 +134,7 @@ SOURCES += \
         ui/EditLine.cpp \
         ui/Eqsldialog.cpp \
         ui/ExportDialog.cpp \
+        ui/FreqQSpinBox.cpp \
         ui/HRDLogDialog.cpp \
         ui/ImportDialog.cpp \
         ui/InputPasswordDialog.cpp \
@@ -267,6 +268,7 @@ HEADERS += \
         ui/EditLine.h \
         ui/Eqsldialog.h \
         ui/ExportDialog.h \
+        ui/FreqQSpinBox.h \
         ui/HRDLogDialog.h \
         ui/ImportDialog.h \
         ui/InputPasswordDialog.h \
