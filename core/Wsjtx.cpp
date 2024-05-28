@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <QHostAddress>
 #include <QNetworkInterface>
+#include <QSqlField>
 
 #include "Wsjtx.h"
 #include "data/Data.h"
@@ -14,6 +15,7 @@
 #include "core/HostsPortString.h"
 #include "rig/macros.h"
 #include "data/BandPlan.h"
+#include "logformat/AdiFormat.h"
 
 MODULE_IDENTIFICATION("qlog.core.wsjtx");
 
@@ -25,6 +27,7 @@ Wsjtx::Wsjtx(QObject *parent) :
     socket = new QUdpSocket(this);
     openPort();
     connect(socket, &QUdpSocket::readyRead, this, &Wsjtx::readPendingDatagrams);
+    connect(&wsjtSQLRecord, &UpdatableSQLRecord::recordReady, this, &Wsjtx::contactReady);
 }
 
 void Wsjtx::openPort()
@@ -384,7 +387,7 @@ void Wsjtx::readPendingDatagrams()
             log.id = QString(id);
             log.log_adif = QString(adif_text);
 
-            qCDebug(runtime) << log;
+            insertContact(log);
             break;
         }
         }
@@ -504,7 +507,44 @@ void Wsjtx::insertContact(WsjtxLog log)
         record.setValue("station_callsign", log.my_call);
     }
 
+    // The QSO record can be received in two formats from WSJTX (raw and ADIF).
+    // Therefore, it is necessary to save the first record and possibly update it
+    // with the second record and then emit the result.
+    // For this we create an updatable SQLRecord
+    wsjtSQLRecord.updateRecord(record);
+    //emit addContact(record);
+}
+
+void Wsjtx::contactReady(QSqlRecord record)
+{
+    FCT_IDENTIFICATION;
+
     emit addContact(record);
+}
+
+void Wsjtx::insertContact(WsjtxLogADIF log)
+{
+    FCT_IDENTIFICATION;
+
+    qCDebug(function_parameters) << log;
+
+    QSqlTableModel model;
+    model.setTable("contacts");
+    model.removeColumn(model.fieldIndex("id"));
+
+    QSqlRecord record = model.record(0);
+
+    QTextStream in(&log.log_adif);
+    AdiFormat adif(in);
+
+    adif.importNext(record);
+
+    // The QSO record can be received in two formats from WSJTX (raw and ADIF).
+    // Therefore, it is necessary to save the first record and possibly update it
+    // with the second record and then emit the result.
+    // For this we create an updatable SQLRecord
+    wsjtSQLRecord.updateRecord(record);
+    //emit addContact(record);
 }
 
 void Wsjtx::startReply(WsjtxDecode decode)

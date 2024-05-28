@@ -7,6 +7,8 @@
 #include <QSqlRecord>
 #include <QNetworkDatagram>
 
+#include "core/UpdatableSQLRecord.h"
+
 class Data;
 class QUdpSocket;
 
@@ -149,11 +151,15 @@ public slots:
 private slots:
     void readPendingDatagrams();
     void insertContact(WsjtxLog log);
+    void contactReady(QSqlRecord record);
+    void insertContact(WsjtxLogADIF log);
 
 private:
     QUdpSocket* socket;
     QHostAddress wsjtxAddress;
     quint16 wsjtxPort;
+
+    UpdatableSQLRecord wsjtSQLRecord;
 
     static QString CONFIG_PORT;
     static int DEFAULT_PORT;
