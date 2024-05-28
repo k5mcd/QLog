@@ -72,6 +72,7 @@ SOURCES += \
         core/QRZ.cpp \
         core/QSLStorage.cpp \
         core/SerialPort.cpp \
+        core/UpdatableSQLRecord.cpp \
         core/Wsjtx.cpp \
         core/debug.cpp \
         core/main.cpp \
@@ -194,6 +195,7 @@ HEADERS += \
         core/QRZ.h \
         core/QSLStorage.h \
         core/SerialPort.h \
+        core/UpdatableSQLRecord.h \
         core/Wsjtx.h \
         core/debug.h \
         core/zonedetect.h \
