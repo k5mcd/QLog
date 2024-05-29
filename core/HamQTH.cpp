@@ -97,8 +97,6 @@ void HamQTH::queryCallsign(const QString &callsign)
         return;
     }
 
-    queuedCallsign = "";
-
     QUrlQuery query;
     query.addQueryItem("id", sessionId);
     query.addQueryItem("callsign", callsign);
@@ -114,6 +112,10 @@ void HamQTH::queryCallsign(const QString &callsign)
 
     currentReply = nam->get(QNetworkRequest(url));
     currentReply->setProperty("queryCallsign", callsign);
+
+    // Attention, variable callsign and queuedCallsign point to the same object
+    // queuedCallsign must be cleared after the last use of the callsign variable
+    queuedCallsign = QString();
 }
 
 void HamQTH::abortQuery()
