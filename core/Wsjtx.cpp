@@ -539,6 +539,17 @@ void Wsjtx::insertContact(WsjtxLogADIF log)
 
     adif.importNext(record);
 
+    // the values ​​listed below have default values ​​defined in ADIF.
+    // These are set to N. However, WSJTX and other apps do not send
+    // these fields, which means that all records would be set to N - do not send.
+    // It is unacceptable. So this piece of code deletes these defaults so that
+    // in NewContact these values ​​are set from the values ​​in the GUI.
+    // There is a risk that some clone will start sending these values ​​as well.
+    // In this case, it will have to be handled differently. Currently it is OK
+    record.remove(record.indexOf("qsl_sent"));
+    record.remove(record.indexOf("lotw_qsl_sent"));
+    record.remove(record.indexOf("eqsl_qsl_sent"));
+
     // The QSO record can be received in two formats from WSJTX (raw and ADIF).
     // Therefore, it is necessary to save the first record and possibly update it
     // with the second record and then emit the result.
