@@ -3,6 +3,7 @@ TBC - 0.36.0
 - [NEW] - Frequency input boxes PageUp/Dn switches the band (issue #360)
 - [NEW] - CTRL + PgUp/Dn switch band on the connected rig - global shortcut (issue #360)
 - [NEW] - Added number of filtered QSOs (issue #374)
+- [NEW] - Logbook filters change color when enabled
 
 2024/05/21 - 0.35.2
 - Improved delete performance; added delete progress bar (issue #351)
