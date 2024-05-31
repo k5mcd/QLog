@@ -290,6 +290,7 @@ void LogbookWidget::bandFilterChanged()
 {
     FCT_IDENTIFICATION;
 
+    colorsFilterWidget(ui->bandFilter);
     saveBandFilter();
     updateTable();
 }
@@ -317,6 +318,8 @@ void LogbookWidget::restoreBandFilter()
     {
         ui->bandFilter->setCurrentIndex(0);
     }
+
+    colorsFilterWidget(ui->bandFilter);
     ui->bandFilter->blockSignals(false);
 }
 
@@ -324,6 +327,7 @@ void LogbookWidget::modeFilterChanged()
 {
     FCT_IDENTIFICATION;
 
+    colorsFilterWidget(ui->modeFilter);
     saveModeFilter();
     updateTable();
 }
@@ -351,6 +355,7 @@ void LogbookWidget::restoreModeFilter()
     {
         ui->modeFilter->setCurrentIndex(0);
     }
+    colorsFilterWidget(ui->modeFilter);
     ui->modeFilter->blockSignals(false);
 }
 
@@ -358,6 +363,7 @@ void LogbookWidget::countryFilterChanged()
 {
     FCT_IDENTIFICATION;
 
+    colorsFilterWidget(ui->countryFilter);
     saveCountryFilter();
     updateTable();
 }
@@ -385,6 +391,8 @@ void LogbookWidget::restoreCountryFilter()
     {
         ui->countryFilter->setCurrentIndex(0);
     }
+    colorsFilterWidget(ui->countryFilter);
+
     ui->countryFilter->blockSignals(false);
 }
 
@@ -392,6 +400,7 @@ void LogbookWidget::userFilterChanged()
 {
     FCT_IDENTIFICATION;
 
+    colorsFilterWidget(ui->userFilter);
     saveUserFilter();
     updateTable();
 }
@@ -419,6 +428,7 @@ void LogbookWidget::restoreUserFilter()
     {
         ui->userFilter->setCurrentIndex(0);
     }
+    colorsFilterWidget(ui->userFilter);
     ui->userFilter->blockSignals(false);
 }
 
@@ -426,6 +436,7 @@ void LogbookWidget::clubFilterChanged()
 {
     FCT_IDENTIFICATION;
 
+    colorsFilterWidget(ui->clubFilter);
     saveClubFilter();
     updateTable();
 }
@@ -461,6 +472,7 @@ void LogbookWidget::restoreclubFilter()
     {
         ui->clubFilter->setCurrentIndex(0);
     }
+    colorsFilterWidget(ui->clubFilter);
     ui->clubFilter->blockSignals(false);
 }
 
@@ -867,6 +879,14 @@ void LogbookWidget::reloadSetting()
     FCT_IDENTIFICATION;
     /* Refresh dynamic Club selection combobox */
     refreshClubFilter();
+}
+
+void LogbookWidget::colorsFilterWidget(QComboBox *widget)
+{
+    FCT_IDENTIFICATION;
+
+    widget->setStyleSheet( (widget->currentIndex() > 0) ? "QComboBox {color: green}"
+                                                        : "");
 }
 
 LogbookWidget::~LogbookWidget() {

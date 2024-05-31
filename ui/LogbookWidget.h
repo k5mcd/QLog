@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QProxyStyle>
+#include <QComboBox>
 #include "models/SqlListModel.h"
 
 namespace Ui {
@@ -78,6 +79,8 @@ private:
     SqlListModel* userFilterModel;
     QString externalFilter;
     bool blockClublogSignals;
+
+    void colorsFilterWidget(QComboBox *widget);
 };
 
 /* https://forum.qt.io/topic/90403/show-tooltip-immediatly/7/ */
