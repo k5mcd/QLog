@@ -737,7 +737,7 @@ void LogbookWidget::updateTable()
         model->fetchMore();
 
     ui->contactTable->resizeColumnsToContents();
-
+    ui->filteredQSOsLabel->setText(tr("Count: %n", "", model->rowCount()));
     emit logbookUpdated();
 }
 
