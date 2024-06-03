@@ -560,6 +560,9 @@ void LogbookWidget::deleteContact()
 
     // disable Updates and current connection between model and QTableView
     // to improve performance
+    // when reconnected model, the column are reordered. That's why we remember them
+    // and restore them again after deletion.
+    QByteArray state = ui->contactTable->horizontalHeader()->saveState();
     ui->contactTable->setUpdatesEnabled(false);
     ui->contactTable->setModel(nullptr);
     QCoreApplication::processEvents();
@@ -584,7 +587,7 @@ void LogbookWidget::deleteContact()
     // enable connection between model and QTableView
     ui->contactTable->setModel(model);
     ui->contactTable->setUpdatesEnabled(true);
-
+    ui->contactTable->horizontalHeader()->restoreState(state);
     updateTable();
     blockClublogSignals = false;
 }
