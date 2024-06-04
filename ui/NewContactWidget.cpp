@@ -291,22 +291,14 @@ void NewContactWidget::readWidgetSettings()
     FCT_IDENTIFICATION;
 
     QSettings settings;
-    QString mode = settings.value("newcontact/mode", "CW").toString();
-    QString submode = settings.value("newcontact/submode").toString();
     realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
-    double power = settings.value("newcontact/power", 100).toDouble();
-    int tabIndex = settings.value("newcontact/tabindex", 0).toInt();
-    QString qslSent = settings.value("newcontact/qslsent", "Q").toString();
-    QString eqslQslSent = settings.value("newcontact/eqslqslsent", "Q").toString();
-    QString lotwQslSent = settings.value("newcontact/lotwqslsent", "Q").toString();
-
-    ui->modeEdit->setCurrentText(mode);
-    ui->submodeEdit->setCurrentText(submode);
-    ui->powerEdit->setValue(power);
-    ui->qsoTabs->setCurrentIndex(tabIndex);
-    setComboBaseData(ui->qslSentBox, qslSent);
-    setComboBaseData(ui->lotwQslSentBox, lotwQslSent);
-    setComboBaseData(ui->eQSLSentBox, eqslQslSent);
+    ui->modeEdit->setCurrentText(settings.value("newcontact/mode", "CW").toString());
+    ui->submodeEdit->setCurrentText(settings.value("newcontact/submode").toString());
+    ui->powerEdit->setValue(settings.value("newcontact/power", 100).toDouble());
+    ui->qsoTabs->setCurrentIndex(settings.value("newcontact/tabindex", 0).toInt());
+    setComboBaseData(ui->qslSentBox, settings.value("newcontact/qslsent", "Q").toString());
+    setComboBaseData(ui->lotwQslSentBox, settings.value("newcontact/lotwqslsent", "Q").toString());
+    setComboBaseData(ui->eQSLSentBox, settings.value("newcontact/eqslqslsent", "Q").toString());
 }
 
 void NewContactWidget::writeWidgetSetting()

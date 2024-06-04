@@ -310,7 +310,6 @@ private:
     LogLocale locale;
     QDateTime timeOff;
     bool callbookSearchPaused;
-
 };
 
 #endif // QLOG_UI_NEWCONTACTWIDGET_H
