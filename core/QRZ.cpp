@@ -57,8 +57,6 @@ void QRZ::queryCallsign(const QString &callsign)
         return;
     }
 
-    queuedCallsign = "";
-
     QUrlQuery query;
     query.addQueryItem("s", sessionId);
 
@@ -86,6 +84,10 @@ void QRZ::queryCallsign(const QString &callsign)
     currentReply = nam->get(QNetworkRequest(url));
     currentReply->setProperty("queryCallsign", QVariant(callsign));
     currentReply->setProperty("messageType", QVariant("callsignInfoQuery"));
+
+    // Attention, variable callsign and queuedCallsign point to the same object
+    // queuedCallsign must be cleared after the last use of the callsign variable
+    queuedCallsign = QString();
 }
 
 void QRZ::abortQuery()
