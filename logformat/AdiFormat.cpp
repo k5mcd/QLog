@@ -274,7 +274,7 @@ void AdiFormat::contactFields2SQLRecord(QMap<QString, QVariant> &contact, QSqlRe
 {
     FCT_IDENTIFICATION;
 
-    record.setValue("callsign", contact.take("call"));
+    record.setValue("callsign", contact.take("call").toString().toUpper());
     record.setValue("rst_rcvd", contact.take("rst_rcvd"));
     record.setValue("rst_sent", contact.take("rst_sent"));
     record.setValue("gridsquare", contact.take("gridsquare").toString().toUpper());
