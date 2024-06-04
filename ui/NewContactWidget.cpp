@@ -883,17 +883,18 @@ void NewContactWidget::updateTXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    const Band& band = BandPlan::freq2Band(freq);
+    bandTX = BandPlan::freq2Band(freq);
 
-    if (band.name.isEmpty())
+    if (bandTX.name.isEmpty())
     {
         ui->bandTXLabel->setText("OOB!");
     }
-    else if (band.name != ui->bandTXLabel->text())
+    else if (bandTX.name != ui->bandTXLabel->text())
     {
-        ui->bandTXLabel->setText(band.name);
+        ui->bandTXLabel->setText(bandTX.name);
     }
 
+    updateSatMode();
     updateDxccStatus();
     ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, BandPlan::freq2Band(ui->freqTXEdit->value()));
 }
@@ -904,16 +905,17 @@ void NewContactWidget::updateRXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    const Band& band = BandPlan::freq2Band(freq);
+    bandRX = BandPlan::freq2Band(freq);
 
-    if (band.name.isEmpty())
+    if (bandRX.name.isEmpty())
     {
         setBandLabel("OOB!");
     }
-    else if (band.name != ui->bandRXLabel->text())
+    else if (bandRX.name != ui->bandRXLabel->text())
     {
-        setBandLabel(band.name);
+        setBandLabel(bandRX.name);
     }
+    updateSatMode();
     updateDxccStatus();
 }
 
@@ -2441,6 +2443,18 @@ void NewContactWidget::setBandLabel(const QString &band)
     ui->bandRXLabel->setText(band);
 }
 
+void NewContactWidget::updateSatMode()
+{
+    FCT_IDENTIFICATION;
+
+    if ( Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()) != "SAT")
+        return;
+
+    uiDynamic->satModeEdit->setCurrentText(Data::instance()->satModeIDToText(( bandTX.satDesignator.isEmpty()
+                                                                               || bandRX.satDesignator.isEmpty() ) ? ""
+                                                                                                                   : bandTX.satDesignator + bandRX.satDesignator));
+}
+
 void NewContactWidget::tuneDx(const QString &callsign,
                               double frequency,
                               const BandPlan::BandPlanMode bandPlanMode)
@@ -2729,6 +2743,7 @@ void NewContactWidget::propModeChanged(const QString &propModeText)
     if ( propModeText == Data::instance()->propagationModeIDToText("SAT") )
     {
         uiDynamic->satNameEdit->setText(settings.value("newcontact/satname", QString()).toString());
+        updateSatMode();
         uiDynamic->satModeEdit->setEnabled(true);
         uiDynamic->satNameEdit->setEnabled(true);
     }

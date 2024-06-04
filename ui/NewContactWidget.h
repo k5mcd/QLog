@@ -275,6 +275,7 @@ private:
 
     void setupCustomUiRowsTabOrder(const QList<QWidget *> &customWidgets);
     void setBandLabel(const QString &);
+    void updateSatMode();
 
     bool isPOTAValid(POTAEntity *entity);
     bool isSOTAValid(SOTAEntity *entity);
@@ -311,6 +312,8 @@ private:
     QDateTime timeOff;
     bool callbookSearchPaused;
     QSettings settings;
+    Band bandTX;
+    Band bandRX;
 };
 
 #endif // QLOG_UI_NEWCONTACTWIDGET_H

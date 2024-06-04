@@ -8,11 +8,13 @@ public:
     QString name;
     double start;
     double end;
+    QString satDesignator;
     bool operator==(const Band &band)
     {
         return ( this->name == band.name
                  && this->start == band.start
-                 && this->end == band.end );
+                 && this->end == band.end
+                 && this->satDesignator == band.satDesignator );
     }
 };
 

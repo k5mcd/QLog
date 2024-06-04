@@ -234,7 +234,7 @@ const Band BandPlan::freq2Band(double freq)
 
     QSqlQuery query;
 
-    if ( ! query.prepare("SELECT name, start_freq, end_freq "
+    if ( ! query.prepare("SELECT name, start_freq, end_freq, sat_designator "
                          "FROM bands "
                          "WHERE :freq BETWEEN start_freq AND end_freq") )
     {
@@ -256,6 +256,7 @@ const Band BandPlan::freq2Band(double freq)
         band.name = query.value(0).toString();
         band.start = query.value(1).toDouble();
         band.end = query.value(2).toDouble();
+        band.satDesignator  = query.value(3).toString();
         return band;
     }
 
@@ -272,7 +273,7 @@ const QList<Band> BandPlan::bandsList(const bool onlyDXCCBands,
     QSqlQuery query;
     QList<Band> ret;
 
-    QString stmt = QString("SELECT name, start_freq, end_freq "
+    QString stmt = QString("SELECT name, start_freq, end_freq, sat_designator "
                            "FROM bands WHERE 1 = 1 ");
 
     if ( onlyEnabled )
@@ -321,6 +322,7 @@ const QList<Band> BandPlan::bandsList(const bool onlyDXCCBands,
         band.name = query.value(0).toString();
         band.start = query.value(1).toDouble();
         band.end = query.value(2).toDouble();
+        band.satDesignator = query.value(3).toString();
         ret << band;
     }
 
