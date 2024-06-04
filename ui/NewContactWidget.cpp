@@ -219,6 +219,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connect(uiDynamic->sotaEdit, &QLineEdit::textChanged, this, &NewContactWidget::sotaChanged);
     connect(uiDynamic->wwffEdit, &QLineEdit::editingFinished, this, &NewContactWidget::wwffEditFinished);
     connect(uiDynamic->wwffEdit, &QLineEdit::textChanged, this, &NewContactWidget::wwffChanged);
+    connect(uiDynamic->satNameEdit, &QLineEdit::textChanged, this, &NewContactWidget::satNameChanged);
 
     ui->rstSentEdit->installEventFilter(this);
     ui->rstRcvdEdit->installEventFilter(this);
@@ -290,7 +291,6 @@ void NewContactWidget::readWidgetSettings()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
     realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
     ui->modeEdit->setCurrentText(settings.value("newcontact/mode", "CW").toString());
     ui->submodeEdit->setCurrentText(settings.value("newcontact/submode").toString());
@@ -299,13 +299,13 @@ void NewContactWidget::readWidgetSettings()
     setComboBaseData(ui->qslSentBox, settings.value("newcontact/qslsent", "Q").toString());
     setComboBaseData(ui->lotwQslSentBox, settings.value("newcontact/lotwqslsent", "Q").toString());
     setComboBaseData(ui->eQSLSentBox, settings.value("newcontact/eqslqslsent", "Q").toString());
+    ui->propagationModeEdit->setCurrentText(Data::instance()->propagationModeIDToText(settings.value("newcontact/propmode", QString()).toString()));
 }
 
 void NewContactWidget::writeWidgetSetting()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
     settings.setValue("newcontact/mode", ui->modeEdit->currentText());
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
     settings.setValue("newcontact/frequency", realRigFreq);
@@ -314,6 +314,7 @@ void NewContactWidget::writeWidgetSetting()
     settings.setValue("newcontact/qslsent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
     settings.setValue("newcontact/eqslqslsent", ui->eQSLSentBox->itemData(ui->eQSLSentBox->currentIndex()));
     settings.setValue("newcontact/eqslqslsent", ui->lotwQslSentBox->itemData(ui->lotwQslSentBox->currentIndex()));
+    settings.setValue("newcontact/propmode", Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()));
 }
 
 /* function read global setting, called when starting or when Setting is reloaded */
@@ -2727,6 +2728,7 @@ void NewContactWidget::propModeChanged(const QString &propModeText)
     qCDebug(runtime) << "propModeText: " << propModeText << " mode: "<< Data::instance()->propagationModeIDToText("SAT");
     if ( propModeText == Data::instance()->propagationModeIDToText("SAT") )
     {
+        uiDynamic->satNameEdit->setText(settings.value("newcontact/satname", QString()).toString());
         uiDynamic->satModeEdit->setEnabled(true);
         uiDynamic->satNameEdit->setEnabled(true);
     }
@@ -3065,6 +3067,14 @@ void NewContactWidget::changeCallbookSearchStatus()
 
     callbookSearchPaused = !callbookSearchPaused;
     setCallbookStatusEnabled(callbookManager.isActive());
+}
+
+void NewContactWidget::satNameChanged()
+{
+    FCT_IDENTIFICATION;
+
+    if ( Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()) == "SAT")
+        settings.setValue("newcontact/satname", uiDynamic->satNameEdit->text());
 }
 
 NewContactWidget::~NewContactWidget() {

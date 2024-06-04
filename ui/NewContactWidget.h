@@ -237,7 +237,7 @@ private slots:
     void useNearestCallsign();
     void setCallbookStatusEnabled(bool);
     void changeCallbookSearchStatus();
-
+    void satNameChanged();
     void stationProfileComboChanged(const QString&);
     void rigProfileComboChanged(const QString&);
     void antProfileComboChanged(const QString&);
@@ -310,6 +310,7 @@ private:
     LogLocale locale;
     QDateTime timeOff;
     bool callbookSearchPaused;
+    QSettings settings;
 };
 
 #endif // QLOG_UI_NEWCONTACTWIDGET_H
