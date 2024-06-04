@@ -353,5 +353,6 @@
     { "id": 518, "name": "SINT MAARTEN", "flag": "NL" },
     { "id": 519, "name": "ST EUSTATIUS AND SABA", "flag": "AN" },
     { "id": 520, "name": "BONAIRE", "flag": "NL" },
-    { "id": 521, "name": "SOUTH SUDAN", "flag": "SS" }
+    { "id": 521, "name": "SOUTH SUDAN", "flag": "SS" },
+    { "id": 522, "name": "REPUBLIC OF KOSOVO", "flag": "XK" }
 ]
