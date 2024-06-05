@@ -1,6 +1,6 @@
 # QLog
 
-QLog is an Amateur Radio logging application for Linux, Windows and Mac OS. It
+QLog is an Amateur Radio logging application for Linux, Windows. It
 is based on the Qt framework and uses SQLite as database backend.
 
 QLogs aims to be as simple as possible, but to provide everything the operator expects from the log to be. This log is not currently focused on contests.
@@ -31,8 +31,8 @@ QLogs aims to be as simple as possible, but to provide everything the operator e
 
 ### Supported OS
 * Linux
-* MacOS
 * Windows 10 (64bit)
+* MacOS (experimental - only for developers)
 
 ### Supported Rigs
 * all supported by [Hamlib](https://hamlib.github.io/)
@@ -91,11 +91,6 @@ Fedora **RPM packages** are available via GitHub [Releases](https://github.com/f
 
 **Flatpak** package is available via [Flathub](https://flathub.org/apps/io.github.foldynl.QLog). The package contains built-in TrustedQSL.
 
-
-### MacOS
-
- **DMG package** is available via GitHub [Releases](https://github.com/foldynl/QLog/releases/latest)
-
 ### Windows
 
 Prerequisites:
@@ -106,6 +101,9 @@ Prerequisites:
 
 Installation package is available via GitHub [Releases](https://github.com/foldynl/QLog/releases) .
 
+### MacOS
+
+Official support ended. Only for developers.
 
 ## Compilation
 
