@@ -175,9 +175,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     bandTableModel->setHeaderData(2, Qt::Horizontal, tr("Start (MHz)"));
     bandTableModel->setHeaderData(3, Qt::Horizontal, tr("End (MHz)"));
     bandTableModel->setHeaderData(4, Qt::Horizontal, tr("State"));
+    bandTableModel->setHeaderData(6, Qt::Horizontal, tr("SAT Mode"));
     ui->bandTableView->setModel(bandTableModel);
 
     ui->bandTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->bandTableView->horizontalHeader()->moveSection(6, 4);
     ui->bandTableView->hideColumn(0); // primary key
     ui->bandTableView->hideColumn(5); // last_seen_freq
     ui->bandTableView->setItemDelegateForColumn(2, new UnitFormatDelegate("", 6, 0.001, ui->bandTableView));

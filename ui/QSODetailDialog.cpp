@@ -854,21 +854,23 @@ bool QSODetailDialog::doValidation()
                                  ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
                                  tr("TX Frequency or Band must be filled"));
 
-    QString bandString = BandPlan::freq2Band(ui->freqTXEdit->value()).name;
+    const Band &bandTX = BandPlan::freq2Band(ui->freqTXEdit->value());
+    const QString &bandTXString = bandTX.name;
 
     allValid &= highlightInvalid(ui->bandLabel,
-                                 ui->freqTXEdit->value() != 0.0 && ui->bandTXCombo->currentText() != bandString,
-                                 tr("TX Band should be ") + "<b>" + (bandString.isEmpty() ? "OOB" : bandString) + "</b>");
+                                 ui->freqTXEdit->value() != 0.0 && ui->bandTXCombo->currentText() != bandTXString,
+                                 tr("TX Band should be ") + "<b>" + (bandTXString.isEmpty() ? "OOB" : bandTXString) + "</b>");
 
     allValid &= highlightInvalid(ui->bandLabel,
                                  ui->freqTXEdit->value() == 0.0 && ui->bandTXCombo->currentIndex() == 0,
                                  tr("TX Frequency or Band must be filled"));
 
-    bandString = BandPlan::freq2Band(ui->freqRXEdit->value()).name;
+    const Band &bandRX = BandPlan::freq2Band(ui->freqRXEdit->value());
+    const QString &bandRXString = bandRX.name;
 
     allValid &= highlightInvalid(ui->bandLabel,
-                                 ui->freqRXEdit->value() != 0.0 && ui->bandRXCombo->currentText() != bandString,
-                                 tr("RX Band should be ") + "<b>" + (bandString.isEmpty() ? "OOB" : bandString) + "</b>");
+                                 ui->freqRXEdit->value() != 0.0 && ui->bandRXCombo->currentText() != bandRXString,
+                                 tr("RX Band should be ") + "<b>" + (bandRXString.isEmpty() ? "OOB" : bandRXString) + "</b>");
 
     allValid &= highlightInvalid(ui->gridLabel,
                                  !ui->gridEdit->text().isEmpty() && !ui->gridEdit->hasAcceptableInput(),
@@ -895,6 +897,17 @@ bool QSODetailDialog::doValidation()
     allValid &= highlightInvalid(ui->vuccLabel,
                                  !ui->vuccEdit->text().isEmpty() && !ui->vuccEdit->hasAcceptableInput(),
                                  tr("VUCC has an incorrect format"));
+
+    const QString &expectedSatMode = (bandTX.satDesignator.isEmpty() || bandRX.satDesignator.isEmpty() ) ? ""
+                                                                                                         : bandTX.satDesignator + bandRX.satDesignator;
+
+    allValid &= highlightInvalid(ui->satModeLabel,
+                                 ui->satModeEdit->currentIndex() != 0 && Data::instance()->satModeTextToID(ui->satModeEdit->currentText()) != expectedSatMode,
+                                 tr("Based on Frequencies, Sat Mode should be ") + "<b>" + ( (expectedSatMode.isEmpty()) ? tr("blank") : expectedSatMode) + "</b>");
+
+    allValid &= highlightInvalid(ui->satNameLabel,
+                                 Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()) == "SAT" && ui->satNameEdit->text().isEmpty(),
+                                 tr("Sat name must not be empty"));
 
     const DxccEntity &myDxccEntity = Data::instance()->lookupDxcc(ui->myCallsignEdit->text());
 

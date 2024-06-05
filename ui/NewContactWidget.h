@@ -237,7 +237,7 @@ private slots:
     void useNearestCallsign();
     void setCallbookStatusEnabled(bool);
     void changeCallbookSearchStatus();
-
+    void satNameChanged();
     void stationProfileComboChanged(const QString&);
     void rigProfileComboChanged(const QString&);
     void antProfileComboChanged(const QString&);
@@ -275,6 +275,7 @@ private:
 
     void setupCustomUiRowsTabOrder(const QList<QWidget *> &customWidgets);
     void setBandLabel(const QString &);
+    void updateSatMode();
 
     bool isPOTAValid(POTAEntity *entity);
     bool isSOTAValid(SOTAEntity *entity);
@@ -310,7 +311,9 @@ private:
     LogLocale locale;
     QDateTime timeOff;
     bool callbookSearchPaused;
-
+    QSettings settings;
+    Band bandTX;
+    Band bandRX;
 };
 
 #endif // QLOG_UI_NEWCONTACTWIDGET_H

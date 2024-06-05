@@ -219,6 +219,7 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
     connect(uiDynamic->sotaEdit, &QLineEdit::textChanged, this, &NewContactWidget::sotaChanged);
     connect(uiDynamic->wwffEdit, &QLineEdit::editingFinished, this, &NewContactWidget::wwffEditFinished);
     connect(uiDynamic->wwffEdit, &QLineEdit::textChanged, this, &NewContactWidget::wwffChanged);
+    connect(uiDynamic->satNameEdit, &QLineEdit::textChanged, this, &NewContactWidget::satNameChanged);
 
     ui->rstSentEdit->installEventFilter(this);
     ui->rstRcvdEdit->installEventFilter(this);
@@ -290,30 +291,21 @@ void NewContactWidget::readWidgetSettings()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
-    QString mode = settings.value("newcontact/mode", "CW").toString();
-    QString submode = settings.value("newcontact/submode").toString();
     realRigFreq = settings.value("newcontact/frequency", 3.5).toDouble();
-    double power = settings.value("newcontact/power", 100).toDouble();
-    int tabIndex = settings.value("newcontact/tabindex", 0).toInt();
-    QString qslSent = settings.value("newcontact/qslsent", "Q").toString();
-    QString eqslQslSent = settings.value("newcontact/eqslqslsent", "Q").toString();
-    QString lotwQslSent = settings.value("newcontact/lotwqslsent", "Q").toString();
-
-    ui->modeEdit->setCurrentText(mode);
-    ui->submodeEdit->setCurrentText(submode);
-    ui->powerEdit->setValue(power);
-    ui->qsoTabs->setCurrentIndex(tabIndex);
-    setComboBaseData(ui->qslSentBox, qslSent);
-    setComboBaseData(ui->lotwQslSentBox, lotwQslSent);
-    setComboBaseData(ui->eQSLSentBox, eqslQslSent);
+    ui->modeEdit->setCurrentText(settings.value("newcontact/mode", "CW").toString());
+    ui->submodeEdit->setCurrentText(settings.value("newcontact/submode").toString());
+    ui->powerEdit->setValue(settings.value("newcontact/power", 100).toDouble());
+    ui->qsoTabs->setCurrentIndex(settings.value("newcontact/tabindex", 0).toInt());
+    setComboBaseData(ui->qslSentBox, settings.value("newcontact/qslsent", "Q").toString());
+    setComboBaseData(ui->lotwQslSentBox, settings.value("newcontact/lotwqslsent", "Q").toString());
+    setComboBaseData(ui->eQSLSentBox, settings.value("newcontact/eqslqslsent", "Q").toString());
+    ui->propagationModeEdit->setCurrentText(Data::instance()->propagationModeIDToText(settings.value("newcontact/propmode", QString()).toString()));
 }
 
 void NewContactWidget::writeWidgetSetting()
 {
     FCT_IDENTIFICATION;
 
-    QSettings settings;
     settings.setValue("newcontact/mode", ui->modeEdit->currentText());
     settings.setValue("newcontact/submode", ui->submodeEdit->currentText());
     settings.setValue("newcontact/frequency", realRigFreq);
@@ -322,6 +314,7 @@ void NewContactWidget::writeWidgetSetting()
     settings.setValue("newcontact/qslsent", ui->qslSentBox->itemData(ui->qslSentBox->currentIndex()));
     settings.setValue("newcontact/eqslqslsent", ui->eQSLSentBox->itemData(ui->eQSLSentBox->currentIndex()));
     settings.setValue("newcontact/eqslqslsent", ui->lotwQslSentBox->itemData(ui->lotwQslSentBox->currentIndex()));
+    settings.setValue("newcontact/propmode", Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()));
 }
 
 /* function read global setting, called when starting or when Setting is reloaded */
@@ -890,17 +883,18 @@ void NewContactWidget::updateTXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    const Band& band = BandPlan::freq2Band(freq);
+    bandTX = BandPlan::freq2Band(freq);
 
-    if (band.name.isEmpty())
+    if (bandTX.name.isEmpty())
     {
         ui->bandTXLabel->setText("OOB!");
     }
-    else if (band.name != ui->bandTXLabel->text())
+    else if (bandTX.name != ui->bandTXLabel->text())
     {
-        ui->bandTXLabel->setText(band.name);
+        ui->bandTXLabel->setText(bandTX.name);
     }
 
+    updateSatMode();
     updateDxccStatus();
     ui->dxccTableWidget->setDxcc(dxccEntity.dxcc, BandPlan::freq2Band(ui->freqTXEdit->value()));
 }
@@ -911,16 +905,17 @@ void NewContactWidget::updateRXBand(double freq)
 
     qCDebug(function_parameters)<<freq;
 
-    const Band& band = BandPlan::freq2Band(freq);
+    bandRX = BandPlan::freq2Band(freq);
 
-    if (band.name.isEmpty())
+    if (bandRX.name.isEmpty())
     {
         setBandLabel("OOB!");
     }
-    else if (band.name != ui->bandRXLabel->text())
+    else if (bandRX.name != ui->bandRXLabel->text())
     {
-        setBandLabel(band.name);
+        setBandLabel(bandRX.name);
     }
+    updateSatMode();
     updateDxccStatus();
 }
 
@@ -2448,6 +2443,18 @@ void NewContactWidget::setBandLabel(const QString &band)
     ui->bandRXLabel->setText(band);
 }
 
+void NewContactWidget::updateSatMode()
+{
+    FCT_IDENTIFICATION;
+
+    if ( Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()) != "SAT")
+        return;
+
+    uiDynamic->satModeEdit->setCurrentText(Data::instance()->satModeIDToText(( bandTX.satDesignator.isEmpty()
+                                                                               || bandRX.satDesignator.isEmpty() ) ? ""
+                                                                                                                   : bandTX.satDesignator + bandRX.satDesignator));
+}
+
 void NewContactWidget::tuneDx(const QString &callsign,
                               double frequency,
                               const BandPlan::BandPlanMode bandPlanMode)
@@ -2735,6 +2742,8 @@ void NewContactWidget::propModeChanged(const QString &propModeText)
     qCDebug(runtime) << "propModeText: " << propModeText << " mode: "<< Data::instance()->propagationModeIDToText("SAT");
     if ( propModeText == Data::instance()->propagationModeIDToText("SAT") )
     {
+        uiDynamic->satNameEdit->setText(settings.value("newcontact/satname", QString()).toString());
+        updateSatMode();
         uiDynamic->satModeEdit->setEnabled(true);
         uiDynamic->satNameEdit->setEnabled(true);
     }
@@ -3073,6 +3082,14 @@ void NewContactWidget::changeCallbookSearchStatus()
 
     callbookSearchPaused = !callbookSearchPaused;
     setCallbookStatusEnabled(callbookManager.isActive());
+}
+
+void NewContactWidget::satNameChanged()
+{
+    FCT_IDENTIFICATION;
+
+    if ( Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()) == "SAT")
+        settings.setValue("newcontact/satname", uiDynamic->satNameEdit->text());
 }
 
 NewContactWidget::~NewContactWidget() {
