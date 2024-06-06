@@ -1450,6 +1450,11 @@ void NewContactWidget::saveContact()
         return;
     }
 
+    // if operator wants to save a QSO and QSO's Timer is not running,
+    // then it is needed to update the QSO start time before saving
+    if ( !isQSOTimeStarted() )
+        updateTime();
+
     QDateTime start = QDateTime(ui->dateEdit->date(), ui->timeOnEdit->time(), Qt::UTC);
     QDateTime end = ( isManualEnterMode ) ? start.addSecs(QTime(0,0).secsTo(ui->qsoDurationEdit->time()))
                                           : timeOff;
