@@ -1123,16 +1123,23 @@ void NewContactWidget::addAddlFields(QSqlRecord &record, const StationProfile &p
         record.setValue("prop_mode", Data::instance()->propagationModeTextToID(ui->propagationModeEdit->currentText()));
     }
 
-    if ( record.value("sat_mode").toString().isEmpty()
-         && !uiDynamic->satModeEdit->currentText().isEmpty() )
+    if ( record.value("prop_mode").toString() == "SAT" )
     {
-        record.setValue("sat_mode", Data::instance()->satModeTextToID(uiDynamic->satModeEdit->currentText()));
-    }
+        // we only allow SAT_MODE information to be taken from the GUI
+        // if the Log record TX Band/Freq matches the GUI's Band/Freq. Unfortunately, RX Freq will not be used,
+        // because it might be missing from the log record.
+        if ( record.value("sat_mode").toString().isEmpty()
+             && !uiDynamic->satModeEdit->currentText().isEmpty()
+             && record.value("band").toString() == ui->bandTXLabel->text())
+        {
+            record.setValue("sat_mode", Data::instance()->satModeTextToID(uiDynamic->satModeEdit->currentText()));
+        }
 
-    if ( record.value("sat_name").toString().isEmpty()
-         && !uiDynamic->satNameEdit->text().isEmpty() )
-    {
-        record.setValue("sat_name", Data::removeAccents(uiDynamic->satNameEdit->text().toUpper()));
+        if ( record.value("sat_name").toString().isEmpty()
+             && !uiDynamic->satNameEdit->text().isEmpty() )
+        {
+            record.setValue("sat_name", Data::removeAccents(uiDynamic->satNameEdit->text().toUpper()));
+        }
     }
 
     if ( record.value("my_rig_intl").toString().isEmpty()
