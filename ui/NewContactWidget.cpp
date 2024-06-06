@@ -396,6 +396,7 @@ void NewContactWidget::callsignChanged()
 
     if ( callsign.isEmpty() )
     {
+        updateTime();
         stopContactTimer();
     }
     else
