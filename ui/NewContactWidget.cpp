@@ -1295,12 +1295,7 @@ bool NewContactWidget::isQSOTimeStarted()
 {
     FCT_IDENTIFICATION;
 
-    bool ret = false;
-
-    if ( contactTimer )
-    {
-        ret = contactTimer->isActive();
-    }
+    bool ret = ( contactTimer ) ? contactTimer->isActive() : false;
 
     qCDebug(runtime) << ret;
     return ret;
@@ -1759,9 +1754,8 @@ void NewContactWidget::startContactTimer()
 
     updateTime();
 
-    if (!contactTimer->isActive()) {
+    if ( !isQSOTimeStarted() )
         contactTimer->start(500);
-    }
 }
 
 void NewContactWidget::stopContactTimer()
@@ -1774,9 +1768,9 @@ void NewContactWidget::stopContactTimer()
         return;
     }
 
-    if (contactTimer->isActive()) {
+    if ( isQSOTimeStarted() )
         contactTimer->stop();
-    }
+
     updateTimeOff();
 }
 
