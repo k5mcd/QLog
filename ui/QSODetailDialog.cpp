@@ -900,9 +900,8 @@ bool QSODetailDialog::doValidation()
 
     const QString &expectedSatMode = (bandTX.satDesignator.isEmpty() || bandRX.satDesignator.isEmpty() ) ? ""
                                                                                                          : bandTX.satDesignator + bandRX.satDesignator;
-
     allValid &= highlightInvalid(ui->satModeLabel,
-                                 ui->satModeEdit->currentIndex() != 0 && Data::instance()->satModeTextToID(ui->satModeEdit->currentText()) != expectedSatMode,
+                                 ui->satModeEdit->currentIndex() > 0 && Data::instance()->satModeTextToID(ui->satModeEdit->currentText()) != expectedSatMode,
                                  tr("Based on Frequencies, Sat Mode should be ") + "<b>" + ( (expectedSatMode.isEmpty()) ? tr("blank") : expectedSatMode) + "</b>");
 
     allValid &= highlightInvalid(ui->satNameLabel,
