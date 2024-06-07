@@ -47,6 +47,21 @@
   <url type="vcs-browser">https://github.com/foldynl/QLog</url>
   <url type="contribute">https://github.com/foldynl/QLog/blob/master/CONTRIBUTING.md</url>
   <releases>
+    <release version="0.36.0" date="2024-06-07">
+      <description>
+        <ul>
+          <li>[NEW] - WSJTX: Added support to received ADIF QSO Log record</li>
+          <li>[NEW] - Sat mode is derived from RX/TX Freq</li>
+          <li>[NEW] - Logbook filters change color when enabled</li>
+          <li>[NEW] - Frequency input boxes PageUp/Dn switches the band (issue #360)</li>
+          <li>[NEW] - CTRL + PgUp/Dn switch band on the connected rig - global shortcut (issue #360)</li>
+          <li>[NEW] - Added number of filtered QSOs (issue #374)</li>
+          <li>Fixed Callbook query does not work (issue #377)</li>
+          <li>Fixed Logbook columns are reordered after Delete (issue #383)</li>
+          <li>Fixed Missing Republic of Kosovo flag (issue #384)</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.35.2" date="2024-05-21">
       <description>
         <ul>

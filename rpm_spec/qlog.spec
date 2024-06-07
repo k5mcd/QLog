@@ -42,6 +42,17 @@ INSTALL_ROOT=%{buildroot} make -f Makefile install
 %{_metainfodir}/*
 
 %changelog
+* Fri Jun 7 2024 Ladislav Foldyna - 0.36.0-1
+- [NEW] - WSJTX: Added support to received ADIF QSO Log record
+- [NEW] - Sat mode is derived from RX/TX Freq
+- [NEW] - Logbook filters change color when enabled
+- [NEW] - Frequency input boxes PageUp/Dn switches the band (issue #360)
+- [NEW] - CTRL + PgUp/Dn switch band on the connected rig - global shortcut (issue #360)
+- [NEW] - Added number of filtered QSOs (issue #374)
+- Fixed Callbook query does not work (issue #377)
+- Fixed Logbook columns are reordered after Delete (issue #383)
+- Fixed Missing Republic of Kosovo flag (issue #384)
+
 * Tue May 21 2024 Ladislav Foldyna - 0.35.2-1
 - Improved delete performance; added delete progress bar (issue #351)
 - Fixed Password with plus is incorrectly sent to online services (issue #366)

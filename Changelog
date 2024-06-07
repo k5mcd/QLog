@@ -1,4 +1,4 @@
-TBC - 0.36.0
+2024/06/07 - 0.36.0
 - [NEW] - WSJTX: Added support to received ADIF QSO Log record
 - [NEW] - Sat mode is derived from RX/TX Freq
 - [NEW] - Logbook filters change color when enabled
