@@ -66,9 +66,6 @@ RigWidget::RigWidget(QWidget *parent) :
     resetRigInfo();
 
     rigDisconnected();
-
-    new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_PageUp), this, SLOT(bandUp()), nullptr, Qt::ApplicationShortcut);
-    new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_PageDown), this, SLOT(bandDown()), nullptr, Qt::ApplicationShortcut);
 }
 
 RigWidget::~RigWidget()

@@ -256,6 +256,12 @@ MainWindow::MainWindow(QWidget* parent) :
                                         nullptr, Qt::ApplicationShortcut);
     shortcut->setAutoRepeat(false);
 
+    QShortcut *shortcutBandUp = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_PageUp), this);
+    connect(shortcutBandUp, &QShortcut::activated, ui->rigWidget, &RigWidget::bandUp);
+
+    QShortcut *shortcutBandDown = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_PageDown), this);
+    connect(shortcutBandDown, &QShortcut::activated, ui->rigWidget, &RigWidget::bandDown);
+
     restoreEquipmentConnOptions();
     restoreConnectionStates();
 }
