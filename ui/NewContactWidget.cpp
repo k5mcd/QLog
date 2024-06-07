@@ -58,7 +58,6 @@ NewContactWidget::NewContactWidget(QWidget *parent) :
 
     ui->dateEdit->setDisplayFormat(locale.formatDateShortWithYYYY());
     ui->timeOnEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
-    ui->qsoDurationEdit->setDisplayFormat(locale.formatTimeLongWithoutTZ());
 
     /**************************/
     /* QSL Send Combo Content */
